@@ -1,11 +1,11 @@
 {
   "app_name": "automation-hub",
-  "src_hash": "92f145dba327b7c5b7466ab9277eee8c7c69de01",
+  "src_hash": "ab9cec14caf0098c9d0d77825f130c097a1d5afa",
   "src_tag": "",
   "src_branch": "prod-stable",
   "travis": {
     "event_type": "push",
-    "build_number": "385",
-    "build_web_url": "https://travis-ci.org/ansible/ansible-hub-ui/builds/685803892"
+    "build_number": "448",
+    "build_web_url": "https://travis-ci.org/ansible/ansible-hub-ui/builds/699810080"
   }
 }
