@@ -71,6 +71,7 @@ var GroupDetail = /** @class */ (function (_super) {
             options: undefined,
             selected: [],
             editPermissions: false,
+            savingPermissions: false,
             showDeleteModal: false,
             showUserRemoveModal: null,
             permissions: [],
@@ -146,33 +147,47 @@ var GroupDetail = /** @class */ (function (_super) {
         return (React.createElement(ToolbarItem, null,
             React.createElement(Button, { isDisabled: editPermissions, onClick: function () { return _this.setState({ showDeleteModal: true }); }, variant: 'secondary' }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete"], ["Delete"]))))));
     };
+    GroupDetail.prototype.actionCancelPermissions = function () {
+        var originalPermissions = this.state.originalPermissions;
+        this.setState({
+            editPermissions: false,
+            permissions: originalPermissions.map(function (p) { return p.name; }),
+        });
+    };
     GroupDetail.prototype.actionSavePermissions = function () {
         var _this = this;
         var _a = this.state, group = _a.group, originalPermissions = _a.originalPermissions, permissions = _a.permissions;
+        var promises = [];
         // Add permissions
         permissions.forEach(function (permission) {
             if (!originalPermissions.find(function (p) { return p.name === permission; })) {
-                GroupAPI.addPermission(group.id, {
+                promises.push(GroupAPI.addPermission(group.id, {
                     permission: permission,
                 }).catch(function (e) {
                     return _this.addAlert(_(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Permission ", " was not added."], ["Permission ", " was not added."])), permission), 'danger', e.message);
-                });
+                }));
             }
         });
         // Remove permissions
         originalPermissions.forEach(function (original) {
             if (!permissions.includes(original.name)) {
-                GroupAPI.removePermission(group.id, original.id).catch(function (e) {
+                promises.push(GroupAPI.removePermission(group.id, original.id).catch(function (e) {
                     return _this.addAlert(_(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Permission ", " was not removed."], ["Permission ", " was not removed."])), original.name), 'danger', e.message);
-                });
+                }));
             }
         });
-        this.setState({ editPermissions: false });
+        this.setState({ savingPermissions: true }); // disable Save/Cancel while waiting
+        Promise.all(promises).then(function () {
+            return _this.setState({
+                editPermissions: false,
+                savingPermissions: false,
+            });
+        });
     };
     GroupDetail.prototype.renderPermissions = function () {
         var _this = this;
         var groups = Constants.PERMISSIONS;
-        var _a = this.state, editPermissions = _a.editPermissions, selectedPermissions = _a.permissions;
+        var _a = this.state, editPermissions = _a.editPermissions, savingPermissions = _a.savingPermissions, selectedPermissions = _a.permissions;
         var _b = this.context, user = _b.user, featureFlags = _b.featureFlags;
         var isUserMgmtDisabled = false;
         var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
@@ -217,8 +232,8 @@ var GroupDetail = /** @class */ (function (_super) {
                         } })))); })),
             editPermissions && (React.createElement(Form, null,
                 React.createElement(ActionGroup, null,
-                    React.createElement(Button, { variant: 'primary', onClick: function () { return _this.actionSavePermissions(); } }, _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Save"], ["Save"])))),
-                    React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ editPermissions: false }); } }, _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Cancel"], ["Cancel"])))))))));
+                    React.createElement(Button, { variant: 'primary', isDisabled: savingPermissions, onClick: function () { return _this.actionSavePermissions(); } }, _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Save"], ["Save"])))),
+                    React.createElement(Button, { variant: 'secondary', isDisabled: savingPermissions, onClick: function () { return _this.actionCancelPermissions(); } }, _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Cancel"], ["Cancel"])))))))));
     };
     GroupDetail.prototype.renderAddModal = function () {
         var _this = this;
