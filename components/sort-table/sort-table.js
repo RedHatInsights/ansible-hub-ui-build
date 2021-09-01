@@ -48,7 +48,7 @@ var SortTable = /** @class */ (function (_super) {
         else {
             Icon = ArrowsAltVIcon;
         }
-        return (React.createElement(Icon, { size: 'sm', onClick: function () { return _this.sort(id, isMinus); }, className: 'clickable ' + (activeIcon ? 'active' : 'inactive') }));
+        return (React.createElement(Icon, { "data-cy": 'sort_' + id, size: 'sm', onClick: function () { return _this.sort(id, isMinus); }, className: 'clickable ' + (activeIcon ? 'active' : 'inactive') }));
     };
     SortTable.prototype.getHeaderItem = function (item) {
         return (React.createElement("th", { key: item.id, className: item === null || item === void 0 ? void 0 : item.className },
