@@ -18,7 +18,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';
 import { mapErrorMessages } from 'src/utilities';
 import { UserAPI } from 'src/api';
@@ -34,10 +34,10 @@ var UserEdit = /** @class */ (function (_super) {
                 .then(function () {
                 //redirect to login page when password of logged user is changed
                 if (_this.context.user.id === user.id && user.password) {
-                    _this.props.history.push(Paths.login);
+                    _this.setState({ redirect: Paths.login });
                 }
                 else {
-                    _this.props.history.push(Paths.userList);
+                    _this.setState({ redirect: Paths.userList });
                 }
             })
                 .catch(function (err) {
@@ -58,6 +58,9 @@ var UserEdit = /** @class */ (function (_super) {
     };
     UserEdit.prototype.render = function () {
         var _this = this;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages, unauthorized = _a.unauthorized;
         var title = _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit user"], ["Edit user"])));
         if (unauthorized) {
@@ -78,7 +81,7 @@ var UserEdit = /** @class */ (function (_super) {
         ];
         return (React.createElement(UserFormPage, { user: user, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user, errorMessages) {
                 return _this.setState({ user: user, errorMessages: errorMessages });
-            }, saveUser: this.saveUser, onCancel: function () { return _this.props.history.push(Paths.userList); } }));
+            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: Paths.userList }); } }));
     };
     return UserEdit;
 }(React.Component));

@@ -18,7 +18,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
 import { LoadingPageWithHeader, AlertList, closeAlertMixin, UserFormPage, EmptyStateUnauthorized, BaseHeader, Breadcrumbs, } from 'src/components';
 import { UserAPI } from 'src/api';
@@ -34,7 +34,7 @@ var UserDetail = /** @class */ (function (_super) {
                 showDeleteModal: false,
             }, function () {
                 if (didDelete) {
-                    _this.props.history.push(Paths.userList);
+                    _this.setState({ redirect: Paths.userList });
                 }
             });
         };
@@ -51,10 +51,13 @@ var UserDetail = /** @class */ (function (_super) {
         var id = this.props.match.params['userID'];
         UserAPI.get(id)
             .then(function (result) { return _this.setState({ userDetail: result.data }); })
-            .catch(function () { return _this.props.history.push(Paths.notFound); });
+            .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
     };
     UserDetail.prototype.render = function () {
         var _this = this;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _a = this.state, userDetail = _a.userDetail, errorMessages = _a.errorMessages, alerts = _a.alerts, showDeleteModal = _a.showDeleteModal;
         var user = this.context.user;
         if (!userDetail) {
