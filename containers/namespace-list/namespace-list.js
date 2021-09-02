@@ -30,6 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import * as React from 'react';
 import './namespace-list.scss';
+import { Redirect } from 'react-router-dom';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { BaseHeader, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Toolbar, } from 'src/components';
 import { Button, ToolbarItem } from '@patternfly/react-core';
@@ -96,6 +97,9 @@ var NamespaceList = /** @class */ (function (_super) {
     NamespaceList.prototype.render = function () {
         var _this = this;
         var _a;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount;
         var filterOwner = this.props.filterOwner;
         var user = this.context.user;
@@ -115,9 +119,11 @@ var NamespaceList = /** @class */ (function (_super) {
             ? _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search all "], ["Search all "]))) + title.toLowerCase();
         return (React.createElement("div", { className: 'namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
-                    return _this.props.history.push(formatPath(Paths.myCollections, {
-                        namespace: result['name'],
-                    }));
+                    return _this.setState({
+                        redirect: formatPath(Paths.myCollections, {
+                            namespace: result['name'],
+                        }),
+                    });
                 } }),
             React.createElement(BaseHeader, { title: title },
                 React.createElement("div", { className: 'tab-link-container' },
