@@ -34,7 +34,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
     return to;
 };
 import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
 import { GroupAPI, UserAPI } from 'src/api';
 import { filterIsSet, ParamHelper, twoWayMapper } from 'src/utilities';
@@ -104,6 +104,9 @@ var GroupDetail = /** @class */ (function (_super) {
     };
     GroupDetail.prototype.render = function () {
         var _this = this;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, editPermissions = _a.editPermissions, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users;
         var user = this.context.user;
         var tabs = [_(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Permissions"], ["Permissions"])))];
@@ -305,7 +308,7 @@ var GroupDetail = /** @class */ (function (_super) {
                     showDeleteModal: false,
                 });
                 _this.addAlert(_(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))), 'success');
-                _this.props.history.push(Paths.groupList);
+                _this.setState({ redirect: Paths.groupList });
             })
                 .catch(function (e) {
                 return _this.addAlert(_(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))), 'danger', e.message);
