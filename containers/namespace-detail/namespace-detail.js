@@ -100,9 +100,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function (result) {
-                    return _this.props.history.push(formatPath(Paths.myImports, {}, {
-                        namespace: namespace.name,
-                    }));
+                    return _this.setState({
+                        redirect: formatPath(Paths.myImports, {}, {
+                            namespace: namespace.name,
+                        }),
+                    });
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: namespace.name }),
