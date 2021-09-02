@@ -85,7 +85,7 @@ var AuthHandler = /** @class */ (function (_super) {
         // only enforce this if feature flags are set. Otherwise the container
         // registry will always return a 404 on the first load.
         if (this.props.isDisabled) {
-            return React.createElement(Redirect, { to: Paths.notFound });
+            return React.createElement(Redirect, { push: true, to: Paths.notFound });
         }
         return React.createElement(Component, __assign({}, props));
     };

@@ -75,7 +75,7 @@ var LoginPage = /** @class */ (function (_super) {
     }
     LoginPage.prototype.render = function () {
         if (this.state.redirect) {
-            return React.createElement(Redirect, { to: this.state.redirect });
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
         var helperText = (React.createElement("span", { style: { color: 'var(--pf-global--danger-color--100)' } },
             React.createElement(ExclamationCircleIcon, null),
