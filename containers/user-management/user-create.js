@@ -18,7 +18,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { BaseHeader, Breadcrumbs, EmptyStateUnauthorized, UserFormPage, } from 'src/components';
 import { mapErrorMessages } from 'src/utilities';
 import { UserAPI } from 'src/api';
@@ -31,7 +31,7 @@ var UserCreate = /** @class */ (function (_super) {
         _this.saveUser = function () {
             var user = _this.state.user;
             UserAPI.create(user)
-                .then(function (result) { return _this.props.history.push(Paths.userList); })
+                .then(function (result) { return _this.setState({ redirect: Paths.userList }); })
                 .catch(function (err) {
                 _this.setState({ errorMessages: mapErrorMessages(err) });
             });
@@ -52,6 +52,9 @@ var UserCreate = /** @class */ (function (_super) {
     }
     UserCreate.prototype.render = function () {
         var _this = this;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages;
         var notAuthorised = !this.context.user || !this.context.user.model_permissions.add_user;
         var breadcrumbs = [
@@ -63,7 +66,7 @@ var UserCreate = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), title: title }),
             React.createElement(EmptyStateUnauthorized, null))) : (React.createElement(UserFormPage, { user: user, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user, errorMessages) {
                 return _this.setState({ user: user, errorMessages: errorMessages });
-            }, saveUser: this.saveUser, onCancel: function () { return _this.props.history.push(Paths.userList); }, isNewUser: true }));
+            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: Paths.userList }); }, isNewUser: true }));
     };
     return UserCreate;
 }(React.Component));
