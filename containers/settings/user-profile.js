@@ -29,7 +29,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect, } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
 import { LoadingPageWithHeader, UserFormPage, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
@@ -52,7 +52,7 @@ var UserProfile = /** @class */ (function (_super) {
                 }, function () { return _this.context.setUser(result.data); });
                 //redirect to login page when password is changed
                 if (user.password) {
-                    _this.props.history.push(Paths.login);
+                    _this.setState({ redirect: Paths.login });
                 }
             })
                 .catch(function (err) {
@@ -78,10 +78,13 @@ var UserProfile = /** @class */ (function (_super) {
             _this.initialState = __assign({}, result);
             _this.setState({ user: result });
         })
-            .catch(function () { return _this.props.history.push(Paths.notFound); });
+            .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
     };
     UserProfile.prototype.render = function () {
         var _this = this;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages, inEditMode = _a.inEditMode, alerts = _a.alerts;
         var featureFlags = this.context.featureFlags;
         var isUserMgmtDisabled = false;
