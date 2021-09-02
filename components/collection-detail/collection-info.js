@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './collection-info.scss';
 import * as moment from 'moment';
@@ -43,37 +44,38 @@ var CollectionInfo = /** @class */ (function (_super) {
             installCommand += ":" + params.version;
         }
         return (React.createElement("div", { className: 'pf-c-content info-panel' },
-            React.createElement("h1", null, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Install"], ["Install"])))),
+            React.createElement("h1", null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Install"], ["Install"])))),
             React.createElement(Grid, { hasGutter: true },
                 React.createElement(GridItem, null, latest_version.metadata.description),
                 React.createElement(GridItem, null, latest_version.metadata.tags.map(function (tag, i) { return (React.createElement(Tag, { key: i }, tag)); })),
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
-                        React.createElement(SplitItem, { className: 'install-title' }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["License"], ["License"])))),
+                        React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["License"], ["License"])))),
                         React.createElement(SplitItem, { isFilled: true }, latest_version.metadata.license))),
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
-                        React.createElement(SplitItem, { className: 'install-tile' }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Install Version"], ["Install Version"])))),
+                        React.createElement(SplitItem, { className: 'install-tile' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Install Version"], ["Install Version"])))),
                         React.createElement(SplitItem, { isFilled: true },
                             React.createElement(FormSelect, { onChange: function (val) {
                                     return updateParams(ParamHelper.setParam(params, 'version', val));
-                                }, value: params.version ? params.version : latest_version.version, "aria-label": _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))) }, all_versions.map(function (v) { return (React.createElement(FormSelectOption, { key: v.version, value: v.version, label: v.version + " released " + moment(v.created).fromNow() + " " + (v.version === latest_version.version ? '(latest)' : '') })); }))))),
+                                }, value: params.version ? params.version : latest_version.version, "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))) }, all_versions.map(function (v) { return (React.createElement(FormSelectOption, { key: v.version, value: v.version, label: v.version + " released " + moment(v.created).fromNow() + " " + (v.version === latest_version.version ? '(latest)' : '') })); }))))),
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
-                        React.createElement(SplitItem, { className: 'install-title' }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Installation"], ["Installation"])))),
+                        React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Installation"], ["Installation"])))),
                         React.createElement(SplitItem, { isFilled: true },
                             React.createElement(ClipboardCopy, { isReadOnly: true }, installCommand),
                             React.createElement("div", null,
-                                React.createElement("b", null, "Note:"),
-                                " Installing collections with ansible-galaxy is only supported in ansible 2.9+"),
+                                React.createElement(Trans, null,
+                                    React.createElement("b", null, "Note:"),
+                                    " Installing collections with ansible-galaxy is only supported in ansible 2.9+")),
                             React.createElement("div", null,
                                 React.createElement("a", { ref: this.downloadLinkRef, style: { display: 'none' } }),
                                 React.createElement(Button, { className: 'download-button', variant: 'link', icon: React.createElement(DownloadIcon, null), onClick: function () {
                                         return _this.download(_this.context.selectedRepo, namespace, name, latest_version);
-                                    } }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Download tarball"], ["Download tarball"])))))))),
+                                    } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Download tarball"], ["Download tarball"])))))))),
                 latest_version.requires_ansible && (React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
-                        React.createElement(SplitItem, { className: 'install-title' }, _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
+                        React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
                         React.createElement(SplitItem, { isFilled: true }, latest_version.requires_ansible)))),
                 latest_version.docs_blob.collection_readme ? (React.createElement(GridItem, null,
                     React.createElement("div", { className: 'readme-container' },
@@ -85,7 +87,7 @@ var CollectionInfo = /** @class */ (function (_super) {
                             collection: name,
                             namespace: namespace.name,
                             repo: this.context.selectedRepo,
-                        }, params) }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Go to documentation"], ["Go to documentation"])))))) : null)));
+                        }, params) }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Go to documentation"], ["Go to documentation"])))))) : null)));
     };
     CollectionInfo.prototype.download = function (reponame, namespace, name, latest_version) {
         var _this = this;

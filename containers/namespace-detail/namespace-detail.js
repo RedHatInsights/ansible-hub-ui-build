@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-detail.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
@@ -77,13 +78,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var tabs = [_(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"])))];
+        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"])))];
         if (this.state.showControls) {
-            tabs.push(_(templateObject_2 || (templateObject_2 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))));
+            tabs.push(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))));
         }
         var tab = params['tab'] || 'collections';
         if (namespace.resources) {
-            tabs.push(_(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Resources"], ["Resources"]))));
+            tabs.push(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Resources"], ["Resources"]))));
         }
         var repositoryUrl = getRepoUrl('inbound-' + namespace.name);
         var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
@@ -120,7 +121,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
-                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
+                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, handleControlClick: function (id, action) {
                             return _this.handleCollectionAction(id, action);
                         }, repo: this.context.selectedRepo })))) : null,
@@ -128,11 +129,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     React.createElement("div", null,
                         React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl),
                         React.createElement("div", null,
-                            React.createElement("b", null, "Note:"),
-                            " Use this URL to configure ansible-galaxy to upload collections to this namespace. More information on ansible-galaxy configurations can be found",
-                            ' ',
-                            React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"),
-                            ".")))) : null,
+                            React.createElement(Trans, null,
+                                React.createElement("b", null, "Note:"),
+                                " Use this URL to configure ansible-galaxy to upload collections to this namespace. More information on ansible-galaxy configurations can be found",
+                                ' ',
+                                React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"),
+                                "."))))) : null,
                 tab.toLowerCase() === 'resources'
                     ? this.renderResources(namespace)
                     : null)));
@@ -152,7 +154,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     .then(function () { return _this.loadCollections(); })
                     .catch(function (error) {
                     _this.setState({
-                        warning: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
+                        warning: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
                 });
                 break;
@@ -209,14 +211,14 @@ var NamespaceDetail = /** @class */ (function (_super) {
         }
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             React.createElement(StatefulDropdown, { items: [
                     React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                                 namespace: this.state.namespace.name,
-                            }) }, _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+                            }) }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
                     React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                                 namespace: this.state.namespace.name,
-                            }) }, _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+                            }) }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
                 ] })));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {

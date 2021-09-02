@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CollectionHeader, CollectionContentList, LoadingPageWithHeader, Main, } from 'src/components';
@@ -62,7 +63,7 @@ var CollectionContent = /** @class */ (function (_super) {
                 }),
                 name: collection.name,
             },
-            { name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
+            { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (params) {

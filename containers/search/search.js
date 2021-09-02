@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './search.scss';
 import { withRouter } from 'react-router-dom';
@@ -77,7 +78,7 @@ var Search = /** @class */ (function (_super) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
         return (React.createElement("div", { className: 'search-page' },
-            React.createElement(BaseHeader, { className: 'header', title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'toolbar-wrapper' },
+            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'toolbar-wrapper' },
                 React.createElement("div", { className: 'toolbar' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
                     React.createElement("div", { className: 'pagination-container' },
@@ -93,7 +94,7 @@ var Search = /** @class */ (function (_super) {
                                     });
                                 } })),
                         React.createElement(Pagination, { params: params, updateParams: updateParams, count: numberOfResults, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS, isTop: true })))))),
-            noData ? (React.createElement(EmptyStateNoData, { title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) })) : (React.createElement(React.Fragment, null,
+            noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) })) : (React.createElement(React.Fragment, null,
                 React.createElement("section", { className: 'collection-container' }, this.renderCollections(collections, params, updateParams)),
                 React.createElement("section", { className: 'footer' },
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -132,7 +133,7 @@ var Search = /** @class */ (function (_super) {
         if (!synclist) {
             return null;
         }
-        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
+        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
     };
     Search.prototype.toggleCollectionSync = function (name, namespace) {
         var _this = this;
@@ -163,7 +164,7 @@ var Search = /** @class */ (function (_super) {
         var _this = this;
         return (React.createElement("div", { className: 'list-container' },
             React.createElement("div", { className: 'list' },
-                React.createElement(DataList, { className: 'data-list', "aria-label": _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: _this.renderSyncToggle(c.name, c.namespace.name), repo: _this.context.selectedRepo }))); })))));
+                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: _this.renderSyncToggle(c.name, c.namespace.name), repo: _this.context.selectedRepo }))); })))));
     };
     Search.prototype.getSynclist = function () {
         var _this = this;

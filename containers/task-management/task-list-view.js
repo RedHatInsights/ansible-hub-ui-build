@@ -22,6 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './task.scss';
 import { Constants } from 'src/constants';
@@ -68,8 +69,8 @@ var TaskListView = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             cancelModalVisible ? this.renderCancelModal() : null,
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
-            noData && !loading ? (React.createElement(EmptyStateNoData, { title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
+            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'task-list' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -81,28 +82,28 @@ var TaskListView = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__contains',
-                                                title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Task name"], ["Task name"]))),
                                             },
                                             {
                                                 id: 'state',
-                                                title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Status"], ["Status"]))),
+                                                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Status"], ["Status"]))),
                                                 inputType: 'select',
                                                 options: [
                                                     {
                                                         id: 'completed',
-                                                        title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Completed"], ["Completed"]))),
+                                                        title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Completed"], ["Completed"]))),
                                                     },
                                                     {
                                                         id: 'failed',
-                                                        title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Failed"], ["Failed"]))),
+                                                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Failed"], ["Failed"]))),
                                                     },
                                                     {
                                                         id: 'running',
-                                                        title: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Running"], ["Running"]))),
+                                                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Running"], ["Running"]))),
                                                     },
                                                     {
                                                         id: 'waiting',
-                                                        title: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
+                                                        title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
                                                     },
                                                 ],
                                             },
@@ -114,8 +115,8 @@ var TaskListView = /** @class */ (function (_super) {
                     React.createElement(AppliedFilters, { updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.queryTasks(); });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: {
-                            name__contains: _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Task name"], ["Task name"]))),
-                            state: _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
+                            name__contains: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                            state: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
                         } })),
                 this.renderTable(params),
                 React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
@@ -132,33 +133,33 @@ var TaskListView = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Task name"], ["Task name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Created on"], ["Created on"]))),
+                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Created on"], ["Created on"]))),
                     type: 'numeric',
                     id: 'pulp_created',
                 },
                 {
-                    title: _(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Started at"], ["Started at"]))),
+                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Started at"], ["Started at"]))),
                     type: 'numeric',
                     id: 'started_at',
                 },
                 {
-                    title: _(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Finished at"], ["Finished at"]))),
+                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Finished at"], ["Finished at"]))),
                     type: 'numeric',
                     id: 'finished_at',
                 },
                 {
-                    title: _(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Status"], ["Status"]))),
+                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Status"], ["Status"]))),
                     type: 'alpha',
                     id: 'state',
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": _(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     p['page'] = 1;
                     _this.updateParams(p, function () { return _this.queryTasks(); });
@@ -183,19 +184,19 @@ var TaskListView = /** @class */ (function (_super) {
         var _this = this;
         switch (state) {
             case 'running':
-                return (React.createElement(Button, { variant: 'secondary', "aria-label": _(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
+                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
                         return _this.setState({
                             cancelModalVisible: true,
                             selectedTask: selectedTask,
                         });
-                    } }, _(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
+                    } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
             case 'waiting':
-                return (React.createElement(Button, { variant: 'secondary', "aria-label": _(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
+                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
                         return _this.setState({
                             cancelModalVisible: true,
                             selectedTask: selectedTask,
                         });
-                    } }, _(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
+                    } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
         }
     };
     TaskListView.prototype.statusLabel = function (_a) {
@@ -217,7 +218,7 @@ var TaskListView = /** @class */ (function (_super) {
         var _this = this;
         var name = Constants.TASK_NAMES[this.state.selectedTask.name] ||
             this.state.selectedTask.name;
-        return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, deleteAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, title: _(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: _(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name) }));
+        return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, deleteAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name) }));
     };
     TaskListView.prototype.selectedTask = function (task, name) {
         var _this = this;
@@ -233,7 +234,7 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: name,
-                        description: _(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
                     },
                 ]),
             });
@@ -247,7 +248,7 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: name,
-                        description: _(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
                     },
                 ]),
             });

@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-list.scss';
 import { Redirect } from 'react-router-dom';
@@ -112,11 +113,11 @@ var NamespaceList = /** @class */ (function (_super) {
         var extra = [];
         if ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) {
             extra.push(React.createElement(ToolbarItem, { key: 'create-button' },
-                React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Create"], ["Create"]))))));
+                React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Create"], ["Create"]))))));
         }
         var title = namespaceBreadcrumb.name;
         var search = filterOwner
-            ? _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search all "], ["Search all "]))) + title.toLowerCase();
+            ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), title.toLowerCase());
         return (React.createElement("div", { className: 'namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
@@ -130,18 +131,18 @@ var NamespaceList = /** @class */ (function (_super) {
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(LinkTabs, { tabs: [
                                 {
-                                    title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["All"], ["All"]))),
+                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["All"], ["All"]))),
                                     link: Paths[NAMESPACE_TERM],
                                     active: !filterOwner,
                                 },
                                 {
-                                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["My namespaces"], ["My namespaces"]))),
+                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["My namespaces"], ["My namespaces"]))),
                                     link: Paths.myNamespaces,
                                     active: filterOwner,
                                 },
                             ] }))),
                 noData ? null : (React.createElement("div", { className: 'toolbar' },
-                    React.createElement(Toolbar, { params: params, sortOptions: [{ title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' }], searchPlaceholder: search, updateParams: function (p) {
+                    React.createElement(Toolbar, { params: params, sortOptions: [{ title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' }], searchPlaceholder: search, updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.loadNamespaces(); });
                         }, extraInputs: extra }),
                     React.createElement("div", null,
@@ -160,10 +161,10 @@ var NamespaceList = /** @class */ (function (_super) {
         var _b = this.state, namespaces = _b.namespaces, loading = _b.loading;
         var _c = this.props, namespacePath = _c.namespacePath, filterOwner = _c.filterOwner;
         var user = this.context.user;
-        var noDataTitle = _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
+        var noDataTitle = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
         var noDataDescription = !filterOwner
-            ? _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
-        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
+            ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
+        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
         if (loading) {
             return (React.createElement("section", null,
                 React.createElement(LoadingPageSpinner, null),

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
@@ -63,8 +64,8 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(ExternalLinkAltIcon, null)));
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))) }),
-            noData && !loading ? (React.createElement(EmptyStateNoData, { title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))) }),
+            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -78,7 +79,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name',
-                                                title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
+                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
                                             },
                                         ] })),
                                 React.createElement(ToolbarItem, null, pushImagesButton)))),
@@ -104,28 +105,28 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))),
                     type: 'alpha',
                     id: 'description',
                 },
                 {
-                    title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Created"], ["Created"]))),
+                    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'numeric',
                     id: 'created',
                 },
                 {
-                    title: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Last modified"], ["Last modified"]))),
+                    title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Last modified"], ["Last modified"]))),
                     type: 'alpha',
                     id: 'updated',
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryEnvironments(); });
                 } }),

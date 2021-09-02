@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 var DeprecatedTag = /** @class */ (function (_super) {
     __extends(DeprecatedTag, _super);
@@ -35,7 +36,7 @@ var DeprecatedTag = /** @class */ (function (_super) {
                 paddingBottom: '2px',
                 paddingTop: '2px',
                 borderRadius: '3px',
-            } }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["DEPRECATED"], ["DEPRECATED"])))));
+            } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["DEPRECATED"], ["DEPRECATED"])))));
     };
     return DeprecatedTag;
 }(React.Component));

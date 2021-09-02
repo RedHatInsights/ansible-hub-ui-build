@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import './header.scss';
@@ -35,7 +36,7 @@ var BaseHeader = /** @class */ (function (_super) {
             !breadcrumbs && !contextSelector && React.createElement("div", { className: 'placeholder' }),
             React.createElement("div", { className: 'column-section' },
                 React.createElement("div", { className: 'title-box' },
-                    imageURL ? (React.createElement(Logo, { className: 'image', alt: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Page logo"], ["Page logo"]))), image: imageURL, size: '40px', unlockWidth: true })) : null,
+                    imageURL ? (React.createElement(Logo, { className: 'image', alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Page logo"], ["Page logo"]))), image: imageURL, size: '40px', unlockWidth: true })) : null,
                     React.createElement("div", null,
                         React.createElement(Title, { headingLevel: 'h1', size: '2xl', children: title }))),
                 pageControls ? (React.createElement("div", { className: 'header-right' }, pageControls)) : null),

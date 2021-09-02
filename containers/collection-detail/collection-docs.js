@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './collection-detail.scss';
 import { withRouter, Link } from 'react-router-dom';
@@ -106,7 +107,7 @@ var CollectionDocs = /** @class */ (function (_super) {
                 }),
                 name: collection.name,
             },
-            { name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
+            { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
         ];
         // scroll to top of page
         // if (
@@ -173,7 +174,7 @@ var CollectionDocs = /** @class */ (function (_super) {
         }
     };
     CollectionDocs.prototype.renderNotFound = function (collectionName) {
-        return (React.createElement(EmptyStateCustom, { title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))), description: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["The file is not available for this version of "], ["The file is not available for this version of "]))) + collectionName, icon: ExclamationCircleIcon }));
+        return (React.createElement(EmptyStateCustom, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["The file is not available for this version of ", ""], ["The file is not available for this version of ", ""])), collectionName), icon: ExclamationCircleIcon }));
     };
     Object.defineProperty(CollectionDocs.prototype, "loadCollection", {
         get: function () {

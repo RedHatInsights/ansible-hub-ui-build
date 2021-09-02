@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Label } from '@patternfly/react-core';
 import { OutlinedClockIcon, ExclamationIcon, SyncAltIcon, CheckCircleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
@@ -38,7 +39,7 @@ var StatusIndicator = /** @class */ (function (_super) {
             case PulpStatus.waiting:
                 labelProps = {
                     color: 'blue',
-                    text: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Pending"], ["Pending"]))),
+                    text: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Pending"], ["Pending"]))),
                     icon: React.createElement(OutlinedClockIcon, null),
                 };
                 break;
@@ -47,24 +48,24 @@ var StatusIndicator = /** @class */ (function (_super) {
             case PulpStatus.canceled:
                 labelProps = {
                     color: 'orange',
-                    text: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Canceled"], ["Canceled"]))),
+                    text: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Canceled"], ["Canceled"]))),
                     icon: React.createElement(ExclamationIcon, null),
                 };
                 break;
             case PulpStatus.running:
-                labelProps = { color: 'blue', text: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Running"], ["Running"]))), icon: React.createElement(SyncAltIcon, null) };
+                labelProps = { color: 'blue', text: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Running"], ["Running"]))), icon: React.createElement(SyncAltIcon, null) };
                 break;
             case PulpStatus.completed:
                 labelProps = {
                     color: 'green',
-                    text: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Completed"], ["Completed"]))),
+                    text: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Completed"], ["Completed"]))),
                     icon: React.createElement(CheckCircleIcon, null),
                 };
                 break;
             case PulpStatus.failed:
                 labelProps = {
                     color: 'red',
-                    text: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed"], ["Failed"]))),
+                    text: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed"], ["Failed"]))),
                     icon: React.createElement(ExclamationCircleIcon, null),
                 };
                 break;

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
 var DeleteModal = /** @class */ (function (_super) {
@@ -27,9 +28,9 @@ var DeleteModal = /** @class */ (function (_super) {
     DeleteModal.prototype.render = function () {
         var _a = this.props, cancelAction = _a.cancelAction, children = _a.children, deleteAction = _a.deleteAction, isDisabled = _a.isDisabled, title = _a.title, spinner = _a.spinner;
         return (React.createElement(Modal, { actions: [
-                React.createElement(Button, { key: 'delete', onClick: deleteAction, variant: 'danger', isDisabled: isDisabled }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
+                React.createElement(Button, { key: 'delete', onClick: deleteAction, variant: 'danger', isDisabled: isDisabled }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
                     spinner && React.createElement(Spinner, { size: 'sm' })),
-                React.createElement(Button, { key: 'cancel', onClick: cancelAction, variant: 'link' }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+                React.createElement(Button, { key: 'cancel', onClick: cancelAction, variant: 'link' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ], isOpen: true, onClose: cancelAction, title: title, titleIconVariant: 'warning', variant: 'small' }, children));
     };
     return DeleteModal;

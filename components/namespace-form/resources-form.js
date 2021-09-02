@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-form.scss';
 import { MarkdownEditor } from '..';
@@ -40,7 +41,7 @@ var ResourcesForm = /** @class */ (function (_super) {
     ResourcesForm.prototype.render = function () {
         var _this = this;
         var namespace = this.props.namespace;
-        return (React.createElement(MarkdownEditor, { text: namespace.resources, placeholder: placeholder, helperText: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You can can customize the Resources tab on your profile by entering custom markdown here."], ["You can can customize the Resources tab on your profile by entering custom markdown here."]))), updateText: function (value) { return _this.updateResources(value); }, editing: true }));
+        return (React.createElement(MarkdownEditor, { text: namespace.resources, placeholder: placeholder, helperText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You can can customize the Resources tab on your profile by entering custom markdown here."], ["You can can customize the Resources tab on your profile by entering custom markdown here."]))), updateText: function (value) { return _this.updateResources(value); }, editing: true }));
     };
     ResourcesForm.prototype.updateResources = function (data) {
         var update = __assign({}, this.props.namespace);

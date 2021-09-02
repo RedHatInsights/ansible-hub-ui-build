@@ -33,6 +33,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { t } from '@lingui/macro';
 // import PropTypes from 'prop-types';
 import * as React from 'react';
 import '../app.scss';
@@ -120,10 +121,10 @@ var App = /** @class */ (function (_super) {
                     "Username: ",
                     user.username),
                 React.createElement(DropdownSeparator, { key: 'separator' }),
-                React.createElement(DropdownItem, { key: 'profile', component: React.createElement(Link, { to: Paths.userProfileSettings }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My profile"], ["My profile"])))) }),
+                React.createElement(DropdownItem, { key: 'profile', component: React.createElement(Link, { to: Paths.userProfileSettings }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My profile"], ["My profile"])))) }),
                 React.createElement(DropdownItem, { key: 'logout', "aria-label": 'logout', onClick: function () {
                         return ActiveUserAPI.logout().then(function () { return _this.setState({ user: null }); });
-                    } }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Logout"], ["Logout"])))),
+                    } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Logout"], ["Logout"])))),
             ];
             docsDropdownItems = [
                 React.createElement(DropdownItem, { key: 'customer_support', href: 'https://access.redhat.com/support', target: '_blank' },
@@ -134,16 +135,16 @@ var App = /** @class */ (function (_super) {
                     React.createElement(ExternalLinkAltIcon, null)),
                 React.createElement(DropdownItem, { key: 'about', onClick: function () {
                         return _this.setState({ aboutModalVisible: true, toggleOpen: false });
-                    } }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["About"], ["About"])))),
+                    } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["About"], ["About"])))),
             ];
-            aboutModal = (React.createElement(AboutModalWindow, { isOpen: this.state.aboutModalVisible, trademark: '', brandImageSrc: Logo, onClose: function () { return _this.setState({ aboutModalVisible: false }); }, brandImageAlt: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Galaxy Logo"], ["Galaxy Logo"]))), productName: APPLICATION_NAME, user: user, userName: userName }));
+            aboutModal = (React.createElement(AboutModalWindow, { isOpen: this.state.aboutModalVisible, trademark: '', brandImageSrc: Logo, onClose: function () { return _this.setState({ aboutModalVisible: false }); }, brandImageAlt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Galaxy Logo"], ["Galaxy Logo"]))), productName: APPLICATION_NAME, user: user, userName: userName }));
         }
         var Header = (React.createElement(PageHeader, { logo: React.createElement(SmallLogo, { alt: APPLICATION_NAME }), logoComponent: function (_a) {
                 var children = _a.children;
                 return (React.createElement(Link, { to: formatPath(Paths.searchByRepo, {
                         repo: _this.state.selectedRepo,
                     }) }, children));
-            }, headerTools: React.createElement(PageHeaderTools, null, !user ? (React.createElement(Link, { to: formatPath(Paths.login, {}, { next: this.props.location.pathname }) }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) : (React.createElement("div", null,
+            }, headerTools: React.createElement(PageHeaderTools, null, !user ? (React.createElement(Link, { to: formatPath(Paths.login, {}, { next: this.props.location.pathname }) }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) : (React.createElement("div", null,
                 React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
                 React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
         var menu = this.menu();
@@ -207,22 +208,22 @@ var App = /** @class */ (function (_super) {
                 } }, options), { type: 'section', name: name, items: items }));
         };
         return [
-            menuSection(_(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
-                menuItem(_(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collections"], ["Collections"]))), {
+            menuSection(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
+                menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collections"], ["Collections"]))), {
                     url: formatPath(Paths.searchByRepo, {
                         repo: this.state.selectedRepo,
                     }),
                 }),
-                menuItem(_(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
+                menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
                     url: Paths[NAMESPACE_TERM],
                 }),
-                menuItem(_(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
+                menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
                     url: Paths.repositories,
                 }),
-                menuItem(_(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Token"], ["API Token"]))), {
+                menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Token"], ["API Token"]))), {
                     url: Paths.token,
                 }),
-                menuItem(_(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Approval"], ["Approval"]))), {
+                menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.move_collection;
@@ -230,29 +231,29 @@ var App = /** @class */ (function (_super) {
                     url: Paths.approvalDashboard,
                 }),
             ]),
-            menuItem(_(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))), {
+            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))), {
                 condition: function (_a) {
                     var featureFlags = _a.featureFlags;
                     return featureFlags.execution_environments;
                 },
                 url: Paths.executionEnvironments,
             }),
-            menuItem(_(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
                 url: Paths.taskList,
             }),
-            menuItem(_(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
             }),
-            menuSection(_(templateObject_15 || (templateObject_15 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(_(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Users"], ["Users"]))), {
+            menuSection(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Users"], ["Users"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_user;
                     },
                     url: Paths.userList,
                 }),
-                menuItem(_(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_group;

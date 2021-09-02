@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './list.scss';
 import { Button, DropdownItem, DataList } from '@patternfly/react-core';
@@ -43,7 +44,7 @@ var CollectionList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, collections = _a.collections, params = _a.params, updateParams = _a.updateParams, ignoredParams = _a.ignoredParams, itemCount = _a.itemCount, showControls = _a.showControls, repo = _a.repo;
         return (React.createElement(React.Fragment, null,
-            React.createElement(DataList, { "aria-label": _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ controls: showControls ? _this.renderCollectionControls(c) : null, key: c.id }, c, { repo: repo }))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
+            React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ controls: showControls ? _this.renderCollectionControls(c) : null, key: c.id }, c, { repo: repo }))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
                     ParamHelper.clearAllFilters({
                         params: params,
                         ignoredParams: ignoredParams,
@@ -58,11 +59,11 @@ var CollectionList = /** @class */ (function (_super) {
     CollectionList.prototype.renderCollectionControls = function (collection) {
         var _this = this;
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
-            React.createElement(Button, { onClick: function () { return _this.props.handleControlClick(collection.id, 'upload'); }, variant: 'secondary' }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
+            React.createElement(Button, { onClick: function () { return _this.props.handleControlClick(collection.id, 'upload'); }, variant: 'secondary' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
             React.createElement(StatefulDropdown, { items: [
                     React.createElement(DropdownItem, { onClick: function (e) {
                             return _this.props.handleControlClick(collection.id, 'deprecate');
-                        }, key: '1' }, collection.deprecated ? _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+                        }, key: '1' }, collection.deprecated ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
                 ] })));
     };
     return CollectionList;

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, ClipboardCopy } from '@patternfly/react-core';
@@ -35,24 +36,27 @@ var TokenPage = /** @class */ (function (_super) {
         var _this = this;
         var token = this.state.token;
         return (React.createElement(React.Fragment, null,
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Token management"], ["Token management"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Token management"], ["Token management"]))) }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"])))),
+                    React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"])))),
                     React.createElement("p", null,
-                        "Use this token to authenticate the ",
-                        React.createElement("code", null, "ansible-galaxy"),
-                        ' ',
-                        "client."),
+                        React.createElement(Trans, null,
+                            "Use this token to authenticate the ",
+                            React.createElement("code", null, "ansible-galaxy"),
+                            ' ',
+                            "client.")),
                     React.createElement("div", { className: 'pf-c-content' },
-                        React.createElement("b", null, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["WARNING"], ["WARNING"])))),
-                        " loading a new token will delete your old token."),
+                        React.createElement(Trans, null,
+                            React.createElement("b", null, "WARNING"),
+                            " loading a new token will delete your old token.")),
                     token ? (React.createElement("div", null,
                         React.createElement("div", { className: 'pf-c-content' },
-                            React.createElement("b", null, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["WARNING"], ["WARNING"])))),
-                            " copy this token now. This is the only time you will ever see it."),
+                            React.createElement(Trans, null,
+                                React.createElement("b", null, "WARNING"),
+                                " copy this token now. This is the only time you will ever see it.")),
                         React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", null,
-                        React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Load token"], ["Load token"]))))))))));
+                        React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Load token"], ["Load token"]))))))))));
     };
     TokenPage.prototype.loadToken = function () {
         var _this = this;
@@ -63,5 +67,5 @@ var TokenPage = /** @class */ (function (_super) {
     return TokenPage;
 }(React.Component));
 export default withRouter(TokenPage);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=token-standalone.js.map

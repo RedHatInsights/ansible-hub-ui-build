@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, } from '../../components';
@@ -76,9 +77,9 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
         }
         var command = (layers[selectedLayer.split(/-/)[1]] || {}).text;
         return (React.createElement(React.Fragment, null,
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Image layers"], ["Image layers"]))), breadcrumbs: React.createElement(Breadcrumbs, { links: [
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Image layers"], ["Image layers"]))), breadcrumbs: React.createElement(Breadcrumbs, { links: [
                         {
-                            name: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
+                            name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
                             url: Paths.executionEnvironments,
                         },
                         {
@@ -101,8 +102,8 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 React.createElement(Flex, null,
                     React.createElement(FlexItem, { className: 'layers-max-width' },
                         React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
-                            React.createElement(DataList, { "aria-label": _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
+                            React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
                                     return _this.setState({ selectedLayer: id });
                                 }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
                                 var text = _a.text, size = _a.size;
@@ -117,11 +118,11 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                     React.createElement(Flex, { direction: { default: 'column' }, className: 'layers-max-width' },
                         React.createElement(FlexItem, null,
                             React.createElement("section", { className: 'body' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Command"], ["Command"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Command"], ["Command"])))),
                                 React.createElement("code", null, command))),
                         React.createElement(FlexItem, null,
                             React.createElement("section", { className: 'body' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Environment"], ["Environment"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Environment"], ["Environment"])))),
                                 environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
                                     React.createElement("code", null, line),
                                     React.createElement("br", null))); }))))))));

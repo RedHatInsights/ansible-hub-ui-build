@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { LoginForm, LoginPage as PFLoginPage } from '@patternfly/react-core';
@@ -43,7 +44,7 @@ var LoginPage = /** @class */ (function (_super) {
                     .catch(function () {
                     return _this.setState({
                         passwordValue: '',
-                        errorMessage: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to retrieve user data."], ["Failed to retrieve user data."]))),
+                        errorMessage: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to retrieve user data."], ["Failed to retrieve user data."]))),
                     });
                 });
             })
@@ -51,13 +52,13 @@ var LoginPage = /** @class */ (function (_super) {
                 if (result.response.status.toString().startsWith('5')) {
                     _this.setState({
                         passwordValue: '',
-                        errorMessage: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Server error. Please come back later."], ["Server error. Please come back later."]))),
+                        errorMessage: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Server error. Please come back later."], ["Server error. Please come back later."]))),
                     });
                 }
                 else {
                     _this.setState({
                         passwordValue: '',
-                        errorMessage: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Invalid login credentials."], ["Invalid login credentials."]))),
+                        errorMessage: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Invalid login credentials."], ["Invalid login credentials."]))),
                     });
                 }
             });
@@ -80,10 +81,10 @@ var LoginPage = /** @class */ (function (_super) {
             React.createElement(ExclamationCircleIcon, null),
             '   ',
             this.state.errorMessage));
-        var loginForm = (React.createElement(LoginForm, { showHelperText: !!this.state.errorMessage, helperText: helperText, usernameLabel: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"]))), usernameValue: this.state.usernameValue, onChangeUsername: this.handleUsernameChange, passwordLabel: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Password"], ["Password"]))), passwordValue: this.state.passwordValue, onChangePassword: this.handlePasswordChange, onLoginButtonClick: this.onLoginButtonClick }));
+        var loginForm = (React.createElement(LoginForm, { showHelperText: !!this.state.errorMessage, helperText: helperText, usernameLabel: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"]))), usernameValue: this.state.usernameValue, onChangeUsername: this.handleUsernameChange, passwordLabel: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Password"], ["Password"]))), passwordValue: this.state.passwordValue, onChangePassword: this.handlePasswordChange, onLoginButtonClick: this.onLoginButtonClick }));
         return (React.createElement(PFLoginPage, { style: {
                 backgroundColor: 'var(--pf-global--BackgroundColor--dark-100)',
-            }, loginTitle: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Log in to your account"], ["Log in to your account"]))), brandImgSrc: Logo }, loginForm));
+            }, loginTitle: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Log in to your account"], ["Log in to your account"]))), brandImgSrc: Logo }, loginForm));
     };
     return LoginPage;
 }(React.Component));

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from '../../components';
@@ -46,17 +47,17 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     ExecutionEnvironmentDetailActivities.prototype.renderActivity = function () {
         var activities = this.state.activities;
         if (activities.length === 0) {
-            return (React.createElement(EmptyStateNoData, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No activities yet"], ["No activities yet"]))), description: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activities will appear once you push something"], ["Activities will appear once you push something"]))) }));
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No activities yet"], ["No activities yet"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activities will appear once you push something"], ["Activities will appear once you push something"]))) }));
         }
         return (React.createElement(Flex, null,
             React.createElement(Flex, { direction: { default: 'column' }, flex: { default: 'flex_1' } },
                 React.createElement(FlexItem, null,
                     React.createElement("section", { className: 'body' },
-                        React.createElement("table", { "aria-label": _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Activities"], ["Activities"]))), className: 'pf-c-table' },
+                        React.createElement("table", { "aria-label": t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Activities"], ["Activities"]))), className: 'pf-c-table' },
                             React.createElement(SortTable, { options: {
                                     headers: [
-                                        { title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Change"], ["Change"]))), type: 'none', id: 'change' },
-                                        { title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Date"], ["Date"]))), type: 'none', id: 'date' },
+                                        { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Change"], ["Change"]))), type: 'none', id: 'change' },
+                                        { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Date"], ["Date"]))), type: 'none', id: 'date' },
                                     ],
                                 }, params: {}, updateParams: function () { } }),
                             React.createElement("tbody", null, activities.map(function (action, i) {

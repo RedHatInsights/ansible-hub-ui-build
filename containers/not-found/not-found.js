@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './not-found.scss';
 // had to declare *.gif in src/index.d.ts
@@ -36,8 +37,8 @@ var NotFound = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body' },
                     React.createElement(Bullseye, { className: 'bullseye' },
                         React.createElement("div", { className: 'bullseye-center' },
-                            React.createElement("img", { src: NotFoundImage, alt: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not found image"], ["Not found image"]))) }),
-                            React.createElement("div", null, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["We couldn't find the page you're looking for!"], ["We couldn't find the page you're looking for!"])))),
+                            React.createElement("img", { src: NotFoundImage, alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not found image"], ["Not found image"]))) }),
+                            React.createElement("div", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["We couldn't find the page you're looking for!"], ["We couldn't find the page you're looking for!"])))),
                             React.createElement("div", { className: 'pf-c-content' },
                                 React.createElement("span", { className: 'four-oh-four' }, "404"))))))));
     };

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import { Card, CardHeader, CardBody, CardFooter, TextContent, Text, TextVariants, Badge, Tooltip, } from '@patternfly/react-core';
@@ -64,7 +65,7 @@ var CollectionCard = /** @class */ (function (_super) {
     CollectionCard.prototype.getCertification = function (repo) {
         if (repo === Constants.CERTIFIED_REPO) {
             return (React.createElement(Text, { component: TextVariants.small },
-                React.createElement(Badge, { isRead: true }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Certified"], ["Certified"]))))));
+                React.createElement(Badge, { isRead: true }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Certified"], ["Certified"]))))));
         }
         return null;
     };

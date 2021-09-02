@@ -22,6 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './group-management.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
@@ -82,9 +83,9 @@ var GroupList = /** @class */ (function (_super) {
             createModalVisible ? this.renderCreateModal() : null,
             deleteModalVisible ? this.renderDeleteModal() : null,
             editModalVisible ? this.renderEditModal() : null,
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Groups"], ["Groups"]))) }),
-            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No groups yet"], ["No groups yet"]))), description: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups will appear once created"], ["Groups will appear once created"]))), button: !!user &&
-                    user.model_permissions.add_group && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Groups"], ["Groups"]))) }),
+            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No groups yet"], ["No groups yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups will appear once created"], ["Groups will appear once created"]))), button: !!user &&
+                    user.model_permissions.add_group && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'group-list-toolbar' },
                         React.createElement(Toolbar, null,
@@ -96,14 +97,14 @@ var GroupList = /** @class */ (function (_super) {
                                             }, params: params, filterConfig: [
                                                 {
                                                     id: 'name',
-                                                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group"], ["Group"]))),
+                                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group"], ["Group"]))),
                                                 },
                                             ] }))),
                                 !!user && user.model_permissions.add_group && (React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
                                         React.createElement(Button, { onClick: function () {
                                                 return _this.setState({ createModalVisible: true });
-                                            } }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
+                                            } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.queryGroups(); });
                             }, count: itemCount, isTop: true })),
@@ -192,7 +193,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
                     {
                         variant: 'danger',
-                        title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
+                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
                     },
                 ]),
             });
@@ -207,7 +208,7 @@ var GroupList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Group"], ["Group"]))),
+                    title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Group"], ["Group"]))),
                     type: 'alpha',
                     id: 'name',
                 },
@@ -218,7 +219,7 @@ var GroupList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryGroups(); }); } }),
             React.createElement("tbody", null, groups.map(function (group, i) { return _this.renderTableRow(group, i); }))));
     };
@@ -230,12 +231,12 @@ var GroupList = /** @class */ (function (_super) {
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", null, !!user && user.model_permissions.delete_group && (React.createElement(Button, { "aria-label": _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', variant: 'danger', onClick: function () {
+            React.createElement("td", null, !!user && user.model_permissions.delete_group && (React.createElement(Button, { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', variant: 'danger', onClick: function () {
                     return _this.setState({
                         selectedGroup: group,
                         deleteModalVisible: true,
                     });
-                } }, _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete"], ["Delete"]))))))));
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete"], ["Delete"]))))))));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {
@@ -262,7 +263,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
                     {
                         variant: 'success',
-                        title: _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
+                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
                     },
                 ]),
             });
@@ -273,7 +274,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
                     {
                         variant: 'danger',
-                        title: _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
+                        title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
                 ]),
             });

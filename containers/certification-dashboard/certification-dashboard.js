@@ -53,6 +53,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
@@ -110,7 +111,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         return (React.createElement(React.Fragment, null,
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'certification-dashboard' },
                 React.createElement("section", { className: 'body' },
@@ -123,28 +124,28 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'namespace',
-                                                title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+                                                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
                                             },
                                             {
                                                 id: 'name',
-                                                title: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection Name"], ["Collection Name"]))),
+                                                title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection Name"], ["Collection Name"]))),
                                             },
                                             {
                                                 id: 'repository',
-                                                title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Status"], ["Status"]))),
+                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Status"], ["Status"]))),
                                                 inputType: 'select',
                                                 options: [
                                                     {
                                                         id: Constants.NOTCERTIFIED,
-                                                        title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                                                        title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
                                                     },
                                                     {
                                                         id: Constants.NEEDSREVIEW,
-                                                        title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                                                        title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
                                                     },
                                                     {
                                                         id: Constants.PUBLISHED,
-                                                        title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                                                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approved"], ["Approved"]))),
                                                     },
                                                 ],
                                             },
@@ -157,12 +158,12 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 return _this.updateParams(p, function () { return _this.queryCollections(); });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceValues: {
                                 repository: (_a = {},
-                                    _a[Constants.PUBLISHED] = _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approved"], ["Approved"]))),
-                                    _a[Constants.NEEDSREVIEW] = _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
-                                    _a[Constants.NOTCERTIFIED] = _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                                    _a[Constants.PUBLISHED] = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                                    _a[Constants.NEEDSREVIEW] = t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                                    _a[Constants.NOTCERTIFIED] = t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
                                     _a),
                             }, niceNames: {
-                                repository: _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
+                                repository: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
                             } })),
                     loading ? (React.createElement(LoadingPageSpinner, null)) : (this.renderTable(versions, params)),
                     React.createElement("div", { className: 'footer' },
@@ -173,32 +174,32 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.renderTable = function (versions, params) {
         var _this = this;
         if (versions.length === 0) {
-            return filterIsSet(params, ['namespace', 'name', 'repository']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
+            return filterIsSet(params, ['namespace', 'name', 'repository']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
         }
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
                     type: 'alpha',
                     id: 'namespace',
                 },
                 {
-                    title: _(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Collection"], ["Collection"]))),
+                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Collection"], ["Collection"]))),
                     type: 'alpha',
                     id: 'collection',
                 },
                 {
-                    title: _(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Version"], ["Version"]))),
+                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Version"], ["Version"]))),
                     type: 'number',
                     id: 'version',
                 },
                 {
-                    title: _(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Date created"], ["Date created"]))),
+                    title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Date created"], ["Date created"]))),
                     type: 'number',
                     id: 'pulp_created',
                 },
                 {
-                    title: _(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Status"], ["Status"]))),
+                    title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Status"], ["Status"]))),
                     type: 'none',
                     id: 'status',
                 },
@@ -209,7 +210,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": _(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryCollections(); });
                 } }),
@@ -222,17 +223,17 @@ var CertificationDashboard = /** @class */ (function (_super) {
         if (version.repository_list.includes(Constants.PUBLISHED)) {
             return (React.createElement("span", null,
                 React.createElement(CheckCircleIcon, { style: { color: 'var(--pf-global--success-color--100)' } }),
-                ' ', _(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Approved"], ["Approved"])))));
+                ' ', t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Approved"], ["Approved"])))));
         }
         if (version.repository_list.includes(Constants.NOTCERTIFIED)) {
             return (React.createElement("span", null,
                 React.createElement(ExclamationCircleIcon, { style: { color: 'var(--pf-global--danger-color--100)' } }),
-                ' ', _(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
+                ' ', t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
             return (React.createElement("span", null,
                 React.createElement(InfoCircleIcon, { style: { color: 'var(--pf-global--info-color--100)' } }),
-                ' ', _(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Needs Review"], ["Needs Review"])))));
+                ' ', t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Needs Review"], ["Needs Review"])))));
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
@@ -263,13 +264,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     namespace: version.namespace,
                     name: version.name,
                     version: version.version,
-                }) }, _(templateObject_23 || (templateObject_23 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
+                }) }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
         var certifyDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.PUBLISHED);
-            }, isDisabled: isDisabled, key: 'certify' }, _(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
+            }, isDisabled: isDisabled, key: 'certify' }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
         var rejectDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.NOTCERTIFIED);
-            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, _(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
+            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
         if (version.repository_list.includes(Constants.PUBLISHED)) {
             return (React.createElement("span", null,
                 React.createElement(StatefulDropdown, { items: [
@@ -291,7 +292,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 React.createElement(Button, { onClick: function () {
                         return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
                     } },
-                    React.createElement("span", null, _(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Approve"], ["Approve"]))))),
+                    React.createElement("span", null, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Approve"], ["Approve"]))))),
                 React.createElement(StatefulDropdown, { items: [rejectDropDown(false, Constants.NEEDSREVIEW), importsLink] })));
         }
     };
@@ -313,8 +314,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [],
                     alerts: _this.state.alerts.concat({
                         variant: 'danger',
-                        title: _(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                        description: _(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
+                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
+                        description: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
                     }),
                 });
             });
@@ -351,8 +352,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 updatingVersions: [],
                                 alerts: this.state.alerts.concat({
                                     variant: 'danger',
-                                    title: _(templateObject_29 || (templateObject_29 = __makeTemplateObject(["API Error: 500"], ["API Error: 500"]))),
-                                    description: _(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
+                                    title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["API Error: 500"], ["API Error: 500"]))),
+                                    description: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
                                 }),
                             });
                         }

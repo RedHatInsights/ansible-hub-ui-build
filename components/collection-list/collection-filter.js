@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './collection-filter.scss';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
@@ -32,11 +33,11 @@ var CollectionFilter = /** @class */ (function (_super) {
         var filterConfig = [
             {
                 id: 'keywords',
-                title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Keywords"], ["Keywords"]))),
+                title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Keywords"], ["Keywords"]))),
             },
             {
                 id: 'tags',
-                title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Tag"], ["Tag"]))),
+                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Tag"], ["Tag"]))),
                 inputType: 'multiple',
                 options: Constants.COLLECTION_FILTER_TAGS.map(function (tag) { return ({
                     id: tag,

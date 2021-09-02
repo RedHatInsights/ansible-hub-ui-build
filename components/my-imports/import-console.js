@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import './my-imports.scss';
@@ -58,19 +59,19 @@ var ImportConsole = /** @class */ (function (_super) {
                         'follow-active': this.props.followMessages,
                         'log-follow-button': true,
                     }) },
-                    React.createElement(Tooltip, { position: 'left', content: this.isLoading ? _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Follow logs"], ["Follow logs"]))) : _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Scroll to end"], ["Scroll to end"]))) },
+                    React.createElement(Tooltip, { position: 'left', content: this.isLoading ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Follow logs"], ["Follow logs"]))) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Scroll to end"], ["Scroll to end"]))) },
                         React.createElement("span", { onClick: function () { return _this.handleScrollClick(); }, className: 'fa fa-arrow-circle-down clickable' }))),
                 task.messages.map(function (x, i) {
                     return _this.renderMessage(x, i);
                 }),
                 task.messages.length === 0 ? (React.createElement("div", { className: 'message' },
-                    React.createElement("span", { className: 'error' }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No task messages available"], ["No task messages available"])))))) : null,
+                    React.createElement("span", { className: 'error' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No task messages available"], ["No task messages available"])))))) : null,
                 task.state === PulpStatus.completed && (React.createElement("div", { className: 'message' },
                     React.createElement("br", null),
-                    React.createElement("span", { className: 'success' }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Done"], ["Done"])))))),
+                    React.createElement("span", { className: 'success' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Done"], ["Done"])))))),
                 task.state === PulpStatus.failed && (React.createElement("div", { className: 'message' },
                     React.createElement("br", null),
-                    React.createElement("span", { className: 'failed' }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed"], ["Failed"]))))))),
+                    React.createElement("span", { className: 'failed' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed"], ["Failed"]))))))),
             React.createElement("div", { className: 'last-message', key: 'last', ref: this.lastImport })));
     };
     ImportConsole.prototype.renderMessage = function (item, i) {
@@ -112,16 +113,20 @@ var ImportConsole = /** @class */ (function (_super) {
             !hideCollectionName && (React.createElement("div", { className: 'title-container' }, collectionHead)),
             React.createElement("div", { className: 'title-bar' },
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status: "], ["Status: "])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status:"], ["Status:"])))),
+                    ' ',
                     React.createElement(StatusIndicator, { type: 'secondary', status: selectedImport.state })),
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approval status: "], ["Approval status: "])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approval status:"], ["Approval status:"])))),
+                    ' ',
                     approvalStatus),
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Version: "], ["Version: "])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Version:"], ["Version:"])))),
+                    ' ',
                     selectedImport.version),
                 task && task.error ? (React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error message: "], ["Error message: "])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error message:"], ["Error message:"])))),
+                    ' ',
                     task.error.code,
                     React.createElement("pre", null,
                         React.createElement("code", null, task.error.description)),

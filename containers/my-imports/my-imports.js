@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './my-imports.scss';
 import { withRouter } from 'react-router-dom';
@@ -87,7 +88,7 @@ var MyImports = /** @class */ (function (_super) {
         }
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { ref: this.topOfPage }),
-            React.createElement(BaseHeader, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My imports"], ["My imports"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My imports"], ["My imports"]))) }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'page-container' },
@@ -182,7 +183,7 @@ var MyImports = /** @class */ (function (_super) {
         var _this = this;
         if (!this.state.selectedImport) {
             this.setState({
-                importDetailError: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No data"], ["No data"]))),
+                importDetailError: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No data"], ["No data"]))),
                 loadingImportDetails: false,
             });
         }
@@ -220,7 +221,7 @@ var MyImports = /** @class */ (function (_super) {
                 .catch(function (result) {
                 _this.setState({
                     selectedImportDetails: undefined,
-                    importDetailError: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error fetching import from API"], ["Error fetching import from API"]))),
+                    importDetailError: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error fetching import from API"], ["Error fetching import from API"]))),
                     loadingImportDetails: false,
                 });
             });

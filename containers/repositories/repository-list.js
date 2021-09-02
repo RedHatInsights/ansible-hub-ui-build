@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, } from 'src/components';
@@ -118,7 +119,7 @@ var RepositoryList = /** @class */ (function (_super) {
     RepositoryList.prototype.render = function () {
         var _this = this;
         var _a = this.state, params = _a.params, loading = _a.loading, content = _a.content, remoteToEdit = _a.remoteToEdit, showRemoteFormModal = _a.showRemoteFormModal, errorMessages = _a.errorMessages;
-        var tabs = [_(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Local"], ["Local"]))), _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote"], ["Remote"])))];
+        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Local"], ["Local"]))), t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote"], ["Remote"])))];
         return (React.createElement(React.Fragment, null,
             remoteToEdit && showRemoteFormModal && (React.createElement(RemoteForm, { remote: remoteToEdit, updateRemote: function (r) { return _this.setState({ remoteToEdit: r }); }, saveRemote: function () {
                     var remoteToEdit = _this.state.remoteToEdit;
@@ -139,14 +140,14 @@ var RepositoryList = /** @class */ (function (_super) {
                     catch (_a) {
                         _this.setState({
                             errorMessages: {
-                                __nofield: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Can't update remote without a distribution attached to it."], ["Can't update remote without a distribution attached to it."]))),
+                                __nofield: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Can't update remote without a distribution attached to it."], ["Can't update remote without a distribution attached to it."]))),
                             },
                         });
                     }
                 }, errorMessages: errorMessages, showModal: showRemoteFormModal, closeModal: function () {
                     return _this.setState({ showRemoteFormModal: false, errorMessages: {} });
                 } })),
-            React.createElement(BaseHeader, { title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))) }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
+            React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))) }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
                 !loading ? (React.createElement("div", { className: 'header-bottom' },
                 React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
@@ -170,7 +171,7 @@ var RepositoryList = /** @class */ (function (_super) {
                     React.createElement(LocalRepositoryTable, { repositories: content, updateParams: this.updateParams }))));
         }
         if (!!params.tab && params.tab.toLowerCase() === 'remote') {
-            return content.length === 0 ? (React.createElement(EmptyStateNoData, { title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote repositories yet"], ["No remote repositories yet"]))), description: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remote repositories will appear once added"], ["Remote repositories will appear once added"]))) })) : (React.createElement(Main, { className: 'repository-list' },
+            return content.length === 0 ? (React.createElement(EmptyStateNoData, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote repositories yet"], ["No remote repositories yet"]))), description: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remote repositories will appear once added"], ["Remote repositories will appear once added"]))) })) : (React.createElement(Main, { className: 'repository-list' },
                 React.createElement("section", { className: 'body' },
                     React.createElement(RemoteRepositoryTable, { remotes: content, updateParams: this.updateParams, editRemote: function (remote) {
                             return _this.selectRemoteToEdit(remote);
