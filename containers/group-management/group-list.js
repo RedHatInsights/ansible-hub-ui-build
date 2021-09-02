@@ -76,7 +76,7 @@ var GroupList = /** @class */ (function (_super) {
         var user = this.context.user;
         var noData = groups.length === 0 && !filterIsSet(params, ['name']);
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Redirect, { push: true, to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),

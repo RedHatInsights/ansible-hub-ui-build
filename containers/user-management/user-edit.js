@@ -33,7 +33,7 @@ var UserEdit = /** @class */ (function (_super) {
             var user = _this.state.user;
             UserAPI.update(user.id.toString(), user)
                 .then(function () {
-                //redirect to login page when password of logged user is changed
+                //Redirect to login page when password of logged user is changed
                 if (_this.context.user.id === user.id && user.password) {
                     _this.setState({ redirect: Paths.login });
                 }

@@ -81,7 +81,7 @@ var UserList = /** @class */ (function (_super) {
         var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, redirect = _a.redirect, showDeleteModal = _a.showDeleteModal, deleteUser = _a.deleteUser, alerts = _a.alerts, unauthorized = _a.unauthorized;
         var user = this.context.user;
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Redirect, { push: true, to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),

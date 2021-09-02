@@ -165,7 +165,7 @@ export var Routes = function (props) {
         React.createElement(InsightsRoute, { path: Paths.namespace, component: PartnerDetail, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.search, component: Search, rootClass: 'root' }),
         React.createElement(Route, { render: function () {
-                return some(Paths, function (p) { return p === path; }) ? null : (React.createElement(Redirect, { to: Paths.notFound }));
+                return some(Paths, function (p) { return p === path; }) ? null : (React.createElement(Redirect, { push: true, to: Paths.notFound }));
             } })));
 };
 //# sourceMappingURL=Routes.js.map

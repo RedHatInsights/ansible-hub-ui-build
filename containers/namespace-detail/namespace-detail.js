@@ -73,7 +73,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection;
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Redirect, { push: true, to: redirect });
         }
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);

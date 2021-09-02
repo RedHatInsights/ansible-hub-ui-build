@@ -73,7 +73,7 @@ export function withContainerRepo(WrappedComponent) {
                     }) }));
             }
             else if (this.state.redirect === 'notFound') {
-                return React.createElement(Redirect, { to: Paths.notFound });
+                return React.createElement(Redirect, { push: true, to: Paths.notFound });
             }
             if (this.state.loading) {
                 return React.createElement(LoadingPageWithHeader, null);

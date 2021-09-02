@@ -74,7 +74,7 @@ var EditNamespace = /** @class */ (function (_super) {
             return null;
         }
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Redirect, { push: true, to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [
