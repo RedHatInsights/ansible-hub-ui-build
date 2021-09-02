@@ -53,6 +53,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { UserAPI } from 'src/api';
 import { mapErrorMessages } from 'src/utilities';
@@ -70,7 +71,7 @@ var DeleteUserModal = /** @class */ (function (_super) {
                 return UserAPI.delete(_this.props.user.id)
                     .then(function () { return _this.waitForDeleteConfirm(_this.props.user.id); })
                     .catch(function (err) {
-                    _this.props.addAlert(_(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger', mapErrorMessages(err)['__nofield']);
+                    _this.props.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger', mapErrorMessages(err)['__nofield']);
                     _this.props.closeModal(false);
                 })
                     .finally(function () { return _this.setState({ isWaitingForResponse: false }); });
@@ -86,16 +87,16 @@ var DeleteUserModal = /** @class */ (function (_super) {
         if (!user || !isOpen) {
             return null;
         }
-        return (React.createElement(DeleteModal, { cancelAction: function () { return closeModal(false); }, deleteAction: function () { return _this.deleteUser(); }, isDisabled: isWaitingForResponse || this.isUserSelfOrAdmin(user), spinner: isWaitingForResponse, title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Delete user?"], ["Delete user?"]))) }, this.getActionDescription(user)));
+        return (React.createElement(DeleteModal, { cancelAction: function () { return closeModal(false); }, deleteAction: function () { return _this.deleteUser(); }, isDisabled: isWaitingForResponse || this.isUserSelfOrAdmin(user), spinner: isWaitingForResponse, title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Delete user?"], ["Delete user?"]))) }, this.getActionDescription(user)));
     };
     DeleteUserModal.prototype.getActionDescription = function (user) {
         if (user.is_superuser) {
-            return _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Deleting super users is not allowed."], ["Deleting super users is not allowed."])));
+            return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Deleting super users is not allowed."], ["Deleting super users is not allowed."])));
         }
         else if (user.id === this.context.user.id) {
-            return _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deleting yourself is not allowed."], ["Deleting yourself is not allowed."])));
+            return t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deleting yourself is not allowed."], ["Deleting yourself is not allowed."])));
         }
-        return (React.createElement(React.Fragment, null,
+        return (React.createElement(Trans, null,
             React.createElement("b", null, user.username),
             " will be permanently deleted."));
     };
@@ -120,11 +121,11 @@ var DeleteUserModal = /** @class */ (function (_super) {
         }); })
             .catch(function (err) {
             if (err.response.status === 404) {
-                _this.props.addAlert(_(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Successfully deleted user."], ["Successfully deleted user."]))), 'success');
+                _this.props.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Successfully deleted user."], ["Successfully deleted user."]))), 'success');
                 _this.props.closeModal(true);
             }
             else {
-                _this.props.addAlert(_(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger');
+                _this.props.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger');
             }
             _this.setState({ isWaitingForResponse: false });
         });

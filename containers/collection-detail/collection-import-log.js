@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { ImportAPI } from 'src/api';
@@ -66,7 +67,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
                 }),
                 name: collection.name,
             },
-            { name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
+            { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (params) {
@@ -79,7 +80,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
     CollectionImportLog.prototype.loadData = function (forceReload) {
         var _this = this;
         if (forceReload === void 0) { forceReload = false; }
-        var failMsg = _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Could not load import log"], ["Could not load import log"])));
+        var failMsg = t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Could not load import log"], ["Could not load import log"])));
         this.setState({ loadingImports: true }, function () {
             _this.loadCollection(_this.context.selectedRepo, forceReload, function () {
                 ImportAPI.list({

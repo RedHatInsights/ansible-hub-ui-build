@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Dropdown, DropdownPosition, KebabToggle, DropdownToggle, } from '@patternfly/react-core';
 var StatefulDropdown = /** @class */ (function (_super) {
@@ -41,11 +42,11 @@ var StatefulDropdown = /** @class */ (function (_super) {
             case 'dropdown':
                 return (React.createElement(DropdownToggle, { onToggle: function (e) { return _this.onToggle(e); } }, this.state.selected
                     ? this.state.selected
-                    : defaultText || _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Dropdown"], ["Dropdown"])))));
+                    : defaultText || t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Dropdown"], ["Dropdown"])))));
             case 'icon':
                 return (React.createElement(DropdownToggle, { toggleIndicator: null, onToggle: function (e) { return _this.onToggle(e); } }, this.state.selected
                     ? this.state.selected
-                    : defaultText || _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Dropdown"], ["Dropdown"])))));
+                    : defaultText || t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Dropdown"], ["Dropdown"])))));
             case 'kebab':
                 return React.createElement(KebabToggle, { onToggle: function (e) { return _this.onToggle(e); } });
         }

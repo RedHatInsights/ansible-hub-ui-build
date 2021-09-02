@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem, ClipboardCopy } from '@patternfly/react-core';
@@ -32,7 +33,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
     LocalRepositoryTable.prototype.render = function () {
         var repositories = this.props.repositories;
         if (repositories.length === 0) {
-            return (React.createElement(EmptyStateNoData, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No local repositories yet"], ["No local repositories yet"]))), description: '' }));
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No local repositories yet"], ["No local repositories yet"]))), description: '' }));
         }
         return this.renderTable(repositories);
     };
@@ -42,32 +43,32 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Distribution name"], ["Distribution name"]))),
+                    title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Distribution name"], ["Distribution name"]))),
                     type: 'none',
                     id: 'distribution',
                 },
                 {
-                    title: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Repository name"], ["Repository name"]))),
+                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Repository name"], ["Repository name"]))),
                     type: 'none',
                     id: 'repository',
                 },
                 {
-                    title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Content count"], ["Content count"]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Content count"], ["Content count"]))),
                     type: 'none',
                     id: 'content',
                 },
                 {
-                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
                     type: 'none',
                     id: 'updated_at',
                 },
                 {
-                    title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Repo URL"], ["Repo URL"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Repo URL"], ["Repo URL"]))),
                     type: 'none',
                     id: 'ansible_cli_url',
                 },
                 {
-                    title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))),
+                    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))),
                     type: 'none',
                     id: 'cli_config',
                 },
@@ -83,7 +84,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                 return object.id !== 'updated_at' && object.id !== 'cli_config';
             });
         }
-        return (React.createElement("table", { "aria-label": _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return console.log(p); } }),
             React.createElement("tbody", null, repositories.map(function (distribution) { return _this.renderRow(distribution); }))));
     };
@@ -111,7 +112,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement("span", null,
                     React.createElement(StatefulDropdown, { items: [
-                            React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.token, {}), target: '_blank' }, _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Get token"], ["Get token"])))) }),
+                            React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.token, {}), target: '_blank' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Get token"], ["Get token"])))) }),
                         ] })))));
     };
     return LocalRepositoryTable;

@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import './my-imports.scss';
@@ -59,28 +60,28 @@ var ImportList = /** @class */ (function (_super) {
                     }, params: params, filterConfig: [
                         {
                             id: 'keywords',
-                            title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))),
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))),
                         },
                         {
                             id: 'state',
-                            title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Status"], ["Status"]))),
+                            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Status"], ["Status"]))),
                             inputType: 'select',
                             options: [
                                 {
                                     id: 'completed',
-                                    title: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Completed"], ["Completed"]))),
+                                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Completed"], ["Completed"]))),
                                 },
                                 {
                                     id: 'failed',
-                                    title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Failed"], ["Failed"]))),
+                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Failed"], ["Failed"]))),
                                 },
                                 {
                                     id: 'running',
-                                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Running"], ["Running"]))),
+                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Running"], ["Running"]))),
                                 },
                                 {
                                     id: 'waiting',
-                                    title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
+                                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
                                 },
                             ],
                         },
@@ -89,8 +90,8 @@ var ImportList = /** @class */ (function (_super) {
                     p['page'] = 1;
                     _this.props.updateParams(p);
                 }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering', 'namespace'], niceNames: {
-                    keywords: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))),
-                    state: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Status"], ["Status"]))),
+                    keywords: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))),
+                    state: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Status"], ["Status"]))),
                 } }),
             React.createElement("div", null, this.renderList(selectImport, importList, selectedImport, loading)),
             React.createElement(Pagination, { itemCount: numberOfResults, perPage: params.page_size || Constants.DEFAULT_PAGE_SIZE, page: params.page || 1, onSetPage: function (_, p) {
@@ -107,7 +108,7 @@ var ImportList = /** @class */ (function (_super) {
         }
         if (importList.length === 0 &&
             !filterIsSet(this.props.params, ['keywords', 'state'])) {
-            return (React.createElement(EmptyStateNoData, { title: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No imports"], ["No imports"]))), description: _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["There have not been any imports on this namespace."], ["There have not been any imports on this namespace."]))) }));
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No imports"], ["No imports"]))), description: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["There have not been any imports on this namespace."], ["There have not been any imports on this namespace."]))) }));
         }
         else if (importList.length === 0) {
             return React.createElement(EmptyStateFilter, null);
@@ -152,13 +153,13 @@ var ImportList = /** @class */ (function (_super) {
     ImportList.prototype.renderNamespacePicker = function (namespaces) {
         var _this = this;
         return (React.createElement("div", { className: 'namespace-selector-wrapper' },
-            React.createElement("div", { className: 'label' }, _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace"], ["Namespace"])))),
+            React.createElement("div", { className: 'label' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace"], ["Namespace"])))),
             React.createElement("div", { className: 'selector' },
                 React.createElement(FormSelect, { onChange: function (val) {
                         var params = ParamHelper.setParam(_this.props.params, 'namespace', val);
                         params['page'] = 1;
                         _this.props.updateParams(params);
-                    }, value: this.props.params.namespace, "aria-label": _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select namespace"], ["Select namespace"]))) }, namespaces.map(function (ns) { return (React.createElement(FormSelectOption, { key: ns.name, label: ns.name, value: ns.name })); })))));
+                    }, value: this.props.params.namespace, "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select namespace"], ["Select namespace"]))) }, namespaces.map(function (ns) { return (React.createElement(FormSelectOption, { key: ns.name, label: ns.name, value: ns.name })); })))));
     };
     return ImportList;
 }(React.Component));

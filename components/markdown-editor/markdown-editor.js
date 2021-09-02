@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './markdown-editor.scss';
 import { Form, FormGroup, TextArea } from '@patternfly/react-core';
@@ -32,10 +33,10 @@ var MarkdownEditor = /** @class */ (function (_super) {
             React.createElement("div", { className: 'markdown-editor' },
                 editing && (React.createElement("div", { className: 'column editor' },
                     React.createElement(FormGroup, { fieldId: 'resources', helperText: helperText },
-                        React.createElement("div", { id: 'markdown-title' }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Raw Markdown"], ["Raw Markdown"])))),
+                        React.createElement("div", { id: 'markdown-title' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Raw Markdown"], ["Raw Markdown"])))),
                         React.createElement(TextArea, { "aria-labelledby": 'markdown-title', id: 'resources', value: text, onChange: function (value) { return updateText(value); }, placeholder: placeholder })))),
                 React.createElement("div", { className: 'column preview-container' },
-                    editing && _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Preview"], ["Preview"]))),
+                    editing && t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Preview"], ["Preview"]))),
                     React.createElement("div", { className: editing ? 'pf-c-content preview' : 'pf-c-content' }, text ? (React.createElement(ReactMarkdown, { children: text })) : (React.createElement(ReactMarkdown, { children: placeholder })))))));
     };
     return MarkdownEditor;

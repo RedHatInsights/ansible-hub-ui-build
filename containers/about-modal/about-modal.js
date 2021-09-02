@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { AboutModal, TextContent, TextList, TextListItem, TextListItemVariants, TextListVariants, } from '@patternfly/react-core';
 import Logo from 'src/../static/images/logo_large.svg';
@@ -48,17 +49,17 @@ var AboutModalWindow = /** @class */ (function (_super) {
         return (React.createElement(AboutModal, { isOpen: isOpen, trademark: '', brandImageSrc: Logo, onClose: onClose, brandImageAlt: brandImageAlt, productName: productName },
             React.createElement(TextContent, null,
                 React.createElement(TextList, { component: TextListVariants.dl },
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server version"], ["Server version"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server version"], ["Server version"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, this.state.applicationInfo.server_version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, this.state.applicationInfo.pulp_ansible_version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Username"], ["Username"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Username"], ["Username"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, userName),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, user.groups.map(function (group) { return group.name; }).join()),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, browser.name + ' ' + browser.version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
+                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
                     React.createElement(TextListItem, { component: TextListItemVariants.dd }, browser.os)))));
     };
     return AboutModalWindow;

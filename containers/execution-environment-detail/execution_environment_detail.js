@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { EmptyStateNoData, MarkdownEditor } from '../../components';
@@ -61,15 +62,15 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
             React.createElement(FlexItem, null,
                 React.createElement("section", { className: 'body card-area' },
                     ' ',
-                    React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Instructions"], ["Instructions"])))),
-                    React.createElement(Title, { headingLevel: 'h3', size: 'md' }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pull this image"], ["Pull this image"])))),
+                    React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Instructions"], ["Instructions"])))),
+                    React.createElement(Title, { headingLevel: 'h3', size: 'md' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pull this image"], ["Pull this image"])))),
                     React.createElement(ClipboardCopy, { isReadOnly: true }, instructions))),
             React.createElement(FlexItem, null,
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, !this.state.markdownEditing && this.state.readme && canEdit && (React.createElement(Button, { className: 'edit-button', variant: 'primary', onClick: function () {
                             _this.setState({ markdownEditing: true });
-                        } }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"])))))),
-                    !this.state.markdownEditing && !this.state.readme ? (React.createElement(EmptyStateNoData, { title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No README"], ["No README"]))), description: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add a README with instructions for using this container."], ["Add a README with instructions for using this container."]))), button: canEdit ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ markdownEditing: true }); } }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add"], ["Add"]))))) : null })) : (React.createElement(MarkdownEditor, { text: this.state.readme, placeholder: '', helperText: '', updateText: function (value) {
+                        } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"])))))),
+                    !this.state.markdownEditing && !this.state.readme ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No README"], ["No README"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add a README with instructions for using this container."], ["Add a README with instructions for using this container."]))), button: canEdit ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ markdownEditing: true }); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add"], ["Add"]))))) : null })) : (React.createElement(MarkdownEditor, { text: this.state.readme, placeholder: '', helperText: '', updateText: function (value) {
                             return _this.setState({
                                 readme: value,
                             });
@@ -77,13 +78,13 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
                     this.state.markdownEditing && (React.createElement(React.Fragment, null,
                         React.createElement(Button, { variant: 'primary', onClick: function () {
                                 return _this.saveReadme(_this.props.containerRepository.name, _this.state.readme);
-                            } }, _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Save"], ["Save"])))),
+                            } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Save"], ["Save"])))),
                         React.createElement(Button, { variant: 'link', onClick: function () {
                                 _this.setState({
                                     markdownEditing: false,
                                 });
                                 _this.queryReadme(_this.props.containerRepository.name);
-                            } }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Cancel"], ["Cancel"]))))))))));
+                            } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Cancel"], ["Cancel"]))))))))));
     };
     ExecutionEnvironmentDetail.prototype.queryReadme = function (name) {
         var _this = this;

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Chip, ChipGroup, Button } from '@patternfly/react-core';
 import { ParamHelper } from 'src/utilities';
@@ -36,7 +37,7 @@ var AppliedFilters = /** @class */ (function (_super) {
         if (Object.keys(ParamHelper.getReduced(params, ignoredParams)).length > 0) {
             return (React.createElement("div", { className: className, style: style },
                 Object.keys(ParamHelper.getReduced(params, ignoredParams)).map(function (key) { return _this.renderGroup(key); }),
-                React.createElement(Button, { onClick: this.clearAllFilters, variant: 'link' }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Clear all filters"], ["Clear all filters"]))))));
+                React.createElement(Button, { onClick: this.clearAllFilters, variant: 'link' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Clear all filters"], ["Clear all filters"]))))));
         }
         else {
             return null;

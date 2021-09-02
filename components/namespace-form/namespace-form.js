@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-form.scss';
 import { Form, FormGroup, TextInput, TextArea } from '@patternfly/react-core';
@@ -51,14 +52,14 @@ var NamespaceForm = /** @class */ (function (_super) {
         return (React.createElement(Form, null,
             React.createElement("div", { className: 'card-row' },
                 React.createElement("div", { className: 'fields' },
-                    React.createElement(FormGroup, { fieldId: 'name', label: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: true },
+                    React.createElement(FormGroup, { fieldId: 'name', label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: true },
                         React.createElement(TextInput, { isRequired: true, isDisabled: true, id: 'name', type: 'text', value: namespace.name })),
                     React.createElement("br", null),
-                    React.createElement(FormGroup, { fieldId: 'company', label: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Company name"], ["Company name"]))), helperTextInvalid: errorMessages['company'], validated: this.toError(!('company' in errorMessages)) },
+                    React.createElement(FormGroup, { fieldId: 'company', label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Company name"], ["Company name"]))), helperTextInvalid: errorMessages['company'], validated: this.toError(!('company' in errorMessages)) },
                         React.createElement(TextInput, { validated: this.toError(!('company' in errorMessages)), isRequired: true, id: 'company', type: 'text', value: namespace.company, onChange: function (value, event) { return _this.updateField(value, event); } }))),
                 React.createElement("div", { className: 'card' },
                     React.createElement(NamespaceCard, __assign({}, namespace)))),
-            React.createElement(FormGroup, { fieldId: 'groups', label: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), className: 'namespace-owners', helperTextInvalid: errorMessages['groups'], validated: this.toError(!isNaN(Number(this.state.newNamespaceGroup)) &&
+            React.createElement(FormGroup, { fieldId: 'groups', label: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), className: 'namespace-owners', helperTextInvalid: errorMessages['groups'], validated: this.toError(!isNaN(Number(this.state.newNamespaceGroup)) &&
                     !('groups' in errorMessages)) },
                 React.createElement("br", null),
                 React.createElement(ObjectPermissionField, { groups: namespace.groups, availablePermissions: ['change_namespace', 'upload_to_namespace'], setGroups: function (g) {
@@ -66,11 +67,11 @@ var NamespaceForm = /** @class */ (function (_super) {
                         newNS.groups = g;
                         _this.props.updateNamespace(newNS);
                     } })),
-            React.createElement(FormGroup, { fieldId: 'avatar_url', label: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Logo URL"], ["Logo URL"]))), helperTextInvalid: errorMessages['avatar_url'], validated: this.toError(!('avatar_url' in errorMessages)) },
+            React.createElement(FormGroup, { fieldId: 'avatar_url', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Logo URL"], ["Logo URL"]))), helperTextInvalid: errorMessages['avatar_url'], validated: this.toError(!('avatar_url' in errorMessages)) },
                 React.createElement(TextInput, { validated: this.toError(!('avatar_url' in errorMessages)), id: 'avatar_url', type: 'text', value: namespace.avatar_url, onChange: function (value, event) { return _this.updateField(value, event); } })),
-            React.createElement(FormGroup, { fieldId: 'description', label: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Description"], ["Description"]))), helperTextInvalid: errorMessages['description'], validated: this.toError(!('description' in errorMessages)) },
+            React.createElement(FormGroup, { fieldId: 'description', label: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Description"], ["Description"]))), helperTextInvalid: errorMessages['description'], validated: this.toError(!('description' in errorMessages)) },
                 React.createElement(TextArea, { validated: this.toError(!('description' in errorMessages)), id: 'description', type: 'text', value: namespace.description, onChange: function (value, event) { return _this.updateField(value, event); } })),
-            React.createElement(FormGroup, { fieldId: 'links', label: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Useful links"], ["Useful links"]))), helperTextInvalid: this.getLinksErrorText(errorMessages), validated: this.toError(!('links__url' in errorMessages || 'links__name' in errorMessages)) },
+            React.createElement(FormGroup, { fieldId: 'links', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Useful links"], ["Useful links"]))), helperTextInvalid: this.getLinksErrorText(errorMessages), validated: this.toError(!('links__url' in errorMessages || 'links__name' in errorMessages)) },
                 namespace.links.map(function (link, index) {
                     return _this.renderLinkGroup(link, index);
                 }),
@@ -79,10 +80,10 @@ var NamespaceForm = /** @class */ (function (_super) {
     NamespaceForm.prototype.getLinksErrorText = function (errorMessages) {
         var msg = [];
         if ('links__name' in errorMessages) {
-            msg.push(_(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Text: "], ["Text: "]))) + errorMessages['links__name']);
+            msg.push(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Text: ", ""], ["Text: ", ""])), errorMessages['links__name']));
         }
         if ('links__url' in errorMessages) {
-            msg.push(_(templateObject_8 || (templateObject_8 = __makeTemplateObject(["URL: "], ["URL: "]))) + errorMessages['links__url']);
+            msg.push(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["URL: ", ""], ["URL: ", ""])), errorMessages['links__url']));
         }
         return msg.join(' ');
     };
@@ -122,9 +123,9 @@ var NamespaceForm = /** @class */ (function (_super) {
         var last = index === this.props.namespace.links.length - 1;
         return (React.createElement("div", { className: 'useful-links', key: index },
             React.createElement("div", { className: 'link-name' },
-                React.createElement(TextInput, { id: 'name', type: 'text', placeholder: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Link text"], ["Link text"]))), value: link.name, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
+                React.createElement(TextInput, { id: 'name', type: 'text', placeholder: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Link text"], ["Link text"]))), value: link.name, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
             React.createElement("div", { className: 'link-url' },
-                React.createElement(TextInput, { id: 'url', type: 'text', placeholder: _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Link URL"], ["Link URL"]))), value: link.url, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
+                React.createElement(TextInput, { id: 'url', type: 'text', placeholder: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Link URL"], ["Link URL"]))), value: link.url, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
             React.createElement("div", { className: 'link-button' },
                 React.createElement("div", { className: 'link-container' },
                     React.createElement(TrashIcon, { className: 'clickable', onClick: function () { return _this.removeLink(index); }, size: 'sm' })),

@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, } from 'src/components';
@@ -84,8 +85,8 @@ var EditNamespace = /** @class */ (function (_super) {
                             namespace: namespace.name,
                         }),
                     },
-                    { name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))) },
-                ], tabs: [_(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit details"], ["Edit details"]))), _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit resources"], ["Edit resources"])))], params: params, updateParams: function (p) { return _this.updateParams(p); } }),
+                    { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))) },
+                ], tabs: [t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit details"], ["Edit details"]))), t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit resources"], ["Edit resources"])))], params: params, updateParams: function (p) { return _this.updateParams(p); } }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
@@ -102,10 +103,10 @@ var EditNamespace = /** @class */ (function (_super) {
                         }, namespace: namespace })),
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
-                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
-                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
+                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                             saving ? React.createElement(Spinner, null) : null),
-                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
+                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
     };
     Object.defineProperty(EditNamespace.prototype, "updateParams", {
         get: function () {
@@ -165,8 +166,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     _this.setState({
                         alerts: _this.state.alerts.concat({
                             variant: 'danger',
-                            title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                            description: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
+                            title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
+                            description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
                         }),
                         saving: false,
                     });

@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Flex, FlexItem, InputGroup, InputGroupText, Select, SelectOption, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
@@ -49,7 +50,7 @@ var RepoSelector = /** @class */ (function (_super) {
         return (React.createElement(Flex, null,
             React.createElement(FlexItem, null,
                 React.createElement(InputGroup, null,
-                    React.createElement(InputGroupText, { variant: 'plain', className: 'input-group-text-no-wrap' }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by repository"], ["Filter by repository"])))),
+                    React.createElement(InputGroupText, { variant: 'plain', className: 'input-group-text-no-wrap' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by repository"], ["Filter by repository"])))),
                     React.createElement(Select, { className: 'nav-select', isDisabled: this.props.isDisabled, isOpen: this.state.selectExpanded, isPlain: false, onSelect: function (event, value) {
                             var originalRepo = _this.props.selectedRepo;
                             var newRepo = _this.getRepoBasePath(value.toString());
@@ -61,9 +62,9 @@ var RepoSelector = /** @class */ (function (_super) {
                         }, onToggle: function (isExpanded) {
                             _this.setState({ selectExpanded: isExpanded });
                         }, selections: this.getRepoName(this.props.selectedRepo), variant: 'single' },
-                        React.createElement(SelectOption, { key: 'published', value: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Published"], ["Published"]))) }),
-                        React.createElement(SelectOption, { key: 'rh-certified', value: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Red Hat Certified"], ["Red Hat Certified"]))) }),
-                        React.createElement(SelectOption, { key: 'community', value: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Community"], ["Community"]))) }))))));
+                        React.createElement(SelectOption, { key: 'published', value: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Published"], ["Published"]))) }),
+                        React.createElement(SelectOption, { key: 'rh-certified', value: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Red Hat Certified"], ["Red Hat Certified"]))) }),
+                        React.createElement(SelectOption, { key: 'community', value: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Community"], ["Community"]))) }))))));
     };
     RepoSelector.prototype.getRepoName = function (basePath) {
         var newRepoName = Object.keys(Constants.REPOSITORYNAMES).find(function (key) { return Constants.REPOSITORYNAMES[key] === basePath; });

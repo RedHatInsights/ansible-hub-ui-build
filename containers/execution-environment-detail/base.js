@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ContainerDistributionAPI, ExecutionEnvironmentNamespaceAPI, TaskAPI, } from 'src/api';
@@ -81,7 +82,7 @@ export function withContainerRepo(WrappedComponent) {
             return (React.createElement(React.Fragment, null,
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), container: this.state.repo, pageControls: permissions.includes('container.namespace_change_containerdistribution') ||
-                        permissions.includes('container.change_containernamespace') ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null }),
+                        permissions.includes('container.change_containernamespace') ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null }),
                 React.createElement(Main, null,
                     this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, selectedGroups: cloneDeep(this.state.selectedGroups), description: this.state.repo.description, permissions: permissions, onSave: function (description, selectedGroups) {
                             var promises = [];
@@ -111,7 +112,7 @@ export function withContainerRepo(WrappedComponent) {
                                     editing: false,
                                     alerts: _this.state.alerts.concat({
                                         variant: 'danger',
-                                        title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
+                                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
                                     }),
                                 });
                             });

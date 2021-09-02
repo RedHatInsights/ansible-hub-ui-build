@@ -2,11 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
+import { t } from '@lingui/macro';
 import { ParamHelper } from './utilities/param-helper';
 export function formatPath(path, data, params) {
     var url = path;
@@ -66,22 +62,10 @@ export var Paths;
     Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
 })(Paths || (Paths = {}));
-// FIXME: temporary global for l10n ; do localStorage.test_l10n = true in the console
-window._ = function (strings) {
-    var args = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        args[_i - 1] = arguments[_i];
-    }
-    strings = Array.from(strings);
-    var last = strings.pop();
-    var mark = window.localStorage.test_l10n === 'true' ? function (s) { return '»' + s + '«'; } : function (s) { return s; };
-    var parts = __spreadArray(__spreadArray([], strings.map(function (s, i) { return mark(s) + args[i]; })), [mark(last)]);
-    return parts.join('');
-};
 export var namespaceBreadcrumb = {
     name: {
-        namespaces: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))),
-        partners: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))),
+        namespaces: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))),
+        partners: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))),
     }[NAMESPACE_TERM],
     url: Paths[NAMESPACE_TERM],
 };

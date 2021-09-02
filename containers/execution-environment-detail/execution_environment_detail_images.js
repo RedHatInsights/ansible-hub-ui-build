@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment-detail.scss';
 import { pickBy } from 'lodash';
@@ -66,32 +67,32 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var _a = this.state, params = _a.params, images = _a.images, manageTagsManifestDigest = _a.manageTagsManifestDigest;
         if (images.length === 0 &&
             !filterIsSet(params, ['tag', 'digest__icontains'])) {
-            return (React.createElement(EmptyStateNoData, { title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No images yet"], ["No images yet"]))), description: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Images will appear once uploaded"], ["Images will appear once uploaded"]))) }));
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No images yet"], ["No images yet"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Images will appear once uploaded"], ["Images will appear once uploaded"]))) }));
         }
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tag"], ["Tag"]))),
+                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tag"], ["Tag"]))),
                     type: 'none',
                     id: 'tag',
                 },
                 {
-                    title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Published"], ["Published"]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Published"], ["Published"]))),
                     type: 'none',
                     id: 'published',
                 },
                 {
-                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Layers"], ["Layers"]))),
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Layers"], ["Layers"]))),
                     type: 'none',
                     id: 'layers',
                 },
                 {
-                    title: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Size"], ["Size"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Size"], ["Size"]))),
                     type: 'none',
                     id: 'size',
                 },
                 {
-                    title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Digest"], ["Digest"]))),
+                    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Digest"], ["Digest"]))),
                     type: 'none',
                     id: 'digest',
                 },
@@ -127,11 +128,11 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                                     }, params: params, filterConfig: [
                                         {
                                             id: 'tag',
-                                            title: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Tag"], ["Tag"]))),
+                                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Tag"], ["Tag"]))),
                                         },
                                         {
                                             id: 'digest__icontains',
-                                            title: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Digest"], ["Digest"]))),
+                                            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Digest"], ["Digest"]))),
                                         },
                                     ] }))))),
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -145,7 +146,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                             return _this.queryImages(_this.props.match.params['container']);
                         });
                     }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
-            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Images"], ["Images"]))), className: 'content-table pf-c-table' },
+            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Images"], ["Images"]))), className: 'content-table pf-c-table' },
                 React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () {
                             return _this.queryImages(_this.props.match.params['container']);
@@ -186,7 +187,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var dropdownItems = [
             React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
                     _this.setState({ manageTagsManifestDigest: image.digest });
-                } }, _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit tags"], ["Edit tags"])))),
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit tags"], ["Edit tags"])))),
         ];
         return (React.createElement("tr", { key: index },
             React.createElement("td", null,

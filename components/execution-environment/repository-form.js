@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Button, Form, FormGroup, Modal, TextInput, TextArea, } from '@patternfly/react-core';
 import { ObjectPermissionField } from 'src/components';
@@ -35,18 +36,18 @@ var RepositoryForm = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, name = _a.name, onSave = _a.onSave, onCancel = _a.onCancel, namespace = _a.namespace;
         var _b = this.state, description = _b.description, selectedGroups = _b.selectedGroups;
-        return (React.createElement(Modal, { variant: 'large', onClose: onCancel, isOpen: true, title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit repository"], ["Edit repository"]))), actions: [
-                React.createElement(Button, { key: 'save', variant: 'primary', onClick: function () { return onSave(description, selectedGroups); } }, _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Save"], ["Save"])))),
-                React.createElement(Button, { key: 'cancel', variant: 'link', onClick: onCancel }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+        return (React.createElement(Modal, { variant: 'large', onClose: onCancel, isOpen: true, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit repository"], ["Edit repository"]))), actions: [
+                React.createElement(Button, { key: 'save', variant: 'primary', onClick: function () { return onSave(description, selectedGroups); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Save"], ["Save"])))),
+                React.createElement(Button, { key: 'cancel', variant: 'link', onClick: onCancel }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement(Form, null,
-                React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"]))) },
+                React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"]))) },
                     React.createElement(TextInput, { id: 'name', value: name, isDisabled: true, type: 'text' })),
-                React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container namespace"], ["Container namespace"]))) },
+                React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container namespace"], ["Container namespace"]))) },
                     React.createElement(TextInput, { id: 'name', value: namespace, isDisabled: true, type: 'text' })),
-                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))) },
+                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description, isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
-                React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
+                React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
                     React.createElement("div", { className: 'pf-c-form__helper-text' },
                         "Adding groups provides access to all repositories in the \"",
                         namespace,

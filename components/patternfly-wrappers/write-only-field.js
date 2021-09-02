@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Button, InputGroup, TextInput } from '@patternfly/react-core';
 var WriteOnlyField = /** @class */ (function (_super) {
@@ -31,7 +32,7 @@ var WriteOnlyField = /** @class */ (function (_super) {
         }
         return (React.createElement(InputGroup, null,
             React.createElement(TextInput, { "aria-label": 'hidden value', placeholder: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022', type: 'password', isDisabled: isValueSet }),
-            isValueSet && (React.createElement(Button, { onClick: function () { return onClear(); }, variant: 'control' }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Clear"], ["Clear"])))))));
+            isValueSet && (React.createElement(Button, { onClick: function () { return onClear(); }, variant: 'control' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Clear"], ["Clear"])))))));
     };
     return WriteOnlyField;
 }(React.Component));

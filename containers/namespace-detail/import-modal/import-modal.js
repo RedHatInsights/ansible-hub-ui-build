@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './import-modal.scss';
 import axios from 'axios';
@@ -46,9 +47,9 @@ var ImportModal = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, isOpen = _a.isOpen, collection = _a.collection;
         var _b = this.state, file = _b.file, errors = _b.errors, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
-        return (React.createElement(Modal, { variant: 'small', title: collection ? _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["New version of "], ["New version of "]))) + collection.name : _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
-                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() }, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Upload"], ["Upload"])))),
-                React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+        return (React.createElement(Modal, { variant: 'small', title: collection ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["New version of ", ""], ["New version of ", ""])), collection.name) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
+                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Upload"], ["Upload"])))),
+                React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement("div", { className: 'upload-collection' },
                 React.createElement("form", null,
@@ -57,7 +58,7 @@ var ImportModal = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'upload-box' },
                             React.createElement("div", { className: 'upload-button' }, this.renderFileIcon()),
                             React.createElement("div", { className: 'upload-text' },
-                                file != null ? file.name : _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Select file"], ["Select file"]))),
+                                file != null ? file.name : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Select file"], ["Select file"]))),
                                 React.createElement("div", { className: 'loading-bar', style: {
                                         width: uploadProgress * 100 + '%',
                                     } }))))),
@@ -93,19 +94,19 @@ var ImportModal = /** @class */ (function (_super) {
         var collection = this.props.collection;
         if (files.length > 1) {
             this.setState({
-                errors: _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
+                errors: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
             });
         }
         else if (!this.acceptedFileTypes.includes(newCollection.type)) {
             this.setState({
-                errors: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Invalid file format."], ["Invalid file format."]))),
+                errors: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Invalid file format."], ["Invalid file format."]))),
                 file: newCollection,
                 uploadProgress: 0,
             });
         }
         else if (!this.COLLECTION_NAME_REGEX.test(newCollection.name)) {
             this.setState({
-                errors: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
+                errors: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
                 file: newCollection,
                 uploadProgress: 0,
             });
@@ -113,14 +114,14 @@ var ImportModal = /** @class */ (function (_super) {
         else if (collection &&
             collection.name !== newCollection.name.split('-')[1]) {
             this.setState({
-                errors: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
+                errors: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
                 file: newCollection,
                 uploadProgress: 0,
             });
         }
         else if (this.props.namespace != newCollection.name.split('-')[0]) {
             this.setState({
-                errors: _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
+                errors: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
                 file: newCollection,
                 uploadProgress: 0,
             });
@@ -160,13 +161,12 @@ var ImportModal = /** @class */ (function (_super) {
                         var err = _a[_i];
                         messages.push(err.detail ||
                             err.title ||
-                            err.code ||
-                            _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["API error. Status code: "], ["API error. Status code: "]))) + err.status);
+                            err.code || t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), err.status));
                     }
                     errorMessage = messages.join(', ');
                 }
                 else {
-                    errorMessage = _(templateObject_12 || (templateObject_12 = __makeTemplateObject(["API error. Status code: "], ["API error. Status code: "]))) + errors.response.status;
+                    errorMessage = t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), errors.response.status);
                 }
             }
             _this.setState({
@@ -182,7 +182,7 @@ var ImportModal = /** @class */ (function (_super) {
         var _this = this;
         var msg = null;
         if (this.cancelToken && this.state.uploadStatus === Status.uploading) {
-            msg = _(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
+            msg = t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
             this.cancelToken.cancel(msg);
         }
         this.setState({

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
@@ -65,10 +66,10 @@ var UserDetail = /** @class */ (function (_super) {
         }
         var notAuthorized = !!user && !user.model_permissions.view_user;
         var breadcrumbs = [
-            { url: Paths.userList, name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
+            { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
             { name: userDetail.username },
         ];
-        var title = _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["User details"], ["User details"])));
+        var title = t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["User details"], ["User details"])));
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(DeleteUserModal, { isOpen: showDeleteModal, closeModal: this.closeModal, user: userDetail, addAlert: function (text, variant, description) {
@@ -87,9 +88,9 @@ var UserDetail = /** @class */ (function (_super) {
                         React.createElement(Link, { to: formatPath(Paths.editUser, {
                                 userID: userDetail.id,
                             }) },
-                            React.createElement(Button, null, _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))))))) : null,
+                            React.createElement(Button, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))))))) : null,
                     !!user && user.model_permissions.delete_user ? (React.createElement("div", { style: { marginLeft: '8px' } },
-                        React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ showDeleteModal: true }); } }, _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Delete"], ["Delete"])))))) : null) }))));
+                        React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ showDeleteModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Delete"], ["Delete"])))))) : null) }))));
     };
     Object.defineProperty(UserDetail.prototype, "closeAlert", {
         get: function () {

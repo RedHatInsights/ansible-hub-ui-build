@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patternfly/react-core';
 var PermissionChipSelector = /** @class */ (function (_super) {
@@ -51,17 +52,17 @@ var PermissionChipSelector = /** @class */ (function (_super) {
                 : [this.placeholderText()];
             return (React.createElement(LabelGroup, null, items.map(function (text) { return (React.createElement(Label, { key: text }, text)); })));
         }
-        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: this.onToggle, onSelect: !!this.props.onSelect ? this.props.onSelect : this.onSelect, onClear: !!this.props.onClear ? this.props.onClear : this.clearSelection, selections: this.props.selectedPermissions, isOpen: this.state.isOpen, placeholderText: this.placeholderText(), isDisabled: !!this.props.isDisabled }, this.props.availablePermissions.length === 0
+        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: this.onToggle, onSelect: !!this.props.onSelect ? this.props.onSelect : this.onSelect, onClear: !!this.props.onClear ? this.props.onClear : this.clearSelection, selections: this.props.selectedPermissions, isOpen: this.state.isOpen, placeholderText: this.placeholderText(), isDisabled: !!this.props.isDisabled }, this.props.availablePermissions.length === 0
             ? [
-                React.createElement(SelectOption, { isDisabled: true, key: 'not_found', value: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))) }),
+                React.createElement(SelectOption, { isDisabled: true, key: 'not_found', value: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))) }),
             ]
             : this.props.availablePermissions.map(function (option, index) { return (React.createElement(SelectOption, { key: index, value: option })); })));
     };
     PermissionChipSelector.prototype.placeholderText = function () {
         if (!this.props.isDisabled && !this.props.isViewOnly) {
-            return _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"])));
+            return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"])));
         }
-        return this.props.selectedPermissions.length === 0 ? _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No permission"], ["No permission"]))) : '';
+        return this.props.selectedPermissions.length === 0 ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No permission"], ["No permission"]))) : '';
     };
     return PermissionChipSelector;
 }(React.Component));

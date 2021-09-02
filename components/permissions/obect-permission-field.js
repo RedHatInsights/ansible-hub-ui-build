@@ -22,6 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
@@ -62,7 +63,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, groups = _a.groups, availablePermissions = _a.availablePermissions;
         return (React.createElement("div", null,
-            React.createElement(APISearchTypeAhead, { results: this.state.searchGroups, loadResults: this.loadGroups, onSelect: this.onSelect, placeholderText: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find a group"], ["Find a group"]))), menuAppendTo: this.props.menuAppendTo, isDisabled: !!this.props.isDisabled }),
+            React.createElement(APISearchTypeAhead, { results: this.state.searchGroups, loadResults: this.loadGroups, onSelect: this.onSelect, placeholderText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find a group"], ["Find a group"]))), menuAppendTo: this.props.menuAppendTo, isDisabled: !!this.props.isDisabled }),
             React.createElement("br", null),
             React.createElement("div", null, groups.map(function (group, i) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name },
                 React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.name),

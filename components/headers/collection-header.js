@@ -22,6 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './header.scss';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -50,23 +51,23 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         }
         var urlKeys = [
-            { key: 'documentation', name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
-            { key: 'homepage', name: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Website"], ["Website"]))) },
-            { key: 'issues', name: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
-            { key: 'repository', name: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo"], ["Repo"]))) },
+            { key: 'documentation', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
+            { key: 'homepage', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Website"], ["Website"]))) },
+            { key: 'issues', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
+            { key: 'repository', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.latest_version.created_at;
         return (React.createElement(BaseHeader, { className: className, title: collection.name, imageURL: collection.namespace.avatar_url, contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                React.createElement("span", null, _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Version"], ["Version"])))),
+                React.createElement("span", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Version"], ["Version"])))),
                 React.createElement("div", { className: 'install-version-dropdown' },
                     React.createElement(FormSelect, { onChange: function (val) {
                             return updateParams(ParamHelper.setParam(params, 'version', val));
-                        }, value: collection.latest_version.version, "aria-label": _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))) }, all_versions.map(function (v) { return (React.createElement(FormSelectOption, { key: v.version, value: v.version, label: 'v' + v.version })); }))),
+                        }, value: collection.latest_version.version, "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))) }, all_versions.map(function (v) { return (React.createElement(FormSelectOption, { key: v.version, value: v.version, label: 'v' + v.version })); }))),
                 latestVersion ? (React.createElement("span", { className: 'last-updated' },
                     "Last updated",
                     ' ',
                     React.createElement(DateComponent, { date: latestVersion }))) : null) },
-            collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+            collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
             React.createElement("div", { className: 'tab-link-container' },
                 React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
                 React.createElement("div", { className: 'links' },
@@ -92,22 +93,22 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: _(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
         ];

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { TextInput, InputGroup, Button, ButtonVariant, DropdownItem, Select, SelectGroup, SelectOption, SelectVariant, } from '@patternfly/react-core';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
@@ -88,9 +89,9 @@ var CompoundFilter = /** @class */ (function (_super) {
                 // option.title
                 React.createElement(SelectOption, { key: option.id, value: option.id })); });
                 var toggle = [
-                    React.createElement(SelectGroup, { label: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by "], ["Filter by "]))) + selectedFilter.id, key: selectedFilter.id }, options),
+                    React.createElement(SelectGroup, { label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id), key: selectedFilter.id }, options),
                 ];
-                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by "], ["Filter by "]))) + selectedFilter.id.toLowerCase(), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, toggle));
+                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, toggle));
             case 'select':
                 return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.state.inputText, selectedFilter) ||
                         selectedFilter.placeholder ||
@@ -98,7 +99,7 @@ var CompoundFilter = /** @class */ (function (_super) {
                             return _this.setState({ inputText: v.id }, function () { return _this.submitFilter(); });
                         }, key: v.id }, v.title)); }) }));
             default:
-                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.state.inputText, onChange: function (k) { return _this.setState({ inputText: k }); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
+                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.state.inputText, onChange: function (k) { return _this.setState({ inputText: k }); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
         }
     };
     CompoundFilter.prototype.handleEnter = function (e) {

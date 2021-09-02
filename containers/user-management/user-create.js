@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { BaseHeader, Breadcrumbs, EmptyStateUnauthorized, UserFormPage, } from 'src/components';
@@ -58,10 +59,10 @@ var UserCreate = /** @class */ (function (_super) {
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages;
         var notAuthorised = !this.context.user || !this.context.user.model_permissions.add_user;
         var breadcrumbs = [
-            { url: Paths.userList, name: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
-            { name: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create new user"], ["Create new user"]))) },
+            { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
+            { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create new user"], ["Create new user"]))) },
         ];
-        var title = _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Create new user"], ["Create new user"])));
+        var title = t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Create new user"], ["Create new user"])));
         return notAuthorised ? (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), title: title }),
             React.createElement(EmptyStateUnauthorized, null))) : (React.createElement(UserFormPage, { user: user, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user, errorMessages) {

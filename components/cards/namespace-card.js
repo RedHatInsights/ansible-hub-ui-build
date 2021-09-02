@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './cards.scss';
 import { Card, CardBody, CardFooter, CardHeader, CardHeaderMain, CardTitle, Tooltip, } from '@patternfly/react-core';
@@ -40,7 +41,7 @@ var NamespaceCard = /** @class */ (function (_super) {
             React.createElement(Tooltip, { content: name },
                 React.createElement(CardBody, null, this.getDescription(name))),
             namespaceURL && (React.createElement(CardFooter, null,
-                React.createElement(Link, { to: namespaceURL }, _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["View collections"], ["View collections"]))))))));
+                React.createElement(Link, { to: namespaceURL }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["View collections"], ["View collections"]))))))));
     };
     NamespaceCard.prototype.getDescription = function (d) {
         if (!d) {

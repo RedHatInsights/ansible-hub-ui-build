@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { Paths } from 'src/paths';
@@ -28,11 +29,11 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     }
     ExecutionEnvironmentHeader.prototype.render = function () {
         var _this = this;
-        var tabs = [_(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))), _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))), _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"])))];
+        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))), t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))), t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"])))];
         return (React.createElement(BaseHeader, { title: this.props.container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
                         url: Paths.executionEnvironments,
-                        name: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
+                        name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
                     },
                     { name: this.props.container.name },
                 ] }), pageControls: this.props.pageControls },

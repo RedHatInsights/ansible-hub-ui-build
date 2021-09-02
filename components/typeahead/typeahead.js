@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 var APISearchTypeAhead = /** @class */ (function (_super) {
@@ -72,7 +73,7 @@ var APISearchTypeAhead = /** @class */ (function (_super) {
             options.push(React.createElement(SelectOption, { key: option.id, value: option.name }));
         }
         if (options.length === 0) {
-            options.push(React.createElement(SelectOption, { key: 'not_found', value: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not found"], ["Not found"]))), isDisabled: true }));
+            options.push(React.createElement(SelectOption, { key: 'not_found', value: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not found"], ["Not found"]))), isDisabled: true }));
         }
         return options;
     };

@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
@@ -68,27 +69,27 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
+                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
                     type: 'none',
                     id: 'remote',
                 },
                 {
-                    title: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Repositories"], ["Repositories"]))),
+                    title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Repositories"], ["Repositories"]))),
                     type: 'none',
                     id: 'repository',
                 },
                 {
-                    title: _(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
+                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
                     type: 'none',
                     id: 'updated_at',
                 },
                 {
-                    title: _(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Last synced"], ["Last synced"]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Last synced"], ["Last synced"]))),
                     type: 'none',
                     id: 'last_sync_task.finished_at',
                 },
                 {
-                    title: _(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync status"], ["Sync status"]))),
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync status"], ["Sync status"]))),
                     type: 'none',
                     id: 'last_sync_task.error',
                 },
@@ -99,7 +100,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": _(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return null; } }),
             React.createElement("tbody", null, remotes.map(function (remote, i) { return _this.renderRow(remote, i); }))));
     };
@@ -114,14 +115,14 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
             !!remote.last_sync_task && !!remote.last_sync_task.finished_at ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: remote.last_sync_task.finished_at }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null, this.renderStatus(remote)),
-            React.createElement("td", null, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: _(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
+            React.createElement("td", null, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
                 React.createElement(Button, { variant: 'plain' },
                     React.createElement(ExclamationCircleIcon, null)))) : (!!user &&
                 user.model_permissions.change_remote && (React.createElement(React.Fragment, null,
                 this.getConfigureOrSyncButton(remote),
                 React.createElement("span", null,
                     React.createElement(StatefulDropdown, { items: [
-                            React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, _(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"])))),
+                            React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"])))),
                         ] }))))))));
     };
     RemoteRepositoryTable.prototype.renderStatus = function (remote) {
@@ -143,13 +144,13 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
         if (!!user && !user.model_permissions.change_remote) {
             return null;
         }
-        var configButton = (React.createElement(Button, { onClick: function () { return _this.props.editRemote(remote); }, variant: 'secondary' }, _(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Configure"], ["Configure"])))));
+        var configButton = (React.createElement(Button, { onClick: function () { return _this.props.editRemote(remote); }, variant: 'secondary' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Configure"], ["Configure"])))));
         var syncButton = (React.createElement(React.Fragment, null,
             React.createElement(Button, { isDisabled: remote.repositories.length === 0 ||
                     (remote.last_sync_task &&
                         ['running', 'waiting'].includes(remote.last_sync_task.state)), onClick: function () {
                     return _this.props.syncRemote(remote.repositories[0].distributions[0].base_path);
-                }, variant: 'secondary' }, _(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync"], ["Sync"]))))));
+                }, variant: 'secondary' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync"], ["Sync"]))))));
         var remoteType = 'none';
         for (var _i = 0, _a = Constants.UPSTREAM_HOSTS; _i < _a.length; _i++) {
             var host = _a[_i];

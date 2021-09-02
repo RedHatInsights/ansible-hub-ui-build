@@ -17,6 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import './sort.scss';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
@@ -98,7 +99,7 @@ var Sort = /** @class */ (function (_super) {
             IconAsc = SortAmountUpIcon;
         }
         return (React.createElement("div", { className: 'sort-wrapper' },
-            options.length > 1 ? (React.createElement(Select, { variant: SelectVariant.single, "aria-label": _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select input"], ["Select input"]))), onToggle: function (e) { return _this.onToggle(e); }, onSelect: function (_, name) { return _this.onSelect(name); }, selections: selectedOption.title, isOpen: isExpanded, "aria-labelledby": _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Sort results"], ["Sort results"]))) }, options.map(function (option) { return (React.createElement(SelectOption, { key: option.id, value: option.title })); }))) : null,
+            options.length > 1 ? (React.createElement(Select, { variant: SelectVariant.single, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select input"], ["Select input"]))), onToggle: function (e) { return _this.onToggle(e); }, onSelect: function (_, name) { return _this.onSelect(name); }, selections: selectedOption.title, isOpen: isExpanded, "aria-labelledby": t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Sort results"], ["Sort results"]))) }, options.map(function (option) { return (React.createElement(SelectOption, { key: option.id, value: option.title })); }))) : null,
             this.getIsDescending(params) ? (React.createElement(IconDesc, { className: 'clickable asc-button', size: 'md', onClick: function () { return _this.setDescending(); } })) : (React.createElement(IconAsc, { className: 'clickable asc-button', size: 'md', onClick: function () { return _this.setDescending(); } }))));
     };
     Sort.defaultProps = {

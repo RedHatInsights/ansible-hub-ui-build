@@ -28,6 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { capitalize } from 'lodash';
 import { Link } from 'react-router-dom';
@@ -77,7 +78,7 @@ var TableOfContents = /** @class */ (function (_super) {
                                 updateParams(ParamHelper.setParam(params, 'keywords', val));
                             }, onClear: function () {
                                 return updateParams(ParamHelper.setParam(params, 'keywords', ''));
-                            }, "aria-label": 'find-content', placeholder: _(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
+                            }, "aria-label": 'find-content', placeholder: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
             React.createElement(Nav, { theme: 'light' },
                 React.createElement(NavList, null, Object.keys(table).map(function (key) {
                     return table[key].length === 0
@@ -100,7 +101,7 @@ var TableOfContents = /** @class */ (function (_super) {
             playbooks: [],
         };
         table.documentation.push({
-            display: _(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Readme"], ["Readme"]))),
+            display: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Readme"], ["Readme"]))),
             url: formatPath(Paths.collectionDocsIndexByRepo, baseUrlParams),
             type: 'docs',
             name: 'readme',
