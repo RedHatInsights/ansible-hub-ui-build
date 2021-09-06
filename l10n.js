@@ -50,7 +50,18 @@ function activate(locale) {
                 case 1:
                     messages = (_a.sent()).messages;
                     if (window.localStorage.test_l10n === 'true') {
-                        Object.keys(messages).forEach(function (key) { return (messages[key] = '»' + messages[key] + '«'); });
+                        Object.keys(messages).forEach(function (key) {
+                            if (Array.isArray(messages[key])) {
+                                // t`Foo ${param}` -> ["Foo ", ['param']] => [">>Foo <<", ['param']]
+                                messages[key] = messages[key].map(function (item) {
+                                    return Array.isArray(item) ? item : '»' + item + '«';
+                                });
+                            }
+                            else {
+                                // simple string
+                                messages[key] = '»' + messages[key] + '«';
+                            }
+                        });
                     }
                     i18n.loadLocaleData(locale, { plurals: plurals[locale] });
                     i18n.load(locale, messages);
