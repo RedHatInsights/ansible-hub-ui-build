@@ -83,20 +83,20 @@ var ImportConsole = /** @class */ (function (_super) {
     ImportConsole.prototype.renderTitle = function (selectedImport) {
         var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion;
         var collectionHead = selectedImport.namespace + "." + selectedImport.name;
-        var approvalStatus = 'waiting for import to finish';
+        var approvalStatus = t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["waiting for import to finish"], ["waiting for import to finish"])));
         if (collectionVersion) {
             var rlist = collectionVersion.repository_list;
             if (rlist.includes(Constants.NOTCERTIFIED)) {
-                approvalStatus = 'rejected';
+                approvalStatus = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["rejected"], ["rejected"])));
             }
             else if (rlist.includes(Constants.NEEDSREVIEW)) {
-                approvalStatus = 'waiting for approval';
+                approvalStatus = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["waiting for approval"], ["waiting for approval"])));
             }
             else if (rlist.includes(Constants.PUBLISHED)) {
-                approvalStatus = 'approved';
+                approvalStatus = t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["approved"], ["approved"])));
             }
             else {
-                approvalStatus = 'could not be determined yet';
+                approvalStatus = t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["could not be determined yet"], ["could not be determined yet"])));
             }
             collectionHead = (React.createElement(Link, { className: 'title', to: formatPath(Paths.collectionByRepo, {
                     namespace: selectedImport.namespace,
@@ -113,19 +113,19 @@ var ImportConsole = /** @class */ (function (_super) {
             !hideCollectionName && (React.createElement("div", { className: 'title-container' }, collectionHead)),
             React.createElement("div", { className: 'title-bar' },
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status:"], ["Status:"])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status:"], ["Status:"])))),
                     ' ',
                     React.createElement(StatusIndicator, { type: 'secondary', status: selectedImport.state })),
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approval status:"], ["Approval status:"])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Approval status:"], ["Approval status:"])))),
                     ' ',
                     approvalStatus),
                 React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Version:"], ["Version:"])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Version:"], ["Version:"])))),
                     ' ',
                     selectedImport.version),
                 task && task.error ? (React.createElement("div", null,
-                    React.createElement("span", { className: 'data-title' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error message:"], ["Error message:"])))),
+                    React.createElement("span", { className: 'data-title' }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Error message:"], ["Error message:"])))),
                     ' ',
                     task.error.code,
                     React.createElement("pre", null,
@@ -155,5 +155,5 @@ var ImportConsole = /** @class */ (function (_super) {
     return ImportConsole;
 }(React.Component));
 export { ImportConsole };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 //# sourceMappingURL=import-console.js.map

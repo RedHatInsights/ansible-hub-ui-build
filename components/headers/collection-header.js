@@ -63,11 +63,10 @@ var CollectionHeader = /** @class */ (function (_super) {
                     React.createElement(FormSelect, { onChange: function (val) {
                             return updateParams(ParamHelper.setParam(params, 'version', val));
                         }, value: collection.latest_version.version, "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))) }, all_versions.map(function (v) { return (React.createElement(FormSelectOption, { key: v.version, value: v.version, label: 'v' + v.version })); }))),
-                latestVersion ? (React.createElement("span", { className: 'last-updated' },
-                    "Last updated",
+                latestVersion ? (React.createElement("span", { className: 'last-updated' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
                     ' ',
                     React.createElement(DateComponent, { date: latestVersion }))) : null) },
-            collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+            collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
             React.createElement("div", { className: 'tab-link-container' },
                 React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
                 React.createElement("div", { className: 'links' },
@@ -93,22 +92,22 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
         ];
@@ -118,5 +117,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=collection-header.js.map

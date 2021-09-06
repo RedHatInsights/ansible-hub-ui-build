@@ -28,11 +28,11 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import * as FileSaver from 'file-saver';
-import { Form, FormGroup, TextInput, FileUpload, Flex, FlexItem, Button, Modal, Checkbox, ExpandableSection, } from '@patternfly/react-core';
-import { WriteOnlyField, HelperText } from 'src/components';
+import { Form, FormGroup, TextInput, Flex, FlexItem, Button, Modal, Checkbox, ExpandableSection, } from '@patternfly/react-core';
+import { WriteOnlyField, HelperText, FileUpload } from 'src/components';
 import { DownloadIcon } from '@patternfly/react-icons';
 import { Constants } from 'src/constants';
 import { isFieldSet } from 'src/utilities';
@@ -84,6 +84,7 @@ var RemoteForm = /** @class */ (function (_super) {
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields) {
         var _this = this;
         var _a = this.props, remote = _a.remote, errorMessages = _a.errorMessages;
+        var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file' }, "requirements.yml"));
         return (React.createElement(Form, null,
             React.createElement(FormGroup, { fieldId: 'name', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: requiredFields.includes('name'), validated: this.toError(!('name' in errorMessages)), helperTextInvalid: errorMessages['name'] },
                 React.createElement(TextInput, { validated: this.toError(!('name' in errorMessages)), isRequired: requiredFields.includes('name'), isDisabled: disabledFields.includes('name'), id: 'name', type: 'text', value: remote.name || '', onChange: function (value) { return _this.updateRemote(value, 'name'); } })),
@@ -94,12 +95,10 @@ var RemoteForm = /** @class */ (function (_super) {
                     React.createElement(TextInput, { validated: this.toError(!('token' in errorMessages)), isRequired: requiredFields.includes('token'), type: 'password', id: 'token', value: remote.token || '', onChange: function (value) { return _this.updateRemote(value, 'token'); } })))),
             !disabledFields.includes('auth_url') && (React.createElement(FormGroup, { fieldId: 'auth_url', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Single sign on URL."], ["Single sign on URL."]))) }), isRequired: requiredFields.includes('auth_url'), validated: this.toError(!('auth_url' in errorMessages)), helperTextInvalid: errorMessages['auth_url'] },
                 React.createElement(TextInput, { validated: this.toError(!('auth_url' in errorMessages)), isRequired: requiredFields.includes('auth_url'), id: 'ssoUrl', type: 'text', value: this.props.remote.auth_url || '', onChange: function (value) { return _this.updateRemote(value, 'auth_url'); } }))),
-            !disabledFields.includes('requirements_file') && (React.createElement(FormGroup, { fieldId: 'yaml', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["YAML requirements"], ["YAML requirements"]))), labelIcon: React.createElement(HelperText, { content: React.createElement(React.Fragment, null,
-                        "This uses the same",
-                        ' ',
-                        React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file' }, "requirements.yml"),
-                        ' ',
-                        "format as the ansible-galaxy CLI with the caveat that roles aren't supported and the source parameter is not supported.") }), isRequired: requiredFields.includes('requirements_file'), validated: this.toError(!('requirements_file' in errorMessages)), helperTextInvalid: errorMessages['requirements_file'] },
+            !disabledFields.includes('requirements_file') && (React.createElement(FormGroup, { fieldId: 'yaml', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["YAML requirements"], ["YAML requirements"]))), labelIcon: React.createElement(HelperText, { content: React.createElement(Trans, null,
+                        "This uses the same ",
+                        docsAnsibleLink,
+                        " format as the ansible-galaxy CLI with the caveat that roles aren't supported and the source parameter is not supported.") }), isRequired: requiredFields.includes('requirements_file'), validated: this.toError(!('requirements_file' in errorMessages)), helperTextInvalid: errorMessages['requirements_file'] },
                 React.createElement(Flex, null,
                     React.createElement(FlexItem, { grow: { default: 'grow' } },
                         React.createElement(FileUpload, { validated: this.toError(!('requirements_file' in errorMessages)), isRequired: requiredFields.includes('requirements_file'), id: 'yaml', type: 'text', filename: this.state.uploadedRequirementFilename, value: this.props.remote.requirements_file || '', hideDefaultPreview: true, onChange: function (value, filename) {

@@ -28,6 +28,7 @@ var DeleteGroupModal = /** @class */ (function (_super) {
     }
     DeleteGroupModal.prototype.render = function () {
         var _a = this.props, cancelAction = _a.cancelAction, count = _a.count, deleteAction = _a.deleteAction, name = _a.name, users = _a.users;
+        var nameBold = React.createElement("b", null, name);
         return (React.createElement(DeleteModal, { cancelAction: cancelAction, deleteAction: deleteAction, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete group?"], ["Delete group?"]))) },
             React.createElement(Trans, null,
                 React.createElement("b", null, name),

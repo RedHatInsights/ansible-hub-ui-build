@@ -17,12 +17,12 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { ClipboardCopy, ClipboardCopyVariant, Button, } from '@patternfly/react-core';
+import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
 import { Paths } from 'src/paths';
-import { BaseHeader, Main } from 'src/components';
+import { BaseHeader, Main, ClipboardCopy } from 'src/components';
 import { getRepoUrl } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 var TokenPage = /** @class */ (function (_super) {
@@ -53,53 +53,57 @@ var TokenPage = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Connect Private Automation Hub"], ["Connect Private Automation Hub"])))),
                     React.createElement("p", null,
-                        "Use the",
-                        ' ',
-                        React.createElement(Link, { to: Paths.repositories }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Repository Management"], ["Repository Management"])))),
-                        ' ',
-                        "page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
-                        ' ',
-                        React.createElement(Link, { to: Paths.search }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collections"], ["Collections"])))),
-                        " page to control which collections are added to their organization's sync repository.")),
+                        React.createElement(Trans, null,
+                            "Use the",
+                            ' ',
+                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
+                            " page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
+                            ' ',
+                            React.createElement(Link, { to: Paths.search }, "Collections"),
+                            " page to control which collections are added to their organization's sync repository."))),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),
+                    React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),
                     React.createElement("p", null,
-                        "Documentation on how to configure the ",
-                        React.createElement("code", null, "ansible-galaxy"),
-                        ' ',
-                        "client can be found",
-                        ' ',
-                        React.createElement("a", { href: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/', target: '_blank' }, "here"),
-                        ". Use the following parameters to configure the client.")),
+                        React.createElement(Trans, null,
+                            "Documentation on how to configure the",
+                            ' ',
+                            React.createElement("code", null, "ansible-galaxy"),
+                            " client can be found",
+                            ' ',
+                            React.createElement("a", { href: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/', target: '_blank' }, "here"),
+                            ". Use the following parameters to configure the client."))),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Offline token"], ["Offline token"])))),
-                    React.createElement("p", null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Use this token to authenticate clients that need to download"], ["Use this token to authenticate clients that need to download"]))),
-                        "content from Automation Hub. This is a secret token used to protect your content. Store your API token in a secure location."),
+                    React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Offline token"], ["Offline token"])))),
+                    React.createElement("p", null,
+                        React.createElement(Trans, null, "Use this token to authenticate clients that need to download content from Automation Hub. This is a secret token used to protect your content. Store your API token in a secure location.")),
                     tokenData ? (React.createElement("div", null,
-                        React.createElement(ClipboardCopy, null, tokenData.refresh_token))) : (React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Load token"], ["Load token"]))))),
+                        React.createElement(ClipboardCopy, null, tokenData.refresh_token))) : (React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Load token"], ["Load token"]))))),
                     React.createElement("div", { className: 'pf-c-content', style: { paddingTop: 'var(--pf-global--spacer--md)' } },
-                        React.createElement("span", null, "The token will expire after 30 days of inactivity. Run the command below periodically to prevent your token from expiring."),
+                        React.createElement("span", null,
+                            React.createElement(Trans, null, "The token will expire after 30 days of inactivity. Run the command below periodically to prevent your token from expiring.")),
                         React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: ClipboardCopyVariant.expansion }, renewTokenCmd)),
-                    React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Manage tokens"], ["Manage tokens"])))),
-                    "To revoke a token or see all of your tokens, visit the",
-                    ' ',
-                    React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account/applications', target: '_blank' }, "offline API token management"),
-                    ' ',
-                    "page."),
-                React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
-                    React.createElement("p", null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Use this URL to configure the API endpoints that clients need to"], ["Use this URL to configure the API endpoints that clients need to"]))),
-                        "download content from Automation Hub."),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl('')),
-                    React.createElement("p", null, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Note: this URL contains all collections in Hub. To connect to your"], ["Note: this URL contains all collections in Hub. To connect to your"]))),
-                        "organization's sync repository use the URL found on",
+                    React.createElement("h2", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Manage tokens"], ["Manage tokens"])))),
+                    React.createElement(Trans, null,
+                        "To revoke a token or see all of your tokens, visit the",
                         ' ',
-                        React.createElement(Link, { to: Paths.repositories }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Repository Management"], ["Repository Management"])))),
-                        ".")),
+                        React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account/applications', target: '_blank' }, "offline API token management"),
+                        ' ',
+                        "page.")),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
-                    React.createElement("p", null, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Use this URL to configure the authentication URLs that clients"], ["Use this URL to configure the authentication URLs that clients"]))),
-                        "need to download content from Automation Hub."),
+                    React.createElement("h2", null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
+                    React.createElement("p", null,
+                        React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download content from Automation Hub.")),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl('')),
+                    React.createElement("p", null,
+                        React.createElement(Trans, null,
+                            "Note: this URL contains all collections in Hub. To connect to your organization's sync repository use the URL found on",
+                            ' ',
+                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
+                            "."))),
+                React.createElement("section", { className: 'body pf-c-content' },
+                    React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
+                    React.createElement("p", null,
+                        React.createElement(Trans, null, "Use this URL to configure the authentication URLs that clients need to download content from Automation Hub.")),
                     React.createElement(ClipboardCopy, { isReadOnly: true }, "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token")))));
     };
     TokenPage.prototype.loadToken = function () {
@@ -113,5 +117,5 @@ var TokenPage = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(TokenPage);
 TokenPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=token-insights.js.map

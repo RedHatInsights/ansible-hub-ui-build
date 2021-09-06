@@ -16,6 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 import * as React from 'react';
 import { Tooltip } from 'src/components';
 import * as moment from 'moment';
+import { userLanguage } from 'src/l10n';
 var DateComponent = /** @class */ (function (_super) {
     __extends(DateComponent, _super);
     function DateComponent() {
@@ -23,6 +24,7 @@ var DateComponent = /** @class */ (function (_super) {
     }
     DateComponent.prototype.render = function () {
         var date = this.props.date;
+        moment.locale(userLanguage);
         return (date && (React.createElement(Tooltip, { content: moment(date).format('DD MMMM YYYY, HH:mm Z') }, moment(date).fromNow())));
     };
     return DateComponent;

@@ -31,8 +31,8 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, } from '../../components';
-import { ClipboardCopy, DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, } from '@patternfly/react-core';
+import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ClipboardCopy, } from '../../components';
+import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, } from '@patternfly/react-core';
 import { sum } from 'lodash';
 import { Paths, formatPath } from '../../paths';
 import { ExecutionEnvironmentAPI } from '../../api';

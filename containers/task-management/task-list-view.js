@@ -28,7 +28,7 @@ import './task.scss';
 import { Constants } from 'src/constants';
 import { withRouter } from 'react-router-dom';
 import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Label, } from '@patternfly/react-core';
-import { ParamHelper, filterIsSet } from '../../utilities';
+import { ParamHelper, filterIsSet, twoWayMapper } from '../../utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { CheckCircleIcon, ExclamationCircleIcon, SyncAltIcon, OutlinedClockIcon, } from '@patternfly/react-icons';
 import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
@@ -203,13 +203,13 @@ var TaskListView = /** @class */ (function (_super) {
         var state = _a.state;
         switch (state) {
             case 'completed':
-                return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, state));
+                return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
             case 'failed':
-                return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, state));
+                return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
             case 'running':
-                return (React.createElement(Label, { variant: 'outline', color: 'blue', icon: React.createElement(SyncAltIcon, null) }, state));
+                return (React.createElement(Label, { variant: 'outline', color: 'blue', icon: React.createElement(SyncAltIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
             case 'waiting':
-                return (React.createElement(Label, { variant: 'outline', color: 'grey', icon: React.createElement(OutlinedClockIcon, null) }, state));
+                return (React.createElement(Label, { variant: 'outline', color: 'grey', icon: React.createElement(OutlinedClockIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
             default:
                 return React.createElement(Label, { variant: 'outline' }, state);
         }

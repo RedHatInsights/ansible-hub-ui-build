@@ -16,6 +16,12 @@ var __extends = (this && this.__extends) || (function () {
 import * as React from 'react';
 import { Tab, Tabs as PFTabs, TabTitleText } from '@patternfly/react-core';
 import { ParamHelper } from 'src/utilities/param-helper';
+var TabsType = /** @class */ (function () {
+    function TabsType() {
+    }
+    return TabsType;
+}());
+export { TabsType };
 // FIXME: use LinkTabs, switch from ?tab to routes, rename to Tabs
 var Tabs = /** @class */ (function (_super) {
     __extends(Tabs, _super);
@@ -26,13 +32,13 @@ var Tabs = /** @class */ (function (_super) {
         var _a = this.props, tabs = _a.tabs, params = _a.params, updateParams = _a.updateParams, isDisabled = _a.isDisabled, disabledTitle = _a.disabledTitle;
         return (React.createElement(PFTabs, { activeKey: this.getActiveTab(), onSelect: function (_, key) {
                 return !isDisabled &&
-                    updateParams(ParamHelper.setParam(params, 'tab', tabs[key].toLowerCase()));
-            } }, tabs.map(function (tab, i) { return (React.createElement(Tab, { key: i, eventKey: i, title: React.createElement(TabTitleText, { title: isDisabled ? disabledTitle : null }, tab), className: isDisabled ? 'disabled' : null })); })));
+                    updateParams(ParamHelper.setParam(params, 'tab', tabs[key].id.toLowerCase()));
+            } }, tabs.map(function (tab, i) { return (React.createElement(Tab, { key: i, eventKey: i, title: React.createElement(TabTitleText, { title: isDisabled ? disabledTitle : null }, tab.name), className: isDisabled ? 'disabled' : null })); })));
     };
     Tabs.prototype.getActiveTab = function () {
         var _a = this.props, params = _a.params, tabs = _a.tabs;
         if (params.tab) {
-            var i = tabs.findIndex(function (x) { return x.toLowerCase() === params.tab.toLowerCase(); });
+            var i = tabs.findIndex(function (x) { return x.id.toLowerCase() === params.tab.toLowerCase(); });
             // If tab is not found, default to the first tab.
             if (i === -1) {
                 return 0;

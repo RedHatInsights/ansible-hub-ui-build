@@ -38,7 +38,7 @@ import { i18n } from '@lingui/core';
 import * as plurals from 'make-plural/plurals';
 var availableLanguages = ['en', 'es', 'fr', 'nl', 'ja', 'zh'];
 // Accept-Language
-var userLanguage = navigator.languages
+export var userLanguage = navigator.languages
     .map(function (lang) { return lang.replace(/[-_].*/, ''); })
     .filter(function (lang) { return availableLanguages.includes(lang); })[0] || 'en';
 function activate(locale) {

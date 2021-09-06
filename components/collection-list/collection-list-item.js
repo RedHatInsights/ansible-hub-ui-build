@@ -13,7 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 import * as React from 'react';
+import { t, Trans } from '@lingui/macro';
 import './list-item.scss';
 import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
@@ -46,8 +51,9 @@ var CollectionListItem = /** @class */ (function (_super) {
                 deprecated && React.createElement(DeprecatedTag, null),
                 showNamespace ? (React.createElement(TextContent, null,
                     React.createElement(Text, { component: TextVariants.small },
-                        "Provided by ",
-                        company))) : null),
+                        React.createElement(Trans, null,
+                            "Provided by ",
+                            company)))) : null),
             React.createElement("div", { className: 'entry' }, latest_version.metadata.description),
             React.createElement("div", { className: 'entry pf-l-flex pf-m-wrap content' }, Object.keys(contentSummary.contents).map(function (k) { return (React.createElement("div", { key: k },
                 React.createElement(NumericLabel, { className: 'numeric-label-capitalize-text', label: k, number: contentSummary.contents[k] }))); })),
@@ -55,8 +61,8 @@ var CollectionListItem = /** @class */ (function (_super) {
                 React.createElement(LabelGroup, null, latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
             controls ? React.createElement("div", { className: 'entry' }, controls) : null,
-            React.createElement("div", { className: 'right-col entry' },
-                "Updated ",
+            React.createElement("div", { className: 'right-col entry' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Updated"], ["Updated"]))),
+                " ",
                 React.createElement(DateComponent, { date: latest_version.created_at })),
             React.createElement("div", { className: 'entry' },
                 "v",
@@ -68,4 +74,5 @@ var CollectionListItem = /** @class */ (function (_super) {
     return CollectionListItem;
 }(React.Component));
 export { CollectionListItem };
+var templateObject_1;
 //# sourceMappingURL=collection-list-item.js.map

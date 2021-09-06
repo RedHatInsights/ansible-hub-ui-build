@@ -22,13 +22,14 @@ import * as React from 'react';
 import './collection-info.scss';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import { ClipboardCopy, Split, SplitItem, Grid, GridItem, FormSelect, FormSelectOption, Button, } from '@patternfly/react-core';
+import { Split, SplitItem, Grid, GridItem, FormSelect, FormSelectOption, Button, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
 import { CollectionAPI } from 'src/api';
-import { Tag } from 'src/components';
+import { Tag, ClipboardCopy } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { AppContext } from 'src/loaders/app-context';
+import { userLanguage } from 'src/l10n';
 var CollectionInfo = /** @class */ (function (_super) {
     __extends(CollectionInfo, _super);
     function CollectionInfo(props) {
@@ -40,6 +41,7 @@ var CollectionInfo = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, all_versions = _a.all_versions, params = _a.params, updateParams = _a.updateParams;
         var installCommand = "ansible-galaxy collection install " + namespace.name + "." + name;
+        moment.locale(userLanguage);
         if (params.version) {
             installCommand += ":" + params.version;
         }

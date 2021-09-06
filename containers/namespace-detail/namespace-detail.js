@@ -32,10 +32,10 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-detail.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { Alert, AlertActionCloseButton, Button, ClipboardCopy, DropdownItem, } from '@patternfly/react-core';
+import { Alert, AlertActionCloseButton, Button, DropdownItem, } from '@patternfly/react-core';
 import * as ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
-import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, } from 'src/components';
+import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, } from 'src/components';
 import { ImportModal } from './import-modal/import-modal';
 import { ParamHelper, getRepoUrl, filterIsSet } from 'src/utilities';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
@@ -78,13 +78,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"])))];
+        var tabs = [{ id: 'collections', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
         if (this.state.showControls) {
-            tabs.push(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))));
+            tabs.push({ id: 'cli-configuration', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))) });
         }
         var tab = params['tab'] || 'collections';
         if (namespace.resources) {
-            tabs.push(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Resources"], ["Resources"]))));
+            tabs.push({ id: 'resources', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Resources"], ["Resources"]))) });
         }
         var repositoryUrl = getRepoUrl('inbound-' + namespace.name);
         var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
@@ -99,6 +99,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'tab',
             'view_type',
         ];
+        var docsAnsibleLink = (React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"));
         return (React.createElement(React.Fragment, null,
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function (result) {
                     return _this.setState({
@@ -125,7 +126,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, handleControlClick: function (id, action) {
                             return _this.handleCollectionAction(id, action);
                         }, repo: this.context.selectedRepo })))) : null,
-                tab.toLowerCase() === 'cli configuration' ? (React.createElement("section", { className: 'body' },
+                tab.toLowerCase() === 'cli-configuration' ? (React.createElement("section", { className: 'body' },
                     React.createElement("div", null,
                         React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl),
                         React.createElement("div", null,
