@@ -50,7 +50,7 @@ export { SortTable } from './sort-table/sort-table';
 export { StatefulDropdown } from './patternfly-wrappers/stateful-dropdown';
 export { StatusIndicator } from './status/status-indicator';
 export { TableOfContents } from './collection-detail/table-of-contents';
-export { Tabs } from './patternfly-wrappers/tabs';
+export { Tabs, TabsType } from './patternfly-wrappers/tabs';
 export { Tag } from './tags/tag';
 export { TagLabel } from './tag-label/tag-label';
 export { Toolbar } from './patternfly-wrappers/toolbar';
@@ -58,4 +58,6 @@ export { Tooltip } from './patternfly-wrappers/tooltip';
 export { UserForm } from './user-form/user-form';
 export { UserFormPage } from './user-form/user-form-page';
 export { WriteOnlyField } from './patternfly-wrappers/write-only-field';
+export { ClipboardCopy } from './patternfly-wrappers/clipboard-copy';
+export { FileUpload } from './patternfly-wrappers/fileupload';
 //# sourceMappingURL=index.js.map

@@ -20,8 +20,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { EmptyStateNoData, MarkdownEditor } from '../../components';
-import { ClipboardCopy, FlexItem, Flex, Title, Button, } from '@patternfly/react-core';
+import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from '../../components';
+import { FlexItem, Flex, Title, Button } from '@patternfly/react-core';
 import './execution-environment-detail.scss';
 import { withContainerRepo } from './base';
 import { ExecutionEnvironmentAPI } from '../../api';

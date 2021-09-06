@@ -29,7 +29,11 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     }
     ExecutionEnvironmentHeader.prototype.render = function () {
         var _this = this;
-        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))), t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))), t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"])))];
+        var tabs = [
+            { id: 'detail', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))) },
+            { id: 'activity', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))) },
+            { id: 'images', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"]))) },
+        ];
         return (React.createElement(BaseHeader, { title: this.props.container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
                         url: Paths.executionEnvironments,

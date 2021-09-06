@@ -17,7 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import { Card, CardHeader, CardBody, CardFooter, TextContent, Text, TextVariants, Badge, Tooltip, } from '@patternfly/react-core';
@@ -52,8 +52,9 @@ var CollectionCard = /** @class */ (function (_super) {
                 React.createElement("div", { className: 'author' },
                     React.createElement(TextContent, null,
                         React.createElement(Text, { component: TextVariants.small },
-                            "Provided by ",
-                            company)))),
+                            React.createElement(Trans, null,
+                                "Provided by ",
+                                company))))),
             React.createElement(CardBody, null,
                 React.createElement(Tooltip, { content: React.createElement("div", null, latest_version.metadata.description) },
                     React.createElement("div", { className: 'description' }, this.getDescription(latest_version.metadata.description)))),

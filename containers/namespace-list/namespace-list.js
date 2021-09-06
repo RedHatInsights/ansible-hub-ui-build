@@ -116,8 +116,9 @@ var NamespaceList = /** @class */ (function (_super) {
                 React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Create"], ["Create"]))))));
         }
         var title = namespaceBreadcrumb.name;
+        var titleLowerCase = title.toLowerCase();
         var search = filterOwner
-            ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), title.toLowerCase());
+            ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), titleLowerCase);
         return (React.createElement("div", { className: 'namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({

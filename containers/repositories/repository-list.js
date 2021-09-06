@@ -119,7 +119,10 @@ var RepositoryList = /** @class */ (function (_super) {
     RepositoryList.prototype.render = function () {
         var _this = this;
         var _a = this.state, params = _a.params, loading = _a.loading, content = _a.content, remoteToEdit = _a.remoteToEdit, showRemoteFormModal = _a.showRemoteFormModal, errorMessages = _a.errorMessages;
-        var tabs = [t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Local"], ["Local"]))), t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote"], ["Remote"])))];
+        var tabs = [
+            { id: 'local', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Local"], ["Local"]))) },
+            { id: 'remote', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote"], ["Remote"]))) },
+        ];
         return (React.createElement(React.Fragment, null,
             remoteToEdit && showRemoteFormModal && (React.createElement(RemoteForm, { remote: remoteToEdit, updateRemote: function (r) { return _this.setState({ remoteToEdit: r }); }, saveRemote: function () {
                     var remoteToEdit = _this.state.remoteToEdit;

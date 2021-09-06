@@ -42,7 +42,7 @@ var EditNamespace = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         if (!params['tab']) {
-            params['tab'] = 'edit details';
+            params['tab'] = 'edit-details';
         }
         _this.state = {
             alerts: [],
@@ -70,6 +70,10 @@ var EditNamespace = /** @class */ (function (_super) {
     EditNamespace.prototype.render = function () {
         var _this = this;
         var _a = this.state, namespace = _a.namespace, errorMessages = _a.errorMessages, saving = _a.saving, redirect = _a.redirect, params = _a.params, userId = _a.userId, unauthorized = _a.unauthorized;
+        var tabs = [
+            { id: 'edit-details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit details"], ["Edit details"]))) },
+            { id: 'edit-resources', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
+        ];
         if (!namespace) {
             return null;
         }
@@ -85,12 +89,12 @@ var EditNamespace = /** @class */ (function (_super) {
                             namespace: namespace.name,
                         }),
                     },
-                    { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))) },
-                ], tabs: [t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit details"], ["Edit details"]))), t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit resources"], ["Edit resources"])))], params: params, updateParams: function (p) { return _this.updateParams(p); } }),
+                    { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))) },
+                ], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    params.tab.toLowerCase() === 'edit details' ? (React.createElement(NamespaceForm, { userId: userId, namespace: namespace, errorMessages: errorMessages, updateNamespace: function (namespace) {
+                    params.tab.toLowerCase() === 'edit-details' ? (React.createElement(NamespaceForm, { userId: userId, namespace: namespace, errorMessages: errorMessages, updateNamespace: function (namespace) {
                             return _this.setState({
                                 namespace: namespace,
                                 unsavedData: true,

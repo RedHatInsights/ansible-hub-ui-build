@@ -33,7 +33,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 // import PropTypes from 'prop-types';
 import * as React from 'react';
 import '../app.scss';
@@ -118,8 +118,9 @@ var App = /** @class */ (function (_super) {
             }
             userDropdownItems = [
                 React.createElement(DropdownItem, { isDisabled: true, key: 'username' },
-                    "Username: ",
-                    user.username),
+                    React.createElement(Trans, null,
+                        "Username: ",
+                        user.username)),
                 React.createElement(DropdownSeparator, { key: 'separator' }),
                 React.createElement(DropdownItem, { key: 'profile', component: React.createElement(Link, { to: Paths.userProfileSettings }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My profile"], ["My profile"])))) }),
                 React.createElement(DropdownItem, { key: 'logout', "aria-label": 'logout', onClick: function () {
@@ -128,11 +129,13 @@ var App = /** @class */ (function (_super) {
             ];
             docsDropdownItems = [
                 React.createElement(DropdownItem, { key: 'customer_support', href: 'https://access.redhat.com/support', target: '_blank' },
-                    "Customer Support ",
-                    React.createElement(ExternalLinkAltIcon, null)),
+                    React.createElement(Trans, null,
+                        "Customer Support ",
+                        React.createElement(ExternalLinkAltIcon, null))),
                 React.createElement(DropdownItem, { key: 'training', href: 'https://www.ansible.com/resources/webinars-training', target: '_blank' },
-                    "Training ",
-                    React.createElement(ExternalLinkAltIcon, null)),
+                    React.createElement(Trans, null,
+                        "Training ",
+                        React.createElement(ExternalLinkAltIcon, null))),
                 React.createElement(DropdownItem, { key: 'about', onClick: function () {
                         return _this.setState({ aboutModalVisible: true, toggleOpen: false });
                     } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["About"], ["About"])))),

@@ -110,9 +110,9 @@ var GroupDetail = /** @class */ (function (_super) {
         }
         var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, editPermissions = _a.editPermissions, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users;
         var user = this.context.user;
-        var tabs = [t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Permissions"], ["Permissions"])))];
+        var tabs = [{ id: 'permissions', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Permissions"], ["Permissions"]))) }];
         if (!!user && user.model_permissions.view_user) {
-            tabs.push(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Users"], ["Users"]))));
+            tabs.push({ id: 'users', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Users"], ["Users"]))) });
         }
         if (!group && alerts && alerts.length) {
             return (React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }));
@@ -208,7 +208,7 @@ var GroupDetail = /** @class */ (function (_super) {
         return (React.createElement("section", { className: 'body' },
             React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } }, !editPermissions && user.model_permissions.change_group && (React.createElement(Button, { onClick: function () { return _this.setState({ editPermissions: true }); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))))),
             React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name },
-                React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.name),
+                React.createElement(FlexItem, { style: { minWidth: '200px' } }, twoWayMapper(group.name, Constants.HUMAN_GROUP_DETAIL_PERMISSIONS)),
                 React.createElement(FlexItem, { grow: { default: 'grow' } },
                     React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
                             .filter(function (perm) {

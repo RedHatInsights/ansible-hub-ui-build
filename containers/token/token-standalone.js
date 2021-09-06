@@ -20,8 +20,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ClipboardCopy } from '@patternfly/react-core';
-import { BaseHeader, Main } from 'src/components';
+import { Button } from '@patternfly/react-core';
+import { BaseHeader, Main, ClipboardCopy } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
