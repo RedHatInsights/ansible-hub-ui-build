@@ -99,7 +99,6 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'tab',
             'view_type',
         ];
-        var docsAnsibleLink = (React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"));
         return (React.createElement(React.Fragment, null,
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function (result) {
                     return _this.setState({

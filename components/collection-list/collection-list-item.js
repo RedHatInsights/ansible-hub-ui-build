@@ -13,12 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 import * as React from 'react';
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import './list-item.scss';
 import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
@@ -61,9 +57,10 @@ var CollectionListItem = /** @class */ (function (_super) {
                 React.createElement(LabelGroup, null, latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
             controls ? React.createElement("div", { className: 'entry' }, controls) : null,
-            React.createElement("div", { className: 'right-col entry' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Updated"], ["Updated"]))),
-                " ",
-                React.createElement(DateComponent, { date: latest_version.created_at })),
+            React.createElement("div", { className: 'right-col entry' },
+                React.createElement(Trans, null,
+                    "Updated ",
+                    React.createElement(DateComponent, { date: latest_version.created_at }))),
             React.createElement("div", { className: 'entry' },
                 "v",
                 latest_version.version)));
@@ -74,5 +71,4 @@ var CollectionListItem = /** @class */ (function (_super) {
     return CollectionListItem;
 }(React.Component));
 export { CollectionListItem };
-var templateObject_1;
 //# sourceMappingURL=collection-list-item.js.map
