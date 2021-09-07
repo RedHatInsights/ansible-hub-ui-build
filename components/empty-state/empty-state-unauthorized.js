@@ -27,7 +27,7 @@ var EmptyStateUnauthorized = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     EmptyStateUnauthorized.prototype.render = function () {
-        return (React.createElement(EmptyStateCustom, { icon: LockIcon, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have access to Automation Hub"], ["You do not have access to Automation Hub"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Contact you organization administrator for more information."], ["Contact you organization administrator for more information."]))) }));
+        return (React.createElement(EmptyStateCustom, { icon: LockIcon, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have access to Automation Hub"], ["You do not have access to Automation Hub"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Contact your organization administrator for more information."], ["Contact your organization administrator for more information."]))) }));
     };
     return EmptyStateUnauthorized;
 }(React.Component));
