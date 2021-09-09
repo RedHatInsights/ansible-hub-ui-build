@@ -58,17 +58,17 @@ export function withContainerRepo(WrappedComponent) {
         class_1.prototype.render = function () {
             var _this = this;
             if (this.state.redirect === 'activity') {
-                return (React.createElement(Redirect, { to: formatPath(Paths.executionEnvironmentDetailActivities, {
+                return (React.createElement(Redirect, { push: true, to: formatPath(Paths.executionEnvironmentDetailActivities, {
                         container: this.props.match.params['container'],
                     }) }));
             }
             else if (this.state.redirect === 'detail') {
-                return (React.createElement(Redirect, { to: formatPath(Paths.executionEnvironmentDetail, {
+                return (React.createElement(Redirect, { push: true, to: formatPath(Paths.executionEnvironmentDetail, {
                         container: this.props.match.params['container'],
                     }) }));
             }
             else if (this.state.redirect === 'images') {
-                return (React.createElement(Redirect, { to: formatPath(Paths.executionEnvironmentDetailImages, {
+                return (React.createElement(Redirect, { push: true, to: formatPath(Paths.executionEnvironmentDetailImages, {
                         container: this.props.match.params['container'],
                     }) }));
             }
