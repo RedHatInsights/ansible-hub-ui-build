@@ -80,7 +80,7 @@ var AuthHandler = /** @class */ (function (_super) {
                 window.location.replace(UI_EXTERNAL_LOGIN_URI);
                 return React.createElement("div", null);
             }
-            return (React.createElement(Redirect, { to: formatPath(Paths.login, {}, { next: props.location.pathname }) }));
+            return (React.createElement(Redirect, { push: true, to: formatPath(Paths.login, {}, { next: props.location.pathname }) }));
         }
         // only enforce this if feature flags are set. Otherwise the container
         // registry will always return a 404 on the first load.
