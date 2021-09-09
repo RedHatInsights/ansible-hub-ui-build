@@ -72,7 +72,7 @@ var Search = /** @class */ (function (_super) {
     };
     Search.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults;
+        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults;
         var noData = collections.length === 0 && !filterIsSet(params, ['keywords', 'tags']);
         var updateParams = function (p) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
@@ -94,7 +94,7 @@ var Search = /** @class */ (function (_super) {
                                     });
                                 } })),
                         React.createElement(Pagination, { params: params, updateParams: updateParams, count: numberOfResults, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS, isTop: true })))))),
-            noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) })) : (React.createElement(React.Fragment, null,
+            loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) })) : (React.createElement(React.Fragment, null,
                 React.createElement("section", { className: 'collection-container' }, this.renderCollections(collections, params, updateParams)),
                 React.createElement("section", { className: 'footer' },
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -102,9 +102,6 @@ var Search = /** @class */ (function (_super) {
                         }, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS, count: numberOfResults }))))));
     };
     Search.prototype.renderCollections = function (collections, params, updateParams) {
-        if (this.state.loading) {
-            return React.createElement(LoadingPageSpinner, null);
-        }
         if (collections.length === 0) {
             return (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
                     ParamHelper.clearAllFilters({
