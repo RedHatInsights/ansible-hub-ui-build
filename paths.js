@@ -26,6 +26,7 @@ export var Paths;
     Paths["executionEnvironmentManifest"] = "/containers/:container+/_content/images/:digest";
     Paths["groupList"] = "/group-list";
     Paths["groupDetail"] = "/group/:group";
+    Paths["taskDetail"] = "/task/:task";
     Paths["myCollections"] = "/my-namespaces/:namespace";
     Paths["myNamespaces"] = "/my-namespaces";
     Paths["editNamespace"] = "/my-namespaces/edit/:namespace";

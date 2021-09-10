@@ -29,7 +29,7 @@ var BaseHeader = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BaseHeader.prototype.render = function () {
-        var _a = this.props, title = _a.title, imageURL = _a.imageURL, pageControls = _a.pageControls, children = _a.children, breadcrumbs = _a.breadcrumbs, className = _a.className, contextSelector = _a.contextSelector, versionControl = _a.versionControl;
+        var _a = this.props, title = _a.title, imageURL = _a.imageURL, pageControls = _a.pageControls, children = _a.children, breadcrumbs = _a.breadcrumbs, className = _a.className, contextSelector = _a.contextSelector, versionControl = _a.versionControl, status = _a.status;
         return (React.createElement("div", { className: cx('background', className) },
             contextSelector && (React.createElement("div", { className: 'breadcrumb-container' }, contextSelector)),
             breadcrumbs && (React.createElement("div", { className: 'breadcrumb-container' }, breadcrumbs)),
@@ -38,7 +38,9 @@ var BaseHeader = /** @class */ (function (_super) {
                 React.createElement("div", { className: 'title-box' },
                     imageURL ? (React.createElement(Logo, { className: 'image', alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Page logo"], ["Page logo"]))), image: imageURL, size: '40px', unlockWidth: true })) : null,
                     React.createElement("div", null,
-                        React.createElement(Title, { headingLevel: 'h1', size: '2xl', children: title }))),
+                        React.createElement(Title, { headingLevel: 'h1', size: '2xl' },
+                            title,
+                            status))),
                 pageControls ? (React.createElement("div", { className: 'header-right' }, pageControls)) : null),
             versionControl ? React.createElement(React.Fragment, null, versionControl) : null,
             children ? (React.createElement("div", { className: 'header-bottom' }, children)) : (React.createElement("div", { className: 'placeholder' }))));

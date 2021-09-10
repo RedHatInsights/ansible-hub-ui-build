@@ -32,4 +32,5 @@ export { FeatureFlagsAPI } from './feature-flags';
 export { ContainerDistributionAPI } from './container-distribution';
 export { ExecutionEnvironmentNamespaceAPI } from './execution-environment-namespace';
 export { TaskManagementAPI } from './task-management';
+export { GenericPulpAPI } from './generic-pulp';
 //# sourceMappingURL=index.js.map
