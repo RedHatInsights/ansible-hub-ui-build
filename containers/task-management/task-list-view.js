@@ -26,14 +26,13 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './task.scss';
 import { Constants } from 'src/constants';
-import { withRouter } from 'react-router-dom';
-import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Label, } from '@patternfly/react-core';
-import { ParamHelper, filterIsSet, twoWayMapper } from '../../utilities';
+import { withRouter, Link } from 'react-router-dom';
+import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, } from '@patternfly/react-core';
+import { ParamHelper, filterIsSet } from '../../utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { CheckCircleIcon, ExclamationCircleIcon, SyncAltIcon, OutlinedClockIcon, } from '@patternfly/react-icons';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
 import { TaskManagementAPI } from 'src/api';
-import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { formatPath, Paths } from 'src/paths';
 var TaskListView = /** @class */ (function (_super) {
     __extends(TaskListView, _super);
     function TaskListView(props) {
@@ -167,17 +166,20 @@ var TaskListView = /** @class */ (function (_super) {
             React.createElement("tbody", null, items.map(function (item, i) { return _this.renderTableRow(item, i); }))));
     };
     TaskListView.prototype.renderTableRow = function (item, index) {
-        var name = item.name, state = item.state, pulp_created = item.pulp_created, started_at = item.started_at, finished_at = item.finished_at;
-        var user = this.context.user;
+        var name = item.name, state = item.state, pulp_created = item.pulp_created, started_at = item.started_at, finished_at = item.finished_at, pulp_href = item.pulp_href;
+        var taskId = parsePulpIDFromURL(pulp_href);
         return (React.createElement("tr", { "aria-labelledby": name, key: index },
-            React.createElement("td", null, Constants.TASK_NAMES[name] || name),
+            React.createElement("td", null,
+                React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
+                    React.createElement(Tooltip, { content: name }, Constants.TASK_NAMES[name] || name))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: started_at })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: finished_at })),
-            React.createElement("td", null, this.statusLabel({ state: state })),
+            React.createElement("td", null,
+                React.createElement(StatusIndicator, { status: state })),
             React.createElement("td", null, this.cancelButton(state, item))));
     };
     TaskListView.prototype.cancelButton = function (state, selectedTask) {
@@ -199,26 +201,11 @@ var TaskListView = /** @class */ (function (_super) {
                     } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
         }
     };
-    TaskListView.prototype.statusLabel = function (_a) {
-        var state = _a.state;
-        switch (state) {
-            case 'completed':
-                return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
-            case 'failed':
-                return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
-            case 'running':
-                return (React.createElement(Label, { variant: 'outline', color: 'blue', icon: React.createElement(SyncAltIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
-            case 'waiting':
-                return (React.createElement(Label, { variant: 'outline', color: 'grey', icon: React.createElement(OutlinedClockIcon, null) }, twoWayMapper(state, Constants.HUMAN_STATUS)));
-            default:
-                return React.createElement(Label, { variant: 'outline' }, state);
-        }
-    };
     TaskListView.prototype.renderCancelModal = function () {
         var _this = this;
         var name = Constants.TASK_NAMES[this.state.selectedTask.name] ||
             this.state.selectedTask.name;
-        return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, deleteAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
     };
     TaskListView.prototype.selectedTask = function (task, name) {
         var _this = this;
@@ -234,7 +221,7 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: name,
-                        description: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
                     },
                 ]),
             });
@@ -248,7 +235,7 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: name,
-                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        description: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
                     },
                 ]),
             });
@@ -284,5 +271,5 @@ var TaskListView = /** @class */ (function (_super) {
 }(React.Component));
 export { TaskListView };
 export default withRouter(TaskListView);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26;
 //# sourceMappingURL=task-list-view.js.map

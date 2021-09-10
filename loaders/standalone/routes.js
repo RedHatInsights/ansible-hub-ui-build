@@ -37,7 +37,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentManifest, TaskListView, } from 'src/containers';
+import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
 import { ActiveUserAPI, FeatureFlagsAPI, } from 'src/api';
 import { AppContext } from '../app-context';
 import { Paths, formatPath } from 'src/paths';
@@ -138,6 +138,7 @@ var Routes = /** @class */ (function (_super) {
             },
             { comp: GroupList, path: Paths.groupList },
             { comp: GroupDetail, path: Paths.groupDetail },
+            { comp: TaskDetail, path: Paths.taskDetail },
             { comp: RepositoryList, path: Paths.repositories },
             { comp: UserProfile, path: Paths.userProfileSettings },
             {

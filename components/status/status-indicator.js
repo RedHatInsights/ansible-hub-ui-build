@@ -72,7 +72,7 @@ var StatusIndicator = /** @class */ (function (_super) {
             default:
                 return '---';
         }
-        return (React.createElement(Label, { variant: this.typeToVariantMap[type], color: labelProps.color, icon: labelProps.icon }, labelProps.text));
+        return (React.createElement(Label, { variant: this.typeToVariantMap[type], color: labelProps.color, icon: labelProps.icon, className: this.props.className }, labelProps.text));
     };
     StatusIndicator.defaultProps = {
         type: 'primary',
