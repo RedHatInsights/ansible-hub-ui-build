@@ -28,10 +28,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
@@ -280,7 +284,7 @@ var GroupDetail = /** @class */ (function (_super) {
                     if (selectedUser) {
                         var newOptions = _this.state.options.filter(function (x) { return x.name !== selection; });
                         _this.setState({
-                            selected: __spreadArray(__spreadArray([], _this.state.selected), [selectedUser]),
+                            selected: __spreadArray(__spreadArray([], _this.state.selected, true), [selectedUser], false),
                             options: newOptions,
                         });
                     }
@@ -289,13 +293,13 @@ var GroupDetail = /** @class */ (function (_super) {
                         var newSelected = _this.state.selected.filter(function (x) { return x.name !== selection; });
                         _this.setState({
                             selected: newSelected,
-                            options: __spreadArray(__spreadArray([], _this.state.options), [deselectedUser]),
+                            options: __spreadArray(__spreadArray([], _this.state.options, true), [deselectedUser], false),
                         });
                     }
                 }, placeholderText: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Select users"], ["Select users"]))), selections: this.state.selected, menuAppendTo: 'parent', multiple: true, onClear: function () {
                     return _this.setState({
                         selected: [],
-                        options: __spreadArray(__spreadArray([], _this.state.options), _this.state.selected),
+                        options: __spreadArray(__spreadArray([], _this.state.options, true), _this.state.selected, true),
                     });
                 }, isDisabled: false })));
     };
@@ -338,7 +342,7 @@ var GroupDetail = /** @class */ (function (_super) {
         return Promise.all(selectedUsers.map(function (_a) {
             var id = _a.id;
             var user = _this.state.allUsers.find(function (x) { return x.id === id; });
-            return UserAPI.update(id.toString(), __assign(__assign({}, user), { groups: __spreadArray(__spreadArray([], user.groups), [group]) }));
+            return UserAPI.update(id.toString(), __assign(__assign({}, user), { groups: __spreadArray(__spreadArray([], user.groups, true), [group], false) }));
         }))
             .catch(function (e) {
             return _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Error updating users."], ["Error updating users."]))), 'danger', e.message);
@@ -360,13 +364,13 @@ var GroupDetail = /** @class */ (function (_super) {
     };
     GroupDetail.prototype.addAlert = function (title, variant, description) {
         this.setState({
-            alerts: __spreadArray(__spreadArray([], this.state.alerts), [
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
                 {
                     description: description,
                     title: title,
                     variant: variant,
                 },
-            ]),
+            ], false),
         });
     };
     GroupDetail.prototype.renderUsers = function (users) {

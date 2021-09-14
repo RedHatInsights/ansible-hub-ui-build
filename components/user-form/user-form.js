@@ -28,10 +28,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
@@ -96,7 +100,7 @@ var UserForm = /** @class */ (function (_super) {
                 formGroupLabelIcon: (React.createElement(HelperText, { content: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."], ["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."]))) })),
             },
         ];
-        var requiredFields = __spreadArray(['username'], (isNewUser ? ['password'] : []));
+        var requiredFields = __spreadArray(['username'], (isNewUser ? ['password'] : []), true);
         var passwordConfirmGroup = function () { return (React.createElement(FormGroup, { fieldId: 'password-confirm', helperTextInvalid: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Passwords do not match"], ["Passwords do not match"]))), isRequired: isNewUser || !!user.password, key: 'confirm-group', label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Password confirmation"], ["Password confirmation"]))), validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)) },
             React.createElement(TextInput, { placeholder: isNewUser ? '' : '••••••••••••••••••••••', validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)), isDisabled: isReadonly, id: 'password-confirm', value: passwordConfirm, onChange: function (value) {
                     _this.setState({ passwordConfirm: value });

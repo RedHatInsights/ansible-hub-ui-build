@@ -28,10 +28,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
 // import PropTypes from 'prop-types';
@@ -178,7 +182,7 @@ var App = /** @class */ (function (_super) {
             var groupId = _a.groupId, isExpanded = _a.isExpanded;
             _this.setState({
                 menuExpandedSections: isExpanded
-                    ? __spreadArray(__spreadArray([], menuExpandedSections), [groupId]) : reject(menuExpandedSections, function (name) { return name === groupId; }),
+                    ? __spreadArray(__spreadArray([], menuExpandedSections, true), [groupId], false) : reject(menuExpandedSections, function (name) { return name === groupId; }),
             });
         };
         var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(Nav, { theme: 'dark', onToggle: onToggle },

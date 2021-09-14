@@ -53,10 +53,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
@@ -310,7 +314,7 @@ var TagManifestModal = /** @class */ (function (_super) {
         });
     };
     TagManifestModal.prototype.getCurrentTags = function () {
-        var tags = new Set(__spreadArray(__spreadArray([], this.props.containerManifest.tags), this.state.tagsToAdd));
+        var tags = new Set(__spreadArray(__spreadArray([], this.props.containerManifest.tags, true), this.state.tagsToAdd, true));
         for (var _i = 0, _a = this.state.tagsToRemove; _i < _a.length; _i++) {
             var tag = _a[_i];
             tags.delete(tag);

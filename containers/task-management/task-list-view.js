@@ -17,10 +17,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
@@ -217,13 +221,13 @@ var TaskListView = /** @class */ (function (_super) {
                 loading: true,
                 selectedTask: null,
                 cancelModalVisible: false,
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'success',
                         title: name,
                         description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
                     },
-                ]),
+                ], false),
             });
             _this.queryTasks();
         })
@@ -231,13 +235,13 @@ var TaskListView = /** @class */ (function (_super) {
             return _this.setState({
                 loading: true,
                 cancelModalVisible: false,
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
                         title: name,
                         description: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
                     },
-                ]),
+                ], false),
             });
         });
     };
