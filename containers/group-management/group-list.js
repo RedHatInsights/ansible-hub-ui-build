@@ -17,10 +17,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
@@ -190,12 +194,12 @@ var GroupList = /** @class */ (function (_super) {
             return _this.setState({
                 editModalVisible: false,
                 selectedGroup: null,
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
                         title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
                     },
-                ]),
+                ], false),
             });
         });
     };
@@ -260,23 +264,23 @@ var GroupList = /** @class */ (function (_super) {
             _this.setState({
                 loading: true,
                 selectedGroup: null,
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'success',
                         title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
                     },
-                ]),
+                ], false),
             });
             _this.queryGroups();
         })
             .catch(function () {
             return _this.setState({
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts), [
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
                         title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
-                ]),
+                ], false),
             });
         });
     };

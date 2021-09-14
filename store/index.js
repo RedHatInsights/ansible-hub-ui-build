@@ -1,7 +1,11 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import promise from 'redux-promise-middleware';
@@ -14,7 +18,7 @@ export function init() {
     if (registry) {
         throw new Error('store already initialized');
     }
-    registry = new ReducerRegistry({}, __spreadArray([promise], middleware));
+    registry = new ReducerRegistry({}, __spreadArray([promise], middleware, true));
     //If you want to register all of your reducers, this is good place.
     /*
      *  registry.register({

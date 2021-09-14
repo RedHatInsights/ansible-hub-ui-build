@@ -17,10 +17,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
@@ -42,7 +46,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
             });
         };
         _this.onSelect = function (event, selection, isPlaceholder) {
-            var newGroups = __spreadArray([], _this.props.groups);
+            var newGroups = __spreadArray([], _this.props.groups, true);
             var addedGroup = _this.state.searchGroups.find(function (g) { return g.name === selection; });
             newGroups.push({
                 id: addedGroup.id,
@@ -87,7 +91,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
         this.props.setGroups(newGroups);
     };
     ObjectPermissionField.prototype.setPermissions = function (perms, group) {
-        var newGroups = __spreadArray([], this.props.groups);
+        var newGroups = __spreadArray([], this.props.groups, true);
         var selectedGroup = newGroups.find(function (g) { return g.id === group.id; });
         selectedGroup.object_permissions = perms.map(function (perm) {
             return twoWayMapper(perm, Constants.GROUP_HUMAN_PERMISSIONS);

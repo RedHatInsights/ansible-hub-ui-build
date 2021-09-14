@@ -13,10 +13,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 import * as React from 'react';
 import { Alert, AlertActionCloseButton, } from '@patternfly/react-core';
@@ -47,7 +51,7 @@ var AlertList = /** @class */ (function (_super) {
 export { AlertList };
 export function closeAlertMixin(alertStateVariable) {
     return function (alertIndex) {
-        var newList = __spreadArray([], this.state['alerts']);
+        var newList = __spreadArray([], this.state['alerts'], true);
         newList.splice(alertIndex, 1);
         var newState = {};
         newState[alertStateVariable] = newList;
