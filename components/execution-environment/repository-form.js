@@ -48,14 +48,11 @@ var RepositoryForm = /** @class */ (function (_super) {
                 React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description, isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
                 React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
-                    React.createElement("div", { className: 'pf-c-form__helper-text' },
-                        "Adding groups provides access to all repositories in the \"",
-                        namespace,
-                        "\" container namespace."),
+                    React.createElement("div", { className: 'pf-c-form__helper-text' }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Adding groups provides access to all repositories in the\n                \"", "\" container namespace."], ["Adding groups provides access to all repositories in the\n                \"", "\" container namespace."])), namespace)),
                     React.createElement(ObjectPermissionField, { groups: this.state.selectedGroups, availablePermissions: Constants.CONTAINER_NAMESPACE_PERMISSIONS, setGroups: function (g) { return _this.setState({ selectedGroups: g }); }, menuAppendTo: 'parent', isDisabled: !this.props.permissions.includes('container.change_containernamespace') })))));
     };
     return RepositoryForm;
 }(React.Component));
 export { RepositoryForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=repository-form.js.map

@@ -140,17 +140,17 @@ var TagManifestModal = /** @class */ (function (_super) {
                                     _this.verifyAndAddTag();
                                 }
                             } }),
-                        React.createElement(Button, { "aria-label": 'add new tag to image', variant: 'secondary', onClick: this.verifyAndAddTag, isDisabled: !!tagToVerify || verifyingTag || isSaving },
+                        React.createElement(Button, { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add new tag to image"], ["Add new tag to image"]))), variant: 'secondary', onClick: this.verifyAndAddTag, isDisabled: !!tagToVerify || verifyingTag || isSaving },
                             "Add ",
                             verifyingTag && React.createElement(Spinner, { size: 'sm' })))),
-                tagToVerify && (React.createElement(Alert, { variant: 'warning', isInline: true, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["This tag already exists on another image. Do you want to move it to this image?"], ["This tag already exists on another image. Do you want to move it to this image?"]))), actionLinks: React.createElement(React.Fragment, null,
+                tagToVerify && (React.createElement(Alert, { variant: 'warning', isInline: true, title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["This tag already exists on another image. Do you want to move it to this image?"], ["This tag already exists on another image. Do you want to move it to this image?"]))), actionLinks: React.createElement(React.Fragment, null,
                         React.createElement(AlertActionLink, { onClick: function () {
                                 return _this.setState({ tagToVerify: '', tagInForm: '' }, function () {
                                     return _this.addTag(tagToVerify);
                                 });
-                            } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Yes"], ["Yes"])))),
-                        React.createElement(AlertActionLink, { onClick: function () { return _this.setState({ tagToVerify: '' }); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No"], ["No"]))))) })),
-                React.createElement(FormGroup, { fieldId: 'remove-tag', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Current tags"], ["Current tags"]))) },
+                            } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Yes"], ["Yes"])))),
+                        React.createElement(AlertActionLink, { onClick: function () { return _this.setState({ tagToVerify: '' }); } }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No"], ["No"]))))) })),
+                React.createElement(FormGroup, { fieldId: 'remove-tag', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Current tags"], ["Current tags"]))) },
                     React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, this.getCurrentTags().map(function (tag) { return (React.createElement(Label, { disabled: isSaving, icon: React.createElement(TagIcon, null), onClose: isSaving ? undefined : function () { return _this.removeTag(tag); }, key: tag }, tag)); }))),
                 pendingTasks > 0 && (React.createElement(Alert, { isInline: true, variant: 'info', title: React.createElement(Trans, null,
                         "Waiting for ",
@@ -234,8 +234,8 @@ var TagManifestModal = /** @class */ (function (_super) {
                                         var tag = taskUrls.find(function (e) { return e.task === r.data.pulp_id; });
                                         this_1.props.onAlert({
                                             variant: 'danger',
-                                            title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Task to change tag \"", "\" could not be completed."], ["Task to change tag \"", "\" could not be completed."])), tag.tag),
-                                            description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Reason: task ", ""], ["Reason: task ", ""])), r.data.state),
+                                            title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Task to change tag \"", "\" could not be completed."], ["Task to change tag \"", "\" could not be completed."])), tag.tag),
+                                            description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Reason: task ", ""], ["Reason: task ", ""])), r.data.state),
                                         });
                                     }
                                 }
@@ -270,13 +270,13 @@ var TagManifestModal = /** @class */ (function (_super) {
         if (!this.validateTagName(tag)) {
             this.setState({
                 verifyingTag: false,
-                tagInFormError: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["A tag may contain lowercase and uppercase ASCII alphabetic characters, digits, underscores, periods, and dashes. A tag must not start with a period, underscore, or a dash."], ["A tag may contain lowercase and uppercase ASCII alphabetic characters, digits, underscores, periods, and dashes. A tag must not start with a period, underscore, or a dash."]))),
+                tagInFormError: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["A tag may contain lowercase and uppercase ASCII alphabetic characters, digits, underscores, periods, and dashes. A tag must not start with a period, underscore, or a dash."], ["A tag may contain lowercase and uppercase ASCII alphabetic characters, digits, underscores, periods, and dashes. A tag must not start with a period, underscore, or a dash."]))),
             });
         }
         else if (this.getCurrentTags().includes(tag)) {
             this.setState({
                 verifyingTag: false,
-                tagInFormError: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["This tag is already selected for this image. You cannot add it twice."], ["This tag is already selected for this image. You cannot add it twice."]))),
+                tagInFormError: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["This tag is already selected for this image. You cannot add it twice."], ["This tag is already selected for this image. You cannot add it twice."]))),
             });
         }
         else {
@@ -324,5 +324,5 @@ var TagManifestModal = /** @class */ (function (_super) {
     return TagManifestModal;
 }(React.Component));
 export { TagManifestModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 //# sourceMappingURL=tag-manifest-modal.js.map

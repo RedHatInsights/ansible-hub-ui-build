@@ -31,11 +31,11 @@ var WriteOnlyField = /** @class */ (function (_super) {
             return children;
         }
         return (React.createElement(InputGroup, null,
-            React.createElement(TextInput, { "aria-label": 'hidden value', placeholder: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022', type: 'password', isDisabled: isValueSet }),
-            isValueSet && (React.createElement(Button, { onClick: function () { return onClear(); }, variant: 'control' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Clear"], ["Clear"])))))));
+            React.createElement(TextInput, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["hidden value"], ["hidden value"]))), placeholder: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022', type: 'password', isDisabled: isValueSet }),
+            isValueSet && (React.createElement(Button, { onClick: function () { return onClear(); }, variant: 'control' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Clear"], ["Clear"])))))));
     };
     return WriteOnlyField;
 }(React.Component));
 export { WriteOnlyField };
-var templateObject_1;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=write-only-field.js.map
