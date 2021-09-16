@@ -13,7 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 import * as React from 'react';
+import { t } from '@lingui/macro';
 import { Popover, PopoverPosition, Button } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import './helper-text.scss';
@@ -23,11 +28,12 @@ var HelperText = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     HelperText.prototype.render = function () {
-        return (React.createElement(Popover, { "aria-label": 'popover example', position: PopoverPosition.top, bodyContent: this.props.content },
+        return (React.createElement(Popover, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["popover example"], ["popover example"]))), position: PopoverPosition.top, bodyContent: this.props.content },
             React.createElement(Button, { iconPosition: 'left', variant: 'plain', className: 'helper' },
                 React.createElement(OutlinedQuestionCircleIcon, null))));
     };
     return HelperText;
 }(React.Component));
 export { HelperText };
+var templateObject_1;
 //# sourceMappingURL=helper-text.js.map

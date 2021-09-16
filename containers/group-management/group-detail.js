@@ -250,13 +250,13 @@ var GroupDetail = /** @class */ (function (_super) {
             return null;
         }
         var close = function () { return _this.setState({ addModalVisible: false, selected: [] }); };
-        return (React.createElement(Modal, { variant: 'large', onClose: close, isOpen: true, "aria-label": 'add-user-modal', title: '', header: React.createElement("span", { className: 'pf-c-content' },
-                React.createElement("h2", null, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Add selected users to group"], ["Add selected users to group"])))),
+        return (React.createElement(Modal, { variant: 'large', onClose: close, isOpen: true, "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["add-user-modal"], ["add-user-modal"]))), title: '', header: React.createElement("span", { className: 'pf-c-content' },
+                React.createElement("h2", null, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Add selected users to group"], ["Add selected users to group"])))),
                 ' '), actions: [
                 React.createElement(Button, { key: 'add', variant: 'primary', isDisabled: this.state.selected.length === 0, onClick: function () {
                         return _this.addUserToGroup(_this.state.selected, _this.state.group).then(close);
-                    } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Add"], ["Add"])))),
-                React.createElement(Button, { key: 'cancel', variant: 'link', onClick: close }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+                    } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Add"], ["Add"])))),
+                React.createElement(Button, { key: 'cancel', variant: 'link', onClick: close }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement(APISearchTypeAhead, { results: this.state.options, loadResults: function (name) {
                     return UserAPI.list({ username__contains: name, page_size: 5 })
@@ -277,7 +277,7 @@ var GroupDetail = /** @class */ (function (_super) {
                         });
                     })
                         .catch(function (e) {
-                        return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
+                        return _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
                     });
                 }, onSelect: function (event, selection) {
                     var selectedUser = _this.state.options.find(function (x) { return x.name === selection; });
@@ -296,7 +296,7 @@ var GroupDetail = /** @class */ (function (_super) {
                             options: __spreadArray(__spreadArray([], _this.state.options, true), [deselectedUser], false),
                         });
                     }
-                }, placeholderText: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Select users"], ["Select users"]))), selections: this.state.selected, menuAppendTo: 'parent', multiple: true, onClear: function () {
+                }, placeholderText: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Select users"], ["Select users"]))), selections: this.state.selected, menuAppendTo: 'parent', multiple: true, onClear: function () {
                     return _this.setState({
                         selected: [],
                         options: __spreadArray(__spreadArray([], _this.state.options, true), _this.state.selected, true),
@@ -312,11 +312,11 @@ var GroupDetail = /** @class */ (function (_super) {
                 _this.setState({
                     showDeleteModal: false,
                 });
-                _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))), 'success');
+                _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))), 'success');
                 _this.setState({ redirect: Paths.groupList });
             })
                 .catch(function (e) {
-                return _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))), 'danger', e.message);
+                return _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))), 'danger', e.message);
             });
         };
         if (!users) {
@@ -330,7 +330,7 @@ var GroupDetail = /** @class */ (function (_super) {
         var user = this.state.showUserRemoveModal;
         var username = { user: user };
         var groupname = group.name;
-        return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ showUserRemoveModal: null }); }, deleteAction: function () { return _this.deleteUser(user); }, title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Remove user from group?"], ["Remove user from group?"]))) },
+        return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ showUserRemoveModal: null }); }, deleteAction: function () { return _this.deleteUser(user); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Remove user from group?"], ["Remove user from group?"]))) },
             React.createElement(Trans, null,
                 React.createElement("b", null, username),
                 " will be removed from ",
@@ -345,7 +345,7 @@ var GroupDetail = /** @class */ (function (_super) {
             return UserAPI.update(id.toString(), __assign(__assign({}, user), { groups: __spreadArray(__spreadArray([], user.groups, true), [group], false) }));
         }))
             .catch(function (e) {
-            return _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Error updating users."], ["Error updating users."]))), 'danger', e.message);
+            return _this.addAlert(t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Error updating users."], ["Error updating users."]))), 'danger', e.message);
         })
             .then(function () { return _this.queryUsers(); });
     };
@@ -359,7 +359,7 @@ var GroupDetail = /** @class */ (function (_super) {
             _this.setState({ options: options, allUsers: result.data.data });
         })
             .catch(function (e) {
-            return _this.addAlert(t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
+            return _this.addAlert(t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
         });
     };
     GroupDetail.prototype.addAlert = function (title, variant, description) {
@@ -384,9 +384,9 @@ var GroupDetail = /** @class */ (function (_super) {
             isUserMgmtDisabled = featureFlags.external_authentication;
         }
         if (noData) {
-            return (React.createElement(EmptyStateNoData, { title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Users will appear once added to this group"], ["Users will appear once added to this group"]))), button: !!user &&
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Users will appear once added to this group"], ["Users will appear once added to this group"]))), button: !!user &&
                     user.model_permissions.change_group &&
-                    !isUserMgmtDisabled && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Add"], ["Add"]))))) }));
+                    !isUserMgmtDisabled && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Add"], ["Add"]))))) }));
         }
         return (React.createElement("section", { className: 'body' },
             React.createElement("div", { className: 'toolbar' },
@@ -399,26 +399,26 @@ var GroupDetail = /** @class */ (function (_super) {
                                     }, params: params, filterConfig: [
                                         {
                                             id: 'username',
-                                            title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Username"], ["Username"]))),
+                                            title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Username"], ["Username"]))),
                                         },
                                         {
                                             id: 'first_name',
-                                            title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["First name"], ["First name"]))),
+                                            title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["First name"], ["First name"]))),
                                         },
                                         {
                                             id: 'last_name',
-                                            title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Last name"], ["Last name"]))),
+                                            title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Last name"], ["Last name"]))),
                                         },
                                         {
                                             id: 'email',
-                                            title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Email"], ["Email"]))),
+                                            title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Email"], ["Email"]))),
                                         },
                                     ] }))),
                         !!user &&
                             user.model_permissions.change_group &&
                             !isUserMgmtDisabled && (React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,
-                                React.createElement(Button, { onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Add"], ["Add"]))))))))),
+                                React.createElement(Button, { onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Add"], ["Add"]))))))))),
                 React.createElement(Pagination, { params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, count: itemCount, isTop: true })),
             React.createElement("div", null,
                 React.createElement(AppliedFilters, { updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
@@ -436,27 +436,27 @@ var GroupDetail = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Username"], ["Username"]))),
+                    title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Username"], ["Username"]))),
                     type: 'alpha',
                     id: 'username',
                 },
                 {
-                    title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Email"], ["Email"]))),
+                    title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Email"], ["Email"]))),
                     type: 'alpha',
                     id: 'email',
                 },
                 {
-                    title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Last name"], ["Last name"]))),
+                    title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Last name"], ["Last name"]))),
                     type: 'alpha',
                     id: 'last_name',
                 },
                 {
-                    title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["First name"], ["First name"]))),
+                    title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["First name"], ["First name"]))),
                     type: 'alpha',
                     id: 'first_name',
                 },
                 {
-                    title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Created"], ["Created"]))),
+                    title: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'numeric',
                     id: 'date_joined',
                 },
@@ -467,7 +467,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); } }),
             React.createElement("tbody", null, users.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };
@@ -492,7 +492,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 !!currentUser &&
                     currentUser.model_permissions.change_group &&
                     !isUserMgmtDisabled && (React.createElement(StatefulDropdown, { items: [
-                        React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Remove"], ["Remove"])))),
+                        React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Remove"], ["Remove"])))),
                     ] })))));
     };
     GroupDetail.prototype.queryUsers = function () {
@@ -505,7 +505,7 @@ var GroupDetail = /** @class */ (function (_super) {
             });
         })
             .catch(function (e) {
-            return _this.addAlert(t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
+            return _this.addAlert(t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))), 'danger', e.message);
         });
     };
     GroupDetail.prototype.deleteUser = function (user) {
@@ -518,11 +518,11 @@ var GroupDetail = /** @class */ (function (_super) {
             _this.setState({
                 showUserRemoveModal: null,
             });
-            _this.addAlert(t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Successfully removed a user from a group."], ["Successfully removed a user from a group."]))), 'success');
+            _this.addAlert(t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Successfully removed a user from a group."], ["Successfully removed a user from a group."]))), 'success');
             _this.queryUsers();
         })
             .catch(function (e) {
-            return _this.addAlert(t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Error removing user from a group."], ["Error removing user from a group."]))), 'danger', e.message);
+            return _this.addAlert(t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["Error removing user from a group."], ["Error removing user from a group."]))), 'danger', e.message);
         });
     };
     Object.defineProperty(GroupDetail.prototype, "updateParams", {
@@ -543,5 +543,5 @@ var GroupDetail = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(GroupDetail);
 GroupDetail.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42;
 //# sourceMappingURL=group-detail.js.map

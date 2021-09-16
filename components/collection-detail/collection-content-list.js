@@ -61,9 +61,9 @@ var CollectionContentList = /** @class */ (function (_super) {
                                     return updateParams(ParamHelper.setParam(params, 'keywords', val));
                                 }, onClear: function () {
                                     return updateParams(ParamHelper.setParam(params, 'keywords', ''));
-                                }, "aria-label": 'find-content', placeholder: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find content"], ["Find content"]))) }))),
+                                }, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["find-content"], ["find-content"]))), placeholder: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Find content"], ["Find content"]))) }))),
                     React.createElement(ToolbarGroup, null,
-                        React.createElement(ToolbarItem, null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Showing:"], ["Showing:"])))),
+                        React.createElement(ToolbarItem, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Showing:"], ["Showing:"])))),
                         Object.keys(summary).map(function (key) { return (React.createElement(ToolbarItem, { key: key, className: cx({
                                 clickable: true,
                                 'selected-item': key === showing,
@@ -78,9 +78,9 @@ var CollectionContentList = /** @class */ (function (_super) {
             React.createElement("table", { className: 'content-table pf-c-table pf-m-compact' },
                 React.createElement("thead", null,
                     React.createElement("tr", null,
-                        React.createElement("th", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Name"], ["Name"])))),
-                        React.createElement("th", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Type"], ["Type"])))),
-                        React.createElement("th", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Description"], ["Description"])))))),
+                        React.createElement("th", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"])))),
+                        React.createElement("th", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Type"], ["Type"])))),
+                        React.createElement("th", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"])))))),
                 React.createElement("tbody", null, toShow.map(function (content, i) { return (React.createElement("tr", { key: i },
                     React.createElement("td", null,
                         React.createElement(Link, { to: formatPath(Paths.collectionContentDocsByRepo, {
@@ -97,5 +97,5 @@ var CollectionContentList = /** @class */ (function (_super) {
     return CollectionContentList;
 }(React.Component));
 export { CollectionContentList };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=collection-content-list.js.map

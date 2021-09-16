@@ -36,7 +36,7 @@ var GroupModal = /** @class */ (function (_super) {
         var _a = this.props, onCancel = _a.onCancel, onSave = _a.onSave, clearErrors = _a.clearErrors;
         return (React.createElement(Modal, { variant: 'small', onClose: function () {
                 onCancel();
-            }, isOpen: true, title: '', header: React.createElement("h2", null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Create a group"], ["Create a group"])))), "aria-label": 'group-modal', actions: [
+            }, isOpen: true, title: '', header: React.createElement("h2", null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Create a group"], ["Create a group"])))), actions: [
                 React.createElement(Button, { isDisabled: this.state.name.length === 0 ||
                         (this.props.group && this.state.name === this.props.group.name), key: 'create', variant: 'primary', onClick: function () { return onSave(_this.state.name); } }, !this.props.group ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create"], ["Create"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Save"], ["Save"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: function () { return onCancel(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Cancel"], ["Cancel"])))),

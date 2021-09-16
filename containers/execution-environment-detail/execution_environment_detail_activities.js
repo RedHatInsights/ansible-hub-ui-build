@@ -17,7 +17,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from '../../components';
@@ -99,25 +99,29 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                 });
                                 if (!!removed) {
                                     activityDescription = (React.createElement(React.Fragment, null,
-                                        React.createElement(TagLink, { tag: action.tag_name }),
-                                        " was moved to",
-                                        ' ',
-                                        React.createElement(ShaLink, { digest: action.manifest_digest }),
-                                        " from",
-                                        React.createElement(ShaLink, { digest: removed.manifest_digest })));
+                                        React.createElement(Trans, null,
+                                            React.createElement(TagLink, { tag: action.tag_name }),
+                                            " was moved to",
+                                            ' ',
+                                            React.createElement(ShaLink, { digest: action.manifest_digest }),
+                                            " from",
+                                            ' ',
+                                            React.createElement(ShaLink, { digest: removed.manifest_digest }))));
                                 }
                                 else {
                                     activityDescription = (React.createElement(React.Fragment, null,
-                                        React.createElement(TagLink, { tag: action.tag_name }),
-                                        " was added to",
-                                        ' ',
-                                        React.createElement(ShaLink, { digest: action.manifest_digest })));
+                                        React.createElement(Trans, null,
+                                            React.createElement(TagLink, { tag: action.tag_name }),
+                                            " was added to",
+                                            ' ',
+                                            React.createElement(ShaLink, { digest: action.manifest_digest }))));
                                 }
                             }
                             else {
                                 activityDescription = (React.createElement(React.Fragment, null,
-                                    React.createElement(ShaLink, { digest: action.manifest_digest }),
-                                    " was added"));
+                                    React.createElement(Trans, null,
+                                        React.createElement(ShaLink, { digest: action.manifest_digest }),
+                                        " was added")));
                             }
                             activities.push({
                                 created: activity.pulp_created,
@@ -131,10 +135,11 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                     return item.tag_name === action.tag_name;
                                 })) {
                                     activityDescription = (React.createElement(React.Fragment, null,
-                                        React.createElement(TagLabel, { tag: action.tag_name }),
-                                        " was removed from",
-                                        ' ',
-                                        React.createElement(ShaLink, { digest: action.manifest_digest })));
+                                        React.createElement(Trans, null,
+                                            React.createElement(TagLabel, { tag: action.tag_name }),
+                                            " was removed from",
+                                            ' ',
+                                            React.createElement(ShaLink, { digest: action.manifest_digest }))));
                                 }
                                 else {
                                     // skip one added as moved
@@ -143,8 +148,9 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                             }
                             else {
                                 activityDescription = (React.createElement(React.Fragment, null,
-                                    React.createElement(ShaLabel, { digest: action.manifest_digest }),
-                                    " was removed"));
+                                    React.createElement(Trans, null,
+                                        React.createElement(ShaLabel, { digest: action.manifest_digest }),
+                                        " was removed")));
                             }
                             activities.push({
                                 created: activity.pulp_created,

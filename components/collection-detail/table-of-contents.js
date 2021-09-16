@@ -78,7 +78,7 @@ var TableOfContents = /** @class */ (function (_super) {
                                 updateParams(ParamHelper.setParam(params, 'keywords', val));
                             }, onClear: function () {
                                 return updateParams(ParamHelper.setParam(params, 'keywords', ''));
-                            }, "aria-label": 'find-content', placeholder: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
+                            }, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["find-content"], ["find-content"]))), placeholder: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
             React.createElement(Nav, { theme: 'light' },
                 React.createElement(NavList, null, Object.keys(table).map(function (key) {
                     return table[key].length === 0
@@ -101,7 +101,7 @@ var TableOfContents = /** @class */ (function (_super) {
             playbooks: [],
         };
         table.documentation.push({
-            display: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Readme"], ["Readme"]))),
+            display: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Readme"], ["Readme"]))),
             url: formatPath(Paths.collectionDocsIndexByRepo, baseUrlParams),
             type: 'docs',
             name: 'readme',
@@ -216,5 +216,5 @@ var TableOfContents = /** @class */ (function (_super) {
     return TableOfContents;
 }(React.Component));
 export { TableOfContents };
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=table-of-contents.js.map
