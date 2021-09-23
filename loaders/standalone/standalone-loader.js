@@ -242,29 +242,35 @@ var App = /** @class */ (function (_super) {
                     url: Paths.approvalDashboard,
                 }),
             ]),
-            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))), {
+            menuSection(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                 condition: function (_a) {
                     var featureFlags = _a.featureFlags;
                     return featureFlags.execution_environments;
                 },
-                url: Paths.executionEnvironments,
-            }),
-            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+            }, [
+                menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+                    url: Paths.executionEnvironments,
+                }),
+                menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
+                    url: Paths.executionEnvironmentsRegistries,
+                }),
+            ]),
+            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
                 url: Paths.taskList,
             }),
-            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
             }),
-            menuSection(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Users"], ["Users"]))), {
+            menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_user;
                     },
                     url: Paths.userList,
                 }),
-                menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_group;
@@ -311,5 +317,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=standalone-loader.js.map

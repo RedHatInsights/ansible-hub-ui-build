@@ -9,10 +9,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+export function isWriteOnly(name, writeOnlyFields) {
+    var field = writeOnlyFields.find(function (el) { return el.name === name; });
+    return !!field;
+}
 export function isFieldSet(name, writeOnlyFields) {
     var field = writeOnlyFields.find(function (el) { return el.name === name; });
     if (field) {
-        console.log(field);
         return field.is_set;
     }
     else {

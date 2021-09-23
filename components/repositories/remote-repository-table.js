@@ -22,9 +22,9 @@ import * as React from 'react';
 import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { PulpStatus } from 'src/api';
-import { DateComponent, HelperText, SortTable, StatefulDropdown } from '..';
-import { StatusIndicator } from 'src/components';
+import { DateComponent, SortTable, StatefulDropdown } from 'src/components';
 import { Constants } from 'src/constants';
+import { lastSynced, lastSyncStatus } from 'src/utilities';
 var RemoteRepositoryTable = /** @class */ (function (_super) {
     __extends(RemoteRepositoryTable, _super);
     function RemoteRepositoryTable(props) {
@@ -112,9 +112,8 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
             React.createElement("td", null, remote.repositories.map(function (r) { return r.name; }).join(', ')),
             !!remote.updated_at ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: remote.updated_at }))) : (React.createElement("td", null, '---')),
-            !!remote.last_sync_task && !!remote.last_sync_task.finished_at ? (React.createElement("td", null,
-                React.createElement(DateComponent, { date: remote.last_sync_task.finished_at }))) : (React.createElement("td", null, '---')),
-            React.createElement("td", null, this.renderStatus(remote)),
+            React.createElement("td", null, lastSynced(remote) || '---'),
+            React.createElement("td", null, lastSyncStatus(remote) || '---'),
             React.createElement("td", null, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
                 React.createElement(Button, { variant: 'plain' },
                     React.createElement(ExclamationCircleIcon, null)))) : (!!user &&
@@ -124,19 +123,6 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                     React.createElement(StatefulDropdown, { items: [
                             React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"])))),
                         ] }))))))));
-    };
-    RemoteRepositoryTable.prototype.renderStatus = function (remote) {
-        if (!remote.last_sync_task) {
-            return '---';
-        }
-        var errorMessage = null;
-        if (remote['last_sync_task']['error']) {
-            errorMessage = (React.createElement(HelperText, { content: remote.last_sync_task.error['description'] }));
-        }
-        return (React.createElement(React.Fragment, null,
-            React.createElement(StatusIndicator, { status: remote.last_sync_task.state }),
-            " ",
-            errorMessage));
     };
     RemoteRepositoryTable.prototype.getConfigureOrSyncButton = function (remote) {
         var _this = this;

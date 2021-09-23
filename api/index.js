@@ -22,6 +22,7 @@ export { DistributionAPI } from './distribution';
 export { MyDistributionAPI } from './my-distribution';
 export { DistributionType } from './response-types/distribution';
 export { ExecutionEnvironmentAPI } from './execution-environment';
+export { ExecutionEnvironmentRegistryAPI } from './execution-environment-registry';
 export { ExecutionEnvironmentType, ContainerManifestType, ContainerRepositoryType, } from './response-types/execution-environment';
 export { WriteOnlyFieldType } from './response-types/write-only-field';
 export { ActivitiesAPI } from './activities';
