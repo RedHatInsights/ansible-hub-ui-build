@@ -74,6 +74,9 @@ var App = /** @class */ (function (_super) {
         _this.setRepo = function (path) {
             _this.props.history.push(path);
         };
+        _this.setAlerts = function (alerts) {
+            _this.setState({ alerts: alerts });
+        };
         _this.state = {
             user: null,
             selectedRepo: 'published',
@@ -81,6 +84,7 @@ var App = /** @class */ (function (_super) {
             toggleOpen: false,
             featureFlags: null,
             menuExpandedSections: [],
+            alerts: [],
         };
         return _this;
     }
@@ -300,6 +304,8 @@ var App = /** @class */ (function (_super) {
                 selectedRepo: this.state.selectedRepo,
                 setRepo: this.setRepo,
                 featureFlags: this.state.featureFlags,
+                alerts: this.state.alerts,
+                setAlerts: this.setAlerts,
             } }, component));
     };
     return App;
