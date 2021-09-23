@@ -47,6 +47,7 @@ export var Paths;
     Paths["collectionContentDocsByRepo"] = "/repo/:repo/:namespace/:collection/content/:type/:name";
     Paths["collectionContentListByRepo"] = "/repo/:repo/:namespace/:collection/content";
     Paths["collectionImportLogByRepo"] = "/repo/:repo/:namespace/:collection/import-log";
+    Paths["collectionDependenciesByRepo"] = "/repo/:repo/:namespace/:collection/dependencies";
     Paths["namespaceByRepo"] = "/repo/:repo/:namespace";
     Paths["collection"] = "/:namespace/:collection";
     Paths["namespace"] = "/:namespace";

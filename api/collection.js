@@ -114,6 +114,9 @@ var API = /** @class */ (function (_super) {
                 .catch(function (err) { return reject(err); });
         });
     };
+    API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params) {
+        return this.http.get(this.getUIPath("collection-versions/?dependency=" + namespace + "." + collection), { params: this.mapPageToOffset(params) });
+    };
     return API;
 }(HubAPI));
 export { API };

@@ -37,7 +37,7 @@ var CollectionCard = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, footer = _a.footer, repo = _a.repo;
         var company = namespace.company || namespace.name;
-        var contentSummary = convertContentSummaryCounts(latest_version.metadata.contents);
+        var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         return (React.createElement(Card, { className: cx('collection-card-container', className) },
             React.createElement(CardHeader, { className: 'logo-row' },
                 React.createElement(Logo, { image: namespace.avatar_url, alt: company + ' logo', size: '40px', unlockWidth: true }),
@@ -86,7 +86,7 @@ var CollectionCard = /** @class */ (function (_super) {
             React.createElement("div", null,
                 React.createElement(NumericLabel, { number: count })),
             React.createElement("div", { className: 'type-label' },
-                React.createElement(NumericLabel, { number: count, hideNumber: true, label: type }))));
+                React.createElement(NumericLabel, { number: count, hideNumber: true, label: type, pluralLabels: Constants.COLLECTION_PLURAL_LABELS[type] }))));
     };
     return CollectionCard;
 }(React.Component));

@@ -65,6 +65,11 @@ var CollectionImportLog = asyncComponent(function () {
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-import-log');
 });
+var CollectionDependencies = asyncComponent(function () {
+    return import(
+    /* webpackChunkName: "collection_detail" */
+    '../../containers/collection-detail/collection-dependencies');
+});
 var NotFound = asyncComponent(function () {
     return import(
     /* webpackChunkName: "not_found" */
@@ -152,6 +157,7 @@ export var Routes = function (props) {
         React.createElement(InsightsRoute, { path: Paths.collectionContentDocsByRepo, component: CollectionDocs, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.collectionContentListByRepo, component: CollectionContent, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.collectionImportLogByRepo, component: CollectionImportLog, rootClass: 'root' }),
+        React.createElement(InsightsRoute, { path: Paths.collectionDependenciesByRepo, component: CollectionDependencies, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.collectionByRepo, component: CollectionDetail, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.namespaceByRepo, component: PartnerDetail, rootClass: 'root' }),
         React.createElement(InsightsRoute, { path: Paths.searchByRepo, component: Search, rootClass: 'root' }),
