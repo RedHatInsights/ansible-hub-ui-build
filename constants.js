@@ -196,6 +196,13 @@ var Constants = /** @class */ (function () {
         'tools',
         'windows',
     ];
+    Constants.COLLECTION_PLURAL_LABELS = {
+        dependency: {
+            '0': 'dependencies',
+            '1': 'dependency',
+            other: 'dependencies',
+        },
+    };
     Constants.TASK_NAMES = {
         'galaxy_ng.app.tasks.promotion._remove_content_from_repository': t(templateObject_56 || (templateObject_56 = __makeTemplateObject(["Remove content from repository"], ["Remove content from repository"]))),
         'galaxy_ng.app.tasks.publishing.import_and_auto_approve': t(templateObject_57 || (templateObject_57 = __makeTemplateObject(["Import and auto approve"], ["Import and auto approve"]))),

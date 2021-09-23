@@ -78,4 +78,18 @@ var CollectionDetailType = /** @class */ (function () {
     return CollectionDetailType;
 }());
 export { CollectionDetailType };
+var CollectionUsedByDependencies = /** @class */ (function (_super) {
+    __extends(CollectionUsedByDependencies, _super);
+    function CollectionUsedByDependencies() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return CollectionUsedByDependencies;
+}(CollectionDetailType));
+export { CollectionUsedByDependencies };
+var DependencyType = /** @class */ (function () {
+    function DependencyType() {
+    }
+    return DependencyType;
+}());
+export { DependencyType };
 //# sourceMappingURL=collection.js.map

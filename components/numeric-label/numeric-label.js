@@ -20,7 +20,7 @@ var NumericLabel = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NumericLabel.prototype.render = function () {
-        var _a = this.props, className = _a.className, number = _a.number, label = _a.label, hideNumber = _a.hideNumber;
+        var _a = this.props, className = _a.className, number = _a.number, label = _a.label, hideNumber = _a.hideNumber, pluralLabels = _a.pluralLabels;
         var convertedNum;
         if (typeof number === 'string') {
             convertedNum = Number(number);
@@ -33,7 +33,10 @@ var NumericLabel = /** @class */ (function (_super) {
             React.createElement("span", null,
                 hideNumber ? null : NumericLabel.roundNumber(convertedNum),
                 ' '),
-            React.createElement("span", { className: className }, label ? label + plural : null)));
+            React.createElement("span", { className: className }, pluralLabels ? (React.createElement(React.Fragment, null, this.setPluralLabel(pluralLabels, number))) : (React.createElement(React.Fragment, null,
+                " ",
+                label ? label + plural : null,
+                " ")))));
     };
     // Make this a static property so that we can use this function outside of
     // rendering the whole component
@@ -59,6 +62,9 @@ var NumericLabel = /** @class */ (function (_super) {
         }
         // If larger than a billion, don't even bother.
         return '1B+';
+    };
+    NumericLabel.prototype.setPluralLabel = function (plurals, number) {
+        return number === 0 || number === 1 ? plurals[number] : plurals['other'];
     };
     return NumericLabel;
 }(React.Component));

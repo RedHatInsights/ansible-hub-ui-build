@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import { Paths, formatPath } from 'src/paths';
 import { NumericLabel, Tag, Logo, DeprecatedTag, DateComponent, } from 'src/components';
 import { convertContentSummaryCounts } from 'src/utilities';
+import { Constants } from 'src/constants';
 var CollectionListItem = /** @class */ (function (_super) {
     __extends(CollectionListItem, _super);
     function CollectionListItem() {
@@ -36,7 +37,7 @@ var CollectionListItem = /** @class */ (function (_super) {
             cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
                 React.createElement(Logo, { alt: company + ' logo', image: namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
         }
-        var contentSummary = convertContentSummaryCounts(latest_version.metadata.contents);
+        var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         cells.push(React.createElement(DataListCell, { key: 'content' },
             React.createElement("div", null,
                 React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
@@ -52,7 +53,7 @@ var CollectionListItem = /** @class */ (function (_super) {
                             company)))) : null),
             React.createElement("div", { className: 'entry' }, latest_version.metadata.description),
             React.createElement("div", { className: 'entry pf-l-flex pf-m-wrap content' }, Object.keys(contentSummary.contents).map(function (k) { return (React.createElement("div", { key: k },
-                React.createElement(NumericLabel, { className: 'numeric-label-capitalize-text', label: k, number: contentSummary.contents[k] }))); })),
+                React.createElement(NumericLabel, { className: 'numeric-label-capitalize-text', label: k, number: contentSummary.contents[k], pluralLabels: Constants.COLLECTION_PLURAL_LABELS[k] }))); })),
             React.createElement("div", { className: 'entry pf-l-flex pf-m-wrap' },
                 React.createElement(LabelGroup, null, latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },

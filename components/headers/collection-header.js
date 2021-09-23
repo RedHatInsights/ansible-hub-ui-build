@@ -180,6 +180,11 @@ var CollectionHeader = /** @class */ (function (_super) {
                 title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
+            {
+                active: active === 'dependencies',
+                title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
+                link: formatPath(Paths.collectionDependenciesByRepo, pathParams, reduced),
+            },
         ];
         return React.createElement(LinkTabs, { tabs: tabs });
     };
@@ -194,5 +199,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
 //# sourceMappingURL=collection-header.js.map
