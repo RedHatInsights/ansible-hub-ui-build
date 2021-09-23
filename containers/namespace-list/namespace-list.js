@@ -33,7 +33,7 @@ import * as React from 'react';
 import './namespace-list.scss';
 import { Redirect } from 'react-router-dom';
 import { ParamHelper } from 'src/utilities/param-helper';
-import { BaseHeader, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Toolbar, } from 'src/components';
+import { BaseHeader, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Toolbar, AlertList, } from 'src/components';
 import { Button, ToolbarItem } from '@patternfly/react-core';
 import { NamespaceAPI, MyNamespaceAPI } from 'src/api';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
@@ -95,6 +95,9 @@ var NamespaceList = /** @class */ (function (_super) {
             this.loadNamespaces();
         }
     };
+    NamespaceList.prototype.componentWillUnmount = function () {
+        this.context.setAlerts([]);
+    };
     NamespaceList.prototype.render = function () {
         var _this = this;
         var _a;
@@ -103,7 +106,7 @@ var NamespaceList = /** @class */ (function (_super) {
         }
         var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount;
         var filterOwner = this.props.filterOwner;
-        var user = this.context.user;
+        var _c = this.context, user = _c.user, alerts = _c.alerts;
         var noData = !filterIsSet(this.state.params, ['keywords']) &&
             namespaces !== undefined &&
             namespaces.length === 0;
@@ -127,6 +130,7 @@ var NamespaceList = /** @class */ (function (_super) {
                         }),
                     });
                 } }),
+            React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: title },
                 React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
@@ -206,6 +210,9 @@ var NamespaceList = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    NamespaceList.prototype.closeAlert = function (i) {
+        this.context.setAlerts([]);
+    };
     return NamespaceList;
 }(React.Component));
 export { NamespaceList };

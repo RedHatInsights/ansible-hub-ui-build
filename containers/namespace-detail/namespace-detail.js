@@ -28,16 +28,26 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-detail.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { Alert, AlertActionCloseButton, Button, DropdownItem, } from '@patternfly/react-core';
+import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
 import * as ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
-import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, } from 'src/components';
+import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, ConfirmModal, } from 'src/components';
 import { ImportModal } from './import-modal/import-modal';
 import { ParamHelper, getRepoUrl, filterIsSet } from 'src/utilities';
+import { Constants } from 'src/constants';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var NamespaceDetail = /** @class */ (function (_super) {
@@ -48,6 +58,37 @@ var NamespaceDetail = /** @class */ (function (_super) {
         // namespace is a positional url argument, so don't include it in the
         // query params
         _this.nonQueryStringParams = ['namespace'];
+        _this.deleteNamespace = function () {
+            NamespaceAPI.delete(_this.state.namespace.name)
+                .then(function () {
+                _this.setState({
+                    redirect: formatPath(Paths.namespaces, {}),
+                    confirmDelete: false,
+                });
+                _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
+                    {
+                        variant: 'success',
+                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Successfully deleted namespace."], ["Successfully deleted namespace."]))),
+                    },
+                ], false));
+            })
+                .catch(function (e) {
+                _this.setState({
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
+                            description: e.message,
+                        },
+                    ], false),
+                    isOpenNamespaceModal: false,
+                    confirmDelete: false,
+                });
+            });
+        };
+        _this.closeModal = function () {
+            _this.setState({ isOpenNamespaceModal: false, confirmDelete: false });
+        };
         var params = ParamHelper.parseParamString(props.location.search, [
             'page',
             'page_size',
@@ -62,7 +103,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
             showImportModal: false,
             warning: '',
             updateCollection: null,
-            showControls: false, // becomes true when my-namespaces doesn't 404
+            showControls: false,
+            isOpenNamespaceModal: false,
+            alerts: [],
+            isNamespaceEmpty: false,
+            confirmDelete: false,
         };
         return _this;
     }
@@ -71,20 +116,20 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection;
+        var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var tabs = [{ id: 'collections', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
+        var tabs = [{ id: 'collections', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
         if (this.state.showControls) {
-            tabs.push({ id: 'cli-configuration', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))) });
+            tabs.push({ id: 'cli-configuration', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))) });
         }
         var tab = params['tab'] || 'collections';
         if (namespace.resources) {
-            tabs.push({ id: 'resources', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Resources"], ["Resources"]))) });
+            tabs.push({ id: 'resources', name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Resources"], ["Resources"]))) });
         }
         var repositoryUrl = getRepoUrl('inbound-' + namespace.name);
         var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
@@ -109,6 +154,15 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: namespace.name }),
+            isOpenNamespaceModal && (React.createElement(ConfirmModal, { cancelAction: this.closeModal, confirmAction: this.deleteNamespace, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Permanently delete namespace?"], ["Permanently delete namespace?"]))), confirmButtonTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Delete"], ["Delete"]))), isDisabled: !confirmDelete },
+                React.createElement(React.Fragment, null,
+                    React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } },
+                        React.createElement(Trans, null,
+                            "Deleting ",
+                            React.createElement("b", null, namespace.name),
+                            " and its data will be lost.")),
+                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
+            React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             warning ? (React.createElement(Alert, { style: {
                     position: 'fixed',
                     right: '5px',
@@ -121,7 +175,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
-                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
+                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, handleControlClick: function (id, action) {
                             return _this.handleCollectionAction(id, action);
                         }, repo: this.context.selectedRepo })))) : null,
@@ -154,7 +208,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     .then(function () { return _this.loadCollections(); })
                     .catch(function (error) {
                     _this.setState({
-                        warning: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
+                        warning: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
                 });
                 break;
@@ -191,9 +245,38 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 namespace: val[1].data,
                 showControls: !!val[2],
             });
+            _this.loadAllRepos(val[0].data.meta.count);
         })
             .catch(function (response) {
             _this.setState({ redirect: Paths.notFound });
+        });
+    };
+    NamespaceDetail.prototype.loadAllRepos = function (currentRepoCount) {
+        var _this = this;
+        // get collections in namespace from each repo
+        // except the one we already have
+        var repoPromises = Object.keys(Constants.REPOSITORYNAMES)
+            .filter(function (repo) { return repo !== _this.context.selectedRepo; })
+            .map(function (repo) {
+            return CollectionAPI.list({ namespace: _this.props.match.params['namespace'] }, repo);
+        });
+        Promise.all(repoPromises)
+            .then(function (results) {
+            return _this.setState({
+                isNamespaceEmpty: results.every(function (val) { return val.data.meta.count === 0; }) &&
+                    currentRepoCount === 0,
+            });
+        })
+            .catch(function (err) {
+            return _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: 'Error loading collection repositories',
+                        description: err === null || err === void 0 ? void 0 : err.message,
+                    },
+                ], false),
+            });
         });
     };
     Object.defineProperty(NamespaceDetail.prototype, "updateParams", {
@@ -211,14 +294,21 @@ var NamespaceDetail = /** @class */ (function (_super) {
         }
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             React.createElement(StatefulDropdown, { items: [
                     React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                                 namespace: this.state.namespace.name,
-                            }) }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-                    React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
+                            }) }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+                    React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+                            "Cannot delete namespace until ",
+                            React.createElement("br", null),
+                            "collections' dependencies have ",
+                            React.createElement("br", null),
+                            "been deleted"), position: 'left' },
+                        React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))))),
+                    React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                                 namespace: this.state.namespace.name,
-                            }) }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+                            }) }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
                 ] })));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
@@ -231,10 +321,17 @@ var NamespaceDetail = /** @class */ (function (_super) {
         }
         this.setState(newState);
     };
+    Object.defineProperty(NamespaceDetail.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
     return NamespaceDetail;
 }(React.Component));
 export { NamespaceDetail };
 NamespaceDetail.contextType = AppContext;
 export default withRouter(NamespaceDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
 //# sourceMappingURL=namespace-detail.js.map
