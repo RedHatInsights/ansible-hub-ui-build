@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-import { PlusCircleIcon, SearchIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon, CubesIcon } from '@patternfly/react-icons';
 import { EmptyStateCustom } from './empty-state-custom';
 var EmptyStateNoData = /** @class */ (function (_super) {
     __extends(EmptyStateNoData, _super);
@@ -22,7 +22,7 @@ var EmptyStateNoData = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     EmptyStateNoData.prototype.render = function () {
-        return (React.createElement(EmptyStateCustom, { icon: this.props.button ? PlusCircleIcon : SearchIcon, title: this.props.title, description: this.props.description, button: this.props.button }));
+        return (React.createElement(EmptyStateCustom, { icon: this.props.button ? PlusCircleIcon : CubesIcon, title: this.props.title, description: this.props.description, button: this.props.button }));
     };
     return EmptyStateNoData;
 }(React.Component));
