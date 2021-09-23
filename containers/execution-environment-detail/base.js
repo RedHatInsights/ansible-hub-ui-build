@@ -33,8 +33,8 @@ import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ContainerDistributionAPI, ExecutionEnvironmentNamespaceAPI, TaskAPI, } from 'src/api';
 import { formatPath, Paths } from '../../paths';
-import { Button } from '@patternfly/react-core';
-import { LoadingPageWithHeader, ExecutionEnvironmentHeader, Main, RepositoryForm, AlertList, closeAlertMixin, } from 'src/components';
+import { Button, DropdownItem } from '@patternfly/react-core';
+import { AlertList, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { isEqual, isEmpty, xorWith, cloneDeep } from 'lodash';
 // A higher order component to wrap individual detail pages
 export function withContainerRepo(WrappedComponent) {
@@ -43,6 +43,7 @@ export function withContainerRepo(WrappedComponent) {
         function class_1(props) {
             var _this = _super.call(this, props) || this;
             _this.state = {
+                publishToController: null,
                 repo: undefined,
                 loading: true,
                 redirect: undefined,
@@ -79,10 +80,23 @@ export function withContainerRepo(WrappedComponent) {
                 return React.createElement(LoadingPageWithHeader, null);
             }
             var permissions = this.state.repo.namespace.my_permissions;
+            var showEdit = permissions.includes('container.namespace_change_containerdistribution') || permissions.includes('container.change_containernamespace');
+            var dropdownItems = [
+                React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
+                        _this.setState({
+                            publishToController: {
+                                image: _this.state.repo.name,
+                            },
+                        });
+                    } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+            ];
+            var publishToController = this.state.publishToController;
             return (React.createElement(React.Fragment, null,
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-                React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), container: this.state.repo, pageControls: permissions.includes('container.namespace_change_containerdistribution') ||
-                        permissions.includes('container.change_containernamespace') ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null }),
+                React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
+                React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), container: this.state.repo, pageControls: React.createElement(React.Fragment, null,
+                        showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
+                        React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                 React.createElement(Main, null,
                     this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, selectedGroups: cloneDeep(this.state.selectedGroups), description: this.state.repo.description, permissions: permissions, onSave: function (description, selectedGroups) {
                             var promises = [];
@@ -112,7 +126,7 @@ export function withContainerRepo(WrappedComponent) {
                                     editing: false,
                                     alerts: _this.state.alerts.concat({
                                         variant: 'danger',
-                                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
+                                        title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
                                     }),
                                 });
                             });
@@ -177,5 +191,5 @@ export function withContainerRepo(WrappedComponent) {
         return class_1;
     }(React.Component));
 }
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=base.js.map

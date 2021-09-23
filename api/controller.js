@@ -17,16 +17,13 @@ import { HubAPI } from './hub';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
-        var _this = _super.call(this) || this;
-        _this.apiPath = _this.getUIPath('execution-environments/repositories/');
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.apiPath = _this.getUIPath('controllers/');
         return _this;
+        // list(params?)
     }
-    API.prototype.list = function (id, params) {
-        return this.http.get(this.apiPath + id + '/_content/images/', {
-            params: this.mapPageToOffset(params),
-        });
-    };
     return API;
 }(HubAPI));
-export var ImagesAPI = new API();
-//# sourceMappingURL=images.js.map
+export { API };
+export var ControllerAPI = new API();
+//# sourceMappingURL=controller.js.map
