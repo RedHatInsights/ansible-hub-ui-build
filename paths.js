@@ -24,6 +24,7 @@ export var Paths;
     Paths["executionEnvironmentDetail"] = "/containers/:container+";
     Paths["executionEnvironments"] = "/containers";
     Paths["executionEnvironmentManifest"] = "/containers/:container+/_content/images/:digest";
+    Paths["executionEnvironmentsRegistries"] = "/registries";
     Paths["groupList"] = "/group-list";
     Paths["groupDetail"] = "/group/:group";
     Paths["taskDetail"] = "/task/:task";

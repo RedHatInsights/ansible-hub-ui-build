@@ -66,7 +66,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
             noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
@@ -150,7 +150,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-        ];
+        ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetail, {
@@ -162,8 +162,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.created })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.updated })),
-            React.createElement("td", null,
-                React.createElement(StatefulDropdown, { items: dropdownItems }))));
+            React.createElement("td", null, !!dropdownItems.length && React.createElement(StatefulDropdown, { items: dropdownItems }))));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {
         var _this = this;
