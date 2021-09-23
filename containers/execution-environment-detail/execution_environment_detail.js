@@ -20,11 +20,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from '../../components';
+import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from 'src/components';
 import { FlexItem, Flex, Title, Button } from '@patternfly/react-core';
-import './execution-environment-detail.scss';
 import { withContainerRepo } from './base';
-import { ExecutionEnvironmentAPI } from '../../api';
+import { ExecutionEnvironmentAPI } from 'src/api';
+import { getContainersURL } from 'src/utilities';
 import './execution-environment-detail.scss';
 var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetail, _super);
@@ -50,7 +50,7 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetail.prototype.renderDetail = function () {
         var _this = this;
-        var url = window.location.href.split('://')[1].split('/ui')[0];
+        var url = getContainersURL();
         var instructions = 'podman pull ' +
             url +
             '/' +

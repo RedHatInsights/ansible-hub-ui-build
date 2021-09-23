@@ -21,10 +21,10 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
-import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, } from '@patternfly/react-core';
+import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { filterIsSet, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, closeAlertMixin, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, } from 'src/components';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { formatPath, Paths } from '../../paths';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
@@ -43,6 +43,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         }
         _this.state = {
             params: params,
+            publishToController: null,
             items: [],
             loading: true,
             itemCount: 0,
@@ -55,7 +56,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items;
+        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -64,6 +65,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(ExternalLinkAltIcon, null)));
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
+            React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))) }),
             noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
@@ -124,6 +126,11 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     type: 'alpha',
                     id: 'updated',
                 },
+                {
+                    title: '',
+                    type: 'none',
+                    id: 'controls',
+                },
             ],
         };
         return (React.createElement("table", { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
@@ -133,7 +140,17 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement("tbody", null, items.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };
     ExecutionEnvironmentList.prototype.renderTableRow = function (item, index) {
+        var _this = this;
         var description = item.description;
+        var dropdownItems = [
+            React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
+                    _this.setState({
+                        publishToController: {
+                            image: item.name,
+                        },
+                    });
+                } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+        ];
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetail, {
@@ -144,7 +161,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.created })),
             React.createElement("td", null,
-                React.createElement(DateComponent, { date: item.updated }))));
+                React.createElement(DateComponent, { date: item.updated })),
+            React.createElement("td", null,
+                React.createElement(StatefulDropdown, { items: dropdownItems }))));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {
         var _this = this;
@@ -175,5 +194,5 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=execution_environment_list.js.map

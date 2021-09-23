@@ -22,8 +22,9 @@ var ShaLabel = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ShaLabel.prototype.render = function () {
-        return (React.createElement(Tooltip, { content: this.props.digest },
-            React.createElement(Label, { color: 'blue' }, truncateSha(this.props.digest))));
+        var _a = this.props, digest = _a.digest, grey = _a.grey, long = _a.long;
+        return (React.createElement(Tooltip, { content: digest },
+            React.createElement(Label, { color: grey ? 'grey' : 'blue' }, long ? digest : truncateSha(digest))));
     };
     return ShaLabel;
 }(React.Component));

@@ -17,7 +17,7 @@ import { HubAPI } from './hub';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
-        var _this = _super.call(this) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.apiPath = _this.getUIPath('execution-environments/repositories/');
         return _this;
     }
@@ -27,8 +27,18 @@ var API = /** @class */ (function (_super) {
     API.prototype.saveReadme = function (name, readme) {
         return this.http.put(this.apiPath + name + '/_content/readme/', readme);
     };
+    API.prototype.images = function (name, params) {
+        return this.http.get(this.apiPath + name + '/_content/images/', {
+            params: this.mapPageToOffset(params),
+        });
+    };
     API.prototype.image = function (name, digest) {
         return this.http.get("" + this.apiPath + name + "/_content/images/" + digest + "/");
+    };
+    API.prototype.tags = function (name, params) {
+        return this.http.get(this.apiPath + name + '/_content/tags/', {
+            params: this.mapPageToOffset(params),
+        });
     };
     return API;
 }(HubAPI));

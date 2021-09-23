@@ -21,12 +21,12 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment-detail.scss';
 import { pickBy } from 'lodash';
-import { ImagesAPI } from '../../api';
-import { formatPath, Paths } from '../../paths';
-import { filterIsSet, ParamHelper, getHumanSize } from '../../utilities';
+import { ExecutionEnvironmentAPI } from 'src/api';
+import { formatPath, Paths } from 'src/paths';
+import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, } from 'src/utilities';
 import { Link, withRouter } from 'react-router-dom';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, DropdownItem, LabelGroup, } from '@patternfly/react-core';
-import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, } from '../../components';
+import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, } from '../../components';
 import { TagManifestModal } from './tag-manifest-modal';
 import { withContainerRepo } from './base';
 import './execution-environment-detail_images.scss';
@@ -52,6 +52,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             params: params,
             redirect: null,
             manageTagsManifestDigest: undefined,
+            publishToController: null,
             alerts: [],
         };
         return _this;
@@ -64,7 +65,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderImages = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, images = _a.images, manageTagsManifestDigest = _a.manageTagsManifestDigest;
+        var _a = this.state, params = _a.params, images = _a.images, manageTagsManifestDigest = _a.manageTagsManifestDigest, publishToController = _a.publishToController;
         if (images.length === 0 &&
             !filterIsSet(params, ['tag', 'digest__icontains'])) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No images yet"], ["No images yet"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Images will appear once uploaded"], ["Images will appear once uploaded"]))) }));
@@ -116,6 +117,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) {
                     _this.setState({ alerts: _this.state.alerts.concat(alert) });
                 }, containerRepository: this.props.containerRepository }),
+            React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             React.createElement("div", { className: 'toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
@@ -180,15 +182,24 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             return (React.createElement(Link, { to: manifestLink(tag) },
                 React.createElement(TagLabel, { tag: tag })));
         };
-        var url = window.location.href.split('://')[1].split('/ui')[0];
+        var url = getContainersURL();
         var instruction = image.tags.length === 0
             ? image.digest
             : this.props.match.params['container'] + ':' + image.tags[0];
         var dropdownItems = [
-            React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
+            canEditTags && (React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
                     _this.setState({ manageTagsManifestDigest: image.digest });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit tags"], ["Edit tags"])))),
-        ];
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Manage tags"], ["Manage tags"]))))),
+            React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
+                    _this.setState({
+                        publishToController: {
+                            digest: image.digest,
+                            image: _this.props.containerRepository.name,
+                            tag: image.tags[0],
+                        },
+                    });
+                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+        ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { key: index },
             React.createElement("td", null,
                 React.createElement(LabelGroup, { className: 'tags-column' }, image.tags.sort().map(function (tag) { return (React.createElement(TagLink, { key: tag, tag: tag })); }))),
@@ -200,12 +211,12 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement(ShaLink, { digest: image.digest })),
             React.createElement("td", null,
                 React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
-            React.createElement("td", null, canEditTags && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+            React.createElement("td", null, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     ExecutionEnvironmentDetailImages.prototype.queryImages = function (name) {
         var _this = this;
         this.setState({ loading: true }, function () {
-            return ImagesAPI.list(name, ParamHelper.getReduced(_this.state.params, _this.nonQueryStringParams))
+            return ExecutionEnvironmentAPI.images(name, ParamHelper.getReduced(_this.state.params, _this.nonQueryStringParams))
                 .then(function (result) {
                 var images = [];
                 result.data.data.forEach(function (object) {
@@ -243,5 +254,5 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     return ExecutionEnvironmentDetailImages;
 }(React.Component));
 export default withRouter(withContainerRepo(ExecutionEnvironmentDetailImages));
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=execution_environment_detail_images.js.map
