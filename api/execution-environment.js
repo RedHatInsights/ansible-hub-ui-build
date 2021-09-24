@@ -40,6 +40,9 @@ var API = /** @class */ (function (_super) {
             params: this.mapPageToOffset(params),
         });
     };
+    API.prototype.deleteImage = function (name, manifest) {
+        return this.http.delete("" + this.apiPath + name + "/_content/images/" + manifest + "/");
+    };
     return API;
 }(HubAPI));
 export var ExecutionEnvironmentAPI = new API();
