@@ -26,6 +26,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
+import { isEqual } from 'lodash';
 import { CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, } from 'src/components';
 import { loadCollection } from './base';
 import { ParamHelper } from 'src/utilities/param-helper';
@@ -45,6 +46,10 @@ var CollectionDetail = /** @class */ (function (_super) {
     }
     CollectionDetail.prototype.componentDidMount = function () {
         this.loadCollection(this.context.selectedRepo);
+    };
+    CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
+        if (!isEqual(prevProps.location, this.props.location))
+            this.loadCollection(this.context.selectedRepo);
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;

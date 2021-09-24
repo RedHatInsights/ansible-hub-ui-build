@@ -29,11 +29,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './header.scss';
+import { Redirect, Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, Tooltip, Checkbox, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
-import { BaseHeader, Breadcrumbs, LinkTabs, RepoSelector, Pagination, } from 'src/components';
+import { BaseHeader, Breadcrumbs, LinkTabs, RepoSelector, Pagination, AlertList, closeAlertMixin, ConfirmModal, StatefulDropdown, } from 'src/components';
+import { CollectionAPI, TaskAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { DateComponent } from '../date-component/date-component';
@@ -52,6 +54,126 @@ var CollectionHeader = /** @class */ (function (_super) {
                 },
             });
         };
+        _this.deleteCollectionVersion = function (collectionVersion) {
+            var deleteCollection = _this.state.deleteCollection;
+            CollectionAPI.deleteCollectionVersion(_this.context.selectedRepo, deleteCollection)
+                .then(function (res) {
+                var taskId = _this.getIdFromTask(res.data.task);
+                _this.waitForTaskFinish(taskId).then(function () {
+                    if (deleteCollection.all_versions.length > 1) {
+                        var topVersion = deleteCollection.all_versions.filter(function (_a) {
+                            var version = _a.version;
+                            return version !== collectionVersion;
+                        });
+                        _this.props.updateParams(ParamHelper.setParam(_this.props.params, 'version', topVersion[0].version));
+                        _this.setState({
+                            deleteCollection: null,
+                            collectionVersion: null,
+                            alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                                {
+                                    variant: 'success',
+                                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Successfully deleted collection version."], ["Successfully deleted collection version."]))),
+                                },
+                            ], false),
+                        });
+                    }
+                    else {
+                        // last version in collection => collection will be deleted => redirect
+                        _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
+                            {
+                                variant: 'success',
+                                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Successfully deleted collection."], ["Successfully deleted collection."]))),
+                            },
+                        ], false));
+                        _this.setState({
+                            redirect: formatPath(Paths.namespaceByRepo, {
+                                repo: _this.context.selectedRepo,
+                                namespace: deleteCollection.namespace.name,
+                            }),
+                        });
+                    }
+                });
+            })
+                .catch(function (err) {
+                var _a = err === null || err === void 0 ? void 0 : err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
+                if (status === 400) {
+                    var dependencies = (React.createElement(React.Fragment, null,
+                        React.createElement(Trans, null, "Dependent collections"),
+                        React.createElement(List, null, dependent_collection_versions.map(function (d) {
+                            var _a = _this.separateStringDependencies(d), namespace = _a.namespace, version = _a.version, collection = _a.collection;
+                            return (React.createElement(ListItem, { key: d },
+                                React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
+                                        repo: _this.context.selectedRepo,
+                                        namespace: namespace,
+                                        collection: collection,
+                                    }, { version: version }), onClick: function () { return _this.setState({ alerts: [] }); } }, d)));
+                        }))));
+                    _this.setState({
+                        deleteCollection: null,
+                        collectionVersion: null,
+                        alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                            {
+                                variant: 'danger',
+                                title: detail,
+                                description: dependencies,
+                            },
+                        ], false),
+                    });
+                }
+                else {
+                    _this.setState({
+                        deleteCollection: null,
+                        collectionVersion: null,
+                        alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                            {
+                                variant: 'danger',
+                                title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error deleting collection version."], ["Error deleting collection version."]))),
+                                description: err === null || err === void 0 ? void 0 : err.message,
+                            },
+                        ], false),
+                    });
+                }
+            });
+        };
+        _this.deleteCollection = function () {
+            var deleteCollection = _this.state.deleteCollection;
+            CollectionAPI.deleteCollection(_this.context.selectedRepo, deleteCollection)
+                .then(function (res) {
+                var taskId = _this.getIdFromTask(res.data.task);
+                _this.waitForTaskFinish(taskId).then(function () {
+                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
+                        {
+                            variant: 'success',
+                            title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Successfully deleted collection."], ["Successfully deleted collection."]))),
+                        },
+                    ], false));
+                    _this.setState({
+                        collectionVersion: null,
+                        deleteCollection: null,
+                        redirect: formatPath(Paths.namespaceByRepo, {
+                            repo: _this.context.selectedRepo,
+                            namespace: deleteCollection.namespace.name,
+                        }),
+                    });
+                });
+            })
+                .catch(function (err) {
+                return _this.setState({
+                    collectionVersion: null,
+                    deleteCollection: null,
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Error deleting collection."], ["Error deleting collection."]))),
+                            description: err === null || err === void 0 ? void 0 : err.message,
+                        },
+                    ], false),
+                });
+            });
+        };
+        _this.closeModal = function () {
+            _this.setState({ deleteCollection: null });
+        };
         _this.state = {
             isOpenVersionsSelect: false,
             isOpenVersionsModal: false,
@@ -59,13 +181,22 @@ var CollectionHeader = /** @class */ (function (_super) {
                 page: 1,
                 pageSize: Constants.DEFAULT_PAGINATION_OPTIONS[1],
             },
+            deleteCollection: null,
+            collectionVersion: null,
+            confirmDelete: false,
+            alerts: [],
+            redirect: null,
+            noDependencies: false,
         };
         return _this;
     }
+    CollectionHeader.prototype.componentDidMount = function () {
+        this.getUsedbyDependencies();
+    };
     CollectionHeader.prototype.render = function () {
         var _this = this;
         var _a = this.props, collection = _a.collection, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
-        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect;
+        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete;
         var numOfshownVersions = 10;
         var all_versions = __spreadArray([], collection.all_versions, true);
         var match = all_versions.find(function (x) { return x.version === collection.latest_version.version; });
@@ -77,21 +208,23 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         }
         var urlKeys = [
-            { key: 'documentation', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
-            { key: 'homepage', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Website"], ["Website"]))) },
-            { key: 'issues', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
-            { key: 'repository', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo"], ["Repo"]))) },
+            { key: 'documentation', name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
+            { key: 'homepage', name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Website"], ["Website"]))) },
+            { key: 'issues', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
+            { key: 'repository', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.latest_version.created_at;
         var isLatestVersion = function (v) {
-            return moment(v.created).fromNow() + " " + (v.version === all_versions[0].version ? t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
+            return moment(v.created).fromNow() + " " + (v.version === all_versions[0].version ? t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
         };
         var collectionName = collection.name;
+        if (redirect)
+            return React.createElement(Redirect, { push: true, to: redirect });
         return (React.createElement(React.Fragment, null,
-            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
+            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
                 React.createElement(List, { isPlain: true },
                     React.createElement("div", { className: 'versions-modal-header' },
-                        React.createElement(Text, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
+                        React.createElement(Text, null, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
                         React.createElement(Pagination, { isTop: true, params: {
                                 page: modalPagination.page,
                                 page_size: modalPagination.pageSize,
@@ -103,21 +236,49 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             "v",
                             v.version),
-                        ' ', t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
+                        ' ', t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
                 React.createElement(Pagination, { params: {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
                     }, updateParams: this.updatePaginationParams, count: all_versions.length })),
+            deleteCollection && (React.createElement(ConfirmModal, { cancelAction: this.closeModal, confirmAction: function () {
+                    return !!collectionVersion
+                        ? _this.deleteCollectionVersion(collectionVersion)
+                        : _this.deleteCollection();
+                }, isDisabled: !confirmDelete, title: collectionVersion
+                    ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete"], ["Delete"]))) },
+                React.createElement(React.Fragment, null,
+                    React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
+                        "Deleting",
+                        ' ',
+                        React.createElement("b", null,
+                            deleteCollection.name,
+                            " v",
+                            collectionVersion),
+                        ' ',
+                        "and its data will be lost and this will cause the entire collection to be deleted.")) : (React.createElement(Trans, null,
+                        "Deleting",
+                        ' ',
+                        React.createElement("b", null,
+                            deleteCollection.name,
+                            " v",
+                            collectionVersion),
+                        ' ',
+                        "and its data will be lost.")))) : (React.createElement(Trans, null,
+                        "Deleting ",
+                        React.createElement("b", null, deleteCollection.name),
+                        " and its data will be lost."))),
+                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             React.createElement(BaseHeader, { className: className, title: collection.name, imageURL: collection.namespace.avatar_url, contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                    React.createElement("span", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Version"], ["Version"])))),
+                    React.createElement("span", null, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
+                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
                                 ? {
-                                    text: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["View more"], ["View more"]))),
+                                    text: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
                                         return _this.setState({
                                             isOpenVersionsModal: true,
@@ -135,8 +296,20 @@ var CollectionHeader = /** @class */ (function (_super) {
                     latestVersion ? (React.createElement("span", { className: 'last-updated' },
                         React.createElement(Trans, null,
                             "Last updated ",
-                            React.createElement(DateComponent, { date: latestVersion })))) : null) },
-                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+                            React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: React.createElement(StatefulDropdown, { items: [
+                        React.createElement(React.Fragment, { key: '1' }, noDependencies ? (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"]))))) : (React.createElement(Tooltip, { position: 'left', content: React.createElement(Trans, null,
+                                "Cannot delete until collections ",
+                                React.createElement("br", null),
+                                "that depend on this collection ",
+                                React.createElement("br", null),
+                                "have been deleted.") },
+                            React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"]))))))),
+                        React.createElement(DropdownItem, { key: '2', onClick: function () {
+                                return _this.openDeleteModalWithConfirm(collection.latest_version.version);
+                            } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version)),
+                    ] }) },
+                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+                React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
                     React.createElement("div", { className: 'links' },
@@ -162,27 +335,27 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
             {
                 active: active === 'dependencies',
-                title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
+                title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
                 link: formatPath(Paths.collectionDependenciesByRepo, pathParams, reduced),
             },
         ];
@@ -195,9 +368,62 @@ var CollectionHeader = /** @class */ (function (_super) {
         var modalPagination = this.state.modalPagination;
         return versions.slice(modalPagination.pageSize * (modalPagination.page - 1), modalPagination.pageSize * modalPagination.page);
     };
+    CollectionHeader.prototype.openDeleteModalWithConfirm = function (version) {
+        if (version === void 0) { version = null; }
+        this.setState({
+            deleteCollection: this.props.collection,
+            collectionVersion: version,
+            confirmDelete: false,
+        });
+    };
+    CollectionHeader.prototype.getUsedbyDependencies = function () {
+        var _this = this;
+        var _a = this.props.collection, name = _a.name, namespace = _a.namespace;
+        CollectionAPI.getUsedDependenciesByCollection(namespace.name, name)
+            .then(function (_a) {
+            var data = _a.data;
+            _this.setState({ noDependencies: !data.data.length });
+        })
+            .catch(function (err) {
+            return _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Error getting collection's dependencies."], ["Error getting collection's dependencies."]))),
+                        description: err === null || err === void 0 ? void 0 : err.message,
+                    },
+                ], false),
+            });
+        });
+    };
+    CollectionHeader.prototype.waitForTaskFinish = function (task) {
+        var _this = this;
+        return TaskAPI.get(task).then(function (result) {
+            if (result.data.state !== 'completed') {
+                return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
+                    return _this.waitForTaskFinish(task);
+                });
+            }
+        });
+    };
+    CollectionHeader.prototype.getIdFromTask = function (task) {
+        return task.match(/tasks\/([a-zA-Z0-9-]+)/i)[1];
+    };
+    Object.defineProperty(CollectionHeader.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    CollectionHeader.prototype.separateStringDependencies = function (dependency) {
+        var _a = dependency.split(' '), nsCollection = _a[0], version = _a[1];
+        var _b = nsCollection.split('.'), namespace = _b[0], collection = _b[1];
+        return { namespace: namespace, collection: collection, version: version };
+    };
     CollectionHeader.contextType = AppContext;
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30;
 //# sourceMappingURL=collection-header.js.map

@@ -114,6 +114,12 @@ var API = /** @class */ (function (_super) {
                 .catch(function (err) { return reject(err); });
         });
     };
+    API.prototype.deleteCollectionVersion = function (repo, collection) {
+        return this.http.delete("content/" + repo + "/v3/collections/" + collection.namespace.name + "/" + collection.name + "/versions/" + collection.latest_version.version + "/");
+    };
+    API.prototype.deleteCollection = function (repo, collection) {
+        return this.http.delete("content/" + repo + "/v3/collections/" + collection.namespace.name + "/" + collection.name + "/");
+    };
     API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params) {
         return this.http.get(this.getUIPath("collection-versions/?dependency=" + namespace + "." + collection), { params: this.mapPageToOffset(params) });
     };
