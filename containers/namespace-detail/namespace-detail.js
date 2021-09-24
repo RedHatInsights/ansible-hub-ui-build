@@ -113,6 +113,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
     }
     NamespaceDetail.prototype.componentDidMount = function () {
         this.loadAll();
+        if (this.context.alerts)
+            this.setState({ alerts: this.context.alerts });
+    };
+    NamespaceDetail.prototype.componentWillUnmount = function () {
+        this.context.setAlerts([]);
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
