@@ -43,6 +43,9 @@ var API = /** @class */ (function (_super) {
     API.prototype.deleteImage = function (name, manifest) {
         return this.http.delete("" + this.apiPath + name + "/_content/images/" + manifest + "/");
     };
+    API.prototype.deleteExecutionEnvironment = function (name) {
+        return this.http.delete("" + this.apiPath + name + "/");
+    };
     return API;
 }(HubAPI));
 export var ExecutionEnvironmentAPI = new API();
