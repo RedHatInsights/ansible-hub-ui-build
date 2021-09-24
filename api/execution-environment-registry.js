@@ -33,8 +33,11 @@ var API = /** @class */ (function (_super) {
     API.prototype.update = function (id, obj) {
         throw 'use smartUpdate()';
     };
-    API.prototype.sync = function (name) {
-        return this.http.post(this.apiPath + name + '/sync/', {});
+    API.prototype.index = function (id) {
+        return this.http.post(this.apiPath + id + '/index/', {});
+    };
+    API.prototype.sync = function (id) {
+        return this.http.post(this.apiPath + id + '/sync/', {});
     };
     return API;
 }(HubAPI));
