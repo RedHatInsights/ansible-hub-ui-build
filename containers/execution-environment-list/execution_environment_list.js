@@ -17,17 +17,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { ExecutionEnvironmentAPI } from 'src/api';
+import { Button, Checkbox, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { ExecutionEnvironmentAPI, TaskAPI, } from 'src/api';
 import { filterIsSet, ParamHelper } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { formatPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentList, _super);
     function ExecutionEnvironmentList(props) {
@@ -50,6 +51,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             itemCount: 0,
             alerts: [],
             unauthorized: false,
+            deleteModalVisible: false,
+            selectedItem: null,
+            confirmDelete: false,
         };
         return _this;
     }
@@ -63,18 +67,27 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items, unauthorized = _a.unauthorized;
+        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items, unauthorized = _a.unauthorized, deleteModalVisible = _a.deleteModalVisible, selectedItem = _a.selectedItem, confirmDelete = _a.confirmDelete;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             } },
             "Push container images ",
             React.createElement(ExternalLinkAltIcon, null)));
+        var name = !!selectedItem ? selectedItem.name : '';
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            deleteModalVisible && (React.createElement(DeleteModal, { title: 'Permanently delete container', cancelAction: function () {
+                    return _this.setState({ deleteModalVisible: false, selectedItem: null });
+                }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete },
+                React.createElement(Trans, null,
+                    "Deleting ",
+                    React.createElement("b", null, name),
+                    " and its data will be lost."),
+                React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
+            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -88,7 +101,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name',
-                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
+                                                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
                                             },
                                         ] })),
                                 React.createElement(ToolbarItem, null, pushImagesButton)))),
@@ -114,22 +127,22 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))),
+                    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Description"], ["Description"]))),
                     type: 'alpha',
                     id: 'description',
                 },
                 {
-                    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Created"], ["Created"]))),
+                    title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'numeric',
                     id: 'created',
                 },
                 {
-                    title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Last modified"], ["Last modified"]))),
+                    title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Last modified"], ["Last modified"]))),
                     type: 'alpha',
                     id: 'updated',
                 },
@@ -140,7 +153,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryEnvironments(); });
                 } }),
@@ -156,7 +169,10 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                             image: item.name,
                         },
                     });
-                } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+            React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+                    return _this.setState({ selectedItem: item, deleteModalVisible: true });
+                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete"], ["Delete"])))),
         ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null,
@@ -169,7 +185,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.created })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.updated })),
-            React.createElement("td", null, !!dropdownItems.length && React.createElement(StatefulDropdown, { items: dropdownItems }))));
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && React.createElement(StatefulDropdown, { items: dropdownItems }))));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {
         var _this = this;
@@ -181,6 +197,52 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     loading: false,
                 });
             });
+        });
+    };
+    ExecutionEnvironmentList.prototype.deleteContainer = function () {
+        var _this = this;
+        var selectedItem = this.state.selectedItem;
+        var name = selectedItem.name;
+        ExecutionEnvironmentAPI.deleteExecutionEnvironment(selectedItem.name)
+            .then(function (result) {
+            var taskId = result.data.task.split('tasks/')[1].replace('/', '');
+            _this.setState({
+                loading: true,
+                deleteModalVisible: false,
+                selectedItem: null,
+                confirmDelete: false,
+            });
+            _this.waitForTask(taskId).then(function () {
+                _this.setState({
+                    alerts: _this.state.alerts.concat([
+                        {
+                            variant: 'success',
+                            title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
+                        },
+                    ]),
+                });
+                _this.queryEnvironments();
+            });
+        })
+            .catch(function () {
+            _this.setState({
+                deleteModalVisible: false,
+                selectedItem: null,
+                confirmDelete: false,
+                alerts: _this.state.alerts.concat([
+                    { variant: 'danger', title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                ]),
+            });
+        });
+    };
+    ExecutionEnvironmentList.prototype.waitForTask = function (task) {
+        var _this = this;
+        return TaskAPI.get(task).then(function (result) {
+            if (result.data.state !== 'completed') {
+                return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
+                    return _this.waitForTask(task);
+                });
+            }
         });
     };
     Object.defineProperty(ExecutionEnvironmentList.prototype, "updateParams", {
@@ -201,5 +263,5 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 //# sourceMappingURL=execution_environment_list.js.map
