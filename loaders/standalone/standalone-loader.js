@@ -48,7 +48,7 @@ import { ExternalLinkAltIcon, QuestionCircleIcon, } from '@patternfly/react-icon
 import { reject, some } from 'lodash';
 import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
-import { ActiveUserAPI } from 'src/api';
+import { ActiveUserAPI, } from 'src/api';
 import { SmallLogo, StatefulDropdown } from 'src/components';
 import { AboutModalWindow } from 'src/containers';
 import { AppContext } from '../app-context';
@@ -57,8 +57,8 @@ var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
         var _this = _super.call(this, props) || this;
-        _this.updateInitialData = function (user, flags, callback) {
-            return _this.setState({ user: user, featureFlags: flags }, function () {
+        _this.updateInitialData = function (user, flags, settings, callback) {
+            return _this.setState({ user: user, featureFlags: flags, settings: settings }, function () {
                 if (callback) {
                     callback();
                 }
@@ -85,6 +85,7 @@ var App = /** @class */ (function (_super) {
             featureFlags: null,
             menuExpandedSections: [],
             alerts: [],
+            settings: null,
         };
         return _this;
     }
@@ -103,7 +104,7 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.render = function () {
         var _this = this;
-        var _a = this.state, featureFlags = _a.featureFlags, menuExpandedSections = _a.menuExpandedSections, selectedRepo = _a.selectedRepo, user = _a.user;
+        var _a = this.state, featureFlags = _a.featureFlags, menuExpandedSections = _a.menuExpandedSections, selectedRepo = _a.selectedRepo, user = _a.user, settings = _a.settings;
         // block the page from rendering if we're on a repo route and the repo in the
         // url doesn't match the current state
         // This gives componentDidUpdate a chance to recognize that route has chnaged
@@ -155,7 +156,7 @@ var App = /** @class */ (function (_super) {
                 return (React.createElement(Link, { to: formatPath(Paths.searchByRepo, {
                         repo: _this.state.selectedRepo,
                     }) }, children));
-            }, headerTools: React.createElement(PageHeaderTools, null, !user ? (React.createElement(Link, { to: formatPath(Paths.login, {}, { next: this.props.location.pathname }) }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) : (React.createElement("div", null,
+            }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(Link, { to: formatPath(Paths.login, {}, { next: this.props.location.pathname }) }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) : (React.createElement("div", null,
                 React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
                 React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
         var menu = this.menu();
@@ -166,7 +167,7 @@ var App = /** @class */ (function (_super) {
         };
         var MenuItem = function (_a) {
             var item = _a.item;
-            return item.condition({ user: user, featureFlags: featureFlags }) ? (React.createElement(NavItem, { isActive: item.active, onClick: function (e) {
+            return item.condition({ user: user, settings: settings, featureFlags: featureFlags }) ? (React.createElement(NavItem, { isActive: item.active, onClick: function (e) {
                     item.onclick && item.onclick();
                     e.stopPropagation();
                 } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank' },
@@ -179,7 +180,7 @@ var App = /** @class */ (function (_super) {
         };
         var MenuSection = function (_a) {
             var section = _a.section;
-            return section.condition({ user: user, featureFlags: featureFlags }) ? (React.createElement(NavExpandable, { title: section.name, groupId: section.name, isActive: section.active, isExpanded: menuExpandedSections.includes(section.name) },
+            return section.condition({ user: user, featureFlags: featureFlags, settings: settings }) ? (React.createElement(NavExpandable, { title: section.name, groupId: section.name, isActive: section.active, isExpanded: menuExpandedSections.includes(section.name) },
                 React.createElement(Menu, { items: section.items }))) : null;
         };
         var onToggle = function (_a) {
@@ -224,15 +225,33 @@ var App = /** @class */ (function (_super) {
                     url: formatPath(Paths.searchByRepo, {
                         repo: this.state.selectedRepo,
                     }),
+                    condition: function (_a) {
+                        var settings = _a.settings, user = _a.user;
+                        return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                            !user.is_anonymous;
+                    },
                 }),
                 menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
                     url: Paths[NAMESPACE_TERM],
+                    condition: function (_a) {
+                        var settings = _a.settings, user = _a.user;
+                        return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                            !user.is_anonymous;
+                    },
                 }),
                 menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return !user.is_anonymous;
+                    },
                     url: Paths.repositories,
                 }),
                 menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Token"], ["API Token"]))), {
                     url: Paths.token,
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return !user.is_anonymous;
+                    },
                 }),
                 menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                     condition: function (_a) {
@@ -244,8 +263,8 @@ var App = /** @class */ (function (_super) {
             ]),
             menuSection(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                 condition: function (_a) {
-                    var featureFlags = _a.featureFlags;
-                    return featureFlags.execution_environments;
+                    var featureFlags = _a.featureFlags, user = _a.user;
+                    return featureFlags.execution_environments && !user.is_anonymous;
                 },
             }, [
                 menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
@@ -257,10 +276,19 @@ var App = /** @class */ (function (_super) {
             ]),
             menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
                 url: Paths.taskList,
+                condition: function (_a) {
+                    var user = _a.user;
+                    return !user.is_anonymous;
+                },
             }),
             menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
+                condition: function (_a) {
+                    var settings = _a.settings, user = _a.user;
+                    return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                        !user.is_anonymous;
+                },
             }),
             menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
                 menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
@@ -312,6 +340,7 @@ var App = /** @class */ (function (_super) {
                 featureFlags: this.state.featureFlags,
                 alerts: this.state.alerts,
                 setAlerts: this.setAlerts,
+                settings: this.state.settings,
             } }, component));
     };
     return App;

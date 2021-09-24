@@ -43,7 +43,8 @@ import { withRouter } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
 import { ParamHelper, filterIsSet, lastSyncStatus, lastSynced, mapErrorMessages, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, StatefulDropdown, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
 var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentRegistryList, _super);
     function ExecutionEnvironmentRegistryList(props) {
@@ -101,6 +102,9 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 });
             } },
             React.createElement(Trans, null, "Add remote registry")));
+        if (this.context.user.is_anonymous) {
+            return React.createElement(EmptyStateUnauthorized, null);
+        }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             showRemoteFormModal && (React.createElement(RemoteForm, { remote: remoteToEdit, remoteType: 'registry', updateRemote: function (r) { return _this.setState({ remoteToEdit: r }); }, saveRemote: function () {
@@ -316,5 +320,6 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     return ExecutionEnvironmentRegistryList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentRegistryList);
+ExecutionEnvironmentRegistryList.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=registry-list.js.map

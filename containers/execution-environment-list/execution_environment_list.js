@@ -24,9 +24,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { filterIsSet, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { formatPath, Paths } from '../../paths';
+import { AppContext } from 'src/loaders/app-context';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentList, _super);
     function ExecutionEnvironmentList(props) {
@@ -48,15 +49,21 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             loading: true,
             itemCount: 0,
             alerts: [],
+            unauthorized: false,
         };
         return _this;
     }
     ExecutionEnvironmentList.prototype.componentDidMount = function () {
-        this.queryEnvironments();
+        if (!this.context.user || this.context.user.is_anonymous) {
+            this.setState({ unauthorized: true, loading: false });
+        }
+        else {
+            this.queryEnvironments();
+        }
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items;
+        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items, unauthorized = _a.unauthorized;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -67,7 +74,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -193,5 +200,6 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
+ExecutionEnvironmentList.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=execution_environment_list.js.map

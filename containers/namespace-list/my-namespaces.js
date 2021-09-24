@@ -28,15 +28,21 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { NamespaceList } from './namespace-list';
 import { Paths } from 'src/paths';
+import { AppContext } from 'src/loaders/app-context';
+import { EmptyStateUnauthorized } from 'src/components';
 var MyNamespaces = /** @class */ (function (_super) {
     __extends(MyNamespaces, _super);
     function MyNamespaces() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MyNamespaces.prototype.render = function () {
+        if (!this.context.user || this.context.user.is_anonymous) {
+            return React.createElement(EmptyStateUnauthorized, null);
+        }
         return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.myCollectionsByRepo, filterOwner: true })));
     };
     return MyNamespaces;
 }(React.Component));
 export default withRouter(MyNamespaces);
+MyNamespaces.contextType = AppContext;
 //# sourceMappingURL=my-namespaces.js.map

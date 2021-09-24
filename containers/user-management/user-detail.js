@@ -21,7 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
-import { LoadingPageWithHeader, AlertList, closeAlertMixin, UserFormPage, EmptyStateUnauthorized, BaseHeader, Breadcrumbs, } from 'src/components';
+import { LoadingPageWithHeader, AlertList, closeAlertMixin, UserFormPage, EmptyStateUnauthorized, } from 'src/components';
 import { UserAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
 import { DeleteUserModal } from './delete-user-modal';
@@ -44,27 +44,37 @@ var UserDetail = /** @class */ (function (_super) {
             errorMessages: {},
             alerts: [],
             showDeleteModal: false,
+            unauthorised: false,
         };
         return _this;
     }
     UserDetail.prototype.componentDidMount = function () {
         var _this = this;
         var id = this.props.match.params['userID'];
-        UserAPI.get(id)
-            .then(function (result) { return _this.setState({ userDetail: result.data }); })
-            .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
+        if (!this.context.user ||
+            this.context.user.is_anonymous ||
+            !this.context.user.model_permissions.view_user) {
+            this.setState({ unauthorised: true });
+        }
+        else {
+            UserAPI.get(id)
+                .then(function (result) { return _this.setState({ userDetail: result.data }); })
+                .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
+        }
     };
     UserDetail.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _a = this.state, userDetail = _a.userDetail, errorMessages = _a.errorMessages, alerts = _a.alerts, showDeleteModal = _a.showDeleteModal;
+        var _a = this.state, userDetail = _a.userDetail, errorMessages = _a.errorMessages, alerts = _a.alerts, showDeleteModal = _a.showDeleteModal, unauthorised = _a.unauthorised;
         var user = this.context.user;
+        if (unauthorised) {
+            return React.createElement(EmptyStateUnauthorized, null);
+        }
         if (!userDetail) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var notAuthorized = !!user && !user.model_permissions.view_user;
         var breadcrumbs = [
             { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
             { name: userDetail.username },
@@ -80,17 +90,14 @@ var UserDetail = /** @class */ (function (_super) {
                         ]),
                     });
                 } }),
-            notAuthorized ? (React.createElement(React.Fragment, null,
-                React.createElement(BaseHeader, { breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), title: title }),
-                React.createElement(EmptyStateUnauthorized, null),
-                ' ')) : (React.createElement(UserFormPage, { user: userDetail, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user) { return _this.setState({ userDetail: user }); }, isReadonly: true, extraControls: React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } },
+            React.createElement(UserFormPage, { user: userDetail, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user) { return _this.setState({ userDetail: user }); }, isReadonly: true, extraControls: React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } },
                     !!user && user.model_permissions.change_user ? (React.createElement("div", null,
                         React.createElement(Link, { to: formatPath(Paths.editUser, {
                                 userID: userDetail.id,
                             }) },
                             React.createElement(Button, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))))))) : null,
                     !!user && user.model_permissions.delete_user ? (React.createElement("div", { style: { marginLeft: '8px' } },
-                        React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ showDeleteModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Delete"], ["Delete"])))))) : null) }))));
+                        React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ showDeleteModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Delete"], ["Delete"])))))) : null) })));
     };
     Object.defineProperty(UserDetail.prototype, "closeAlert", {
         get: function () {

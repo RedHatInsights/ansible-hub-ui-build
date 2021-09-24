@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
+import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
 import { GroupAPI, UserAPI } from 'src/api';
 import { filterIsSet, ParamHelper, twoWayMapper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
@@ -81,38 +81,44 @@ var GroupDetail = /** @class */ (function (_super) {
             showUserRemoveModal: null,
             permissions: [],
             originalPermissions: [],
+            unauthorised: false,
         };
         return _this;
     }
     GroupDetail.prototype.componentDidMount = function () {
         var _this = this;
-        GroupAPI.get(this.state.params.id)
-            .then(function (result) {
-            _this.setState({ group: result.data });
-        })
-            .catch(function (e) {
-            return _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading group."], ["Error loading group."]))), 'danger', e.message);
-        });
-        GroupAPI.getPermissions(this.state.params.id)
-            .then(function (result) {
-            _this.setState({
-                originalPermissions: result.data.data.map(function (p) { return ({
-                    id: p.id,
-                    name: p.permission,
-                }); }),
-                permissions: result.data.data.map(function (x) { return x.permission; }),
+        if (!this.context.user || this.context.user.is_anonymous) {
+            this.setState({ unauthorised: true });
+        }
+        else {
+            GroupAPI.get(this.state.params.id)
+                .then(function (result) {
+                _this.setState({ group: result.data });
+            })
+                .catch(function (e) {
+                return _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading group."], ["Error loading group."]))), 'danger', e.message);
             });
-        })
-            .catch(function (e) {
-            return _this.addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading permissions."], ["Error loading permissions."]))), 'danger', e.message);
-        });
+            GroupAPI.getPermissions(this.state.params.id)
+                .then(function (result) {
+                _this.setState({
+                    originalPermissions: result.data.data.map(function (p) { return ({
+                        id: p.id,
+                        name: p.permission,
+                    }); }),
+                    permissions: result.data.data.map(function (x) { return x.permission; }),
+                });
+            })
+                .catch(function (e) {
+                return _this.addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading permissions."], ["Error loading permissions."]))), 'danger', e.message);
+            });
+        }
     };
     GroupDetail.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, editPermissions = _a.editPermissions, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users;
+        var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, editPermissions = _a.editPermissions, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users, unauthorised = _a.unauthorised;
         var user = this.context.user;
         var tabs = [{ id: 'permissions', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Permissions"], ["Permissions"]))) }];
         if (!!user && user.model_permissions.view_user) {
@@ -121,10 +127,13 @@ var GroupDetail = /** @class */ (function (_super) {
         if (!group && alerts && alerts.length) {
             return (React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }));
         }
+        if (unauthorised) {
+            return React.createElement(EmptyStateUnauthorized, null);
+        }
         if (!group) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        if (params.tab == 'users' && !users) {
+        if (params.tab == 'users' && !users && !unauthorised) {
             this.queryUsers();
             return React.createElement(LoadingPageWithHeader, null);
         }
