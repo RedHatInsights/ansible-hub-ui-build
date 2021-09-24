@@ -17,14 +17,25 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Checkbox, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { ExecutionEnvironmentAPI, TaskAPI, } from 'src/api';
-import { filterIsSet, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
+import { Button, Checkbox, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
+import { filterIsSet, waitForTask, ParamHelper } from 'src/utilities';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
 import { formatPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -44,12 +55,14 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             params['sort'] = 'name';
         }
         _this.state = {
-            params: params,
-            publishToController: null,
+            alerts: [],
+            itemCount: 0,
+            itemToEdit: null,
             items: [],
             loading: true,
-            itemCount: 0,
-            alerts: [],
+            params: params,
+            publishToController: null,
+            showRemoteModal: false,
             unauthorized: false,
             deleteModalVisible: false,
             selectedItem: null,
@@ -67,17 +80,26 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, publishToController = _a.publishToController, itemCount = _a.itemCount, loading = _a.loading, alerts = _a.alerts, items = _a.items, unauthorized = _a.unauthorized, deleteModalVisible = _a.deleteModalVisible, selectedItem = _a.selectedItem, confirmDelete = _a.confirmDelete;
+        var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, deleteModalVisible = _a.deleteModalVisible, selectedItem = _a.selectedItem, confirmDelete = _a.confirmDelete;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             } },
-            "Push container images ",
+            React.createElement(Trans, null, "Push container images"),
+            " ",
             React.createElement(ExternalLinkAltIcon, null)));
+        var addRemoteButton = (React.createElement(Button, { onClick: function () {
+                return _this.setState({
+                    showRemoteModal: true,
+                    itemToEdit: {},
+                });
+            }, variant: 'primary' },
+            React.createElement(Trans, null, "Add execution environment")));
         var name = !!selectedItem ? selectedItem.name : '';
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
+            showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
             deleteModalVisible && (React.createElement(DeleteModal, { title: 'Permanently delete container', cancelAction: function () {
                     return _this.setState({ deleteModalVisible: false, selectedItem: null });
@@ -87,7 +109,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     React.createElement("b", null, name),
                     " and its data will be lost."),
                 React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
-            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: pushImagesButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: React.createElement(React.Fragment, null,
+                    addRemoteButton,
+                    pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -104,6 +128,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                                                 title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Container repository name"], ["Container repository name"]))),
                                             },
                                         ] })),
+                                React.createElement(ToolbarItem, null, addRemoteButton),
                                 React.createElement(ToolbarItem, null, pushImagesButton)))),
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.queryEnvironments(); });
@@ -147,13 +172,18 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     id: 'updated',
                 },
                 {
+                    title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Container registry type"], ["Container registry type"]))),
+                    type: 'none',
+                    id: 'type',
+                },
+                {
                     title: '',
                     type: 'none',
                     id: 'controls',
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryEnvironments(); });
                 } }),
@@ -163,16 +193,23 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var _this = this;
         var description = item.description;
         var dropdownItems = [
+            React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+                    return _this.setState({
+                        showRemoteModal: true,
+                        itemToEdit: __assign({}, item),
+                    });
+                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Edit"], ["Edit"])))),
+            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return ExecutionEnvironmentRemoteAPI.sync(item.name); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
                         publishToController: {
                             image: item.name,
                         },
                     });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+                } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
             React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({ selectedItem: item, deleteModalVisible: true });
-                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete"], ["Delete"])))),
+                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"])))),
         ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null,
@@ -185,7 +222,40 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.created })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.updated })),
+            React.createElement("td", null,
+                React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Local"], ["Local"]))))),
             React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && React.createElement(StatefulDropdown, { items: dropdownItems }))));
+    };
+    ExecutionEnvironmentList.prototype.renderRemoteModal = function (itemToEdit) {
+        var _this = this;
+        var _a, _b, _c;
+        var name = itemToEdit.name, namespace = itemToEdit.namespace, description = itemToEdit.description, pulp = itemToEdit.pulp;
+        var _d = ((_a = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _a === void 0 ? void 0 : _a.remote) || {}, pulp_id = _d.pulp_id, registry = _d.registry, upstream_name = _d.upstream_name, include_tags = _d.include_tags, exclude_tags = _d.exclude_tags;
+        var remote = (pulp === null || pulp === void 0 ? void 0 : pulp.repository) ? !!((_b = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _b === void 0 ? void 0 : _b.remote) : true; // add only supports remote
+        var isNew = !(pulp === null || pulp === void 0 ? void 0 : pulp.repository); // only exists in real data
+        var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.pulp_id;
+        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remotePulpId: pulp_id, distributionPulpId: distributionPulpId, onSave: function (promise) {
+                promise
+                    .then(function () {
+                    _this.setState({
+                        showRemoteModal: false,
+                        itemToEdit: null,
+                    }, function () { return _this.queryEnvironments(); });
+                })
+                    .catch(function () {
+                    _this.setState({
+                        alerts: _this.state.alerts.concat({
+                            variant: 'danger',
+                            title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
+                        }),
+                    });
+                });
+            }, onCancel: function () {
+                return _this.setState({
+                    showRemoteModal: false,
+                    itemToEdit: null,
+                });
+            } }));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {
         var _this = this;
@@ -212,12 +282,12 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 selectedItem: null,
                 confirmDelete: false,
             });
-            _this.waitForTask(taskId).then(function () {
+            waitForTask(taskId).then(function () {
                 _this.setState({
                     alerts: _this.state.alerts.concat([
                         {
                             variant: 'success',
-                            title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
+                            title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
                         },
                     ]),
                 });
@@ -230,19 +300,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 selectedItem: null,
                 confirmDelete: false,
                 alerts: _this.state.alerts.concat([
-                    { variant: 'danger', title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                    { variant: 'danger', title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                 ]),
             });
-        });
-    };
-    ExecutionEnvironmentList.prototype.waitForTask = function (task) {
-        var _this = this;
-        return TaskAPI.get(task).then(function (result) {
-            if (result.data.state !== 'completed') {
-                return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
-                    return _this.waitForTask(task);
-                });
-            }
         });
     };
     Object.defineProperty(ExecutionEnvironmentList.prototype, "updateParams", {
@@ -263,5 +323,5 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
 //# sourceMappingURL=execution_environment_list.js.map

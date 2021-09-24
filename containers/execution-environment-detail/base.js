@@ -31,11 +31,11 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
-import { ExecutionEnvironmentAPI, ContainerDistributionAPI, ExecutionEnvironmentNamespaceAPI, TaskAPI, } from 'src/api';
+import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { formatPath, Paths } from '../../paths';
 import { Button, DropdownItem } from '@patternfly/react-core';
 import { AlertList, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
-import { isEqual, isEmpty, xorWith, cloneDeep } from 'lodash';
+import { waitForTask } from 'src/utilities';
 // A higher order component to wrap individual detail pages
 export function withContainerRepo(WrappedComponent) {
     return /** @class */ (function (_super) {
@@ -48,7 +48,6 @@ export function withContainerRepo(WrappedComponent) {
                 loading: true,
                 redirect: undefined,
                 editing: false,
-                selectedGroups: [],
                 alerts: [],
             };
             return _this;
@@ -58,6 +57,7 @@ export function withContainerRepo(WrappedComponent) {
         };
         class_1.prototype.render = function () {
             var _this = this;
+            var _a, _b, _c, _d, _e;
             if (this.state.redirect === 'activity') {
                 return (React.createElement(Redirect, { push: true, to: formatPath(Paths.executionEnvironmentDetailActivities, {
                         container: this.props.match.params['container'],
@@ -82,38 +82,32 @@ export function withContainerRepo(WrappedComponent) {
             var permissions = this.state.repo.namespace.my_permissions;
             var showEdit = permissions.includes('container.namespace_change_containerdistribution') || permissions.includes('container.change_containernamespace');
             var dropdownItems = [
+                this.state.repo.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () {
+                        return ExecutionEnvironmentRemoteAPI.sync(_this.state.repo.name);
+                    } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
                 React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                         _this.setState({
                             publishToController: {
                                 image: _this.state.repo.name,
                             },
                         });
-                    } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            ];
+                    } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+            ].filter(function (truthy) { return truthy; });
             var publishToController = this.state.publishToController;
             return (React.createElement(React.Fragment, null,
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
                 React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), container: this.state.repo, pageControls: React.createElement(React.Fragment, null,
-                        showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
+                        showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                         React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                 React.createElement(Main, null,
-                    this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, selectedGroups: cloneDeep(this.state.selectedGroups), description: this.state.repo.description, permissions: permissions, onSave: function (description, selectedGroups) {
-                            var promises = [];
-                            if (description !== _this.state.repo.description) {
-                                promises.push(ContainerDistributionAPI.patch(_this.state.repo.pulp.distribution.pulp_id, {
-                                    description: description,
-                                }));
-                            }
-                            if (!_this.compareGroupsAndPerms(selectedGroups.sort(), _this.state.selectedGroups.sort())) {
-                                promises.push(ExecutionEnvironmentNamespaceAPI.update(_this.state.repo.namespace.name, { groups: selectedGroups }));
-                            }
-                            Promise.all(promises)
+                    this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, onSave: function (promise) {
+                            promise
                                 .then(function (results) {
                                 var task = results.find(function (x) { return x.data && x.data.task; });
                                 _this.setState({ editing: false, loading: true });
                                 if (!!task) {
-                                    _this.waitForTask(task.data.task.split('tasks/')[1].replace('/', '')).then(function () {
+                                    waitForTask(task.data.task.split('tasks/')[1].replace('/', '')).then(function () {
                                         _this.loadRepo();
                                     });
                                 }
@@ -126,36 +120,20 @@ export function withContainerRepo(WrappedComponent) {
                                     editing: false,
                                     alerts: _this.state.alerts.concat({
                                         variant: 'danger',
-                                        title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
+                                        title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
                                     }),
                                 });
                             });
-                        }, onCancel: function () { return _this.setState({ editing: false }); } })),
+                        }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.pulp_id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_a = this.state.repo.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.upstream_name, registry: (_b = this.state.repo.pulp.repository.remote) === null || _b === void 0 ? void 0 : _b.registry, excludeTags: (_c = this.state.repo.pulp.repository.remote) === null || _c === void 0 ? void 0 : _c.exclude_tags, includeTags: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.include_tags, remotePulpId: (_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.pulp_id })),
                     React.createElement(WrappedComponent, __assign({ containerRepository: this.state.repo, editing: this.state.editing }, this.props)))));
-        };
-        //Compare groups and compare their permissions
-        class_1.prototype.compareGroupsAndPerms = function (original, newOne) {
-            var same = true;
-            if (original.length === newOne.length) {
-                original.forEach(function (x, index) {
-                    if (!isEmpty(xorWith(x.object_permissions.sort(), newOne[index].object_permissions.sort(), isEqual))) {
-                        same = false;
-                    }
-                });
-            }
-            return isEmpty(xorWith(original, newOne, isEqual)) && same;
         };
         class_1.prototype.loadRepo = function () {
             var _this = this;
             ExecutionEnvironmentAPI.get(this.props.match.params['container'])
                 .then(function (result) {
-                var repo = result;
-                return ExecutionEnvironmentNamespaceAPI.get(result.data.namespace.name).then(function (result) {
-                    return _this.setState({
-                        loading: false,
-                        repo: repo.data,
-                        selectedGroups: result.data.groups,
-                    });
+                _this.setState({
+                    loading: false,
+                    repo: result.data,
                 });
             })
                 .catch(function (e) { return _this.setState({ redirect: 'notFound' }); });
@@ -171,16 +149,6 @@ export function withContainerRepo(WrappedComponent) {
             }
             return 'detail';
         };
-        class_1.prototype.waitForTask = function (task) {
-            var _this = this;
-            return TaskAPI.get(task).then(function (result) {
-                if (result.data.state !== 'completed') {
-                    return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
-                        return _this.waitForTask(task);
-                    });
-                }
-            });
-        };
         Object.defineProperty(class_1.prototype, "closeAlert", {
             get: function () {
                 return closeAlertMixin('alerts');
@@ -191,5 +159,5 @@ export function withContainerRepo(WrappedComponent) {
         return class_1;
     }(React.Component));
 }
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=base.js.map

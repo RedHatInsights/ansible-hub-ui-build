@@ -21,9 +21,9 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment-detail.scss';
 import { pickBy } from 'lodash';
-import { ExecutionEnvironmentAPI, TaskAPI, } from 'src/api';
+import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
-import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, } from 'src/utilities';
+import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
 import { Link, withRouter } from 'react-router-dom';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, DropdownItem, LabelGroup, Checkbox, } from '@patternfly/react-core';
 import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
@@ -116,7 +116,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             ],
         };
         var canEditTags = this.props.containerRepository.namespace.my_permissions.includes('container.namespace_modify_content_containerpushrepository');
-        var digest = selectedImage.digest;
+        var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             deleteModalVisible && (React.createElement(DeleteModal, { title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image"], ["Permanently delete image"]))), cancelAction: function () {
@@ -205,8 +205,9 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var instruction = image.tags.length === 0
             ? image.digest
             : this.props.match.params['container'] + ':' + image.tags[0];
+        var isRemote = !!this.props.containerRepository.pulp.repository.remote;
         var dropdownItems = [
-            canEditTags && (React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
+            canEditTags && !isRemote && (React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
                     _this.setState({ manageTagsManifestDigest: image.digest });
                 } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Manage tags"], ["Manage tags"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
@@ -273,7 +274,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 selectedImage: null,
                 confirmDelete: false,
             });
-            _this.waitForTask(taskId).then(function () {
+            waitForTask(taskId).then(function () {
                 _this.setState({
                     alerts: _this.state.alerts.concat([
                         {
@@ -294,16 +295,6 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     { variant: 'danger', title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                 ]),
             });
-        });
-    };
-    ExecutionEnvironmentDetailImages.prototype.waitForTask = function (task) {
-        var _this = this;
-        return TaskAPI.get(task).then(function (result) {
-            if (result.data.state !== 'completed') {
-                return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
-                    return _this.waitForTask(task);
-                });
-            }
         });
     };
     Object.defineProperty(ExecutionEnvironmentDetailImages.prototype, "updateParams", {

@@ -10,4 +10,5 @@ export { truncateSha } from './truncate_sha';
 export { getHumanSize } from './get_human_size';
 export { parsePulpIDFromURL } from './parse-pulp-id';
 export { lastSynced, lastSyncStatus } from './last-sync-task';
+export { waitForTask } from './wait-for-task';
 //# sourceMappingURL=index.js.map
