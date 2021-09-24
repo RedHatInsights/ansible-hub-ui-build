@@ -3,6 +3,7 @@ var LastSyncType = /** @class */ (function () {
     }
     return LastSyncType;
 }());
+export { LastSyncType };
 var RemoteType = /** @class */ (function () {
     function RemoteType() {
     }

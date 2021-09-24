@@ -17,11 +17,12 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { Paths } from 'src/paths';
 import { BaseHeader, Breadcrumbs, Tabs } from 'src/components';
+import { lastSyncStatus, lastSynced } from 'src/utilities';
 var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentHeader, _super);
     function ExecutionEnvironmentHeader() {
@@ -29,11 +30,13 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     }
     ExecutionEnvironmentHeader.prototype.render = function () {
         var _this = this;
+        var _a;
         var tabs = [
             { id: 'detail', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))) },
             { id: 'activity', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))) },
             { id: 'images', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"]))) },
         ];
+        var last_sync_task = (_a = this.props.container.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task;
         return (React.createElement(BaseHeader, { title: this.props.container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
                         url: Paths.executionEnvironments,
@@ -43,6 +46,12 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                 ] }), pageControls: this.props.pageControls },
             React.createElement(Tooltip, { content: this.props.container.description },
                 React.createElement("p", { className: 'truncated' }, this.props.container.description)),
+            last_sync_task && (React.createElement("p", { className: 'truncated' },
+                React.createElement(Trans, null,
+                    "Last updated from registry ",
+                    lastSynced({ last_sync_task: last_sync_task })),
+                ' ',
+                lastSyncStatus({ last_sync_task: last_sync_task }))),
             React.createElement("span", null),
             React.createElement("div", { className: 'tab-link-container' },
                 React.createElement("div", { className: 'tabs' },

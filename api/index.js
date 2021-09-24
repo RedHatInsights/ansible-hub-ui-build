@@ -24,6 +24,7 @@ export { DistributionType } from './response-types/distribution';
 export { ExecutionEnvironmentAPI } from './execution-environment';
 export { ExecutionEnvironmentRegistryAPI } from './execution-environment-registry';
 export { ExecutionEnvironmentType, ContainerManifestType, ContainerRepositoryType, } from './response-types/execution-environment';
+export { ExecutionEnvironmentRemoteAPI } from './execution-environment-remote';
 export { WriteOnlyFieldType } from './response-types/write-only-field';
 export { ActivitiesAPI } from './activities';
 export { ContainerTagAPI } from './container-tag';

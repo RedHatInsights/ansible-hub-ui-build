@@ -35,8 +35,9 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, Tooltip, Checkbox, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
 import { BaseHeader, Breadcrumbs, LinkTabs, RepoSelector, Pagination, AlertList, closeAlertMixin, ConfirmModal, StatefulDropdown, } from 'src/components';
-import { CollectionAPI, TaskAPI } from 'src/api';
+import { CollectionAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
+import { waitForTask } from 'src/utilities';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { DateComponent } from '../date-component/date-component';
 import { Constants } from 'src/constants';
@@ -59,7 +60,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             CollectionAPI.deleteCollectionVersion(_this.context.selectedRepo, deleteCollection)
                 .then(function (res) {
                 var taskId = _this.getIdFromTask(res.data.task);
-                _this.waitForTaskFinish(taskId).then(function () {
+                waitForTask(taskId).then(function () {
                     if (deleteCollection.all_versions.length > 1) {
                         var topVersion = deleteCollection.all_versions.filter(function (_a) {
                             var version = _a.version;
@@ -140,7 +141,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             CollectionAPI.deleteCollection(_this.context.selectedRepo, deleteCollection)
                 .then(function (res) {
                 var taskId = _this.getIdFromTask(res.data.task);
-                _this.waitForTaskFinish(taskId).then(function () {
+                waitForTask(taskId).then(function () {
                     _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'success',
@@ -394,16 +395,6 @@ var CollectionHeader = /** @class */ (function (_super) {
                     },
                 ], false),
             });
-        });
-    };
-    CollectionHeader.prototype.waitForTaskFinish = function (task) {
-        var _this = this;
-        return TaskAPI.get(task).then(function (result) {
-            if (result.data.state !== 'completed') {
-                return new Promise(function (r) { return setTimeout(r, 500); }).then(function () {
-                    return _this.waitForTaskFinish(task);
-                });
-            }
         });
     };
     CollectionHeader.prototype.getIdFromTask = function (task) {
