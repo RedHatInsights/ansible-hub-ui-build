@@ -34,9 +34,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, } from '@patternfly/react-core';
 import { ParamHelper, filterIsSet } from '../../utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
 import { TaskManagementAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
+import { AppContext } from 'src/loaders/app-context';
 var TaskListView = /** @class */ (function (_super) {
     __extends(TaskListView, _super);
     function TaskListView(props) {
@@ -59,21 +60,27 @@ var TaskListView = /** @class */ (function (_super) {
             alerts: [],
             cancelModalVisible: false,
             selectedTask: null,
+            unauthorised: false,
         };
         return _this;
     }
     TaskListView.prototype.componentDidMount = function () {
-        this.queryTasks();
+        if (!this.context.user || this.context.user.is_anonymous) {
+            this.setState({ loading: false, unauthorised: true });
+        }
+        else {
+            this.queryTasks();
+        }
     };
     TaskListView.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, items = _a.items, alerts = _a.alerts, cancelModalVisible = _a.cancelModalVisible;
+        var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, items = _a.items, alerts = _a.alerts, cancelModalVisible = _a.cancelModalVisible, unauthorised = _a.unauthorised;
         var noData = items.length === 0 && !filterIsSet(params, ['name__contains', 'state']);
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             cancelModalVisible ? this.renderCancelModal() : null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
-            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'task-list' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -275,5 +282,6 @@ var TaskListView = /** @class */ (function (_super) {
 }(React.Component));
 export { TaskListView };
 export default withRouter(TaskListView);
+TaskListView.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26;
 //# sourceMappingURL=task-list-view.js.map

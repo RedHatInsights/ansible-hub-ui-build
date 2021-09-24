@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, } from 'src/components';
+import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
 import { ParamHelper, mapErrorMessages } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
@@ -110,15 +110,21 @@ var RepositoryList = /** @class */ (function (_super) {
             content: [],
             remoteToEdit: undefined,
             errorMessages: {},
+            unauthorised: false,
         };
         return _this;
     }
     RepositoryList.prototype.componentDidMount = function () {
-        this.loadContent();
+        if (!this.context.user || this.context.user.is_anonymous) {
+            this.setState({ unauthorised: true, loading: false });
+        }
+        else {
+            this.loadContent();
+        }
     };
     RepositoryList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, loading = _a.loading, content = _a.content, remoteToEdit = _a.remoteToEdit, showRemoteFormModal = _a.showRemoteFormModal, errorMessages = _a.errorMessages;
+        var _a = this.state, params = _a.params, loading = _a.loading, content = _a.content, remoteToEdit = _a.remoteToEdit, showRemoteFormModal = _a.showRemoteFormModal, errorMessages = _a.errorMessages, unauthorised = _a.unauthorised;
         var tabs = [
             { id: 'local', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Local"], ["Local"]))) },
             { id: 'remote', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote"], ["Remote"]))) },
@@ -151,7 +157,8 @@ var RepositoryList = /** @class */ (function (_super) {
                     return _this.setState({ showRemoteFormModal: false, errorMessages: {} });
                 } })),
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))) }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
-                !loading ? (React.createElement("div", { className: 'header-bottom' },
+                !loading &&
+                !unauthorised ? (React.createElement("div", { className: 'header-bottom' },
                 React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) {
@@ -161,7 +168,7 @@ var RepositoryList = /** @class */ (function (_super) {
                                     return _this.updateParams(p, function () { return _this.loadContent(); });
                                 });
                             } }))))) : null),
-            loading ? React.createElement(LoadingPageSpinner, null) : this.renderContent(params, content)));
+            loading ? (React.createElement(LoadingPageSpinner, null)) : unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (this.renderContent(params, content))));
     };
     RepositoryList.prototype.renderContent = function (params, content) {
         var _this = this;

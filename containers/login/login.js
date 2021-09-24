@@ -20,12 +20,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { LoginForm, LoginPage as PFLoginPage } from '@patternfly/react-core';
+import { LoginForm, LoginPage as PFLoginPage, } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import Logo from 'src/../static/images/logo_large.svg';
 import { ParamHelper } from 'src/utilities/';
 import { Paths } from 'src/paths';
 import { ActiveUserAPI } from 'src/api';
+import { AppContext } from 'src/loaders/app-context';
 var LoginPage = /** @class */ (function (_super) {
     __extends(LoginPage, _super);
     function LoginPage(props) {
@@ -38,9 +39,12 @@ var LoginPage = /** @class */ (function (_super) {
         };
         _this.onLoginButtonClick = function (event) {
             ActiveUserAPI.login(_this.state.usernameValue, _this.state.passwordValue)
-                .then(function (result) {
+                .then(function () {
                 ActiveUserAPI.getUser()
-                    .then(function () { return _this.setState({ redirect: _this.redirectPage }); })
+                    .then(function (result) {
+                    _this.context.setUser(result);
+                    _this.setState({ redirect: _this.redirectPage });
+                })
                     .catch(function () {
                     return _this.setState({
                         passwordValue: '',
@@ -89,5 +93,6 @@ var LoginPage = /** @class */ (function (_super) {
     return LoginPage;
 }(React.Component));
 export default withRouter(LoginPage);
+LoginPage.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=login.js.map

@@ -21,8 +21,9 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
-import { BaseHeader, Main, ClipboardCopy } from 'src/components';
+import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
+import { AppContext } from 'src/loaders/app-context';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {
@@ -35,28 +36,28 @@ var TokenPage = /** @class */ (function (_super) {
     TokenPage.prototype.render = function () {
         var _this = this;
         var token = this.state.token;
+        var unauthorised = !this.context.user || this.context.user.is_anonymous;
         return (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Token management"], ["Token management"]))) }),
-            React.createElement(Main, null,
-                React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"])))),
-                    React.createElement("p", null,
-                        React.createElement(Trans, null,
-                            "Use this token to authenticate the ",
-                            React.createElement("code", null, "ansible-galaxy"),
-                            ' ',
-                            "client.")),
+            React.createElement(Main, null, unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement("section", { className: 'body pf-c-content' },
+                React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"])))),
+                React.createElement("p", null,
+                    React.createElement(Trans, null,
+                        "Use this token to authenticate the ",
+                        React.createElement("code", null, "ansible-galaxy"),
+                        ' ',
+                        "client.")),
+                React.createElement("div", { className: 'pf-c-content' },
+                    React.createElement(Trans, null,
+                        React.createElement("b", null, "WARNING"),
+                        " loading a new token will delete your old token.")),
+                token ? (React.createElement("div", null,
                     React.createElement("div", { className: 'pf-c-content' },
                         React.createElement(Trans, null,
                             React.createElement("b", null, "WARNING"),
-                            " loading a new token will delete your old token.")),
-                    token ? (React.createElement("div", null,
-                        React.createElement("div", { className: 'pf-c-content' },
-                            React.createElement(Trans, null,
-                                React.createElement("b", null, "WARNING"),
-                                " copy this token now. This is the only time you will ever see it.")),
-                        React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", null,
-                        React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Load token"], ["Load token"]))))))))));
+                            " copy this token now. This is the only time you will ever see it.")),
+                    React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", null,
+                    React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Load token"], ["Load token"])))))))))));
     };
     TokenPage.prototype.loadToken = function () {
         var _this = this;
@@ -67,5 +68,6 @@ var TokenPage = /** @class */ (function (_super) {
     return TokenPage;
 }(React.Component));
 export default withRouter(TokenPage);
+TokenPage.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=token-standalone.js.map

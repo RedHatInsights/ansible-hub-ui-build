@@ -38,8 +38,8 @@ import { Button, ToolbarItem } from '@patternfly/react-core';
 import { NamespaceAPI, MyNamespaceAPI } from 'src/api';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { Constants } from 'src/constants';
-import { AppContext } from 'src/loaders/app-context';
 import { filterIsSet } from 'src/utilities';
+import { AppContext } from 'src/loaders/app-context';
 var NamespaceList = /** @class */ (function (_super) {
     __extends(NamespaceList, _super);
     function NamespaceList(props) {
@@ -104,13 +104,13 @@ var NamespaceList = /** @class */ (function (_super) {
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount;
+        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount, loading = _b.loading;
         var filterOwner = this.props.filterOwner;
         var _c = this.context, user = _c.user, alerts = _c.alerts;
         var noData = !filterIsSet(this.state.params, ['keywords']) &&
             namespaces !== undefined &&
             namespaces.length === 0;
-        if (!namespaces) {
+        if (loading) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var extra = [];
@@ -132,7 +132,7 @@ var NamespaceList = /** @class */ (function (_super) {
                 } }),
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: title },
-                React.createElement("div", { className: 'tab-link-container' },
+                !this.context.user.is_anonymous && (React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(LinkTabs, { tabs: [
                                 {
@@ -145,7 +145,7 @@ var NamespaceList = /** @class */ (function (_super) {
                                     link: Paths.myNamespaces,
                                     active: filterOwner,
                                 },
-                            ] }))),
+                            ] })))),
                 noData ? null : (React.createElement("div", { className: 'toolbar' },
                     React.createElement(Toolbar, { params: params, sortOptions: [{ title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' }], searchPlaceholder: search, updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.loadNamespaces(); });
@@ -155,7 +155,7 @@ var NamespaceList = /** @class */ (function (_super) {
                                 return _this.updateParams(p, function () { return _this.loadNamespaces(); });
                             }, count: itemCount, isCompact: true, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS }))))),
             React.createElement("section", { className: 'card-area' }, this.renderBody()),
-            noData ? null : (React.createElement("section", { className: 'footer' },
+            noData || loading ? null : (React.createElement("section", { className: 'footer' },
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () { return _this.loadNamespaces(); });
                     }, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS, count: itemCount })))));

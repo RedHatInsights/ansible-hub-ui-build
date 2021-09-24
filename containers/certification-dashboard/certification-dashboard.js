@@ -96,6 +96,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
     }
     CertificationDashboard.prototype.componentDidMount = function () {
         if (!this.context.user ||
+            this.context.user.is_anonymous ||
             !this.context.user.model_permissions.move_collection) {
             this.setState({ unauthorized: true });
         }
