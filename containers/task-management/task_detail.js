@@ -52,11 +52,17 @@ var TaskDetail = /** @class */ (function (_super) {
             taskName: '',
             resources: [],
             redirect: null,
+            refresh: null,
         };
         return _this;
     }
     TaskDetail.prototype.componentDidMount = function () {
         this.loadContent();
+    };
+    TaskDetail.prototype.componentWillUnmount = function () {
+        if (this.state.refresh) {
+            clearInterval(this.state.refresh);
+        }
     };
     TaskDetail.prototype.componentDidUpdate = function (prevProps) {
         if (prevProps.match.params['task'] !== this.props.match.params['task']) {
@@ -217,12 +223,19 @@ var TaskDetail = /** @class */ (function (_super) {
     TaskDetail.prototype.loadContent = function () {
         var _this = this;
         var taskId = this.props.match.params['task'];
+        if (!this.state.refresh && !this.state.task) {
+            this.setState({ refresh: setInterval(function () { return _this.loadContent(); }, 10000) });
+        }
         return TaskManagementAPI.get(taskId)
             .then(function (result) {
             var allRelatedTasks = [];
             var parentTask = null;
             var childTasks = [];
             var resources = [];
+            if (['canceled', 'completed', 'failed'].includes(result.data.state)) {
+                clearInterval(_this.state.refresh);
+                _this.setState({ refresh: null });
+            }
             if (!!result.data.parent_task) {
                 var parentTaskId = parsePulpIDFromURL(result.data.parent_task);
                 allRelatedTasks.push(TaskManagementAPI.get(parentTaskId)
@@ -250,7 +263,6 @@ var TaskDetail = /** @class */ (function (_super) {
                     var url = resource.replace('/pulp/api/v3/', '');
                     var id = parsePulpIDFromURL(url);
                     var urlParts = resource.split('/');
-                    console.log(urlParts);
                     var type = !!id ? urlParts[4] : urlParts[urlParts.length - 2];
                     if (!!id) {
                         allRelatedTasks.push(GenericPulpAPI.get(url)
