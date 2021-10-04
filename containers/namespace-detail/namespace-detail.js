@@ -161,19 +161,14 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: namespace.name }),
             isOpenNamespaceModal && (React.createElement(ConfirmModal, { cancelAction: this.closeModal, confirmAction: this.deleteNamespace, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Permanently delete namespace?"], ["Permanently delete namespace?"]))), confirmButtonTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Delete"], ["Delete"]))), isDisabled: !confirmDelete },
                 React.createElement(React.Fragment, null,
-                    React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } },
+                    React.createElement(Text, { className: 'delete-namespace-modal-message' },
                         React.createElement(Trans, null,
                             "Deleting ",
                             React.createElement("b", null, namespace.name),
                             " and its data will be lost.")),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            warning ? (React.createElement(Alert, { style: {
-                    position: 'fixed',
-                    right: '5px',
-                    top: '80px',
-                    zIndex: 300,
-                }, variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
+            warning ? (React.createElement(Alert, { className: 'namespace-warning-alert', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [namespaceBreadcrumb, { name: namespace.name }], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab.toLowerCase() === 'collections' ? (React.createElement("div", { className: 'toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
@@ -302,9 +297,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _this = this;
         var collections = this.state.collections;
         if (!this.state.showControls) {
-            return React.createElement("div", { style: { display: 'flex', alignItems: 'center' } });
+            return React.createElement("div", { className: 'namespace-page-controls' });
         }
-        return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
+        return (React.createElement("div", { className: 'namespace-page-controls' },
             ' ',
             collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             React.createElement(StatefulDropdown, { items: [
