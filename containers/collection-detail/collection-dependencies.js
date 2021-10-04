@@ -50,7 +50,8 @@ var CollectionDependencies = /** @class */ (function (_super) {
     __extends(CollectionDependencies, _super);
     function CollectionDependencies(props) {
         var _this = _super.call(this, props) || this;
-        _this.ignoredParams = ['page_size', 'page', 'sort', 'name'];
+        _this.ignoredParams = ['page_size', 'page', 'sort', 'name__icontains'];
+        _this.cancelToken = undefined;
         var params = ParamHelper.parseParamString(props.location.search, [
             'page',
             'page_size',
@@ -61,7 +62,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
             params: params,
             usedByDependencies: [],
             usedByDependenciesCount: 0,
-            usedByDependenciesLoading: false,
+            usedByDependenciesLoading: true,
             alerts: [],
         };
         return _this;
@@ -110,7 +111,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
                         React.createElement("h1", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Dependencies"], ["Dependencies"])))),
                         noDependencies &&
                             !usedByDependenciesCount &&
-                            !filterIsSet(params, ['name']) ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(React.Fragment, null,
+                            !filterIsSet(params, ['name__icontains']) ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(React.Fragment, null,
                             React.createElement("p", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["This collections requires the following collections for use"], ["This collections requires the following collections for use"])))),
                             noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, repo: this.context.selectedRepo })),
                             React.createElement("p", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["This collection is being used by"], ["This collection is being used by"])))),
@@ -126,7 +127,10 @@ var CollectionDependencies = /** @class */ (function (_super) {
     CollectionDependencies.prototype.loadUsedByDependencies = function () {
         var _this = this;
         this.setState({ usedByDependenciesLoading: true }, function () {
-            CollectionAPI.getUsedDependenciesByCollection(_this.state.collection.namespace.name, _this.state.collection.name, ParamHelper.getReduced(_this.state.params, ['version']))
+            if (_this.cancelToken)
+                _this.cancelToken.cancel('request-canceled');
+            _this.cancelToken = CollectionAPI.getCancelToken();
+            CollectionAPI.getUsedDependenciesByCollection(_this.state.collection.namespace.name, _this.state.collection.name, ParamHelper.getReduced(_this.state.params, ['version']), _this.cancelToken)
                 .then(function (_a) {
                 var data = _a.data;
                 _this.setState({
@@ -136,16 +140,21 @@ var CollectionDependencies = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                return _this.setState({
-                    usedByDependenciesLoading: false,
-                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
-                        {
-                            variant: 'danger',
-                            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error loading dependent collections."], ["Error loading dependent collections."]))),
-                            description: err === null || err === void 0 ? void 0 : err.message,
-                        },
-                    ], false),
-                });
+                if ((err === null || err === void 0 ? void 0 : err.message) !== 'request-canceled') {
+                    _this.setState({
+                        usedByDependenciesLoading: false,
+                        alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                            {
+                                variant: 'danger',
+                                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error loading dependent collections."], ["Error loading dependent collections."]))),
+                                description: err === null || err === void 0 ? void 0 : err.message,
+                            },
+                        ], false),
+                    });
+                }
+            })
+                .finally(function () {
+                _this.cancelToken = undefined;
             });
         });
     };

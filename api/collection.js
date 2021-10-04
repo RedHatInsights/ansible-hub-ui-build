@@ -120,8 +120,10 @@ var API = /** @class */ (function (_super) {
     API.prototype.deleteCollection = function (repo, collection) {
         return this.http.delete("content/" + repo + "/v3/collections/" + collection.namespace.name + "/" + collection.name + "/");
     };
-    API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params) {
-        return this.http.get(this.getUIPath("collection-versions/?dependency=" + namespace + "." + collection), { params: this.mapPageToOffset(params) });
+    API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params, cancelToken) {
+        if (params === void 0) { params = {}; }
+        if (cancelToken === void 0) { cancelToken = undefined; }
+        return this.http.get(this.getUIPath("collection-versions/?dependency=" + namespace + "." + collection), { params: this.mapPageToOffset(params), cancelToken: cancelToken === null || cancelToken === void 0 ? void 0 : cancelToken.token });
     };
     return API;
 }(HubAPI));

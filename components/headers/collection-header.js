@@ -100,7 +100,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
-                        React.createElement(List, null, dependent_collection_versions.map(function (d) {
+                        React.createElement(List, { className: 'dependent-collections-alert-list' }, dependent_collection_versions.map(function (d) {
                             var _a = _this.separateStringDependencies(d), namespace = _a.namespace, version = _a.version, collection = _a.collection;
                             return (React.createElement(ListItem, { key: d },
                                 React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {

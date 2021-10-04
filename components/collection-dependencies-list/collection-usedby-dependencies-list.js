@@ -29,23 +29,23 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
     __extends(CollectionUsedbyDependenciesList, _super);
     function CollectionUsedbyDependenciesList() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.ignoredParams = ['page_size', 'page', 'sort', 'name'];
+        _this.ignoredParams = ['page_size', 'page', 'sort', 'name__icontains'];
         return _this;
     }
     CollectionUsedbyDependenciesList.prototype.render = function () {
         var _this = this;
         var _a = this.props, params = _a.params, usedByDependencies = _a.usedByDependencies, itemCount = _a.itemCount, updateParams = _a.updateParams, repo = _a.repo, usedByDependenciesLoading = _a.usedByDependenciesLoading;
-        if (!itemCount && !filterIsSet(params, ['name']))
+        if (!itemCount && !filterIsSet(params, ['name__icontains']))
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not required for use by other collections"], ["Not required for use by other collections"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection is not being used by any collection."], ["Collection is not being used by any collection."]))) }));
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { className: 'usedby-dependencies-header' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarGroup, null,
                         React.createElement(ToolbarItem, null,
-                            React.createElement(SearchInput, { value: params.name || '', onChange: function (val) {
-                                    return updateParams(ParamHelper.setParam(params, 'name', val));
+                            React.createElement(SearchInput, { value: params.name__icontains || '', onChange: function (val) {
+                                    return updateParams(ParamHelper.setParam(params, 'name__icontains', val));
                                 }, onClear: function () {
-                                    return updateParams(ParamHelper.setParam(params, 'name', ''));
+                                    return updateParams(ParamHelper.setParam(params, 'name__icontains', ''));
                                 }, "aria-label": 'filter-collection-name', placeholder: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by name"], ["Filter by name"]))) })),
                         React.createElement(ToolbarItem, null,
                             React.createElement(Sort, { options: [
@@ -65,7 +65,10 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
                                         collection: name,
                                         namespace: namespace,
                                         repo: repo,
-                                    }, ParamHelper.getReduced({ version: version }, _this.ignoredParams)) }, name))));
+                                    }, ParamHelper.getReduced({ version: version }, _this.ignoredParams)) },
+                                    name,
+                                    " v",
+                                    version))));
                     }))),
                 React.createElement(Pagination, { params: params, updateParams: function (params) { return updateParams(params); }, count: itemCount })))))));
     };
