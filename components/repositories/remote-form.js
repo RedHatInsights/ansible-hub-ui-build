@@ -57,6 +57,14 @@ var RemoteForm = /** @class */ (function (_super) {
             uploadedClientCertFilename: clientCertFilename,
             uploadedCaCertFilename: caCertFilename,
         };
+        /***************************************************************
+         * Shim in a default concurrency value to pass form validation
+         * https://issues.redhat.com/browse/AAH-959
+         ***************************************************************/
+        if (_this.props.remoteType !== 'registry' &&
+            _this.props.remote.download_concurrency === null) {
+            _this.updateRemote(10, 'download_concurrency');
+        }
         return _this;
     }
     RemoteForm.prototype.render = function () {

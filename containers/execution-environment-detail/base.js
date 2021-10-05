@@ -28,14 +28,23 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { formatPath, Paths } from '../../paths';
 import { Button, DropdownItem } from '@patternfly/react-core';
 import { AlertList, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
-import { waitForTask } from 'src/utilities';
+import { parsePulpIDFromURL, waitForTask } from 'src/utilities';
 // A higher order component to wrap individual detail pages
 export function withContainerRepo(WrappedComponent) {
     return /** @class */ (function (_super) {
@@ -82,9 +91,7 @@ export function withContainerRepo(WrappedComponent) {
             var permissions = this.state.repo.namespace.my_permissions;
             var showEdit = permissions.includes('container.namespace_change_containerdistribution') || permissions.includes('container.change_containernamespace');
             var dropdownItems = [
-                this.state.repo.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () {
-                        return ExecutionEnvironmentRemoteAPI.sync(_this.state.repo.name);
-                    } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+                this.state.repo.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
                 React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                         _this.setState({
                             publishToController: {
@@ -156,8 +163,33 @@ export function withContainerRepo(WrappedComponent) {
             enumerable: false,
             configurable: true
         });
+        class_1.prototype.addAlert = function (title, variant, description) {
+            this.setState({
+                alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
+                    {
+                        description: description,
+                        title: title,
+                        variant: variant,
+                    },
+                ], false),
+            });
+        };
+        class_1.prototype.sync = function (name) {
+            var _this = this;
+            ExecutionEnvironmentRemoteAPI.sync(name)
+                .then(function (result) {
+                var task_id = parsePulpIDFromURL(result.data.task);
+                _this.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+                    React.createElement(Trans, null,
+                        "View the task",
+                        ' ',
+                        React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
+                        ".")));
+            })
+                .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+        };
         return class_1;
     }(React.Component));
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=base.js.map

@@ -28,13 +28,22 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, Checkbox, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
-import { filterIsSet, waitForTask, ParamHelper } from 'src/utilities';
+import { filterIsSet, parsePulpIDFromURL, waitForTask, ParamHelper, } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
 import { formatPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -199,7 +208,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         itemToEdit: __assign({}, item),
                     });
                 } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Edit"], ["Edit"])))),
-            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return ExecutionEnvironmentRemoteAPI.sync(item.name); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
                         publishToController: {
@@ -319,9 +328,34 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    ExecutionEnvironmentList.prototype.addAlert = function (title, variant, description) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
+                {
+                    description: description,
+                    title: title,
+                    variant: variant,
+                },
+            ], false),
+        });
+    };
+    ExecutionEnvironmentList.prototype.sync = function (name) {
+        var _this = this;
+        ExecutionEnvironmentRemoteAPI.sync(name)
+            .then(function (result) {
+            var task_id = parsePulpIDFromURL(result.data.task);
+            _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+                React.createElement(Trans, null,
+                    "View the task",
+                    ' ',
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
+                    ".")));
+        })
+            .catch(function () { return _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+    };
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
 //# sourceMappingURL=execution_environment_list.js.map
