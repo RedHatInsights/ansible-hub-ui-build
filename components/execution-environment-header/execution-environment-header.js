@@ -55,7 +55,11 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
             React.createElement("span", null),
             React.createElement("div", { className: 'tab-link-container' },
                 React.createElement("div", { className: 'tabs' },
-                    React.createElement(Tabs, { tabs: tabs, params: { tab: this.props.tab }, updateParams: function (p) { return _this.props.updateState({ redirect: p.tab }); } })))));
+                    React.createElement(Tabs, { tabs: tabs, params: { tab: this.props.tab }, updateParams: function (p) {
+                            if (_this.props.tab !== p.tab) {
+                                _this.props.updateState({ redirect: p.tab });
+                            }
+                        } })))));
     };
     return ExecutionEnvironmentHeader;
 }(React.Component));
