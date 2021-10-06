@@ -66,7 +66,7 @@ export function withContainerRepo(WrappedComponent) {
         };
         class_1.prototype.render = function () {
             var _this = this;
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f, _g;
             if (this.state.redirect === 'activity') {
                 return (React.createElement(Redirect, { push: true, to: formatPath(Paths.executionEnvironmentDetailActivities, {
                         container: this.props.match.params['container'],
@@ -91,7 +91,7 @@ export function withContainerRepo(WrappedComponent) {
             var permissions = this.state.repo.namespace.my_permissions;
             var showEdit = permissions.includes('container.namespace_change_containerdistribution') || permissions.includes('container.change_containernamespace');
             var dropdownItems = [
-                this.state.repo.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+                this.state.repo.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); }, isDisabled: ['running', 'waiting'].includes((_b = (_a = this.state.repo.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) === null || _b === void 0 ? void 0 : _b.state) }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
                 React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                         _this.setState({
                             publishToController: {
@@ -131,17 +131,24 @@ export function withContainerRepo(WrappedComponent) {
                                     }),
                                 });
                             });
-                        }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.pulp_id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_a = this.state.repo.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.upstream_name, registry: (_b = this.state.repo.pulp.repository.remote) === null || _b === void 0 ? void 0 : _b.registry, excludeTags: (_c = this.state.repo.pulp.repository.remote) === null || _c === void 0 ? void 0 : _c.exclude_tags, includeTags: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.include_tags, remotePulpId: (_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.pulp_id })),
+                        }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.pulp_id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_c = this.state.repo.pulp.repository.remote) === null || _c === void 0 ? void 0 : _c.upstream_name, registry: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.registry, excludeTags: (_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.exclude_tags, includeTags: (_f = this.state.repo.pulp.repository.remote) === null || _f === void 0 ? void 0 : _f.include_tags, remotePulpId: (_g = this.state.repo.pulp.repository.remote) === null || _g === void 0 ? void 0 : _g.pulp_id })),
                     React.createElement(WrappedComponent, __assign({ containerRepository: this.state.repo, editing: this.state.editing }, this.props)))));
         };
         class_1.prototype.loadRepo = function () {
             var _this = this;
             ExecutionEnvironmentAPI.get(this.props.match.params['container'])
                 .then(function (result) {
+                var _a;
                 _this.setState({
                     loading: false,
                     repo: result.data,
                 });
+                var last_sync_task = ((_a = result.data.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) || {};
+                if (last_sync_task.state &&
+                    ['running', 'waiting'].includes(last_sync_task.state)) {
+                    // keep refreshing while a remove repo is being synced
+                    setTimeout(function () { return _this.loadRepo(); }, 10000);
+                }
             })
                 .catch(function (e) { return _this.setState({ redirect: 'notFound' }); });
         };
@@ -185,6 +192,7 @@ export function withContainerRepo(WrappedComponent) {
                         ' ',
                         React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
                         ".")));
+                _this.loadRepo();
             })
                 .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
         };
