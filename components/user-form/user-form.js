@@ -105,23 +105,25 @@ var UserForm = /** @class */ (function (_super) {
             React.createElement(TextInput, { placeholder: isNewUser ? '' : '••••••••••••••••••••••', validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)), isDisabled: isReadonly, id: 'password-confirm', value: passwordConfirm, onChange: function (value) {
                     _this.setState({ passwordConfirm: value });
                 }, type: 'password' }))); };
-        var readonlyGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', key: 'readonlyGroups', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Groups"], ["Groups"]))), "aria-labelledby": 'readonly-groups' }, user.groups.map(function (group) { return (React.createElement(Label, { key: group.name }, group.name)); }))); };
-        var editGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', helperTextInvalid: errorMessages['groups'], key: 'editGroups', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Groups"], ["Groups"]))), validated: _this.toError(!('groups' in errorMessages)) },
-            React.createElement(APISearchTypeAhead, { results: _this.state.searchGroups, loadResults: _this.loadGroups, onSelect: _this.onSelectGroup, placeholderText: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Select groups"], ["Select groups"]))), selections: user.groups, multiple: true, onClear: _this.clearGroups, isDisabled: isReadonly }))); };
-        var superuserLabel = (React.createElement(FormGroup, { validated: this.toError(!('is_superuser' in errorMessages)), fieldId: 'is_superuser', key: 'superuserLabel', label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["User type"], ["User type"]))), helperTextInvalid: errorMessages['is_superuser'], helperText: this.getSuperUserHelperText(user) },
-            React.createElement(Tooltip, { content: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },
+        var readonlyAuth = function () { return (React.createElement(FormGroup, { fieldId: 'auth_provider', key: 'readonlyAuth', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Authentication provider"], ["Authentication provider"]))), "aria-labelledby": 'readonly-auth' }, user.auth_provider.map(function (provider) { return (React.createElement(Label, { key: provider }, provider)); }))); };
+        var readonlyGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', key: 'readonlyGroups', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Groups"], ["Groups"]))), "aria-labelledby": 'readonly-groups' }, user.groups.map(function (group) { return (React.createElement(Label, { key: group.name }, group.name)); }))); };
+        var editGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', helperTextInvalid: errorMessages['groups'], key: 'editGroups', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Groups"], ["Groups"]))), validated: _this.toError(!('groups' in errorMessages)) },
+            React.createElement(APISearchTypeAhead, { results: _this.state.searchGroups, loadResults: _this.loadGroups, onSelect: _this.onSelectGroup, placeholderText: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select groups"], ["Select groups"]))), selections: user.groups, multiple: true, onClear: _this.clearGroups, isDisabled: isReadonly }))); };
+        var superuserLabel = (React.createElement(FormGroup, { validated: this.toError(!('is_superuser' in errorMessages)), fieldId: 'is_superuser', key: 'superuserLabel', label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["User type"], ["User type"]))), helperTextInvalid: errorMessages['is_superuser'], helperText: this.getSuperUserHelperText(user) },
+            React.createElement(Tooltip, { content: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },
                 React.createElement(Switch, { isDisabled: !this.context.user.is_superuser ||
                         isReadonly ||
-                        this.context.user.id === user.id, label: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Super user"], ["Super user"]))), labelOff: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Not a super user"], ["Not a super user"]))), isChecked: user.is_superuser, onChange: function (e) {
+                        this.context.user.id === user.id, label: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Super user"], ["Super user"]))), labelOff: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Not a super user"], ["Not a super user"]))), isChecked: user.is_superuser, onChange: function (e) {
                         return _this.updateUserFieldByName(!user.is_superuser, 'is_superuser');
                     } }))));
         var formButtons = function () { return (React.createElement(ActionGroup, { key: 'actions' },
             React.createElement(Button, { type: 'submit', isDisabled: !_this.isPassValid(user.password, passwordConfirm) ||
-                    !_this.requiredFilled(user) }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Save"], ["Save"])))),
-            React.createElement(Button, { key: 'cancel', onClick: function () { return onCancel(); }, variant: 'link' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Cancel"], ["Cancel"])))))); };
+                    !_this.requiredFilled(user) }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Save"], ["Save"])))),
+            React.createElement(Button, { key: 'cancel', onClick: function () { return onCancel(); }, variant: 'link' }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Cancel"], ["Cancel"])))))); };
         var formSuffix = [
             !isReadonly && passwordConfirmGroup(),
             isMe || isReadonly ? readonlyGroups() : editGroups(),
+            isMe && isReadonly && readonlyAuth(),
             superuserLabel,
             !isReadonly && formButtons(),
         ];
@@ -129,10 +131,10 @@ var UserForm = /** @class */ (function (_super) {
     };
     UserForm.prototype.getSuperUserHelperText = function (user) {
         if (!this.context.user.is_superuser) {
-            return t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Requires super user permissions to edit."], ["Requires super user permissions to edit."])));
+            return t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Requires super user permissions to edit."], ["Requires super user permissions to edit."])));
         }
         if (this.context.user.id === user.id) {
-            return t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Super users can't disable themselves."], ["Super users can't disable themselves."])));
+            return t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Super users can't disable themselves."], ["Super users can't disable themselves."])));
         }
         return null;
     };
@@ -176,5 +178,5 @@ var UserForm = /** @class */ (function (_super) {
     return UserForm;
 }(React.Component));
 export { UserForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
 //# sourceMappingURL=user-form.js.map
