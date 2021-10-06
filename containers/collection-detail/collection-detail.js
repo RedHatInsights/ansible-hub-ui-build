@@ -45,7 +45,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDetail.prototype.componentDidMount = function () {
-        this.loadCollection(this.context.selectedRepo);
+        this.loadCollection(this.context.selectedRepo, true);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
         if (!isEqual(prevProps.location, this.props.location))

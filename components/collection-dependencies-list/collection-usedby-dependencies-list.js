@@ -34,7 +34,7 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
     }
     CollectionUsedbyDependenciesList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, params = _a.params, usedByDependencies = _a.usedByDependencies, itemCount = _a.itemCount, updateParams = _a.updateParams, repo = _a.repo, usedByDependenciesLoading = _a.usedByDependenciesLoading;
+        var _a = this.props, params = _a.params, usedByDependencies = _a.usedByDependencies, itemCount = _a.itemCount, updateParams = _a.updateParams, usedByDependenciesLoading = _a.usedByDependenciesLoading;
         if (!itemCount && !filterIsSet(params, ['name__icontains']))
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not required for use by other collections"], ["Not required for use by other collections"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection is not being used by any collection."], ["Collection is not being used by any collection."]))) }));
         return (React.createElement(React.Fragment, null,
@@ -58,13 +58,13 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
             usedByDependenciesLoading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null, !itemCount ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(React.Fragment, null,
                 React.createElement("table", { className: 'content-table pf-c-table pf-m-compact' },
                     React.createElement("tbody", null, usedByDependencies.map(function (_a, i) {
-                        var name = _a.name, namespace = _a.namespace, version = _a.version;
+                        var name = _a.name, namespace = _a.namespace, version = _a.version, repository_list = _a.repository_list;
                         return (React.createElement("tr", { key: i },
                             React.createElement("td", null,
                                 React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
                                         collection: name,
                                         namespace: namespace,
-                                        repo: repo,
+                                        repo: repository_list[0],
                                     }, ParamHelper.getReduced({ version: version }, _this.ignoredParams)) },
                                     name,
                                     " v",

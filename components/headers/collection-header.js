@@ -29,7 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './header.scss';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, Tooltip, Checkbox, } from '@patternfly/react-core';
@@ -100,15 +100,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
-                        React.createElement(List, { className: 'dependent-collections-alert-list' }, dependent_collection_versions.map(function (d) {
-                            var _a = _this.separateStringDependencies(d), namespace = _a.namespace, version = _a.version, collection = _a.collection;
-                            return (React.createElement(ListItem, { key: d },
-                                React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
-                                        repo: _this.context.selectedRepo,
-                                        namespace: namespace,
-                                        collection: collection,
-                                    }, { version: version }), onClick: function () { return _this.setState({ alerts: [] }); } }, d)));
-                        }))));
+                        React.createElement(List, { className: 'dependent-collections-alert-list' }, dependent_collection_versions.map(function (d) { return (React.createElement(ListItem, { key: d }, d)); }))));
                     _this.setState({
                         deleteCollection: null,
                         collectionVersion: null,
@@ -407,11 +399,6 @@ var CollectionHeader = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    CollectionHeader.prototype.separateStringDependencies = function (dependency) {
-        var _a = dependency.split(' '), nsCollection = _a[0], version = _a[1];
-        var _b = nsCollection.split('.'), namespace = _b[0], collection = _b[1];
-        return { namespace: namespace, collection: collection, version: version };
-    };
     CollectionHeader.contextType = AppContext;
     return CollectionHeader;
 }(React.Component));
