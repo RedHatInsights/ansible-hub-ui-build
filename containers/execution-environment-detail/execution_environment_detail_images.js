@@ -17,15 +17,27 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment-detail.scss';
-import { pickBy } from 'lodash';
+import { sum } from 'lodash';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
 import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
 import { Link, withRouter } from 'react-router-dom';
-import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, DropdownItem, LabelGroup, Checkbox, } from '@patternfly/react-core';
+import { Button, Checkbox, DropdownItem, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
 import { TagManifestModal } from './tag-manifest-modal';
 import { withContainerRepo } from './base';
@@ -57,6 +69,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             deleteModalVisible: false,
             alerts: [],
             confirmDelete: false,
+            expandedImage: null,
         };
         return _this;
     }
@@ -78,6 +91,12 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         }
         var sortTableOptions = {
             headers: [
+                {
+                    title: '',
+                    type: 'none',
+                    id: 'expand',
+                    className: 'pf-c-table__toggle',
+                },
                 {
                     title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tag"], ["Tag"]))),
                     type: 'none',
@@ -174,7 +193,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                     } }),
                 React.createElement("tbody", null, images.map(function (image, i) {
-                    return _this.renderTableRow(image, i, canEditTags);
+                    return _this.renderTableRow(image, i, canEditTags, sortTableOptions.headers.length);
                 })))),
             React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -183,7 +202,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                     }, count: this.state.numberOfImages }))));
     };
-    ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags) {
+    ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags, cols) {
         var _this = this;
         var manifestLink = function (digestOrTag) {
             return formatPath(Paths.executionEnvironmentManifest, {
@@ -206,6 +225,8 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             ? image.digest
             : this.props.match.params['container'] + ':' + image.tags[0];
         var isRemote = !!this.props.containerRepository.pulp.repository.remote;
+        var isManifestList = image.isManifestList;
+        var expandedImage = this.state.expandedImage;
         var dropdownItems = [
             canEditTags && !isRemote && (React.createElement(DropdownItem, { key: 'edit-tags', onClick: function () {
                     _this.setState({ manageTagsManifestDigest: image.digest });
@@ -223,38 +244,86 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     _this.setState({ deleteModalVisible: true, selectedImage: image });
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"])))),
         ].filter(function (truthy) { return truthy; });
-        return (React.createElement("tr", { key: index },
-            React.createElement("td", null,
-                React.createElement(LabelGroup, { className: 'tags-column' }, image.tags.sort().map(function (tag) { return (React.createElement(TagLink, { key: tag, tag: tag })); }))),
-            React.createElement("td", null,
-                React.createElement(DateComponent, { date: image.pulp_created })),
-            React.createElement("td", null, image.layers),
-            React.createElement("td", null, getHumanSize(image.size)),
-            React.createElement("td", null,
-                React.createElement(ShaLink, { digest: image.digest })),
-            React.createElement("td", null,
-                React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
-            React.createElement("td", null, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+        return (React.createElement(React.Fragment, null,
+            React.createElement("tr", { key: index },
+                React.createElement("td", { className: 'pf-c-table__toggle' }, isManifestList ? (React.createElement(Button, { variant: 'plain', onClick: function () {
+                        return _this.setState({
+                            expandedImage: expandedImage === image ? null : image,
+                        });
+                    } }, expandedImage === image ? (React.createElement(AngleDownIcon, null)) : (React.createElement(AngleRightIcon, null)))) : null),
+                React.createElement("td", null,
+                    React.createElement(LabelGroup, { className: 'tags-column' }, image.tags
+                        .sort()
+                        .map(function (tag) {
+                        return isManifestList ? (React.createElement(TagLabel, { key: tag, tag: tag })) : (React.createElement(TagLink, { key: tag, tag: tag }));
+                    }))),
+                React.createElement("td", null,
+                    React.createElement(DateComponent, { date: image.pulp_created })),
+                React.createElement("td", null, isManifestList ? '---' : image.layers),
+                React.createElement("td", null, isManifestList ? '---' : getHumanSize(image.size)),
+                React.createElement("td", null, isManifestList ? (React.createElement(ShaLabel, { digest: image.digest })) : (React.createElement(ShaLink, { digest: image.digest }))),
+                React.createElement("td", null,
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
+                React.createElement("td", null, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))),
+            expandedImage === image && (React.createElement("tr", null,
+                React.createElement("td", { colSpan: cols }, this.renderManifestList(image, ShaLink))))));
+    };
+    ExecutionEnvironmentDetailImages.prototype.renderManifestList = function (_a, ShaLink) {
+        var image_manifests = _a.image_manifests;
+        return (React.createElement("table", { className: 'content-table pf-c-table' },
+            React.createElement(SortTable, { options: {
+                    headers: [
+                        {
+                            title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Digest"], ["Digest"]))),
+                            type: 'none',
+                            id: 'digest',
+                        },
+                        {
+                            title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["OS / Arch"], ["OS / Arch"]))),
+                            type: 'none',
+                            id: 'os_arch',
+                        },
+                    ],
+                }, params: {}, updateParams: function (p) { return null; } }),
+            React.createElement("tbody", null, image_manifests.map(function (_a) {
+                var digest = _a.digest, os = _a.os, os_version = _a.os_version, os_features = _a.os_features, architecture = _a.architecture, variant = _a.variant, features = _a.features;
+                return (React.createElement("tr", null,
+                    React.createElement("td", null,
+                        React.createElement(ShaLink, { digest: digest })),
+                    React.createElement("td", null, [
+                        os,
+                        os_version,
+                        os_features,
+                        '/',
+                        architecture,
+                        variant,
+                        features,
+                    ]
+                        .filter(Boolean)
+                        .join(' '))));
+            }))));
     };
     ExecutionEnvironmentDetailImages.prototype.queryImages = function (name) {
         var _this = this;
         this.setState({ loading: true }, function () {
-            return ExecutionEnvironmentAPI.images(name, ParamHelper.getReduced(_this.state.params, _this.nonQueryStringParams))
-                .then(function (result) {
-                var images = [];
-                result.data.data.forEach(function (object) {
-                    var image = pickBy(object, function (value, key) {
-                        return ['digest', 'tags', 'pulp_created'].includes(key);
+            return ExecutionEnvironmentAPI.images(name, __assign(__assign({}, ParamHelper.getReduced(_this.state.params, _this.nonQueryStringParams)), { exclude_child_manifests: true }))
+                .then(function (_a) {
+                var _b = _a.data, data = _b.data, meta = _b.meta;
+                var images = data.map(function (_a) {
+                    var digest = _a.digest, image_manifests = _a.image_manifests, layers = _a.layers, media_type = _a.media_type, pulp_created = _a.pulp_created, tags = _a.tags;
+                    return ({
+                        digest: digest,
+                        image_manifests: image_manifests,
+                        isManifestList: !!media_type.match('manifest.list'),
+                        layers: layers.length,
+                        pulp_created: pulp_created,
+                        size: sum(layers.map(function (l) { return l.size || 0; })),
+                        tags: tags,
                     });
-                    image['layers'] = object.layers.length;
-                    var size = 0;
-                    object.layers.forEach(function (layer) { return (size += layer.size); });
-                    image['size'] = size;
-                    images.push(image);
                 });
                 _this.setState({
                     images: images,
-                    numberOfImages: result.data.meta.count,
+                    numberOfImages: meta.count,
                     loading: false,
                 });
             })
@@ -279,7 +348,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     alerts: _this.state.alerts.concat([
                         {
                             variant: 'success',
-                            title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), digest),
+                            title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), digest),
                         },
                     ]),
                 });
@@ -292,7 +361,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 selectedImage: null,
                 confirmDelete: false,
                 alerts: _this.state.alerts.concat([
-                    { variant: 'danger', title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                    { variant: 'danger', title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                 ]),
             });
         });
@@ -314,5 +383,5 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     return ExecutionEnvironmentDetailImages;
 }(React.Component));
 export default withRouter(withContainerRepo(ExecutionEnvironmentDetailImages));
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=execution_environment_detail_images.js.map
