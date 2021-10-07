@@ -40,7 +40,7 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
         return (React.createElement(BaseHeader, { title: this.props.container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
                         url: Paths.executionEnvironments,
-                        name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
+                        name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))),
                     },
                     { name: this.props.container.name },
                 ] }), pageControls: this.props.pageControls },
