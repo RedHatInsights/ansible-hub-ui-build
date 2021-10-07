@@ -79,7 +79,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Image layers"], ["Image layers"]))), breadcrumbs: React.createElement(Breadcrumbs, { links: [
                         {
-                            name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Container Registry"], ["Container Registry"]))),
+                            name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))),
                             url: Paths.executionEnvironments,
                         },
                         {
