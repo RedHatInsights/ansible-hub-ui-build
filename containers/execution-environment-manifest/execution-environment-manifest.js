@@ -28,9 +28,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ClipboardCopy, } from '../../components';
 import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, } from '@patternfly/react-core';
 import { sum } from 'lodash';
@@ -46,6 +46,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
             container: { name: _this.props.match.params['container'] },
             digest: _this.props.match.params['digest'],
             environment: [],
+            error: false,
             labels: [],
             layers: [],
             loading: true,
@@ -71,7 +72,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentManifest.prototype.render = function () {
         var _this = this;
-        var _a = this.state, container = _a.container, digest = _a.digest, environment = _a.environment, labels = _a.labels, layers = _a.layers, loading = _a.loading, selectedLayer = _a.selectedLayer, size = _a.size;
+        var _a = this.state, container = _a.container, digest = _a.digest, environment = _a.environment, error = _a.error, labels = _a.labels, layers = _a.layers, loading = _a.loading, selectedLayer = _a.selectedLayer, size = _a.size;
         if (loading) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -98,38 +99,46 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 React.createElement("div", { style: { padding: '4px 0' } },
                     "Size: ",
                     size)),
-            React.createElement(Main, null,
-                React.createElement(Flex, null,
-                    React.createElement(FlexItem, { className: 'layers-max-width' },
+            React.createElement(Main, null, error ? (React.createElement("section", { className: 'body' },
+                React.createElement(Trans, null,
+                    "Manifest lists are not currently supported on this screen, please use the",
+                    ' ',
+                    React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetailImages, {
+                            container: container.name,
+                        }) }, "Images"),
+                    ' ',
+                    "tab to see manifest list details."))) : (React.createElement(Flex, null,
+                React.createElement(FlexItem, { className: 'layers-max-width' },
+                    React.createElement("section", { className: 'body' },
+                        React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
+                        React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
+                                return _this.setState({ selectedLayer: id });
+                            }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
+                            var text = _a.text, size = _a.size;
+                            return (React.createElement(DataListItem, { key: index, id: "layer-" + index },
+                                React.createElement(DataListItemRow, null,
+                                    React.createElement(DataListItemCells, { dataListCells: [
+                                            React.createElement(DataListCell, { key: 'primary content', className: 'single-line-ellipsis' },
+                                                React.createElement("code", null, text)),
+                                            size && (React.createElement(DataListCell, { key: 'secondary content' }, size)),
+                                        ] }))));
+                        })))),
+                React.createElement(Flex, { direction: { default: 'column' }, className: 'layers-max-width' },
+                    React.createElement(FlexItem, null,
                         React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
-                            React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
-                                    return _this.setState({ selectedLayer: id });
-                                }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
-                                var text = _a.text, size = _a.size;
-                                return (React.createElement(DataListItem, { key: index, id: "layer-" + index },
-                                    React.createElement(DataListItemRow, null,
-                                        React.createElement(DataListItemCells, { dataListCells: [
-                                                React.createElement(DataListCell, { key: 'primary content', className: 'single-line-ellipsis' },
-                                                    React.createElement("code", null, text)),
-                                                size && (React.createElement(DataListCell, { key: 'secondary content' }, size)),
-                                            ] }))));
-                            })))),
-                    React.createElement(Flex, { direction: { default: 'column' }, className: 'layers-max-width' },
-                        React.createElement(FlexItem, null,
-                            React.createElement("section", { className: 'body' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Command"], ["Command"])))),
-                                React.createElement("code", null, command))),
-                        React.createElement(FlexItem, null,
-                            React.createElement("section", { className: 'body' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Environment"], ["Environment"])))),
-                                environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
-                                    React.createElement("code", null, line),
-                                    React.createElement("br", null))); }))))))));
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Command"], ["Command"])))),
+                            React.createElement("code", null, command))),
+                    React.createElement(FlexItem, null,
+                        React.createElement("section", { className: 'body' },
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Environment"], ["Environment"])))),
+                            environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
+                                React.createElement("code", null, line),
+                                React.createElement("br", null))); })))))))));
     };
     ExecutionEnvironmentManifest.prototype.query = function (_a) {
         var container = _a.container, digestOrTag = _a.digest;
-        return ExecutionEnvironmentAPI.image(container.name, digestOrTag).then(function (_a) {
+        return ExecutionEnvironmentAPI.image(container.name, digestOrTag)
+            .then(function (_a) {
             var _b = _a.data, config_blob = _b.config_blob, digest = _b.digest, layers = _b.layers, tags = _b.tags;
             var sizes = layers.map(function (l) { return l.size; });
             var size = getHumanSize(sum(sizes));
@@ -149,6 +158,12 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 labels: tags || [],
                 layers: history,
                 size: size,
+            };
+        })
+            .catch(function (err) {
+            // FIXME: support manifest lists, and have API support it
+            return {
+                error: true,
             };
         });
     };
