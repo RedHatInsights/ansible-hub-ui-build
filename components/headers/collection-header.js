@@ -213,11 +213,25 @@ var CollectionHeader = /** @class */ (function (_super) {
         var collectionName = collection.name;
         if (redirect)
             return React.createElement(Redirect, { push: true, to: redirect });
+        var dropdownItems = [
+            noDependencies
+                ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))
+                : this.context.user.model_permissions.delete_collection && (React.createElement(Tooltip, { position: 'left', content: React.createElement(Trans, null,
+                        "Cannot delete until collections ",
+                        React.createElement("br", null),
+                        "that depend on this collection ",
+                        React.createElement("br", null),
+                        "have been deleted.") },
+                    React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))),
+            this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: '2', onClick: function () {
+                    return _this.openDeleteModalWithConfirm(collection.latest_version.version);
+                } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
+        ].filter(Boolean);
         return (React.createElement(React.Fragment, null,
-            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
+            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
                 React.createElement(List, { isPlain: true },
                     React.createElement("div", { className: 'versions-modal-header' },
-                        React.createElement(Text, null, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
+                        React.createElement(Text, null, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
                         React.createElement(Pagination, { isTop: true, params: {
                                 page: modalPagination.page,
                                 page_size: modalPagination.pageSize,
@@ -229,7 +243,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             "v",
                             v.version),
-                        ' ', t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
+                        ' ', t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
                 React.createElement(Pagination, { params: {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
@@ -239,7 +253,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                         ? _this.deleteCollectionVersion(collectionVersion)
                         : _this.deleteCollection();
                 }, isDisabled: !confirmDelete, title: collectionVersion
-                    ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete"], ["Delete"]))) },
+                    ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
                         "Deleting",
@@ -261,17 +275,17 @@ var CollectionHeader = /** @class */ (function (_super) {
                         "Deleting ",
                         React.createElement("b", null, deleteCollection.name),
                         " and its data will be lost."))),
-                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
+                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             React.createElement(BaseHeader, { className: className, title: collection.name, imageURL: collection.namespace.avatar_url, contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                    React.createElement("span", null, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Version"], ["Version"])))),
+                    React.createElement("span", null, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
+                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
                                 ? {
-                                    text: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["View more"], ["View more"]))),
+                                    text: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
                                         return _this.setState({
                                             isOpenVersionsModal: true,
@@ -289,18 +303,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     latestVersion ? (React.createElement("span", { className: 'last-updated' },
                         React.createElement(Trans, null,
                             "Last updated ",
-                            React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: React.createElement(StatefulDropdown, { items: [
-                        React.createElement(React.Fragment, { key: '1' }, noDependencies ? (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"]))))) : (React.createElement(Tooltip, { position: 'left', content: React.createElement(Trans, null,
-                                "Cannot delete until collections ",
-                                React.createElement("br", null),
-                                "that depend on this collection ",
-                                React.createElement("br", null),
-                                "have been deleted.") },
-                            React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"]))))))),
-                        React.createElement(DropdownItem, { key: '2', onClick: function () {
-                                return _this.openDeleteModalWithConfirm(collection.latest_version.version);
-                            } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version)),
-                    ] }) },
+                            React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: dropdownItems.length > 0 ? (React.createElement(StatefulDropdown, { items: dropdownItems })) : null },
                 collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'tab-link-container' },

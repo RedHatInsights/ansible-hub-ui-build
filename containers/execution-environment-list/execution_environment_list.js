@@ -216,9 +216,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+            this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({ selectedItem: item, deleteModalVisible: true });
-                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"])))),
+                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null,
