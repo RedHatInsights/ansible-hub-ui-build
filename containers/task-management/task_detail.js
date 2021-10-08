@@ -30,7 +30,7 @@ import * as React from 'react';
 import './task.scss';
 import { t } from '@lingui/macro';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
-import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, Tooltip, } from 'src/components';
+import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
@@ -98,32 +98,34 @@ var TaskDetail = /** @class */ (function (_super) {
                                 React.createElement(DescriptionList, { isHorizontal: true },
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Task name"], ["Task name"])))),
-                                        React.createElement(DescriptionListDescription, null,
-                                            React.createElement(Tooltip, { content: task.name }, taskName))),
+                                        React.createElement(DescriptionListDescription, null, task.name)),
+                                    task.name !== taskName && (React.createElement(DescriptionListGroup, null,
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Descriptive name"], ["Descriptive name"])))),
+                                        React.createElement(DescriptionListDescription, null, taskName))),
                                     React.createElement(DescriptionListGroup, null,
-                                        React.createElement(DescriptionListTerm, null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Finished at"], ["Finished at"])))),
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Finished at"], ["Finished at"])))),
                                         React.createElement(DescriptionListDescription, null,
                                             React.createElement(DateComponent, { date: task.finished_at }))),
                                     React.createElement(DescriptionListGroup, null,
-                                        React.createElement(DescriptionListTerm, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Created on"], ["Created on"])))),
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Created on"], ["Created on"])))),
                                         React.createElement(DescriptionListDescription, null,
                                             React.createElement(DateComponent, { date: task.pulp_created })))))),
                         React.createElement(FlexItem, null,
                             React.createElement("section", { className: 'body card-area' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Task groups"], ["Task groups"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Task groups"], ["Task groups"])))),
                                 React.createElement("br", null),
                                 React.createElement(DescriptionList, { isHorizontal: true },
                                     React.createElement(DescriptionListGroup, null,
-                                        React.createElement(DescriptionListTerm, null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Task group"], ["Task group"])))),
-                                        React.createElement(DescriptionListDescription, null, !!task.task_group ? task.task_group : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No task group"], ["No task group"]))))),
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Task group"], ["Task group"])))),
+                                        React.createElement(DescriptionListDescription, null, !!task.task_group ? task.task_group : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No task group"], ["No task group"]))))),
                                     React.createElement(DescriptionListGroup, null,
-                                        React.createElement(DescriptionListTerm, null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
                                         React.createElement(DescriptionListDescription, null, !!parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
                                             }) }, Constants.TASK_NAMES[parentTask.name] ||
-                                            parentTask.name)) : (t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
+                                            parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
-                                        React.createElement(DescriptionListTerm, null, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
+                                        React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
                                         React.createElement(DescriptionListDescription, null, !!childTasks.length
                                             ? childTasks.map(function (childTask) {
                                                 var childTaskId = parsePulpIDFromURL(childTask.pulp_href);
@@ -134,25 +136,25 @@ var TaskDetail = /** @class */ (function (_super) {
                                                         childTask.name),
                                                     React.createElement("br", null)));
                                             })
-                                            : t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["No child task"], ["No child task"])))))))),
+                                            : t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No child task"], ["No child task"])))))))),
                         React.createElement(FlexItem, null,
                             React.createElement("section", { className: 'body card-area' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Reserve resources"], ["Reserve resources"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Reserve resources"], ["Reserve resources"])))),
                                 React.createElement("br", null),
                                 !!resources.length ? (React.createElement(DescriptionList, { isHorizontal: true }, resources.map(function (resource, index) {
                                     return (React.createElement(React.Fragment, { key: resource.type + index },
                                         React.createElement("hr", null),
                                         React.createElement(DescriptionListGroup, null,
-                                            React.createElement(DescriptionListTerm, null, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Type"], ["Type"])))),
+                                            React.createElement(DescriptionListTerm, null, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Type"], ["Type"])))),
                                             React.createElement(DescriptionListDescription, null, resource.type)),
                                         resource.name && (React.createElement(DescriptionListGroup, null,
-                                            React.createElement(DescriptionListTerm, null, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Name"], ["Name"])))),
+                                            React.createElement(DescriptionListTerm, null, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Name"], ["Name"])))),
                                             React.createElement(DescriptionListDescription, null, resource.name)))));
-                                }))) : (t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["There's no resource record"], ["There's no resource record"]))))))),
+                                }))) : (t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["There's no resource record"], ["There's no resource record"]))))))),
                     React.createElement(Flex, { direction: { default: 'column' }, flex: { default: 'flex_1' } },
                         React.createElement(FlexItem, null,
                             !task.error && (React.createElement("section", { className: 'body card-area' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Progress messages"], ["Progress messages"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Progress messages"], ["Progress messages"])))),
                                 React.createElement("br", null),
                                 !!task.progress_reports.length ? (React.createElement(DescriptionList, { isHorizontal: true }, task.progress_reports
                                     .reverse()
@@ -162,28 +164,28 @@ var TaskDetail = /** @class */ (function (_super) {
                                         Object.keys(report).map(function (key, index) {
                                             return (!!report[key] && (React.createElement(DescriptionListGroup, { key: key + index },
                                                 React.createElement(DescriptionListTerm, null, {
-                                                    message: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Message"], ["Message"]))),
-                                                    code: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Code"], ["Code"]))),
-                                                    state: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["State"], ["State"]))),
-                                                    done: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Done"], ["Done"]))),
+                                                    message: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Message"], ["Message"]))),
+                                                    code: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Code"], ["Code"]))),
+                                                    state: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["State"], ["State"]))),
+                                                    done: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Done"], ["Done"]))),
                                                 }[key] || capitalize(key)),
                                                 React.createElement(DescriptionListDescription, null, report[key]))));
                                         }),
                                         ' '));
-                                }))) : (React.createElement(EmptyStateCustom, { icon: CubesIcon, title: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["There is no progress message."], ["There is no progress message."]))), description: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["There is no progress message."], ["There is no progress message."]))) })))),
+                                }))) : (React.createElement(EmptyStateCustom, { icon: CubesIcon, title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["There is no progress message."], ["There is no progress message."]))), description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["There is no progress message."], ["There is no progress message."]))) })))),
                             !!task.error && (React.createElement("section", { className: 'body card-area' },
-                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error message"], ["Error message"])))),
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error message"], ["Error message"])))),
                                 React.createElement("br", null),
                                 React.createElement(React.Fragment, null,
-                                    React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Description"], ["Description"])))),
+                                    React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Description"], ["Description"])))),
                                     React.createElement(CodeBlock, null, task.error.description),
-                                    React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Traceback"], ["Traceback"])))),
+                                    React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Traceback"], ["Traceback"])))),
                                     React.createElement(CodeBlock, { className: 'code-block' }, task.error.traceback))))))))));
     };
     TaskDetail.prototype.renderCancelModal = function () {
         var _this = this;
         var name = this.state.taskName;
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Stop task"], ["Stop task"]))), children: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name), confirmButtonTitle: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Stop task"], ["Stop task"]))), children: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name), confirmButtonTitle: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
     };
     TaskDetail.prototype.cancelTask = function () {
         var _this = this;
@@ -199,7 +201,7 @@ var TaskDetail = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: taskName,
-                        description: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
                     },
                 ], false),
             });
@@ -213,7 +215,7 @@ var TaskDetail = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: taskName,
-                        description: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        description: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
                     },
                 ], false),
             });
@@ -303,5 +305,5 @@ var TaskDetail = /** @class */ (function (_super) {
     return TaskDetail;
 }(React.Component));
 export default withRouter(TaskDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33;
 //# sourceMappingURL=task_detail.js.map
