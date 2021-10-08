@@ -296,27 +296,28 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.renderPageControls = function () {
         var _this = this;
         var collections = this.state.collections;
+        var dropdownItems = [
+            React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
+                        namespace: this.state.namespace.name,
+                    }) }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+                    "Cannot delete namespace until ",
+                    React.createElement("br", null),
+                    "collections' dependencies have ",
+                    React.createElement("br", null),
+                    "been deleted"), position: 'left' },
+                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
+            React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
+                        namespace: this.state.namespace.name,
+                    }) }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+        ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'namespace-page-controls' });
         }
         return (React.createElement("div", { className: 'namespace-page-controls' },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
-            React.createElement(StatefulDropdown, { items: [
-                    React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
-                                namespace: this.state.namespace.name,
-                            }) }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-                    React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
-                            "Cannot delete namespace until ",
-                            React.createElement("br", null),
-                            "collections' dependencies have ",
-                            React.createElement("br", null),
-                            "been deleted"), position: 'left' },
-                        React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))))),
-                    React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
-                                namespace: this.state.namespace.name,
-                            }) }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
-                ] })));
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
         var newState = { showImportModal: isOpen };

@@ -82,7 +82,11 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, items = _a.items, loading = _a.loading, params = _a.params, remoteFormErrors = _a.remoteFormErrors, remoteFormNew = _a.remoteFormNew, remoteToEdit = _a.remoteToEdit, remoteUnmodified = _a.remoteUnmodified, showDeleteModal = _a.showDeleteModal, showRemoteFormModal = _a.showRemoteFormModal;
         var noData = items.length === 0 && !filterIsSet(params, ['name__icontains']);
-        var addButton = (React.createElement(Button, { onClick: function () {
+        if (this.context.user.is_anonymous) {
+            return React.createElement(EmptyStateUnauthorized, null);
+        }
+        var addButton = this.context.user.model_permissions
+            .add_containerregistry ? (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     remoteFormErrors: {},
                     remoteFormNew: true,
@@ -102,10 +106,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     showRemoteFormModal: true,
                 });
             } },
-            React.createElement(Trans, null, "Add remote registry")));
-        if (this.context.user.is_anonymous) {
-            return React.createElement(EmptyStateUnauthorized, null);
-        }
+            React.createElement(Trans, null, "Add remote registry"))) : null;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             showRemoteFormModal && (React.createElement(RemoteForm, { remote: remoteToEdit, remoteType: 'registry', updateRemote: function (r) { return _this.setState({ remoteToEdit: r }); }, saveRemote: function () {
@@ -226,6 +227,29 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.renderTableRow = function (item, index) {
         var _this = this;
+        var dropdownItems = [
+            this.context.user.model_permissions.change_containerregistry && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+                    return _this.setState({
+                        remoteFormErrors: {},
+                        remoteFormNew: false,
+                        remoteToEdit: __assign({}, item),
+                        remoteUnmodified: __assign({}, item),
+                        showRemoteFormModal: true,
+                    });
+                } },
+                React.createElement(Trans, null, "Edit"))),
+            this.context.user.model_permissions.delete_containerregistry && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+                    return _this.setState({
+                        showDeleteModal: true,
+                        remoteToEdit: item,
+                    });
+                } },
+                React.createElement(Trans, null, "Delete"))),
+            React.createElement(Tooltip, { content: item.is_indexable
+                    ? t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Find execution environments in this registry"], ["Find execution environments in this registry"]))) : t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Indexing execution environments is only supported on registry.redhat.io"], ["Indexing execution environments is only supported on registry.redhat.io"]))) },
+                React.createElement(DropdownItem, { key: 'index', onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
+                    React.createElement(Trans, null, "Index execution environments"))),
+        ].filter(Boolean);
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
             React.createElement("td", null, item.name),
             React.createElement("td", null,
@@ -240,29 +264,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                     React.createElement(Trans, null, "Sync from registry")),
                 ' ',
-                React.createElement(StatefulDropdown, { items: [
-                        React.createElement(DropdownItem, { key: 'edit', onClick: function () {
-                                return _this.setState({
-                                    remoteFormErrors: {},
-                                    remoteFormNew: false,
-                                    remoteToEdit: __assign({}, item),
-                                    remoteUnmodified: __assign({}, item),
-                                    showRemoteFormModal: true,
-                                });
-                            } },
-                            React.createElement(Trans, null, "Edit")),
-                        React.createElement(DropdownItem, { key: 'delete', onClick: function () {
-                                return _this.setState({
-                                    showDeleteModal: true,
-                                    remoteToEdit: item,
-                                });
-                            } },
-                            React.createElement(Trans, null, "Delete")),
-                        React.createElement(Tooltip, { content: item.is_indexable
-                                ? t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Find execution environments in this registry"], ["Find execution environments in this registry"]))) : t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Indexing execution environments is only supported on registry.redhat.io"], ["Indexing execution environments is only supported on registry.redhat.io"]))) },
-                            React.createElement(DropdownItem, { key: 'index', onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
-                                React.createElement(Trans, null, "Index execution environments"))),
-                    ] }))));
+                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     ExecutionEnvironmentRegistryList.prototype.queryRegistries = function () {
         var _this = this;
