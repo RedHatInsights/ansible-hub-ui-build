@@ -182,7 +182,7 @@ var TaskListView = /** @class */ (function (_super) {
         return (React.createElement("tr", { "aria-labelledby": name, key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
-                    React.createElement(Tooltip, { content: name }, Constants.TASK_NAMES[name] || name))),
+                    React.createElement(Tooltip, { content: Constants.TASK_NAMES[name] || name }, name))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
