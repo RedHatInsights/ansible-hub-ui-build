@@ -76,6 +76,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             deleteModalVisible: false,
             selectedItem: null,
             confirmDelete: false,
+            isDeletionPending: false,
         };
         return _this;
     }
@@ -89,7 +90,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, deleteModalVisible = _a.deleteModalVisible, selectedItem = _a.selectedItem, confirmDelete = _a.confirmDelete;
+        var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, deleteModalVisible = _a.deleteModalVisible, selectedItem = _a.selectedItem, confirmDelete = _a.confirmDelete, isDeletionPending = _a.isDeletionPending;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -110,9 +111,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            deleteModalVisible && (React.createElement(DeleteModal, { title: 'Permanently delete container', cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container', cancelAction: function () {
                     return _this.setState({ deleteModalVisible: false, selectedItem: null });
-                }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete },
+                }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete || isDeletionPending },
                 React.createElement(Trans, null,
                     "Deleting ",
                     React.createElement("b", null, name),
@@ -282,35 +283,38 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var _this = this;
         var selectedItem = this.state.selectedItem;
         var name = selectedItem.name;
-        ExecutionEnvironmentAPI.deleteExecutionEnvironment(selectedItem.name)
-            .then(function (result) {
-            var taskId = result.data.task.split('tasks/')[1].replace('/', '');
-            _this.setState({
-                loading: true,
-                deleteModalVisible: false,
-                selectedItem: null,
-                confirmDelete: false,
-            });
-            waitForTask(taskId).then(function () {
+        this.setState({ isDeletionPending: true }, function () {
+            return ExecutionEnvironmentAPI.deleteExecutionEnvironment(selectedItem.name)
+                .then(function (result) {
+                var taskId = result.data.task.split('tasks/')[1].replace('/', '');
                 _this.setState({
+                    selectedItem: null,
+                });
+                waitForTask(taskId).then(function () {
+                    _this.setState({
+                        isDeletionPending: false,
+                        confirmDelete: false,
+                        deleteModalVisible: false,
+                        alerts: _this.state.alerts.concat([
+                            {
+                                variant: 'success',
+                                title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
+                            },
+                        ]),
+                    });
+                    _this.queryEnvironments();
+                });
+            })
+                .catch(function () {
+                _this.setState({
+                    deleteModalVisible: false,
+                    selectedItem: null,
+                    confirmDelete: false,
+                    isDeletionPending: false,
                     alerts: _this.state.alerts.concat([
-                        {
-                            variant: 'success',
-                            title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
-                        },
+                        { variant: 'danger', title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                     ]),
                 });
-                _this.queryEnvironments();
-            });
-        })
-            .catch(function () {
-            _this.setState({
-                deleteModalVisible: false,
-                selectedItem: null,
-                confirmDelete: false,
-                alerts: _this.state.alerts.concat([
-                    { variant: 'danger', title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
-                ]),
             });
         });
     };

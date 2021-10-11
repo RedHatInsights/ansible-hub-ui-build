@@ -70,6 +70,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             alerts: [],
             confirmDelete: false,
             expandedImage: null,
+            isDeletionPending: false,
         };
         return _this;
     }
@@ -81,7 +82,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderImages = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, images = _a.images, manageTagsManifestDigest = _a.manageTagsManifestDigest, publishToController = _a.publishToController, selectedImage = _a.selectedImage, deleteModalVisible = _a.deleteModalVisible, confirmDelete = _a.confirmDelete, loading = _a.loading;
+        var _a = this.state, params = _a.params, images = _a.images, manageTagsManifestDigest = _a.manageTagsManifestDigest, publishToController = _a.publishToController, selectedImage = _a.selectedImage, deleteModalVisible = _a.deleteModalVisible, confirmDelete = _a.confirmDelete, loading = _a.loading, isDeletionPending = _a.isDeletionPending;
         if (images.length === 0 &&
             !filterIsSet(params, ['tag', 'digest__icontains'])) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No images yet"], ["No images yet"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Images will appear once uploaded"], ["Images will appear once uploaded"]))) }));
@@ -138,13 +139,13 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            deleteModalVisible && (React.createElement(DeleteModal, { title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image"], ["Permanently delete image"]))), cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image"], ["Permanently delete image"]))), cancelAction: function () {
                     return _this.setState({
                         deleteModalVisible: false,
                         selectedImage: null,
                         confirmDelete: false,
                     });
-                }, deleteAction: function () { return _this.deleteImage(); }, isDisabled: !confirmDelete },
+                }, deleteAction: function () { return _this.deleteImage(); }, isDisabled: !confirmDelete || isDeletionPending },
                 React.createElement(Trans, null,
                     "Deleting ",
                     React.createElement("b", null, digest),
@@ -334,35 +335,38 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var _this = this;
         var selectedImage = this.state.selectedImage;
         var digest = selectedImage.digest;
-        ExecutionEnvironmentAPI.deleteImage(this.props.match.params['container'], selectedImage.digest)
-            .then(function (result) {
-            var taskId = result.data.task.split('tasks/')[1].replace('/', '');
-            _this.setState({
-                loading: true,
-                deleteModalVisible: false,
-                selectedImage: null,
-                confirmDelete: false,
-            });
-            waitForTask(taskId).then(function () {
+        this.setState({ isDeletionPending: true }, function () {
+            return ExecutionEnvironmentAPI.deleteImage(_this.props.match.params['container'], selectedImage.digest)
+                .then(function (result) {
+                var taskId = result.data.task.split('tasks/')[1].replace('/', '');
                 _this.setState({
+                    selectedImage: null,
+                });
+                waitForTask(taskId).then(function () {
+                    _this.setState({
+                        isDeletionPending: false,
+                        confirmDelete: false,
+                        deleteModalVisible: false,
+                        alerts: _this.state.alerts.concat([
+                            {
+                                variant: 'success',
+                                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), digest),
+                            },
+                        ]),
+                    });
+                    _this.queryImages(_this.props.match.params['container']);
+                });
+            })
+                .catch(function () {
+                _this.setState({
+                    deleteModalVisible: false,
+                    selectedImage: null,
+                    confirmDelete: false,
+                    isDeletionPending: false,
                     alerts: _this.state.alerts.concat([
-                        {
-                            variant: 'success',
-                            title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), digest),
-                        },
+                        { variant: 'danger', title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                     ]),
                 });
-                _this.queryImages(_this.props.match.params['container']);
-            });
-        })
-            .catch(function () {
-            _this.setState({
-                deleteModalVisible: false,
-                selectedImage: null,
-                confirmDelete: false,
-                alerts: _this.state.alerts.concat([
-                    { variant: 'danger', title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
-                ]),
             });
         });
     };

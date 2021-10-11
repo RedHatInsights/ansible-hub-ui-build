@@ -59,30 +59,34 @@ var NamespaceDetail = /** @class */ (function (_super) {
         // query params
         _this.nonQueryStringParams = ['namespace'];
         _this.deleteNamespace = function () {
-            NamespaceAPI.delete(_this.state.namespace.name)
-                .then(function () {
-                _this.setState({
-                    redirect: formatPath(Paths.namespaces, {}),
-                    confirmDelete: false,
-                });
-                _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                    {
-                        variant: 'success',
-                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Successfully deleted namespace."], ["Successfully deleted namespace."]))),
-                    },
-                ], false));
-            })
-                .catch(function (e) {
-                _this.setState({
-                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+            _this.setState({ isNamespacePending: true }, function () {
+                return NamespaceAPI.delete(_this.state.namespace.name)
+                    .then(function () {
+                    _this.setState({
+                        redirect: formatPath(Paths.namespaces, {}),
+                        confirmDelete: false,
+                        isNamespacePending: false,
+                    });
+                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
-                            variant: 'danger',
-                            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
-                            description: e.message,
+                            variant: 'success',
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Successfully deleted namespace."], ["Successfully deleted namespace."]))),
                         },
-                    ], false),
-                    isOpenNamespaceModal: false,
-                    confirmDelete: false,
+                    ], false));
+                })
+                    .catch(function (e) {
+                    _this.setState({
+                        alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                            {
+                                variant: 'danger',
+                                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
+                                description: e.message,
+                            },
+                        ], false),
+                        isOpenNamespaceModal: false,
+                        confirmDelete: false,
+                        isNamespacePending: false,
+                    });
                 });
             });
         };
@@ -108,6 +112,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             alerts: [],
             isNamespaceEmpty: false,
             confirmDelete: false,
+            isNamespacePending: false,
         };
         return _this;
     }
@@ -121,7 +126,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete;
+        var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete, isNamespacePending = _a.isNamespacePending;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -159,7 +164,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: namespace.name }),
-            isOpenNamespaceModal && (React.createElement(ConfirmModal, { cancelAction: this.closeModal, confirmAction: this.deleteNamespace, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Permanently delete namespace?"], ["Permanently delete namespace?"]))), confirmButtonTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Delete"], ["Delete"]))), isDisabled: !confirmDelete },
+            isOpenNamespaceModal && (React.createElement(ConfirmModal, { spinner: isNamespacePending, cancelAction: this.closeModal, confirmAction: this.deleteNamespace, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Permanently delete namespace?"], ["Permanently delete namespace?"]))), confirmButtonTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Delete"], ["Delete"]))), isDisabled: !confirmDelete || isNamespacePending },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { className: 'delete-namespace-modal-message' },
                         React.createElement(Trans, null,
