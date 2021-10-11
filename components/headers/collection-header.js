@@ -70,6 +70,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                         _this.setState({
                             deleteCollection: null,
                             collectionVersion: null,
+                            isDeletionPending: false,
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                 {
                                     variant: 'success',
@@ -104,6 +105,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     _this.setState({
                         deleteCollection: null,
                         collectionVersion: null,
+                        isDeletionPending: false,
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
@@ -117,6 +119,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     _this.setState({
                         deleteCollection: null,
                         collectionVersion: null,
+                        isDeletionPending: false,
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
@@ -143,6 +146,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     _this.setState({
                         collectionVersion: null,
                         deleteCollection: null,
+                        isDeletionPending: false,
                         redirect: formatPath(Paths.namespaceByRepo, {
                             repo: _this.context.selectedRepo,
                             namespace: deleteCollection.namespace.name,
@@ -154,6 +158,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 return _this.setState({
                     collectionVersion: null,
                     deleteCollection: null,
+                    isDeletionPending: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
@@ -180,6 +185,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             alerts: [],
             redirect: null,
             noDependencies: false,
+            isDeletionPending: false,
         };
         return _this;
     }
@@ -189,7 +195,7 @@ var CollectionHeader = /** @class */ (function (_super) {
     CollectionHeader.prototype.render = function () {
         var _this = this;
         var _a = this.props, collection = _a.collection, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
-        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete;
+        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending;
         var numOfshownVersions = 10;
         var all_versions = __spreadArray([], collection.all_versions, true);
         var match = all_versions.find(function (x) { return x.version === collection.latest_version.version; });
@@ -248,11 +254,13 @@ var CollectionHeader = /** @class */ (function (_super) {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
                     }, updateParams: this.updatePaginationParams, count: all_versions.length })),
-            deleteCollection && (React.createElement(ConfirmModal, { cancelAction: this.closeModal, confirmAction: function () {
-                    return !!collectionVersion
-                        ? _this.deleteCollectionVersion(collectionVersion)
-                        : _this.deleteCollection();
-                }, isDisabled: !confirmDelete, title: collectionVersion
+            deleteCollection && (React.createElement(ConfirmModal, { spinner: isDeletionPending, cancelAction: this.closeModal, confirmAction: function () {
+                    return _this.setState({ isDeletionPending: true }, function () {
+                        !!collectionVersion
+                            ? _this.deleteCollectionVersion(collectionVersion)
+                            : _this.deleteCollection();
+                    });
+                }, isDisabled: !confirmDelete || isDeletionPending, title: collectionVersion
                     ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
