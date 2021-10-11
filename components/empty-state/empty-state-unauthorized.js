@@ -21,13 +21,17 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { EmptyStateCustom } from './empty-state-custom';
 import { LockIcon } from '@patternfly/react-icons';
+import { LoginLink } from 'src/components';
 var EmptyStateUnauthorized = /** @class */ (function (_super) {
     __extends(EmptyStateUnauthorized, _super);
     function EmptyStateUnauthorized() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     EmptyStateUnauthorized.prototype.render = function () {
-        return (React.createElement(EmptyStateCustom, { icon: LockIcon, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have access to Automation Hub"], ["You do not have access to Automation Hub"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Contact your organization administrator for more information."], ["Contact your organization administrator for more information."]))) }));
+        return (React.createElement(EmptyStateCustom, { icon: LockIcon, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have access to Automation Hub"], ["You do not have access to Automation Hub"]))), description: React.createElement(React.Fragment, null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Contact your organization administrator for more information."], ["Contact your organization administrator for more information."]))),
+                React.createElement("br", null),
+                React.createElement("br", null),
+                React.createElement(LoginLink, { button: true })) }));
     };
     return EmptyStateUnauthorized;
 }(React.Component));

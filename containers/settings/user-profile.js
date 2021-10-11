@@ -51,7 +51,8 @@ var UserProfile = /** @class */ (function (_super) {
                         { variant: 'success', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Profile saved."], ["Profile saved."]))) },
                     ]),
                 }, function () { return _this.context.setUser(result.data); });
-                //Redirect to login page when password is changed
+                // Redirect to login page when password is changed
+                // SSO not relevant, user edit disabled
                 if (user.password) {
                     _this.setState({ redirect: Paths.login });
                 }

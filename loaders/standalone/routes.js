@@ -55,12 +55,19 @@ var AuthHandler = /** @class */ (function (_super) {
         var _a = this.context, user = _a.user, settings = _a.settings;
         if (!user || !settings) {
             var promises = [];
-            promises.push(FeatureFlagsAPI.get());
+            promises.push(FeatureFlagsAPI.get().then(function (_a) {
+                var data = _a.data;
+                // we need this even if ActiveUserAPI fails, otherwise isExternalAuth will always be false, breaking keycloak redirect
+                _this.props.updateInitialData({ featureFlags: data });
+            }));
             promises.push(ActiveUserAPI.getUser());
             promises.push(SettingsAPI.get());
             Promise.all(promises)
                 .then(function (results) {
-                _this.props.updateInitialData(results[1], results[0].data, results[2].data, function () { return _this.setState({ isLoading: false }); });
+                _this.props.updateInitialData({
+                    user: results[1],
+                    settings: results[2].data,
+                }, function () { return _this.setState({ isLoading: false }); });
             })
                 .catch(function () { return _this.setState({ isLoading: false }); });
         }
@@ -77,6 +84,7 @@ var AuthHandler = /** @class */ (function (_super) {
             return null;
         }
         if (!user && !noAuth) {
+            // NOTE: also update LoginLink when changing this
             if (isExternalAuth && UI_EXTERNAL_LOGIN_URI) {
                 window.location.replace(UI_EXTERNAL_LOGIN_URI);
                 return React.createElement("div", null);
