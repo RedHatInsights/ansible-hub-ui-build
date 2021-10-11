@@ -49,7 +49,7 @@ import { reject, some } from 'lodash';
 import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
-import { SmallLogo, StatefulDropdown } from 'src/components';
+import { LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { AboutModalWindow } from 'src/containers';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
@@ -57,8 +57,8 @@ var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
         var _this = _super.call(this, props) || this;
-        _this.updateInitialData = function (user, flags, settings, callback) {
-            return _this.setState({ user: user, featureFlags: flags, settings: settings }, function () {
+        _this.updateInitialData = function (data, callback) {
+            return _this.setState(data, function () {
                 if (callback) {
                     callback();
                 }
@@ -156,10 +156,10 @@ var App = /** @class */ (function (_super) {
                 return (React.createElement(Link, { to: formatPath(Paths.searchByRepo, {
                         repo: _this.state.selectedRepo,
                     }) }, children));
-            }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(Link, { to: formatPath(Paths.login, {}, { next: this.props.location.pathname }) }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) : (React.createElement("div", null,
+            }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(LoginLink, { next: this.props.location.pathname })) : (React.createElement("div", null,
                 React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
                 React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
-        var menu = this.menu();
+        var menu = user && settings ? this.menu() : []; // no longer all set at the same time
         this.activateMenu(menu);
         var ItemOrSection = function (_a) {
             var item = _a.item;
@@ -220,8 +220,8 @@ var App = /** @class */ (function (_super) {
                 } }, options), { type: 'section', name: name, items: items }));
         };
         return [
-            menuSection(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
-                menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collections"], ["Collections"]))), {
+            menuSection(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
+                menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collections"], ["Collections"]))), {
                     url: formatPath(Paths.searchByRepo, {
                         repo: this.state.selectedRepo,
                     }),
@@ -231,7 +231,7 @@ var App = /** @class */ (function (_super) {
                             !user.is_anonymous;
                     },
                 }),
-                menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
+                menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
                     url: Paths[NAMESPACE_TERM],
                     condition: function (_a) {
                         var settings = _a.settings, user = _a.user;
@@ -239,21 +239,21 @@ var App = /** @class */ (function (_super) {
                             !user.is_anonymous;
                     },
                 }),
-                menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
+                menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return !user.is_anonymous;
                     },
                     url: Paths.repositories,
                 }),
-                menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Token"], ["API Token"]))), {
+                menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["API Token"], ["API Token"]))), {
                     url: Paths.token,
                     condition: function (_a) {
                         var user = _a.user;
                         return !user.is_anonymous;
                     },
                 }),
-                menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Approval"], ["Approval"]))), {
+                menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.move_collection;
@@ -261,27 +261,27 @@ var App = /** @class */ (function (_super) {
                     url: Paths.approvalDashboard,
                 }),
             ]),
-            menuSection(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+            menuSection(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                 condition: function (_a) {
                     var featureFlags = _a.featureFlags, user = _a.user;
                     return featureFlags.execution_environments && !user.is_anonymous;
                 },
             }, [
-                menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+                menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                     url: Paths.executionEnvironments,
                 }),
-                menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
+                menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
                     url: Paths.executionEnvironmentsRegistries,
                 }),
             ]),
-            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
                 url: Paths.taskList,
                 condition: function (_a) {
                     var user = _a.user;
                     return !user.is_anonymous;
                 },
             }),
-            menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
                 condition: function (_a) {
@@ -290,15 +290,15 @@ var App = /** @class */ (function (_super) {
                         !user.is_anonymous;
                 },
             }),
-            menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
+            menuSection(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Users"], ["Users"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_user;
                     },
                     url: Paths.userList,
                 }),
-                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_group;
@@ -346,5 +346,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=standalone-loader.js.map

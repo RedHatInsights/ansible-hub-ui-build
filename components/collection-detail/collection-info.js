@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 import { Split, SplitItem, Grid, GridItem, Button, Alert, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
 import { CollectionAPI } from 'src/api';
-import { Tag, ClipboardCopy } from 'src/components';
+import { Tag, ClipboardCopy, LoginLink } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 import { userLanguage } from 'src/l10n';
@@ -66,14 +66,14 @@ var CollectionInfo = /** @class */ (function (_super) {
                                 .GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_DOWNLOAD &&
                                 this.context.user.is_anonymous ? (React.createElement(Alert, { className: 'collection-download-alert', isInline: true, variant: 'warning', title: React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You have to be logged in to be able to download the tarball."], ["You have to be logged in to be able to download the tarball."]))),
                                     ' ',
-                                    React.createElement(Link, { to: Paths.login }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Login"], ["Login"]))))) })) : (React.createElement("div", null,
+                                    React.createElement(LoginLink, null)) })) : (React.createElement("div", null,
                                 React.createElement("a", { ref: this.downloadLinkRef, style: { display: 'none' } }),
                                 React.createElement(Button, { className: 'download-button', variant: 'link', icon: React.createElement(DownloadIcon, null), onClick: function () {
                                         return _this.download(_this.context.selectedRepo, namespace, name, latest_version);
-                                    } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Download tarball"], ["Download tarball"]))))))))),
+                                    } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Download tarball"], ["Download tarball"]))))))))),
                 latest_version.requires_ansible && (React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
-                        React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
+                        React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
                         React.createElement(SplitItem, { isFilled: true }, latest_version.requires_ansible)))),
                 latest_version.docs_blob.collection_readme ? (React.createElement(GridItem, null,
                     React.createElement("div", { className: 'readme-container' },
@@ -85,7 +85,7 @@ var CollectionInfo = /** @class */ (function (_super) {
                             collection: name,
                             namespace: namespace.name,
                             repo: this.context.selectedRepo,
-                        }, params) }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Go to documentation"], ["Go to documentation"])))))) : null)));
+                        }, params) }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Go to documentation"], ["Go to documentation"])))))) : null)));
     };
     CollectionInfo.prototype.download = function (reponame, namespace, name, latest_version) {
         var _this = this;
@@ -103,5 +103,5 @@ var CollectionInfo = /** @class */ (function (_super) {
     return CollectionInfo;
 }(React.Component));
 export { CollectionInfo };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=collection-info.js.map
