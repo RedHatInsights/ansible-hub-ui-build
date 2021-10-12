@@ -35,13 +35,13 @@ var NamespaceCard = /** @class */ (function (_super) {
         return (React.createElement(Card, { className: 'ns-card-container' },
             React.createElement(CardHeader, null,
                 React.createElement(CardHeaderMain, null,
-                    React.createElement(Logo, { unlockWidth: true, image: avatar_url, alt: company + ' logo', size: '40px' }))),
+                    React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: avatar_url, size: '40px', unlockWidth: true }))),
             React.createElement(Tooltip, { content: company || name },
                 React.createElement(CardTitle, null, this.getDescription(company || name))),
             React.createElement(Tooltip, { content: name },
                 React.createElement(CardBody, null, this.getDescription(name))),
             namespaceURL && (React.createElement(CardFooter, null,
-                React.createElement(Link, { to: namespaceURL }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["View collections"], ["View collections"]))))))));
+                React.createElement(Link, { to: namespaceURL }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["View collections"], ["View collections"]))))))));
     };
     NamespaceCard.prototype.getDescription = function (d) {
         if (!d) {
@@ -57,5 +57,5 @@ var NamespaceCard = /** @class */ (function (_super) {
     return NamespaceCard;
 }(React.Component));
 export { NamespaceCard };
-var templateObject_1;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=namespace-card.js.map

@@ -40,7 +40,7 @@ var CollectionCard = /** @class */ (function (_super) {
         var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         return (React.createElement(Card, { className: cx('collection-card-container', className) },
             React.createElement(CardHeader, { className: 'logo-row' },
-                React.createElement(Logo, { image: namespace.avatar_url, alt: company + ' logo', size: '40px', unlockWidth: true }),
+                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true }),
                 React.createElement(TextContent, null, this.getCertification(repo))),
             React.createElement(CardHeader, null,
                 React.createElement("div", { className: 'name' },
@@ -66,7 +66,7 @@ var CollectionCard = /** @class */ (function (_super) {
     CollectionCard.prototype.getCertification = function (repo) {
         if (repo === Constants.CERTIFIED_REPO) {
             return (React.createElement(Text, { component: TextVariants.small },
-                React.createElement(Badge, { isRead: true }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Certified"], ["Certified"]))))));
+                React.createElement(Badge, { isRead: true }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Certified"], ["Certified"]))))));
         }
         return null;
     };
@@ -91,5 +91,5 @@ var CollectionCard = /** @class */ (function (_super) {
     return CollectionCard;
 }(React.Component));
 export { CollectionCard };
-var templateObject_1;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=collection-card.js.map

@@ -34,7 +34,7 @@ import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, Tooltip, Checkbox, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
-import { BaseHeader, Breadcrumbs, LinkTabs, RepoSelector, Pagination, AlertList, closeAlertMixin, ConfirmModal, StatefulDropdown, } from 'src/components';
+import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, ConfirmModal, StatefulDropdown, } from 'src/components';
 import { CollectionAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
 import { waitForTask } from 'src/utilities';
@@ -217,6 +217,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             return moment(v.created).fromNow() + " " + (v.version === all_versions[0].version ? t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
         };
         var collectionName = collection.name;
+        var company = collection.namespace.company || collection.namespace.name;
         if (redirect)
             return React.createElement(Redirect, { push: true, to: redirect });
         var dropdownItems = [
@@ -284,16 +285,16 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement("b", null, deleteCollection.name),
                         " and its data will be lost."))),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
-            React.createElement(BaseHeader, { className: className, title: collection.name, imageURL: collection.namespace.avatar_url, contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                    React.createElement("span", null, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Version"], ["Version"])))),
+            React.createElement(BaseHeader, { className: className, title: collection.name, logo: collection.namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: collection.namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
+                    React.createElement("span", null, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
+                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
                                 ? {
-                                    text: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["View more"], ["View more"]))),
+                                    text: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
                                         return _this.setState({
                                             isOpenVersionsModal: true,
@@ -312,7 +313,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement(Trans, null,
                             "Last updated ",
                             React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: dropdownItems.length > 0 ? (React.createElement(StatefulDropdown, { items: dropdownItems })) : null },
-                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'tab-link-container' },
                     React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
@@ -339,27 +340,27 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
             {
                 active: active === 'dependencies',
-                title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
+                title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
                 link: formatPath(Paths.collectionDependenciesByRepo, pathParams, reduced),
             },
         ];
@@ -393,7 +394,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Error getting collection's dependencies."], ["Error getting collection's dependencies."]))),
+                        title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Error getting collection's dependencies."], ["Error getting collection's dependencies."]))),
                         description: err === null || err === void 0 ? void 0 : err.message,
                     },
                 ], false),
@@ -414,5 +415,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31;
 //# sourceMappingURL=collection-header.js.map
