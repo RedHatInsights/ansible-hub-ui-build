@@ -13,8 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 import * as React from 'react';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import './list-item.scss';
 import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
@@ -35,7 +39,7 @@ var CollectionListItem = /** @class */ (function (_super) {
         var company = namespace.company || namespace.name;
         if (showNamespace) {
             cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: company + ' logo', image: namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
+                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
         }
         var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         cells.push(React.createElement(DataListCell, { key: 'content' },
@@ -72,4 +76,5 @@ var CollectionListItem = /** @class */ (function (_super) {
     return CollectionListItem;
 }(React.Component));
 export { CollectionListItem };
+var templateObject_1;
 //# sourceMappingURL=collection-list-item.js.map

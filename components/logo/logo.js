@@ -18,11 +18,15 @@ import * as React from 'react';
 import DefaultLogo from 'src/../static/images/default-logo.svg';
 var Logo = /** @class */ (function (_super) {
     __extends(Logo, _super);
-    function Logo() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Logo(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { failed: false };
+        return _this;
     }
     Logo.prototype.render = function () {
-        var _a = this.props, size = _a.size, image = _a.image, alt = _a.alt, className = _a.className, unlockWidth = _a.unlockWidth, width = _a.width;
+        var _this = this;
+        var _a = this.props, alt = _a.alt, className = _a.className, fallbackToDefault = _a.fallbackToDefault, image = _a.image, size = _a.size, unlockWidth = _a.unlockWidth, width = _a.width;
+        var failed = this.state.failed;
         var style = {
             height: size,
             display: 'flex',
@@ -38,7 +42,9 @@ var Logo = /** @class */ (function (_super) {
         }
         // use inline css so we can set size
         return (React.createElement("div", { className: className, style: style },
-            React.createElement("img", { style: { objectFit: 'contain', maxHeight: size }, src: image || DefaultLogo, alt: alt })));
+            React.createElement("img", { style: { objectFit: 'contain', maxHeight: size }, src: failed ? DefaultLogo : image || DefaultLogo, alt: alt, onError: fallbackToDefault
+                    ? function (e) { return _this.setState({ failed: true }); }
+                    : function () { return null; } })));
     };
     return Logo;
 }(React.Component));
