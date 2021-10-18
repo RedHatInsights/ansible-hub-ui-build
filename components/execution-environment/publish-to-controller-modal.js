@@ -186,8 +186,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, image = _a.image, isOpen = _a.isOpen, onClose = _a.onClose;
         var _b = this.state, alerts = _b.alerts, controllers = _b.controllers, controllerCount = _b.controllerCount, controllerParams = _b.controllerParams, loading = _b.loading, digest = _b.digest, digestByTag = _b.digestByTag, tagResults = _b.tagResults, tagSelection = _b.tagSelection;
-        // FIXME: installer docs link
-        var docsLink = 'https://fixme.example.com';
+        var docsLink = 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1';
         var noData = (controllers === null || controllers === void 0 ? void 0 : controllers.length) === 0 &&
             !filterIsSet(controllerParams, ['host__icontains']);
         var notListedMessage = (React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["If the Controller is not listed in the table, check settings.py."], ["If the Controller is not listed in the table, check settings.py."]))),
