@@ -337,7 +337,7 @@ var GroupDetail = /** @class */ (function (_super) {
         var _this = this;
         var group = this.state.group;
         var user = this.state.showUserRemoveModal;
-        var username = { user: user };
+        var username = user.username;
         var groupname = group.name;
         return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ showUserRemoveModal: null }); }, deleteAction: function () { return _this.deleteUser(user); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Remove user from group?"], ["Remove user from group?"]))) },
             React.createElement(Trans, null,
