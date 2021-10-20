@@ -319,7 +319,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'namespace-page-controls' });
         }
-        return (React.createElement("div", { className: 'namespace-page-controls' },
+        return (React.createElement("div", { className: 'namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
             collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
