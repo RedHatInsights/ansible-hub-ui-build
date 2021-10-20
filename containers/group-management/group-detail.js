@@ -82,6 +82,7 @@ var GroupDetail = /** @class */ (function (_super) {
             permissions: [],
             originalPermissions: [],
             unauthorised: false,
+            inputText: '',
         };
         return _this;
     }
@@ -403,7 +404,7 @@ var GroupDetail = /** @class */ (function (_super) {
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,
-                                React.createElement(CompoundFilter, { updateParams: function (p) {
+                                React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
                                         return _this.updateParams(p, function () { return _this.queryUsers(); });
                                     }, params: params, filterConfig: [
                                         {
@@ -430,7 +431,10 @@ var GroupDetail = /** @class */ (function (_super) {
                                 React.createElement(Button, { onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Add"], ["Add"]))))))))),
                 React.createElement(Pagination, { params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, count: itemCount, isTop: true })),
             React.createElement("div", null,
-                React.createElement(AppliedFilters, { updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
+                React.createElement(AppliedFilters, { updateParams: function (p) {
+                        _this.updateParams(p, function () { return _this.queryUsers(); });
+                        _this.setState({ inputText: '' });
+                    }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
             this.renderUsersTable(users),
             React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
                 React.createElement(Pagination, { params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, count: itemCount })),

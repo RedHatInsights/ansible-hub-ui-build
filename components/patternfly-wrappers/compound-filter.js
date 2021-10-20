@@ -57,7 +57,6 @@ var CompoundFilter = /** @class */ (function (_super) {
         };
         _this.state = {
             selectedFilter: props.filterConfig[0],
-            inputText: '',
             isExpanded: false,
             isCreatable: false,
             isOpen: false,
@@ -69,14 +68,17 @@ var CompoundFilter = /** @class */ (function (_super) {
         var _this = this;
         var filterConfig = this.props.filterConfig;
         var selectedFilter = this.state.selectedFilter;
-        var filterOptions = filterConfig.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ selectedFilter: v, inputText: '' }); }, key: v.id }, v.title)); });
+        var filterOptions = filterConfig.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
+                _this.props.onChange('');
+                _this.setState({ selectedFilter: v });
+            }, key: v.id }, v.title)); });
         return (React.createElement(InputGroup, null,
             React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
                     React.createElement(FilterIcon, null),
                     '   ',
                     selectedFilter.title), position: 'left', isPlain: false, items: filterOptions }),
             this.renderInput(selectedFilter),
-            React.createElement(Button, { onClick: function () { return _this.submitFilter(); }, variant: ButtonVariant.control, isDisabled: !this.state.inputText },
+            React.createElement(Button, { onClick: function () { return _this.submitFilter(); }, variant: ButtonVariant.control, isDisabled: !this.props.inputText },
                 React.createElement(SearchIcon, null))));
     };
     CompoundFilter.prototype.renderInput = function (selectedFilter) {
@@ -93,26 +95,28 @@ var CompoundFilter = /** @class */ (function (_super) {
                 ];
                 return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, toggle));
             case 'select':
-                return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.state.inputText, selectedFilter) ||
+                return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.props.inputText, selectedFilter) ||
                         selectedFilter.placeholder ||
                         selectedFilter.title, isPlain: false, position: 'left', items: selectedFilter.options.map(function (v, i) { return (React.createElement(DropdownItem, { onClick: function () {
-                            return _this.setState({ inputText: v.id }, function () { return _this.submitFilter(); });
+                            _this.props.onChange(v.id);
+                            _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));
             default:
-                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.state.inputText, onChange: function (k) { return _this.setState({ inputText: k }); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
+                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
         }
     };
     CompoundFilter.prototype.handleEnter = function (e) {
         // l10n: don't translate
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && this.props.inputText.length > 0) {
             this.submitFilter();
         }
     };
     CompoundFilter.prototype.submitMultiple = function (newValues) {
         this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, newValues));
     };
-    CompoundFilter.prototype.submitFilter = function () {
-        this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, this.state.inputText));
+    CompoundFilter.prototype.submitFilter = function (id) {
+        if (id === void 0) { id = undefined; }
+        this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, id ? id : this.props.inputText));
     };
     CompoundFilter.prototype.selectTitleById = function (inputText, selectedFilter) {
         if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options))

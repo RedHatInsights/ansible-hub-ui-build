@@ -25,10 +25,19 @@ import { AppliedFilters, CompoundFilter } from 'src/components';
 import { Constants } from 'src/constants';
 var CollectionFilter = /** @class */ (function (_super) {
     __extends(CollectionFilter, _super);
-    function CollectionFilter() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function CollectionFilter(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            inputText: props.params.keywords || '',
+        };
+        return _this;
     }
+    CollectionFilter.prototype.componentDidUpdate = function (prevProps) {
+        if (prevProps.params.keywords !== this.props.params['keywords'])
+            this.setState({ inputText: this.props.params['keywords'] || '' });
+    };
     CollectionFilter.prototype.render = function () {
+        var _this = this;
         var _a = this.props, ignoredParams = _a.ignoredParams, params = _a.params, updateParams = _a.updateParams;
         var filterConfig = [
             {
@@ -49,7 +58,7 @@ var CollectionFilter = /** @class */ (function (_super) {
             React.createElement(ToolbarContent, null,
                 React.createElement(ToolbarGroup, null,
                     React.createElement(ToolbarItem, null,
-                        React.createElement(CompoundFilter, { updateParams: updateParams, params: params, filterConfig: filterConfig }),
+                        React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: filterConfig }),
                         React.createElement(ToolbarItem, null,
                             React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ignoredParams })))))));
     };

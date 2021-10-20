@@ -71,6 +71,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             confirmDelete: false,
             expandedImage: null,
             isDeletionPending: false,
+            inputText: '',
         };
         return _this;
     }
@@ -162,7 +163,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,
-                                React.createElement(CompoundFilter, { updateParams: function (p) {
+                                React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
                                         return _this.updateParams(p, function () {
                                             return _this.queryImages(_this.props.match.params['container']);
                                         });
@@ -183,9 +184,10 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     }, count: this.state.numberOfImages, isTop: true })),
             React.createElement("div", null,
                 React.createElement(AppliedFilters, { updateParams: function (p) {
-                        return _this.updateParams(p, function () {
+                        _this.updateParams(p, function () {
                             return _this.queryImages(_this.props.match.params['container']);
                         });
+                        _this.setState({ inputText: '' });
                     }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
             images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'content-table pf-c-table' },
                 React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
@@ -245,8 +247,8 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     _this.setState({ deleteModalVisible: true, selectedImage: image });
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"])))),
         ].filter(function (truthy) { return truthy; });
-        return (React.createElement(React.Fragment, null,
-            React.createElement("tr", { key: index },
+        return (React.createElement(React.Fragment, { key: index },
+            React.createElement("tr", null,
                 React.createElement("td", { className: 'pf-c-table__toggle' }, isManifestList ? (React.createElement(Button, { variant: 'plain', onClick: function () {
                         return _this.setState({
                             expandedImage: expandedImage === image ? null : image,

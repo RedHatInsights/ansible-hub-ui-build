@@ -45,6 +45,7 @@ var ImportList = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             kwField: '',
+            inputText: '',
         };
         return _this;
     }
@@ -54,7 +55,7 @@ var ImportList = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'import-list' },
             this.renderNamespacePicker(namespaces),
             React.createElement(Toolbar, null,
-                React.createElement(CompoundFilter, { updateParams: function (p) {
+                React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
                         p['page'] = 1;
                         _this.props.updateParams(p);
                     }, params: params, filterConfig: [
@@ -89,6 +90,7 @@ var ImportList = /** @class */ (function (_super) {
             React.createElement(AppliedFilters, { updateParams: function (p) {
                     p['page'] = 1;
                     _this.props.updateParams(p);
+                    _this.setState({ inputText: '' });
                 }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering', 'namespace'], niceNames: {
                     keywords: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))),
                     state: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Status"], ["Status"]))),

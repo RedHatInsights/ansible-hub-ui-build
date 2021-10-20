@@ -56,6 +56,7 @@ var initialState = {
     tagResults: [],
     tagSelection: [],
     tags: [],
+    inputText: '',
 };
 var PublishToControllerModal = /** @class */ (function (_super) {
     __extends(PublishToControllerModal, _super);
@@ -234,7 +235,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
                 React.createElement(Spacer, null),
                 React.createElement(Flex, null,
                     React.createElement(FlexItem, null,
-                        React.createElement(CompoundFilter, { updateParams: function (controllerParams) {
+                        React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (controllerParams) {
                                 controllerParams.page = 1;
                                 _this.setState({ controllerParams: controllerParams }, function () {
                                     return _this.fetchControllers();
