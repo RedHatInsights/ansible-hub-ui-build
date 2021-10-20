@@ -77,6 +77,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             selectedItem: null,
             confirmDelete: false,
             isDeletionPending: false,
+            inputText: '',
         };
         return _this;
     }
@@ -127,7 +128,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { updateParams: function (p) {
+                                    React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
+                                            return _this.setState({ inputText: text });
+                                        }, updateParams: function (p) {
                                             p['page'] = 1;
                                             _this.updateParams(p, function () {
                                                 return _this.queryEnvironments();
@@ -145,7 +148,8 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         }, count: itemCount, isTop: true })),
                 React.createElement("div", null,
                     React.createElement(AppliedFilters, { updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryEnvironments(); });
+                            _this.updateParams(p, function () { return _this.queryEnvironments(); });
+                            _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'] })),
                 this.renderTable(params),
                 React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },

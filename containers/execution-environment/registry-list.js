@@ -72,6 +72,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             remoteUnmodified: null,
             showDeleteModal: false,
             showRemoteFormModal: false,
+            inputText: '',
         };
         return _this;
     }
@@ -152,7 +153,9 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { updateParams: function (p) {
+                                    React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
+                                            return _this.setState({ inputText: text });
+                                        }, updateParams: function (p) {
                                             p['page'] = 1;
                                             _this.updateParams(p, function () {
                                                 return _this.queryRegistries();
@@ -169,7 +172,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                         }, count: itemCount, isTop: true })),
                 React.createElement("div", null,
                     React.createElement(AppliedFilters, { updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryRegistries(); });
+                            _this.updateParams(p, function () { return _this.queryRegistries(); });
+                            _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
                             name__icontains: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Name"], ["Name"]))),
                         } })),

@@ -63,6 +63,7 @@ var GroupList = /** @class */ (function (_super) {
             selectedGroup: null,
             groupError: null,
             unauthorized: false,
+            inputText: '',
         };
         return _this;
     }
@@ -96,7 +97,7 @@ var GroupList = /** @class */ (function (_super) {
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
-                                        React.createElement(CompoundFilter, { updateParams: function (p) {
+                                        React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (val) { return _this.setState({ inputText: val }); }, updateParams: function (p) {
                                                 return _this.updateParams(p, function () { return _this.queryGroups(); });
                                             }, params: params, filterConfig: [
                                                 {
@@ -114,7 +115,8 @@ var GroupList = /** @class */ (function (_super) {
                             }, count: itemCount, isTop: true })),
                     React.createElement("div", null,
                         React.createElement(AppliedFilters, { updateParams: function (p) {
-                                return _this.updateParams(p, function () { return _this.queryGroups(); });
+                                _this.updateParams(p, function () { return _this.queryGroups(); });
+                                _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'] })),
                     loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                     React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },

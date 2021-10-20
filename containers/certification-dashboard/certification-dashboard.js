@@ -91,6 +91,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             updatingVersions: [],
             alerts: [],
             unauthorized: false,
+            inputText: '',
         };
         return _this;
     }
@@ -120,7 +121,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { updateParams: function (p) {
+                                    React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
+                                            _this.setState({ inputText: text });
+                                        }, updateParams: function (p) {
                                             return _this.updateParams(p, function () { return _this.queryCollections(); });
                                         }, params: params, filterConfig: [
                                             {
@@ -156,7 +159,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                             }, count: itemCount, isTop: true })),
                     React.createElement("div", null,
                         React.createElement(AppliedFilters, { updateParams: function (p) {
-                                return _this.updateParams(p, function () { return _this.queryCollections(); });
+                                _this.updateParams(p, function () { return _this.queryCollections(); });
+                                _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceValues: {
                                 repository: (_a = {},
                                     _a[Constants.PUBLISHED] = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approved"], ["Approved"]))),

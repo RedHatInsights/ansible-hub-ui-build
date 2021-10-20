@@ -65,6 +65,7 @@ var UserList = /** @class */ (function (_super) {
             itemCount: 0,
             alerts: [],
             unauthorized: false,
+            inputText: '',
         };
         return _this;
     }
@@ -101,7 +102,9 @@ var UserList = /** @class */ (function (_super) {
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
-                                        React.createElement(CompoundFilter, { updateParams: function (p) {
+                                        React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (input) {
+                                                return _this.setState({ inputText: input });
+                                            }, updateParams: function (p) {
                                                 return _this.updateParams(p, function () { return _this.queryUsers(); });
                                             }, params: params, filterConfig: [
                                                 {
@@ -130,7 +133,8 @@ var UserList = /** @class */ (function (_super) {
                             }, count: itemCount, isTop: true })),
                     React.createElement("div", null,
                         React.createElement(AppliedFilters, { updateParams: function (p) {
-                                return _this.updateParams(p, function () { return _this.queryUsers(); });
+                                _this.updateParams(p, function () { return _this.queryUsers(); });
+                                _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
                                 username__contains: 'Username',
                                 first_name__contains: 'First name',

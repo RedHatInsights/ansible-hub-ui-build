@@ -61,6 +61,7 @@ var TaskListView = /** @class */ (function (_super) {
             cancelModalVisible: false,
             selectedTask: null,
             unauthorised: false,
+            inputText: '',
         };
         return _this;
     }
@@ -86,7 +87,9 @@ var TaskListView = /** @class */ (function (_super) {
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { updateParams: function (p) {
+                                    React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
+                                            return _this.setState({ inputText: text });
+                                        }, updateParams: function (p) {
                                             p['page'] = 1;
                                             _this.updateParams(p, function () { return _this.queryTasks(); });
                                         }, params: params, filterConfig: [
@@ -123,12 +126,13 @@ var TaskListView = /** @class */ (function (_super) {
                         }, count: itemCount, isTop: true })),
                 React.createElement("div", null,
                     React.createElement(AppliedFilters, { updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryTasks(); });
+                            _this.updateParams(p, function () { return _this.queryTasks(); });
+                            _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: {
                             name__contains: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Task name"], ["Task name"]))),
                             state: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
                         } })),
-                this.renderTable(params),
+                loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                 React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.queryTasks(); });
