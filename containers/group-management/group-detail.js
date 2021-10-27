@@ -222,7 +222,7 @@ var GroupDetail = /** @class */ (function (_super) {
         return (React.createElement("section", { className: 'body' },
             React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } }, !editPermissions && user.model_permissions.change_group && (React.createElement(Button, { onClick: function () { return _this.setState({ editPermissions: true }); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))))),
             React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name },
-                React.createElement(FlexItem, { style: { minWidth: '200px' } }, twoWayMapper(group.name, Constants.HUMAN_GROUP_DETAIL_PERMISSIONS)),
+                React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.label),
                 React.createElement(FlexItem, { grow: { default: 'grow' } },
                     React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
                             .filter(function (perm) {
