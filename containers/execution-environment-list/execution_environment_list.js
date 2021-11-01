@@ -291,14 +291,12 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             return ExecutionEnvironmentAPI.deleteExecutionEnvironment(selectedItem.name)
                 .then(function (result) {
                 var taskId = result.data.task.split('tasks/')[1].replace('/', '');
-                _this.setState({
-                    selectedItem: null,
-                });
                 waitForTask(taskId).then(function () {
                     _this.setState({
-                        isDeletionPending: false,
                         confirmDelete: false,
                         deleteModalVisible: false,
+                        isDeletionPending: false,
+                        selectedItem: null,
                         alerts: _this.state.alerts.concat([
                             {
                                 variant: 'success',
