@@ -238,7 +238,8 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.updated })),
             React.createElement("td", null,
                 React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Local"], ["Local"]))))),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && React.createElement(StatefulDropdown, { items: dropdownItems }))));
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && (React.createElement("div", { "data-cy": 'kebab-toggle' },
+                React.createElement(StatefulDropdown, { items: dropdownItems }))))));
     };
     ExecutionEnvironmentList.prototype.renderRemoteModal = function (itemToEdit) {
         var _this = this;
