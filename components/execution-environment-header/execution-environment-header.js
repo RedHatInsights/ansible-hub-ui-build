@@ -45,7 +45,7 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                     { name: this.props.container.name },
                 ] }), pageControls: this.props.pageControls },
             React.createElement(Tooltip, { content: this.props.container.description },
-                React.createElement("p", { className: 'truncated' }, this.props.container.description)),
+                React.createElement("p", { "data-cy": 'description', className: 'truncated' }, this.props.container.description)),
             last_sync_task && (React.createElement("p", { className: 'truncated' },
                 React.createElement(Trans, null,
                     "Last updated from registry ",
