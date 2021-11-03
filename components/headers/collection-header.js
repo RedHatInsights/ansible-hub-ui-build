@@ -222,7 +222,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             return React.createElement(Redirect, { push: true, to: redirect });
         var dropdownItems = [
             noDependencies
-                ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))
+                ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); }, "data-cy": 'delete-collection-dropdown' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))
                 : this.context.user.model_permissions.delete_collection && (React.createElement(Tooltip, { position: 'left', content: React.createElement(Trans, null,
                         "Cannot delete until collections ",
                         React.createElement("br", null),
@@ -312,7 +312,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                     latestVersion ? (React.createElement("span", { className: 'last-updated' },
                         React.createElement(Trans, null,
                             "Last updated ",
-                            React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: dropdownItems.length > 0 ? (React.createElement(StatefulDropdown, { items: dropdownItems })) : null },
+                            React.createElement(DateComponent, { date: latestVersion })))) : null), pageControls: dropdownItems.length > 0 ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
+                    React.createElement(StatefulDropdown, { items: dropdownItems }))) : null },
                 collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'tab-link-container' },

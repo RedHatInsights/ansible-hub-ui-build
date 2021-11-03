@@ -1,12 +1,12 @@
 {
   "app_name": "automation-hub",
-  "src_hash": "ad376a9550c74369a042a3517c079766eaf9f4c6",
+  "src_hash": "8a4b25df6bf2e8b1e1fc8b65eac9bb68727fa41f",
   "src_tag": "",
   "src_branch": "master",
   "patternfly_dependencies": ["@patternfly/patternfly@4.144.5","@patternfly/react-core@4.157.3","@patternfly/react-table@4.29.58"],
   "travis": {
     "event_type": "push",
-    "build_number": "295",
-    "build_web_url": "https://github.com/ansible/ansible-hub-ui/actions/runs/1417170789"
+    "build_number": "296",
+    "build_web_url": "https://github.com/ansible/ansible-hub-ui/actions/runs/1417673038"
   }
 }
