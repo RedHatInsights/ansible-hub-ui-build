@@ -154,7 +154,7 @@ var RemoteForm = /** @class */ (function (_super) {
                         React.createElement(Checkbox, { onChange: function (value) { return _this.updateRemote(value, 'tls_validation'); }, id: 'tls_validation', isChecked: remote.tls_validation })),
                     React.createElement(FormGroup, { fieldId: 'client_key', label: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Client key"], ["Client key"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["A PEM encoded private key used for authentication."], ["A PEM encoded private key used for authentication."]))) }), isRequired: requiredFields.includes('client_key'), validated: this.toError(!('client_key' in errorMessages)), helperTextInvalid: errorMessages['client_key'] },
                         React.createElement(WriteOnlyField, { isValueSet: isFieldSet('client_key', remote.write_only_fields), onClear: function () { return _this.updateIsSet('client_key', false); } },
-                            React.createElement(FileUpload, { validated: this.toError(!('client_key' in errorMessages)), isRequired: requiredFields.includes('client_key'), id: 'yaml', type: 'text', filename: this.state.uploadedClientKeyFilename, value: this.props.remote.client_key || '', hideDefaultPreview: true, onChange: function (value, filename) {
+                            React.createElement(FileUpload, { "data-cy": 'client_key', validated: this.toError(!('client_key' in errorMessages)), isRequired: requiredFields.includes('client_key'), id: 'yaml', type: 'text', filename: this.state.uploadedClientKeyFilename, value: this.props.remote.client_key || '', hideDefaultPreview: true, onChange: function (value, filename) {
                                     _this.setState({ uploadedClientKeyFilename: filename }, function () {
                                         return _this.updateRemote(value, 'client_key');
                                     });
@@ -166,7 +166,7 @@ var RemoteForm = /** @class */ (function (_super) {
                                         _this.setState({ uploadedClientCertFilename: filename }, function () { return _this.updateRemote(value, 'client_cert'); });
                                     } })),
                             React.createElement(FlexItem, null,
-                                React.createElement(Button, { isDisabled: !this.props.remote.client_cert, onClick: function () {
+                                React.createElement(Button, { "data-cy": 'client_cert', isDisabled: !this.props.remote.client_cert, onClick: function () {
                                         FileSaver.saveAs(new Blob([_this.props.remote.client_cert], {
                                             type: 'text/plain;charset=utf-8',
                                         }), _this.state.uploadedClientCertFilename);
@@ -181,7 +181,7 @@ var RemoteForm = /** @class */ (function (_super) {
                                         });
                                     } })),
                             React.createElement(FlexItem, null,
-                                React.createElement(Button, { isDisabled: !this.props.remote.ca_cert, onClick: function () {
+                                React.createElement(Button, { "data-cy": 'ca_cert', isDisabled: !this.props.remote.ca_cert, onClick: function () {
                                         FileSaver.saveAs(new Blob([_this.props.remote.ca_cert], {
                                             type: 'text/plain;charset=utf-8',
                                         }), _this.state.uploadedCaCertFilename);
