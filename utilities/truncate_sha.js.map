@@ -1,1 +1,0 @@
-{"version":3,"file":"truncate_sha.js","sourceRoot":"","sources":["../../src/utilities/truncate_sha.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,WAAW,CAAC,GAAG;IAC7B,IAAI,QAAQ,GAAG,GAAG,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC;IAC9B,OAAO,QAAQ,CAAC,CAAC,CAAC,GAAG,GAAG,GAAG,QAAQ,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;AACrD,CAAC"}

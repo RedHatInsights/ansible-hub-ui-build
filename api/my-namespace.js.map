@@ -1,1 +1,0 @@
-{"version":3,"file":"my-namespace.js","sourceRoot":"","sources":["../../src/api/my-namespace.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,OAAO,CAAC;AAE/B;IAAkB,uBAAM;IAGtB;QAAA,YACE,iBAAO,SACR;QAJD,aAAO,GAAG,KAAI,CAAC,SAAS,CAAC,gBAAgB,CAAC,CAAC;;IAI3C,CAAC;IACH,UAAC;AAAD,CAAC,AAND,CAAkB,MAAM,GAMvB;AAED,MAAM,CAAC,IAAM,cAAc,GAAG,IAAI,GAAG,EAAE,CAAC"}
