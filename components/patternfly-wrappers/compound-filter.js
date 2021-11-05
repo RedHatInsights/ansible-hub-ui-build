@@ -78,7 +78,7 @@ var CompoundFilter = /** @class */ (function (_super) {
                     '   ',
                     selectedFilter.title), position: 'left', isPlain: false, items: filterOptions }),
             this.renderInput(selectedFilter),
-            React.createElement(Button, { onClick: function () { return _this.submitFilter(); }, variant: ButtonVariant.control, isDisabled: !this.props.inputText },
+            React.createElement(Button, { onClick: function () { return _this.submitFilter(); }, variant: ButtonVariant.control, isDisabled: !this.props.inputText.trim().length },
                 React.createElement(SearchIcon, null))));
     };
     CompoundFilter.prototype.renderInput = function (selectedFilter) {
