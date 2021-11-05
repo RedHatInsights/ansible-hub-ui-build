@@ -230,9 +230,10 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement("br", null),
                         "have been deleted.") },
                     React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))),
-            this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: '2', onClick: function () {
-                    return _this.openDeleteModalWithConfirm(collection.latest_version.version);
-                } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
+            this.context.user.model_permissions.delete_collection && (React.createElement("div", { "data-cy": 'delete-version-dropdown' },
+                React.createElement(DropdownItem, { key: '2', onClick: function () {
+                        return _this.openDeleteModalWithConfirm(collection.latest_version.version);
+                    } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version)))),
         ].filter(Boolean);
         return (React.createElement(React.Fragment, null,
             React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
