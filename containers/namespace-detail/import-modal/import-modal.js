@@ -48,7 +48,7 @@ var ImportModal = /** @class */ (function (_super) {
         var _a = this.props, isOpen = _a.isOpen, collection = _a.collection;
         var _b = this.state, file = _b.file, errors = _b.errors, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
         return (React.createElement(Modal, { variant: 'small', title: collection ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["New version of ", ""], ["New version of ", ""])), collection.name) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
-                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Upload"], ["Upload"])))),
+                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload(), "data-cy": 'confirm-upload' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Upload"], ["Upload"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement("div", { className: 'upload-collection' },
