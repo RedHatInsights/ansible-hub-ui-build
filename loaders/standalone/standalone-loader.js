@@ -246,7 +246,7 @@ var App = /** @class */ (function (_super) {
                     },
                     url: Paths.repositories,
                 }),
-                menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["API Token"], ["API Token"]))), {
+                menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["API token management"], ["API token management"]))), {
                     url: Paths.token,
                     condition: function (_a) {
                         var user = _a.user;

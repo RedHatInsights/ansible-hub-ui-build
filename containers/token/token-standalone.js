@@ -19,8 +19,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
+import './token.scss';
 import { withRouter } from 'react-router-dom';
-import { Button } from '@patternfly/react-core';
+import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
@@ -40,34 +41,38 @@ var TokenPage = /** @class */ (function (_super) {
         var expiration = this.context.settings.GALAXY_TOKEN_EXPIRATION;
         var expirationDate = new Date(Date.now() + 1000 * 60 * expiration);
         return (React.createElement(React.Fragment, null,
-            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Token management"], ["Token management"]))) }),
-            React.createElement(Main, null, unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement("section", { className: 'body pf-c-content' },
-                React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"])))),
-                React.createElement("p", null,
-                    React.createElement(Trans, null,
-                        "Use this token to authenticate the ",
-                        React.createElement("code", null, "ansible-galaxy"),
-                        ' ',
-                        "client.")),
-                !this.context.user.auth_provider.includes('django') && (React.createElement("div", null,
-                    React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Expiration"], ["Expiration"])))),
-                    React.createElement("p", null,
-                        React.createElement(Trans, null,
-                            "You are an SSO user. Your token will expire",
-                            ' ',
-                            React.createElement(DateComponent, { date: expirationDate.toISOString() }),
-                            ".")))),
-                React.createElement("div", { className: 'pf-c-content' },
-                    React.createElement(Trans, null,
-                        React.createElement("b", null, "WARNING"),
-                        " loading a new token will delete your old token.")),
-                token ? (React.createElement("div", null,
-                    React.createElement("div", { className: 'pf-c-content' },
-                        React.createElement(Trans, null,
-                            React.createElement("b", null, "WARNING"),
-                            " copy this token now. This is the only time you will ever see it.")),
-                    React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", null,
-                    React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Load token"], ["Load token"])))))))))));
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API token management"], ["API token management"]))) }),
+            React.createElement(Main, null, unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Card, null,
+                React.createElement("section", { className: 'body pf-c-content' },
+                    React.createElement(CardTitle, null,
+                        React.createElement("h2", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API token"], ["API token"]))))),
+                    React.createElement(CardBody, null,
+                        React.createElement("p", null,
+                            React.createElement(Trans, null,
+                                "Use this token to authenticate the",
+                                ' ',
+                                React.createElement("code", null, "ansible-galaxy"),
+                                " client.")),
+                        !this.context.user.auth_provider.includes('django') && (React.createElement("div", null,
+                            React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Expiration"], ["Expiration"])))),
+                            React.createElement("p", null,
+                                React.createElement(Trans, null,
+                                    "You are an SSO user. Your token will expire",
+                                    ' ',
+                                    React.createElement(DateComponent, { date: expirationDate.toISOString() }),
+                                    ".")))),
+                        React.createElement("div", { className: 'pf-c-content' },
+                            React.createElement(Trans, null,
+                                React.createElement("b", null, "WARNING"),
+                                " loading a new token will delete your old token.")),
+                        token ? (React.createElement("div", null,
+                            React.createElement(CardBody, null,
+                                React.createElement("div", { className: 'pf-c-content' },
+                                    React.createElement(Trans, null,
+                                        React.createElement("b", null, "WARNING"),
+                                        " copy this token now. This is the only time you will ever see it."))),
+                            React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", { className: 'load-token' },
+                            React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Load token"], ["Load token"])))))))))))));
     };
     TokenPage.prototype.loadToken = function () {
         var _this = this;
