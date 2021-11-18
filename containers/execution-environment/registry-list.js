@@ -39,6 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import * as React from 'react';
 import { t, Trans } from '@lingui/macro';
+import './registry-list.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
@@ -178,10 +179,9 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                             name__icontains: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Name"], ["Name"]))),
                         } })),
                 this.renderTable(params),
-                React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
-                    React.createElement(Pagination, { params: params, updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryRegistries(); });
-                        }, count: itemCount }))))))));
+                React.createElement(Pagination, { params: params, updateParams: function (p) {
+                        return _this.updateParams(p, function () { return _this.queryRegistries(); });
+                    }, count: itemCount })))))));
     };
     ExecutionEnvironmentRegistryList.prototype.renderTable = function (params) {
         var _this = this;
