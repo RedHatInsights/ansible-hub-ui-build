@@ -133,10 +133,9 @@ var TaskListView = /** @class */ (function (_super) {
                             state: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
                         } })),
                 loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
-                React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
-                    React.createElement(Pagination, { params: params, updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryTasks(); });
-                        }, count: itemCount }))))))));
+                React.createElement(Pagination, { params: params, updateParams: function (p) {
+                        return _this.updateParams(p, function () { return _this.queryTasks(); });
+                    }, count: itemCount })))))));
     };
     TaskListView.prototype.renderTable = function (params) {
         var _this = this;
