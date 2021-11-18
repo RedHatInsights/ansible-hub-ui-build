@@ -152,10 +152,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                             _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'] })),
                 this.renderTable(params),
-                React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
-                    React.createElement(Pagination, { params: params, updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.queryEnvironments(); });
-                        }, count: itemCount }))))))));
+                React.createElement(Pagination, { params: params, updateParams: function (p) {
+                        return _this.updateParams(p, function () { return _this.queryEnvironments(); });
+                    }, count: itemCount })))))));
     };
     ExecutionEnvironmentList.prototype.renderTable = function (params) {
         var _this = this;
