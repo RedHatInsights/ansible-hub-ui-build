@@ -89,6 +89,8 @@ var ObjectPermissionField = /** @class */ (function (_super) {
             }
         }
         this.props.setGroups(newGroups);
+        var newSearchGroups = __spreadArray(__spreadArray([], this.state.searchGroups, true), [group], false);
+        this.setState({ searchGroups: newSearchGroups });
     };
     ObjectPermissionField.prototype.setPermissions = function (perms, group) {
         var newGroups = __spreadArray([], this.props.groups, true);
