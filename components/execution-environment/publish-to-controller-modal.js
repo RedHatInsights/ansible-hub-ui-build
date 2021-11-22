@@ -175,8 +175,8 @@ var PublishToControllerModal = /** @class */ (function (_super) {
             return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No tag or digest selected."], ["No tag or digest selected."])));
         }
         return (React.createElement(List, { isPlain: true, isBordered: true }, controllers.map(function (host) {
-            var imageUrl = url + "/" + (tag ? image + ":" + tag : digest);
-            var href = host + "/#/execution_environments/add?image=" + encodeURIComponent(imageUrl);
+            var imageUrl = "".concat(url, "/").concat(tag ? "".concat(image, ":").concat(tag) : digest);
+            var href = "".concat(host, "/#/execution_environments/add?image=").concat(encodeURIComponent(imageUrl));
             return (React.createElement(ListItem, { style: { paddingTop: '8px' } },
                 React.createElement("a", { href: href, target: '_blank' }, host),
                 ' ',

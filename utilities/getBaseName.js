@@ -6,7 +6,7 @@ function getBaseName(pathname) {
         pathName.shift();
         release = "/beta/";
     }
-    return "" + release + pathName[0] + "/" + pathName[1];
+    return "".concat(release).concat(pathName[0], "/").concat(pathName[1]);
 }
 export default getBaseName;
 //# sourceMappingURL=getBaseName.js.map

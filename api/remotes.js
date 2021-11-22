@@ -48,13 +48,13 @@ var API = /** @class */ (function (_super) {
     // third parameter and update only takes 2
     API.prototype.smartUpdate = function (distribution, remote, unmodifiedRemote) {
         var reducedData = smartUpdate(remote, unmodifiedRemote);
-        return this.http.put("content/" + distribution + "/v3/sync/config/", reducedData);
+        return this.http.put("content/".concat(distribution, "/v3/sync/config/"), reducedData);
     };
     API.prototype.update = function (id, obj) {
         throw 'use smartUpdate()';
     };
     API.prototype.sync = function (distribution) {
-        return this.http.post("content/" + distribution + "/v3/sync/", {});
+        return this.http.post("content/".concat(distribution, "/v3/sync/"), {});
     };
     return API;
 }(HubAPI));

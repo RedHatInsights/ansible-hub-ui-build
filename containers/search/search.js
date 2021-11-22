@@ -172,7 +172,7 @@ var Search = /** @class */ (function (_super) {
                 _this.setState({ synclist: result.data.data[0] });
             }
             else {
-                console.error("my-synclist returned " + result.data.meta.count + " synclists");
+                console.error("my-synclist returned ".concat(result.data.meta.count, " synclists"));
             }
         });
     };

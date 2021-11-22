@@ -22,13 +22,13 @@ var API = /** @class */ (function (_super) {
         return _this;
     }
     API.prototype.tag = function (repositoryID, tag, digest) {
-        return this.http.post("" + this.apiPath + repositoryID + "/tag/", {
+        return this.http.post("".concat(this.apiPath).concat(repositoryID, "/tag/"), {
             digest: digest,
             tag: tag,
         });
     };
     API.prototype.untag = function (repositoryID, tag, digest) {
-        return this.http.post("" + this.apiPath + repositoryID + "/untag/", {
+        return this.http.post("".concat(this.apiPath).concat(repositoryID, "/untag/"), {
             digest: digest,
             tag: tag,
         });

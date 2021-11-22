@@ -52,8 +52,8 @@ var API = /** @class */ (function (_super) {
                 data: response.data.data.map(filterListItem) }) })); });
     };
     API.prototype.setDeprecation = function (collection, isDeprecated, repo) {
-        var path = "content/" + repo + "/v3/collections/";
-        return this.patch(collection.namespace.name + "/" + collection.name, {
+        var path = "content/".concat(repo, "/v3/collections/");
+        return this.patch("".concat(collection.namespace.name, "/").concat(collection.name), {
             deprecated: isDeprecated,
         }, path);
     };
@@ -90,7 +90,7 @@ var API = /** @class */ (function (_super) {
             this.cachedCollection.namespace.name === namespace) {
             return Promise.resolve(this.cachedCollection);
         }
-        var path = "" + this.apiPath + repo + "/" + namespace + "/" + name + "/";
+        var path = "".concat(this.apiPath).concat(repo, "/").concat(namespace, "/").concat(name, "/");
         return this.http
             .get(path, {
             params: params,
@@ -107,7 +107,7 @@ var API = /** @class */ (function (_super) {
         // UI API doesn't have tarball download link, so query it separately here
         return new Promise(function (resolve, reject) {
             _this.http
-                .get("content/" + distro_base_path + "/v3/collections/" + namespace + "/" + name + "/versions/" + version + "/")
+                .get("content/".concat(distro_base_path, "/v3/collections/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))
                 .then(function (result) {
                 resolve(result.data['download_url']);
             })
@@ -115,15 +115,15 @@ var API = /** @class */ (function (_super) {
         });
     };
     API.prototype.deleteCollectionVersion = function (repo, collection) {
-        return this.http.delete("content/" + repo + "/v3/collections/" + collection.namespace.name + "/" + collection.name + "/versions/" + collection.latest_version.version + "/");
+        return this.http.delete("content/".concat(repo, "/v3/collections/").concat(collection.namespace.name, "/").concat(collection.name, "/versions/").concat(collection.latest_version.version, "/"));
     };
     API.prototype.deleteCollection = function (repo, collection) {
-        return this.http.delete("content/" + repo + "/v3/collections/" + collection.namespace.name + "/" + collection.name + "/");
+        return this.http.delete("content/".concat(repo, "/v3/collections/").concat(collection.namespace.name, "/").concat(collection.name, "/"));
     };
     API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params, cancelToken) {
         if (params === void 0) { params = {}; }
         if (cancelToken === void 0) { cancelToken = undefined; }
-        return this.http.get(this.getUIPath("collection-versions/?dependency=" + namespace + "." + collection), { params: this.mapPageToOffset(params), cancelToken: cancelToken === null || cancelToken === void 0 ? void 0 : cancelToken.token });
+        return this.http.get(this.getUIPath("collection-versions/?dependency=".concat(namespace, ".").concat(collection)), { params: this.mapPageToOffset(params), cancelToken: cancelToken === null || cancelToken === void 0 ? void 0 : cancelToken.token });
     };
     return API;
 }(HubAPI));

@@ -124,7 +124,7 @@ var InsightsRoute = function (_a) {
     var Component = _a.component, rootClass = _a.rootClass, rest = __rest(_a, ["component", "rootClass"]);
     var root = document.getElementById('root');
     root.removeAttribute('class');
-    root.classList.add("page__" + rootClass, 'pf-c-page__main');
+    root.classList.add("page__".concat(rootClass), 'pf-c-page__main');
     root.setAttribute('role', 'main');
     return React.createElement(Route, __assign({}, rest, { component: Component }));
 };

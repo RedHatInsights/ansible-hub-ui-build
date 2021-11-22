@@ -89,7 +89,7 @@ var TagManifestModal = /** @class */ (function (_super) {
         };
         _this.verifyAndAddTag = function () {
             // copy tag to prevent it from changing in the form during verification
-            var tag = "" + _this.state.tagInForm;
+            var tag = "".concat(_this.state.tagInForm);
             _this.setState({ verifyingTag: true }, function () { return _this.verifyTag(tag); });
         };
         _this.state = {

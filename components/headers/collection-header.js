@@ -214,7 +214,7 @@ var CollectionHeader = /** @class */ (function (_super) {
         ];
         var latestVersion = collection.latest_version.created_at;
         var isLatestVersion = function (v) {
-            return moment(v.created).fromNow() + " " + (v.version === all_versions[0].version ? t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
+            return "".concat(moment(v.created).fromNow(), " ").concat(v.version === all_versions[0].version ? t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
         };
         var collectionName = collection.name;
         var company = collection.namespace.company || collection.namespace.name;
@@ -293,7 +293,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v" + collection.latest_version.version, "aria-label": t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
+                            }, selections: "v".concat(collection.latest_version.version), "aria-label": t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
                                 ? {
                                     text: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
@@ -303,7 +303,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                         });
                                     },
                                 }
-                                : null }, this.renderSelectVersions(all_versions, numOfshownVersions).map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v" + v.version, onClick: function () {
+                                : null }, this.renderSelectVersions(all_versions, numOfshownVersions).map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v".concat(v.version), onClick: function () {
                                 return updateParams(ParamHelper.setParam(params, 'version', v.version.toString()));
                             } },
                             React.createElement(Trans, null,

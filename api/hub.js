@@ -24,7 +24,7 @@ var HubAPI = /** @class */ (function (_super) {
     // Use this function to get paths in the _ui API. That will ensure the API version
     // gets updated when it changes
     HubAPI.prototype.getUIPath = function (url) {
-        return "_ui/" + this.UI_API_VERSION + "/" + url;
+        return "_ui/".concat(this.UI_API_VERSION, "/").concat(url);
     };
     return HubAPI;
 }(BaseAPI));

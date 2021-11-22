@@ -39,10 +39,10 @@ var CollectionInfo = /** @class */ (function (_super) {
     CollectionInfo.prototype.render = function () {
         var _this = this;
         var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, params = _a.params;
-        var installCommand = "ansible-galaxy collection install " + namespace.name + "." + name;
+        var installCommand = "ansible-galaxy collection install ".concat(namespace.name, ".").concat(name);
         moment.locale(userLanguage);
         if (params.version) {
-            installCommand += ":" + params.version;
+            installCommand += ":".concat(params.version);
         }
         return (React.createElement("div", { className: 'pf-c-content info-panel' },
             React.createElement("h1", null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Install"], ["Install"])))),

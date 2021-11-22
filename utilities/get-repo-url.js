@@ -4,8 +4,8 @@ export function getRepoUrl(distributionPath) {
     // Otherwise use the host that the UI is served from
     var host = !!API_HOST ? API_HOST : window.location.origin;
     return !!distributionPath
-        ? "" + host + API_BASE_PATH + "content/" + distributionPath + "/"
-        : "" + host + API_BASE_PATH;
+        ? "".concat(host).concat(API_BASE_PATH, "content/").concat(distributionPath, "/")
+        : "".concat(host).concat(API_BASE_PATH);
 }
 // returns the server name for (protocol-less) container urls
 export function getContainersURL() {
