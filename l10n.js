@@ -46,7 +46,7 @@ function activate(locale) {
         var messages;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, import("src/../locale/" + locale + ".js")];
+                case 0: return [4 /*yield*/, import("src/../locale/".concat(locale, ".js"))];
                 case 1:
                     messages = (_a.sent()).messages;
                     if (window.localStorage.test_l10n === 'true') {

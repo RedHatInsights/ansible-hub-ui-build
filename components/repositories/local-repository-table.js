@@ -91,10 +91,10 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
     LocalRepositoryTable.prototype.renderRow = function (distribution) {
         var cliConfig = [
             '[galaxy]',
-            "server_list = " + distribution.repository.name + "_repo",
+            "server_list = ".concat(distribution.repository.name, "_repo"),
             '',
-            "[galaxy_server." + distribution.repository.name + "_repo]",
-            "url=" + getRepoUrl(distribution.base_path),
+            "[galaxy_server.".concat(distribution.repository.name, "_repo]"),
+            "url=".concat(getRepoUrl(distribution.base_path)),
             'token=<put your token here>',
         ];
         return (React.createElement("tr", { key: distribution.name },

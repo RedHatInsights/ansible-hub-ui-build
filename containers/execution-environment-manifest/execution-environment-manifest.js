@@ -115,7 +115,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                                 return _this.setState({ selectedLayer: id });
                             }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
                             var text = _a.text, size = _a.size;
-                            return (React.createElement(DataListItem, { key: index, id: "layer-" + index },
+                            return (React.createElement(DataListItem, { key: index, id: "layer-".concat(index) },
                                 React.createElement(DataListItemRow, null,
                                     React.createElement(DataListItemCells, { dataListCells: [
                                             React.createElement(DataListCell, { key: 'primary content', className: 'single-line-ellipsis' },

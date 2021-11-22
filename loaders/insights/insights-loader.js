@@ -69,7 +69,7 @@ var App = /** @class */ (function (_super) {
                 // prod-stable
                 // (domEvent is a react event, no href (there is an absolute url in domEvent.target.href))
                 // navId: corresponds to the first url component after prefix, "" means /ansible/ansible-hub, partners means /ansible/ansible-hub/partners
-                _this.props.history.push("/" + event.navId);
+                _this.props.history.push("/".concat(event.navId));
             }
         });
         insights.chrome.auth

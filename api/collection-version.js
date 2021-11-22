@@ -22,7 +22,7 @@ var API = /** @class */ (function (_super) {
         return _this;
     }
     API.prototype.setRepository = function (namespace, name, version, originalRepo, destinationRepo) {
-        var path = "v3/collections/" + namespace + "/" + name + "/versions/" + version + "/move/" + originalRepo + "/" + destinationRepo + "/";
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(originalRepo, "/").concat(destinationRepo, "/");
         return this.create({}, path);
     };
     return API;

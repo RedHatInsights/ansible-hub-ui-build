@@ -33,7 +33,7 @@ var API = /** @class */ (function (_super) {
         });
     };
     API.prototype.image = function (name, digest) {
-        return this.http.get("" + this.apiPath + name + "/_content/images/" + digest + "/");
+        return this.http.get("".concat(this.apiPath).concat(name, "/_content/images/").concat(digest, "/"));
     };
     API.prototype.tags = function (name, params) {
         return this.http.get(this.apiPath + name + '/_content/tags/', {
@@ -41,10 +41,10 @@ var API = /** @class */ (function (_super) {
         });
     };
     API.prototype.deleteImage = function (name, manifest) {
-        return this.http.delete("" + this.apiPath + name + "/_content/images/" + manifest + "/");
+        return this.http.delete("".concat(this.apiPath).concat(name, "/_content/images/").concat(manifest, "/"));
     };
     API.prototype.deleteExecutionEnvironment = function (name) {
-        return this.http.delete("" + this.apiPath + name + "/");
+        return this.http.delete("".concat(this.apiPath).concat(name, "/"));
     };
     return API;
 }(HubAPI));

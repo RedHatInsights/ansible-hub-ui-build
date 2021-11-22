@@ -46,7 +46,7 @@ var TokenPage = /** @class */ (function (_super) {
         var _a;
         var user = this.context.user;
         var tokenData = this.state.tokenData;
-        var renewTokenCmd = "curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token -d grant_type=refresh_token -d client_id=\"" + user.username + "\" -d refresh_token=\"" + ((_a = tokenData === null || tokenData === void 0 ? void 0 : tokenData.refresh_token) !== null && _a !== void 0 ? _a : '{{ user_token }}') + "\" --fail --silent --show-error --output /dev/null";
+        var renewTokenCmd = "curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token -d grant_type=refresh_token -d client_id=\"".concat(user.username, "\" -d refresh_token=\"").concat((_a = tokenData === null || tokenData === void 0 ? void 0 : tokenData.refresh_token) !== null && _a !== void 0 ? _a : '{{ user_token }}', "\" --fail --silent --show-error --output /dev/null");
         return (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Connect to Hub"], ["Connect to Hub"]))) }),
             React.createElement(Main, null,

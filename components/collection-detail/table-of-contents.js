@@ -161,7 +161,7 @@ var TableOfContents = /** @class */ (function (_super) {
         var filteredLinks = links.filter(function (link) {
             return link.display.toLowerCase().includes(filterString.toLowerCase());
         });
-        return (React.createElement(NavExpandable, { key: title, title: capitalize(title + " (" + filteredLinks.length + ")"), isExpanded: isExpanded, isActive: this.getSelectedCategory() === title }, filteredLinks.map(function (link, index) { return (React.createElement(NavItem, { key: index, isActive: _this.isSelected(link) },
+        return (React.createElement(NavExpandable, { key: title, title: capitalize("".concat(title, " (").concat(filteredLinks.length, ")")), isExpanded: isExpanded, isActive: this.getSelectedCategory() === title }, filteredLinks.map(function (link, index) { return (React.createElement(NavItem, { key: index, isActive: _this.isSelected(link) },
             React.createElement(Link, { style: {
                     textOverflow: 'ellipses',
                     overflow: 'hidden',
