@@ -30,6 +30,9 @@ var App = /** @class */ (function (_super) {
         _this.setActiveUser = function (user) {
             _this.setState({ activeUser: user });
         };
+        _this.setAlerts = function (alerts) {
+            _this.setState({ alerts: alerts });
+        };
         _this.isRepoURL = function (location) {
             return matchPath(location, {
                 path: Paths.collectionByRepo,
@@ -39,6 +42,7 @@ var App = /** @class */ (function (_super) {
             user: null,
             activeUser: null,
             selectedRepo: DEFAULT_REPO,
+            alerts: [],
         };
         return _this;
     }
@@ -127,6 +131,8 @@ var App = /** @class */ (function (_super) {
                     user: this.state.activeUser,
                     setUser: this.setActiveUser,
                     selectedRepo: this.state.selectedRepo,
+                    alerts: this.state.alerts,
+                    setAlerts: this.setAlerts,
                 } },
                 React.createElement(Routes, { childProps: this.props })));
         }
