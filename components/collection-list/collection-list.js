@@ -51,10 +51,7 @@ var CollectionList = /** @class */ (function (_super) {
                         updateParams: updateParams,
                     });
                 } }))),
-            React.createElement("div", { className: 'controls bottom' },
-                React.createElement("div", null),
-                React.createElement("div", null,
-                    React.createElement(Pagination, { params: params, updateParams: function (p) { return updateParams(p); }, count: itemCount })))));
+            React.createElement(Pagination, { params: params, updateParams: function (p) { return updateParams(p); }, count: itemCount })));
     };
     CollectionList.prototype.renderCollectionControls = function (collection) {
         var _this = this;
