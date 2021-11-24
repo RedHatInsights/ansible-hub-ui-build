@@ -42,6 +42,7 @@ import * as React from 'react';
 import './namespace-detail.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import * as ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
 import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, ConfirmModal, } from 'src/components';
@@ -135,7 +136,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         }
         var tabs = [{ id: 'collections', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
         if (this.state.showControls) {
-            tabs.push({ id: 'cli-configuration', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["CLI Configuration"], ["CLI Configuration"]))) });
+            tabs.push({ id: 'cli-configuration', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))) });
         }
         var tab = params['tab'] || 'collections';
         if (namespace.resources) {
@@ -186,14 +187,16 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         }, repo: this.context.selectedRepo })))) : null,
                 tab.toLowerCase() === 'cli-configuration' ? (React.createElement("section", { className: 'body' },
                     React.createElement("div", null,
-                        React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl),
                         React.createElement("div", null,
                             React.createElement(Trans, null,
                                 React.createElement("b", null, "Note:"),
                                 " Use this URL to configure ansible-galaxy to upload collections to this namespace. More information on ansible-galaxy configurations can be found",
                                 ' ',
                                 React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"),
-                                "."))))) : null,
+                                React.createElement("span", null, "\u00A0"),
+                                React.createElement(ExternalLinkAltIcon, null),
+                                ".")),
+                        React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl)))) : null,
                 tab.toLowerCase() === 'resources'
                     ? this.renderResources(namespace)
                     : null)));
