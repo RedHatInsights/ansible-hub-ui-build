@@ -41,7 +41,7 @@ var RepositoryForm = /** @class */ (function (_super) {
     function RepositoryForm(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            name: _this.props.name,
+            name: _this.props.name || '',
             description: _this.props.description,
             selectedGroups: [],
             originalSelectedGroups: [],
@@ -51,7 +51,7 @@ var RepositoryForm = /** @class */ (function (_super) {
             includeTags: _this.props.includeTags,
             registries: null,
             registrySelection: [],
-            upstreamName: _this.props.upstreamName,
+            upstreamName: _this.props.upstreamName || '',
         };
         return _this;
     }
@@ -77,9 +77,12 @@ var RepositoryForm = /** @class */ (function (_super) {
     RepositoryForm.prototype.render = function () {
         var _this = this;
         var _a = this.props, onSave = _a.onSave, onCancel = _a.onCancel, namespace = _a.namespace, isNew = _a.isNew, isRemote = _a.isRemote;
-        var _b = this.state, name = _b.name, description = _b.description, selectedGroups = _b.selectedGroups, upstreamName = _b.upstreamName, excludeTags = _b.excludeTags, includeTags = _b.includeTags, registrySelection = _b.registrySelection, registries = _b.registries, addTagsInclude = _b.addTagsInclude, addTagsExclude = _b.addTagsExclude;
+        var _b = this.state, name = _b.name, description = _b.description, upstreamName = _b.upstreamName, excludeTags = _b.excludeTags, includeTags = _b.includeTags, registrySelection = _b.registrySelection, registries = _b.registries, addTagsInclude = _b.addTagsInclude, addTagsExclude = _b.addTagsExclude;
         return (React.createElement(Modal, { variant: 'large', onClose: onCancel, isOpen: true, title: isNew ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Add execution environment"], ["Add execution environment"]))) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit execution environment"], ["Edit execution environment"]))), actions: [
-                React.createElement(Button, { key: 'save', variant: 'primary', onClick: function () { return onSave(_this.onSave()); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Save"], ["Save"])))),
+                React.createElement(Button, { key: 'save', variant: 'primary', onClick: function () { return onSave(_this.onSave()); }, isDisabled: (this.state.name.length === 0 ||
+                        this.state.upstreamName.length === 0 ||
+                        this.state.registrySelection.length === 0) &&
+                        isRemote }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Save"], ["Save"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: onCancel }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement(Form, null,
@@ -88,11 +91,11 @@ var RepositoryForm = /** @class */ (function (_super) {
                         React.createElement(TextInput, { id: 'name', value: name, isDisabled: true, type: 'text' })),
                     React.createElement(FormGroup, { key: 'namespace', fieldId: 'namespace', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Container namespace"], ["Container namespace"]))) },
                         React.createElement(TextInput, { id: 'namespace', value: namespace, isDisabled: true, type: 'text' })))) : (React.createElement(React.Fragment, null,
-                    React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))) },
+                    React.createElement(FormGroup, { isRequired: true, key: 'name', fieldId: 'name', label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))) },
                         React.createElement(TextInput, { id: 'name', value: name, isDisabled: !isNew, onChange: function (value) { return _this.setState({ name: value }); } })),
-                    React.createElement(FormGroup, { key: 'upstreamName', fieldId: 'upstreamName', label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upstream name"], ["Upstream name"]))) },
+                    React.createElement(FormGroup, { key: 'upstreamName', fieldId: 'upstreamName', label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upstream name"], ["Upstream name"]))), isRequired: true },
                         React.createElement(TextInput, { id: 'upstreamName', value: upstreamName, onChange: function (value) { return _this.setState({ upstreamName: value }); } })),
-                    React.createElement(FormGroup, { key: 'registry', fieldId: 'registry', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Registry"], ["Registry"]))), className: 'hub-formgroup-registry' }, registries ? (React.createElement(APISearchTypeAhead, { loadResults: function (name) { return _this.loadRegistries(name); }, onClear: function () { return _this.setState({ registrySelection: [] }); }, onSelect: function (event, value) {
+                    React.createElement(FormGroup, { key: 'registry', fieldId: 'registry', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Registry"], ["Registry"]))), className: 'hub-formgroup-registry', isRequired: true }, registries ? (React.createElement(APISearchTypeAhead, { loadResults: function (name) { return _this.loadRegistries(name); }, onClear: function () { return _this.setState({ registrySelection: [] }); }, onSelect: function (event, value) {
                             return _this.setState({
                                 registrySelection: registries.filter(function (_a) {
                                     var name = _a.name;
