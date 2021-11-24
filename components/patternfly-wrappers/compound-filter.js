@@ -73,10 +73,10 @@ var CompoundFilter = /** @class */ (function (_super) {
                 _this.setState({ selectedFilter: v });
             }, key: v.id }, v.title)); });
         return (React.createElement(InputGroup, null,
-            filterConfig.length != 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
+            React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
                     React.createElement(FilterIcon, null),
                     '   ',
-                    selectedFilter.title), position: 'left', isPlain: false, items: filterOptions })),
+                    selectedFilter.title), position: 'left', isPlain: false, items: filterOptions }),
             this.renderInput(selectedFilter),
             React.createElement(Button, { onClick: function () { return _this.submitFilter(); }, variant: ButtonVariant.control, isDisabled: !this.props.inputText.trim().length },
                 React.createElement(SearchIcon, null))));
