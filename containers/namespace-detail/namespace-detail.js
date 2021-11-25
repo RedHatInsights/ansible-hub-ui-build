@@ -43,7 +43,7 @@ import './namespace-detail.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import * as ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
 import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, ConfirmModal, } from 'src/components';
 import { ImportModal } from './import-modal/import-modal';
@@ -224,7 +224,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.renderResources = function (namespace) {
         return (React.createElement("div", { className: 'pf-c-content preview' },
-            React.createElement(ReactMarkdown, { source: namespace.resources })));
+            React.createElement(ReactMarkdown, null, namespace.resources)));
     };
     NamespaceDetail.prototype.loadCollections = function () {
         var _this = this;
