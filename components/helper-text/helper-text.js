@@ -28,7 +28,7 @@ var HelperText = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     HelperText.prototype.render = function () {
-        return (React.createElement(Popover, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["popover example"], ["popover example"]))), position: PopoverPosition.top, bodyContent: this.props.content },
+        return (React.createElement(Popover, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["popover example"], ["popover example"]))), position: PopoverPosition.top, bodyContent: this.props.content, headerContent: this.props.header },
             React.createElement(Button, { iconPosition: 'left', variant: 'plain', className: 'helper' },
                 React.createElement(OutlinedQuestionCircleIcon, null))));
     };
