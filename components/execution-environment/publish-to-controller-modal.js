@@ -238,7 +238,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
                 React.createElement("br", null),
                 !unsafeLinksSupported && (React.createElement(Trans, null,
                     React.createElement("b", null, "Note:"),
-                    " The following links may be blocked by your browser. Copy and paste the link manually.")),
+                    " The following links may be blocked by your browser. Copy and paste the external link manually.")),
                 React.createElement(Spacer, null),
                 React.createElement(Flex, null,
                     React.createElement(FlexItem, null,
