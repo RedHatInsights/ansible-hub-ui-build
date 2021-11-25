@@ -21,7 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './markdown-editor.scss';
 import { Form, FormGroup, TextArea } from '@patternfly/react-core';
-import * as ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 var MarkdownEditor = /** @class */ (function (_super) {
     __extends(MarkdownEditor, _super);
     function MarkdownEditor() {
@@ -37,7 +37,8 @@ var MarkdownEditor = /** @class */ (function (_super) {
                         React.createElement(TextArea, { "aria-labelledby": 'markdown-title', id: 'resources', value: text, onChange: function (value) { return updateText(value); }, placeholder: placeholder })))),
                 React.createElement("div", { className: 'column preview-container' },
                     editing && t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Preview"], ["Preview"]))),
-                    React.createElement("div", { className: editing ? 'pf-c-content preview' : 'pf-c-content' }, text ? (React.createElement(ReactMarkdown, { children: text })) : (React.createElement(ReactMarkdown, { children: placeholder })))))));
+                    React.createElement("div", { className: editing ? 'pf-c-content preview' : 'pf-c-content' },
+                        React.createElement(ReactMarkdown, null, text || placeholder))))));
     };
     return MarkdownEditor;
 }(React.Component));
