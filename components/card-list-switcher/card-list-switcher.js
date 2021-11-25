@@ -31,12 +31,14 @@ var CardListSwitcher = /** @class */ (function (_super) {
         }
         var iconClasses = ['icon', 'clickable'];
         return (React.createElement("div", { className: className },
-            React.createElement(ThLargeIcon, { size: size, className: cx(iconClasses, { selected: disp === 'card' }), onClick: function () {
-                    return updateParams(ParamHelper.setParam(params, 'view_type', 'card'));
-                } }),
-            React.createElement(ListIcon, { size: size, className: cx(iconClasses, { selected: disp === 'list' }), onClick: function () {
-                    return updateParams(ParamHelper.setParam(params, 'view_type', 'list'));
-                } })));
+            React.createElement("span", { "data-cy": 'view_type_card' },
+                React.createElement(ThLargeIcon, { size: size, className: cx(iconClasses, { selected: disp === 'card' }), onClick: function () {
+                        return updateParams(ParamHelper.setParam(params, 'view_type', 'card'));
+                    } })),
+            React.createElement("span", { "data-cy": 'view_type_list' },
+                React.createElement(ListIcon, { size: size, className: cx(iconClasses, { selected: disp === 'list' }), onClick: function () {
+                        return updateParams(ParamHelper.setParam(params, 'view_type', 'list'));
+                    } }))));
     };
     CardListSwitcher.defaultProps = {
         size: 'sm',
