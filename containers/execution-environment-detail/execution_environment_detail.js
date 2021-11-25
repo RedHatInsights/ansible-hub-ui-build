@@ -21,7 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from 'src/components';
-import { FlexItem, Flex, Title, Button } from '@patternfly/react-core';
+import { FlexItem, Flex, Title, Button, Card, CardBody, } from '@patternfly/react-core';
 import { withContainerRepo } from './base';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { getContainersURL } from 'src/utilities';
@@ -67,26 +67,30 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
                     React.createElement(ClipboardCopy, { isReadOnly: true }, instructions))),
             React.createElement(FlexItem, null,
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, !this.state.markdownEditing && this.state.readme && canEdit && (React.createElement(Button, { className: 'edit-button', variant: 'primary', onClick: function () {
-                            _this.setState({ markdownEditing: true });
-                        } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"])))))),
-                    !this.state.markdownEditing && !this.state.readme ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No README"], ["No README"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add a README with instructions for using this container."], ["Add a README with instructions for using this container."]))), button: canEdit ? (React.createElement("div", { "data-cy": 'add-readme' },
-                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ markdownEditing: true }); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add"], ["Add"])))))) : null })) : (React.createElement(MarkdownEditor, { text: this.state.readme, placeholder: '', helperText: '', updateText: function (value) {
-                            return _this.setState({
-                                readme: value,
-                            });
-                        }, editing: this.state.markdownEditing })),
-                    this.state.markdownEditing && (React.createElement(React.Fragment, null,
-                        React.createElement("div", { "data-cy": 'save-readme' },
-                            React.createElement(Button, { variant: 'primary', onClick: function () {
-                                    return _this.saveReadme(_this.props.containerRepository.name, _this.state.readme);
-                                } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Save"], ["Save"]))))),
-                        React.createElement(Button, { variant: 'link', onClick: function () {
-                                _this.setState({
-                                    markdownEditing: false,
-                                });
-                                _this.queryReadme(_this.props.containerRepository.name);
-                            } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Cancel"], ["Cancel"]))))))))));
+                    React.createElement(Card, null,
+                        React.createElement(CardBody, null,
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, !this.state.markdownEditing && this.state.readme && canEdit && (React.createElement(Button, { className: 'edit-button', variant: 'primary', onClick: function () {
+                                    _this.setState({ markdownEditing: true });
+                                } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"])))))),
+                            !this.state.markdownEditing && !this.state.readme ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No README"], ["No README"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add a README with instructions for using this container."], ["Add a README with instructions for using this container."]))), button: canEdit ? (React.createElement("div", { "data-cy": 'add-readme' },
+                                    React.createElement(Button, { variant: 'primary', onClick: function () {
+                                            return _this.setState({ markdownEditing: true });
+                                        } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add"], ["Add"])))))) : null })) : (React.createElement(MarkdownEditor, { text: this.state.readme, placeholder: '', helperText: '', updateText: function (value) {
+                                    return _this.setState({
+                                        readme: value,
+                                    });
+                                }, editing: this.state.markdownEditing })),
+                            this.state.markdownEditing && (React.createElement(React.Fragment, null,
+                                React.createElement("div", { "data-cy": 'save-readme' },
+                                    React.createElement(Button, { variant: 'primary', onClick: function () {
+                                            return _this.saveReadme(_this.props.containerRepository.name, _this.state.readme);
+                                        } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Save"], ["Save"]))))),
+                                React.createElement(Button, { variant: 'link', onClick: function () {
+                                        _this.setState({
+                                            markdownEditing: false,
+                                        });
+                                        _this.queryReadme(_this.props.containerRepository.name);
+                                    } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Cancel"], ["Cancel"]))))))))))));
     };
     ExecutionEnvironmentDetail.prototype.queryReadme = function (name) {
         var _this = this;
