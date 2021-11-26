@@ -114,7 +114,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: remote.updated_at }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null, lastSynced(remote) || '---'),
             React.createElement("td", null, lastSyncStatus(remote) || '---'),
-            React.createElement("td", null, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
                 React.createElement(Button, { variant: 'plain' },
                     React.createElement(ExclamationCircleIcon, null)))) : (!!user &&
                 user.model_permissions.change_remote && (React.createElement(React.Fragment, null,

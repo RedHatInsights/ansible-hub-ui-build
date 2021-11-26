@@ -256,9 +256,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: version.created_at })),
             React.createElement("td", null, this.renderStatus(version)),
-            React.createElement("td", null,
-                React.createElement("div", { className: 'control-column' },
-                    React.createElement("div", null, this.renderButtons(version))))));
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, this.renderButtons(version))));
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
