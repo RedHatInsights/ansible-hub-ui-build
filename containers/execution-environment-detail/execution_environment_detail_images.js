@@ -267,7 +267,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement("td", null, isManifestList ? (React.createElement(ShaLabel, { digest: image.digest })) : (React.createElement(ShaLink, { digest: image.digest }))),
                 React.createElement("td", null,
                     React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
-                React.createElement("td", null, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))),
+                React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))),
             expandedImage === image && (React.createElement("tr", null,
                 React.createElement("td", { colSpan: cols }, this.renderManifestList(image, ShaLink))))));
     };

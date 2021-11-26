@@ -109,7 +109,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                 React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(distribution.base_path))),
             DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? null : (React.createElement("td", null,
                 React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n')))),
-            React.createElement("td", null,
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
                 React.createElement("span", null,
                     React.createElement(StatefulDropdown, { items: [
                             React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.token, {}), target: '_blank' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Get token"], ["Get token"])))) }),

@@ -264,7 +264,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             React.createElement("td", null,
                 lastSyncStatus(item) || '---',
                 lastSynced(item)),
-            React.createElement("td", null,
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
                 React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                     React.createElement(Trans, null, "Sync from registry")),
                 ' ',
