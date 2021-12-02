@@ -30,12 +30,14 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
 import { ParamHelper, mapErrorMessages } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
+import { Button, ToolbarItem } from '@patternfly/react-core';
+import { Paths } from 'src/paths';
 var Repository = /** @class */ (function () {
     function Repository() {
     }
@@ -156,7 +158,7 @@ var RepositoryList = /** @class */ (function (_super) {
                 }, errorMessages: errorMessages, showModal: showRemoteFormModal, closeModal: function () {
                     return _this.setState({ showRemoteFormModal: false, errorMessages: {} });
                 } })),
-            React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))) }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
+            React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))), pageControls: this.renderControls() }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
                 !loading &&
                 !unauthorised ? (React.createElement("div", { className: 'header-bottom' },
                 React.createElement("div", { className: 'tab-link-container' },
@@ -190,6 +192,13 @@ var RepositoryList = /** @class */ (function (_super) {
                         }, user: user, refreshRemotes: this.refreshContent }))));
         }
     };
+    RepositoryList.prototype.renderControls = function () {
+        if (this.state.params.tab == 'local') {
+            return (React.createElement(ToolbarItem, null,
+                React.createElement(Link, { to: Paths.token },
+                    React.createElement(Button, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Get token"], ["Get token"])))))));
+        }
+    };
     Object.defineProperty(RepositoryList.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin(this.nonQueryStringParams);
@@ -201,5 +210,5 @@ var RepositoryList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(RepositoryList);
 RepositoryList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=repository-list.js.map
