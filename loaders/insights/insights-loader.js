@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import '../app.scss';
 import { AppContext } from '../app-context';
-import { ActiveUserAPI } from 'src/api';
+import { ActiveUserAPI, SettingsAPI } from 'src/api';
 import { Paths } from 'src/paths';
 var DEFAULT_REPO = 'published';
 var App = /** @class */ (function (_super) {
@@ -43,6 +43,7 @@ var App = /** @class */ (function (_super) {
             activeUser: null,
             selectedRepo: DEFAULT_REPO,
             alerts: [],
+            settings: {},
         };
         return _this;
     }
@@ -79,8 +80,14 @@ var App = /** @class */ (function (_super) {
         insights.chrome.auth
             .getUser()
             .then(function (user) { return _this.setState({ user: user }); });
-        ActiveUserAPI.getActiveUser().then(function (result) {
-            return _this.setState({ activeUser: result.data });
+        var promises = [];
+        promises.push(ActiveUserAPI.getActiveUser());
+        promises.push(SettingsAPI.get());
+        Promise.all(promises).then(function (results) {
+            _this.setState({
+                activeUser: results[0].data,
+                settings: results[1].data,
+            });
         });
     };
     App.prototype.componentWillUnmount = function () {
@@ -133,6 +140,7 @@ var App = /** @class */ (function (_super) {
                     selectedRepo: this.state.selectedRepo,
                     alerts: this.state.alerts,
                     setAlerts: this.setAlerts,
+                    settings: this.state.settings,
                 } },
                 React.createElement(Routes, { childProps: this.props })));
         }

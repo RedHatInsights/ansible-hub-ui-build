@@ -19,12 +19,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { DropdownItem } from '@patternfly/react-core';
-import { DateComponent, EmptyStateNoData, SortTable, StatefulDropdown, ClipboardCopy, } from '..';
+import { DateComponent, EmptyStateNoData, SortTable, ClipboardCopy, } from '..';
 import { Constants } from 'src/constants';
 import { getRepoUrl } from 'src/utilities';
-import { Paths, formatPath } from 'src/paths';
 var LocalRepositoryTable = /** @class */ (function (_super) {
     __extends(LocalRepositoryTable, _super);
     function LocalRepositoryTable(props) {
@@ -72,11 +69,6 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                     type: 'none',
                     id: 'cli_config',
                 },
-                {
-                    title: '',
-                    type: 'none',
-                    id: 'kebab',
-                },
             ],
         };
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
@@ -108,15 +100,10 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(distribution.base_path))),
             DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? null : (React.createElement("td", null,
-                React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n')))),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
-                React.createElement("span", null,
-                    React.createElement(StatefulDropdown, { items: [
-                            React.createElement(DropdownItem, { key: '2', component: React.createElement(Link, { to: formatPath(Paths.token, {}), target: '_blank' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Get token"], ["Get token"])))) }),
-                        ] })))));
+                React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n'))))));
     };
     return LocalRepositoryTable;
 }(React.Component));
 export { LocalRepositoryTable };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=local-repository-table.js.map

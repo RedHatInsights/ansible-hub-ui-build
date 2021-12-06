@@ -62,9 +62,9 @@ var CollectionInfo = /** @class */ (function (_super) {
                                 React.createElement(Trans, null,
                                     React.createElement("b", null, "Note:"),
                                     " Installing collections with ansible-galaxy is only supported in ansible 2.9+")),
-                            !this.context.settings
-                                .GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_DOWNLOAD &&
-                                this.context.user.is_anonymous ? (React.createElement(Alert, { className: 'collection-download-alert', isInline: true, variant: 'warning', title: React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You have to be logged in to be able to download the tarball."], ["You have to be logged in to be able to download the tarball."]))),
+                            this.context.user.is_anonymous &&
+                                !this.context.settings
+                                    .GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_DOWNLOAD ? (React.createElement(Alert, { className: 'collection-download-alert', isInline: true, variant: 'warning', title: React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You have to be logged in to be able to download the tarball."], ["You have to be logged in to be able to download the tarball."]))),
                                     ' ',
                                     React.createElement(LoginLink, null)) })) : (React.createElement("div", null,
                                 React.createElement("a", { ref: this.downloadLinkRef, style: { display: 'none' } }),
