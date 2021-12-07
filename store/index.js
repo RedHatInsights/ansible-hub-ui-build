@@ -15,16 +15,9 @@ export function init() {
     for (var _i = 0; _i < arguments.length; _i++) {
         middleware[_i] = arguments[_i];
     }
-    if (registry) {
-        throw new Error('store already initialized');
+    if (!registry) {
+        registry = new ReducerRegistry({}, __spreadArray([promise], middleware, true));
     }
-    registry = new ReducerRegistry({}, __spreadArray([promise], middleware, true));
-    //If you want to register all of your reducers, this is good place.
-    /*
-     *  registry.register({
-     *    someName: (state, action) => ({...state})
-     *  });
-     */
     return registry;
 }
 export function getStore() {
