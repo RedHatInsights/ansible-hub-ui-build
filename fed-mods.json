@@ -1,1 +1,33 @@
-{}
+{
+    "automationHub": {
+        "entry": [
+            "/apps/automation-hub/automationHub.f5bdd4a8118b99fce746.js"
+        ],
+        "modules": [
+            "/apps/automation-hub/js/532.1f1b2dec9fe3b12228da.js",
+            "/apps/automation-hub/css/532.c446d38f1f3da24cc7fa.css",
+            "/apps/automation-hub/js/namespace_detail.6ac7bd015415f3152364.js",
+            "/apps/automation-hub/css/namespace_detail.d42ddd10ad230fdd0e7a.css",
+            "/apps/automation-hub/js/collection_detail.0095e934fa8621761fc9.js",
+            "/apps/automation-hub/css/collection_detail.5be18d32371f96ba784a.css",
+            "/apps/automation-hub/js/not_found.3f704fa494403b959b99.js",
+            "/apps/automation-hub/css/not_found.edf236b3c340045471cc.css",
+            "/apps/automation-hub/js/namespace_list.fb3277ff66ea30a68b9a.js",
+            "/apps/automation-hub/css/namespace_list.9d8e8029cd5e90f139f5.css",
+            "/apps/automation-hub/js/my_imports.dae17b6c436aa311e506.js",
+            "/apps/automation-hub/css/my_imports.60d5edc9717bf67286eb.css",
+            "/apps/automation-hub/js/search.0c66476430cb7c872cff.js",
+            "/apps/automation-hub/css/search.479b6edf24556d317e6f.css",
+            "/apps/automation-hub/js/settings.e5dce766cd43015194e5.js",
+            "/apps/automation-hub/css/settings.473209d35a841906f6a4.css",
+            "/apps/automation-hub/js/repository-list.3471132cd26a968bfce6.js",
+            "/apps/automation-hub/js/682.07ec70d1c17cf7818dcb.js",
+            "/apps/automation-hub/js/541.f0024e2bcc718b8ead44.js",
+            "/apps/automation-hub/js/870.5897f88e646806903c43.js",
+            "/apps/automation-hub/js/853.3c3ecd2ea88598f3e734.js",
+            "/apps/automation-hub/js/379.b4c215a11cd001b87560.js",
+            "/apps/automation-hub/js/415.f4e17d3ee36854283f5c.js",
+            "/apps/automation-hub/js/rhcsVendor.d31fbee505d64e6b2165.js"
+        ]
+    }
+}

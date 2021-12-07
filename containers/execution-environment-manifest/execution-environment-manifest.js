@@ -31,8 +31,8 @@ var __assign = (this && this.__assign) || function () {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ClipboardCopy, } from '../../components';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, } from '@patternfly/react-core';
+import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ShaLabel, } from '../../components';
+import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, ClipboardCopyButton, } from '@patternfly/react-core';
 import { sum } from 'lodash';
 import { Paths, formatPath } from '../../paths';
 import { ExecutionEnvironmentAPI } from '../../api';
@@ -93,8 +93,9 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                             name: digest,
                         },
                     ] }) },
-                React.createElement("div", null,
-                    React.createElement(ClipboardCopy, { className: 'eco-clipboard-copy', isReadOnly: true }, digest)),
+                React.createElement("div", { className: 'copy-sha' },
+                    React.createElement(ShaLabel, { digest: digest, long: true }),
+                    React.createElement(ClipboardCopyButton, { className: 'eco-clipboard-copy', variant: 'plain', onClick: function () { return navigator.clipboard.writeText(digest); }, children: digest, id: digest, textId: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))) })),
                 React.createElement(LabelGroup, { numLabels: 6 }, labels.map(function (label) { return (React.createElement(TagLabel, { tag: label, key: label })); })),
                 React.createElement("div", { style: { padding: '4px 0' } },
                     "Size: ",
@@ -110,8 +111,8 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                     "tab to see manifest list details."))) : (React.createElement(Flex, null,
                 React.createElement(FlexItem, { className: 'layers-max-width' },
                     React.createElement("section", { className: 'body' },
-                        React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
-                        React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
+                        React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
+                        React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
                                 return _this.setState({ selectedLayer: id });
                             }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
                             var text = _a.text, size = _a.size;
@@ -126,11 +127,11 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 React.createElement(Flex, { direction: { default: 'column' }, className: 'layers-max-width' },
                     React.createElement(FlexItem, null,
                         React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Command"], ["Command"])))),
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Command"], ["Command"])))),
                             React.createElement("code", null, command))),
                     React.createElement(FlexItem, null,
                         React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Environment"], ["Environment"])))),
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Environment"], ["Environment"])))),
                             environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
                                 React.createElement("code", null, line),
                                 React.createElement("br", null))); })))))))));
@@ -170,5 +171,5 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
     return ExecutionEnvironmentManifest;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentManifest);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=execution-environment-manifest.js.map
