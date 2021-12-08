@@ -263,7 +263,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             : _this.deleteCollection();
                     });
                 }, isDisabled: !confirmDelete || isDeletionPending, title: collectionVersion
-                    ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
+                    ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version?"], ["Permanently delete collection version?"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection?"], ["Permanently delete collection?"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
                         "Deleting",

@@ -112,7 +112,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container', cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container?', cancelAction: function () {
                     return _this.setState({ deleteModalVisible: false, selectedItem: null });
                 }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete || isDeletionPending },
                 React.createElement(Trans, null,
