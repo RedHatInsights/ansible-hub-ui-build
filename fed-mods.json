@@ -1,10 +1,10 @@
 {
     "automationHub": {
         "entry": [
-            "/beta/apps/automation-hub/automationHub.f0275d70cd311ce3a495.js"
+            "/beta/apps/automation-hub/automationHub.91995bda774e2cd9364c.js"
         ],
         "modules": [
-            "/beta/apps/automation-hub/js/532.ac89fb37b817aa21578f.js",
+            "/beta/apps/automation-hub/js/532.a7ea27faa14740a8fa87.js",
             "/beta/apps/automation-hub/css/532.c446d38f1f3da24cc7fa.css",
             "/beta/apps/automation-hub/js/namespace_detail.ac4b408acfcd676d38e8.js",
             "/beta/apps/automation-hub/css/namespace_detail.d42ddd10ad230fdd0e7a.css",

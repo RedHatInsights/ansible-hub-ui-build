@@ -97,7 +97,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                var _a = err === null || err === void 0 ? void 0 : err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
+                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
