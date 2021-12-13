@@ -28,14 +28,24 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, } from 'src/components';
+import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
 import { MyNamespaceAPI, ActiveUserAPI, } from 'src/api';
 import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { ParamHelper, mapErrorMessages } from 'src/utilities';
+import { AppContext } from 'src/loaders/app-context';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
     function EditNamespace(props) {
@@ -45,6 +55,7 @@ var EditNamespace = /** @class */ (function (_super) {
             params['tab'] = 'edit-details';
         }
         _this.state = {
+            loading: false,
             alerts: [],
             namespace: null,
             userId: '',
@@ -61,24 +72,47 @@ var EditNamespace = /** @class */ (function (_super) {
     }
     EditNamespace.prototype.componentDidMount = function () {
         var _this = this;
-        ActiveUserAPI.getUser().then(function (result) {
-            _this.setState({ userId: result.account_number }, function () {
-                return _this.loadNamespace();
+        this.setState({ loading: true }, function () {
+            ActiveUserAPI.getUser()
+                .then(function (result) {
+                _this.setState({ userId: result.account_number }, function () {
+                    return _this.loadNamespace();
+                });
+            })
+                .catch(function (e) {
+                return _this.setState({
+                    loading: false,
+                    redirect: formatPath(Paths.namespaceByRepo, {
+                        namespace: _this.props.match.params['namespace'],
+                        repo: _this.context.selectedRepo,
+                    }),
+                }, function () {
+                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading active user."], ["Error loading active user."]))),
+                            description: e === null || e === void 0 ? void 0 : e.message,
+                        },
+                    ], false));
+                });
             });
         });
     };
     EditNamespace.prototype.render = function () {
         var _this = this;
-        var _a = this.state, namespace = _a.namespace, errorMessages = _a.errorMessages, saving = _a.saving, redirect = _a.redirect, params = _a.params, userId = _a.userId, unauthorized = _a.unauthorized;
+        var _a = this.state, namespace = _a.namespace, errorMessages = _a.errorMessages, saving = _a.saving, redirect = _a.redirect, params = _a.params, userId = _a.userId, unauthorized = _a.unauthorized, loading = _a.loading;
         var tabs = [
-            { id: 'edit-details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit details"], ["Edit details"]))) },
-            { id: 'edit-resources', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
+            { id: 'edit-details', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit details"], ["Edit details"]))) },
+            { id: 'edit-resources', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
         ];
-        if (!namespace) {
-            return null;
-        }
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
+        }
+        if (loading) {
+            return React.createElement(LoadingPageSpinner, null);
+        }
+        if (!namespace) {
+            return null;
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [
@@ -89,7 +123,7 @@ var EditNamespace = /** @class */ (function (_super) {
                             namespace: namespace.name,
                         }),
                     },
-                    { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))) },
+                    { name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))) },
                 ], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
@@ -107,10 +141,10 @@ var EditNamespace = /** @class */ (function (_super) {
                         }, namespace: namespace })),
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
-                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
-                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
+                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                             saving ? React.createElement(Spinner, null) : null),
-                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
+                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
     };
     Object.defineProperty(EditNamespace.prototype, "updateParams", {
         get: function () {
@@ -127,10 +161,10 @@ var EditNamespace = /** @class */ (function (_super) {
             // on the link edit form for adding new links
             var emptyLink = { name: '', url: '' };
             response.data.links.push(emptyLink);
-            _this.setState({ namespace: response.data });
+            _this.setState({ loading: false, namespace: response.data });
         })
             .catch(function (response) {
-            _this.setState({ unauthorized: true });
+            _this.setState({ unauthorized: true, loading: false });
         });
     };
     EditNamespace.prototype.saveNamespace = function () {
@@ -156,6 +190,13 @@ var EditNamespace = /** @class */ (function (_super) {
                     redirect: formatPath(Paths.myCollections, {
                         namespace: _this.state.namespace.name,
                     }),
+                }, function () {
+                    return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
+                        {
+                            variant: 'success',
+                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespace successfully edited."], ["Namespace successfully edited."]))),
+                        },
+                    ], false));
                 });
             })
                 .catch(function (error) {
@@ -170,8 +211,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     _this.setState({
                         alerts: _this.state.alerts.concat({
                             variant: 'danger',
-                            title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                            description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
+                            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
+                            description: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
                         }),
                         saving: false,
                     });
@@ -195,6 +236,7 @@ var EditNamespace = /** @class */ (function (_super) {
     };
     return EditNamespace;
 }(React.Component));
+EditNamespace.contextType = AppContext;
 export default withRouter(EditNamespace);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=edit-namespace.js.map

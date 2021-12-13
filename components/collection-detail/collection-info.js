@@ -89,7 +89,8 @@ var CollectionInfo = /** @class */ (function (_super) {
     };
     CollectionInfo.prototype.download = function (reponame, namespace, name, latest_version) {
         var _this = this;
-        CollectionAPI.getDownloadURL(reponame, namespace.name, name, latest_version.version).then(function (downloadURL) {
+        CollectionAPI.getDownloadURL(reponame, namespace.name, name, latest_version.version)
+            .then(function (downloadURL) {
             // By getting a reference to a hidden <a> tag, setting the href and
             // programmatically clicking it, we can hold off on making the api
             // calls to get the download URL until it's actually needed. Clicking
@@ -97,11 +98,14 @@ var CollectionInfo = /** @class */ (function (_super) {
             // window.open() causes.
             _this.downloadLinkRef.current.href = downloadURL;
             _this.downloadLinkRef.current.click();
+        })
+            .catch(function (e) {
+            return _this.props.addAlert('danger', t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Error downloading collection."], ["Error downloading collection."]))), e === null || e === void 0 ? void 0 : e.message);
         });
     };
     CollectionInfo.contextType = AppContext;
     return CollectionInfo;
 }(React.Component));
 export { CollectionInfo };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=collection-info.js.map

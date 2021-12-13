@@ -17,11 +17,22 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Modal } from '@patternfly/react-core';
 import { Form, FormGroup } from '@patternfly/react-core';
-import { Button, InputGroup, TextInput } from '@patternfly/react-core';
+import { Button, InputGroup, TextInput, Alert } from '@patternfly/react-core';
 import { NamespaceAPI } from 'src/api';
 import { HelperText, ObjectPermissionField } from 'src/components';
 var NamespaceModal = /** @class */ (function (_super) {
@@ -62,6 +73,9 @@ var NamespaceModal = /** @class */ (function (_super) {
             newNamespaceNameValid: true,
             newGroups: [],
             errorMessages: {},
+            formErrors: {
+                groups: null,
+            },
         };
         return _this;
     }
@@ -90,7 +104,7 @@ var NamespaceModal = /** @class */ (function (_super) {
     };
     NamespaceModal.prototype.render = function () {
         var _this = this;
-        var _a = this.state, newNamespaceName = _a.newNamespaceName, newGroups = _a.newGroups, newNamespaceNameValid = _a.newNamespaceNameValid;
+        var _a = this.state, newNamespaceName = _a.newNamespaceName, newGroups = _a.newGroups, newNamespaceNameValid = _a.newNamespaceNameValid, formErrors = _a.formErrors;
         return (React.createElement(Modal, { variant: 'medium', title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Create a new namespace"], ["Create a new namespace"]))), isOpen: this.props.isOpen, onClose: this.toggleModal, actions: [
                 React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: this.handleSubmit, isDisabled: !newNamespaceName || !newNamespaceNameValid }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: this.toggleModal }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
@@ -103,8 +117,18 @@ var NamespaceModal = /** @class */ (function (_super) {
                                     _this.newNamespaceNameIsValid();
                                 });
                             } }))),
-                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] },
-                    React.createElement(ObjectPermissionField, { availablePermissions: ['change_namespace', 'upload_to_namespace'], groups: newGroups, setGroups: function (g) { return _this.setState({ newGroups: g }); }, menuAppendTo: 'parent' })))));
+                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] }, !!(formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { availablePermissions: [
+                        'change_namespace',
+                        'upload_to_namespace',
+                    ], groups: newGroups, setGroups: function (g) { return _this.setState({ newGroups: g }); }, menuAppendTo: 'parent', onError: function (err) {
+                        return _this.setState({
+                            formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
+                                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
+                                    description: err,
+                                    variant: 'danger',
+                                } }),
+                        });
+                    } }))))));
     };
     NamespaceModal.prototype.toError = function (validated) {
         if (validated) {
@@ -117,5 +141,5 @@ var NamespaceModal = /** @class */ (function (_super) {
     return NamespaceModal;
 }(React.Component));
 export { NamespaceModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=namespace-modal.js.map

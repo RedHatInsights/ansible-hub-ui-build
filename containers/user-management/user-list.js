@@ -17,6 +17,15 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './user-management.scss';
@@ -235,11 +244,26 @@ var UserList = /** @class */ (function (_super) {
     UserList.prototype.queryUsers = function () {
         var _this = this;
         this.setState({ loading: true }, function () {
-            return UserAPI.list(_this.state.params).then(function (result) {
+            return UserAPI.list(_this.state.params)
+                .then(function (result) {
                 return _this.setState({
                     users: result.data.data,
                     itemCount: result.data.meta.count,
                     loading: false,
+                });
+            })
+                .catch(function (e) {
+                return _this.setState({
+                    users: [],
+                    itemCount: 0,
+                    loading: false,
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
+                            description: e === null || e === void 0 ? void 0 : e.message,
+                        },
+                    ], false),
                 });
             });
         });
@@ -262,5 +286,5 @@ var UserList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(UserList);
 UserList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
 //# sourceMappingURL=user-list.js.map
