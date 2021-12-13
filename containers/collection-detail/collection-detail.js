@@ -24,10 +24,19 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { isEqual } from 'lodash';
-import { CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, } from 'src/components';
+import { CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, AlertList, closeAlertMixin, } from 'src/components';
 import { loadCollection } from './base';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
@@ -41,6 +50,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         _this.state = {
             collection: undefined,
             params: params,
+            alerts: [],
         };
         return _this;
     }
@@ -53,7 +63,7 @@ var CollectionDetail = /** @class */ (function (_super) {
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params;
+        var _a = this.state, collection = _a.collection, params = _a.params, alerts = _a.alerts;
         if (!collection) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -71,6 +81,7 @@ var CollectionDetail = /** @class */ (function (_super) {
             },
         ];
         return (React.createElement(React.Fragment, null,
+            React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () {
                         return _this.loadCollection(_this.context.selectedRepo, true);
@@ -78,7 +89,17 @@ var CollectionDetail = /** @class */ (function (_super) {
                 }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.context.selectedRepo }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionInfo, __assign({}, collection, { updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params }))))));
+                    React.createElement(CollectionInfo, __assign({}, collection, { updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
+                            return _this.setState({
+                                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                                    {
+                                        variant: variant,
+                                        title: title,
+                                        description: description,
+                                    },
+                                ], false),
+                            });
+                        } }))))));
     };
     Object.defineProperty(CollectionDetail.prototype, "loadCollection", {
         get: function () {
@@ -90,6 +111,13 @@ var CollectionDetail = /** @class */ (function (_super) {
     Object.defineProperty(CollectionDetail.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(CollectionDetail.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
         },
         enumerable: false,
         configurable: true
