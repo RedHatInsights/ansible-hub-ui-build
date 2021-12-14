@@ -1,26 +1,26 @@
 {
     "automationHub": {
         "entry": [
-            "/beta/apps/automation-hub/automationHub.a91c4eae7d677201b1ef.js"
+            "/beta/apps/automation-hub/automationHub.93f68ee7ed17ec5a88bf.js"
         ],
         "modules": [
-            "/beta/apps/automation-hub/js/532.6fa9a9169f230016acce.js",
+            "/beta/apps/automation-hub/js/532.6d69a3bb75eeda369fe2.js",
             "/beta/apps/automation-hub/css/532.c446d38f1f3da24cc7fa.css",
-            "/beta/apps/automation-hub/js/namespace_detail.d1ee821bd799eea953b9.js",
+            "/beta/apps/automation-hub/js/namespace_detail.b60bae385f0f2cd3abc9.js",
             "/beta/apps/automation-hub/css/namespace_detail.d42ddd10ad230fdd0e7a.css",
-            "/beta/apps/automation-hub/js/collection_detail.531571da87ca973cb512.js",
+            "/beta/apps/automation-hub/js/collection_detail.5d6a3ffab3583aa07559.js",
             "/beta/apps/automation-hub/css/collection_detail.5be18d32371f96ba784a.css",
             "/beta/apps/automation-hub/js/not_found.3f704fa494403b959b99.js",
             "/beta/apps/automation-hub/css/not_found.edf236b3c340045471cc.css",
-            "/beta/apps/automation-hub/js/namespace_list.8189af7b5d8919b83a3d.js",
+            "/beta/apps/automation-hub/js/namespace_list.53db682c8a1e150f27e6.js",
             "/beta/apps/automation-hub/css/namespace_list.9d8e8029cd5e90f139f5.css",
-            "/beta/apps/automation-hub/js/my_imports.dae17b6c436aa311e506.js",
+            "/beta/apps/automation-hub/js/my_imports.63d69a6c2f1be94b753f.js",
             "/beta/apps/automation-hub/css/my_imports.60d5edc9717bf67286eb.css",
             "/beta/apps/automation-hub/js/search.0c66476430cb7c872cff.js",
             "/beta/apps/automation-hub/css/search.479b6edf24556d317e6f.css",
             "/beta/apps/automation-hub/js/settings.752270f38e6a4b090ee7.js",
             "/beta/apps/automation-hub/css/settings.6c546f3be4df32da788a.css",
-            "/beta/apps/automation-hub/js/repository-list.3471132cd26a968bfce6.js",
+            "/beta/apps/automation-hub/js/repository-list.97c1ec212fb54643f211.js",
             "/beta/apps/automation-hub/js/682.07ec70d1c17cf7818dcb.js",
             "/beta/apps/automation-hub/js/541.f0024e2bcc718b8ead44.js",
             "/beta/apps/automation-hub/js/870.5897f88e646806903c43.js",

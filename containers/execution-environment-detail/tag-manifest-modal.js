@@ -121,7 +121,7 @@ var TagManifestModal = /** @class */ (function (_super) {
     };
     TagManifestModal.prototype.render = function () {
         var _this = this;
-        var _a = this.props, children = _a.children, closeModal = _a.closeModal, isOpen = _a.isOpen, containerManifest = _a.containerManifest;
+        var _a = this.props, closeModal = _a.closeModal, isOpen = _a.isOpen, containerManifest = _a.containerManifest;
         var _b = this.state, tagInForm = _b.tagInForm, isSaving = _b.isSaving, tagToVerify = _b.tagToVerify, verifyingTag = _b.verifyingTag, tagsToAdd = _b.tagsToAdd, tagsToRemove = _b.tagsToRemove, pendingTasks = _b.pendingTasks, tagInFormError = _b.tagInFormError;
         if (!containerManifest) {
             return null;
@@ -283,10 +283,10 @@ var TagManifestModal = /** @class */ (function (_super) {
         else {
             this.setState({ tagInFormError: undefined }, function () {
                 ExecutionEnvironmentAPI.image(_this.props.repositoryName, tag)
-                    .then(function (result) {
+                    .then(function () {
                     _this.setState({ tagToVerify: tag, verifyingTag: false });
                 })
-                    .catch(function (err) {
+                    .catch(function () {
                     _this.setState({ tagInForm: '', verifyingTag: false }, function () {
                         return _this.addTag(tag);
                     });

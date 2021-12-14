@@ -89,7 +89,7 @@ var App = /** @class */ (function (_super) {
         };
         return _this;
     }
-    App.prototype.componentDidUpdate = function (prevProps) {
+    App.prototype.componentDidUpdate = function () {
         this.setRepoToURL();
     };
     App.prototype.componentDidMount = function () {

@@ -286,7 +286,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                             id: 'os_arch',
                         },
                     ],
-                }, params: {}, updateParams: function (p) { return null; } }),
+                }, params: {}, updateParams: function () { return null; } }),
             React.createElement("tbody", null, image_manifests.map(function (_a) {
                 var digest = _a.digest, os = _a.os, os_version = _a.os_version, os_features = _a.os_features, architecture = _a.architecture, variant = _a.variant, features = _a.features;
                 return (React.createElement("tr", null,
@@ -329,7 +329,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     loading: false,
                 });
             })
-                .catch(function (error) { return _this.setState({ redirect: 'notFound' }); });
+                .catch(function () { return _this.setState({ redirect: 'notFound' }); });
         });
     };
     ExecutionEnvironmentDetailImages.prototype.deleteImage = function () {

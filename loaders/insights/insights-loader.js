@@ -94,7 +94,7 @@ var App = /** @class */ (function (_super) {
     App.prototype.componentWillUnmount = function () {
         this.appNav();
     };
-    App.prototype.componentDidUpdate = function (prevProps) {
+    App.prototype.componentDidUpdate = function () {
         // This is sort of a dirty hack to make it so that collection details can
         // view repositories other than "published", but all other views are locked
         // to "published"

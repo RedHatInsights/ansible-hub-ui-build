@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Redirect, } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
 import { LoadingPageWithHeader, UserFormPage, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
@@ -71,7 +71,6 @@ var UserProfile = /** @class */ (function (_super) {
     }
     UserProfile.prototype.componentDidMount = function () {
         var _this = this;
-        var id = this.props.match.params['userID'];
         ActiveUserAPI.getUser()
             .then(function (result) {
             // The api doesn't return a value for the password, so set a blank one here

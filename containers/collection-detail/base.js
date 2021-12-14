@@ -8,7 +8,7 @@ export function loadCollection(repo, forceReload, callback) {
         .then(function (result) {
         _this.setState({ collection: result }, callback);
     })
-        .catch(function (result) {
+        .catch(function () {
         _this.props.history.push(Paths.notFound);
     });
 }

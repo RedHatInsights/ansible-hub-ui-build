@@ -102,7 +102,7 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
                     loading: false,
                 });
             })
-                .catch(function (error) { return _this.setState({ redirect: 'notFound' }); });
+                .catch(function () { return _this.setState({ redirect: 'notFound' }); });
         });
     };
     ExecutionEnvironmentDetail.prototype.saveReadme = function (name, readme) {

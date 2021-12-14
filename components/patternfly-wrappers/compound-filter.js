@@ -97,7 +97,7 @@ var CompoundFilter = /** @class */ (function (_super) {
             case 'select':
                 return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.props.inputText, selectedFilter) ||
                         selectedFilter.placeholder ||
-                        selectedFilter.title, isPlain: false, position: 'left', items: selectedFilter.options.map(function (v, i) { return (React.createElement(DropdownItem, { onClick: function () {
+                        selectedFilter.title, isPlain: false, position: 'left', items: selectedFilter.options.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
                             _this.props.onChange(v.id);
                             _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));

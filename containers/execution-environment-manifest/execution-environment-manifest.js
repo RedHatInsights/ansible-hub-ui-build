@@ -165,7 +165,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 size: size,
             };
         })
-            .catch(function (err) {
+            .catch(function () {
             // FIXME: support manifest lists, and have API support it
             return {
                 error: true,

@@ -58,7 +58,7 @@ var CollectionList = /** @class */ (function (_super) {
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
             React.createElement(Button, { onClick: function () { return _this.props.handleControlClick(collection.id, 'upload'); }, variant: 'secondary' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
             React.createElement(StatefulDropdown, { items: [
-                    React.createElement(DropdownItem, { onClick: function (e) {
+                    React.createElement(DropdownItem, { onClick: function () {
                             return _this.props.handleControlClick(collection.id, 'deprecate');
                         }, key: '1' }, collection.deprecated ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
                 ] })));

@@ -150,7 +150,7 @@ export function withContainerRepo(WrappedComponent) {
                     setTimeout(function () { return _this.loadRepo(); }, 10000);
                 }
             })
-                .catch(function (e) { return _this.setState({ redirect: 'notFound' }); });
+                .catch(function () { return _this.setState({ redirect: 'notFound' }); });
         };
         class_1.prototype.getTab = function () {
             var tabs = ['detail', 'images', 'activity'];
