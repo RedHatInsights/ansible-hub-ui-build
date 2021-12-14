@@ -41,7 +41,7 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
 import { withRouter, Link } from 'react-router-dom';
-import { Button, Checkbox, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { Button, Checkbox, DropdownItem, Label, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { filterIsSet, parsePulpIDFromURL, waitForTask, ParamHelper, } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
@@ -112,13 +112,14 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container?', cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Delete container?', cancelAction: function () {
                     return _this.setState({ deleteModalVisible: false, selectedItem: null });
                 }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete || isDeletionPending },
-                React.createElement(Trans, null,
-                    "Deleting ",
-                    React.createElement("b", null, name),
-                    " and its data will be lost."),
+                React.createElement(Text, { className: 'delete-container-modal-message' },
+                    React.createElement(Trans, null,
+                        "Deleting ",
+                        React.createElement("b", null, name),
+                        " and its data will be lost.")),
                 React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: React.createElement(React.Fragment, null,
                     addRemoteButton,

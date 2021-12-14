@@ -146,9 +146,11 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 }, allowEditName: remoteFormNew, title: remoteFormNew ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Add remote registry"], ["Add remote registry"]))) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit remote registry"], ["Edit remote registry"]))) })),
             showDeleteModal && remoteToEdit && (React.createElement(DeleteModal, { cancelAction: function () {
                     return _this.setState({ showDeleteModal: false, remoteToEdit: null });
-                }, deleteAction: function () { return _this.deleteRegistry(remoteToEdit); }, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete remote registry?"], ["Delete remote registry?"]))), children: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["", " will be deleted."], ["", " will be deleted."])), remoteToEdit.name) })),
-            React.createElement(BaseHeader, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))) }),
-            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No remote registries yet"], ["No remote registries yet"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["You currently have no remote registries."], ["You currently have no remote registries."]))), button: addButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+                }, deleteAction: function () { return _this.deleteRegistry(remoteToEdit); }, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete remote registry?"], ["Delete remote registry?"]))), children: React.createElement(Trans, null,
+                    React.createElement("b", null, remoteToEdit.name),
+                    " will be deleted.") })),
+            React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))) }),
+            noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote registries yet"], ["No remote registries yet"]))), description: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You currently have no remote registries."], ["You currently have no remote registries."]))), button: addButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -164,7 +166,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__icontains',
-                                                title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Name"], ["Name"]))),
+                                                title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))),
                                             },
                                         ] })),
                                 React.createElement(ToolbarItem, null, addButton)))),
@@ -176,7 +178,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                             _this.updateParams(p, function () { return _this.queryRegistries(); });
                             _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
-                            name__icontains: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Name"], ["Name"]))),
+                            name__icontains: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Name"], ["Name"]))),
                         } })),
                 this.renderTable(params),
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -192,27 +194,27 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Name"], ["Name"]))),
+                    title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Name"], ["Name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Created"], ["Created"]))),
+                    title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'alpha',
                     id: 'created_at',
                 },
                 {
-                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
+                    title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Last updated"], ["Last updated"]))),
                     type: 'alpha',
                     id: 'updated_at',
                 },
                 {
-                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Registry URL"], ["Registry URL"]))),
+                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Registry URL"], ["Registry URL"]))),
                     type: 'alpha',
                     id: 'url',
                 },
                 {
-                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Registry sync status"], ["Registry sync status"]))),
+                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Registry sync status"], ["Registry sync status"]))),
                     type: 'none',
                     id: 'last_sync_task',
                 },
@@ -250,7 +252,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 } },
                 React.createElement(Trans, null, "Delete"))),
             React.createElement(Tooltip, { content: item.is_indexable
-                    ? t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Find execution environments in this registry"], ["Find execution environments in this registry"]))) : t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Indexing execution environments is only supported on registry.redhat.io"], ["Indexing execution environments is only supported on registry.redhat.io"]))) },
+                    ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Find execution environments in this registry"], ["Find execution environments in this registry"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Indexing execution environments is only supported on registry.redhat.io"], ["Indexing execution environments is only supported on registry.redhat.io"]))) },
                 React.createElement(DropdownItem, { key: 'index', onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
                     React.createElement(Trans, null, "Index execution environments"))),
         ].filter(Boolean);
@@ -294,13 +296,14 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         var pk = _a.pk, name = _a.name;
         ExecutionEnvironmentRegistryAPI.delete(pk)
             .then(function () {
-            return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Successfully deleted remote registry ", ""], ["Successfully deleted remote registry ", ""])), name), 'success');
+            return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Successfully deleted remote registry ", ""], ["Successfully deleted remote registry ", ""])), name), 'success');
         })
             .catch(function () {
-            return _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
+            return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
         })
             .then(function () {
-            return _this.setState({ showDeleteModal: false, remoteToEdit: null });
+            _this.queryRegistries();
+            _this.setState({ showDeleteModal: false, remoteToEdit: null });
         });
     };
     ExecutionEnvironmentRegistryList.prototype.syncRegistry = function (_a) {
@@ -309,7 +312,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.sync(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "View the task",
                     ' ',
@@ -317,7 +320,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     ".")));
             _this.queryRegistries(true);
         })
-            .catch(function () { return _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     ExecutionEnvironmentRegistryList.prototype.indexRegistry = function (_a) {
         var _this = this;
@@ -325,14 +328,14 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.index(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Indexing execution environments in ", ""], ["Indexing execution environments in ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Indexing execution environments in ", ""], ["Indexing execution environments in ", ""])), name), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "View the task",
                     ' ',
                     React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
                     ".")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
     };
     ExecutionEnvironmentRegistryList.prototype.addAlert = function (title, variant, description) {
         this.setState({
@@ -363,5 +366,5 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(ExecutionEnvironmentRegistryList);
 ExecutionEnvironmentRegistryList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
 //# sourceMappingURL=registry-list.js.map

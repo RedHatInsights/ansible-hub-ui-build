@@ -36,7 +36,7 @@ import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
 import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, Checkbox, DropdownItem, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
 import { TagManifestModal } from './tag-manifest-modal';
@@ -140,17 +140,19 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image?"], ["Permanently delete image?"]))), cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete image?"], ["Delete image?"]))), cancelAction: function () {
                     return _this.setState({
                         deleteModalVisible: false,
                         selectedImage: null,
                         confirmDelete: false,
                     });
                 }, deleteAction: function () { return _this.deleteImage(); }, isDisabled: !confirmDelete || isDeletionPending },
-                React.createElement(Trans, null,
-                    "Deleting ",
-                    React.createElement("b", null, digest),
-                    " and its data will be lost."),
+                React.createElement(React.Fragment, null,
+                    React.createElement(Text, { className: 'delete-image-modal-message' },
+                        React.createElement(Trans, null,
+                            "Deleting ",
+                            React.createElement("b", null, digest),
+                            " and its data will be lost."))),
                 React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
             React.createElement(TagManifestModal, { isOpen: !!manageTagsManifestDigest, closeModal: function () { return _this.setState({ manageTagsManifestDigest: null }); }, containerManifest: images.find(function (el) { return el.digest === manageTagsManifestDigest; }), reloadManifests: function () {
                     return _this.queryImages(_this.props.containerRepository.name);
