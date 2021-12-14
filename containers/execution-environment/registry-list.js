@@ -270,11 +270,18 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 ' ',
                 dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
-    ExecutionEnvironmentRegistryList.prototype.queryRegistries = function () {
+    ExecutionEnvironmentRegistryList.prototype.queryRegistries = function (noLoading) {
         var _this = this;
-        this.setState({ loading: true }, function () {
+        if (noLoading === void 0) { noLoading = false; }
+        this.setState(noLoading ? null : { loading: true }, function () {
             return ExecutionEnvironmentRegistryAPI.list(_this.state.params).then(function (result) {
-                return _this.setState({
+                var isAnyRunning = result.data.data.some(function (task) {
+                    return ['running', 'waiting'].includes(task.last_sync_task.state);
+                });
+                if (isAnyRunning) {
+                    setTimeout(function () { return _this.queryRegistries(true); }, 5000);
+                }
+                _this.setState({
                     items: result.data.data,
                     itemCount: result.data.meta.count,
                     loading: false,
@@ -308,6 +315,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     ' ',
                     React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
                     ".")));
+            _this.queryRegistries(true);
         })
             .catch(function () { return _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };

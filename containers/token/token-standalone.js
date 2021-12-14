@@ -17,12 +17,21 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './token.scss';
 import { withRouter } from 'react-router-dom';
 import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
-import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, } from 'src/components';
+import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
 var TokenPage = /** @class */ (function (_super) {
@@ -31,16 +40,18 @@ var TokenPage = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             token: undefined,
+            alerts: [],
         };
         return _this;
     }
     TokenPage.prototype.render = function () {
         var _this = this;
-        var token = this.state.token;
+        var _a = this.state, token = _a.token, alerts = _a.alerts;
         var unauthorised = !this.context.user || this.context.user.is_anonymous;
         var expiration = this.context.settings.GALAXY_TOKEN_EXPIRATION;
         var expirationDate = new Date(Date.now() + 1000 * 60 * expiration);
         return (React.createElement(React.Fragment, null,
+            React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API token management"], ["API token management"]))) }),
             React.createElement(Main, null, unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Card, null,
                 React.createElement("section", { className: 'body pf-c-content' },
@@ -76,13 +87,30 @@ var TokenPage = /** @class */ (function (_super) {
     };
     TokenPage.prototype.loadToken = function () {
         var _this = this;
-        ActiveUserAPI.getToken().then(function (result) {
-            return _this.setState({ token: result.data.token });
+        ActiveUserAPI.getToken()
+            .then(function (result) { return _this.setState({ token: result.data.token }); })
+            .catch(function (e) {
+            return _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
+                        description: e === null || e === void 0 ? void 0 : e.message,
+                    },
+                ], false),
+            });
         });
     };
+    Object.defineProperty(TokenPage.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
     return TokenPage;
 }(React.Component));
 export default withRouter(TokenPage);
 TokenPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=token-standalone.js.map

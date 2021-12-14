@@ -97,7 +97,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                var _a = err === null || err === void 0 ? void 0 : err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
+                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
@@ -263,7 +263,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             : _this.deleteCollection();
                     });
                 }, isDisabled: !confirmDelete || isDeletionPending, title: collectionVersion
-                    ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version"], ["Permanently delete collection version"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection"], ["Permanently delete collection"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
+                    ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Permanently delete collection version?"], ["Permanently delete collection version?"]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Permanently delete collection?"], ["Permanently delete collection?"]))), confirmButtonTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))) },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
                         "Deleting",

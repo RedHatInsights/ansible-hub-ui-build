@@ -112,7 +112,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container', cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Permanently delete container?', cancelAction: function () {
                     return _this.setState({ deleteModalVisible: false, selectedItem: null });
                 }, deleteAction: function () { return _this.deleteContainer(); }, isDisabled: !confirmDelete || isDeletionPending },
                 React.createElement(Trans, null,
@@ -270,17 +270,23 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     showRemoteModal: false,
                     itemToEdit: null,
                 });
+            }, addAlert: function (variant, title, description) {
+                return _this.addAlert(title, variant, description);
             } }));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {
         var _this = this;
         this.setState({ loading: true }, function () {
-            return ExecutionEnvironmentAPI.list(_this.state.params).then(function (result) {
+            return ExecutionEnvironmentAPI.list(_this.state.params)
+                .then(function (result) {
                 return _this.setState({
                     items: result.data.data,
                     itemCount: result.data.meta.count,
                     loading: false,
                 });
+            })
+                .catch(function (e) {
+                return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error loading environments."], ["Error loading environments."]))), 'danger', e === null || e === void 0 ? void 0 : e.message);
             });
         });
     };
@@ -301,7 +307,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         alerts: _this.state.alerts.concat([
                             {
                                 variant: 'success',
-                                title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
+                                title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), name),
                             },
                         ]),
                     });
@@ -315,7 +321,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     confirmDelete: false,
                     isDeletionPending: false,
                     alerts: _this.state.alerts.concat([
-                        { variant: 'danger', title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                        { variant: 'danger', title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                     ]),
                 });
             });
@@ -351,18 +357,18 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         ExecutionEnvironmentRemoteAPI.sync(name)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "View the task",
                     ' ',
                     React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
                     ".")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23;
 //# sourceMappingURL=execution_environment_list.js.map

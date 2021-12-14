@@ -59,7 +59,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                         { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Change"], ["Change"]))), type: 'none', id: 'change' },
                                         { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Date"], ["Date"]))), type: 'none', id: 'date' },
                                     ],
-                                }, params: {}, updateParams: function () { } }),
+                                }, params: {}, updateParams: function () { return null; } }),
                             React.createElement("tbody", null, activities.map(function (action, i) {
                                 return (React.createElement("tr", { key: i },
                                     React.createElement("td", null, action.action),
