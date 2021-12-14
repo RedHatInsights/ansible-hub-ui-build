@@ -157,10 +157,24 @@ var GroupList = /** @class */ (function (_super) {
             groups__name: this.state.selectedGroup.name,
             page: 0,
             page_size: 10,
-        }).then(function (result) {
+        })
+            .then(function (result) {
             return _this.setState({
                 deleteModalUsers: result.data.data,
                 deleteModalCount: result.data.meta.count,
+            });
+        })
+            .catch(function (e) {
+            return _this.setState({
+                deleteModalVisible: false,
+                selectedGroup: null,
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
+                        description: e === null || e === void 0 ? void 0 : e.message,
+                    },
+                ], false),
             });
         });
     };
@@ -198,7 +212,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
+                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
                     },
                 ], false),
             });
@@ -213,7 +227,7 @@ var GroupList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Group"], ["Group"]))),
+                    title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Group"], ["Group"]))),
                     type: 'alpha',
                     id: 'name',
                 },
@@ -224,7 +238,7 @@ var GroupList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'content-table pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryGroups(); }); } }),
             React.createElement("tbody", null, groups.map(function (group, i) { return _this.renderTableRow(group, i); }))));
     };
@@ -236,12 +250,12 @@ var GroupList = /** @class */ (function (_super) {
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", null, !!user && user.model_permissions.delete_group && (React.createElement(Button, { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', variant: 'danger', onClick: function () {
+            React.createElement("td", null, !!user && user.model_permissions.delete_group && (React.createElement(Button, { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', variant: 'danger', onClick: function () {
                     return _this.setState({
                         selectedGroup: group,
                         deleteModalVisible: true,
                     });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete"], ["Delete"]))))))));
+                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete"], ["Delete"]))))))));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {
@@ -268,7 +282,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'success',
-                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
+                        title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
                     },
                 ], false),
             });
@@ -279,7 +293,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
+                        title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
                 ], false),
             });
@@ -288,11 +302,26 @@ var GroupList = /** @class */ (function (_super) {
     GroupList.prototype.queryGroups = function () {
         var _this = this;
         this.setState({ loading: true }, function () {
-            return GroupAPI.list(_this.state.params).then(function (result) {
+            return GroupAPI.list(_this.state.params)
+                .then(function (result) {
                 return _this.setState({
                     groups: result.data.data,
                     itemCount: result.data.meta.count,
                     loading: false,
+                });
+            })
+                .catch(function (e) {
+                return _this.setState({
+                    groups: [],
+                    itemCount: 0,
+                    loading: false,
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
+                            description: e === null || e === void 0 ? void 0 : e.message,
+                        },
+                    ], false),
                 });
             });
         });
@@ -301,5 +330,5 @@ var GroupList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(GroupList);
 GroupList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
 //# sourceMappingURL=group-list.js.map

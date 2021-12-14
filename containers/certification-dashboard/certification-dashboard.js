@@ -117,7 +117,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'certification-dashboard' },
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'toolbar' },
+                    React.createElement("div", { className: 'toolbar certification-dashboard-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,

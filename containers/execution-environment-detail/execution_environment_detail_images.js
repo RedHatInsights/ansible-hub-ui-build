@@ -140,7 +140,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image"], ["Permanently delete image"]))), cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image?"], ["Permanently delete image?"]))), cancelAction: function () {
                     return _this.setState({
                         deleteModalVisible: false,
                         selectedImage: null,
@@ -158,7 +158,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     _this.setState({ alerts: _this.state.alerts.concat(alert) });
                 }, containerRepository: this.props.containerRepository }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-            React.createElement("div", { className: 'toolbar' },
+            React.createElement("div", { className: 'detail-images-toolbar toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
@@ -198,12 +198,11 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement("tbody", null, images.map(function (image, i) {
                     return _this.renderTableRow(image, i, canEditTags, sortTableOptions.headers.length);
                 })))),
-            React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
-                React.createElement(Pagination, { params: params, updateParams: function (p) {
-                        return _this.updateParams(p, function () {
-                            return _this.queryImages(_this.props.match.params['container']);
-                        });
-                    }, count: this.state.numberOfImages }))));
+            React.createElement(Pagination, { params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () {
+                        return _this.queryImages(_this.props.match.params['container']);
+                    });
+                }, count: this.state.numberOfImages })));
     };
     ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags, cols) {
         var _this = this;

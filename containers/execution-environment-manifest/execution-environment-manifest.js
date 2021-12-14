@@ -32,7 +32,7 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ShaLabel, } from '../../components';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, ClipboardCopyButton, } from '@patternfly/react-core';
+import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, ClipboardCopyButton, Card, CardBody, CardTitle, } from '@patternfly/react-core';
 import { sum } from 'lodash';
 import { Paths, formatPath } from '../../paths';
 import { ExecutionEnvironmentAPI } from '../../api';
@@ -100,41 +100,45 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 React.createElement("div", { style: { padding: '4px 0' } },
                     "Size: ",
                     size)),
-            React.createElement(Main, null, error ? (React.createElement("section", { className: 'body' },
-                React.createElement(Trans, null,
-                    "Manifest lists are not currently supported on this screen, please use the",
-                    ' ',
-                    React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetailImages, {
-                            container: container.name,
-                        }) }, "Images"),
-                    ' ',
-                    "tab to see manifest list details."))) : (React.createElement(Flex, null,
+            React.createElement(Main, null, error ? (React.createElement(Trans, null,
+                "Manifest lists are not currently supported on this screen, please use the",
+                ' ',
+                React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetailImages, {
+                        container: container.name,
+                    }) }, "Images"),
+                ' ',
+                "tab to see manifest list details.")) : (React.createElement(Flex, null,
                 React.createElement(FlexItem, { className: 'layers-max-width' },
-                    React.createElement("section", { className: 'body' },
-                        React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"])))),
-                        React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
-                                return _this.setState({ selectedLayer: id });
-                            }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
-                            var text = _a.text, size = _a.size;
-                            return (React.createElement(DataListItem, { key: index, id: "layer-".concat(index) },
-                                React.createElement(DataListItemRow, null,
-                                    React.createElement(DataListItemCells, { dataListCells: [
-                                            React.createElement(DataListCell, { key: 'primary content', className: 'single-line-ellipsis' },
-                                                React.createElement("code", null, text)),
-                                            size && (React.createElement(DataListCell, { key: 'secondary content' }, size)),
-                                        ] }))));
-                        })))),
+                    React.createElement(Card, null,
+                        React.createElement(CardTitle, null,
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Image layers"], ["Image layers"]))))),
+                        React.createElement(CardBody, null,
+                            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Image layers"], ["Image layers"]))), onSelectDataListItem: function (id) {
+                                    return _this.setState({ selectedLayer: id });
+                                }, selectedDataListItemId: selectedLayer }, layers.map(function (_a, index) {
+                                var text = _a.text, size = _a.size;
+                                return (React.createElement(DataListItem, { key: index, id: "layer-".concat(index) },
+                                    React.createElement(DataListItemRow, null,
+                                        React.createElement(DataListItemCells, { dataListCells: [
+                                                React.createElement(DataListCell, { key: 'primary content', className: 'single-line-ellipsis' },
+                                                    React.createElement("code", null, text)),
+                                                size && (React.createElement(DataListCell, { key: 'secondary content' }, size)),
+                                            ] }))));
+                            }))))),
                 React.createElement(Flex, { direction: { default: 'column' }, className: 'layers-max-width' },
                     React.createElement(FlexItem, null,
-                        React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Command"], ["Command"])))),
-                            React.createElement("code", null, command))),
+                        React.createElement(Card, null,
+                            React.createElement(CardTitle, null,
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Command"], ["Command"]))))),
+                            React.createElement(CardBody, null,
+                                React.createElement("code", null, command)))),
                     React.createElement(FlexItem, null,
-                        React.createElement("section", { className: 'body' },
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Environment"], ["Environment"])))),
-                            environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
+                        React.createElement(Card, null,
+                            React.createElement(CardTitle, null,
+                                React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Environment"], ["Environment"]))))),
+                            React.createElement(CardBody, null, environment.map(function (line, index) { return (React.createElement(React.Fragment, { key: index },
                                 React.createElement("code", null, line),
-                                React.createElement("br", null))); })))))))));
+                                React.createElement("br", null))); }))))))))));
     };
     ExecutionEnvironmentManifest.prototype.query = function (_a) {
         var container = _a.container, digestOrTag = _a.digest;

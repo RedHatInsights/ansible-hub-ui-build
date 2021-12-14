@@ -52,8 +52,6 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
             if (refresh) {
                 _this.props.refreshRemotes();
             }
-            else {
-            }
         }, 5000);
     };
     RemoteRepositoryTable.prototype.componentWillUnmount = function () {

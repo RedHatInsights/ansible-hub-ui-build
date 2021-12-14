@@ -31,7 +31,7 @@ import * as React from 'react';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
 import { GroupAPI } from 'src/api';
-import { APISearchTypeAhead, PermissionChipSelector } from 'src/components';
+import { APISearchTypeAhead, PermissionChipSelector, } from 'src/components';
 import { twoWayMapper } from 'src/utilities';
 import { Constants } from 'src/constants';
 var ObjectPermissionField = /** @class */ (function (_super) {
@@ -39,11 +39,13 @@ var ObjectPermissionField = /** @class */ (function (_super) {
     function ObjectPermissionField(props) {
         var _this = _super.call(this, props) || this;
         _this.loadGroups = function (name) {
-            GroupAPI.list({ name__contains: name }).then(function (result) {
+            GroupAPI.list({ name__contains: name })
+                .then(function (result) {
                 var added = _this.props.groups.map(function (group) { return group.name; });
                 var groups = result.data.data.filter(function (group) { return !added.includes(group.name); });
                 _this.setState({ searchGroups: groups });
-            });
+            })
+                .catch(function (e) { return _this.props.onError(e === null || e === void 0 ? void 0 : e.message); });
         };
         _this.onSelect = function (event, selection, isPlaceholder) {
             var newGroups = __spreadArray([], _this.props.groups, true);
