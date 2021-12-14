@@ -137,7 +137,7 @@ var RepositoryList = /** @class */ (function (_super) {
                     try {
                         var distro_path = remoteToEdit.repositories[0].distributions[0].base_path;
                         RemoteAPI.smartUpdate(distro_path, remoteToEdit, _this.unModifiedRemote)
-                            .then(function (r) {
+                            .then(function () {
                             _this.setState({
                                 errorMessages: {},
                                 showRemoteFormModal: false,
@@ -188,7 +188,7 @@ var RepositoryList = /** @class */ (function (_super) {
                     React.createElement(RemoteRepositoryTable, { remotes: content, updateParams: this.updateParams, editRemote: function (remote) {
                             return _this.selectRemoteToEdit(remote);
                         }, syncRemote: function (distro) {
-                            return RemoteAPI.sync(distro).then(function (result) { return _this.loadContent(); });
+                            return RemoteAPI.sync(distro).then(function () { return _this.loadContent(); });
                         }, user: user, refreshRemotes: this.refreshContent }))));
         }
     };

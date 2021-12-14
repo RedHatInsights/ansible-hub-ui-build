@@ -105,7 +105,7 @@ var DeleteUserModal = /** @class */ (function (_super) {
     DeleteUserModal.prototype.waitForDeleteConfirm = function (user) {
         var _this = this;
         UserAPI.get(user)
-            .then(function (result) { return __awaiter(_this, void 0, void 0, function () {
+            .then(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 

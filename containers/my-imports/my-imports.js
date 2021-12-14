@@ -218,7 +218,7 @@ var MyImports = /** @class */ (function (_super) {
                     });
                 });
             })
-                .catch(function (result) {
+                .catch(function () {
                 _this.setState({
                     selectedImportDetails: undefined,
                     importDetailError: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error fetching import from API"], ["Error fetching import from API"]))),

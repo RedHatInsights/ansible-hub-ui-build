@@ -127,7 +127,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                         ? ExecutionEnvironmentRegistryAPI.create(newRemote)
                         : ExecutionEnvironmentRegistryAPI.smartUpdate(remoteToEdit.pk, remoteToEdit, remoteUnmodified);
                     promise
-                        .then(function (r) {
+                        .then(function () {
                         _this.setState({
                             remoteToEdit: null,
                             remoteUnmodified: null,

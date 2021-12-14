@@ -163,7 +163,7 @@ var EditNamespace = /** @class */ (function (_super) {
             response.data.links.push(emptyLink);
             _this.setState({ loading: false, namespace: response.data });
         })
-            .catch(function (response) {
+            .catch(function () {
             _this.setState({ unauthorized: true, loading: false });
         });
     };

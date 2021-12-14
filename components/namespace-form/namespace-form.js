@@ -48,7 +48,7 @@ var NamespaceForm = /** @class */ (function (_super) {
     }
     NamespaceForm.prototype.render = function () {
         var _this = this;
-        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages, userId = _a.userId;
+        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages;
         var formErrors = this.state.formErrors;
         if (!namespace) {
             return null;

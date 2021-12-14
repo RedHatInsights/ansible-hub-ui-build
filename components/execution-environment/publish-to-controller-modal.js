@@ -161,7 +161,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
     };
     PublishToControllerModal.prototype.renderControllers = function () {
         var _a = this.props, image = _a.image, isOpen = _a.isOpen;
-        var _b = this.state, controllers = _b.controllers, controllerCount = _b.controllerCount, digest = _b.digest, tag = _b.tag;
+        var _b = this.state, controllers = _b.controllers, digest = _b.digest, tag = _b.tag;
         var url = getContainersURL();
         var unsafeLinksSupported = !Object.keys(window).includes('chrome');
         if (!isOpen || !controllers) {

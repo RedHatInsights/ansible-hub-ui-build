@@ -39,13 +39,13 @@ var NamespaceModal = /** @class */ (function (_super) {
     __extends(NamespaceModal, _super);
     function NamespaceModal(props) {
         var _this = _super.call(this, props) || this;
-        _this.handleSubmit = function (event) {
+        _this.handleSubmit = function () {
             var data = {
                 name: _this.state.newNamespaceName,
                 groups: _this.state.newGroups,
             };
             NamespaceAPI.create(data)
-                .then(function (results) {
+                .then(function () {
                 _this.toggleModal();
                 _this.setState({
                     newNamespaceName: '',

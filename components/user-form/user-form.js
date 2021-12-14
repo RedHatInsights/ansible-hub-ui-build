@@ -53,7 +53,7 @@ var UserForm = /** @class */ (function (_super) {
             newUser.groups = [];
             _this.props.updateUser(newUser, _this.props.errorMessages);
         };
-        _this.onSelectGroup = function (event, selection, isPlaceholder) {
+        _this.onSelectGroup = function (event, selection) {
             var user = _this.props.user;
             var newUser = __assign({}, user);
             var i = user.groups.findIndex(function (g) { return g.name === selection; });
@@ -123,7 +123,7 @@ var UserForm = /** @class */ (function (_super) {
             React.createElement(Tooltip, { content: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },
                 React.createElement(Switch, { isDisabled: !this.context.user.is_superuser ||
                         isReadonly ||
-                        this.context.user.id === user.id, label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Super user"], ["Super user"]))), labelOff: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Not a super user"], ["Not a super user"]))), isChecked: user.is_superuser, onChange: function (e) {
+                        this.context.user.id === user.id, label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Super user"], ["Super user"]))), labelOff: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Not a super user"], ["Not a super user"]))), isChecked: user.is_superuser, onChange: function () {
                         return _this.updateUserFieldByName(!user.is_superuser, 'is_superuser');
                     } }))));
         var formButtons = function () { return (React.createElement(ActionGroup, { key: 'actions' },

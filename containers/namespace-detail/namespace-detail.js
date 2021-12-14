@@ -159,7 +159,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function (result) {
+            React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
                     return _this.setState({
                         redirect: formatPath(Paths.myImports, {}, {
                             namespace: namespace.name,
@@ -216,7 +216,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             case 'deprecate':
                 CollectionAPI.setDeprecation(collection, !collection.deprecated, this.context.selectedRepo)
                     .then(function () { return _this.loadCollections(); })
-                    .catch(function (error) {
+                    .catch(function () {
                     _this.setState({
                         warning: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
@@ -264,7 +264,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             });
             _this.loadAllRepos(val[0].data.meta.count);
         })
-            .catch(function (response) {
+            .catch(function () {
             _this.setState({ redirect: Paths.notFound });
         });
     };

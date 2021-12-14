@@ -69,7 +69,7 @@ var RemoteForm = /** @class */ (function (_super) {
     }
     RemoteForm.prototype.render = function () {
         var _this = this;
-        var _a = this.props, remote = _a.remote, errorMessages = _a.errorMessages;
+        var remote = this.props.remote;
         if (!remote) {
             return null;
         }
