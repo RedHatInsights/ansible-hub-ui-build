@@ -33,8 +33,9 @@ var CollectionDependenciesList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, collection = _a.collection, repo = _a.repo;
         var dependencies = collection.latest_version.metadata.dependencies;
-        if (!Object.keys(dependencies).length)
+        if (!Object.keys(dependencies).length) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection does not have dependencies."], ["Collection does not have dependencies."]))) }));
+        }
         return (React.createElement(List, { variant: ListVariant.inline, className: 'dependencies-list' }, Object.keys(dependencies).map(function (dependency, i) { return (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
             React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
                     collection: _this.splitDependencyName(dependency).collection,

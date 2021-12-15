@@ -67,8 +67,9 @@ var Search = /** @class */ (function (_super) {
     }
     Search.prototype.componentDidMount = function () {
         this.queryCollections();
-        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE)
+        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             this.getSynclist();
+        }
     };
     Search.prototype.render = function () {
         var _this = this;

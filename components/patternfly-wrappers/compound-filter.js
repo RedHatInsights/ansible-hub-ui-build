@@ -119,8 +119,9 @@ var CompoundFilter = /** @class */ (function (_super) {
         this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, id ? id : this.props.inputText));
     };
     CompoundFilter.prototype.selectTitleById = function (inputText, selectedFilter) {
-        if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options))
+        if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options)) {
             return inputText;
+        }
         return selectedFilter.options.find(function (opt) { return opt.id === inputText; }).title;
     };
     return CompoundFilter;

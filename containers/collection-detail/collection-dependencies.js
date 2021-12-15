@@ -127,8 +127,9 @@ var CollectionDependencies = /** @class */ (function (_super) {
     CollectionDependencies.prototype.loadUsedByDependencies = function () {
         var _this = this;
         this.setState({ usedByDependenciesLoading: true }, function () {
-            if (_this.cancelToken)
+            if (_this.cancelToken) {
                 _this.cancelToken.cancel('request-canceled');
+            }
             _this.cancelToken = CollectionAPI.getCancelToken();
             CollectionAPI.getUsedDependenciesByCollection(_this.state.collection.namespace.name, _this.state.collection.name, ParamHelper.getReduced(_this.state.params, ['version']), _this.cancelToken)
                 .then(function (_a) {
