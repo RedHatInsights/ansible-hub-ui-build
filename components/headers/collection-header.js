@@ -218,8 +218,9 @@ var CollectionHeader = /** @class */ (function (_super) {
         };
         var collectionName = collection.name;
         var company = collection.namespace.company || collection.namespace.name;
-        if (redirect)
+        if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
+        }
         var dropdownItems = [
             noDependencies
                 ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 1, onClick: function () { return _this.openDeleteModalWithConfirm(); }, "data-cy": 'delete-collection-dropdown' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))

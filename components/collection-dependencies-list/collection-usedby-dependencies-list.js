@@ -35,8 +35,9 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
     CollectionUsedbyDependenciesList.prototype.render = function () {
         var _this = this;
         var _a = this.props, params = _a.params, usedByDependencies = _a.usedByDependencies, itemCount = _a.itemCount, updateParams = _a.updateParams, usedByDependenciesLoading = _a.usedByDependenciesLoading;
-        if (!itemCount && !filterIsSet(params, ['name__icontains']))
+        if (!itemCount && !filterIsSet(params, ['name__icontains'])) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not required for use by other collections"], ["Not required for use by other collections"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection is not being used by any collection."], ["Collection is not being used by any collection."]))) }));
+        }
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { className: 'usedby-dependencies-header' },
                 React.createElement(Toolbar, null,
