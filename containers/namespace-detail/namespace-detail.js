@@ -176,11 +176,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             React.createElement("b", null, namespace.name),
                             " and its data will be lost.")),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
-            warning ? (React.createElement(Alert, { className: 'namespace-warning-alert', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
-            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [namespaceBreadcrumb, { name: namespace.name }], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab.toLowerCase() === 'collections' ? (React.createElement("div", { className: 'toolbar-wrapper namespace-detail' },
+            warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
+            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [namespaceBreadcrumb, { name: namespace.name }], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab.toLowerCase() === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
-                        React.createElement("div", { className: 'pagination-container' },
+                        React.createElement("div", { className: 'hub-pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
                 tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
@@ -322,9 +322,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }) }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
         ].filter(Boolean);
         if (!this.state.showControls) {
-            return React.createElement("div", { className: 'namespace-page-controls' });
+            return React.createElement("div", { className: 'hub-namespace-page-controls' });
         }
-        return (React.createElement("div", { className: 'namespace-page-controls', "data-cy": 'kebab-toggle' },
+        return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
             collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));

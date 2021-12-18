@@ -119,7 +119,7 @@ var ImportList = /** @class */ (function (_super) {
             return (React.createElement("div", { onClick: function () { return selectImport(item); }, key: item.id, className: cx({
                     clickable: true,
                     'list-container': true,
-                    'selected-item': item.type === selectedImport.type &&
+                    'hub-c-toolbar__item-selected-item': item.type === selectedImport.type &&
                         item.id === selectedImport.id,
                 }) },
                 React.createElement("div", { className: 'left' },

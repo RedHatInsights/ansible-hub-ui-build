@@ -66,8 +66,8 @@ var CollectionContentList = /** @class */ (function (_super) {
                         React.createElement(ToolbarItem, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Showing:"], ["Showing:"])))),
                         Object.keys(summary).map(function (key) { return (React.createElement(ToolbarItem, { key: key, className: cx({
                                 clickable: true,
-                                'selected-item': key === showing,
-                                'type-selector': true,
+                                'hub-c-toolbar__item-selected-item': key === showing,
+                                'hub-c-toolbar__item-type-selector': true,
                             }), onClick: function () {
                                 return updateParams(ParamHelper.setParam(params, 'showing', key));
                             } },
@@ -75,7 +75,7 @@ var CollectionContentList = /** @class */ (function (_super) {
                             " (",
                             summary[key],
                             ")")); })))),
-            React.createElement("table", { className: 'content-table pf-c-table pf-m-compact' },
+            React.createElement("table", { className: 'hub-c-table-content pf-c-table pf-m-compact' },
                 React.createElement("thead", null,
                     React.createElement("tr", null,
                         React.createElement("th", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"])))),

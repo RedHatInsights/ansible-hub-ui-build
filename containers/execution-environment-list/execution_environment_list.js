@@ -125,7 +125,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     addRemoteButton,
                     React.createElement("div", null, "\u00A0"),
                     pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'container-list-toolbar' },
+                React.createElement("div", { className: 'hub-container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -198,7 +198,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryEnvironments(); });
                 } }),

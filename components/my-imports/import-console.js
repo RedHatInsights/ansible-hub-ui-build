@@ -45,14 +45,14 @@ var ImportConsole = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, selectedImport = _a.selectedImport, task = _a.task, apiError = _a.apiError, loading = _a.loading;
         if (loading || apiError) {
-            return (React.createElement("div", { className: 'import-console' },
+            return (React.createElement("div", { className: 'hub-import-console' },
                 selectedImport ? this.renderTitle(selectedImport) : null,
                 React.createElement("div", { className: 'loading message-list' }, apiError ? React.createElement("div", { className: 'message' }, apiError) : React.createElement(Spinner, null))));
         }
         this.isLoading =
             selectedImport.state === PulpStatus.running ||
                 selectedImport.state === PulpStatus.waiting;
-        return (React.createElement("div", { className: 'import-console pf-c-content' },
+        return (React.createElement("div", { className: 'hub-import-console pf-c-content' },
             this.renderTitle(selectedImport),
             React.createElement("div", { className: 'message-list' },
                 React.createElement("div", { className: cx({

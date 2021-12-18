@@ -151,7 +151,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     " will be deleted.") })),
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))) }),
             noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote registries yet"], ["No remote registries yet"]))), description: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You currently have no remote registries."], ["You currently have no remote registries."]))), button: addButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'container-list-toolbar' },
+                React.createElement("div", { className: 'hub-container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -225,7 +225,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { className: 'content-table pf-c-table' },
+        return (React.createElement("table", { className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryRegistries(); });
                 } }),

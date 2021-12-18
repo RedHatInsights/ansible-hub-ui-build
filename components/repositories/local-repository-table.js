@@ -76,7 +76,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                 return object.id !== 'updated_at' && object.id !== 'cli_config';
             });
         }
-        return (React.createElement("table", { "aria-label": t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return console.log(p); } }),
             React.createElement("tbody", null, repositories.map(function (distribution) { return _this.renderRow(distribution); }))));
     };
