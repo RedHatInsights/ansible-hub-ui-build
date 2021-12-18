@@ -318,7 +318,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     React.createElement(StatefulDropdown, { items: dropdownItems }))) : null },
                 collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-                React.createElement("div", { className: 'tab-link-container' },
+                React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
                     React.createElement("div", { className: 'links' },
                         React.createElement("div", null,

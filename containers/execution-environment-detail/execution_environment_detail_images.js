@@ -191,7 +191,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                         _this.setState({ inputText: '' });
                     }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
-            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'content-table pf-c-table' },
+            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'hub-c-table-content pf-c-table' },
                 React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () {
                             return _this.queryImages(_this.props.match.params['container']);
@@ -256,7 +256,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                     } }, expandedImage === image ? (React.createElement(AngleDownIcon, null)) : (React.createElement(AngleRightIcon, null)))) : null),
                 React.createElement("td", null,
-                    React.createElement(LabelGroup, { className: 'tags-column' }, image.tags
+                    React.createElement(LabelGroup, { className: 'hub-c-label-group-tags-column' }, image.tags
                         .sort()
                         .map(function (tag) {
                         return isManifestList ? (React.createElement(TagLabel, { key: tag, tag: tag })) : (React.createElement(TagLink, { key: tag, tag: tag }));
@@ -274,7 +274,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderManifestList = function (_a, ShaLink) {
         var image_manifests = _a.image_manifests;
-        return (React.createElement("table", { className: 'content-table pf-c-table' },
+        return (React.createElement("table", { className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: {
                     headers: [
                         {

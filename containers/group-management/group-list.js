@@ -92,7 +92,7 @@ var GroupList = /** @class */ (function (_super) {
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No groups yet"], ["No groups yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups will appear once created"], ["Groups will appear once created"]))), button: !!user &&
                     user.model_permissions.add_group && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'group-list-toolbar' },
+                    React.createElement("div", { className: 'hub-group-list-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,
@@ -238,7 +238,7 @@ var GroupList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryGroups(); }); } }),
             React.createElement("tbody", null, groups.map(function (group, i) { return _this.renderTableRow(group, i); }))));
     };

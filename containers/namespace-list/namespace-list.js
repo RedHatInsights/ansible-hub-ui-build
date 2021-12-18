@@ -147,7 +147,7 @@ var NamespaceList = /** @class */ (function (_super) {
         var titleLowerCase = title.toLowerCase();
         var search = filterOwner
             ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), titleLowerCase);
-        return (React.createElement("div", { className: 'namespace-page' },
+        return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
                         redirect: formatPath(Paths.myCollections, {
@@ -157,7 +157,7 @@ var NamespaceList = /** @class */ (function (_super) {
                 } }),
             React.createElement(AlertList, { alerts: alerts, closeAlert: function () { return _this.closeAlert(); } }),
             React.createElement(BaseHeader, { title: title },
-                !this.context.user.is_anonymous && (React.createElement("div", { className: 'tab-link-container' },
+                !this.context.user.is_anonymous && (React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(LinkTabs, { tabs: [
                                 {

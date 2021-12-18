@@ -54,7 +54,7 @@ var NamespaceForm = /** @class */ (function (_super) {
             return null;
         }
         return (React.createElement(Form, null,
-            React.createElement("div", { className: 'card-row' },
+            React.createElement("div", { className: 'hub-card-row' },
                 React.createElement("div", { className: 'fields' },
                     React.createElement(FormGroup, { fieldId: 'name', label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: true },
                         React.createElement(TextInput, { isRequired: true, isDisabled: true, id: 'name', type: 'text', value: namespace.name })),

@@ -98,7 +98,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function () { return null; } }),
             React.createElement("tbody", null, remotes.map(function (remote, i) { return _this.renderRow(remote, i); }))));
     };

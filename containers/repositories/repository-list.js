@@ -161,7 +161,7 @@ var RepositoryList = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))), pageControls: this.renderControls() }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
                 !loading &&
                 !unauthorised ? (React.createElement("div", { className: 'header-bottom' },
-                React.createElement("div", { className: 'tab-link-container' },
+                React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) {
                                 // empty the content before updating the params to prevent

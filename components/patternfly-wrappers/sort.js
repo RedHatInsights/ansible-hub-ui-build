@@ -98,7 +98,7 @@ var Sort = /** @class */ (function (_super) {
             IconDesc = SortAmountDownIcon;
             IconAsc = SortAmountUpIcon;
         }
-        return (React.createElement("div", { className: 'sort-wrapper' },
+        return (React.createElement("div", { className: 'hub-sort-wrapper' },
             options.length > 1 ? (React.createElement(Select, { variant: SelectVariant.single, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select input"], ["Select input"]))), onToggle: function (e) { return _this.onToggle(e); }, onSelect: function (_, name) { return _this.onSelect(name); }, selections: selectedOption.title, isOpen: isExpanded, "aria-labelledby": 'Sort results' }, options.map(function (option) { return (React.createElement(SelectOption, { key: option.id, value: option.title })); }))) : null,
             this.getIsDescending(params) ? (React.createElement(IconDesc, { className: 'clickable asc-button', size: 'md', onClick: function () { return _this.setDescending(); } })) : (React.createElement(IconAsc, { className: 'clickable asc-button', size: 'md', onClick: function () { return _this.setDescending(); } }))));
     };

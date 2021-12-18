@@ -115,9 +115,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'certification-dashboard' },
+            unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'hub-certification-dashboard' },
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'toolbar certification-dashboard-toolbar' },
+                    React.createElement("div", { className: 'toolbar hub-certification-dashboard-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarGroup, null,
                                 React.createElement(ToolbarItem, null,
@@ -215,7 +215,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryCollections(); });
                 } }),

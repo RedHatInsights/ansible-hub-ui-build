@@ -87,7 +87,7 @@ var TaskDetail = /** @class */ (function (_super) {
         return loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             cancelModalVisible ? this.renderCancelModal() : null,
-            React.createElement(BaseHeader, { title: taskName, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: ['running', 'waiting'].includes(task.state) && (React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ cancelModalVisible: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Stop task"], ["Stop task"]))))), status: React.createElement(StatusIndicator, { className: 'task-status', status: task.state }) }),
+            React.createElement(BaseHeader, { title: taskName, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: ['running', 'waiting'].includes(task.state) && (React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ cancelModalVisible: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Stop task"], ["Stop task"]))))), status: React.createElement(StatusIndicator, { className: 'hub-c-task-status', status: task.state }) }),
             React.createElement(Main, null,
                 React.createElement(Flex, null,
                     React.createElement(Flex, { direction: { default: 'column' }, flex: { default: 'flex_1' } },
@@ -180,7 +180,7 @@ var TaskDetail = /** @class */ (function (_super) {
                                     React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Description"], ["Description"])))),
                                     React.createElement(CodeBlock, null, task.error.description),
                                     React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Traceback"], ["Traceback"])))),
-                                    React.createElement(CodeBlock, { className: 'code-block' }, task.error.traceback))))))))));
+                                    React.createElement(CodeBlock, { className: 'hub-code-block' }, task.error.traceback))))))))));
     };
     TaskDetail.prototype.renderCancelModal = function () {
         var _this = this;

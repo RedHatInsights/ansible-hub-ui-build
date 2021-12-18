@@ -32,7 +32,7 @@ var NamespaceCard = /** @class */ (function (_super) {
     }
     NamespaceCard.prototype.render = function () {
         var _a = this.props, avatar_url = _a.avatar_url, name = _a.name, company = _a.company, namespaceURL = _a.namespaceURL;
-        return (React.createElement(Card, { className: 'ns-card-container' },
+        return (React.createElement(Card, { className: 'hub-c-card-ns-container' },
             React.createElement(CardHeader, null,
                 React.createElement(CardHeaderMain, null,
                     React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: avatar_url, size: '40px', unlockWidth: true }))),

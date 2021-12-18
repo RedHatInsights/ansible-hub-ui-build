@@ -148,7 +148,7 @@ var GroupDetail = /** @class */ (function (_super) {
                         { url: Paths.groupList, name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Groups"], ["Groups"]))) },
                         { name: group.name },
                     ] }), pageControls: this.renderControls() },
-                React.createElement("div", { className: 'tab-link-container' },
+                React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { isDisabled: editPermissions, disabledTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Please finish editing permissions first."], ["Please finish editing permissions first."]))), tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } })))),
             React.createElement(Main, null,
@@ -480,7 +480,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); } }),
             React.createElement("tbody", null, users.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };
