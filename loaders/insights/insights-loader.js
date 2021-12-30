@@ -151,6 +151,9 @@ var App = /** @class */ (function (_super) {
 App.propTypes = {
     history: PropTypes.object,
     basename: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string,
+    }),
 };
 /**
  * withRouter: https://reacttraining.com/react-router/web/api/withRouter

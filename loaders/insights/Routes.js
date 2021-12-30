@@ -174,4 +174,11 @@ export var Routes = function (props) {
                 return some(Paths, function (p) { return p === path; }) ? null : (React.createElement(Redirect, { push: true, to: Paths.notFound }));
             } })));
 };
+Routes.propTypes = {
+    childProps: PropTypes.shape({
+        location: PropTypes.shape({
+            pathname: PropTypes.string,
+        }),
+    }),
+};
 //# sourceMappingURL=Routes.js.map

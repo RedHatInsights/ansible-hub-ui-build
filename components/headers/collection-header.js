@@ -329,7 +329,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 return null;
                             }
                             return (React.createElement("div", { className: 'link', key: link.key },
-                                React.createElement("a", { href: url, target: '_blank' }, link.name)));
+                                React.createElement("a", { href: url, target: '_blank', rel: 'noreferrer' }, link.name)));
                         }))))));
     };
     CollectionHeader.prototype.renderTabs = function (active) {
