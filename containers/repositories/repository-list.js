@@ -32,7 +32,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
-import { ParamHelper, mapErrorMessages } from 'src/utilities';
+import { ParamHelper, mapErrorMessages, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
