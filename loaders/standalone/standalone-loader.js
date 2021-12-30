@@ -170,7 +170,7 @@ var App = /** @class */ (function (_super) {
             return item.condition({ user: user, settings: settings, featureFlags: featureFlags }) ? (React.createElement(NavItem, { isActive: item.active, onClick: function (e) {
                     item.onclick && item.onclick();
                     e.stopPropagation();
-                } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank' },
+                } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank', rel: 'noreferrer' },
                 item.name,
                 React.createElement(ExternalLinkAltIcon, { style: { position: 'absolute', right: '32px' } }))) : item.url ? (React.createElement(Link, { to: item.url }, item.name)) : (item.name))) : null;
         };

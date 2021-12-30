@@ -178,11 +178,11 @@ var PublishToControllerModal = /** @class */ (function (_super) {
             var imageUrl = "".concat(url, "/").concat(tag ? "".concat(image, ":").concat(tag) : digest);
             var href = "".concat(host, "/#/execution_environments/add?image=").concat(encodeURIComponent(imageUrl));
             return (React.createElement(ListItem, { style: { paddingTop: '8px' } },
-                React.createElement("a", { href: href, target: '_blank' }, host),
+                React.createElement("a", { href: href, target: '_blank', rel: 'noreferrer' }, host),
                 ' ',
                 unsafeLinksSupported && (React.createElement("small", null,
                     React.createElement(ExternalLinkAltIcon, null))),
-                !unsafeLinksSupported && (React.createElement(ClipboardCopyButton, { variant: 'plain', children: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))), id: href, textId: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))), onClick: function () { return navigator.clipboard.writeText(href); } }))));
+                !unsafeLinksSupported && (React.createElement(ClipboardCopyButton, { variant: 'plain', id: href, textId: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))), onClick: function () { return navigator.clipboard.writeText(href); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"])))))));
         })));
     };
     PublishToControllerModal.prototype.render = function () {
@@ -195,7 +195,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
         var notListedMessage = (React.createElement(React.Fragment, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["If the Controller is not listed in the table, check settings.py."], ["If the Controller is not listed in the table, check settings.py."]))),
             ' ',
             docsLink && (React.createElement(React.Fragment, null,
-                React.createElement("a", { href: docsLink, target: '_blank' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Learn more"], ["Learn more"])))),
+                React.createElement("a", { href: docsLink, target: '_blank', rel: 'noreferrer' }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Learn more"], ["Learn more"])))),
                 ' ',
                 React.createElement(ExternalLinkAltIcon, null)))));
         var Spacer = function () { return React.createElement("div", { style: { paddingTop: '24px' } }); };

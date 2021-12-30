@@ -194,7 +194,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                                 React.createElement("b", null, "Note:"),
                                 " Use this URL to configure ansible-galaxy to upload collections to this namespace. More information on ansible-galaxy configurations can be found",
                                 ' ',
-                                React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank' }, "here"),
+                                React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#configuring-the-ansible-galaxy-client', target: '_blank', rel: 'noreferrer' }, "here"),
                                 React.createElement("span", null, "\u00A0"),
                                 React.createElement(ExternalLinkAltIcon, null),
                                 ".")),

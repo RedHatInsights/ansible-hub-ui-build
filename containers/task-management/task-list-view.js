@@ -219,7 +219,7 @@ var TaskListView = /** @class */ (function (_super) {
         var _this = this;
         var name = Constants.TASK_NAMES[this.state.selectedTask.name] ||
             this.state.selectedTask.name;
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name)));
     };
     TaskListView.prototype.selectedTask = function (task, name) {
         var _this = this;

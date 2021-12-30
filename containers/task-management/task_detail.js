@@ -185,7 +185,7 @@ var TaskDetail = /** @class */ (function (_super) {
     TaskDetail.prototype.renderCancelModal = function () {
         var _this = this;
         var name = this.state.taskName;
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Stop task"], ["Stop task"]))), children: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name), confirmButtonTitle: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Stop task"], ["Stop task"]))), confirmButtonTitle: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name)));
     };
     TaskDetail.prototype.cancelTask = function () {
         var _this = this;

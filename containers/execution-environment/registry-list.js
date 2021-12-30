@@ -146,9 +146,10 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 }, allowEditName: remoteFormNew, title: remoteFormNew ? t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Add remote registry"], ["Add remote registry"]))) : t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit remote registry"], ["Edit remote registry"]))) })),
             showDeleteModal && remoteToEdit && (React.createElement(DeleteModal, { cancelAction: function () {
                     return _this.setState({ showDeleteModal: false, remoteToEdit: null });
-                }, deleteAction: function () { return _this.deleteRegistry(remoteToEdit); }, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete remote registry?"], ["Delete remote registry?"]))), children: React.createElement(Trans, null,
+                }, deleteAction: function () { return _this.deleteRegistry(remoteToEdit); }, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete remote registry?"], ["Delete remote registry?"]))) },
+                React.createElement(Trans, null,
                     React.createElement("b", null, remoteToEdit.name),
-                    " will be deleted.") })),
+                    " will be deleted."))),
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))) }),
             noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote registries yet"], ["No remote registries yet"]))), description: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You currently have no remote registries."], ["You currently have no remote registries."]))), button: addButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'hub-container-list-toolbar' },
