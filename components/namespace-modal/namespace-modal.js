@@ -30,9 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { Modal } from '@patternfly/react-core';
-import { Form, FormGroup } from '@patternfly/react-core';
-import { Button, InputGroup, TextInput, Alert } from '@patternfly/react-core';
+import { Alert, Button, Form, FormGroup, InputGroup, Modal, TextInput, } from '@patternfly/react-core';
 import { NamespaceAPI } from 'src/api';
 import { HelperText, ObjectPermissionField } from 'src/components';
 var NamespaceModal = /** @class */ (function (_super) {

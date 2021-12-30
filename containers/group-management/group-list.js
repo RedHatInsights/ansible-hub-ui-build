@@ -32,7 +32,7 @@ import './group-management.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI } from 'src/api';
 import { DeleteGroupModal } from './delete-group-modal';
-import { filterIsSet, mapErrorMessages, ParamHelper } from 'src/utilities';
+import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
 import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { formatPath, Paths } from 'src/paths';
