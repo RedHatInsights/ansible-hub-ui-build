@@ -259,7 +259,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     }, updateParams: this.updatePaginationParams, count: all_versions.length })),
             deleteCollection && (React.createElement(DeleteModal, { spinner: isDeletionPending, cancelAction: this.closeModal, deleteAction: function () {
                     return _this.setState({ isDeletionPending: true }, function () {
-                        !!collectionVersion
+                        collectionVersion
                             ? _this.deleteCollectionVersion(collectionVersion)
                             : _this.deleteCollection();
                     });

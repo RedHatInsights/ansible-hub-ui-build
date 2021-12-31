@@ -115,7 +115,7 @@ var NamespaceModal = /** @class */ (function (_super) {
                                     _this.newNamespaceNameIsValid();
                                 });
                             } }))),
-                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] }, !!(formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { availablePermissions: [
+                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] }, (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { availablePermissions: [
                         'change_namespace',
                         'upload_to_namespace',
                     ], groups: newGroups, setGroups: function (g) { return _this.setState({ newGroups: g }); }, menuAppendTo: 'parent', onError: function (err) {

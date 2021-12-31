@@ -34,7 +34,7 @@ var ImportModal = /** @class */ (function (_super) {
     function ImportModal(props) {
         var _this = _super.call(this, props) || this;
         _this.acceptedFileTypes = ['application/x-gzip', 'application/gzip'];
-        _this.COLLECTION_NAME_REGEX = /[0-9a-z_]+\-[0-9a-z_]+\-[0-9A-Za-z.+-]+/;
+        _this.COLLECTION_NAME_REGEX = /[0-9a-z_]+-[0-9a-z_]+-[0-9A-Za-z.+-]+/;
         _this.state = {
             file: undefined,
             errors: '',

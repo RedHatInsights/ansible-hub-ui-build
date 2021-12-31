@@ -214,7 +214,7 @@ var GroupDetail = /** @class */ (function (_super) {
         }
         if (isUserMgmtDisabled) {
             Constants.USER_GROUP_MGMT_PERMISSIONS.forEach(function (perm) {
-                if (filteredPermissions.hasOwnProperty(perm)) {
+                if (perm in filteredPermissions) {
                     delete filteredPermissions[perm];
                 }
             });

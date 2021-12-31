@@ -94,7 +94,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
             React.createElement("td", null, distribution.repository.name),
             React.createElement("td", null, distribution.repository.content_count),
             DEPLOYMENT_MODE ===
-                Constants.INSIGHTS_DEPLOYMENT_MODE ? null : !!distribution.repository
+                Constants.INSIGHTS_DEPLOYMENT_MODE ? null : distribution.repository
                 .pulp_last_updated ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: distribution.repository.pulp_last_updated }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null,
