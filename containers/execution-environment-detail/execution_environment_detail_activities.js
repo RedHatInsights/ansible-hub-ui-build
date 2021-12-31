@@ -63,7 +63,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                             React.createElement("tbody", null, activities.map(function (action, i) {
                                 return (React.createElement("tr", { key: i },
                                     React.createElement("td", null, action.action),
-                                    !!action.created ? (React.createElement("td", null,
+                                    action.created ? (React.createElement("td", null,
                                         React.createElement(DateComponent, { date: action.created }))) : (React.createElement("td", null))));
                             }))))))));
     };
@@ -97,7 +97,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                 var removed = activity.removed.find(function (item) {
                                     return item.tag_name === action.tag_name;
                                 });
-                                if (!!removed) {
+                                if (removed) {
                                     activityDescription = (React.createElement(React.Fragment, null,
                                         React.createElement(Trans, null,
                                             React.createElement(TagLink, { tag: action.tag_name }),
@@ -159,7 +159,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                         });
                     }
                 });
-                if (!!result.data.links.next) {
+                if (result.data.links.next) {
                     _this.setState({ page: _this.state.page + 1 });
                     activities.push({
                         created: '',
@@ -171,7 +171,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                 }
                 else {
                     var lastActivity = activities[activities.length - 1];
-                    if (!!lastActivity) {
+                    if (lastActivity) {
                         activities.push({
                             created: lastActivity.created,
                             action: (React.createElement(React.Fragment, null,

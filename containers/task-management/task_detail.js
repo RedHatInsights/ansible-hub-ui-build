@@ -75,13 +75,13 @@ var TaskDetail = /** @class */ (function (_super) {
         var _a = this.state, loading = _a.loading, task = _a.task, parentTask = _a.parentTask, childTasks = _a.childTasks, cancelModalVisible = _a.cancelModalVisible, alerts = _a.alerts, taskName = _a.taskName, resources = _a.resources, redirect = _a.redirect;
         var breadcrumbs = [
             { url: Paths.taskList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
-            { name: !!task ? taskName : '' },
+            { name: task ? taskName : '' },
         ];
         var parentTaskId = null;
-        if (!!parentTask) {
+        if (parentTask) {
             parentTaskId = parsePulpIDFromURL(parentTask.pulp_href);
         }
-        if (!!redirect) {
+        if (redirect) {
             return React.createElement(Redirect, { to: redirect });
         }
         return loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
@@ -117,16 +117,16 @@ var TaskDetail = /** @class */ (function (_super) {
                                 React.createElement(DescriptionList, { isHorizontal: true },
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Task group"], ["Task group"])))),
-                                        React.createElement(DescriptionListDescription, null, !!task.task_group ? task.task_group : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No task group"], ["No task group"]))))),
+                                        React.createElement(DescriptionListDescription, null, task.task_group ? task.task_group : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No task group"], ["No task group"]))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
-                                        React.createElement(DescriptionListDescription, null, !!parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
+                                        React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
                                             }) }, Constants.TASK_NAMES[parentTask.name] ||
                                             parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
-                                        React.createElement(DescriptionListDescription, null, !!childTasks.length
+                                        React.createElement(DescriptionListDescription, null, childTasks.length
                                             ? childTasks.map(function (childTask) {
                                                 var childTaskId = parsePulpIDFromURL(childTask.pulp_href);
                                                 return (React.createElement(React.Fragment, null,
@@ -141,7 +141,7 @@ var TaskDetail = /** @class */ (function (_super) {
                             React.createElement("section", { className: 'body card-area' },
                                 React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Reserve resources"], ["Reserve resources"])))),
                                 React.createElement("br", null),
-                                !!resources.length ? (React.createElement(DescriptionList, { isHorizontal: true }, resources.map(function (resource, index) {
+                                resources.length ? (React.createElement(DescriptionList, { isHorizontal: true }, resources.map(function (resource, index) {
                                     return (React.createElement(React.Fragment, { key: resource.type + index },
                                         React.createElement("hr", null),
                                         React.createElement(DescriptionListGroup, null,
@@ -156,7 +156,7 @@ var TaskDetail = /** @class */ (function (_super) {
                             !task.error && (React.createElement("section", { className: 'body card-area' },
                                 React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Progress messages"], ["Progress messages"])))),
                                 React.createElement("br", null),
-                                !!task.progress_reports.length ? (React.createElement(DescriptionList, { isHorizontal: true }, task.progress_reports
+                                task.progress_reports.length ? (React.createElement(DescriptionList, { isHorizontal: true }, task.progress_reports
                                     .reverse()
                                     .map(function (report, index) {
                                     return (React.createElement(React.Fragment, { key: index },
@@ -238,7 +238,7 @@ var TaskDetail = /** @class */ (function (_super) {
                 clearInterval(_this.state.refresh);
                 _this.setState({ refresh: null });
             }
-            if (!!result.data.parent_task) {
+            if (result.data.parent_task) {
                 var parentTaskId = parsePulpIDFromURL(result.data.parent_task);
                 allRelatedTasks.push(TaskManagementAPI.get(parentTaskId)
                     .then(function (result) {
@@ -248,7 +248,7 @@ var TaskDetail = /** @class */ (function (_super) {
                     return true;
                 }));
             }
-            if (!!result.data.child_tasks.length) {
+            if (result.data.child_tasks.length) {
                 result.data.child_tasks.forEach(function (child) {
                     var childTaskId = parsePulpIDFromURL(child);
                     allRelatedTasks.push(TaskManagementAPI.get(childTaskId)
@@ -260,13 +260,13 @@ var TaskDetail = /** @class */ (function (_super) {
                     }));
                 });
             }
-            if (!!result.data.reserved_resources_record.length) {
+            if (result.data.reserved_resources_record.length) {
                 result.data.reserved_resources_record.forEach(function (resource) {
                     var url = resource.replace('/pulp/api/v3/', '');
                     var id = parsePulpIDFromURL(url);
                     var urlParts = resource.split('/');
-                    var type = !!id ? urlParts[4] : urlParts[urlParts.length - 2];
-                    if (!!id) {
+                    var type = id ? urlParts[4] : urlParts[urlParts.length - 2];
+                    if (id) {
                         allRelatedTasks.push(GenericPulpAPI.get(url)
                             .then(function (result) {
                             resources.push({ name: result.data.name, type: type });

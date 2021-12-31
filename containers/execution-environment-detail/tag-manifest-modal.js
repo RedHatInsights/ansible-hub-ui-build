@@ -132,9 +132,9 @@ var TagManifestModal = /** @class */ (function (_super) {
                 React.createElement(Button, { isDisabled: isSaving, key: 'cancel', onClick: function () { return closeModal(); }, variant: 'link' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ], isOpen: isOpen, onClose: function () { return closeModal(); }, title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Manage tags"], ["Manage tags"]))), variant: 'small' },
             React.createElement(Form, { onSubmit: function (e) { return e.preventDefault(); } },
-                React.createElement(FormGroup, { validated: !!tagInFormError ? 'error' : 'default', helperTextInvalid: tagInFormError, fieldId: 'add-new-tag', label: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add new tag"], ["Add new tag"]))) },
+                React.createElement(FormGroup, { validated: tagInFormError ? 'error' : 'default', helperTextInvalid: tagInFormError, fieldId: 'add-new-tag', label: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add new tag"], ["Add new tag"]))) },
                     React.createElement(InputGroup, null,
-                        React.createElement(TextInput, { validated: !!tagInFormError ? 'error' : 'default', type: 'text', id: 'add-new-tag', value: tagInForm, onChange: function (val) { return _this.setState({ tagInForm: val }); }, isDisabled: !!tagToVerify || verifyingTag || isSaving, onKeyUp: function (e) {
+                        React.createElement(TextInput, { validated: tagInFormError ? 'error' : 'default', type: 'text', id: 'add-new-tag', value: tagInForm, onChange: function (val) { return _this.setState({ tagInForm: val }); }, isDisabled: !!tagToVerify || verifyingTag || isSaving, onKeyUp: function (e) {
                                 // l10n: don't translate
                                 if (e.key === 'Enter') {
                                     _this.verifyAndAddTag();

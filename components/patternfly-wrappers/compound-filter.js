@@ -85,15 +85,13 @@ var CompoundFilter = /** @class */ (function (_super) {
         var _this = this;
         switch (selectedFilter.inputType) {
             case 'multiple':
-                var options = selectedFilter.options.map(function (option) { return (
-                // patternfly does not allow for us to set a display name aside from the ID
-                // which unfortunately means that multiple select will ignore the human readable
-                // option.title
-                React.createElement(SelectOption, { key: option.id, value: option.id })); });
-                var toggle = [
-                    React.createElement(SelectGroup, { label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id), key: selectedFilter.id }, options),
-                ];
-                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, toggle));
+                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, [
+                    React.createElement(SelectGroup, { label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id), key: selectedFilter.id }, selectedFilter.options.map(function (option) { return (
+                    // patternfly does not allow for us to set a display name aside from the ID
+                    // which unfortunately means that multiple select will ignore the human readable
+                    // option.title
+                    React.createElement(SelectOption, { key: option.id, value: option.id })); })),
+                ]));
             case 'select':
                 return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.props.inputText, selectedFilter) ||
                         selectedFilter.placeholder ||

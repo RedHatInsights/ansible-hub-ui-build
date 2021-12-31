@@ -111,11 +111,10 @@ export function withContainerRepo(WrappedComponent) {
                         } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete"], ["Delete"]))))),
                 ].filter(function (truthy) { return truthy; });
                 var _h = this.state, alerts = _h.alerts, repo = _h.repo, publishToController = _h.publishToController, showDeleteModal = _h.showDeleteModal;
-                var selectedItem = repo.name;
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                     React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-                    showDeleteModal && (React.createElement(DeleteExecutionEnviromentModal, { selectedItem: selectedItem, closeAction: function () { return _this.setState({ showDeleteModal: false }); }, afterDelete: function () { return _this.setState({ redirect: 'list' }); }, addAlert: function (text, variant, description) {
+                    showDeleteModal && (React.createElement(DeleteExecutionEnviromentModal, { selectedItem: repo.name, closeAction: function () { return _this.setState({ showDeleteModal: false }); }, afterDelete: function () { return _this.setState({ redirect: 'list' }); }, addAlert: function (text, variant, description) {
                             if (description === void 0) { description = undefined; }
                             return _this.setState({
                                 alerts: alerts.concat([
@@ -132,7 +131,7 @@ export function withContainerRepo(WrappedComponent) {
                                     .then(function (results) {
                                     var task = results.find(function (x) { return x.data && x.data.task; });
                                     _this.setState({ editing: false, loading: true });
-                                    if (!!task) {
+                                    if (task) {
                                         waitForTask(task.data.task.split('tasks/')[1].replace('/', '')).then(function () {
                                             _this.loadRepo();
                                         });

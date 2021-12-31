@@ -41,7 +41,7 @@ var RemoteForm = /** @class */ (function (_super) {
     function RemoteForm(props) {
         var _this = _super.call(this, props) || this;
         var _a = Array(4).fill(''), requirementsFilename = _a[0], clientCertFilename = _a[1], clientKeyFilename = _a[2], caCertFilename = _a[3];
-        if (!!props.remote) {
+        if (props.remote) {
             requirementsFilename = _this.props.remote.requirements_file
                 ? 'requirements.yml'
                 : '';

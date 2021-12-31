@@ -108,7 +108,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
         return (React.createElement("tr", { key: i },
             React.createElement("td", null, remote.name),
             React.createElement("td", null, remote.repositories.map(function (r) { return r.name; }).join(', ')),
-            !!remote.updated_at ? (React.createElement("td", null,
+            remote.updated_at ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: remote.updated_at }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null, lastSynced(remote) || '---'),
             React.createElement("td", null, lastSyncStatus(remote) || '---'),
