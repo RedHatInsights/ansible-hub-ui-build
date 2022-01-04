@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/* global insights */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter, matchPath } from 'react-router-dom';
@@ -50,12 +49,12 @@ var App = /** @class */ (function (_super) {
     }
     App.prototype.componentDidMount = function () {
         var _this = this;
-        insights.chrome.init();
-        insights.chrome.identifyApp('automation-hub');
+        window.insights.chrome.init();
+        window.insights.chrome.identifyApp('automation-hub');
         // This listens for insights navigation events, so this will fire
         // when items in the nav are clicked or the app is loaded for the first
         // time
-        this.appNav = insights.chrome.on('APP_NAVIGATION', function (event) {
+        this.appNav = window.insights.chrome.on('APP_NAVIGATION', function (event) {
             // might be undefined early in the load, or may not happen at all
             if (!(event === null || event === void 0 ? void 0 : event.domEvent)) {
                 return;
@@ -78,7 +77,7 @@ var App = /** @class */ (function (_super) {
                 _this.props.history.push("/".concat(event.navId));
             }
         });
-        insights.chrome.auth
+        window.insights.chrome.auth
             .getUser()
             .then(function (user) { return _this.setState({ user: user }); });
         var promises = [];

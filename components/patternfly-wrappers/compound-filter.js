@@ -105,7 +105,7 @@ var CompoundFilter = /** @class */ (function (_super) {
     };
     CompoundFilter.prototype.handleEnter = function (e) {
         // l10n: don't translate
-        if (e.key === 'Enter' && this.props.inputText.length > 0) {
+        if (e.key === 'Enter' && this.props.inputText.trim().length > 0) {
             this.submitFilter();
         }
     };

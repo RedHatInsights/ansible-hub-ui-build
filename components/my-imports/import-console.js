@@ -82,7 +82,10 @@ var ImportConsole = /** @class */ (function (_super) {
     };
     ImportConsole.prototype.renderTitle = function (selectedImport) {
         var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion;
-        var collectionHead = "".concat(selectedImport.namespace, ".").concat(selectedImport.name);
+        var collectionHead = (React.createElement(React.Fragment, null,
+            selectedImport.namespace,
+            ".",
+            selectedImport.name));
         var approvalStatus = t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["waiting for import to finish"], ["waiting for import to finish"])));
         if (collectionVersion) {
             var rlist = collectionVersion.repository_list;

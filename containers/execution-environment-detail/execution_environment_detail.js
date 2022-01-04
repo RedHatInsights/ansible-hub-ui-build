@@ -38,7 +38,6 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
             distribution_id: '',
             groups: [],
             description: '',
-            namespace: {},
         };
         return _this;
     }

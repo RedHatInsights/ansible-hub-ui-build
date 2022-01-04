@@ -51,7 +51,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
     function CollectionDependencies(props) {
         var _this = _super.call(this, props) || this;
         _this.ignoredParams = ['page_size', 'page', 'sort', 'name__icontains'];
-        _this.cancelToken = undefined;
         var params = ParamHelper.parseParamString(props.location.search, [
             'page',
             'page_size',

@@ -57,7 +57,7 @@ var API = /** @class */ (function (_super) {
     API.prototype.getToken = function () {
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             return new Promise(function (resolve, reject) {
-                reject('Use window.chrome.insights.auth to get tokens for insights deployments');
+                reject('Use window.insights.chrome.auth to get tokens for insights deployments');
             });
         }
         return this.http.post('v3/auth/token/', {});

@@ -217,6 +217,7 @@ export function withContainerRepo(WrappedComponent) {
             return class_1;
         }(React.Component)),
         _a.contextType = AppContext,
+        _a.displayName = "withContainerRepo(".concat(WrappedComponent.displayName, ")"),
         _a;
 }
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;

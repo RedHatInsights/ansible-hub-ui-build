@@ -30,7 +30,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './group-management.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { GroupAPI, UserAPI } from 'src/api';
+import { GroupAPI, UserAPI, } from 'src/api';
 import { DeleteGroupModal } from './delete-group-modal';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
