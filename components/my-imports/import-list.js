@@ -95,7 +95,7 @@ var ImportList = /** @class */ (function (_super) {
                     keywords: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))),
                     state: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Status"], ["Status"]))),
                 } }),
-            React.createElement("div", null, this.renderList(selectImport, importList, selectedImport, loading)),
+            React.createElement("div", { "data-cy": 'import-list-data' }, this.renderList(selectImport, importList, selectedImport, loading)),
             React.createElement(Pagination, { itemCount: numberOfResults, perPage: params.page_size || Constants.DEFAULT_PAGE_SIZE, page: params.page || 1, onSetPage: function (_, p) {
                     return updateParams(ParamHelper.setParam(params, 'page', p));
                 }, onPerPageSelect: function (_, p) {
@@ -130,8 +130,8 @@ var ImportList = /** @class */ (function (_super) {
     ImportList.prototype.renderDescription = function (item) {
         return (React.createElement("div", null,
             React.createElement("div", null,
-                item.name,
-                " ",
+                React.createElement("span", { "data-cy": 'item-name' }, item.name),
+                ' ',
                 item.version ? 'v' + item.version : ''),
             React.createElement("div", { className: 'sub-text' },
                 "Status: ",
