@@ -73,9 +73,7 @@ var API = /** @class */ (function (_super) {
         return this.http.post('content/' + repositoryPath + '/v3/artifacts/collections/', formData, config);
     };
     API.prototype.getCancelToken = function () {
-        var CancelToken = axios.CancelToken;
-        var source = CancelToken.source();
-        return source;
+        return axios.CancelToken.source();
     };
     // Caches the last collection returned from the server. If the requested
     // collection matches the cache, return it, if it doesn't query the API

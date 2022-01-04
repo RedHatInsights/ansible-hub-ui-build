@@ -177,7 +177,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
         return (React.createElement(List, { isPlain: true, isBordered: true }, controllers.map(function (host) {
             var imageUrl = "".concat(url, "/").concat(tag ? "".concat(image, ":").concat(tag) : digest);
             var href = "".concat(host, "/#/execution_environments/add?image=").concat(encodeURIComponent(imageUrl));
-            return (React.createElement(ListItem, { style: { paddingTop: '8px' } },
+            return (React.createElement(ListItem, { style: { paddingTop: '8px' }, key: host },
                 React.createElement("a", { href: href, target: '_blank', rel: 'noreferrer' }, host),
                 ' ',
                 unsafeLinksSupported && (React.createElement("small", null,

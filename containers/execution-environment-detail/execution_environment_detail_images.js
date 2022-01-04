@@ -291,7 +291,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 }, params: {}, updateParams: function () { return null; } }),
             React.createElement("tbody", null, image_manifests.map(function (_a) {
                 var digest = _a.digest, os = _a.os, os_version = _a.os_version, os_features = _a.os_features, architecture = _a.architecture, variant = _a.variant, features = _a.features;
-                return (React.createElement("tr", null,
+                return (React.createElement("tr", { key: digest },
                     React.createElement("td", null,
                         React.createElement(ShaLink, { digest: digest })),
                     React.createElement("td", null, [

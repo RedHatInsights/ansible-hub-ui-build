@@ -206,12 +206,12 @@ var App = /** @class */ (function (_super) {
     App.prototype.menu = function () {
         var menuItem = function (name, options) {
             if (options === void 0) { options = {}; }
-            return (__assign(__assign({ condition: function () { return true; } }, options), { type: 'item', name: name }));
+            return (__assign(__assign({ active: false, condition: function () { return true; } }, options), { type: 'item', name: name }));
         };
         var menuSection = function (name, options, items) {
             if (options === void 0) { options = {}; }
             if (items === void 0) { items = []; }
-            return (__assign(__assign({ condition: function () {
+            return (__assign(__assign({ active: false, condition: function () {
                     var params = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
                         params[_i] = arguments[_i];

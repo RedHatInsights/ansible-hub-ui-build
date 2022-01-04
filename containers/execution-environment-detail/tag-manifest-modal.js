@@ -164,9 +164,9 @@ var TagManifestModal = /** @class */ (function (_super) {
     TagManifestModal.prototype.saveTags = function () {
         var _this = this;
         var containerManifest = this.props.containerManifest;
-        var promises = [];
         this.setState({ isSaving: true }, function () {
             var repository = _this.props.containerRepository;
+            var promises = [];
             var _loop_1 = function (tag) {
                 promises.push({
                     tag: tag,

@@ -133,11 +133,10 @@ var TokenPage = /** @class */ (function (_super) {
                     React.createElement(ClipboardCopy, { isReadOnly: true }, "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token")))));
     };
     TokenPage.prototype.loadToken = function () {
-        window.insights.chrome.auth
-            // doOffline causes the page to refresh and will make the data
-            // available to getOfflineToken() when the component mounts after
-            // the reload
-            .doOffline();
+        // doOffline causes the page to refresh and will make the data
+        // available to getOfflineToken() when the component mounts after
+        // the reload
+        window.insights.chrome.auth.doOffline();
     };
     Object.defineProperty(TokenPage.prototype, "closeAlert", {
         get: function () {

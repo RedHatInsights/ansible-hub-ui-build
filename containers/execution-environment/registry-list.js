@@ -252,9 +252,9 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     });
                 } },
                 React.createElement(Trans, null, "Delete"))),
-            React.createElement(Tooltip, { content: item.is_indexable
+            React.createElement(Tooltip, { key: 'index', content: item.is_indexable
                     ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Find execution environments in this registry"], ["Find execution environments in this registry"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Indexing execution environments is only supported on registry.redhat.io"], ["Indexing execution environments is only supported on registry.redhat.io"]))) },
-                React.createElement(DropdownItem, { key: 'index', onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
+                React.createElement(DropdownItem, { onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
                     React.createElement(Trans, null, "Index execution environments"))),
         ].filter(Boolean);
         return (React.createElement("tr", { "aria-labelledby": item.name, key: index },

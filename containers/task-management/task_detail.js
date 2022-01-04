@@ -52,7 +52,7 @@ var TaskDetail = /** @class */ (function (_super) {
             taskName: '',
             resources: [],
             redirect: null,
-            refresh: null,
+            polling: null,
         };
         return _this;
     }
@@ -60,8 +60,8 @@ var TaskDetail = /** @class */ (function (_super) {
         this.loadContent();
     };
     TaskDetail.prototype.componentWillUnmount = function () {
-        if (this.state.refresh) {
-            clearInterval(this.state.refresh);
+        if (this.state.polling) {
+            clearInterval(this.state.polling);
         }
     };
     TaskDetail.prototype.componentDidUpdate = function (prevProps) {
@@ -129,8 +129,8 @@ var TaskDetail = /** @class */ (function (_super) {
                                         React.createElement(DescriptionListDescription, null, childTasks.length
                                             ? childTasks.map(function (childTask) {
                                                 var childTaskId = parsePulpIDFromURL(childTask.pulp_href);
-                                                return (React.createElement(React.Fragment, null,
-                                                    React.createElement(Link, { key: childTaskId, to: formatPath(Paths.taskDetail, {
+                                                return (React.createElement(React.Fragment, { key: childTaskId },
+                                                    React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
                                                         }) }, Constants.TASK_NAMES[childTask.name] ||
                                                         childTask.name),
@@ -224,10 +224,10 @@ var TaskDetail = /** @class */ (function (_super) {
     };
     TaskDetail.prototype.loadContent = function () {
         var _this = this;
-        var taskId = this.props.match.params['task'];
-        if (!this.state.refresh && !this.state.task) {
-            this.setState({ refresh: setInterval(function () { return _this.loadContent(); }, 10000) });
+        if (!this.state.polling && !this.state.task) {
+            this.setState({ polling: setInterval(function () { return _this.loadContent(); }, 10000) });
         }
+        var taskId = this.props.match.params['task'];
         return TaskManagementAPI.get(taskId)
             .then(function (result) {
             var allRelatedTasks = [];
@@ -235,8 +235,8 @@ var TaskDetail = /** @class */ (function (_super) {
             var childTasks = [];
             var resources = [];
             if (['canceled', 'completed', 'failed'].includes(result.data.state)) {
-                clearInterval(_this.state.refresh);
-                _this.setState({ refresh: null });
+                clearInterval(_this.state.polling);
+                _this.setState({ polling: null });
             }
             if (result.data.parent_task) {
                 var parentTaskId = parsePulpIDFromURL(result.data.parent_task);

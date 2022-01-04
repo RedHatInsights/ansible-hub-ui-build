@@ -211,15 +211,11 @@ var NamespaceList = /** @class */ (function (_super) {
     };
     NamespaceList.prototype.loadNamespaces = function () {
         var _this = this;
-        var apiFunc;
-        if (this.props.filterOwner) {
-            apiFunc = function (p) { return MyNamespaceAPI.list(p); };
-        }
-        else {
-            apiFunc = function (p) { return NamespaceAPI.list(p); };
-        }
+        var filterOwner = this.props.filterOwner;
+        var api = filterOwner ? MyNamespaceAPI : NamespaceAPI;
         this.setState({ loading: true }, function () {
-            apiFunc(_this.state.params)
+            api
+                .list(_this.state.params)
                 .then(function (results) {
                 _this.setState({
                     namespaces: results.data.data,
