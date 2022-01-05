@@ -1,0 +1,37 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+export var ImportMessageCodes;
+(function (ImportMessageCodes) {
+    ImportMessageCodes["error"] = "error";
+    ImportMessageCodes["failed"] = "failed";
+    ImportMessageCodes["warning"] = "warning";
+    ImportMessageCodes["success"] = "success";
+})(ImportMessageCodes || (ImportMessageCodes = {}));
+var ImportListType = /** @class */ (function () {
+    function ImportListType() {
+    }
+    return ImportListType;
+}());
+export { ImportListType };
+var ImportDetailType = /** @class */ (function (_super) {
+    __extends(ImportDetailType, _super);
+    function ImportDetailType() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return ImportDetailType;
+}(ImportListType));
+export { ImportDetailType };
+//# sourceMappingURL=import.js.map
