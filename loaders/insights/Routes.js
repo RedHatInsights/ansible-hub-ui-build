@@ -1,137 +1,87 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import { Route, Switch, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import React from 'react';
-import asyncComponent from 'src/utilities/asyncComponent';
-import some from 'lodash/some';
+import React, { lazy, Suspense } from 'react';
 import { Paths } from 'src/paths';
-/**
- * Aysnc imports of components
- *
- * https://webpack.js.org/guides/code-splitting/
- * https://reactjs.org/docs/code-splitting.html
- *
- * pros:
- *      1) code splitting
- *      2) can be used in server-side rendering
- * cons:
- *      1) nameing chunk names adds unnecessary docs to code,
- *         see the difference with DashboardMap and InventoryDeployments.
- *
- */
-var EditNamespace = asyncComponent(function () {
+import { LoadingPageWithHeader } from 'src/components';
+var EditNamespace = lazy(function () {
     return import(
     /* webpackChunkName: "namespace_detail" */
     '../../containers/edit-namespace/edit-namespace');
 });
-var CollectionDetail = asyncComponent(function () {
+var CollectionDetail = lazy(function () {
     return import(
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-detail');
 });
-var CollectionContent = asyncComponent(function () {
+var CollectionContent = lazy(function () {
     return import(
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-content');
 });
-var CollectionDocs = asyncComponent(function () {
+var CollectionDocs = lazy(function () {
     return import(
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-docs');
 });
-var CollectionImportLog = asyncComponent(function () {
+var CollectionImportLog = lazy(function () {
     return import(
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-import-log');
 });
-var CollectionDependencies = asyncComponent(function () {
+var CollectionDependencies = lazy(function () {
     return import(
     /* webpackChunkName: "collection_detail" */
     '../../containers/collection-detail/collection-dependencies');
 });
-var NotFound = asyncComponent(function () {
+var NotFound = lazy(function () {
     return import(
     /* webpackChunkName: "not_found" */
     '../../containers/not-found/not-found');
 });
-var MyNamespaces = asyncComponent(function () {
+var MyNamespaces = lazy(function () {
     return import(
     /* webpackChunkName: "namespace_list" */
     '../../containers/namespace-list/my-namespaces');
 });
-var ManageNamespace = asyncComponent(function () {
+var ManageNamespace = lazy(function () {
     return import(
     /* webpackChunkName: "namespace_detail" */
     '../../containers/namespace-detail/namespace-detail');
 });
-var PartnerDetail = asyncComponent(function () {
+var PartnerDetail = lazy(function () {
     return import(
     /* webpackChunkName: "namespace_detail" */
     '../../containers/namespace-detail/namespace-detail');
 });
-var Partners = asyncComponent(function () {
+var Partners = lazy(function () {
     return import(
     /* webpackChunkName: "namespace_list" */
     '../../containers/namespace-list/' + NAMESPACE_TERM);
 });
-var MyImports = asyncComponent(function () {
+var MyImports = lazy(function () {
     return import(
     /* webpackChunkName: "my_imports" */
     '../../containers/my-imports/my-imports');
 });
-var Search = asyncComponent(function () {
+var Search = lazy(function () {
     return import(
     /* webpackChunkName: "search" */
     '../../containers/search/search');
 });
-var TokenPage = asyncComponent(function () {
+var TokenPage = lazy(function () {
     return import(
     /* webpackChunkName: "settings" */
     '../../containers/token/token-insights');
 });
-var CertificationDashboard = asyncComponent(function () {
+var CertificationDashboard = lazy(function () {
     return import(
     /* webpackChunkName: "settings" */
     '../../containers/certification-dashboard/certification-dashboard');
 });
-var Repository = asyncComponent(function () {
+var Repository = lazy(function () {
     return import(
     /* webpackChunkName: "repository-list" */
     '../../containers/repositories/repository-list');
 });
-var InsightsRoute = function (_a) {
-    var Component = _a.component, rootClass = _a.rootClass, rest = __rest(_a, ["component", "rootClass"]);
-    var root = document.getElementById('root');
-    root.removeAttribute('class');
-    root.classList.add("page__".concat(rootClass), 'pf-c-page__main');
-    root.setAttribute('role', 'main');
-    return React.createElement(Route, __assign({}, rest, { component: Component }));
-};
-InsightsRoute.propTypes = {
-    component: PropTypes.func,
-    rootClass: PropTypes.string,
-};
 /**
  * the Switch component changes routes depending on the path.
  *
@@ -140,39 +90,38 @@ InsightsRoute.propTypes = {
  *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
  *      component - component to be rendered when a route has been chosen.
  */
-export var Routes = function (props) {
-    var path = props.childProps.location.pathname;
-    return (React.createElement(Switch, null,
-        React.createElement(InsightsRoute, { path: Paths.repositories, component: Repository, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.approvalDashboard, component: CertificationDashboard, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.notFound, component: NotFound, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.token, component: TokenPage, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths[NAMESPACE_TERM], component: Partners, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.editNamespace, component: EditNamespace, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.myCollections, component: ManageNamespace, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.myCollectionsByRepo, component: ManageNamespace, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.myNamespaces, component: MyNamespaces, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionDocsPageByRepo, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionDocsIndexByRepo, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionContentDocsByRepo, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionContentListByRepo, component: CollectionContent, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionImportLogByRepo, component: CollectionImportLog, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionDependenciesByRepo, component: CollectionDependencies, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionByRepo, component: CollectionDetail, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.namespaceByRepo, component: PartnerDetail, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.searchByRepo, component: Search, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionDocsPage, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionDocsIndex, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionContentDocs, component: CollectionDocs, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionContentList, component: CollectionContent, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collectionImportLog, component: CollectionImportLog, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.myImports, component: MyImports, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.collection, component: CollectionDetail, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.namespace, component: PartnerDetail, rootClass: 'root' }),
-        React.createElement(InsightsRoute, { path: Paths.search, component: Search, rootClass: 'root' }),
-        React.createElement(Route, { render: function () {
-                return some(Paths, function (p) { return p === path; }) ? null : (React.createElement(Redirect, { push: true, to: Paths.notFound }));
-            } })));
+export var Routes = function () {
+    return (React.createElement(Suspense, { fallback: LoadingPageWithHeader },
+        React.createElement(Switch, null,
+            React.createElement(Route, { path: Paths.repositories, component: Repository }),
+            React.createElement(Route, { path: Paths.approvalDashboard, component: CertificationDashboard }),
+            React.createElement(Route, { path: Paths.notFound, component: NotFound }),
+            React.createElement(Route, { path: Paths.token, component: TokenPage }),
+            React.createElement(Route, { path: Paths[NAMESPACE_TERM], component: Partners }),
+            React.createElement(Route, { path: Paths.editNamespace, component: EditNamespace }),
+            React.createElement(Route, { path: Paths.myCollections, component: ManageNamespace }),
+            React.createElement(Route, { path: Paths.myCollectionsByRepo, component: ManageNamespace }),
+            React.createElement(Route, { path: Paths.myNamespaces, component: MyNamespaces }),
+            React.createElement(Route, { path: Paths.collectionDocsPageByRepo, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionDocsIndexByRepo, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionContentDocsByRepo, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionContentListByRepo, component: CollectionContent }),
+            React.createElement(Route, { path: Paths.collectionImportLogByRepo, component: CollectionImportLog }),
+            React.createElement(Route, { path: Paths.collectionDependenciesByRepo, component: CollectionDependencies }),
+            React.createElement(Route, { path: Paths.collectionByRepo, component: CollectionDetail }),
+            React.createElement(Route, { path: Paths.namespaceByRepo, component: PartnerDetail }),
+            React.createElement(Route, { path: Paths.searchByRepo, component: Search }),
+            React.createElement(Route, { path: Paths.collectionDocsPage, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionDocsIndex, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionContentDocs, component: CollectionDocs }),
+            React.createElement(Route, { path: Paths.collectionContentList, component: CollectionContent }),
+            React.createElement(Route, { path: Paths.collectionImportLog, component: CollectionImportLog }),
+            React.createElement(Route, { path: Paths.myImports, component: MyImports }),
+            React.createElement(Route, { path: Paths.collection, component: CollectionDetail }),
+            React.createElement(Route, { path: Paths.namespace, component: PartnerDetail }),
+            React.createElement(Route, { path: Paths.search, component: Search }),
+            React.createElement(Route, null,
+                React.createElement(Redirect, { push: true, to: Paths.notFound })))));
 };
 Routes.propTypes = {
     childProps: PropTypes.shape({
