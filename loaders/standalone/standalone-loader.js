@@ -38,7 +38,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
-// import PropTypes from 'prop-types';
 import * as React from 'react';
 import '../app.scss';
 import { withRouter, Link, matchPath, } from 'react-router-dom';
