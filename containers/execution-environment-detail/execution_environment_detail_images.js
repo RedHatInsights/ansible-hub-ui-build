@@ -38,8 +38,7 @@ import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, 
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
-import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
-import { TagManifestModal } from './tag-manifest-modal';
+import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
 import { withContainerRepo } from './base';
 import './execution-environment-detail_images.scss';
 var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {

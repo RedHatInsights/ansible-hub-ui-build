@@ -49,8 +49,7 @@ import { reject, some } from 'lodash';
 import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
-import { LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
-import { AboutModalWindow } from 'src/containers';
+import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
 var App = /** @class */ (function (_super) {

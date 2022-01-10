@@ -45,8 +45,7 @@ import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Che
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
-import { CollectionList, CollectionFilter, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, } from 'src/components';
-import { ImportModal } from './import-modal/import-modal';
+import { CollectionFilter, CollectionList, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, } from 'src/components';
 import { ParamHelper, getRepoUrl, filterIsSet } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
