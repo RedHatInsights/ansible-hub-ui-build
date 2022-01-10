@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -26,14 +37,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './group-management.scss';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
-import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, } from 'src/components';
+import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { formatPath, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var GroupList = /** @class */ (function (_super) {
@@ -244,17 +255,31 @@ var GroupList = /** @class */ (function (_super) {
     GroupList.prototype.renderTableRow = function (group, index) {
         var _this = this;
         var user = this.context.user;
+        var dropdownItems = [
+            React.createElement(React.Fragment, { key: 'dropdown' },
+                React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+                        _this.setState({
+                            selectedGroup: __assign({}, group),
+                            redirect: formatPath(Paths.groupDetail, {
+                                group: group.id,
+                            }, { isEditing: true }),
+                        });
+                    } },
+                    React.createElement(Trans, null, "Edit")),
+                !!user && user.model_permissions.delete_group && (React.createElement(DropdownItem, { "aria-label": 'Delete', key: 'delete', onClick: function () {
+                        _this.setState({
+                            selectedGroup: group,
+                            deleteModalVisible: true,
+                        });
+                    } },
+                    React.createElement(Trans, null, "Delete")))),
+        ];
         return (React.createElement("tr", { "aria-labelledby": group.name, key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", null, !!user && user.model_permissions.delete_group && (React.createElement(Button, { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', variant: 'danger', onClick: function () {
-                    return _this.setState({
-                        selectedGroup: group,
-                        deleteModalVisible: true,
-                    });
-                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Delete"], ["Delete"]))))))));
+            React.createElement("td", null, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {
@@ -281,7 +306,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'success',
-                        title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
+                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
                     },
                 ], false),
             });
@@ -292,7 +317,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
+                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
                 ], false),
             });
@@ -317,7 +342,7 @@ var GroupList = /** @class */ (function (_super) {
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
+                            title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
                             description: e === null || e === void 0 ? void 0 : e.message,
                         },
                     ], false),
@@ -329,5 +354,5 @@ var GroupList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(GroupList);
 GroupList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
 //# sourceMappingURL=group-list.js.map

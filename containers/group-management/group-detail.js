@@ -67,6 +67,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 page_size: params['page_size'] || 10,
                 sort: params['sort'] || 'username',
                 tab: params['tab'] || 'permissions',
+                isEditing: params['isEditing'] === 'true',
             },
             itemCount: 0,
             alerts: [],
@@ -86,6 +87,7 @@ var GroupDetail = /** @class */ (function (_super) {
     }
     GroupDetail.prototype.componentDidMount = function () {
         var _this = this;
+        this.setState({ editPermissions: this.state.params.isEditing });
         if (!this.context.user || this.context.user.is_anonymous) {
             this.setState({ unauthorised: true });
         }
