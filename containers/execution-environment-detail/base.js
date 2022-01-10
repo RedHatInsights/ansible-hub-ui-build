@@ -43,10 +43,9 @@ import { Link, Redirect } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { formatPath, Paths } from '../../paths';
 import { Button, DropdownItem } from '@patternfly/react-core';
-import { AlertList, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
+import { AlertList, DeleteExecutionEnvironmentModal, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { parsePulpIDFromURL, waitForTask } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
-import { DeleteExecutionEnviromentModal } from 'src/containers/execution-environment-detail/delete-execution-enviroment-modal';
 // A higher order component to wrap individual detail pages
 export function withContainerRepo(WrappedComponent) {
     var _a;
@@ -114,7 +113,7 @@ export function withContainerRepo(WrappedComponent) {
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                     React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-                    showDeleteModal && (React.createElement(DeleteExecutionEnviromentModal, { selectedItem: repo.name, closeAction: function () { return _this.setState({ showDeleteModal: false }); }, afterDelete: function () { return _this.setState({ redirect: 'list' }); }, addAlert: function (text, variant, description) {
+                    showDeleteModal && (React.createElement(DeleteExecutionEnvironmentModal, { selectedItem: repo.name, closeAction: function () { return _this.setState({ showDeleteModal: false }); }, afterDelete: function () { return _this.setState({ redirect: 'list' }); }, addAlert: function (text, variant, description) {
                             if (description === void 0) { description = undefined; }
                             return _this.setState({
                                 alerts: alerts.concat([

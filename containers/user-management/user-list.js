@@ -34,8 +34,7 @@ import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownIte
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
 import { ParamHelper, filterIsSet } from 'src/utilities';
-import { StatefulDropdown, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, SortTable, AlertList, closeAlertMixin, BaseHeader, Main, EmptyStateNoData, EmptyStateUnauthorized, EmptyStateFilter, DateComponent, } from 'src/components';
-import { DeleteUserModal } from './delete-user-modal';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var UserList = /** @class */ (function (_super) {

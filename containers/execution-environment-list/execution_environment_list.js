@@ -44,11 +44,10 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { filterIsSet, parsePulpIDFromURL, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
 import { formatPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { DeleteExecutionEnviromentModal } from 'src/containers/execution-environment-detail/delete-execution-enviroment-modal';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentList, _super);
     function ExecutionEnvironmentList(props) {
@@ -109,7 +108,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             showRemoteModal && this.renderRemoteModal(itemToEdit),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))) }),
-            showDeleteModal && (React.createElement(DeleteExecutionEnviromentModal, { selectedItem: selectedItem ? selectedItem.name : '', closeAction: function () {
+            showDeleteModal && (React.createElement(DeleteExecutionEnvironmentModal, { selectedItem: selectedItem ? selectedItem.name : '', closeAction: function () {
                     return _this.setState({ showDeleteModal: false, selectedItem: null });
                 }, afterDelete: function () { return _this.queryEnvironments(); }, addAlert: function (text, variant, description) {
                     if (description === void 0) { description = undefined; }

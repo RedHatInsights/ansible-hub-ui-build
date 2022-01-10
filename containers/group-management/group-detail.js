@@ -40,15 +40,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
+import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, ParamHelper, twoWayMapper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
 import { ActionGroup, Button, DropdownItem, Flex, FlexItem, Form, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { DeleteGroupModal } from './delete-group-modal';
-import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);
     function GroupDetail(props) {
