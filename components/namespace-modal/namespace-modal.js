@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { Alert, Button, Form, FormGroup, InputGroup, Modal, TextInput, } from '@patternfly/react-core';
+import { Alert, Button, Form, FormGroup, InputGroup, Modal, ModalVariant, TextInput, } from '@patternfly/react-core';
 import { NamespaceAPI } from 'src/api';
 import { HelperText, ObjectPermissionField } from 'src/components';
 var NamespaceModal = /** @class */ (function (_super) {
@@ -103,7 +103,7 @@ var NamespaceModal = /** @class */ (function (_super) {
     NamespaceModal.prototype.render = function () {
         var _this = this;
         var _a = this.state, newNamespaceName = _a.newNamespaceName, newGroups = _a.newGroups, newNamespaceNameValid = _a.newNamespaceNameValid, formErrors = _a.formErrors;
-        return (React.createElement(Modal, { variant: 'medium', title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Create a new namespace"], ["Create a new namespace"]))), isOpen: this.props.isOpen, onClose: this.toggleModal, actions: [
+        return (React.createElement(Modal, { variant: ModalVariant.medium, title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Create a new namespace"], ["Create a new namespace"]))), isOpen: this.props.isOpen, onClose: this.toggleModal, actions: [
                 React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: this.handleSubmit, isDisabled: !newNamespaceName || !newNamespaceNameValid }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: this.toggleModal }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
