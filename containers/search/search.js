@@ -67,8 +67,9 @@ var Search = /** @class */ (function (_super) {
     }
     Search.prototype.componentDidMount = function () {
         this.queryCollections();
-        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE)
+        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             this.getSynclist();
+        }
     };
     Search.prototype.render = function () {
         var _this = this;
@@ -78,10 +79,10 @@ var Search = /** @class */ (function (_super) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
         return (React.createElement("div", { className: 'search-page' },
-            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'toolbar-wrapper' },
+            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
                 React.createElement("div", { className: 'toolbar' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
-                    React.createElement("div", { className: 'pagination-container' },
+                    React.createElement("div", { className: 'hub-pagination-container' },
                         React.createElement("div", { className: 'card-list-switcher' },
                             React.createElement(CardListSwitcher, { size: 'sm', params: params, updateParams: function (p) {
                                     return _this.updateParams(p, function () {

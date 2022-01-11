@@ -91,7 +91,7 @@ var MyImports = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My imports"], ["My imports"]))) }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'page-container' },
+                    React.createElement("div", { className: 'hub-page-container' },
                         React.createElement("div", { className: 'import-list' },
                             React.createElement(ImportList, { importList: importList, selectedImport: selectedImport, loading: loadingImports, numberOfResults: resultsCount, params: params, namespaces: namespaces, selectImport: function (sImport) { return _this.selectImport(sImport); }, updateParams: function (params) {
                                     _this.updateParams(params, function () {
@@ -101,7 +101,7 @@ var MyImports = /** @class */ (function (_super) {
                                         }, function () { return _this.loadImportList(function () { return _this.loadTaskDetails(); }); });
                                     });
                                 } })),
-                        React.createElement("div", { className: 'import-console' },
+                        React.createElement("div", { className: 'hub-import-console' },
                             React.createElement(ImportConsole, { loading: loadingImportDetails, task: selectedImportDetails, followMessages: followLogs, setFollowMessages: function (isFollowing) {
                                     _this.setState({
                                         followLogs: isFollowing,
@@ -218,7 +218,7 @@ var MyImports = /** @class */ (function (_super) {
                     });
                 });
             })
-                .catch(function (result) {
+                .catch(function () {
                 _this.setState({
                     selectedImportDetails: undefined,
                     importDetailError: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error fetching import from API"], ["Error fetching import from API"]))),

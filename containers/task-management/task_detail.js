@@ -52,7 +52,7 @@ var TaskDetail = /** @class */ (function (_super) {
             taskName: '',
             resources: [],
             redirect: null,
-            refresh: null,
+            polling: null,
         };
         return _this;
     }
@@ -60,8 +60,8 @@ var TaskDetail = /** @class */ (function (_super) {
         this.loadContent();
     };
     TaskDetail.prototype.componentWillUnmount = function () {
-        if (this.state.refresh) {
-            clearInterval(this.state.refresh);
+        if (this.state.polling) {
+            clearInterval(this.state.polling);
         }
     };
     TaskDetail.prototype.componentDidUpdate = function (prevProps) {
@@ -75,19 +75,19 @@ var TaskDetail = /** @class */ (function (_super) {
         var _a = this.state, loading = _a.loading, task = _a.task, parentTask = _a.parentTask, childTasks = _a.childTasks, cancelModalVisible = _a.cancelModalVisible, alerts = _a.alerts, taskName = _a.taskName, resources = _a.resources, redirect = _a.redirect;
         var breadcrumbs = [
             { url: Paths.taskList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
-            { name: !!task ? taskName : '' },
+            { name: task ? taskName : '' },
         ];
         var parentTaskId = null;
-        if (!!parentTask) {
+        if (parentTask) {
             parentTaskId = parsePulpIDFromURL(parentTask.pulp_href);
         }
-        if (!!redirect) {
+        if (redirect) {
             return React.createElement(Redirect, { to: redirect });
         }
         return loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             cancelModalVisible ? this.renderCancelModal() : null,
-            React.createElement(BaseHeader, { title: taskName, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: ['running', 'waiting'].includes(task.state) && (React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ cancelModalVisible: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Stop task"], ["Stop task"]))))), status: React.createElement(StatusIndicator, { className: 'task-status', status: task.state }) }),
+            React.createElement(BaseHeader, { title: taskName, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: ['running', 'waiting'].includes(task.state) && (React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ cancelModalVisible: true }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Stop task"], ["Stop task"]))))), status: React.createElement(StatusIndicator, { className: 'hub-c-task-status', status: task.state }) }),
             React.createElement(Main, null,
                 React.createElement(Flex, null,
                     React.createElement(Flex, { direction: { default: 'column' }, flex: { default: 'flex_1' } },
@@ -117,20 +117,20 @@ var TaskDetail = /** @class */ (function (_super) {
                                 React.createElement(DescriptionList, { isHorizontal: true },
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Task group"], ["Task group"])))),
-                                        React.createElement(DescriptionListDescription, null, !!task.task_group ? task.task_group : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No task group"], ["No task group"]))))),
+                                        React.createElement(DescriptionListDescription, null, task.task_group ? task.task_group : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No task group"], ["No task group"]))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
-                                        React.createElement(DescriptionListDescription, null, !!parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
+                                        React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
                                             }) }, Constants.TASK_NAMES[parentTask.name] ||
                                             parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
-                                        React.createElement(DescriptionListDescription, null, !!childTasks.length
+                                        React.createElement(DescriptionListDescription, null, childTasks.length
                                             ? childTasks.map(function (childTask) {
                                                 var childTaskId = parsePulpIDFromURL(childTask.pulp_href);
-                                                return (React.createElement(React.Fragment, null,
-                                                    React.createElement(Link, { key: childTaskId, to: formatPath(Paths.taskDetail, {
+                                                return (React.createElement(React.Fragment, { key: childTaskId },
+                                                    React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
                                                         }) }, Constants.TASK_NAMES[childTask.name] ||
                                                         childTask.name),
@@ -141,7 +141,7 @@ var TaskDetail = /** @class */ (function (_super) {
                             React.createElement("section", { className: 'body card-area' },
                                 React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Reserve resources"], ["Reserve resources"])))),
                                 React.createElement("br", null),
-                                !!resources.length ? (React.createElement(DescriptionList, { isHorizontal: true }, resources.map(function (resource, index) {
+                                resources.length ? (React.createElement(DescriptionList, { isHorizontal: true }, resources.map(function (resource, index) {
                                     return (React.createElement(React.Fragment, { key: resource.type + index },
                                         React.createElement("hr", null),
                                         React.createElement(DescriptionListGroup, null,
@@ -156,7 +156,7 @@ var TaskDetail = /** @class */ (function (_super) {
                             !task.error && (React.createElement("section", { className: 'body card-area' },
                                 React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Progress messages"], ["Progress messages"])))),
                                 React.createElement("br", null),
-                                !!task.progress_reports.length ? (React.createElement(DescriptionList, { isHorizontal: true }, task.progress_reports
+                                task.progress_reports.length ? (React.createElement(DescriptionList, { isHorizontal: true }, task.progress_reports
                                     .reverse()
                                     .map(function (report, index) {
                                     return (React.createElement(React.Fragment, { key: index },
@@ -180,12 +180,12 @@ var TaskDetail = /** @class */ (function (_super) {
                                     React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Description"], ["Description"])))),
                                     React.createElement(CodeBlock, null, task.error.description),
                                     React.createElement(Title, { headingLevel: 'h3' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Traceback"], ["Traceback"])))),
-                                    React.createElement(CodeBlock, { className: 'code-block' }, task.error.traceback))))))))));
+                                    React.createElement(CodeBlock, { className: 'hub-code-block' }, task.error.traceback))))))))));
     };
     TaskDetail.prototype.renderCancelModal = function () {
         var _this = this;
         var name = this.state.taskName;
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Stop task"], ["Stop task"]))), children: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name), confirmButtonTitle: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, confirmAction: function () { return _this.cancelTask(); }, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Stop task"], ["Stop task"]))), confirmButtonTitle: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["", " will stop running."], ["", " will stop running."])), name)));
     };
     TaskDetail.prototype.cancelTask = function () {
         var _this = this;
@@ -224,10 +224,10 @@ var TaskDetail = /** @class */ (function (_super) {
     };
     TaskDetail.prototype.loadContent = function () {
         var _this = this;
-        var taskId = this.props.match.params['task'];
-        if (!this.state.refresh && !this.state.task) {
-            this.setState({ refresh: setInterval(function () { return _this.loadContent(); }, 10000) });
+        if (!this.state.polling && !this.state.task) {
+            this.setState({ polling: setInterval(function () { return _this.loadContent(); }, 10000) });
         }
+        var taskId = this.props.match.params['task'];
         return TaskManagementAPI.get(taskId)
             .then(function (result) {
             var allRelatedTasks = [];
@@ -235,10 +235,10 @@ var TaskDetail = /** @class */ (function (_super) {
             var childTasks = [];
             var resources = [];
             if (['canceled', 'completed', 'failed'].includes(result.data.state)) {
-                clearInterval(_this.state.refresh);
-                _this.setState({ refresh: null });
+                clearInterval(_this.state.polling);
+                _this.setState({ polling: null });
             }
-            if (!!result.data.parent_task) {
+            if (result.data.parent_task) {
                 var parentTaskId = parsePulpIDFromURL(result.data.parent_task);
                 allRelatedTasks.push(TaskManagementAPI.get(parentTaskId)
                     .then(function (result) {
@@ -248,7 +248,7 @@ var TaskDetail = /** @class */ (function (_super) {
                     return true;
                 }));
             }
-            if (!!result.data.child_tasks.length) {
+            if (result.data.child_tasks.length) {
                 result.data.child_tasks.forEach(function (child) {
                     var childTaskId = parsePulpIDFromURL(child);
                     allRelatedTasks.push(TaskManagementAPI.get(childTaskId)
@@ -260,13 +260,13 @@ var TaskDetail = /** @class */ (function (_super) {
                     }));
                 });
             }
-            if (!!result.data.reserved_resources_record.length) {
+            if (result.data.reserved_resources_record.length) {
                 result.data.reserved_resources_record.forEach(function (resource) {
                     var url = resource.replace('/pulp/api/v3/', '');
                     var id = parsePulpIDFromURL(url);
                     var urlParts = resource.split('/');
-                    var type = !!id ? urlParts[4] : urlParts[urlParts.length - 2];
-                    if (!!id) {
+                    var type = id ? urlParts[4] : urlParts[urlParts.length - 2];
+                    if (id) {
                         allRelatedTasks.push(GenericPulpAPI.get(url)
                             .then(function (result) {
                             resources.push({ name: result.data.name, type: type });

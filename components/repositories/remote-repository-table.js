@@ -98,8 +98,8 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'content-table pf-c-table' },
-            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return null; } }),
+        return (React.createElement("table", { "aria-label": t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
+            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function () { return null; } }),
             React.createElement("tbody", null, remotes.map(function (remote, i) { return _this.renderRow(remote, i); }))));
     };
     RemoteRepositoryTable.prototype.renderRow = function (remote, i) {
@@ -108,7 +108,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
         return (React.createElement("tr", { key: i },
             React.createElement("td", null, remote.name),
             React.createElement("td", null, remote.repositories.map(function (r) { return r.name; }).join(', ')),
-            !!remote.updated_at ? (React.createElement("td", null,
+            remote.updated_at ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: remote.updated_at }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null, lastSynced(remote) || '---'),
             React.createElement("td", null, lastSyncStatus(remote) || '---'),

@@ -35,12 +35,12 @@ var NotFound = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: '404 - Page not found' }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(Bullseye, { className: 'bullseye' },
-                        React.createElement("div", { className: 'bullseye-center' },
+                    React.createElement(Bullseye, { className: 'hub-c-bullseye' },
+                        React.createElement("div", { className: 'hub-c-bullseye__center' },
                             React.createElement("img", { src: NotFoundImage, alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not found image"], ["Not found image"]))) }),
                             React.createElement("div", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["We couldn't find the page you're looking for!"], ["We couldn't find the page you're looking for!"])))),
                             React.createElement("div", { className: 'pf-c-content' },
-                                React.createElement("span", { className: 'four-oh-four' }, "404"))))))));
+                                React.createElement("span", { className: 'hub-c-bullseye__404' }, "404"))))))));
     };
     return NotFound;
 }(React.Component));

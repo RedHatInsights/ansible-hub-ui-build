@@ -40,11 +40,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
+import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
 import { MyNamespaceAPI, ActiveUserAPI, } from 'src/api';
-import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
-import { ParamHelper, mapErrorMessages } from 'src/utilities';
+import { ParamHelper, mapErrorMessages, } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
@@ -163,7 +163,7 @@ var EditNamespace = /** @class */ (function (_super) {
             response.data.links.push(emptyLink);
             _this.setState({ loading: false, namespace: response.data });
         })
-            .catch(function (response) {
+            .catch(function () {
             _this.setState({ unauthorized: true, loading: false });
         });
     };

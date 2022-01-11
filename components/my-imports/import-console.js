@@ -45,14 +45,14 @@ var ImportConsole = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, selectedImport = _a.selectedImport, task = _a.task, apiError = _a.apiError, loading = _a.loading;
         if (loading || apiError) {
-            return (React.createElement("div", { className: 'import-console' },
+            return (React.createElement("div", { className: 'hub-import-console' },
                 selectedImport ? this.renderTitle(selectedImport) : null,
                 React.createElement("div", { className: 'loading message-list' }, apiError ? React.createElement("div", { className: 'message' }, apiError) : React.createElement(Spinner, null))));
         }
         this.isLoading =
             selectedImport.state === PulpStatus.running ||
                 selectedImport.state === PulpStatus.waiting;
-        return (React.createElement("div", { className: 'import-console pf-c-content' },
+        return (React.createElement("div", { className: 'hub-import-console pf-c-content' },
             this.renderTitle(selectedImport),
             React.createElement("div", { className: 'message-list' },
                 React.createElement("div", { className: cx({
@@ -82,7 +82,10 @@ var ImportConsole = /** @class */ (function (_super) {
     };
     ImportConsole.prototype.renderTitle = function (selectedImport) {
         var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion;
-        var collectionHead = "".concat(selectedImport.namespace, ".").concat(selectedImport.name);
+        var collectionHead = (React.createElement(React.Fragment, null,
+            selectedImport.namespace,
+            ".",
+            selectedImport.name));
         var approvalStatus = t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["waiting for import to finish"], ["waiting for import to finish"])));
         if (collectionVersion) {
             var rlist = collectionVersion.repository_list;

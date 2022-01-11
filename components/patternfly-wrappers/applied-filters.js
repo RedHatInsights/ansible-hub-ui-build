@@ -53,7 +53,7 @@ var AppliedFilters = /** @class */ (function (_super) {
             chips = [params[key]];
         }
         return (React.createElement("div", { style: { display: 'inline', marginRight: '8px' }, key: key },
-            React.createElement(ChipGroup, { categoryName: (niceNames[key] || key) }, chips.map(function (v, i) {
+            React.createElement(ChipGroup, { categoryName: niceNames[key] || key }, chips.map(function (v, i) {
                 var _a;
                 return (React.createElement(Chip, { key: i, onClick: function () {
                         return updateParams(ParamHelper.deleteParam(params, key, v));

@@ -48,13 +48,13 @@ var NamespaceForm = /** @class */ (function (_super) {
     }
     NamespaceForm.prototype.render = function () {
         var _this = this;
-        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages, userId = _a.userId;
+        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages;
         var formErrors = this.state.formErrors;
         if (!namespace) {
             return null;
         }
         return (React.createElement(Form, null,
-            React.createElement("div", { className: 'card-row' },
+            React.createElement("div", { className: 'hub-card-row' },
                 React.createElement("div", { className: 'fields' },
                     React.createElement(FormGroup, { fieldId: 'name', label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: true },
                         React.createElement(TextInput, { isRequired: true, isDisabled: true, id: 'name', type: 'text', value: namespace.name })),
@@ -66,7 +66,7 @@ var NamespaceForm = /** @class */ (function (_super) {
             React.createElement(FormGroup, { fieldId: 'groups', label: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), className: 'namespace-owners', helperTextInvalid: errorMessages['groups'], validated: this.toError(!isNaN(Number(this.state.newNamespaceGroup)) &&
                     !('groups' in errorMessages)) },
                 React.createElement("br", null),
-                !!(formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { groups: namespace.groups, availablePermissions: ['change_namespace', 'upload_to_namespace'], setGroups: function (g) {
+                (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { groups: namespace.groups, availablePermissions: ['change_namespace', 'upload_to_namespace'], setGroups: function (g) {
                         var newNS = __assign({}, namespace);
                         newNS.groups = g;
                         _this.props.updateNamespace(newNS);

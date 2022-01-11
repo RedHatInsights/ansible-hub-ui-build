@@ -100,14 +100,14 @@ var CollectionImportLog = /** @class */ (function (_super) {
                             selectedImportDetail: importDetailResult.data,
                         });
                     })
-                        .catch(function (err) {
+                        .catch(function () {
                         _this.setState({
                             apiError: failMsg,
                             loadingImports: false,
                         });
                     });
                 })
-                    .catch(function (err) {
+                    .catch(function () {
                     _this.setState({
                         apiError: failMsg,
                         loadingImports: false,

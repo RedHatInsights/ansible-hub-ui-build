@@ -95,7 +95,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                     ] }) },
                 React.createElement("div", { className: 'copy-sha' },
                     React.createElement(ShaLabel, { digest: digest, long: true }),
-                    React.createElement(ClipboardCopyButton, { className: 'eco-clipboard-copy', variant: 'plain', onClick: function () { return navigator.clipboard.writeText(digest); }, children: digest, id: digest, textId: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))) })),
+                    React.createElement(ClipboardCopyButton, { className: 'eco-clipboard-copy', variant: 'plain', onClick: function () { return navigator.clipboard.writeText(digest); }, id: digest, textId: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))) }, digest)),
                 React.createElement(LabelGroup, { numLabels: 6 }, labels.map(function (label) { return (React.createElement(TagLabel, { tag: label, key: label })); })),
                 React.createElement("div", { style: { padding: '4px 0' } },
                     "Size: ",
@@ -165,7 +165,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 size: size,
             };
         })
-            .catch(function (err) {
+            .catch(function () {
             // FIXME: support manifest lists, and have API support it
             return {
                 error: true,

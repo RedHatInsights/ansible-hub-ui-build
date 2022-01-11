@@ -34,8 +34,7 @@ import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownIte
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
 import { ParamHelper, filterIsSet } from 'src/utilities';
-import { StatefulDropdown, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, SortTable, AlertList, closeAlertMixin, BaseHeader, Main, EmptyStateNoData, EmptyStateUnauthorized, EmptyStateFilter, DateComponent, } from 'src/components';
-import { DeleteUserModal } from './delete-user-modal';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var UserList = /** @class */ (function (_super) {
@@ -106,7 +105,7 @@ var UserList = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'user-list-toolbar' },
+                    React.createElement("div", { className: 'hub-user-list-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,
@@ -208,7 +207,7 @@ var UserList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); } }),
             React.createElement("tbody", null, users.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };

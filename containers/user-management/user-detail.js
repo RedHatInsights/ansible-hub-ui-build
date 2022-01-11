@@ -21,10 +21,9 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
-import { LoadingPageWithHeader, AlertList, closeAlertMixin, UserFormPage, EmptyStateUnauthorized, } from 'src/components';
+import { AlertList, DeleteUserModal, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, closeAlertMixin, } from 'src/components';
 import { UserAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteUserModal } from './delete-user-modal';
 import { AppContext } from 'src/loaders/app-context';
 var UserDetail = /** @class */ (function (_super) {
     __extends(UserDetail, _super);

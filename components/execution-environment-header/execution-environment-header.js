@@ -44,7 +44,7 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                     },
                     { name: this.props.container.name },
                 ] }), pageControls: this.props.pageControls },
-            last_sync_task && (React.createElement("p", { className: 'truncated' },
+            last_sync_task && (React.createElement("p", { className: 'hub-m-truncated' },
                 React.createElement(Trans, null,
                     "Last updated from registry ",
                     lastSynced({ last_sync_task: last_sync_task })),
@@ -52,9 +52,9 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                 lastSyncStatus({ last_sync_task: last_sync_task }))),
             React.createElement("div", { style: { height: '10px' } }, "\u00A0"),
             React.createElement(Tooltip, { content: this.props.container.description },
-                React.createElement("p", { "data-cy": 'description', className: 'truncated' }, this.props.container.description)),
+                React.createElement("p", { "data-cy": 'description', className: 'hub-m-truncated' }, this.props.container.description)),
             React.createElement("span", null),
-            React.createElement("div", { className: 'tab-link-container' },
+            React.createElement("div", { className: 'hub-tab-link-container' },
                 React.createElement("div", { className: 'tabs' },
                     React.createElement(Tabs, { tabs: tabs, params: { tab: this.props.tab }, updateParams: function (p) {
                             if (_this.props.tab !== p.tab) {

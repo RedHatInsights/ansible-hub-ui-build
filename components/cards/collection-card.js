@@ -38,7 +38,7 @@ var CollectionCard = /** @class */ (function (_super) {
         var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, footer = _a.footer, repo = _a.repo;
         var company = namespace.company || namespace.name;
         var contentSummary = convertContentSummaryCounts(latest_version.metadata);
-        return (React.createElement(Card, { className: cx('collection-card-container', className) },
+        return (React.createElement(Card, { className: cx('hub-c-card-collection-container ', className) },
             React.createElement(CardHeader, { className: 'logo-row' },
                 React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true }),
                 React.createElement(TextContent, null, this.getCertification(repo))),
