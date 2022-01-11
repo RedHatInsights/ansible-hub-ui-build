@@ -32,6 +32,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './list.scss';
 import { Button, DropdownItem, DataList } from '@patternfly/react-core';
+import { Constants } from 'src/constants';
 import { CollectionListItem, Pagination, StatefulDropdown, EmptyStateFilter, } from 'src/components';
 import { ParamHelper } from 'src/utilities/param-helper';
 // only used in namespace detail, collections uses individual items
@@ -60,11 +61,12 @@ var CollectionList = /** @class */ (function (_super) {
             React.createElement(StatefulDropdown, { items: [
                     React.createElement(DropdownItem, { onClick: function () {
                             return _this.props.handleControlClick(collection.id, 'deprecate');
-                        }, key: '1' }, collection.deprecated ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+                        }, key: 'deprecate', isDisabled: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE, description: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
+                            ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Temporarily disabled due to sync issues. (AAH-1237)"], ["Temporarily disabled due to sync issues. (AAH-1237)"]))) : null }, collection.deprecated ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
                 ] })));
     };
     return CollectionList;
 }(React.Component));
 export { CollectionList };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=collection-list.js.map
