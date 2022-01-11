@@ -50,7 +50,7 @@ var API = /** @class */ (function (_super) {
         var reducedData = smartUpdate(remote, unmodifiedRemote);
         return this.http.put("content/".concat(distribution, "/v3/sync/config/"), reducedData);
     };
-    API.prototype.update = function (id, obj) {
+    API.prototype.update = function (_id, _obj) {
         throw 'use smartUpdate()';
     };
     API.prototype.sync = function (distribution) {

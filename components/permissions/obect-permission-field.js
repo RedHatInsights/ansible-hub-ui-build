@@ -47,7 +47,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
             })
                 .catch(function (e) { return _this.props.onError(e === null || e === void 0 ? void 0 : e.message); });
         };
-        _this.onSelect = function (event, selection, isPlaceholder) {
+        _this.onSelect = function (event, selection) {
             var newGroups = __spreadArray([], _this.props.groups, true);
             var addedGroup = _this.state.searchGroups.find(function (g) { return g.name === selection; });
             newGroups.push({
@@ -71,7 +71,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
         return (React.createElement("div", null,
             React.createElement(APISearchTypeAhead, { results: this.state.searchGroups, loadResults: this.loadGroups, onSelect: this.onSelect, placeholderText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select a group"], ["Select a group"]))), menuAppendTo: this.props.menuAppendTo, isDisabled: !!this.props.isDisabled }),
             React.createElement("br", null),
-            React.createElement("div", null, groups.map(function (group, i) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name },
+            React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name },
                 React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.name),
                 React.createElement(FlexItem, { grow: { default: 'grow' }, style: { width: '90%' } },
                     React.createElement(PermissionChipSelector, { availablePermissions: availablePermissions.map(function (perm) {

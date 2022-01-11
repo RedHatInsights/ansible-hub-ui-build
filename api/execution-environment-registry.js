@@ -30,7 +30,7 @@ var API = /** @class */ (function (_super) {
         var reducedData = smartUpdate(newValue, oldValue);
         return _super.prototype.update.call(this, pk, reducedData);
     };
-    API.prototype.update = function (id, obj) {
+    API.prototype.update = function (_id, _obj) {
         throw 'use smartUpdate()';
     };
     API.prototype.index = function (id) {

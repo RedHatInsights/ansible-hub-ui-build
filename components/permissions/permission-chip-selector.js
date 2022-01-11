@@ -52,7 +52,7 @@ var PermissionChipSelector = /** @class */ (function (_super) {
                 : [this.placeholderText()];
             return (React.createElement(LabelGroup, null, items.map(function (text) { return (React.createElement(Label, { key: text }, text)); })));
         }
-        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: this.onToggle, onSelect: !!this.props.onSelect ? this.props.onSelect : this.onSelect, onClear: !!this.props.onClear ? this.props.onClear : this.clearSelection, selections: this.props.selectedPermissions, isOpen: this.state.isOpen, placeholderText: this.placeholderText(), isDisabled: !!this.props.isDisabled }, this.props.availablePermissions.length === 0
+        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: this.onToggle, onSelect: this.props.onSelect ? this.props.onSelect : this.onSelect, onClear: this.props.onClear ? this.props.onClear : this.clearSelection, selections: this.props.selectedPermissions, isOpen: this.state.isOpen, placeholderText: this.placeholderText(), isDisabled: !!this.props.isDisabled }, this.props.availablePermissions.length === 0
             ? [
                 React.createElement(SelectOption, { isDisabled: true, key: 'not_found', value: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))) }),
             ]

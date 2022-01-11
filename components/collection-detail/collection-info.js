@@ -64,7 +64,7 @@ var CollectionInfo = /** @class */ (function (_super) {
                                     " Installing collections with ansible-galaxy is only supported in ansible 2.9+")),
                             this.context.user.is_anonymous &&
                                 !this.context.settings
-                                    .GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_DOWNLOAD ? (React.createElement(Alert, { className: 'collection-download-alert', isInline: true, variant: 'warning', title: React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You have to be logged in to be able to download the tarball."], ["You have to be logged in to be able to download the tarball."]))),
+                                    .GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_DOWNLOAD ? (React.createElement(Alert, { className: 'hub-collection-download-alert', isInline: true, variant: 'warning', title: React.createElement(React.Fragment, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["You have to be logged in to be able to download the tarball."], ["You have to be logged in to be able to download the tarball."]))),
                                     ' ',
                                     React.createElement(LoginLink, null)) })) : (React.createElement("div", null,
                                 React.createElement("a", { ref: this.downloadLinkRef, style: { display: 'none' } }),
@@ -76,11 +76,11 @@ var CollectionInfo = /** @class */ (function (_super) {
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
                         React.createElement(SplitItem, { isFilled: true }, latest_version.requires_ansible)))),
                 latest_version.docs_blob.collection_readme ? (React.createElement(GridItem, null,
-                    React.createElement("div", { className: 'readme-container' },
+                    React.createElement("div", { className: 'hub-readme-container' },
                         React.createElement("div", { className: 'pf-c-content', dangerouslySetInnerHTML: {
                                 __html: latest_version.docs_blob.collection_readme.html,
                             } }),
-                        React.createElement("div", { className: 'fade-out' })),
+                        React.createElement("div", { className: 'hub-fade-out' })),
                     React.createElement(Link, { to: formatPath(Paths.collectionDocsIndexByRepo, {
                             collection: name,
                             namespace: namespace.name,

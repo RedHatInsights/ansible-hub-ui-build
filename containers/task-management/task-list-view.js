@@ -82,7 +82,7 @@ var TaskListView = /** @class */ (function (_super) {
             cancelModalVisible ? this.renderCancelModal() : null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
             unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'task-list' },
+                React.createElement("div", { className: 'hub-task-list' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -172,7 +172,7 @@ var TaskListView = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     p['page'] = 1;
                     _this.updateParams(p, function () { return _this.queryTasks(); });
@@ -219,7 +219,7 @@ var TaskListView = /** @class */ (function (_super) {
         var _this = this;
         var name = Constants.TASK_NAMES[this.state.selectedTask.name] ||
             this.state.selectedTask.name;
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), children: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name)));
     };
     TaskListView.prototype.selectedTask = function (task, name) {
         var _this = this;

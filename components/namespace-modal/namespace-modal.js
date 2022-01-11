@@ -30,22 +30,20 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { Modal } from '@patternfly/react-core';
-import { Form, FormGroup } from '@patternfly/react-core';
-import { Button, InputGroup, TextInput, Alert } from '@patternfly/react-core';
+import { Alert, Button, Form, FormGroup, InputGroup, Modal, ModalVariant, TextInput, } from '@patternfly/react-core';
 import { NamespaceAPI } from 'src/api';
 import { HelperText, ObjectPermissionField } from 'src/components';
 var NamespaceModal = /** @class */ (function (_super) {
     __extends(NamespaceModal, _super);
     function NamespaceModal(props) {
         var _this = _super.call(this, props) || this;
-        _this.handleSubmit = function (event) {
+        _this.handleSubmit = function () {
             var data = {
                 name: _this.state.newNamespaceName,
                 groups: _this.state.newGroups,
             };
             NamespaceAPI.create(data)
-                .then(function (results) {
+                .then(function () {
                 _this.toggleModal();
                 _this.setState({
                     newNamespaceName: '',
@@ -105,7 +103,7 @@ var NamespaceModal = /** @class */ (function (_super) {
     NamespaceModal.prototype.render = function () {
         var _this = this;
         var _a = this.state, newNamespaceName = _a.newNamespaceName, newGroups = _a.newGroups, newNamespaceNameValid = _a.newNamespaceNameValid, formErrors = _a.formErrors;
-        return (React.createElement(Modal, { variant: 'medium', title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Create a new namespace"], ["Create a new namespace"]))), isOpen: this.props.isOpen, onClose: this.toggleModal, actions: [
+        return (React.createElement(Modal, { variant: ModalVariant.medium, title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Create a new namespace"], ["Create a new namespace"]))), isOpen: this.props.isOpen, onClose: this.toggleModal, actions: [
                 React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: this.handleSubmit, isDisabled: !newNamespaceName || !newNamespaceNameValid }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: this.toggleModal }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
@@ -117,7 +115,7 @@ var NamespaceModal = /** @class */ (function (_super) {
                                     _this.newNamespaceNameIsValid();
                                 });
                             } }))),
-                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] }, !!(formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { availablePermissions: [
+                React.createElement(FormGroup, { label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), fieldId: 'groups', helperTextInvalid: this.state.errorMessages['groups'] }, (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(ObjectPermissionField, { availablePermissions: [
                         'change_namespace',
                         'upload_to_namespace',
                     ], groups: newGroups, setGroups: function (g) { return _this.setState({ newGroups: g }); }, menuAppendTo: 'parent', onError: function (err) {

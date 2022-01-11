@@ -38,7 +38,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
-// import PropTypes from 'prop-types';
 import * as React from 'react';
 import '../app.scss';
 import { withRouter, Link, matchPath, } from 'react-router-dom';
@@ -49,8 +48,7 @@ import { reject, some } from 'lodash';
 import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
-import { LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
-import { AboutModalWindow } from 'src/containers';
+import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
 var App = /** @class */ (function (_super) {
@@ -89,7 +87,7 @@ var App = /** @class */ (function (_super) {
         };
         return _this;
     }
-    App.prototype.componentDidUpdate = function (prevProps) {
+    App.prototype.componentDidUpdate = function () {
         this.setRepoToURL();
     };
     App.prototype.componentDidMount = function () {
@@ -170,7 +168,7 @@ var App = /** @class */ (function (_super) {
             return item.condition({ user: user, settings: settings, featureFlags: featureFlags }) ? (React.createElement(NavItem, { isActive: item.active, onClick: function (e) {
                     item.onclick && item.onclick();
                     e.stopPropagation();
-                } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank' },
+                } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank', rel: 'noreferrer' },
                 item.name,
                 React.createElement(ExternalLinkAltIcon, { style: { position: 'absolute', right: '32px' } }))) : item.url ? (React.createElement(Link, { to: item.url }, item.name)) : (item.name))) : null;
         };
@@ -206,12 +204,12 @@ var App = /** @class */ (function (_super) {
     App.prototype.menu = function () {
         var menuItem = function (name, options) {
             if (options === void 0) { options = {}; }
-            return (__assign(__assign({ condition: function () { return true; } }, options), { type: 'item', name: name }));
+            return (__assign(__assign({ active: false, condition: function () { return true; } }, options), { type: 'item', name: name }));
         };
         var menuSection = function (name, options, items) {
             if (options === void 0) { options = {}; }
             if (items === void 0) { items = []; }
-            return (__assign(__assign({ condition: function () {
+            return (__assign(__assign({ active: false, condition: function () {
                     var params = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
                         params[_i] = arguments[_i];

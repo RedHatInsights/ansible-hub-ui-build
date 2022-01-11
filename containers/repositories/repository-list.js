@@ -32,7 +32,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
-import { ParamHelper, mapErrorMessages } from 'src/utilities';
+import { ParamHelper, mapErrorMessages, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
@@ -137,7 +137,7 @@ var RepositoryList = /** @class */ (function (_super) {
                     try {
                         var distro_path = remoteToEdit.repositories[0].distributions[0].base_path;
                         RemoteAPI.smartUpdate(distro_path, remoteToEdit, _this.unModifiedRemote)
-                            .then(function (r) {
+                            .then(function () {
                             _this.setState({
                                 errorMessages: {},
                                 showRemoteFormModal: false,
@@ -161,7 +161,7 @@ var RepositoryList = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repo Management"], ["Repo Management"]))), pageControls: this.renderControls() }, DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE &&
                 !loading &&
                 !unauthorised ? (React.createElement("div", { className: 'header-bottom' },
-                React.createElement("div", { className: 'tab-link-container' },
+                React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) {
                                 // empty the content before updating the params to prevent
@@ -188,7 +188,7 @@ var RepositoryList = /** @class */ (function (_super) {
                     React.createElement(RemoteRepositoryTable, { remotes: content, updateParams: this.updateParams, editRemote: function (remote) {
                             return _this.selectRemoteToEdit(remote);
                         }, syncRemote: function (distro) {
-                            return RemoteAPI.sync(distro).then(function (result) { return _this.loadContent(); });
+                            return RemoteAPI.sync(distro).then(function () { return _this.loadContent(); });
                         }, user: user, refreshRemotes: this.refreshContent }))));
         }
     };

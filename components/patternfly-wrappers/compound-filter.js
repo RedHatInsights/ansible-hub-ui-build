@@ -85,19 +85,17 @@ var CompoundFilter = /** @class */ (function (_super) {
         var _this = this;
         switch (selectedFilter.inputType) {
             case 'multiple':
-                var options = selectedFilter.options.map(function (option) { return (
-                // patternfly does not allow for us to set a display name aside from the ID
-                // which unfortunately means that multiple select will ignore the human readable
-                // option.title
-                React.createElement(SelectOption, { key: option.id, value: option.id })); });
-                var toggle = [
-                    React.createElement(SelectGroup, { label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id), key: selectedFilter.id }, options),
-                ];
-                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, toggle));
+                return (React.createElement(Select, { variant: SelectVariant.checkbox, onToggle: this.onToggle, onSelect: this.onSelectMultiple, isOpen: this.state.isOpen, placeholderText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id.toLowerCase()), selections: this.props.params[this.state.selectedFilter.id], isGrouped: true }, [
+                    React.createElement(SelectGroup, { label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.id), key: selectedFilter.id }, selectedFilter.options.map(function (option) { return (
+                    // patternfly does not allow for us to set a display name aside from the ID
+                    // which unfortunately means that multiple select will ignore the human readable
+                    // option.title
+                    React.createElement(SelectOption, { key: option.id, value: option.id })); })),
+                ]));
             case 'select':
                 return (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: this.selectTitleById(this.props.inputText, selectedFilter) ||
                         selectedFilter.placeholder ||
-                        selectedFilter.title, isPlain: false, position: 'left', items: selectedFilter.options.map(function (v, i) { return (React.createElement(DropdownItem, { onClick: function () {
+                        selectedFilter.title, isPlain: false, position: 'left', items: selectedFilter.options.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
                             _this.props.onChange(v.id);
                             _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));
@@ -107,7 +105,7 @@ var CompoundFilter = /** @class */ (function (_super) {
     };
     CompoundFilter.prototype.handleEnter = function (e) {
         // l10n: don't translate
-        if (e.key === 'Enter' && this.props.inputText.length > 0) {
+        if (e.key === 'Enter' && this.props.inputText.trim().length > 0) {
             this.submitFilter();
         }
     };
@@ -119,8 +117,9 @@ var CompoundFilter = /** @class */ (function (_super) {
         this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, id ? id : this.props.inputText));
     };
     CompoundFilter.prototype.selectTitleById = function (inputText, selectedFilter) {
-        if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options))
+        if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options)) {
             return inputText;
+        }
         return selectedFilter.options.find(function (opt) { return opt.id === inputText; }).title;
     };
     return CompoundFilter;

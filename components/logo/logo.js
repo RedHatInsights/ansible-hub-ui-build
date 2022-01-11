@@ -43,7 +43,7 @@ var Logo = /** @class */ (function (_super) {
         // use inline css so we can set size
         return (React.createElement("div", { className: className, style: style },
             React.createElement("img", { style: { objectFit: 'contain', maxHeight: size }, src: failed ? DefaultLogo : image || DefaultLogo, alt: alt, onError: fallbackToDefault
-                    ? function (e) { return _this.setState({ failed: true }); }
+                    ? function () { return _this.setState({ failed: true }); }
                     : function () { return null; } })));
     };
     return Logo;
