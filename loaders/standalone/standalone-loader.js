@@ -56,6 +56,7 @@ var App = /** @class */ (function (_super) {
     function App(props) {
         var _this = _super.call(this, props) || this;
         _this.updateInitialData = function (data, callback) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return _this.setState(data, function () {
                 if (callback) {
                     callback();
