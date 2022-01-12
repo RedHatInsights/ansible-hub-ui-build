@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { FormGroup, TextInput, ActionGroup, Button, Label, Tooltip, Switch, Alert, } from '@patternfly/react-core';
+import { FormGroup, TextInput, ActionGroup, Button, Label, Tooltip, Switch, Alert, TextInputTypes, } from '@patternfly/react-core';
 import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';
 import { GroupAPI } from 'src/api';
@@ -106,7 +106,7 @@ var UserForm = /** @class */ (function (_super) {
             !isReadonly && {
                 id: 'password',
                 title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Password"], ["Password"]))),
-                type: 'password',
+                type: TextInputTypes.password,
                 placeholder: isNewUser ? '' : '••••••••••••••••••••••',
                 formGroupLabelIcon: (React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."], ["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."]))) })),
             },
