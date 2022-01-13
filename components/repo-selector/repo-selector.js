@@ -51,7 +51,7 @@ var RepoSelector = /** @class */ (function (_super) {
         return (React.createElement(Flex, null,
             React.createElement(FlexItem, null,
                 React.createElement(InputGroup, null,
-                    React.createElement(InputGroupText, { variant: 'plain', className: 'input-group-text-no-wrap' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by repository"], ["Filter by repository"])))),
+                    React.createElement(InputGroupText, { variant: 'plain', className: 'hub-input-group-text-no-wrap' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by repository"], ["Filter by repository"])))),
                     React.createElement(Select, { className: 'nav-select', isDisabled: this.props.isDisabled, isOpen: this.state.selectExpanded, isPlain: false, onSelect: function (event) {
                             var originalRepo = _this.props.selectedRepo;
                             var newRepo = _this.getRepoBasePath(event.target.name);
