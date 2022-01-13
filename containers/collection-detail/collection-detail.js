@@ -58,8 +58,9 @@ var CollectionDetail = /** @class */ (function (_super) {
         this.loadCollection(this.context.selectedRepo, true);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
-        if (!isEqual(prevProps.location, this.props.location))
+        if (!isEqual(prevProps.location, this.props.location)) {
             this.loadCollection(this.context.selectedRepo);
+        }
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;

@@ -33,8 +33,9 @@ var CollectionFilter = /** @class */ (function (_super) {
         return _this;
     }
     CollectionFilter.prototype.componentDidUpdate = function (prevProps) {
-        if (prevProps.params.keywords !== this.props.params['keywords'])
+        if (prevProps.params.keywords !== this.props.params['keywords']) {
             this.setState({ inputText: this.props.params['keywords'] || '' });
+        }
     };
     CollectionFilter.prototype.render = function () {
         var _this = this;

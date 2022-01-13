@@ -41,7 +41,7 @@ var RemoteForm = /** @class */ (function (_super) {
     function RemoteForm(props) {
         var _this = _super.call(this, props) || this;
         var _a = Array(4).fill(''), requirementsFilename = _a[0], clientCertFilename = _a[1], clientKeyFilename = _a[2], caCertFilename = _a[3];
-        if (!!props.remote) {
+        if (props.remote) {
             requirementsFilename = _this.props.remote.requirements_file
                 ? 'requirements.yml'
                 : '';
@@ -69,7 +69,7 @@ var RemoteForm = /** @class */ (function (_super) {
     }
     RemoteForm.prototype.render = function () {
         var _this = this;
-        var _a = this.props, remote = _a.remote, errorMessages = _a.errorMessages;
+        var remote = this.props.remote;
         if (!remote) {
             return null;
         }
@@ -99,7 +99,7 @@ var RemoteForm = /** @class */ (function (_super) {
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields) {
         var _this = this;
         var _a = this.props, remote = _a.remote, errorMessages = _a.errorMessages;
-        var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file' }, "requirements.yml"));
+        var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file', rel: 'noreferrer' }, "requirements.yml"));
         return (React.createElement(Form, null,
             React.createElement(FormGroup, { fieldId: 'name', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: requiredFields.includes('name'), validated: this.toError(!('name' in errorMessages)), helperTextInvalid: errorMessages['name'] },
                 React.createElement(TextInput, { validated: this.toError(!('name' in errorMessages)), isRequired: requiredFields.includes('name'), isDisabled: disabledFields.includes('name'), id: 'name', type: 'text', value: remote.name || '', onChange: function (value) { return _this.updateRemote(value, 'name'); } })),

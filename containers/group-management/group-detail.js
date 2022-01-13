@@ -40,15 +40,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
-import { GroupAPI, UserAPI } from 'src/api';
+import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
+import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, ParamHelper, twoWayMapper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
 import { ActionGroup, Button, DropdownItem, Flex, FlexItem, Form, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { DeleteGroupModal } from './delete-group-modal';
-import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);
     function GroupDetail(props) {
@@ -69,6 +67,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 page_size: params['page_size'] || 10,
                 sort: params['sort'] || 'username',
                 tab: params['tab'] || 'permissions',
+                isEditing: params['isEditing'] === 'true',
             },
             itemCount: 0,
             alerts: [],
@@ -88,6 +87,7 @@ var GroupDetail = /** @class */ (function (_super) {
     }
     GroupDetail.prototype.componentDidMount = function () {
         var _this = this;
+        this.setState({ editPermissions: this.state.params.isEditing });
         if (!this.context.user || this.context.user.is_anonymous) {
             this.setState({ unauthorised: true });
         }
@@ -148,7 +148,7 @@ var GroupDetail = /** @class */ (function (_super) {
                         { url: Paths.groupList, name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Groups"], ["Groups"]))) },
                         { name: group.name },
                     ] }), pageControls: this.renderControls() },
-                React.createElement("div", { className: 'tab-link-container' },
+                React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { isDisabled: editPermissions, disabledTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Please finish editing permissions first."], ["Please finish editing permissions first."]))), tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } })))),
             React.createElement(Main, null,
@@ -214,7 +214,7 @@ var GroupDetail = /** @class */ (function (_super) {
         }
         if (isUserMgmtDisabled) {
             Constants.USER_GROUP_MGMT_PERMISSIONS.forEach(function (perm) {
-                if (filteredPermissions.hasOwnProperty(perm)) {
+                if (perm in filteredPermissions) {
                     delete filteredPermissions[perm];
                 }
             });
@@ -480,7 +480,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["User list"], ["User list"]))), className: 'content-table pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); } }),
             React.createElement("tbody", null, users.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };

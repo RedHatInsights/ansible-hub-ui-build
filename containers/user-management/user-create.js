@@ -32,7 +32,7 @@ var UserCreate = /** @class */ (function (_super) {
         _this.saveUser = function () {
             var user = _this.state.user;
             UserAPI.create(user)
-                .then(function (result) { return _this.setState({ redirect: Paths.userList }); })
+                .then(function () { return _this.setState({ redirect: Paths.userList }); })
                 .catch(function (err) {
                 _this.setState({ errorMessages: mapErrorMessages(err) });
             });

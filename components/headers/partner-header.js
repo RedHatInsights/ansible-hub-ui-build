@@ -32,7 +32,7 @@ var PartnerHeader = /** @class */ (function (_super) {
         var company = namespace.company || namespace.name;
         return (React.createElement(BaseHeader, { title: company, logo: namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: pageControls, contextSelector: contextSelector, className: 'header' },
             namespace.description ? React.createElement("div", null, namespace.description) : null,
-            React.createElement("div", { className: 'tab-link-container' },
+            React.createElement("div", { className: 'hub-tab-link-container' },
                 React.createElement("div", { className: 'tabs' },
                     React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) { return updateParams(p); } })),
                 namespace.links.length > 0 ? (React.createElement("div", { className: 'links' },

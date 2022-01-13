@@ -36,10 +36,9 @@ import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
 import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, Checkbox, DropdownItem, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
-import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
-import { TagManifestModal } from './tag-manifest-modal';
+import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
 import { withContainerRepo } from './base';
 import './execution-environment-detail_images.scss';
 var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
@@ -140,17 +139,19 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Permanently delete image?"], ["Permanently delete image?"]))), cancelAction: function () {
+            deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete image?"], ["Delete image?"]))), cancelAction: function () {
                     return _this.setState({
                         deleteModalVisible: false,
                         selectedImage: null,
                         confirmDelete: false,
                     });
                 }, deleteAction: function () { return _this.deleteImage(); }, isDisabled: !confirmDelete || isDeletionPending },
-                React.createElement(Trans, null,
-                    "Deleting ",
-                    React.createElement("b", null, digest),
-                    " and its data will be lost."),
+                React.createElement(React.Fragment, null,
+                    React.createElement(Text, { className: 'delete-image-modal-message' },
+                        React.createElement(Trans, null,
+                            "Deleting ",
+                            React.createElement("b", null, digest),
+                            " and its data will be lost."))),
                 React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
             React.createElement(TagManifestModal, { isOpen: !!manageTagsManifestDigest, closeModal: function () { return _this.setState({ manageTagsManifestDigest: null }); }, containerManifest: images.find(function (el) { return el.digest === manageTagsManifestDigest; }), reloadManifests: function () {
                     return _this.queryImages(_this.props.containerRepository.name);
@@ -189,7 +190,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                         _this.setState({ inputText: '' });
                     }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
-            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'content-table pf-c-table' },
+            images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'hub-c-table-content pf-c-table' },
                 React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () {
                             return _this.queryImages(_this.props.match.params['container']);
@@ -254,7 +255,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                     } }, expandedImage === image ? (React.createElement(AngleDownIcon, null)) : (React.createElement(AngleRightIcon, null)))) : null),
                 React.createElement("td", null,
-                    React.createElement(LabelGroup, { className: 'tags-column' }, image.tags
+                    React.createElement(LabelGroup, { className: 'hub-c-label-group-tags-column' }, image.tags
                         .sort()
                         .map(function (tag) {
                         return isManifestList ? (React.createElement(TagLabel, { key: tag, tag: tag })) : (React.createElement(TagLink, { key: tag, tag: tag }));
@@ -272,7 +273,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderManifestList = function (_a, ShaLink) {
         var image_manifests = _a.image_manifests;
-        return (React.createElement("table", { className: 'content-table pf-c-table' },
+        return (React.createElement("table", { className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: {
                     headers: [
                         {
@@ -286,10 +287,10 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                             id: 'os_arch',
                         },
                     ],
-                }, params: {}, updateParams: function (p) { return null; } }),
+                }, params: {}, updateParams: function () { return null; } }),
             React.createElement("tbody", null, image_manifests.map(function (_a) {
                 var digest = _a.digest, os = _a.os, os_version = _a.os_version, os_features = _a.os_features, architecture = _a.architecture, variant = _a.variant, features = _a.features;
-                return (React.createElement("tr", null,
+                return (React.createElement("tr", { key: digest },
                     React.createElement("td", null,
                         React.createElement(ShaLink, { digest: digest })),
                     React.createElement("td", null, [
@@ -329,7 +330,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     loading: false,
                 });
             })
-                .catch(function (error) { return _this.setState({ redirect: 'notFound' }); });
+                .catch(function () { return _this.setState({ redirect: 'notFound' }); });
         });
     };
     ExecutionEnvironmentDetailImages.prototype.deleteImage = function () {

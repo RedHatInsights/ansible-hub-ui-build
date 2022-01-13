@@ -51,7 +51,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
     function CollectionDependencies(props) {
         var _this = _super.call(this, props) || this;
         _this.ignoredParams = ['page_size', 'page', 'sort', 'name__icontains'];
-        _this.cancelToken = undefined;
         var params = ParamHelper.parseParamString(props.location.search, [
             'page',
             'page_size',
@@ -127,8 +126,9 @@ var CollectionDependencies = /** @class */ (function (_super) {
     CollectionDependencies.prototype.loadUsedByDependencies = function () {
         var _this = this;
         this.setState({ usedByDependenciesLoading: true }, function () {
-            if (_this.cancelToken)
+            if (_this.cancelToken) {
                 _this.cancelToken.cancel('request-canceled');
+            }
             _this.cancelToken = CollectionAPI.getCancelToken();
             CollectionAPI.getUsedDependenciesByCollection(_this.state.collection.namespace.name, _this.state.collection.name, ParamHelper.getReduced(_this.state.params, ['version']), _this.cancelToken)
                 .then(function (_a) {

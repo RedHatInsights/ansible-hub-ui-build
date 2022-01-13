@@ -1,5 +1,11 @@
 // Transforms the error message format from the API into an object such that
 // {<backendFieldID>: <errorMessage>}
+var ErrorMessagesType = /** @class */ (function () {
+    function ErrorMessagesType() {
+    }
+    return ErrorMessagesType;
+}());
+export { ErrorMessagesType };
 export function mapErrorMessages(err) {
     var messages = {};
     // 500 errors only have err.response.data string
