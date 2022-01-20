@@ -49,6 +49,7 @@ import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { Constants } from 'src/constants';
 import { filterIsSet } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
+import { i18n } from '@lingui/core';
 var NamespaceList = /** @class */ (function (_super) {
     __extends(NamespaceList, _super);
     function NamespaceList(props) {
@@ -143,7 +144,7 @@ var NamespaceList = /** @class */ (function (_super) {
             extra.push(React.createElement(ToolbarItem, { key: 'create-button' },
                 React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create"], ["Create"]))))));
         }
-        var title = namespaceBreadcrumb.name;
+        var title = i18n._(namespaceBreadcrumb.name);
         var titleLowerCase = title.toLowerCase();
         var search = filterOwner
             ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), titleLowerCase);
