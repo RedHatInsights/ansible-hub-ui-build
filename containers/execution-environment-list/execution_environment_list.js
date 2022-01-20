@@ -93,7 +93,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
-            } },
+            }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
             React.createElement(ExternalLinkAltIcon, null)));

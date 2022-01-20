@@ -57,7 +57,7 @@ var CollectionFilter = /** @class */ (function (_super) {
         ];
         return (React.createElement(Toolbar, null,
             React.createElement(ToolbarContent, null,
-                React.createElement(ToolbarGroup, null,
+                React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                     React.createElement(ToolbarItem, null,
                         React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: filterConfig }),
                         React.createElement(ToolbarItem, null,
