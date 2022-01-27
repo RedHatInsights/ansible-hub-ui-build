@@ -123,7 +123,7 @@ export function withContainerRepo(WrappedComponent) {
                             });
                         } })),
                     React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), container: this.state.repo, pageControls: React.createElement(React.Fragment, null,
-                            showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
+                            showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary', "data-cy": 'edit-container' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                             React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                     React.createElement(Main, null,
                         this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, formError: this.state.formError, onSave: function (promise) {

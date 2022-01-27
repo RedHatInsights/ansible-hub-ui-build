@@ -205,13 +205,14 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     ExecutionEnvironmentList.prototype.renderTableRow = function (item, index) {
         var _this = this;
         var description = item.description;
+        var canEdit = item.namespace.my_permissions.includes('container.change_containernamespace');
         var dropdownItems = [
-            React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+            canEdit && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
                         showRemoteModal: true,
                         itemToEdit: __assign({}, item),
                     });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))),
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"]))))),
             item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
