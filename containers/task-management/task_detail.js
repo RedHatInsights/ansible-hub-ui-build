@@ -29,6 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import * as React from 'react';
 import './task.scss';
 import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
 import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
@@ -122,7 +123,8 @@ var TaskDetail = /** @class */ (function (_super) {
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
                                         React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
-                                            }) }, Constants.TASK_NAMES[parentTask.name] ||
+                                            }) }, (Constants.TASK_NAMES[parentTask.name] &&
+                                            i18n._(Constants.TASK_NAMES[parentTask.name])) ||
                                             parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
@@ -132,7 +134,8 @@ var TaskDetail = /** @class */ (function (_super) {
                                                 return (React.createElement(React.Fragment, { key: childTaskId },
                                                     React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
-                                                        }) }, Constants.TASK_NAMES[childTask.name] ||
+                                                        }) }, (Constants.TASK_NAMES[childTask.name] &&
+                                                        i18n._(Constants.TASK_NAMES[childTask.name])) ||
                                                         childTask.name),
                                                     React.createElement("br", null)));
                                             })
@@ -286,7 +289,9 @@ var TaskDetail = /** @class */ (function (_super) {
                     childTasks: childTasks,
                     parentTask: parentTask,
                     loading: false,
-                    taskName: Constants.TASK_NAMES[result.data.name] || result.data.name,
+                    taskName: (Constants.TASK_NAMES[result.data.name] &&
+                        i18n._(Constants.TASK_NAMES[result.data.name])) ||
+                        result.data.name,
                     resources: resources,
                 });
             });

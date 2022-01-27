@@ -27,6 +27,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import * as React from 'react';
 import './task.scss';
 import { Constants } from 'src/constants';
@@ -185,7 +186,9 @@ var TaskListView = /** @class */ (function (_super) {
         return (React.createElement("tr", { "aria-labelledby": name, key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
-                    React.createElement(Tooltip, { content: Constants.TASK_NAMES[name] || name }, name))),
+                    React.createElement(Tooltip, { content: (Constants.TASK_NAMES[name] &&
+                            i18n._(Constants.TASK_NAMES[name])) ||
+                            name }, name))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
