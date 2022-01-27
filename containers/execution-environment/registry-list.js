@@ -271,7 +271,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                     React.createElement(Trans, null, "Sync from registry")),
                 ' ',
-                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems, ariaLabel: 'registry-list-kebab' })))));
     };
     ExecutionEnvironmentRegistryList.prototype.queryRegistries = function (noLoading) {
         var _this = this;
