@@ -116,7 +116,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'hub-certification-dashboard' },
-                React.createElement("section", { className: 'body' },
+                React.createElement("section", { className: 'body', "data-cy": 'body' },
                     React.createElement("div", { className: 'toolbar hub-certification-dashboard-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarGroup, null,
@@ -242,7 +242,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
-        return (React.createElement("tr", { "aria-labelledby": "".concat(version.namespace, ".").concat(version.name, " v").concat(version.version), key: index },
+        return (React.createElement("tr", { "aria-labelledby": "".concat(version.namespace, ".").concat(version.name, " v").concat(version.version), key: index, "data-cy": 'table_row' },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
             React.createElement("td", null,

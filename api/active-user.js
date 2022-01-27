@@ -54,6 +54,7 @@ var API = /** @class */ (function (_super) {
     // insights has some asinine way of loading tokens that involves forcing the
     // page to refresh before loading the token that can't be done witha single
     // API request.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     API.prototype.getToken = function () {
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             return new Promise(function (resolve, reject) {
