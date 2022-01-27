@@ -434,7 +434,14 @@ var GroupDetail = /** @class */ (function (_super) {
                 React.createElement(AppliedFilters, { updateParams: function (p) {
                         _this.updateParams(p, function () { return _this.queryUsers(); });
                         _this.setState({ inputText: '' });
-                    }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
+                    }, params: params, ignoredParams: [
+                        'id',
+                        'isEditing',
+                        'page',
+                        'page_size',
+                        'sort',
+                        'tab',
+                    ] })),
             this.renderUsersTable(users),
             React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
                 React.createElement(Pagination, { params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); }, count: itemCount })),
