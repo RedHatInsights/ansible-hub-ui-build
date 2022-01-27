@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { t, defineMessage } from '@lingui/macro';
 var Constants = /** @class */ (function () {
     function Constants() {
     }
@@ -236,9 +236,9 @@ var Constants = /** @class */ (function () {
         'qa.console.redhat.com',
     ];
     Constants.REPOSITORYNAMES = {
-        published: t(templateObject_74 || (templateObject_74 = __makeTemplateObject(["Published"], ["Published"]))),
-        'rh-certified': t(templateObject_75 || (templateObject_75 = __makeTemplateObject(["Red Hat Certified"], ["Red Hat Certified"]))),
-        community: t(templateObject_76 || (templateObject_76 = __makeTemplateObject(["Community"], ["Community"]))),
+        published: defineMessage({ message: "Published" }),
+        'rh-certified': defineMessage({ message: "Red Hat Certified" }),
+        community: defineMessage({ message: "Community" }),
     };
     Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified'];
     Constants.COLLECTION_FILTER_TAGS = [
@@ -262,48 +262,108 @@ var Constants = /** @class */ (function () {
         },
     };
     Constants.TASK_NAMES = {
-        'galaxy_ng.app.tasks.promotion._remove_content_from_repository': t(templateObject_77 || (templateObject_77 = __makeTemplateObject(["Remove content from repository"], ["Remove content from repository"]))),
-        'galaxy_ng.app.tasks.publishing.import_and_auto_approve': t(templateObject_78 || (templateObject_78 = __makeTemplateObject(["Import and auto approve"], ["Import and auto approve"]))),
-        'galaxy_ng.app.tasks.curate_synclist_repository': t(templateObject_79 || (templateObject_79 = __makeTemplateObject(["Curate synclist repository"], ["Curate synclist repository"]))),
-        'galaxy_ng.app.tasks.import_and_move_to_staging': t(templateObject_80 || (templateObject_80 = __makeTemplateObject(["Import and move to staging"], ["Import and move to staging"]))),
-        'galaxy_ng.app.tasks.import_and_auto_approve': t(templateObject_81 || (templateObject_81 = __makeTemplateObject(["Import and auto approve"], ["Import and auto approve"]))),
-        'galaxy_ng.app.tasks.curate_all_synclist_repository': t(templateObject_82 || (templateObject_82 = __makeTemplateObject(["Curate all synclist repository"], ["Curate all synclist repository"]))),
-        'galaxy_ng.app.tasks.synclist.curate_synclist_repository_batch': t(templateObject_83 || (templateObject_83 = __makeTemplateObject(["Curate synclist repository batch"], ["Curate synclist repository batch"]))),
-        'pulp_ansible.app.tasks.collections.sync': t(templateObject_84 || (templateObject_84 = __makeTemplateObject(["Pulp Ansible: Collections sync"], ["Pulp Ansible: Collections sync"]))),
-        'pulp_ansible.app.tasks.copy.copy_content': t(templateObject_85 || (templateObject_85 = __makeTemplateObject(["Pulp ansible: Copy content"], ["Pulp ansible: Copy content"]))),
-        'pulp_ansible.app.tasks.collections.collection_sync': t(templateObject_86 || (templateObject_86 = __makeTemplateObject(["Pulp ansible: collection sync"], ["Pulp ansible: collection sync"]))),
-        'pulp_ansible.app.tasks.roles.synchronize': t(templateObject_87 || (templateObject_87 = __makeTemplateObject(["Pulp Ansible: Roles synchronize"], ["Pulp Ansible: Roles synchronize"]))),
-        'pulp_ansible.app.tasks.collections.update_collection_remote': t(templateObject_88 || (templateObject_88 = __makeTemplateObject(["Pulp ansible: Update collection remote"], ["Pulp ansible: Update collection remote"]))),
-        'pulp_ansible.app.tasks.collections.import_collection': t(templateObject_89 || (templateObject_89 = __makeTemplateObject(["Pulp ansible: Import collection"], ["Pulp ansible: Import collection"]))),
-        'pulp_container.app.tasks.tag_image': t(templateObject_90 || (templateObject_90 = __makeTemplateObject(["Pulp container: Tag image"], ["Pulp container: Tag image"]))),
-        'pulp_container.app.tasks.untag_image': t(templateObject_91 || (templateObject_91 = __makeTemplateObject(["Pulp container: Untage image"], ["Pulp container: Untage image"]))),
-        'pulp_container.app.tasks.synchronize': t(templateObject_92 || (templateObject_92 = __makeTemplateObject(["Pulp container: Tasks synchronize"], ["Pulp container: Tasks synchronize"]))),
-        'pulp_container.app.tasks.recursive_add_content': t(templateObject_93 || (templateObject_93 = __makeTemplateObject(["Pulp container: Recursive add content"], ["Pulp container: Recursive add content"]))),
-        'pulp_container.app.tasks.recursive_remove_content': t(templateObject_94 || (templateObject_94 = __makeTemplateObject(["Pulp container: Recursive remove content"], ["Pulp container: Recursive remove content"]))),
-        'pulp_container.app.tasks.build_image_from_containerfile': t(templateObject_95 || (templateObject_95 = __makeTemplateObject(["Pulp container: Build image from containerfile"], ["Pulp container: Build image from containerfile"]))),
-        'pulp_container.app.tasks.general_multi_delete': t(templateObject_96 || (templateObject_96 = __makeTemplateObject(["Pulp container: General multi delete"], ["Pulp container: General multi delete"]))),
-        'pulpcore.tasking.tasks.import_repository_version': t(templateObject_97 || (templateObject_97 = __makeTemplateObject(["Pulpcore: Import repository version"], ["Pulpcore: Import repository version"]))),
-        'pulpcore.tasking.tasks.orphan_cleanup': t(templateObject_98 || (templateObject_98 = __makeTemplateObject(["Pulpcore: Orphan cleanup"], ["Pulpcore: Orphan cleanup"]))),
-        'pulpcore.tasking.tasks.repair_all_artifacts': t(templateObject_99 || (templateObject_99 = __makeTemplateObject(["Pulpcore: Repair all artifacts"], ["Pulpcore: Repair all artifacts"]))),
-        'pulpcore.tasking.tasks.base.general_create': t(templateObject_100 || (templateObject_100 = __makeTemplateObject(["Pulpcore: General create"], ["Pulpcore: General create"]))),
-        'pulpcore.tasking.tasks.base.general_update': t(templateObject_101 || (templateObject_101 = __makeTemplateObject(["Pulpcore: General update"], ["Pulpcore: General update"]))),
-        'pulpcore.tasking.tasks.base.general_delete': t(templateObject_102 || (templateObject_102 = __makeTemplateObject(["Pulpcore: General delete"], ["Pulpcore: General delete"]))),
-        'pulpcore.app.tasks.export.pulp_export': t(templateObject_103 || (templateObject_103 = __makeTemplateObject(["Pulpcore: Pulp export"], ["Pulpcore: Pulp export"]))),
-        'pulpcore.app.tasks.pulp_import': t(templateObject_104 || (templateObject_104 = __makeTemplateObject(["Pulpcore: Pulp import"], ["Pulpcore: Pulp import"]))),
-        'pulpcore.app.tasks.repository.delete_version': t(templateObject_105 || (templateObject_105 = __makeTemplateObject(["Pulpcore: Delete version"], ["Pulpcore: Delete version"]))),
-        'pulpcore.app.tasks.repository.repair_version': t(templateObject_106 || (templateObject_106 = __makeTemplateObject(["Pulpcore: Repair version"], ["Pulpcore: Repair version"]))),
-        'pulpcore.app.tasks.upload.commit': t(templateObject_107 || (templateObject_107 = __makeTemplateObject(["Pulpcore: Upload commit"], ["Pulpcore: Upload commit"]))),
-        'pulpcore.app.tasks.repository.add_and_remove': t(templateObject_108 || (templateObject_108 = __makeTemplateObject(["Pulpcore: Add and remove"], ["Pulpcore: Add and remove"]))),
-        'pulpcore.plugin.tasking.add_and_remove': t(templateObject_109 || (templateObject_109 = __makeTemplateObject(["Pulpcore: Add or remove"], ["Pulpcore: Add or remove"]))),
+        'galaxy_ng.app.tasks.promotion._remove_content_from_repository': defineMessage({ message: "Remove content from repository" }),
+        'galaxy_ng.app.tasks.publishing.import_and_auto_approve': defineMessage({
+            message: "Import and auto approve",
+        }),
+        'galaxy_ng.app.tasks.curate_synclist_repository': defineMessage({
+            message: "Curate synclist repository",
+        }),
+        'galaxy_ng.app.tasks.import_and_move_to_staging': defineMessage({
+            message: "Import and move to staging",
+        }),
+        'galaxy_ng.app.tasks.import_and_auto_approve': defineMessage({
+            message: "Import and auto approve",
+        }),
+        'galaxy_ng.app.tasks.curate_all_synclist_repository': defineMessage({
+            message: "Curate all synclist repository",
+        }),
+        'galaxy_ng.app.tasks.synclist.curate_synclist_repository_batch': defineMessage({ message: "Curate synclist repository batch" }),
+        'pulp_ansible.app.tasks.collections.sync': defineMessage({
+            message: "Pulp Ansible: Collections sync",
+        }),
+        'pulp_ansible.app.tasks.copy.copy_content': defineMessage({
+            message: "Pulp ansible: Copy content",
+        }),
+        'pulp_ansible.app.tasks.collections.collection_sync': defineMessage({
+            message: "Pulp ansible: collection sync",
+        }),
+        'pulp_ansible.app.tasks.roles.synchronize': defineMessage({
+            message: "Pulp Ansible: Roles synchronize",
+        }),
+        'pulp_ansible.app.tasks.collections.update_collection_remote': defineMessage({ message: "Pulp ansible: Update collection remote" }),
+        'pulp_ansible.app.tasks.collections.import_collection': defineMessage({
+            message: "Pulp ansible: Import collection",
+        }),
+        'pulp_container.app.tasks.tag_image': defineMessage({
+            message: "Pulp container: Tag image",
+        }),
+        'pulp_container.app.tasks.untag_image': defineMessage({
+            message: "Pulp container: Untage image",
+        }),
+        'pulp_container.app.tasks.synchronize': defineMessage({
+            message: "Pulp container: Tasks synchronize",
+        }),
+        'pulp_container.app.tasks.recursive_add_content': defineMessage({
+            message: "Pulp container: Recursive add content",
+        }),
+        'pulp_container.app.tasks.recursive_remove_content': defineMessage({
+            message: "Pulp container: Recursive remove content",
+        }),
+        'pulp_container.app.tasks.build_image_from_containerfile': defineMessage({
+            message: "Pulp container: Build image from containerfile",
+        }),
+        'pulp_container.app.tasks.general_multi_delete': defineMessage({
+            message: "Pulp container: General multi delete",
+        }),
+        'pulpcore.tasking.tasks.import_repository_version': defineMessage({
+            message: "Pulpcore: Import repository version",
+        }),
+        'pulpcore.tasking.tasks.orphan_cleanup': defineMessage({
+            message: "Pulpcore: Orphan cleanup",
+        }),
+        'pulpcore.tasking.tasks.repair_all_artifacts': defineMessage({
+            message: "Pulpcore: Repair all artifacts",
+        }),
+        'pulpcore.tasking.tasks.base.general_create': defineMessage({
+            message: "Pulpcore: General create",
+        }),
+        'pulpcore.tasking.tasks.base.general_update': defineMessage({
+            message: "Pulpcore: General update",
+        }),
+        'pulpcore.tasking.tasks.base.general_delete': defineMessage({
+            message: "Pulpcore: General delete",
+        }),
+        'pulpcore.app.tasks.export.pulp_export': defineMessage({
+            message: "Pulpcore: Pulp export",
+        }),
+        'pulpcore.app.tasks.pulp_import': defineMessage({
+            message: "Pulpcore: Pulp import",
+        }),
+        'pulpcore.app.tasks.repository.delete_version': defineMessage({
+            message: "Pulpcore: Delete version",
+        }),
+        'pulpcore.app.tasks.repository.repair_version': defineMessage({
+            message: "Pulpcore: Repair version",
+        }),
+        'pulpcore.app.tasks.upload.commit': defineMessage({
+            message: "Pulpcore: Upload commit",
+        }),
+        'pulpcore.app.tasks.repository.add_and_remove': defineMessage({
+            message: "Pulpcore: Add and remove",
+        }),
+        'pulpcore.plugin.tasking.add_and_remove': defineMessage({
+            message: "Pulpcore: Add or remove",
+        }),
     };
     Constants.HUMAN_STATUS = {
-        completed: t(templateObject_110 || (templateObject_110 = __makeTemplateObject(["Completed"], ["Completed"]))),
-        failed: t(templateObject_111 || (templateObject_111 = __makeTemplateObject(["Failed"], ["Failed"]))),
-        running: t(templateObject_112 || (templateObject_112 = __makeTemplateObject(["Running"], ["Running"]))),
-        waiting: t(templateObject_113 || (templateObject_113 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
+        completed: t(templateObject_74 || (templateObject_74 = __makeTemplateObject(["Completed"], ["Completed"]))),
+        failed: t(templateObject_75 || (templateObject_75 = __makeTemplateObject(["Failed"], ["Failed"]))),
+        running: t(templateObject_76 || (templateObject_76 = __makeTemplateObject(["Running"], ["Running"]))),
+        waiting: t(templateObject_77 || (templateObject_77 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
     };
     return Constants;
 }());
 export { Constants };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50, templateObject_51, templateObject_52, templateObject_53, templateObject_54, templateObject_55, templateObject_56, templateObject_57, templateObject_58, templateObject_59, templateObject_60, templateObject_61, templateObject_62, templateObject_63, templateObject_64, templateObject_65, templateObject_66, templateObject_67, templateObject_68, templateObject_69, templateObject_70, templateObject_71, templateObject_72, templateObject_73, templateObject_74, templateObject_75, templateObject_76, templateObject_77, templateObject_78, templateObject_79, templateObject_80, templateObject_81, templateObject_82, templateObject_83, templateObject_84, templateObject_85, templateObject_86, templateObject_87, templateObject_88, templateObject_89, templateObject_90, templateObject_91, templateObject_92, templateObject_93, templateObject_94, templateObject_95, templateObject_96, templateObject_97, templateObject_98, templateObject_99, templateObject_100, templateObject_101, templateObject_102, templateObject_103, templateObject_104, templateObject_105, templateObject_106, templateObject_107, templateObject_108, templateObject_109, templateObject_110, templateObject_111, templateObject_112, templateObject_113;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50, templateObject_51, templateObject_52, templateObject_53, templateObject_54, templateObject_55, templateObject_56, templateObject_57, templateObject_58, templateObject_59, templateObject_60, templateObject_61, templateObject_62, templateObject_63, templateObject_64, templateObject_65, templateObject_66, templateObject_67, templateObject_68, templateObject_69, templateObject_70, templateObject_71, templateObject_72, templateObject_73, templateObject_74, templateObject_75, templateObject_76, templateObject_77;
 //# sourceMappingURL=constants.js.map
