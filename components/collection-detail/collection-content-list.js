@@ -35,21 +35,25 @@ var CollectionContentList = /** @class */ (function (_super) {
     }
     CollectionContentList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, contents = _a.contents, collection = _a.collection, namespace = _a.namespace, params = _a.params, updateParams = _a.updateParams;
+        var _a;
+        var _b = this.props, contents = _b.contents, collection = _b.collection, namespace = _b.namespace, params = _b.params, updateParams = _b.updateParams;
         var toShow = [];
         var summary = { all: 0 };
         var showing = params.showing || 'all';
         var keywords = params.keywords || '';
         for (var _i = 0, contents_1 = contents; _i < contents_1.length; _i++) {
             var c = contents_1[_i];
+            summary[_a = c.content_type] || (summary[_a] = 0);
+            var keywordMatch = c.name.match(keywords);
             var typeMatch = showing === 'all' ? true : c.content_type === showing;
-            if (!summary[c.content_type]) {
-                summary[c.content_type] = 0;
-            }
-            if (typeMatch && c.name.match(keywords)) {
-                toShow.push(c);
+            // count only items matching keyword
+            if (keywordMatch) {
                 summary[c.content_type]++;
                 summary['all']++;
+            }
+            // show only items matching keyword + type
+            if (keywordMatch && typeMatch) {
+                toShow.push(c);
             }
         }
         return (React.createElement("div", null,
