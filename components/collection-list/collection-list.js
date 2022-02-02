@@ -63,7 +63,7 @@ var CollectionList = /** @class */ (function (_super) {
                             return _this.props.handleControlClick(collection.id, 'deprecate');
                         }, key: 'deprecate', isDisabled: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE, description: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
                             ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Temporarily disabled due to sync issues. (AAH-1237)"], ["Temporarily disabled due to sync issues. (AAH-1237)"]))) : null }, collection.deprecated ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
-                ] })));
+                ], ariaLabel: 'collection-kebab' })));
     };
     return CollectionList;
 }(React.Component));
