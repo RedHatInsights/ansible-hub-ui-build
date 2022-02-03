@@ -121,11 +121,14 @@ var DeleteUserModal = /** @class */ (function (_super) {
         }); })
             .catch(function (err) {
             if (err.response.status === 404) {
-                _this.props.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Successfully deleted user."], ["Successfully deleted user."]))), 'success');
+                _this.props.addAlert(React.createElement(Trans, null,
+                    "User \"",
+                    _this.props.user.username,
+                    "\" has been successfully deleted."), 'success');
                 _this.props.closeModal(true);
             }
             else {
-                _this.props.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger');
+                _this.props.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger');
             }
             _this.setState({ isWaitingForResponse: false });
         });
@@ -134,5 +137,5 @@ var DeleteUserModal = /** @class */ (function (_super) {
     return DeleteUserModal;
 }(React.Component));
 export { DeleteUserModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=delete-user-modal.js.map
