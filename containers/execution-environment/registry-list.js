@@ -297,10 +297,13 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         var pk = _a.pk, name = _a.name;
         ExecutionEnvironmentRegistryAPI.delete(pk)
             .then(function () {
-            return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Successfully deleted remote registry ", ""], ["Successfully deleted remote registry ", ""])), name), 'success');
+            return _this.addAlert(React.createElement(Trans, null,
+                "Remote registry \"",
+                name,
+                "\" has been successfully deleted."), 'success');
         })
             .catch(function () {
-            return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
+            return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
         })
             .then(function () {
             _this.queryRegistries();
@@ -313,15 +316,20 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.sync(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(React.createElement(Trans, null,
+                "Sync started for remote registry \"",
+                name,
+                "\"."), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
-                    "View the task",
+                    "See the task management",
                     ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                    ".")));
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
+                        "detail page",
+                        ' '),
+                    "for the status of this task.")));
             _this.queryRegistries(true);
         })
-            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     ExecutionEnvironmentRegistryList.prototype.indexRegistry = function (_a) {
         var _this = this;
@@ -329,14 +337,14 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.index(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Indexing execution environments in ", ""], ["Indexing execution environments in ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Indexing started for execution environment \"", "\"."], ["Indexing started for execution environment \"", "\"."])), name), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
-                    "View the task",
+                    "See the task management",
                     ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                    ".")));
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "detail page"),
+                    "for the status of this task.")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
     };
     ExecutionEnvironmentRegistryList.prototype.addAlert = function (title, variant, description) {
         this.setState({
@@ -367,5 +375,5 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(ExecutionEnvironmentRegistryList);
 ExecutionEnvironmentRegistryList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=registry-list.js.map

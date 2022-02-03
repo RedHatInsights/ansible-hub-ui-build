@@ -130,7 +130,17 @@ export function withContainerRepo(WrappedComponent) {
                                 promise
                                     .then(function (results) {
                                     var task = results.find(function (x) { return x.data && x.data.task; });
-                                    _this.setState({ editing: false, loading: true });
+                                    _this.setState({
+                                        editing: false,
+                                        loading: true,
+                                        alerts: alerts.concat({
+                                            variant: 'success',
+                                            title: (React.createElement(Trans, null,
+                                                "Saved changes to execution environment \"",
+                                                _this.state.repo.name,
+                                                "\".")),
+                                        }),
+                                    });
                                     if (task) {
                                         waitForTask(task.data.task.split('tasks/')[1].replace('/', '')).then(function () {
                                             _this.loadRepo();
@@ -205,15 +215,20 @@ export function withContainerRepo(WrappedComponent) {
                 ExecutionEnvironmentRemoteAPI.sync(name)
                     .then(function (result) {
                     var task_id = parsePulpIDFromURL(result.data.task);
-                    _this.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+                    _this.addAlert(React.createElement(Trans, null,
+                        "Sync started for remote registry \"",
+                        name,
+                        "\"."), 'success', React.createElement("span", null,
                         React.createElement(Trans, null,
-                            "View the task",
+                            "See the task management",
                             ' ',
-                            React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                            ".")));
+                            React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
+                                "detail page",
+                                ' '),
+                            "for the status of this task.")));
                     _this.loadRepo();
                 })
-                    .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+                    .catch(function () { return _this.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
             };
             return class_1;
         }(React.Component)),
@@ -221,5 +236,5 @@ export function withContainerRepo(WrappedComponent) {
         _a.displayName = "withContainerRepo(".concat(WrappedComponent.displayName, ")"),
         _a;
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=base.js.map

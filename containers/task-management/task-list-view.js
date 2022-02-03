@@ -26,7 +26,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { i18n } from '@lingui/core';
 import * as React from 'react';
 import './task.scss';
@@ -238,7 +238,10 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: name,
-                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: (React.createElement(Trans, null,
+                            "Task \"",
+                            name,
+                            "\" stopped successfully.")),
                     },
                 ], false),
             });
@@ -252,7 +255,7 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: name,
-                        description: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
                     },
                 ], false),
             });
@@ -284,7 +287,7 @@ var TaskListView = /** @class */ (function (_super) {
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Error loading tasks."], ["Error loading tasks."]))),
+                            title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error loading tasks."], ["Error loading tasks."]))),
                             description: e === null || e === void 0 ? void 0 : e.message,
                         },
                     ], false),
@@ -304,5 +307,5 @@ var TaskListView = /** @class */ (function (_super) {
 export { TaskListView };
 export default withRouter(TaskListView);
 TaskListView.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26;
 //# sourceMappingURL=task-list-view.js.map

@@ -28,7 +28,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
@@ -42,13 +42,19 @@ var UserProfile = /** @class */ (function (_super) {
     function UserProfile(props) {
         var _this = _super.call(this, props) || this;
         _this.saveUser = function () {
-            var user = _this.state.user;
+            var _a = _this.state, user = _a.user, username = _a.user.username, alerts = _a.alerts;
             ActiveUserAPI.saveUser(user)
                 .then(function (result) {
                 _this.setState({
                     inEditMode: false,
-                    alerts: _this.state.alerts.concat([
-                        { variant: 'success', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Profile saved."], ["Profile saved."]))) },
+                    alerts: alerts.concat([
+                        {
+                            variant: 'success',
+                            title: (React.createElement(Trans, null,
+                                "Saved changes to user \"",
+                                username,
+                                "\".")),
+                        },
                     ]),
                 }, function () { return _this.context.setUser(result.data); });
                 // Redirect to login page when password is changed
@@ -97,7 +103,7 @@ var UserProfile = /** @class */ (function (_super) {
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(UserFormPage, { isMe: true, user: user, breadcrumbs: [{ name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Settings"], ["Settings"]))) }, { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["My profile"], ["My profile"]))) }], title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["My profile"], ["My profile"]))), errorMessages: errorMessages, updateUser: function (user) { return _this.setState({ user: user }); }, saveUser: this.saveUser, isReadonly: !inEditMode, onCancel: function () {
+            React.createElement(UserFormPage, { isMe: true, user: user, breadcrumbs: [{ name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Settings"], ["Settings"]))) }, { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["My profile"], ["My profile"]))) }], title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["My profile"], ["My profile"]))), errorMessages: errorMessages, updateUser: function (user) { return _this.setState({ user: user }); }, saveUser: this.saveUser, isReadonly: !inEditMode, onCancel: function () {
                     return _this.setState({
                         user: _this.initialState,
                         inEditMode: false,
@@ -106,7 +112,7 @@ var UserProfile = /** @class */ (function (_super) {
                 }, extraControls: !inEditMode &&
                     !isUserMgmtDisabled && (React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } },
                     React.createElement("div", null,
-                        React.createElement(Button, { onClick: function () { return _this.setState({ inEditMode: true }); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Edit"], ["Edit"]))))))) })));
+                        React.createElement(Button, { onClick: function () { return _this.setState({ inEditMode: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))))))) })));
     };
     Object.defineProperty(UserProfile.prototype, "closeAlert", {
         get: function () {
@@ -122,5 +128,5 @@ export default withRouter(UserProfile);
 // I think that it happens because withRouter confuses react into thinking that the
 // component is a functional compent when it's actually a class component.
 UserProfile.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=user-profile.js.map

@@ -37,7 +37,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
@@ -194,7 +194,10 @@ var EditNamespace = /** @class */ (function (_super) {
                     return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'success',
-                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespace successfully edited."], ["Namespace successfully edited."]))),
+                            title: (React.createElement(Trans, null,
+                                "Saved changes to namespace \"",
+                                _this.state.namespace.name,
+                                "\".")),
                         },
                     ], false));
                 });
@@ -211,8 +214,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     _this.setState({
                         alerts: _this.state.alerts.concat({
                             variant: 'danger',
-                            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                            description: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
+                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
+                            description: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
                         }),
                         saving: false,
                     });
@@ -238,5 +241,5 @@ var EditNamespace = /** @class */ (function (_super) {
 }(React.Component));
 EditNamespace.contextType = AppContext;
 export default withRouter(EditNamespace);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
 //# sourceMappingURL=edit-namespace.js.map
