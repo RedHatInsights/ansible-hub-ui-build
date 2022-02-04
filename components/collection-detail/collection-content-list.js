@@ -23,6 +23,8 @@ import cx from 'classnames';
 import './collection-content-list.scss';
 import { Link } from 'react-router-dom';
 import { SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { EmptyStateCustom } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { AppContext } from 'src/loaders/app-context';
@@ -95,11 +97,17 @@ var CollectionContentList = /** @class */ (function (_super) {
                                 repo: _this.context.selectedRepo,
                             }, ParamHelper.getReduced(params, _this.ignoredParams)) }, content.name)),
                     React.createElement("td", null, content.content_type),
-                    React.createElement("td", null, content.description))); })))));
+                    React.createElement("td", null, content.description))); }))),
+            summary.all <= 0 &&
+                this.context.selectedRepo === 'community' &&
+                this.renderCommunityWarningMessage()));
+    };
+    CollectionContentList.prototype.renderCommunityWarningMessage = function () {
+        return (React.createElement(EmptyStateCustom, { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Warning"], ["Warning"]))), description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Community collections do not have docs nor content counts, but all content gets synchronized"], ["Community collections do not have docs nor content counts, but all content gets synchronized"]))), icon: ExclamationTriangleIcon }));
     };
     CollectionContentList.contextType = AppContext;
     return CollectionContentList;
 }(React.Component));
 export { CollectionContentList };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=collection-content-list.js.map

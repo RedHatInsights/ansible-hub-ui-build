@@ -29,7 +29,7 @@ import { loadCollection } from './base';
 import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
 // renders markdown files in collection docs/ directory
 var CollectionDocs = /** @class */ (function (_super) {
     __extends(CollectionDocs, _super);
@@ -137,7 +137,8 @@ var CollectionDocs = /** @class */ (function (_super) {
                             return _this.renderModuleLink(moduleName, collection, params, collection.latest_version.metadata.contents);
                         }, renderDocLink: function (name, href) {
                             return _this.renderDocLink(name, href, collection, params);
-                        }, renderTableOfContentsLink: function (title, section) { return (React.createElement(HashLink, { to: '#' + section }, title)); }, renderWarning: function (text) { return (React.createElement(Alert, { isInline: true, variant: 'warning', title: text })); } }))) : (this.renderNotFound(collection.name)))))));
+                        }, renderTableOfContentsLink: function (title, section) { return (React.createElement(HashLink, { to: '#' + section }, title)); }, renderWarning: function (text) { return (React.createElement(Alert, { isInline: true, variant: 'warning', title: text })); } }))) : this.context.selectedRepo === 'community' &&
+                        !collection.latest_version.docs_blob.contents ? (this.renderCommunityWarningMessage()) : (this.renderNotFound(collection.name)))))));
     };
     CollectionDocs.prototype.renderDocLink = function (name, href, collection, params) {
         if (!!href && href.startsWith('http')) {
@@ -176,6 +177,9 @@ var CollectionDocs = /** @class */ (function (_super) {
     CollectionDocs.prototype.renderNotFound = function (collectionName) {
         return (React.createElement(EmptyStateCustom, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["The file is not available for this version of ", ""], ["The file is not available for this version of ", ""])), collectionName), icon: ExclamationCircleIcon }));
     };
+    CollectionDocs.prototype.renderCommunityWarningMessage = function () {
+        return (React.createElement(EmptyStateCustom, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Warning"], ["Warning"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Community collections do not have docs nor content counts, but all content gets synchronized"], ["Community collections do not have docs nor content counts, but all content gets synchronized"]))), icon: ExclamationTriangleIcon }));
+    };
     Object.defineProperty(CollectionDocs.prototype, "loadCollection", {
         get: function () {
             return loadCollection;
@@ -194,5 +198,5 @@ var CollectionDocs = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CollectionDocs);
 CollectionDocs.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=collection-docs.js.map
