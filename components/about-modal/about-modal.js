@@ -46,24 +46,34 @@ var AboutModalWindow = /** @class */ (function (_super) {
     AboutModalWindow.prototype.render = function () {
         var _a = this.props, isOpen = _a.isOpen, onClose = _a.onClose, brandImageAlt = _a.brandImageAlt, productName = _a.productName, user = _a.user, userName = _a.userName;
         var browser = detect();
+        var Label = function (_a) {
+            var children = _a.children;
+            return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
+        };
+        var Value = function (_a) {
+            var children = _a.children;
+            return (React.createElement(TextListItem, { component: TextListItemVariants.dd }, children));
+        };
         return (React.createElement(AboutModal, { isOpen: isOpen, trademark: '', brandImageSrc: Logo, onClose: onClose, brandImageAlt: brandImageAlt, productName: productName },
             React.createElement(TextContent, null,
                 React.createElement(TextList, { component: TextListVariants.dl },
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server version"], ["Server version"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, this.state.applicationInfo.server_version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, this.state.applicationInfo.pulp_ansible_version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Username"], ["Username"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, userName),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, user.groups.map(function (group) { return group.name; }).join()),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, browser.name + ' ' + browser.version),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dt }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
-                    React.createElement(TextListItem, { component: TextListItemVariants.dd }, browser.os)))));
+                    React.createElement(Label, null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server version"], ["Server version"])))),
+                    React.createElement(Value, null, this.state.applicationInfo.server_version),
+                    React.createElement(Label, null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
+                    React.createElement(Value, null, this.state.applicationInfo.pulp_ansible_version),
+                    React.createElement(Label, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["UI Version"], ["UI Version"])))),
+                    React.createElement(Value, null, UI_COMMIT_HASH),
+                    React.createElement(Label, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"])))),
+                    React.createElement(Value, null, userName),
+                    React.createElement(Label, null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
+                    React.createElement(Value, null, user.groups.map(function (group) { return group.name; }).join()),
+                    React.createElement(Label, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
+                    React.createElement(Value, null, browser.name + ' ' + browser.version),
+                    React.createElement(Label, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
+                    React.createElement(Value, null, browser.os)))));
     };
     return AboutModalWindow;
 }(React.Component));
 export { AboutModalWindow };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=about-modal.js.map
