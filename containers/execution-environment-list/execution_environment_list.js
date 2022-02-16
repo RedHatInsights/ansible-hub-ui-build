@@ -205,13 +205,14 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     ExecutionEnvironmentList.prototype.renderTableRow = function (item, index) {
         var _this = this;
         var description = item.description;
+        var canEdit = item.namespace.my_permissions.includes('container.change_containernamespace');
         var dropdownItems = [
-            React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+            canEdit && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
                         showRemoteModal: true,
                         itemToEdit: __assign({}, item),
                     });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))),
+                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"]))))),
             item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
@@ -248,16 +249,22 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var remote = (pulp === null || pulp === void 0 ? void 0 : pulp.repository) ? !!((_b = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _b === void 0 ? void 0 : _b.remote) : true; // add only supports remote
         var isNew = !(pulp === null || pulp === void 0 ? void 0 : pulp.repository); // only exists in real data
         var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.pulp_id;
+        var alerts = this.state.alerts;
         return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remotePulpId: pulp_id, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise) {
                 promise
                     .then(function () {
                     _this.setState({
                         showRemoteModal: false,
                         itemToEdit: null,
-                        alerts: _this.state.alerts.concat({
+                        alerts: alerts.concat({
                             variant: 'success',
-                            title: isNew
-                                ? t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Execution environment added."], ["Execution environment added."]))) : t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Execution environment saved."], ["Execution environment saved."]))),
+                            title: isNew ? (React.createElement(Trans, null,
+                                "Execution environment \"",
+                                name,
+                                "\" has been added successfully.")) : (React.createElement(Trans, null,
+                                "Saved changes to execution environment \"",
+                                name,
+                                "\".")),
                         }),
                     }, function () { return _this.queryEnvironments(); });
                 })
@@ -292,7 +299,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error loading environments."], ["Error loading environments."]))), 'danger', e === null || e === void 0 ? void 0 : e.message);
+                return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Error loading environments."], ["Error loading environments."]))), 'danger', e === null || e === void 0 ? void 0 : e.message);
             });
         });
     };
@@ -326,18 +333,23 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         ExecutionEnvironmentRemoteAPI.sync(name)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(React.createElement(Trans, null,
+                "Sync started for execution environment \"",
+                name,
+                "\"."), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
-                    "View the task",
+                    "See the task management",
                     ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                    ".")));
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
+                        "detail page",
+                        ' '),
+                    "for the status of this task.")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=execution_environment_list.js.map

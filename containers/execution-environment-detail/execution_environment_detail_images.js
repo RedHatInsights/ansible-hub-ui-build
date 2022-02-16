@@ -352,7 +352,10 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         alerts: _this.state.alerts.concat([
                             {
                                 variant: 'success',
-                                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), digest),
+                                title: (React.createElement(Trans, null,
+                                    "Image \"",
+                                    digest,
+                                    "\" has been successfully deleted.")),
                             },
                         ]),
                     });
@@ -366,7 +369,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     confirmDelete: false,
                     isDeletionPending: false,
                     alerts: _this.state.alerts.concat([
-                        { variant: 'danger', title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                        { variant: 'danger', title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
                     ]),
                 });
             });
@@ -389,5 +392,5 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     return ExecutionEnvironmentDetailImages;
 }(React.Component));
 export default withRouter(withContainerRepo(ExecutionEnvironmentDetailImages));
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=execution_environment_detail_images.js.map
