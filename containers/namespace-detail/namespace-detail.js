@@ -70,7 +70,10 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'success',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Successfully deleted namespace."], ["Successfully deleted namespace."]))),
+                            title: (React.createElement(Trans, null,
+                                "Namespace \"",
+                                _this.state.namespace.name,
+                                "\" has been successfully deleted.")),
                         },
                     ], false));
                 })
@@ -84,7 +87,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                 {
                                     variant: 'danger',
-                                    title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
+                                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
                                     description: e === null || e === void 0 ? void 0 : e.message,
                                 },
                             ], false),
@@ -135,13 +138,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var tabs = [{ id: 'collections', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
+        var tabs = [{ id: 'collections', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collections"], ["Collections"]))) }];
         if (this.state.showControls) {
-            tabs.push({ id: 'cli-configuration', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))) });
+            tabs.push({ id: 'cli-configuration', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))) });
         }
         var tab = params['tab'] || 'collections';
         if (namespace.resources) {
-            tabs.push({ id: 'resources', name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Resources"], ["Resources"]))) });
+            tabs.push({ id: 'resources', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Resources"], ["Resources"]))) });
         }
         var repositoryUrl = getRepoUrl('inbound-' + namespace.name);
         var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
@@ -167,14 +170,14 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: namespace.name }),
-            isOpenNamespaceModal && (React.createElement(DeleteModal, { spinner: isNamespacePending, cancelAction: this.closeModal, deleteAction: this.deleteNamespace, title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Delete namespace?"], ["Delete namespace?"]))), isDisabled: !confirmDelete || isNamespacePending },
+            isOpenNamespaceModal && (React.createElement(DeleteModal, { spinner: isNamespacePending, cancelAction: this.closeModal, deleteAction: this.deleteNamespace, title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Delete namespace?"], ["Delete namespace?"]))), isDisabled: !confirmDelete || isNamespacePending },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { className: 'delete-namespace-modal-message' },
                         React.createElement(Trans, null,
                             "Deleting ",
                             React.createElement("b", null, namespace.name),
                             " and its data will be lost.")),
-                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
+                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [namespaceBreadcrumb, { name: namespace.name }], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab.toLowerCase() === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
@@ -182,7 +185,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'hub-pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
-                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
+                tab.toLowerCase() === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, handleControlClick: function (id, action) {
                             return _this.handleCollectionAction(id, action);
                         }, repo: this.context.selectedRepo })))) : null,
@@ -217,7 +220,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     .then(function () { return _this.loadCollections(); })
                     .catch(function () {
                     _this.setState({
-                        warning: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
+                        warning: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
                 });
                 break;
@@ -288,7 +291,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error loading collection repositories."], ["Error loading collection repositories."]))),
+                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Error loading collection repositories."], ["Error loading collection repositories."]))),
                         description: err === null || err === void 0 ? void 0 : err.message,
                     },
                 ], false),
@@ -308,24 +311,24 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+                    }) }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
                     "Cannot delete namespace until ",
                     React.createElement("br", null),
                     "collections' dependencies have ",
                     React.createElement("br", null),
                     "been deleted"), position: 'left' },
-                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
+                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
             React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+                    }) }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
         }
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
@@ -350,5 +353,5 @@ var NamespaceDetail = /** @class */ (function (_super) {
 export { NamespaceDetail };
 NamespaceDetail.contextType = AppContext;
 export default withRouter(NamespaceDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16;
 //# sourceMappingURL=namespace-detail.js.map

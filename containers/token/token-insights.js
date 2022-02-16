@@ -34,6 +34,7 @@ import { Paths } from 'src/paths';
 import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
 import { getRepoUrl } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
+import { MyDistributionAPI } from 'src/api';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {
@@ -41,9 +42,37 @@ var TokenPage = /** @class */ (function (_super) {
         _this.state = {
             tokenData: undefined,
             alerts: [],
+            repoUrl: '',
         };
         return _this;
     }
+    TokenPage.prototype.getMyDistributionPath = function () {
+        var _this = this;
+        MyDistributionAPI.list()
+            .then(function (_a) {
+            var _b;
+            var data = _a.data;
+            var syncDistro = ((_b = data.data.find(function (_a) {
+                var base_path = _a.base_path;
+                return base_path.includes('synclist');
+            })) === null || _b === void 0 ? void 0 : _b.base_path) || '';
+            _this.setState({
+                repoUrl: syncDistro,
+            });
+        })
+            .catch(function (e) {
+            return _this.setState({
+                repoUrl: '',
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading Server URL."], ["Error loading Server URL."]))),
+                        description: e === null || e === void 0 ? void 0 : e.message,
+                    },
+                ], false),
+            });
+        });
+    };
     TokenPage.prototype.componentDidMount = function () {
         var _this = this;
         // this function will fail if chrome.auth.doOffline() hasn't been called
@@ -58,12 +87,13 @@ var TokenPage = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
+                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
                         description: e === null || e === void 0 ? void 0 : e.message,
                     },
                 ], false),
             });
         });
+        this.getMyDistributionPath();
     };
     TokenPage.prototype.render = function () {
         var _this = this;
@@ -73,10 +103,10 @@ var TokenPage = /** @class */ (function (_super) {
         var renewTokenCmd = "curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token -d grant_type=refresh_token -d client_id=\"".concat(user.username, "\" -d refresh_token=\"").concat((_a = tokenData === null || tokenData === void 0 ? void 0 : tokenData.refresh_token) !== null && _a !== void 0 ? _a : '{{ user_token }}', "\" --fail --silent --show-error --output /dev/null");
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Connect to Hub"], ["Connect to Hub"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Connect to Hub"], ["Connect to Hub"]))) }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Connect Private Automation Hub"], ["Connect Private Automation Hub"])))),
+                    React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Connect Private Automation Hub"], ["Connect Private Automation Hub"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null,
                             "Use the",
@@ -87,7 +117,7 @@ var TokenPage = /** @class */ (function (_super) {
                             React.createElement(Link, { to: Paths.search }, "Collections"),
                             " page to control which collections are added to their organization's sync repository."))),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),
+                    React.createElement("h2", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null,
                             "Documentation on how to configure the",
@@ -98,17 +128,17 @@ var TokenPage = /** @class */ (function (_super) {
                             React.createElement("a", { href: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/', target: '_blank', rel: 'noreferrer' }, "here"),
                             ". Use the following parameters to configure the client."))),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Offline token"], ["Offline token"])))),
+                    React.createElement("h2", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Offline token"], ["Offline token"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this token to authenticate clients that need to download content from Automation Hub. This is a secret token used to protect your content. Store your API token in a secure location.")),
                     tokenData ? (React.createElement("div", null,
                         React.createElement(ClipboardCopy, null, tokenData.refresh_token))) : (React.createElement("div", null,
-                        React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Load token"], ["Load token"])))))),
+                        React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Load token"], ["Load token"])))))),
                     React.createElement("div", { className: 'pf-c-content', style: { paddingTop: 'var(--pf-global--spacer--md)' } },
                         React.createElement("span", null,
                             React.createElement(Trans, null, "The token will expire after 30 days of inactivity. Run the command below periodically to prevent your token from expiring.")),
                         React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: ClipboardCopyVariant.expansion }, renewTokenCmd)),
-                    React.createElement("h2", null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Manage tokens"], ["Manage tokens"])))),
+                    React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Manage tokens"], ["Manage tokens"])))),
                     React.createElement(Trans, null,
                         "To revoke a token or see all of your tokens, visit the",
                         ' ',
@@ -116,18 +146,12 @@ var TokenPage = /** @class */ (function (_super) {
                         ' ',
                         "page.")),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
+                    React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download content from Automation Hub.")),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl('')),
-                    React.createElement("p", null,
-                        React.createElement(Trans, null,
-                            "Note: this URL contains all collections in Hub. To connect to your organization's sync repository use the URL found on",
-                            ' ',
-                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
-                            "."))),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(this.state.repoUrl))),
                 React.createElement("section", { className: 'body pf-c-content' },
-                    React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
+                    React.createElement("h2", null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this URL to configure the authentication URLs that clients need to download content from Automation Hub.")),
                     React.createElement(ClipboardCopy, { isReadOnly: true }, "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token")))));
@@ -149,5 +173,5 @@ var TokenPage = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(TokenPage);
 TokenPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=token-insights.js.map

@@ -48,7 +48,7 @@ import { reject, some } from 'lodash';
 import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
-import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
+import { AboutModalWindow, UIVersion, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
 var App = /** @class */ (function (_super) {
@@ -340,7 +340,9 @@ var App = /** @class */ (function (_super) {
                 alerts: this.state.alerts,
                 setAlerts: this.setAlerts,
                 settings: this.state.settings,
-            } }, component));
+            } },
+            component,
+            React.createElement(UIVersion, null)));
     };
     return App;
 }(React.Component));

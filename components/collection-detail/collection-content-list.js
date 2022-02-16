@@ -23,6 +23,8 @@ import cx from 'classnames';
 import './collection-content-list.scss';
 import { Link } from 'react-router-dom';
 import { SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { EmptyStateCustom } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { AppContext } from 'src/loaders/app-context';
@@ -35,21 +37,25 @@ var CollectionContentList = /** @class */ (function (_super) {
     }
     CollectionContentList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, contents = _a.contents, collection = _a.collection, namespace = _a.namespace, params = _a.params, updateParams = _a.updateParams;
+        var _a;
+        var _b = this.props, contents = _b.contents, collection = _b.collection, namespace = _b.namespace, params = _b.params, updateParams = _b.updateParams;
         var toShow = [];
         var summary = { all: 0 };
         var showing = params.showing || 'all';
         var keywords = params.keywords || '';
         for (var _i = 0, contents_1 = contents; _i < contents_1.length; _i++) {
             var c = contents_1[_i];
+            summary[_a = c.content_type] || (summary[_a] = 0);
+            var keywordMatch = c.name.match(keywords);
             var typeMatch = showing === 'all' ? true : c.content_type === showing;
-            if (!summary[c.content_type]) {
-                summary[c.content_type] = 0;
-            }
-            if (typeMatch && c.name.match(keywords)) {
-                toShow.push(c);
+            // count only items matching keyword
+            if (keywordMatch) {
                 summary[c.content_type]++;
                 summary['all']++;
+            }
+            // show only items matching keyword + type
+            if (keywordMatch && typeMatch) {
+                toShow.push(c);
             }
         }
         return (React.createElement("div", null,
@@ -91,11 +97,17 @@ var CollectionContentList = /** @class */ (function (_super) {
                                 repo: _this.context.selectedRepo,
                             }, ParamHelper.getReduced(params, _this.ignoredParams)) }, content.name)),
                     React.createElement("td", null, content.content_type),
-                    React.createElement("td", null, content.description))); })))));
+                    React.createElement("td", null, content.description))); }))),
+            summary.all <= 0 &&
+                this.context.selectedRepo === 'community' &&
+                this.renderCommunityWarningMessage()));
+    };
+    CollectionContentList.prototype.renderCommunityWarningMessage = function () {
+        return (React.createElement(EmptyStateCustom, { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Warning"], ["Warning"]))), description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Community collections do not have docs nor content counts, but all content gets synchronized"], ["Community collections do not have docs nor content counts, but all content gets synchronized"]))), icon: ExclamationTriangleIcon }));
     };
     CollectionContentList.contextType = AppContext;
     return CollectionContentList;
 }(React.Component));
 export { CollectionContentList };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=collection-content-list.js.map

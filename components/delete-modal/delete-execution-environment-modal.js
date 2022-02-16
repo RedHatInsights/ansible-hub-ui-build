@@ -58,7 +58,10 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
                         isDeletionPending: false,
                     });
                     closeAction();
-                    addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Success: ", " was deleted"], ["Success: ", " was deleted"])), selectedItem), 'success', null);
+                    addAlert(React.createElement(Trans, null,
+                        "Execution environment \"",
+                        selectedItem,
+                        "\" has been successfully deleted."), 'success');
                     afterDelete();
                 });
             })
@@ -67,7 +70,7 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
                     confirmDelete: false,
                     isDeletionPending: false,
                 });
-                addAlert(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))), 'danger', null);
+                addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))), 'danger', null);
                 closeAction();
             });
         });
@@ -75,5 +78,5 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
     return DeleteExecutionEnvironmentModal;
 }(React.Component));
 export { DeleteExecutionEnvironmentModal };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=delete-execution-environment-modal.js.map

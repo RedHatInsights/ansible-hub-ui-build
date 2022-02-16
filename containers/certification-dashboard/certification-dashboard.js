@@ -53,7 +53,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { t } from '@lingui/macro';
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
@@ -301,6 +310,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.updateCertification = function (version, originalRepo, destinationRepo) {
         var _this = this;
+        var alerts = this.state.alerts;
         // Set the selected version to loading
         this.setState({
             updatingVersions: [],
@@ -311,11 +321,16 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [version],
                 });
                 _this.waitForUpdate(result.data.remove_task_id, version);
-            })
+            }, _this.addAlert(React.createElement(Trans, null,
+                "Certification status for collection \"",
+                version.name,
+                " v",
+                version.version,
+                "\" has been successfully updated."), 'success'))
                 .catch(function (error) {
                 _this.setState({
                     updatingVersions: [],
-                    alerts: _this.state.alerts.concat({
+                    alerts: alerts.concat({
                         variant: 'danger',
                         title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
                         description: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
@@ -393,6 +408,17 @@ var CertificationDashboard = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    CertificationDashboard.prototype.addAlert = function (title, variant, description) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
+                {
+                    description: description,
+                    title: title,
+                    variant: variant,
+                },
+            ], false),
+        });
+    };
     return CertificationDashboard;
 }(React.Component));
 export default withRouter(CertificationDashboard);
