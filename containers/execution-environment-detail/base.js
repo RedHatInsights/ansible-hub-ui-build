@@ -61,6 +61,7 @@ export function withContainerRepo(WrappedComponent) {
                     editing: false,
                     alerts: [],
                     showDeleteModal: false,
+                    formError: [],
                 };
                 return _this;
             }
@@ -125,7 +126,7 @@ export function withContainerRepo(WrappedComponent) {
                             showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                             React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                     React.createElement(Main, null,
-                        this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, onSave: function (promise) {
+                        this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, formError: this.state.formError, onSave: function (promise) {
                                 promise
                                     .then(function (results) {
                                     var task = results.find(function (x) { return x.data && x.data.task; });
@@ -139,12 +140,13 @@ export function withContainerRepo(WrappedComponent) {
                                         _this.loadRepo();
                                     }
                                 })
-                                    .catch(function () {
+                                    .catch(function (err) {
                                     return _this.setState({
-                                        editing: false,
-                                        alerts: _this.state.alerts.concat({
-                                            variant: 'danger',
-                                            title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Error: changes weren't saved"], ["Error: changes weren't saved"]))),
+                                        formError: err.response.data.errors.map(function (error) {
+                                            return {
+                                                title: error.title,
+                                                detail: error.source.parameter + ': ' + error.detail,
+                                            };
                                         }),
                                     });
                                 });
@@ -203,7 +205,7 @@ export function withContainerRepo(WrappedComponent) {
                 ExecutionEnvironmentRemoteAPI.sync(name)
                     .then(function (result) {
                     var task_id = parsePulpIDFromURL(result.data.task);
-                    _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+                    _this.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
                         React.createElement(Trans, null,
                             "View the task",
                             ' ',
@@ -211,7 +213,7 @@ export function withContainerRepo(WrappedComponent) {
                             ".")));
                     _this.loadRepo();
                 })
-                    .catch(function () { return _this.addAlert(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+                    .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
             };
             return class_1;
         }(React.Component)),
@@ -219,5 +221,5 @@ export function withContainerRepo(WrappedComponent) {
         _a.displayName = "withContainerRepo(".concat(WrappedComponent.displayName, ")"),
         _a;
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=base.js.map

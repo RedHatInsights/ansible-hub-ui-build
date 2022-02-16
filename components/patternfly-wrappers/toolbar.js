@@ -50,7 +50,7 @@ var Toolbar = /** @class */ (function (_super) {
         var kwField = this.state.kwField;
         return (React.createElement(ToolbarPF, null,
             React.createElement(ToolbarContent, null,
-                React.createElement(ToolbarGroup, null,
+                React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                     React.createElement(ToolbarItem, null,
                         React.createElement(InputGroup, null,
                             React.createElement(TextInput, { value: kwField, onChange: function (k) { return _this.setState({ kwField: k }); }, onKeyPress: function (e) { return _this.handleEnter(e); }, type: 'search', "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["search text input"], ["search text input"]))), placeholder: searchPlaceholder }),
