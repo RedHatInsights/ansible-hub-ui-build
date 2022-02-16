@@ -75,9 +75,9 @@ var UserProfile = /** @class */ (function (_super) {
             .then(function (result) {
             // The api doesn't return a value for the password, so set a blank one here
             // to keep react from getting confused
-            result.password = '';
-            _this.initialState = __assign({}, result);
-            _this.setState({ user: result });
+            var extendedResult = __assign(__assign({}, result), { password: '' });
+            _this.initialState = __assign({}, extendedResult);
+            _this.setState({ user: extendedResult });
         })
             .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
     };
