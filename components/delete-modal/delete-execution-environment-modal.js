@@ -37,13 +37,13 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, selectedItem = _a.selectedItem, closeAction = _a.closeAction;
         var _b = this.state, isDeletionPending = _b.isDeletionPending, confirmDelete = _b.confirmDelete;
-        return (React.createElement(DeleteModal, { spinner: isDeletionPending, title: 'Delete container?', cancelAction: function () { return closeAction(); }, deleteAction: function () { return _this.deleteContainer(selectedItem); }, isDisabled: !confirmDelete || isDeletionPending },
+        return (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete container?"], ["Delete container?"]))), cancelAction: function () { return closeAction(); }, deleteAction: function () { return _this.deleteContainer(selectedItem); }, isDisabled: !confirmDelete || isDeletionPending },
             React.createElement(Text, { className: 'delete-container-modal-message' },
                 React.createElement(Trans, null,
                     "Deleting ",
                     React.createElement("b", null, selectedItem),
                     " and its data will be lost.")),
-            React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })));
+            React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })));
     };
     DeleteExecutionEnvironmentModal.prototype.deleteContainer = function (selectedItem) {
         var _this = this;
@@ -70,7 +70,7 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
                     confirmDelete: false,
                     isDeletionPending: false,
                 });
-                addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))), 'danger', null);
+                addAlert(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))), 'danger', null);
                 closeAction();
             });
         });
@@ -78,5 +78,5 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
     return DeleteExecutionEnvironmentModal;
 }(React.Component));
 export { DeleteExecutionEnvironmentModal };
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=delete-execution-environment-modal.js.map
