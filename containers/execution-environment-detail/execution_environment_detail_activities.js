@@ -174,9 +174,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                     if (lastActivity) {
                         activities.push({
                             created: lastActivity.created,
-                            action: (React.createElement(React.Fragment, null,
-                                _this.props.containerRepository.name,
-                                " was added")),
+                            action: (React.createElement(React.Fragment, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["", " was added"], ["", " was added"])), _this.props.containerRepository.name))),
                         });
                     }
                 }
@@ -192,5 +190,5 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     return ExecutionEnvironmentDetailActivities;
 }(React.Component));
 export default withRouter(withContainerRepo(ExecutionEnvironmentDetailActivities));
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=execution_environment_detail_activities.js.map
