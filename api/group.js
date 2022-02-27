@@ -28,7 +28,7 @@ var API = /** @class */ (function (_super) {
         return this.http.post(this.apiPath + id + '/model-permissions/', data);
     };
     API.prototype.removePermission = function (id, permissionId) {
-        return this.http.delete(this.apiPath + id + '/model-permissions/' + permissionId);
+        return this.http.delete(this.apiPath + id + '/model-permissions/' + permissionId + '/');
     };
     return API;
 }(HubAPI));
