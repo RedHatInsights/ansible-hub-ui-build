@@ -246,6 +246,9 @@ var RemoteForm = /** @class */ (function (_super) {
                 return false;
             }
         }
+        if (validateURLHelper(null, remote.url).validated == 'error') {
+            return false;
+        }
         return true;
     };
     RemoteForm.prototype.getRemoteType = function (url) {
