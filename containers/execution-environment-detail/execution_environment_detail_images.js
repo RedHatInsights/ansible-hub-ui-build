@@ -31,6 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment-detail.scss';
+import { errorMessage } from 'src/utilities';
 import { sum } from 'lodash';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
@@ -362,14 +363,19 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     _this.queryImages(_this.props.match.params['container']);
                 });
             })
-                .catch(function () {
+                .catch(function (err) {
+                var _a = err.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     deleteModalVisible: false,
                     selectedImage: null,
                     confirmDelete: false,
                     isDeletionPending: false,
                     alerts: _this.state.alerts.concat([
-                        { variant: 'danger', title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))) },
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Image \"", "\" could not be deleted."], ["Image \"", "\" could not be deleted."])), digest),
+                            description: errorMessage(status, statusText),
+                        },
                     ]),
                 });
             });

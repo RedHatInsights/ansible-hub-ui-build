@@ -40,6 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './group-management.scss';
+import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
@@ -175,14 +176,15 @@ var GroupList = /** @class */ (function (_super) {
             });
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 deleteModalVisible: false,
                 selectedGroup: null,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -222,7 +224,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
+                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Changes to group \"", "\" could not be saved."], ["Changes to group \"", "\" could not be saved."])), _this.state.selectedGroup),
                     },
                 ], false),
             });
@@ -338,15 +340,16 @@ var GroupList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     groups: [],
                     itemCount: 0,
                     loading: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });

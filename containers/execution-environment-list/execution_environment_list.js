@@ -336,7 +336,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             _this.addAlert(React.createElement(Trans, null,
                 "Sync started for execution environment \"",
                 name,
-                "\"."), 'success', React.createElement("span", null,
+                "\"."), 'info', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "See the task management",
                     ' ',

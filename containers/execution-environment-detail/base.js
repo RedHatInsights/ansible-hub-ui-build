@@ -218,7 +218,7 @@ export function withContainerRepo(WrappedComponent) {
                     _this.addAlert(React.createElement(Trans, null,
                         "Sync started for remote registry \"",
                         name,
-                        "\"."), 'success', React.createElement("span", null,
+                        "\"."), 'info', React.createElement("span", null,
                         React.createElement(Trans, null,
                             "See the task management",
                             ' ',
