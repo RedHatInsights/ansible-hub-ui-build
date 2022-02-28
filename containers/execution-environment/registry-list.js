@@ -258,7 +258,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(DropdownItem, { onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
                     React.createElement(Trans, null, "Index execution environments"))),
         ].filter(Boolean);
-        return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
+        return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentRegistryList-row-".concat(item.name), key: index },
             React.createElement("td", null, item.name),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.created_at })),

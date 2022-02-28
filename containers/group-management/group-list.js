@@ -276,7 +276,7 @@ var GroupList = /** @class */ (function (_super) {
                     } },
                     React.createElement(Trans, null, "Delete")))),
         ];
-        return (React.createElement("tr", { "aria-labelledby": group.name, key: index },
+        return (React.createElement("tr", { "data-cy": "GroupList-row-".concat(group.name), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,

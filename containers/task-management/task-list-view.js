@@ -183,7 +183,7 @@ var TaskListView = /** @class */ (function (_super) {
     TaskListView.prototype.renderTableRow = function (item, index) {
         var name = item.name, state = item.state, pulp_created = item.pulp_created, started_at = item.started_at, finished_at = item.finished_at, pulp_href = item.pulp_href;
         var taskId = parsePulpIDFromURL(pulp_href);
-        return (React.createElement("tr", { "aria-labelledby": name, key: index },
+        return (React.createElement("tr", { key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
                     React.createElement(Tooltip, { content: (Constants.TASK_NAMES[name] &&
