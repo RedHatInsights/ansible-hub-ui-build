@@ -38,6 +38,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t, Trans } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import * as React from 'react';
 import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
@@ -227,7 +228,7 @@ var GroupDetail = /** @class */ (function (_super) {
         return (React.createElement("section", { className: 'body' },
             React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } }, !editPermissions && user.model_permissions.change_group && (React.createElement(Button, { onClick: function () { return _this.setState({ editPermissions: true }); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))))),
             React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name },
-                React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.label),
+                React.createElement(FlexItem, { style: { minWidth: '200px' } }, i18n._(group.label)),
                 React.createElement(FlexItem, { grow: { default: 'grow' } },
                     React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
                             .filter(function (perm) {
@@ -238,7 +239,7 @@ var GroupDetail = /** @class */ (function (_super) {
                             .filter(function (selected) {
                             return group.object_permissions.find(function (perm) { return selected === perm; });
                         })
-                            .map(function (value) { return twoWayMapper(value, filteredPermissions); }), setSelected: function (perms) { return _this.setState({ permissions: perms }); }, menuAppendTo: 'inline', isViewOnly: !editPermissions, onClear: function () {
+                            .map(function (value) { return twoWayMapper(value, filteredPermissions); }), setSelected: function (perms) { return _this.setState({ permissions: perms }); }, menuAppendTo: 'inline', multilingual: true, isViewOnly: !editPermissions, onClear: function () {
                             var clearedPerms = group.object_permissions;
                             _this.setState({
                                 permissions: _this.state.permissions.filter(function (x) { return !clearedPerms.includes(x); }),
