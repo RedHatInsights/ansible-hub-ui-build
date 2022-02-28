@@ -512,7 +512,7 @@ var GroupDetail = /** @class */ (function (_super) {
         if (featureFlags) {
             isUserMgmtDisabled = featureFlags.external_authentication;
         }
-        return (React.createElement("tr", { "aria-labelledby": user.username, key: index },
+        return (React.createElement("tr", { "data-cy": "GroupDetail-users-".concat(user.username), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.userDetail, { userID: user.id }) }, user.username)),
             React.createElement("td", null, user.email),

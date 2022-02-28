@@ -251,7 +251,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
-        return (React.createElement("tr", { "aria-labelledby": "".concat(version.namespace, ".").concat(version.name, " v").concat(version.version), key: index, "data-cy": 'table_row' },
+        return (React.createElement("tr", { key: index, "data-cy": 'CertificationDashboard-row' },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
             React.createElement("td", null,

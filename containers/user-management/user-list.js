@@ -224,7 +224,7 @@ var UserList = /** @class */ (function (_super) {
             this.context.user.model_permissions.delete_user) {
             dropdownItems.push(React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.deleteUser(user); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Delete"], ["Delete"])))));
         }
-        return (React.createElement("tr", { "aria-labelledby": user.username, key: index },
+        return (React.createElement("tr", { "data-cy": "UserList-row-".concat(user.username), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.userDetail, { userID: user.id }) }, user.username),
                 user.is_superuser && (React.createElement(React.Fragment, null,

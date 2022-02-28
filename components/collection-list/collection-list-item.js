@@ -69,7 +69,7 @@ var CollectionListItem = /** @class */ (function (_super) {
             React.createElement("div", { className: 'hub-entry' },
                 "v",
                 latest_version.version)));
-        return (React.createElement(DataListItem, { "aria-labelledby": 'simple-item1' },
+        return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },
             React.createElement(DataListItemRow, null,
                 React.createElement(DataListItemCells, { dataListCells: cells }))));
     };
