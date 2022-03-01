@@ -33,7 +33,7 @@ import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownItem, Label, Tooltip, LabelGroup, } from '@patternfly/react-core';
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
-import { ParamHelper, filterIsSet } from 'src/utilities';
+import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -252,15 +252,16 @@ var UserList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     users: [],
                     itemCount: 0,
                     loading: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });

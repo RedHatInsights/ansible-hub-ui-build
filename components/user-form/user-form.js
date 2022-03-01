@@ -44,6 +44,7 @@ import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';
 import { GroupAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
+import { errorMessage } from 'src/utilities';
 var UserForm = /** @class */ (function (_super) {
     __extends(UserForm, _super);
     function UserForm(props) {
@@ -70,11 +71,12 @@ var UserForm = /** @class */ (function (_super) {
             GroupAPI.list({ name__contains: name, page_size: 5 })
                 .then(function (result) { return _this.setState({ searchGroups: result.data.data }); })
                 .catch(function (e) {
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
                             variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         } }),
                 });
             });

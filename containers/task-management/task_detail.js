@@ -39,6 +39,7 @@ import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { capitalize } from 'lodash';
+import { errorMessage } from 'src/utilities';
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {
@@ -213,15 +214,16 @@ var TaskDetail = /** @class */ (function (_super) {
             });
             _this.loadContent();
         })
-            .catch(function () {
+            .catch(function (e) {
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
             _this.setState({
                 loading: true,
                 cancelModalVisible: false,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: taskName,
-                        description: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Task \"", "\" could not be stopped."], ["Task \"", "\" could not be stopped."])), taskName),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });

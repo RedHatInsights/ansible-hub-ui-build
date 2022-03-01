@@ -34,6 +34,7 @@ import './namespace-form.scss';
 import { Form, FormGroup, TextInput, TextArea, Alert, } from '@patternfly/react-core';
 import { PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
 import { NamespaceCard, ObjectPermissionField, } from 'src/components';
+import { errorMessage } from 'src/utilities';
 var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm(props) {
@@ -71,10 +72,11 @@ var NamespaceForm = /** @class */ (function (_super) {
                         newNS.groups = g;
                         _this.props.updateNamespace(newNS);
                     }, onError: function (err) {
-                        return _this.setState({
+                        var _a = err.response, status = _a.status, statusText = _a.statusText;
+                        _this.setState({
                             formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                                    description: err,
+                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                                    description: errorMessage(status, statusText),
                                     variant: 'danger',
                                 } }),
                         });

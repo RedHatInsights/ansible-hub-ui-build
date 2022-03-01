@@ -36,6 +36,7 @@ import { isEqual, isEmpty, xorWith, cloneDeep } from 'lodash';
 import { APISearchTypeAhead, ObjectPermissionField, HelperText, } from 'src/components';
 import { ContainerDistributionAPI, ExecutionEnvironmentNamespaceAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { Constants } from 'src/constants';
+import { errorMessage } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
     function RepositoryForm(props) {
@@ -75,10 +76,11 @@ var RepositoryForm = /** @class */ (function (_super) {
                 }
             })
                 .catch(function (e) {
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     formErrors: __assign(__assign({}, _this.state.formErrors), { registries: {
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading registries."], ["Error loading registries."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Registries list could not be displayed."], ["Registries list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                             variant: 'danger',
                         } }),
                 });
@@ -142,10 +144,11 @@ var RepositoryForm = /** @class */ (function (_super) {
                 (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))), className: 'hub-formgroup-groups' },
                     React.createElement("div", { className: 'pf-c-form__helper-text' }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."], ["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."])), namespace)),
                     React.createElement(ObjectPermissionField, { groups: this.state.selectedGroups, availablePermissions: Constants.CONTAINER_NAMESPACE_PERMISSIONS, setGroups: function (g) { return _this.setState({ selectedGroups: g }); }, menuAppendTo: 'parent', isDisabled: !this.props.permissions.includes('container.change_containernamespace'), onError: function (err) {
-                            return _this.setState({
+                            var _a = err.response, status = _a.status, statusText = _a.statusText;
+                            _this.setState({
                                 formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                        title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                                        description: err,
+                                        title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                                        description: errorMessage(status, statusText),
                                         variant: 'danger',
                                     } }),
                             });
@@ -195,10 +198,11 @@ var RepositoryForm = /** @class */ (function (_super) {
             });
         })
             .catch(function (e) {
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
             _this.setState({
                 formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                         variant: 'danger',
                     } }),
             });

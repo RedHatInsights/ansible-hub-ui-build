@@ -32,7 +32,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
 import { Paths } from 'src/paths';
 import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
-import { getRepoUrl } from 'src/utilities';
+import { errorMessage, getRepoUrl } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 import { MyDistributionAPI } from 'src/api';
 var TokenPage = /** @class */ (function (_super) {
@@ -61,13 +61,14 @@ var TokenPage = /** @class */ (function (_super) {
             });
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 repoUrl: '',
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading Server URL."], ["Error loading Server URL."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server URL could not be displayed."], ["Server URL could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -82,13 +83,14 @@ var TokenPage = /** @class */ (function (_super) {
             _this.setState({ tokenData: result.data });
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 tokenData: undefined,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Token could not be displayed."], ["Token could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });

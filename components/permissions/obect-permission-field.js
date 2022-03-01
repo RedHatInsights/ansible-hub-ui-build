@@ -45,7 +45,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
                 var groups = result.data.data.filter(function (group) { return !added.includes(group.name); });
                 _this.setState({ searchGroups: groups });
             })
-                .catch(function (e) { return _this.props.onError(e === null || e === void 0 ? void 0 : e.message); });
+                .catch(function (e) { return _this.props.onError(e.response); });
         };
         _this.onSelect = function (event, selection) {
             var newGroups = __spreadArray([], _this.props.groups, true);
