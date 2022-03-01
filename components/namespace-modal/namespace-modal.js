@@ -33,6 +33,7 @@ import * as React from 'react';
 import { Alert, Button, Form, FormGroup, InputGroup, Modal, ModalVariant, TextInput, } from '@patternfly/react-core';
 import { NamespaceAPI } from 'src/api';
 import { HelperText, ObjectPermissionField } from 'src/components';
+import { errorMessage } from 'src/utilities';
 var NamespaceModal = /** @class */ (function (_super) {
     __extends(NamespaceModal, _super);
     function NamespaceModal(props) {
@@ -119,10 +120,11 @@ var NamespaceModal = /** @class */ (function (_super) {
                         'change_namespace',
                         'upload_to_namespace',
                     ], groups: newGroups, setGroups: function (g) { return _this.setState({ newGroups: g }); }, menuAppendTo: 'parent', onError: function (err) {
-                        return _this.setState({
+                        var _a = err.response, status = _a.status, statusText = _a.statusText;
+                        _this.setState({
                             formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                                    description: err,
+                                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                                    description: errorMessage(status, statusText),
                                     variant: 'danger',
                                 } }),
                         });

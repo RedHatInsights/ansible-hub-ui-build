@@ -22,6 +22,7 @@ import * as React from 'react';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { waitForTask } from 'src/utilities';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { errorMessage } from 'src/utilities';
 import { Checkbox, Text } from '@patternfly/react-core';
 var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
     __extends(DeleteExecutionEnvironmentModal, _super);
@@ -65,12 +66,13 @@ var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
                     afterDelete();
                 });
             })
-                .catch(function () {
+                .catch(function (e) {
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     confirmDelete: false,
                     isDeletionPending: false,
                 });
-                addAlert(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Error: delete failed"], ["Error: delete failed"]))), 'danger', null);
+                addAlert(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Execution environment \"", "\" could not be deleted."], ["Execution environment \"", "\" could not be deleted."])), selectedItem), 'danger', errorMessage(status, statusText));
                 closeAction();
             });
         });

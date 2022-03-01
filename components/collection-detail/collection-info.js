@@ -21,6 +21,7 @@ import { t, Trans } from '@lingui/macro';
 import * as moment from 'moment';
 import * as React from 'react';
 import './collection-info.scss';
+import { errorMessage } from 'src/utilities';
 import { Link } from 'react-router-dom';
 import { Split, SplitItem, Grid, GridItem, Button, Alert, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
@@ -100,7 +101,8 @@ var CollectionInfo = /** @class */ (function (_super) {
             _this.downloadLinkRef.current.click();
         })
             .catch(function (e) {
-            return _this.props.addAlert('danger', t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Error downloading collection."], ["Error downloading collection."]))), e === null || e === void 0 ? void 0 : e.message);
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.props.addAlert('danger', t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection \"", "\" could not be downloaded."], ["Collection \"", "\" could not be downloaded."])), name), errorMessage(status, statusText));
         });
     };
     CollectionInfo.contextType = AppContext;

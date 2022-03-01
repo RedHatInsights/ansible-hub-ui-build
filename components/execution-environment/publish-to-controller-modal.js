@@ -43,7 +43,7 @@ import { Button, ClipboardCopyButton, DescriptionList, DescriptionListDescriptio
 import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
 import { ControllerAPI, ExecutionEnvironmentAPI } from 'src/api';
 import { APISearchTypeAhead, AlertList, AppliedFilters, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, ShaLabel, closeAlertMixin, } from 'src/components';
-import { filterIsSet, getContainersURL } from 'src/utilities';
+import { errorMessage, filterIsSet, getContainersURL } from 'src/utilities';
 var initialState = {
     alerts: [],
     controllers: null,
@@ -90,12 +90,13 @@ var PublishToControllerModal = /** @class */ (function (_super) {
             return controllers;
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading Controllers"], ["Error loading Controllers"]))),
-                        description: e.message,
+                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Controllers list could not be displayed."], ["Controllers list could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -129,12 +130,13 @@ var PublishToControllerModal = /** @class */ (function (_super) {
             return tags;
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading tags"], ["Error loading tags"]))),
-                        description: e.message,
+                        title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Tags could not be displayed."], ["Tags could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
