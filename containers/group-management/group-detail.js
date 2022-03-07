@@ -155,7 +155,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(Tabs, { isDisabled: editPermissions, disabledTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Please finish editing permissions first."], ["Please finish editing permissions first."]))), tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } })))),
-            React.createElement(Main, null,
+            React.createElement(Main, { "data-cy": 'main-tabs' },
                 params.tab == 'permissions' ? this.renderPermissions() : null,
                 params.tab == 'users' ? this.renderUsers(users) : null)));
     };
