@@ -350,8 +350,9 @@ var GroupDetail = /** @class */ (function (_super) {
         var groupname = group.name;
         return (React.createElement(DeleteModal, { cancelAction: function () { return _this.setState({ showUserRemoveModal: null }); }, deleteAction: function () { return _this.deleteUser(user); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Remove user from group?"], ["Remove user from group?"]))) },
             React.createElement(Trans, null,
+                "User ",
                 React.createElement("b", null, username),
-                " will be removed from ",
+                " will be removed from group",
                 React.createElement("b", null, groupname),
                 ".")));
     };
@@ -520,7 +521,7 @@ var GroupDetail = /** @class */ (function (_super) {
             React.createElement("td", null, user.first_name),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: user.date_joined })),
-            React.createElement("td", null,
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
                 ' ',
                 !!currentUser &&
                     currentUser.model_permissions.change_group &&
