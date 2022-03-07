@@ -281,7 +281,7 @@ var GroupList = /** @class */ (function (_super) {
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", null, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {
