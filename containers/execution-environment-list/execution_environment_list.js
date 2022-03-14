@@ -92,7 +92,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, selectedItem = _a.selectedItem;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
-                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
+                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
