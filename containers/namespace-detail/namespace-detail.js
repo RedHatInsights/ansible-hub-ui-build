@@ -46,7 +46,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, } from 'src/api';
 import { CollectionFilter, CollectionList, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, } from 'src/components';
-import { ParamHelper, getRepoUrl, filterIsSet } from 'src/utilities';
+import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -59,8 +59,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
         // query params
         _this.nonQueryStringParams = ['namespace'];
         _this.deleteNamespace = function () {
+            var name = _this.state.namespace.name;
             _this.setState({ isNamespacePending: true }, function () {
-                return NamespaceAPI.delete(_this.state.namespace.name)
+                return NamespaceAPI.delete(name)
                     .then(function () {
                     _this.setState({
                         redirect: formatPath(Paths.namespaces, {}),
@@ -72,23 +73,24 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             variant: 'success',
                             title: (React.createElement(Trans, null,
                                 "Namespace \"",
-                                _this.state.namespace.name,
+                                name,
                                 "\" has been successfully deleted.")),
                         },
                     ], false));
                 })
                     .catch(function (e) {
+                    var _a = e.response, status = _a.status, statusText = _a.statusText;
                     _this.setState({
                         isOpenNamespaceModal: false,
                         confirmDelete: false,
                         isNamespacePending: false,
                     }, function () {
-                        return _this.setState({
+                        _this.setState({
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                 {
                                     variant: 'danger',
-                                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting namespace."], ["Error deleting namespace."]))),
-                                    description: e === null || e === void 0 ? void 0 : e.message,
+                                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespace \"", "\" could not be deleted."], ["Namespace \"", "\" could not be deleted."])), name),
+                                    description: errorMessage(status, statusText),
                                 },
                             ], false),
                         });
@@ -287,12 +289,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
             });
         })
             .catch(function (err) {
-            return _this.setState({
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Error loading collection repositories."], ["Error loading collection repositories."]))),
-                        description: err === null || err === void 0 ? void 0 : err.message,
+                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collection repositories could not be displayed."], ["Collection repositories could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });

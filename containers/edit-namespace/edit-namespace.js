@@ -44,7 +44,7 @@ import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
 import { MyNamespaceAPI, ActiveUserAPI, } from 'src/api';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
-import { ParamHelper, mapErrorMessages, } from 'src/utilities';
+import { ParamHelper, mapErrorMessages, errorMessage, } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
@@ -80,18 +80,20 @@ var EditNamespace = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     loading: false,
                     redirect: formatPath(Paths.namespaceByRepo, {
                         namespace: _this.props.match.params['namespace'],
                         repo: _this.context.selectedRepo,
                     }),
                 }, function () {
+                    var _a;
                     _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading active user."], ["Error loading active user."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Active user profile \"", "\" could not be displayed."], ["Active user profile \"", "\" could not be displayed."])), (_a = _this.context.user) === null || _a === void 0 ? void 0 : _a.username),
+                            description: errorMessage(status, statusText),
                         },
                     ], false));
                 });
@@ -141,10 +143,17 @@ var EditNamespace = /** @class */ (function (_super) {
                         }, namespace: namespace })),
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
-                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
+                            React.createElement(Button, { isDisabled: this.isSaveDisabled(), variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                             saving ? React.createElement(Spinner, null) : null),
                         this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
+    };
+    EditNamespace.prototype.isSaveDisabled = function () {
+        var namespace = this.state.namespace;
+        return namespace.links.some(function (link) {
+            return NamespaceForm.validateName(link).validated == 'error' ||
+                NamespaceForm.validateUrl(link).validated == 'error';
+        });
     };
     Object.defineProperty(EditNamespace.prototype, "updateParams", {
         get: function () {
@@ -214,8 +223,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     _this.setState({
                         alerts: _this.state.alerts.concat({
                             variant: 'danger',
-                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                            description: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["You don't have permissions to update this namespace."], ["You don't have permissions to update this namespace."]))),
+                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Changes to namespace \"", "\" could not be saved."], ["Changes to namespace \"", "\" could not be saved."])), _this.state.namespace.name),
+                            description: errorMessage(result.status, result.statusText),
                         }),
                         saving: false,
                     });
@@ -241,5 +250,5 @@ var EditNamespace = /** @class */ (function (_super) {
 }(React.Component));
 EditNamespace.contextType = AppContext;
 export default withRouter(EditNamespace);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=edit-namespace.js.map

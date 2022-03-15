@@ -46,7 +46,7 @@ import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter
 import { NamespaceAPI, MyNamespaceAPI } from 'src/api';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { Constants } from 'src/constants';
-import { filterIsSet } from 'src/utilities';
+import { errorMessage, filterIsSet } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 import { i18n } from '@lingui/core';
 import './namespace-list.scss';
@@ -103,7 +103,8 @@ var NamespaceList = /** @class */ (function (_super) {
                 }
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     namespaces: [],
                     itemCount: 0,
                     loading: false,
@@ -111,8 +112,8 @@ var NamespaceList = /** @class */ (function (_super) {
                     return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading my namespaces."], ["Error loading my namespaces."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false));
                 });
@@ -233,7 +234,8 @@ var NamespaceList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     namespaces: [],
                     itemCount: 0,
                     loading: false,
@@ -241,8 +243,8 @@ var NamespaceList = /** @class */ (function (_super) {
                     return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Error loading namespaces."], ["Error loading namespaces."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false));
                 });

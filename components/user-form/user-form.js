@@ -44,6 +44,7 @@ import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';
 import { GroupAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
+import { errorMessage } from 'src/utilities';
 var UserForm = /** @class */ (function (_super) {
     __extends(UserForm, _super);
     function UserForm(props) {
@@ -70,11 +71,12 @@ var UserForm = /** @class */ (function (_super) {
             GroupAPI.list({ name__contains: name, page_size: 5 })
                 .then(function (result) { return _this.setState({ searchGroups: result.data.data }); })
                 .catch(function (e) {
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
                             variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         } }),
                 });
             });
@@ -116,8 +118,8 @@ var UserForm = /** @class */ (function (_super) {
             React.createElement(TextInput, { placeholder: isNewUser ? '' : '••••••••••••••••••••••', validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)), isDisabled: isReadonly, id: 'password-confirm', value: passwordConfirm, onChange: function (value) {
                     _this.setState({ passwordConfirm: value });
                 }, type: 'password' }))); };
-        var readonlyAuth = function () { return (React.createElement(FormGroup, { fieldId: 'auth_provider', key: 'readonlyAuth', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Authentication provider"], ["Authentication provider"]))), "aria-labelledby": 'readonly-auth' }, user.auth_provider.map(function (provider) { return (React.createElement(Label, { key: provider }, provider)); }))); };
-        var readonlyGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', key: 'readonlyGroups', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Groups"], ["Groups"]))), "aria-labelledby": 'readonly-groups' }, user.groups.map(function (group) { return (React.createElement(Label, { key: group.name }, group.name)); }))); };
+        var readonlyAuth = function () { return (React.createElement(FormGroup, { fieldId: 'auth_provider', key: 'readonlyAuth', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Authentication provider"], ["Authentication provider"]))) }, user.auth_provider.map(function (provider) { return (React.createElement(Label, { key: provider }, provider)); }))); };
+        var readonlyGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', key: 'readonlyGroups', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Groups"], ["Groups"]))), "data-cy": 'UserForm-readonly-groups' }, user.groups.map(function (group) { return (React.createElement(Label, { key: group.name }, group.name)); }))); };
         var editGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', helperTextInvalid: errorMessages['groups'], key: 'editGroups', label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups"], ["Groups"]))), validated: _this.toError(!('groups' in errorMessages)) }, formErrors.groups ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(APISearchTypeAhead, { results: _this.state.searchGroups, loadResults: _this.loadGroups, onSelect: _this.onSelectGroup, placeholderText: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Select groups"], ["Select groups"]))), selections: user.groups, multiple: true, onClear: _this.clearGroups, isDisabled: isReadonly })))); };
         var superuserLabel = (React.createElement(FormGroup, { validated: this.toError(!('is_superuser' in errorMessages)), fieldId: 'is_superuser', key: 'superuserLabel', label: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["User type"], ["User type"]))), helperTextInvalid: errorMessages['is_superuser'], helperText: this.getSuperUserHelperText(user) },
             React.createElement(Tooltip, { content: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },

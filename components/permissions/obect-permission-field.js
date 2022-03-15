@@ -45,7 +45,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
                 var groups = result.data.data.filter(function (group) { return !added.includes(group.name); });
                 _this.setState({ searchGroups: groups });
             })
-                .catch(function (e) { return _this.props.onError(e === null || e === void 0 ? void 0 : e.message); });
+                .catch(function (e) { return _this.props.onError(e.response); });
         };
         _this.onSelect = function (event, selection) {
             var newGroups = __spreadArray([], _this.props.groups, true);
@@ -74,7 +74,7 @@ var ObjectPermissionField = /** @class */ (function (_super) {
             React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name },
                 React.createElement(FlexItem, { style: { minWidth: '200px' } }, group.name),
                 React.createElement(FlexItem, { grow: { default: 'grow' }, style: { width: '90%' } },
-                    React.createElement(PermissionChipSelector, { availablePermissions: availablePermissions.map(function (perm) {
+                    React.createElement(PermissionChipSelector, { multilingual: true, availablePermissions: availablePermissions.map(function (perm) {
                             return twoWayMapper(perm, Constants.GROUP_HUMAN_PERMISSIONS);
                         }), selectedPermissions: group.object_permissions.map(function (perm) {
                             return twoWayMapper(perm, Constants.GROUP_HUMAN_PERMISSIONS);

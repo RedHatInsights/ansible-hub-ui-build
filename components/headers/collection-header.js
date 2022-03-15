@@ -28,6 +28,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
+import { errorMessage } from 'src/utilities';
 import './header.scss';
 import { Redirect } from 'react-router-dom';
 import * as moment from 'moment';
@@ -56,7 +57,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.deleteCollectionVersion = function (collectionVersion) {
-            var deleteCollection = _this.state.deleteCollection;
+            var _a = _this.state, deleteCollection = _a.deleteCollection, name = _a.deleteCollection.name;
             CollectionAPI.deleteCollectionVersion(_this.context.selectedRepo, deleteCollection)
                 .then(function (res) {
                 var taskId = _this.getIdFromTask(res.data.task);
@@ -108,7 +109,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status;
+                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status, statusText = _a.statusText;
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
@@ -134,8 +135,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
-                                title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting collection version."], ["Error deleting collection version."]))),
-                                description: err === null || err === void 0 ? void 0 : err.message,
+                                title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collection \"", " v", "\" could not be deleted."], ["Collection \"", " v", "\" could not be deleted."])), name, collectionVersion),
+                                description: errorMessage(status, statusText),
                             },
                         ], false),
                     });
@@ -143,7 +144,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.deleteCollection = function () {
-            var _a = _this.state, deleteCollection = _a.deleteCollection, collectionVersion = _a.collectionVersion;
+            var _a = _this.state, deleteCollection = _a.deleteCollection, name = _a.deleteCollection.name, collectionVersion = _a.collectionVersion;
             CollectionAPI.deleteCollection(_this.context.selectedRepo, deleteCollection)
                 .then(function (res) {
                 var taskId = _this.getIdFromTask(res.data.task);
@@ -153,7 +154,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             variant: 'success',
                             title: (React.createElement(Trans, null,
                                 "Collection \"",
-                                deleteCollection.name,
+                                name,
                                 " v",
                                 collectionVersion,
                                 "\" has been successfully deleted.")),
@@ -171,15 +172,16 @@ var CollectionHeader = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                return _this.setState({
+                var _a = err.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     collectionVersion: null,
                     deleteCollection: null,
                     isDeletionPending: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error deleting collection."], ["Error deleting collection."]))),
-                            description: err === null || err === void 0 ? void 0 : err.message,
+                            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection \"", "\" could not be deleted."], ["Collection \"", "\" could not be deleted."])), name),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });
@@ -408,12 +410,13 @@ var CollectionHeader = /** @class */ (function (_super) {
             _this.setState({ noDependencies: !data.data.length });
         })
             .catch(function (err) {
-            return _this.setState({
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Error getting collection's dependencies."], ["Error getting collection's dependencies."]))),
-                        description: err === null || err === void 0 ? void 0 : err.message,
+                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Dependencies for collection \"", "\" could not be displayed."], ["Dependencies for collection \"", "\" could not be displayed."])), name),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });

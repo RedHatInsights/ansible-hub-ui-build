@@ -39,6 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import * as React from 'react';
 import { t, Trans } from '@lingui/macro';
+import { errorMessage } from 'src/utilities';
 import './registry-list.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
@@ -257,7 +258,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(DropdownItem, { onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
                     React.createElement(Trans, null, "Index execution environments"))),
         ].filter(Boolean);
-        return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
+        return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentRegistryList-row-".concat(item.name), key: index },
             React.createElement("td", null, item.name),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.created_at })),
@@ -302,8 +303,9 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 name,
                 "\" has been successfully deleted."), 'success');
         })
-            .catch(function () {
-            return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Remote registry \"", "\" could not be deleted."], ["Remote registry \"", "\" could not be deleted."])), name), 'danger', errorMessage(status, statusText));
         })
             .then(function () {
             _this.queryRegistries();
@@ -319,7 +321,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             _this.addAlert(React.createElement(Trans, null,
                 "Sync started for remote registry \"",
                 name,
-                "\"."), 'success', React.createElement("span", null,
+                "\"."), 'info', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "See the task management",
                     ' ',
@@ -329,7 +331,10 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     "for the status of this task.")));
             _this.queryRegistries(true);
         })
-            .catch(function () { return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Remote registry \"", "\" could not be synced."], ["Remote registry \"", "\" could not be synced."])), name), 'danger', errorMessage(status, statusText));
+        });
     };
     ExecutionEnvironmentRegistryList.prototype.indexRegistry = function (_a) {
         var _this = this;
@@ -344,7 +349,10 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "detail page"),
                     "for the status of this task.")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Execution environment \"", "\" could not be indexed."], ["Execution environment \"", "\" could not be indexed."])), name), 'danger', errorMessage(status, statusText));
+        });
     };
     ExecutionEnvironmentRegistryList.prototype.addAlert = function (title, variant, description) {
         this.setState({
