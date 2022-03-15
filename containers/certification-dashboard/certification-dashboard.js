@@ -70,7 +70,7 @@ import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptySta
 import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, } from '@patternfly/react-core';
 import { InfoCircleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
 import { CollectionVersionAPI, TaskAPI } from 'src/api';
-import { filterIsSet, ParamHelper } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
 import { LoadingPageWithHeader, StatefulDropdown, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
@@ -251,7 +251,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
-        return (React.createElement("tr", { "aria-labelledby": "".concat(version.namespace, ".").concat(version.name, " v").concat(version.version), key: index, "data-cy": 'table_row' },
+        return (React.createElement("tr", { key: index, "data-cy": 'CertificationDashboard-row' },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
             React.createElement("td", null,
@@ -323,17 +323,20 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 _this.waitForUpdate(result.data.remove_task_id, version);
             }, _this.addAlert(React.createElement(Trans, null,
                 "Certification status for collection \"",
+                version.namespace,
+                ' ',
                 version.name,
                 " v",
                 version.version,
                 "\" has been successfully updated."), 'success'))
                 .catch(function (error) {
+                var _a = error.response, status = _a.status, statusText = _a.statusText;
                 _this.setState({
                     updatingVersions: [],
                     alerts: alerts.concat({
                         variant: 'danger',
-                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), error.response.status),
-                        description: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
+                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                        description: errorMessage(status, statusText),
                     }),
                 });
             });
@@ -370,8 +373,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 updatingVersions: [],
                                 alerts: this.state.alerts.concat({
                                     variant: 'danger',
-                                    title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["API Error: 500"], ["API Error: 500"]))),
-                                    description: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Could not update the certification status for ", ".", ".", "."], ["Could not update the certification status for ", ".", ".", "."])), version.namespace, version.name, version.version),
+                                    title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    description: errorMessage(500, t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Internal Server Error"], ["Internal Server Error"])))),
                                 }),
                             });
                         }
@@ -423,5 +426,5 @@ var CertificationDashboard = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CertificationDashboard);
 CertificationDashboard.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29;
 //# sourceMappingURL=certification-dashboard.js.map

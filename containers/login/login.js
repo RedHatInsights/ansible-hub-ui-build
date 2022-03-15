@@ -85,14 +85,14 @@ var LoginPage = /** @class */ (function (_super) {
             React.createElement(ExclamationCircleIcon, null),
             '   ',
             this.state.errorMessage));
-        var loginForm = (React.createElement(LoginForm, { showHelperText: !!this.state.errorMessage, helperText: helperText, usernameLabel: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"]))), usernameValue: this.state.usernameValue, onChangeUsername: this.handleUsernameChange, passwordLabel: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Password"], ["Password"]))), passwordValue: this.state.passwordValue, onChangePassword: this.handlePasswordChange, onLoginButtonClick: this.onLoginButtonClick }));
+        var loginForm = (React.createElement(LoginForm, { showHelperText: !!this.state.errorMessage, helperText: helperText, usernameLabel: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"]))), usernameValue: this.state.usernameValue, onChangeUsername: this.handleUsernameChange, passwordLabel: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Password"], ["Password"]))), passwordValue: this.state.passwordValue, onChangePassword: this.handlePasswordChange, onLoginButtonClick: this.onLoginButtonClick, loginButtonLabel: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Log In"], ["Log In"]))) }));
         return (React.createElement(PFLoginPage, { style: {
                 backgroundColor: 'var(--pf-global--BackgroundColor--dark-100)',
-            }, loginTitle: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Log in to your account"], ["Log in to your account"]))), brandImgSrc: Logo }, loginForm));
+            }, loginTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Log in to your account"], ["Log in to your account"]))), brandImgSrc: Logo }, loginForm));
     };
     return LoginPage;
 }(React.Component));
 export default withRouter(LoginPage);
 LoginPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=login.js.map

@@ -92,7 +92,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, selectedItem = _a.selectedItem;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
-                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.0-ea/html-single/managing_containers_in_private_automation_hub/index', '_blank');
+                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
@@ -196,7 +196,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
+        return (React.createElement("table", { className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryEnvironments(); });
                 } }),
@@ -212,20 +212,20 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         showRemoteModal: true,
                         itemToEdit: __assign({}, item),
                     });
-                } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"]))))),
-            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+                } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Edit"], ["Edit"]))))),
+            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
                         publishToController: {
                             image: item.name,
                         },
                     });
-                } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
+                } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
             this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({ selectedItem: item, showDeleteModal: true });
-                } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Delete"], ["Delete"]))))),
+                } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });
-        return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
+        return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentList-row-".concat(item.name), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetail, {
                         container: item.pulp.distribution.base_path,
@@ -237,7 +237,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.updated })),
             React.createElement("td", null,
-                React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Local"], ["Local"]))))),
+                React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Local"], ["Local"]))))),
             React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && (React.createElement("div", { "data-cy": 'kebab-toggle' },
                 React.createElement(StatefulDropdown, { items: dropdownItems }))))));
     };
@@ -299,7 +299,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Error loading environments."], ["Error loading environments."]))), 'danger', e === null || e === void 0 ? void 0 : e.message);
+                return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Error loading environments."], ["Error loading environments."]))), 'danger', e === null || e === void 0 ? void 0 : e.message);
             });
         });
     };
@@ -336,7 +336,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             _this.addAlert(React.createElement(Trans, null,
                 "Sync started for execution environment \"",
                 name,
-                "\"."), 'success', React.createElement("span", null,
+                "\"."), 'info', React.createElement("span", null,
                 React.createElement(Trans, null,
                     "See the task management",
                     ' ',
@@ -345,11 +345,11 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         ' '),
                     "for the status of this task.")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
 //# sourceMappingURL=execution_environment_list.js.map

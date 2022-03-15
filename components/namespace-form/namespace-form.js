@@ -31,9 +31,11 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-form.scss';
+import { validateURLHelper } from 'src/utilities';
 import { Form, FormGroup, TextInput, TextArea, Alert, } from '@patternfly/react-core';
 import { PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
 import { NamespaceCard, ObjectPermissionField, } from 'src/components';
+import { errorMessage } from 'src/utilities';
 var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm(props) {
@@ -60,7 +62,7 @@ var NamespaceForm = /** @class */ (function (_super) {
                         React.createElement(TextInput, { isRequired: true, isDisabled: true, id: 'name', type: 'text', value: namespace.name })),
                     React.createElement("br", null),
                     React.createElement(FormGroup, { fieldId: 'company', label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Company name"], ["Company name"]))), helperTextInvalid: errorMessages['company'], validated: this.toError(!('company' in errorMessages)) },
-                        React.createElement(TextInput, { validated: this.toError(!('company' in errorMessages)), isRequired: true, id: 'company', type: 'text', value: namespace.company, onChange: function (value, event) { return _this.updateField(value, event); } }))),
+                        React.createElement(TextInput, { validated: this.toError(!('company' in errorMessages)), id: 'company', type: 'text', value: namespace.company, onChange: function (value, event) { return _this.updateField(value, event); } }))),
                 React.createElement("div", { className: 'card' },
                     React.createElement(NamespaceCard, __assign({}, namespace)))),
             React.createElement(FormGroup, { fieldId: 'groups', label: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))), className: 'namespace-owners', helperTextInvalid: errorMessages['groups'], validated: this.toError(!isNaN(Number(this.state.newNamespaceGroup)) &&
@@ -71,10 +73,11 @@ var NamespaceForm = /** @class */ (function (_super) {
                         newNS.groups = g;
                         _this.props.updateNamespace(newNS);
                     }, onError: function (err) {
-                        return _this.setState({
+                        var _a = err.response, status = _a.status, statusText = _a.statusText;
+                        _this.setState({
                             formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                                    description: err,
+                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                                    description: errorMessage(status, statusText),
                                     variant: 'danger',
                                 } }),
                         });
@@ -130,14 +133,44 @@ var NamespaceForm = /** @class */ (function (_super) {
         });
         this.props.updateNamespace(update);
     };
+    NamespaceForm.validateName = function (link) {
+        if (link.url) {
+            if (link.name) {
+                return { validated: 'default' };
+            }
+            else {
+                return {
+                    validated: 'error',
+                    helperTextInvalid: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Name must not be empty."], ["Name must not be empty."]))),
+                };
+            }
+        }
+        // if link url is empty, there is no need to insert name because the link data will be discarded
+        return { validated: 'default' };
+    };
+    NamespaceForm.validateUrl = function (link) {
+        if (link.url) {
+            // only validate url if input is not blank, blank inputs are thrown away
+            return validateURLHelper(undefined, link.url);
+        }
+        if (link.name) {
+            return {
+                validated: 'error',
+                helperTextInvalid: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["URL must not be empty."], ["URL must not be empty."]))),
+            };
+        }
+        return { validated: 'default' };
+    };
     NamespaceForm.prototype.renderLinkGroup = function (link, index) {
         var _this = this;
         var last = index === this.props.namespace.links.length - 1;
         return (React.createElement("div", { className: 'useful-links', key: index },
             React.createElement("div", { className: 'link-name' },
-                React.createElement(TextInput, { id: 'name', type: 'text', placeholder: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Link text"], ["Link text"]))), value: link.name, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
+                React.createElement(FormGroup, __assign({ fieldId: 'name' }, NamespaceForm.validateName(link)),
+                    React.createElement(TextInput, { id: 'name', type: 'text', placeholder: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Link text"], ["Link text"]))), value: link.name, onChange: function (value, event) { return _this.updateLink(index, value, event); }, validated: NamespaceForm.validateName(link).validated }))),
             React.createElement("div", { className: 'link-url' },
-                React.createElement(TextInput, { id: 'url', type: 'text', placeholder: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Link URL"], ["Link URL"]))), value: link.url, onChange: function (value, event) { return _this.updateLink(index, value, event); } })),
+                React.createElement(FormGroup, __assign({ fieldId: 'link' }, NamespaceForm.validateUrl(link)),
+                    React.createElement(TextInput, { id: 'url', type: 'text', placeholder: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Link URL"], ["Link URL"]))), value: link.url, onChange: function (value, event) { return _this.updateLink(index, value, event); }, validated: NamespaceForm.validateUrl(link.url).validated }))),
             React.createElement("div", { className: 'link-button' },
                 React.createElement("div", { className: 'link-container' },
                     React.createElement(TrashIcon, { className: 'clickable', onClick: function () { return _this.removeLink(index); }, size: 'sm' })),
@@ -146,5 +179,5 @@ var NamespaceForm = /** @class */ (function (_super) {
     return NamespaceForm;
 }(React.Component));
 export { NamespaceForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
 //# sourceMappingURL=namespace-form.js.map
