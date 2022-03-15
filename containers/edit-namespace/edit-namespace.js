@@ -143,10 +143,17 @@ var EditNamespace = /** @class */ (function (_super) {
                         }, namespace: namespace })),
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
-                            React.createElement(Button, { variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
+                            React.createElement(Button, { isDisabled: this.isSaveDisabled(), variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                             saving ? React.createElement(Spinner, null) : null),
                         this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
+    };
+    EditNamespace.prototype.isSaveDisabled = function () {
+        var namespace = this.state.namespace;
+        return namespace.links.some(function (link) {
+            return NamespaceForm.validateName(link).validated == 'error' ||
+                NamespaceForm.validateUrl(link).validated == 'error';
+        });
     };
     Object.defineProperty(EditNamespace.prototype, "updateParams", {
         get: function () {
