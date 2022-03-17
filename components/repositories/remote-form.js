@@ -194,7 +194,7 @@ var RemoteForm = /** @class */ (function (_super) {
                             remote.download_concurrency > 0
                             ? 'default'
                             : 'error', helperTextInvalid: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Number must be greater than 0"], ["Number must be greater than 0"]))) },
-                        React.createElement(TextInput, { id: 'download_concurrency', type: 'number', value: remote.download_concurrency, validated: !this.isNumericSet(remote.download_concurrency) ||
+                        React.createElement(TextInput, { id: 'download_concurrency', type: 'number', value: remote.download_concurrency || '', validated: !this.isNumericSet(remote.download_concurrency) ||
                                 remote.download_concurrency > 0
                                 ? 'default'
                                 : 'error', onChange: function (value) {
@@ -204,7 +204,7 @@ var RemoteForm = /** @class */ (function (_super) {
                             Number.isInteger(remote.rate_limit)
                             ? 'default'
                             : 'error', helperTextInvalid: t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Must be an integer."], ["Must be an integer."]))) },
-                        React.createElement(TextInput, { id: 'rate_limit', type: 'number', value: remote.rate_limit, onChange: function (value) { return _this.updateRemote(value, 'rate_limit'); } })))),
+                        React.createElement(TextInput, { id: 'rate_limit', type: 'number', value: remote.rate_limit || '', onChange: function (value) { return _this.updateRemote(value, 'rate_limit'); } })))),
             errorMessages['__nofield'] ? (React.createElement("span", { style: {
                     color: 'var(--pf-global--danger-color--200)',
                 } }, errorMessages['__nofield'])) : null));
