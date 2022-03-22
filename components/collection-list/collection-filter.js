@@ -39,7 +39,8 @@ var CollectionFilter = /** @class */ (function (_super) {
     };
     CollectionFilter.prototype.render = function () {
         var _this = this;
-        var _a = this.props, ignoredParams = _a.ignoredParams, params = _a.params, updateParams = _a.updateParams;
+        var _a, _b;
+        var _c = this.props, ignoredParams = _c.ignoredParams, params = _c.params, updateParams = _c.updateParams;
         var filterConfig = [
             {
                 id: 'keywords',
@@ -54,17 +55,31 @@ var CollectionFilter = /** @class */ (function (_super) {
                     title: tag,
                 }); }),
             },
-        ];
+            ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true && {
+                id: 'sign_state',
+                title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Sign state"], ["Sign state"]))),
+                inputType: 'select',
+                options: [
+                    { id: 'signed', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Signed"], ["Signed"]))) },
+                    { id: 'unsigned', title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Unsigned"], ["Unsigned"]))) },
+                    { id: 'partial', title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Partial"], ["Partial"]))) },
+                ],
+            },
+        ].filter(Boolean);
         return (React.createElement(Toolbar, null,
             React.createElement(ToolbarContent, null,
                 React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                     React.createElement(ToolbarItem, null,
                         React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: filterConfig }),
                         React.createElement(ToolbarItem, null,
-                            React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ignoredParams })))))));
+                            React.createElement(AppliedFilters, { niceNames: {
+                                    sign_state: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["sign state"], ["sign state"]))),
+                                    tags: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["tags"], ["tags"]))),
+                                    keywords: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["keywords"], ["keywords"]))),
+                                }, style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ignoredParams })))))));
     };
     return CollectionFilter;
 }(React.Component));
 export { CollectionFilter };
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
 //# sourceMappingURL=collection-filter.js.map
