@@ -74,7 +74,8 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.render = function () {
         var _this = this;
         var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults;
-        var noData = collections.length === 0 && !filterIsSet(params, ['keywords', 'tags']);
+        var noData = collections.length === 0 &&
+            !filterIsSet(params, ['keywords', 'tags', 'sign_state']);
         var updateParams = function (p) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
