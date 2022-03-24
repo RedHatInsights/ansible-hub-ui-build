@@ -64,7 +64,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 return NamespaceAPI.delete(name)
                     .then(function () {
                     _this.setState({
-                        redirect: formatPath(Paths.namespaces, {}),
+                        redirect: formatPath(namespaceBreadcrumb.url, {}),
                         confirmDelete: false,
                         isNamespacePending: false,
                     });
