@@ -67,8 +67,8 @@ import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, Main, } from 'src/components';
-import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, } from '@patternfly/react-core';
-import { InfoCircleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
+import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, } from '@patternfly/react-core';
+import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
 import { CollectionVersionAPI, TaskAPI } from 'src/api';
 import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
 import { LoadingPageWithHeader, StatefulDropdown, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, } from 'src/components';
@@ -235,19 +235,14 @@ var CertificationDashboard = /** @class */ (function (_super) {
             return React.createElement("span", { className: 'fa fa-lg fa-spin fa-spinner' });
         }
         if (version.repository_list.includes(Constants.PUBLISHED)) {
-            return (React.createElement("span", null,
-                React.createElement(CheckCircleIcon, { style: { color: 'var(--pf-global--success-color--100)' } }),
-                ' ', t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Approved"], ["Approved"])))));
+            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, version.sign_state === 'signed'
+                ? t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Signed and approved"], ["Signed and approved"]))) : t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Approved"], ["Approved"])))));
         }
         if (version.repository_list.includes(Constants.NOTCERTIFIED)) {
-            return (React.createElement("span", null,
-                React.createElement(ExclamationCircleIcon, { style: { color: 'var(--pf-global--danger-color--100)' } }),
-                ' ', t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
+            return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
-            return (React.createElement("span", null,
-                React.createElement(InfoCircleIcon, { style: { color: 'var(--pf-global--info-color--100)' } }),
-                ' ', t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Needs Review"], ["Needs Review"])))));
+            return (React.createElement(Label, { variant: 'outline', color: 'orange', icon: React.createElement(ExclamationTriangleIcon, null) }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Needs Review"], ["Needs Review"])))));
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
@@ -269,6 +264,10 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
+        var _a, _b, _c, _d, _e, _f, _g;
+        var canSign = ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true &&
+            ((_d = (_c = this.context) === null || _c === void 0 ? void 0 : _c.featureFlags) === null || _d === void 0 ? void 0 : _d.collection_auto_sign) === true &&
+            ((_g = (_f = (_e = this.context) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f.model_permissions) === null || _g === void 0 ? void 0 : _g.sign_collections_on_namespace);
         if (this.state.updatingVersions.includes(version)) {
             return;
         }
@@ -276,13 +275,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     namespace: version.namespace,
                     name: version.name,
                     version: version.version,
-                }) }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
+                }) }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
         var certifyDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.PUBLISHED);
-            }, isDisabled: isDisabled, key: 'certify' }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
+            }, isDisabled: isDisabled, key: 'certify' }, canSign ? t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
         var rejectDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.NOTCERTIFIED);
-            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
+            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
         if (version.repository_list.includes(Constants.PUBLISHED)) {
             return (React.createElement("span", null,
                 React.createElement(StatefulDropdown, { items: [
@@ -304,7 +303,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 React.createElement(Button, { onClick: function () {
                         return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
                     } },
-                    React.createElement("span", null, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Approve"], ["Approve"]))))),
+                    React.createElement("span", null, canSign ? t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Approve"], ["Approve"]))))),
                 React.createElement(StatefulDropdown, { items: [rejectDropDown(false, Constants.NEEDSREVIEW), importsLink] })));
         }
     };
@@ -335,7 +334,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [],
                     alerts: alerts.concat({
                         variant: 'danger',
-                        title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                        title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
                         description: errorMessage(status, statusText),
                     }),
                 });
@@ -373,8 +372,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 updatingVersions: [],
                                 alerts: this.state.alerts.concat({
                                     variant: 'danger',
-                                    title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
-                                    description: errorMessage(500, t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Internal Server Error"], ["Internal Server Error"])))),
+                                    title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    description: errorMessage(500, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Internal Server Error"], ["Internal Server Error"])))),
                                 }),
                             });
                         }
@@ -426,5 +425,5 @@ var CertificationDashboard = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CertificationDashboard);
 CertificationDashboard.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32;
 //# sourceMappingURL=certification-dashboard.js.map
