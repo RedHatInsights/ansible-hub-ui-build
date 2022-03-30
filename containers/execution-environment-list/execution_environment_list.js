@@ -85,7 +85,11 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         }
         else {
             this.queryEnvironments();
+            this.setState({ alerts: this.context.alerts });
         }
+    };
+    ExecutionEnvironmentList.prototype.componentWillUnmount = function () {
+        this.context.setAlerts([]);
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
