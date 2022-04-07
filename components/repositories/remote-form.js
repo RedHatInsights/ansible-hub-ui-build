@@ -92,6 +92,7 @@ var RemoteForm = /** @class */ (function (_super) {
                 'auth_url',
                 'token',
                 'requirements_file',
+                'signed_only',
             ]);
         }
         return (React.createElement(Modal, { isOpen: this.props.showModal, title: this.props.title || t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit remote"], ["Edit remote"]))), variant: 'small', onClose: function () { return _this.props.closeModal(); }, actions: [
@@ -101,8 +102,8 @@ var RemoteForm = /** @class */ (function (_super) {
     };
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields) {
         var _this = this;
-        var _a, _b;
-        var _c = this.props, remote = _c.remote, errorMessages = _c.errorMessages;
+        var _a;
+        var _b = this.props, remote = _b.remote, errorMessages = _b.errorMessages;
         var filenames = this.state.filenames;
         var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file', rel: 'noreferrer' }, "requirements.yml"));
         var filename = function (field) {
@@ -122,8 +123,9 @@ var RemoteForm = /** @class */ (function (_super) {
                 React.createElement(TextInput, { validated: this.toError(!('name' in errorMessages)), isRequired: requiredFields.includes('name'), isDisabled: disabledFields.includes('name'), id: 'name', type: 'text', value: remote.name || '', onChange: function (value) { return _this.updateRemote(value, 'name'); } })),
             React.createElement(FormGroup, __assign({ fieldId: 'url', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["URL"], ["URL"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["The URL of an external content source."], ["The URL of an external content source."]))) }), isRequired: requiredFields.includes('url') }, validateURLHelper(errorMessages['url'], remote.url), { helperTextIcon: React.createElement(ExclamationTriangleIcon, null), helperTextInvalidIcon: React.createElement(ExclamationCircleIcon, null) }),
                 React.createElement(TextInput, { validated: validateURLHelper(errorMessages['url'], remote.url).validated, isRequired: requiredFields.includes('url'), isDisabled: disabledFields.includes('url'), id: 'url', type: 'text', value: remote.url || '', onChange: function (value) { return _this.updateRemote(value, 'url'); } })),
-            ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true && (React.createElement(FormGroup, { fieldId: 'signed_only', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Signed only"], ["Signed only"]))), label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Download only signed collections"], ["Download only signed collections"]))) },
-                React.createElement(Switch, { id: 'signed_only', isChecked: remote.signed_only, onChange: function (value) { return _this.updateRemote(value, 'signed_only'); } }))),
+            !disabledFields.includes('signed_only') &&
+                ((_a = this.context.featureFlags) === null || _a === void 0 ? void 0 : _a.collection_signing) ? (React.createElement(FormGroup, { fieldId: 'signed_only', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Signed only"], ["Signed only"]))), label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Download only signed collections"], ["Download only signed collections"]))) },
+                React.createElement(Switch, { id: 'signed_only', isChecked: remote.signed_only, onChange: function (value) { return _this.updateRemote(value, 'signed_only'); } }))) : null,
             !disabledFields.includes('token') && (React.createElement(FormGroup, { fieldId: 'token', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Token"], ["Token"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Token for authenticating to the server URL."], ["Token for authenticating to the server URL."]))) }), isRequired: requiredFields.includes('token'), validated: this.toError(!('token' in errorMessages)), helperTextInvalid: errorMessages['token'] },
                 React.createElement(WriteOnlyField, { isValueSet: isFieldSet('token', remote.write_only_fields), onClear: function () { return _this.updateIsSet('token', false); } },
                     React.createElement(TextInput, { validated: this.toError(!('token' in errorMessages)), isRequired: requiredFields.includes('token'), type: 'password', id: 'token', value: remote.token || '', onChange: function (value) { return _this.updateRemote(value, 'token'); } })))),
