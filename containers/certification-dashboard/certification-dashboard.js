@@ -264,10 +264,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var _a, _b, _c, _d, _e, _f, _g;
-        var canSign = ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true &&
-            ((_d = (_c = this.context) === null || _c === void 0 ? void 0 : _c.featureFlags) === null || _d === void 0 ? void 0 : _d.collection_auto_sign) === true &&
-            ((_g = (_f = (_e = this.context) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f.model_permissions) === null || _g === void 0 ? void 0 : _g.sign_collections_on_namespace);
+        var featureFlags = this.context.featureFlags;
+        // not checking namespace permissions here, auto_sign happens API side, so is the permission check
+        var canSign = (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_signing) && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_auto_sign);
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement(ListItemActions, null); // empty td;
         }

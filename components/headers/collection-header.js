@@ -38,7 +38,7 @@ import { AppContext } from 'src/loaders/app-context';
 import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, StatefulDropdown, DeleteModal, SignSingleCertificateModal, SignAllCertificatesModal, } from 'src/components';
 import { CollectionAPI, SignCollectionAPI, } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
-import { waitForTask, canSign } from 'src/utilities';
+import { waitForTask, canSign as canSignNS } from 'src/utilities';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { DateComponent } from '../date-component/date-component';
 import { Constants } from 'src/constants';
@@ -78,7 +78,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
             SignCollectionAPI.sign({
                 signing_service: _this.context.settings.GALAXY_COLLECTION_SIGNING_SERVICE,
-                repository: _this.context.selectedRepo,
+                distro_base_path: _this.context.selectedRepo,
                 namespace: _this.props.collection.namespace.name,
                 collection: _this.props.collection.name,
             })
@@ -126,7 +126,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
             SignCollectionAPI.sign({
                 signing_service: _this.context.settings.GALAXY_COLLECTION_SIGNING_SERVICE,
-                repository: _this.context.selectedRepo,
+                distro_base_path: _this.context.selectedRepo,
                 namespace: _this.props.collection.namespace.name,
                 collection: _this.props.collection.name,
                 version: _this.props.collection.latest_version.version,
@@ -337,11 +337,12 @@ var CollectionHeader = /** @class */ (function (_super) {
         var isLatestVersion = function (v) {
             return "".concat(moment(v.created).fromNow(), " ").concat(signedString(v), "\n      ").concat(v.version === all_versions[0].version ? t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
         };
-        var collectionName = collection.name;
-        var company = collection.namespace.company || collection.namespace.name;
+        var collectionName = collection.name, namespace = collection.namespace;
+        var company = namespace.company || namespace.name;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
+        var canSign = canSignNS(this.context, namespace);
         var dropdownItems = [
             noDependencies
                 ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 'delete-collection-enabled', onClick: function () { return _this.openDeleteModalWithConfirm(); }, "data-cy": 'delete-collection-dropdown' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))
@@ -355,11 +356,11 @@ var CollectionHeader = /** @class */ (function (_super) {
             this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () {
                     return _this.openDeleteModalWithConfirm(collection.latest_version.version);
                 } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
-            canSign(this.context) && (React.createElement(DropdownItem, { key: 'sign-all', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
-            canSign(this.context) && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
+            canSign && (React.createElement(DropdownItem, { key: 'sign-all', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
+            canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
         ].filter(Boolean);
         return (React.createElement(React.Fragment, null,
-            canSign(this.context) && (React.createElement(React.Fragment, null,
+            canSign && (React.createElement(React.Fragment, null,
                 React.createElement(SignAllCertificatesModal, { name: collectionName, numberOfAffected: collection.all_versions.length, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
                         _this.setState({ isOpenSignAllModal: false });
                     } }),
