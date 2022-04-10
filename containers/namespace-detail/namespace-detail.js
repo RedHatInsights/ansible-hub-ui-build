@@ -46,7 +46,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, SignCollectionAPI, } from 'src/api';
 import { CollectionFilter, CollectionList, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, SignAllCertificatesModal, } from 'src/components';
-import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, waitForTask, canSign, } from 'src/utilities';
+import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, waitForTask, canSign as canSignNS, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -107,6 +107,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ]);
         params['namespace'] = props.match.params['namespace'];
         _this.state = {
+            canSign: false,
             collections: [],
             namespace: null,
             params: params,
@@ -134,7 +135,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete, isNamespacePending = _a.isNamespacePending;
+        var _a = this.state, canSign = _a.canSign, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete, isNamespacePending = _a.isNamespacePending;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -207,7 +208,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 tab.toLowerCase() === 'resources'
                     ? this.renderResources(namespace)
                     : null),
-            canSign(this.context) && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, numberOfAffected: this.state.itemCount, isOpen: this.state.isOpenSignModal, onSubmit: function () {
+            canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, numberOfAffected: this.state.itemCount, isOpen: this.state.isOpenSignModal, onSubmit: function () {
                     _this.signAllCertificates(namespace);
                 }, onCancel: function () {
                     _this.setState({ isOpenSignModal: false });
@@ -260,7 +261,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         });
         SignCollectionAPI.sign({
             signing_service: this.context.settings.GALAXY_COLLECTION_SIGNING_SERVICE,
-            repository: this.context.selectedRepo,
+            distro_base_path: this.context.selectedRepo,
             namespace: namespace.name,
         })
             .then(function (result) {
@@ -300,7 +301,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
         Promise.all([
             CollectionAPI.list(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), this.context.selectedRepo),
             NamespaceAPI.get(this.props.match.params['namespace']),
-            MyNamespaceAPI.get(this.props.match.params['namespace']).catch(function (e) {
+            MyNamespaceAPI.get(this.props.match.params['namespace'], {
+                include_related: 'my_permissions',
+            }).catch(function (e) {
                 // TODO this needs fixing on backend to return nothing in these cases with 200 status
                 // if view only mode is enabled disregard errors and hope
                 if (_this.context.user.is_anonymous &&
@@ -314,11 +317,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
             }),
         ])
             .then(function (val) {
+            var _a;
             _this.setState({
                 collections: val[0].data.data,
                 itemCount: val[0].data.meta.count,
                 namespace: val[1].data,
                 showControls: !!val[2],
+                canSign: canSignNS(_this.context, (_a = val[2]) === null || _a === void 0 ? void 0 : _a.data),
             });
             _this.loadAllRepos(val[0].data.meta.count);
         })
@@ -364,7 +369,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderPageControls = function () {
         var _this = this;
-        var collections = this.state.collections;
+        var _a = this.state, canSign = _a.canSign, collections = _a.collections;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
@@ -379,7 +384,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                         namespace: this.state.namespace.name,
                     }) }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
-            canSign(this.context) && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
+            canSign && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
