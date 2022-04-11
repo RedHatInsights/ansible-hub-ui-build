@@ -49,7 +49,7 @@ var CollectionListItem = /** @class */ (function (_super) {
                         collection: name,
                         namespace: namespace.name,
                         repo: repo,
-                    }) }, name),
+                    }), "data-cy": 'CollectionList-name' }, name),
                 deprecated && React.createElement(DeprecatedTag, null),
                 showNamespace ? (React.createElement(TextContent, null,
                     React.createElement(Text, { component: TextVariants.small },
