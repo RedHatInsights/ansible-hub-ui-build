@@ -37,19 +37,19 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
 import * as React from 'react';
-import './namespace-list.scss';
+import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { Redirect } from 'react-router-dom';
+import { t } from '@lingui/macro';
 import { ParamHelper } from 'src/utilities/param-helper';
-import { BaseHeader, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Toolbar, AlertList, } from 'src/components';
-import { Button, ToolbarItem } from '@patternfly/react-core';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Sort, } from 'src/components';
 import { NamespaceAPI, MyNamespaceAPI } from 'src/api';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { Constants } from 'src/constants';
-import { filterIsSet } from 'src/utilities';
+import { errorMessage, filterIsSet } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 import { i18n } from '@lingui/core';
+import './namespace-list.scss';
 var NamespaceList = /** @class */ (function (_super) {
     __extends(NamespaceList, _super);
     function NamespaceList(props) {
@@ -80,6 +80,7 @@ var NamespaceList = /** @class */ (function (_super) {
             hasPermission: true,
             isModalOpen: false,
             loading: true,
+            inputText: params['keywords'] || '',
         };
         return _this;
     }
@@ -102,7 +103,8 @@ var NamespaceList = /** @class */ (function (_super) {
                 }
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     namespaces: [],
                     itemCount: 0,
                     loading: false,
@@ -110,8 +112,8 @@ var NamespaceList = /** @class */ (function (_super) {
                     return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading my namespaces."], ["Error loading my namespaces."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false));
                 });
@@ -130,7 +132,7 @@ var NamespaceList = /** @class */ (function (_super) {
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount, loading = _b.loading;
+        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount, loading = _b.loading, inputText = _b.inputText;
         var filterOwner = this.props.filterOwner;
         var _c = this.context, user = _c.user, alerts = _c.alerts;
         var noData = !filterIsSet(this.state.params, ['keywords']) &&
@@ -139,15 +141,12 @@ var NamespaceList = /** @class */ (function (_super) {
         if (loading) {
             return React.createElement(LoadingPageWithHeader, null);
         }
-        var extra = [];
-        if ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) {
-            extra.push(React.createElement(ToolbarItem, { key: 'create-button' },
-                React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create"], ["Create"]))))));
-        }
+        // Namespaces or Partners
         var title = i18n._(namespaceBreadcrumb.name);
-        var titleLowerCase = title.toLowerCase();
-        var search = filterOwner
-            ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Search my namespaces"], ["Search my namespaces"]))) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Search all ", ""], ["Search all ", ""])), titleLowerCase);
+        var updateParams = function (p) {
+            p['page'] = 1;
+            _this.updateParams(p, function () { return _this.loadNamespaces(); });
+        };
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
@@ -162,20 +161,30 @@ var NamespaceList = /** @class */ (function (_super) {
                     React.createElement("div", { className: 'tabs' },
                         React.createElement(LinkTabs, { tabs: [
                                 {
-                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["All"], ["All"]))),
+                                    title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["All"], ["All"]))),
                                     link: Paths[NAMESPACE_TERM],
                                     active: !filterOwner,
                                 },
                                 {
-                                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["My namespaces"], ["My namespaces"]))),
+                                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["My namespaces"], ["My namespaces"]))),
                                     link: Paths.myNamespaces,
                                     active: filterOwner,
                                 },
                             ] })))),
                 noData ? null : (React.createElement("div", { className: 'toolbar' },
-                    React.createElement(Toolbar, { params: params, sortOptions: [{ title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' }], searchPlaceholder: search, updateParams: function (p) {
-                            return _this.updateParams(p, function () { return _this.loadNamespaces(); });
-                        }, extraInputs: extra }),
+                    React.createElement(Toolbar, null,
+                        React.createElement(ToolbarContent, null,
+                            React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
+                                React.createElement(ToolbarItem, null,
+                                    React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
+                                    React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
+                            React.createElement(ToolbarGroup, { style: { alignSelf: 'start' } },
+                                React.createElement(ToolbarItem, null,
+                                    React.createElement(Sort, { options: [
+                                            { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' },
+                                        ], params: params, updateParams: updateParams })),
+                                ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) && (React.createElement(ToolbarItem, { key: 'create-button' },
+                                    React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                     React.createElement("div", null,
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.loadNamespaces(); });
@@ -192,10 +201,10 @@ var NamespaceList = /** @class */ (function (_super) {
         var _b = this.state, namespaces = _b.namespaces, loading = _b.loading;
         var _c = this.props, namespacePath = _c.namespacePath, filterOwner = _c.filterOwner;
         var user = this.context.user;
-        var noDataTitle = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
+        var noDataTitle = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
         var noDataDescription = !filterOwner
-            ? t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
-        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
+            ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
+        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
         if (loading) {
             return (React.createElement("section", null,
                 React.createElement(LoadingPageSpinner, null),
@@ -225,7 +234,8 @@ var NamespaceList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     namespaces: [],
                     itemCount: 0,
                     loading: false,
@@ -233,8 +243,8 @@ var NamespaceList = /** @class */ (function (_super) {
                     return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error loading namespaces."], ["Error loading namespaces."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false));
                 });
@@ -255,5 +265,5 @@ var NamespaceList = /** @class */ (function (_super) {
 }(React.Component));
 export { NamespaceList };
 NamespaceList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
 //# sourceMappingURL=namespace-list.js.map

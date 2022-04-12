@@ -34,6 +34,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { i18n } from '@lingui/core';
 import * as plurals from 'make-plural/plurals';
 var availableLanguages = ['en', 'es', 'fr', 'nl', 'ja', 'zh'];
@@ -52,10 +61,8 @@ function activate(locale) {
                     if (window.localStorage.test_l10n === 'true') {
                         Object.keys(messages).forEach(function (key) {
                             if (Array.isArray(messages[key])) {
-                                // t`Foo ${param}` -> ["Foo ", ['param']] => [">>Foo <<", ['param']]
-                                messages[key] = messages[key].map(function (item) {
-                                    return Array.isArray(item) ? item : '»' + item + '«';
-                                });
+                                // t`Foo ${param}` -> ["Foo ", ['param']] => [">>", "Foo ", ['param'], "<<"]
+                                messages[key] = __spreadArray(__spreadArray(['»'], messages[key], true), ['«'], false);
                             }
                             else {
                                 // simple string

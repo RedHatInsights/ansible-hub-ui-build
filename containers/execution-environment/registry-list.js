@@ -39,6 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import * as React from 'react';
 import { t, Trans } from '@lingui/macro';
+import { errorMessage } from 'src/utilities';
 import './registry-list.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
@@ -257,7 +258,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(DropdownItem, { onClick: function () { return _this.indexRegistry(item); }, isDisabled: !item.is_indexable },
                     React.createElement(Trans, null, "Index execution environments"))),
         ].filter(Boolean);
-        return (React.createElement("tr", { "aria-labelledby": item.name, key: index },
+        return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentRegistryList-row-".concat(item.name), key: index },
             React.createElement("td", null, item.name),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.created_at })),
@@ -271,7 +272,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                     React.createElement(Trans, null, "Sync from registry")),
                 ' ',
-                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems, ariaLabel: 'registry-list-kebab' })))));
     };
     ExecutionEnvironmentRegistryList.prototype.queryRegistries = function (noLoading) {
         var _this = this;
@@ -297,10 +298,14 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         var pk = _a.pk, name = _a.name;
         ExecutionEnvironmentRegistryAPI.delete(pk)
             .then(function () {
-            return _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Successfully deleted remote registry ", ""], ["Successfully deleted remote registry ", ""])), name), 'success');
+            return _this.addAlert(React.createElement(Trans, null,
+                "Remote registry \"",
+                name,
+                "\" has been successfully deleted."), 'success');
         })
-            .catch(function () {
-            return _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Failed to delete remote registry ", ""], ["Failed to delete remote registry ", ""])), name), 'danger');
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Remote registry \"", "\" could not be deleted."], ["Remote registry \"", "\" could not be deleted."])), name), 'danger', errorMessage(status, statusText));
         })
             .then(function () {
             _this.queryRegistries();
@@ -313,15 +318,23 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.sync(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync initiated for ", ""], ["Sync initiated for ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(React.createElement(Trans, null,
+                "Sync started for remote registry \"",
+                name,
+                "\"."), 'info', React.createElement("span", null,
                 React.createElement(Trans, null,
-                    "View the task",
+                    "See the task management",
                     ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                    ".")));
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
+                        "detail page",
+                        ' '),
+                    "for the status of this task.")));
             _this.queryRegistries(true);
         })
-            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Remote registry \"", "\" could not be synced."], ["Remote registry \"", "\" could not be synced."])), name), 'danger', errorMessage(status, statusText));
+        });
     };
     ExecutionEnvironmentRegistryList.prototype.indexRegistry = function (_a) {
         var _this = this;
@@ -329,14 +342,17 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         ExecutionEnvironmentRegistryAPI.index(pk)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Indexing execution environments in ", ""], ["Indexing execution environments in ", ""])), name), 'success', React.createElement("span", null,
+            _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Indexing started for execution environment \"", "\"."], ["Indexing started for execution environment \"", "\"."])), name), 'success', React.createElement("span", null,
                 React.createElement(Trans, null,
-                    "View the task",
+                    "See the task management",
                     ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "here"),
-                    ".")));
+                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) }, "detail page"),
+                    "for the status of this task.")));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Indexing failed for ", ""], ["Indexing failed for ", ""])), name), 'danger'); });
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Execution environment \"", "\" could not be indexed."], ["Execution environment \"", "\" could not be indexed."])), name), 'danger', errorMessage(status, statusText));
+        });
     };
     ExecutionEnvironmentRegistryList.prototype.addAlert = function (title, variant, description) {
         this.setState({
@@ -367,5 +383,5 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(ExecutionEnvironmentRegistryList);
 ExecutionEnvironmentRegistryList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=registry-list.js.map

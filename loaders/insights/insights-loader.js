@@ -22,6 +22,7 @@ import '../app.scss';
 import { AppContext } from '../app-context';
 import { ActiveUserAPI, SettingsAPI } from 'src/api';
 import { Paths } from 'src/paths';
+import { UIVersion } from 'src/components';
 var DEFAULT_REPO = 'published';
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -51,6 +52,7 @@ var App = /** @class */ (function (_super) {
         var _this = this;
         window.insights.chrome.init();
         window.insights.chrome.identifyApp('automation-hub');
+        document.title = APPLICATION_NAME; // change window title from automationHub
         // This listens for insights navigation events, so this will fire
         // when items in the nav are clicked or the app is loaded for the first
         // time
@@ -133,17 +135,16 @@ var App = /** @class */ (function (_super) {
         if (!this.state.user || !this.state.activeUser) {
             return null;
         }
-        else {
-            return (React.createElement(AppContext.Provider, { value: {
-                    user: this.state.activeUser,
-                    setUser: this.setActiveUser,
-                    selectedRepo: this.state.selectedRepo,
-                    alerts: this.state.alerts,
-                    setAlerts: this.setAlerts,
-                    settings: this.state.settings,
-                } },
-                React.createElement(Routes, { childProps: this.props })));
-        }
+        return (React.createElement(AppContext.Provider, { value: {
+                user: this.state.activeUser,
+                setUser: this.setActiveUser,
+                selectedRepo: this.state.selectedRepo,
+                alerts: this.state.alerts,
+                setAlerts: this.setAlerts,
+                settings: this.state.settings,
+            } },
+            React.createElement(Routes, { childProps: this.props }),
+            React.createElement(UIVersion, null)));
     };
     return App;
 }(Component));

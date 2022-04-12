@@ -34,6 +34,7 @@ import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
+import { errorMessage } from 'src/utilities';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {
@@ -90,12 +91,13 @@ var TokenPage = /** @class */ (function (_super) {
         ActiveUserAPI.getToken()
             .then(function (result) { return _this.setState({ token: result.data.token }); })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Token could not be displayed."], ["Token could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });

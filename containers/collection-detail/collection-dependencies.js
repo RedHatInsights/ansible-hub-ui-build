@@ -42,7 +42,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CollectionAPI, } from 'src/api';
 import { CollectionHeader, LoadingPageWithHeader, Main, CollectionDependenciesList, CollectionUsedbyDependenciesList, EmptyStateNoData, AlertList, closeAlertMixin, } from 'src/components';
-import { filterIsSet, ParamHelper } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 import './collection-dependencies.scss';
@@ -140,14 +140,15 @@ var CollectionDependencies = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
+                var _a = err.response, status = _a.status, statusText = _a.statusText;
                 if ((err === null || err === void 0 ? void 0 : err.message) !== 'request-canceled') {
                     _this.setState({
                         usedByDependenciesLoading: false,
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
-                                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Error loading dependent collections."], ["Error loading dependent collections."]))),
-                                description: err === null || err === void 0 ? void 0 : err.message,
+                                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Dependent collections could not be displayed."], ["Dependent collections could not be displayed."]))),
+                                description: errorMessage(status, statusText),
                             },
                         ], false),
                     });

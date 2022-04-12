@@ -26,13 +26,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import * as React from 'react';
 import './task.scss';
 import { Constants } from 'src/constants';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, } from '@patternfly/react-core';
-import { ParamHelper, filterIsSet } from '../../utilities';
+import { ParamHelper, filterIsSet, errorMessage } from '../../utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
 import { TaskManagementAPI } from 'src/api';
@@ -182,10 +183,12 @@ var TaskListView = /** @class */ (function (_super) {
     TaskListView.prototype.renderTableRow = function (item, index) {
         var name = item.name, state = item.state, pulp_created = item.pulp_created, started_at = item.started_at, finished_at = item.finished_at, pulp_href = item.pulp_href;
         var taskId = parsePulpIDFromURL(pulp_href);
-        return (React.createElement("tr", { "aria-labelledby": name, key: index },
+        return (React.createElement("tr", { key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
-                    React.createElement(Tooltip, { content: Constants.TASK_NAMES[name] || name }, name))),
+                    React.createElement(Tooltip, { content: (Constants.TASK_NAMES[name] &&
+                            i18n._(Constants.TASK_NAMES[name])) ||
+                            name }, name))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
@@ -235,21 +238,25 @@ var TaskListView = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: name,
-                        description: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: (React.createElement(Trans, null,
+                            "Task \"",
+                            name,
+                            "\" stopped successfully.")),
                     },
                 ], false),
             });
             _this.queryTasks();
         })
-            .catch(function () {
-            return _this.setState({
+            .catch(function (e) {
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 loading: true,
                 cancelModalVisible: false,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: name,
-                        description: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Task \"", "\" could not be stopped."], ["Task \"", "\" could not be stopped."])), name),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -274,15 +281,16 @@ var TaskListView = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     loading: false,
                     items: [],
                     itemCount: 0,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Error loading tasks."], ["Error loading tasks."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Tasks list could not be displayed."], ["Tasks list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });
@@ -301,5 +309,5 @@ var TaskListView = /** @class */ (function (_super) {
 export { TaskListView };
 export default withRouter(TaskListView);
 TaskListView.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26;
 //# sourceMappingURL=task-list-view.js.map
