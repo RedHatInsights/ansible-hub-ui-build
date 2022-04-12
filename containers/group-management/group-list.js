@@ -40,6 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './group-management.scss';
+import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
@@ -175,14 +176,15 @@ var GroupList = /** @class */ (function (_super) {
             });
         })
             .catch(function (e) {
-            return _this.setState({
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
                 deleteModalVisible: false,
                 selectedGroup: null,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -222,7 +224,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Error editing group."], ["Error editing group."]))),
+                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Changes to group \"", "\" could not be saved."], ["Changes to group \"", "\" could not be saved."])), _this.state.selectedGroup),
                     },
                 ], false),
             });
@@ -274,12 +276,12 @@ var GroupList = /** @class */ (function (_super) {
                     } },
                     React.createElement(Trans, null, "Delete")))),
         ];
-        return (React.createElement("tr", { "aria-labelledby": group.name, key: index },
+        return (React.createElement("tr", { "data-cy": "GroupList-row-".concat(group.name), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", null, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {
@@ -306,7 +308,10 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'success',
-                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Successfully deleted group."], ["Successfully deleted group."]))),
+                        title: (React.createElement(Trans, null,
+                            "Group \"",
+                            group.name,
+                            "\" has been successfully deleted.")),
                     },
                 ], false),
             });
@@ -317,7 +322,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
+                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
                 ], false),
             });
@@ -335,15 +340,16 @@ var GroupList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     groups: [],
                     itemCount: 0,
                     loading: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Error loading groups."], ["Error loading groups."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });
@@ -354,5 +360,5 @@ var GroupList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(GroupList);
 GroupList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=group-list.js.map

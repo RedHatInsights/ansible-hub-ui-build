@@ -33,7 +33,7 @@ import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownItem, Label, Tooltip, LabelGroup, } from '@patternfly/react-core';
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
-import { ParamHelper, filterIsSet } from 'src/utilities';
+import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -144,10 +144,10 @@ var UserList = /** @class */ (function (_super) {
                                 _this.updateParams(p, function () { return _this.queryUsers(); });
                                 _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
-                                username__contains: 'Username',
-                                first_name__contains: 'First name',
-                                last_name__contains: 'Last name',
-                                email__contains: 'Email',
+                                username__contains: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Username"], ["Username"]))),
+                                first_name__contains: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["First name"], ["First name"]))),
+                                last_name__contains: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Last name"], ["Last name"]))),
+                                email__contains: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Email"], ["Email"]))),
                             } })),
                     loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -163,40 +163,40 @@ var UserList = /** @class */ (function (_super) {
                 'first_name__contains',
                 'last_name__contains',
                 'email__contains',
-            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: Paths.createUser },
-                    React.createElement(Button, { variant: 'primary' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Create"], ["Create"]))))) }));
+            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: Paths.createUser },
+                    React.createElement(Button, { variant: 'primary' }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Create"], ["Create"]))))) }));
         }
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Username"], ["Username"]))),
+                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Username"], ["Username"]))),
                     type: 'alpha',
                     id: 'username',
                 },
                 {
-                    title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["First name"], ["First name"]))),
+                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["First name"], ["First name"]))),
                     type: 'alpha',
                     id: 'first_name',
                     className: 'pf-m-wrap',
                 },
                 {
-                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Last name"], ["Last name"]))),
+                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Last name"], ["Last name"]))),
                     type: 'alpha',
                     id: 'last_name',
                     className: 'pf-m-wrap',
                 },
                 {
-                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Email"], ["Email"]))),
+                    title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Email"], ["Email"]))),
                     type: 'alpha',
                     id: 'email',
                 },
                 {
                     id: 'groups',
-                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Groups"], ["Groups"]))),
+                    title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Groups"], ["Groups"]))),
                     type: 'none',
                 },
                 {
-                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Created"], ["Created"]))),
+                    title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'numeric',
                     id: 'date_joined',
                 },
@@ -207,7 +207,7 @@ var UserList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["User list"], ["User list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryUsers(); }); } }),
             React.createElement("tbody", null, users.map(function (user, i) { return _this.renderTableRow(user, i); }))));
     };
@@ -218,19 +218,19 @@ var UserList = /** @class */ (function (_super) {
             this.context.user.model_permissions.change_user) {
             dropdownItems.push(React.createElement(DropdownItem, { key: 'edit', component: React.createElement(Link, { to: formatPath(Paths.editUser, {
                         userID: user.id,
-                    }) }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Edit"], ["Edit"])))) }));
+                    }) }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Edit"], ["Edit"])))) }));
         }
         if (!!this.context.user &&
             this.context.user.model_permissions.delete_user) {
-            dropdownItems.push(React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.deleteUser(user); } }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete"], ["Delete"])))));
+            dropdownItems.push(React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.deleteUser(user); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Delete"], ["Delete"])))));
         }
-        return (React.createElement("tr", { "aria-labelledby": user.username, key: index },
+        return (React.createElement("tr", { "data-cy": "UserList-row-".concat(user.username), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.userDetail, { userID: user.id }) }, user.username),
                 user.is_superuser && (React.createElement(React.Fragment, null,
                     ' ',
-                    React.createElement(Tooltip, { content: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },
-                        React.createElement(Label, { icon: React.createElement(UserPlusIcon, null), color: 'orange' }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Super user"], ["Super user"])))))))),
+                    React.createElement(Tooltip, { content: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Super users have all system permissions regardless of what groups they are in."], ["Super users have all system permissions regardless of what groups they are in."]))) },
+                        React.createElement(Label, { icon: React.createElement(UserPlusIcon, null), color: 'orange' }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Super user"], ["Super user"])))))))),
             React.createElement("td", null, user.first_name),
             React.createElement("td", null, user.last_name),
             React.createElement("td", null, user.email),
@@ -252,15 +252,16 @@ var UserList = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (e) {
-                return _this.setState({
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
                     users: [],
                     itemCount: 0,
                     loading: false,
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Error loading users."], ["Error loading users."]))),
-                            description: e === null || e === void 0 ? void 0 : e.message,
+                            title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
+                            description: errorMessage(status, statusText),
                         },
                     ], false),
                 });
@@ -285,5 +286,5 @@ var UserList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(UserList);
 UserList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25;
 //# sourceMappingURL=user-list.js.map

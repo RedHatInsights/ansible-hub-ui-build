@@ -28,7 +28,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import * as React from 'react';
 import './task.scss';
-import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
+import { t, Trans } from '@lingui/macro';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
 import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
@@ -38,6 +39,7 @@ import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { capitalize } from 'lodash';
+import { errorMessage } from 'src/utilities';
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {
@@ -122,7 +124,8 @@ var TaskDetail = /** @class */ (function (_super) {
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
                                         React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
-                                            }) }, Constants.TASK_NAMES[parentTask.name] ||
+                                            }) }, (Constants.TASK_NAMES[parentTask.name] &&
+                                            i18n._(Constants.TASK_NAMES[parentTask.name])) ||
                                             parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
@@ -132,7 +135,8 @@ var TaskDetail = /** @class */ (function (_super) {
                                                 return (React.createElement(React.Fragment, { key: childTaskId },
                                                     React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
-                                                        }) }, Constants.TASK_NAMES[childTask.name] ||
+                                                        }) }, (Constants.TASK_NAMES[childTask.name] &&
+                                                        i18n._(Constants.TASK_NAMES[childTask.name])) ||
                                                         childTask.name),
                                                     React.createElement("br", null)));
                                             })
@@ -201,21 +205,25 @@ var TaskDetail = /** @class */ (function (_super) {
                     {
                         variant: 'success',
                         title: taskName,
-                        description: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Successfully stopped task."], ["Successfully stopped task."]))),
+                        description: (React.createElement(Trans, null,
+                            "Task \"",
+                            taskName,
+                            "\" stopped successfully.")),
                     },
                 ], false),
             });
             _this.loadContent();
         })
-            .catch(function () {
+            .catch(function (e) {
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
             _this.setState({
                 loading: true,
                 cancelModalVisible: false,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: taskName,
-                        description: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Error stopping task."], ["Error stopping task."]))),
+                        title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Task \"", "\" could not be stopped."], ["Task \"", "\" could not be stopped."])), taskName),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
@@ -286,7 +294,9 @@ var TaskDetail = /** @class */ (function (_super) {
                     childTasks: childTasks,
                     parentTask: parentTask,
                     loading: false,
-                    taskName: Constants.TASK_NAMES[result.data.name] || result.data.name,
+                    taskName: (Constants.TASK_NAMES[result.data.name] &&
+                        i18n._(Constants.TASK_NAMES[result.data.name])) ||
+                        result.data.name,
                     resources: resources,
                 });
             });
@@ -305,5 +315,5 @@ var TaskDetail = /** @class */ (function (_super) {
     return TaskDetail;
 }(React.Component));
 export default withRouter(TaskDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32;
 //# sourceMappingURL=task_detail.js.map

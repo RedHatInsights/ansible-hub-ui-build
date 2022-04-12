@@ -32,8 +32,9 @@ import { withRouter, Link } from 'react-router-dom';
 import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
 import { Paths } from 'src/paths';
 import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
-import { getRepoUrl } from 'src/utilities';
+import { errorMessage, getRepoUrl } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
+import { MyDistributionAPI } from 'src/api';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {
@@ -41,36 +42,52 @@ var TokenPage = /** @class */ (function (_super) {
         _this.state = {
             tokenData: undefined,
             alerts: [],
+            repoUrl: '',
         };
         return _this;
     }
-    TokenPage.prototype.componentDidMount = function () {
+    TokenPage.prototype.getMyDistributionPath = function () {
         var _this = this;
-        // this function will fail if chrome.auth.doOffline() hasn't been called
-        window.insights.chrome.auth
-            .getOfflineToken()
-            .then(function (result) {
-            _this.setState({ tokenData: result.data });
+        MyDistributionAPI.list()
+            .then(function (_a) {
+            var _b;
+            var data = _a.data;
+            var syncDistro = ((_b = data.data.find(function (_a) {
+                var base_path = _a.base_path;
+                return base_path.includes('synclist');
+            })) === null || _b === void 0 ? void 0 : _b.base_path) || '';
+            _this.setState({
+                repoUrl: syncDistro,
+            });
         })
             .catch(function (e) {
-            return _this.setState({
-                tokenData: undefined,
+            var _a = e.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
+                repoUrl: '',
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading token."], ["Error loading token."]))),
-                        description: e === null || e === void 0 ? void 0 : e.message,
+                        title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server URL could not be displayed."], ["Server URL could not be displayed."]))),
+                        description: errorMessage(status, statusText),
                     },
                 ], false),
             });
         });
     };
+    TokenPage.prototype.componentDidMount = function () {
+        var _this = this;
+        // this function will fail if chrome.auth.doOffline() hasn't been called
+        // so it never works the first time .. loadToken() causes a reload and then it works => no error handling
+        window.insights.chrome.auth.getOfflineToken().then(function (result) {
+            _this.setState({ tokenData: result.data });
+        });
+        this.getMyDistributionPath();
+    };
     TokenPage.prototype.render = function () {
         var _this = this;
         var _a;
-        var user = this.context.user;
         var _b = this.state, tokenData = _b.tokenData, alerts = _b.alerts;
-        var renewTokenCmd = "curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token -d grant_type=refresh_token -d client_id=\"".concat(user.username, "\" -d refresh_token=\"").concat((_a = tokenData === null || tokenData === void 0 ? void 0 : tokenData.refresh_token) !== null && _a !== void 0 ? _a : '{{ user_token }}', "\" --fail --silent --show-error --output /dev/null");
+        var renewTokenCmd = "curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token -d grant_type=refresh_token -d client_id=\"cloud-services\" -d refresh_token=\"".concat((_a = tokenData === null || tokenData === void 0 ? void 0 : tokenData.refresh_token) !== null && _a !== void 0 ? _a : '{{ user_token }}', "\" --fail --silent --show-error --output /dev/null");
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Connect to Hub"], ["Connect to Hub"]))) }),
@@ -119,13 +136,7 @@ var TokenPage = /** @class */ (function (_super) {
                     React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download content from Automation Hub.")),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl('')),
-                    React.createElement("p", null,
-                        React.createElement(Trans, null,
-                            "Note: this URL contains all collections in Hub. To connect to your organization's sync repository use the URL found on",
-                            ' ',
-                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
-                            "."))),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(this.state.repoUrl))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
                     React.createElement("p", null,

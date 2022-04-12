@@ -29,6 +29,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
+import { i18n } from '@lingui/core';
 import * as React from 'react';
 import { Flex, FlexItem, InputGroup, InputGroupText, Select, SelectOption, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
@@ -54,30 +55,19 @@ var RepoSelector = /** @class */ (function (_super) {
                     React.createElement(InputGroupText, { style: { paddingLeft: 0 }, variant: 'plain', className: 'hub-input-group-text-no-wrap' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Filter by repository"], ["Filter by repository"])))),
                     React.createElement(Select, { className: 'nav-select', isDisabled: this.props.isDisabled, isOpen: this.state.selectExpanded, isPlain: false, onSelect: function (event) {
                             var originalRepo = _this.props.selectedRepo;
-                            var newRepo = _this.getRepoBasePath(event.target.name);
+                            var newRepo = _this.getRepoName(event.target.name);
                             _this.setState({ selectExpanded: false });
                             if (newRepo !== originalRepo) {
-                                var path = formatPath(_this.props.path, __assign(__assign({}, _this.props.pathParams), { repo: newRepo }));
+                                var path = formatPath(_this.props.path, __assign(__assign({}, _this.props.pathParams), { repo: event.target.name }));
                                 _this.context.setRepo(path);
                             }
                         }, onToggle: function (isExpanded) {
                             _this.setState({ selectExpanded: isExpanded });
-                        }, selections: this.getRepoName(this.props.selectedRepo), variant: 'single' }, Object.keys(repoNames).map(function (option) { return (React.createElement(SelectOption, { name: option, key: option, value: repoNames[option] })); }))))));
-    };
-    RepoSelector.prototype.getRepoBasePath = function (basePath) {
-        var newRepoName = Object.keys(Constants.REPOSITORYNAMES).find(function (key) { return Constants.REPOSITORYNAMES[key] === basePath; });
-        // allowing the repo to go through even if isn't one that we support so
-        // that 404s bubble up naturally from the child components.
-        if (!newRepoName) {
-            return basePath;
-        }
-        return newRepoName;
+                        }, selections: this.getRepoName(this.props.selectedRepo), variant: 'single' }, Object.keys(repoNames).map(function (option) { return (React.createElement(SelectOption, { name: option, key: option, value: i18n._(repoNames[option]) })); }))))));
     };
     RepoSelector.prototype.getRepoName = function (repoName) {
-        if (Constants.REPOSITORYNAMES[repoName]) {
-            return Constants.REPOSITORYNAMES[repoName];
-        }
-        return repoName;
+        var repo = Constants.REPOSITORYNAMES[repoName];
+        return i18n._(repo);
     };
     RepoSelector.contextType = AppContext;
     return RepoSelector;

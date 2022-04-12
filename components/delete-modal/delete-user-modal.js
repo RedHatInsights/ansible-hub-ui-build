@@ -59,6 +59,7 @@ import { UserAPI } from 'src/api';
 import { mapErrorMessages } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { errorMessage } from 'src/utilities';
 var DeleteUserModal = /** @class */ (function (_super) {
     __extends(DeleteUserModal, _super);
     function DeleteUserModal(props) {
@@ -71,7 +72,7 @@ var DeleteUserModal = /** @class */ (function (_super) {
                 return UserAPI.delete(_this.props.user.id)
                     .then(function () { return _this.waitForDeleteConfirm(_this.props.user.id); })
                     .catch(function (err) {
-                    _this.props.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger', mapErrorMessages(err)['__nofield']);
+                    _this.props.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["User \"", "\" could not be deleted."], ["User \"", "\" could not be deleted."])), _this.props.user.username), 'danger', mapErrorMessages(err)['__nofield']);
                     _this.props.closeModal(false);
                 })
                     .finally(function () { return _this.setState({ isWaitingForResponse: false }); });
@@ -120,12 +121,16 @@ var DeleteUserModal = /** @class */ (function (_super) {
             });
         }); })
             .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
             if (err.response.status === 404) {
-                _this.props.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Successfully deleted user."], ["Successfully deleted user."]))), 'success');
+                _this.props.addAlert(React.createElement(Trans, null,
+                    "User \"",
+                    _this.props.user.username,
+                    "\" has been successfully deleted."), 'success');
                 _this.props.closeModal(true);
             }
             else {
-                _this.props.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Error deleting user."], ["Error deleting user."]))), 'danger');
+                _this.props.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["User \"", "\" could not be deleted."], ["User \"", "\" could not be deleted."])), _this.props.user.username), 'danger', errorMessage(status, statusText));
             }
             _this.setState({ isWaitingForResponse: false });
         });
@@ -134,5 +139,5 @@ var DeleteUserModal = /** @class */ (function (_super) {
     return DeleteUserModal;
 }(React.Component));
 export { DeleteUserModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=delete-user-modal.js.map

@@ -28,7 +28,7 @@ var DataForm = /** @class */ (function (_super) {
                 return null;
             }
             var validated = field.id in errorMessages ? 'error' : 'default';
-            return (React.createElement(FormGroup, { fieldId: field.id, helperTextInvalid: errorMessages[field.id], isRequired: !isReadonly && requiredFields.includes(field.id), key: field.id, label: field.title, labelIcon: !isReadonly && field.formGroupLabelIcon, validated: isReadonly ? 'default' : validated, "aria-labelledby": field.id }, isReadonly ? (model[field.id]) : (React.createElement(TextInput, { id: field.id, onChange: updateField, placeholder: field.placeholder, type: field.type || 'text', validated: validated, value: model[field.id] }))));
+            return (React.createElement(FormGroup, { fieldId: field.id, helperTextInvalid: errorMessages[field.id], isRequired: !isReadonly && requiredFields.includes(field.id), key: field.id, label: field.title, labelIcon: !isReadonly && field.formGroupLabelIcon, validated: isReadonly ? 'default' : validated, "data-cy": "DataForm-field-".concat(field.id) }, isReadonly ? (model[field.id]) : (React.createElement(TextInput, { id: field.id, onChange: updateField, placeholder: field.placeholder, type: field.type || 'text', validated: validated, value: model[field.id] }))));
         });
         return (React.createElement(Form, { onSubmit: function (e) {
                 e.preventDefault();
