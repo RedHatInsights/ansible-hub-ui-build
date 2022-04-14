@@ -34,7 +34,7 @@ import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownIte
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
 import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, closeAlertMixin, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, ListItemActions, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var UserList = /** @class */ (function (_super) {
@@ -238,7 +238,7 @@ var UserList = /** @class */ (function (_super) {
                 React.createElement(LabelGroup, null, user.groups.map(function (g) { return (React.createElement(Label, { key: g.id }, g.name)); }))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: user.date_joined })),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length > 0 ? (React.createElement(StatefulDropdown, { items: dropdownItems })) : null)));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems })));
     };
     UserList.prototype.queryUsers = function () {
         var _this = this;

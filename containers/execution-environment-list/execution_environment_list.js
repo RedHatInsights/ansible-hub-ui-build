@@ -44,7 +44,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { filterIsSet, parsePulpIDFromURL, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, StatefulDropdown, Tooltip, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, EmptyStateUnauthorized, ListItemActions, } from 'src/components';
 import { formatPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -85,7 +85,11 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         }
         else {
             this.queryEnvironments();
+            this.setState({ alerts: this.context.alerts });
         }
+    };
+    ExecutionEnvironmentList.prototype.componentWillUnmount = function () {
+        this.context.setAlerts([]);
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
@@ -238,8 +242,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.updated })),
             React.createElement("td", null,
                 React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Local"], ["Local"]))))),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, !!dropdownItems.length && (React.createElement("div", { "data-cy": 'kebab-toggle' },
-                React.createElement(StatefulDropdown, { items: dropdownItems }))))));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems })));
     };
     ExecutionEnvironmentList.prototype.renderRemoteModal = function (itemToEdit) {
         var _this = this;

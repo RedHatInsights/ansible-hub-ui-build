@@ -22,7 +22,7 @@ import * as React from 'react';
 import cx from 'classnames';
 import { Card, CardHeader, CardBody, CardFooter, TextContent, Text, TextVariants, Badge, Tooltip, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
-import { NumericLabel, Logo } from 'src/components';
+import { NumericLabel, Logo, SignatureBadge } from 'src/components';
 import { formatPath, Paths } from 'src/paths';
 import { convertContentSummaryCounts } from 'src/utilities';
 import { Constants } from 'src/constants';
@@ -35,13 +35,14 @@ var CollectionCard = /** @class */ (function (_super) {
     }
     CollectionCard.prototype.render = function () {
         var _this = this;
-        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, footer = _a.footer, repo = _a.repo;
+        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, footer = _a.footer, repo = _a.repo, sign_state = _a.sign_state;
         var company = namespace.company || namespace.name;
         var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         return (React.createElement(Card, { className: cx('hub-c-card-collection-container ', className) },
             React.createElement(CardHeader, { className: 'logo-row' },
                 React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true }),
-                React.createElement(TextContent, null, this.getCertification(repo))),
+                React.createElement(TextContent, null, this.getCertification(repo)),
+                React.createElement(SignatureBadge, { isCompact: true, signState: sign_state })),
             React.createElement(CardHeader, null,
                 React.createElement("div", { className: 'name' },
                     React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
