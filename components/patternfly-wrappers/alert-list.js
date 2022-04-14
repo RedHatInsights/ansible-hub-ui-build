@@ -44,7 +44,7 @@ var AlertList = /** @class */ (function (_super) {
                 zIndex: 300,
                 display: 'flex',
                 flexDirection: 'column',
-            } }, alerts.map(function (alert, i) { return (React.createElement(Alert, { style: { marginBottom: '16px' }, key: i, title: alert.title, variant: alert.variant, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return closeAlert(i); } }) }, alert.description)); })));
+            }, "data-cy": 'AlertList' }, alerts.map(function (alert, i) { return (React.createElement(Alert, { style: { marginBottom: '16px' }, key: i, title: alert.title, variant: alert.variant, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return closeAlert(i); } }) }, alert.description)); })));
     };
     return AlertList;
 }(React.Component));

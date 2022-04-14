@@ -66,12 +66,12 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
-import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, Main, } from 'src/components';
+import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
 import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
 import { CollectionVersionAPI, TaskAPI } from 'src/api';
 import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
-import { LoadingPageWithHeader, StatefulDropdown, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, } from 'src/components';
+import { LoadingPageWithHeader, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
@@ -260,51 +260,52 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: version.created_at })),
             React.createElement("td", null, this.renderStatus(version)),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, this.renderButtons(version))));
+            this.renderButtons(version)));
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var _a, _b, _c, _d, _e, _f, _g;
-        var canSign = ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true &&
-            ((_d = (_c = this.context) === null || _c === void 0 ? void 0 : _c.featureFlags) === null || _d === void 0 ? void 0 : _d.collection_auto_sign) === true &&
-            ((_g = (_f = (_e = this.context) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f.model_permissions) === null || _g === void 0 ? void 0 : _g.sign_collections_on_namespace);
+        var featureFlags = this.context.featureFlags;
+        // not checking namespace permissions here, auto_sign happens API side, so is the permission check
+        var canSign = (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_signing) && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_auto_sign);
         if (this.state.updatingVersions.includes(version)) {
-            return;
+            return React.createElement(ListItemActions, null); // empty td;
         }
+        var approveButton = [
+            React.createElement(Button, { key: 'approve', onClick: function () {
+                    return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
+                } },
+                React.createElement("span", null, canSign ? t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Approve"], ["Approve"]))))),
+        ];
         var importsLink = (React.createElement(DropdownItem, { key: 'imports', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                     namespace: version.namespace,
                     name: version.name,
                     version: version.version,
-                }) }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
+                }) }, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
         var certifyDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.PUBLISHED);
-            }, isDisabled: isDisabled, key: 'certify' }, canSign ? t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
+            }, isDisabled: isDisabled, key: 'certify' }, canSign ? t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
         var rejectDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.NOTCERTIFIED);
-            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
+            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
         if (version.repository_list.includes(Constants.PUBLISHED)) {
-            return (React.createElement("span", null,
-                React.createElement(StatefulDropdown, { items: [
-                        certifyDropDown(true, Constants.PUBLISHED),
-                        rejectDropDown(false, Constants.PUBLISHED),
-                        importsLink,
-                    ] })));
+            return (React.createElement(ListItemActions, { kebabItems: [
+                    certifyDropDown(true, Constants.PUBLISHED),
+                    rejectDropDown(false, Constants.PUBLISHED),
+                    importsLink,
+                ] }));
         }
         if (version.repository_list.includes(Constants.NOTCERTIFIED)) {
-            return (React.createElement("span", null,
-                React.createElement(StatefulDropdown, { items: [
-                        certifyDropDown(false, Constants.NOTCERTIFIED),
-                        rejectDropDown(true, Constants.NOTCERTIFIED),
-                        importsLink,
-                    ] })));
+            return (React.createElement(ListItemActions, { kebabItems: [
+                    certifyDropDown(false, Constants.NOTCERTIFIED),
+                    rejectDropDown(true, Constants.NOTCERTIFIED),
+                    importsLink,
+                ] }));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
-            return (React.createElement("span", null,
-                React.createElement(Button, { onClick: function () {
-                        return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
-                    } },
-                    React.createElement("span", null, canSign ? t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Approve"], ["Approve"]))))),
-                React.createElement(StatefulDropdown, { items: [rejectDropDown(false, Constants.NEEDSREVIEW), importsLink] })));
+            return (React.createElement(ListItemActions, { kebabItems: [
+                    rejectDropDown(false, Constants.NEEDSREVIEW),
+                    importsLink,
+                ], buttons: approveButton }));
         }
     };
     CertificationDashboard.prototype.updateCertification = function (version, originalRepo, destinationRepo) {

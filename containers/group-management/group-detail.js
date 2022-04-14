@@ -42,7 +42,7 @@ import { i18n } from '@lingui/core';
 import * as React from 'react';
 import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, StatefulDropdown, Tabs, } from 'src/components';
+import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, PermissionChipSelector, SortTable, Tabs, } from 'src/components';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, ParamHelper, twoWayMapper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
@@ -510,6 +510,11 @@ var GroupDetail = /** @class */ (function (_super) {
         var currentUser = this.context.user;
         var featureFlags = this.context.featureFlags;
         var isUserMgmtDisabled = false;
+        var dropdownItems = [
+            !!currentUser &&
+                currentUser.model_permissions.change_group &&
+                !isUserMgmtDisabled && (React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Remove"], ["Remove"]))))),
+        ];
         if (featureFlags) {
             isUserMgmtDisabled = featureFlags.external_authentication;
         }
@@ -521,13 +526,7 @@ var GroupDetail = /** @class */ (function (_super) {
             React.createElement("td", null, user.first_name),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: user.date_joined })),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
-                ' ',
-                !!currentUser &&
-                    currentUser.model_permissions.change_group &&
-                    !isUserMgmtDisabled && (React.createElement(StatefulDropdown, { items: [
-                        React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Remove"], ["Remove"])))),
-                    ] })))));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems })));
     };
     GroupDetail.prototype.queryUsers = function () {
         var _this = this;

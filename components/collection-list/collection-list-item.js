@@ -26,6 +26,7 @@ import { Paths, formatPath } from 'src/paths';
 import { NumericLabel, Tag, Logo, DeprecatedTag, DateComponent, } from 'src/components';
 import { convertContentSummaryCounts } from 'src/utilities';
 import { Constants } from 'src/constants';
+import { SignatureBadge } from '../signing';
 var CollectionListItem = /** @class */ (function (_super) {
     __extends(CollectionListItem, _super);
     function CollectionListItem() {
@@ -34,7 +35,7 @@ var CollectionListItem = /** @class */ (function (_super) {
     CollectionListItem.prototype.render = function () {
         var _a = this.props, name = _a.name, 
         // download_count,
-        latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, repo = _a.repo;
+        latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, repo = _a.repo, sign_state = _a.sign_state;
         var cells = [];
         var company = namespace.company || namespace.name;
         if (showNamespace) {
@@ -48,7 +49,7 @@ var CollectionListItem = /** @class */ (function (_super) {
                         collection: name,
                         namespace: namespace.name,
                         repo: repo,
-                    }) }, name),
+                    }), "data-cy": 'CollectionList-name' }, name),
                 deprecated && React.createElement(DeprecatedTag, null),
                 showNamespace ? (React.createElement(TextContent, null,
                     React.createElement(Text, { component: TextVariants.small },
@@ -68,7 +69,8 @@ var CollectionListItem = /** @class */ (function (_super) {
                     React.createElement(DateComponent, { date: latest_version.created_at }))),
             React.createElement("div", { className: 'hub-entry' },
                 "v",
-                latest_version.version)));
+                latest_version.version),
+            React.createElement(SignatureBadge, { className: 'hub-entry', signState: sign_state })));
         return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },
             React.createElement(DataListItemRow, null,
                 React.createElement(DataListItemCells, { dataListCells: cells }))));
