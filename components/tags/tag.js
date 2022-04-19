@@ -22,7 +22,7 @@ var Tag = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Tag.prototype.render = function () {
-        return (React.createElement(Label, { className: 'hub-c-label-tag', readOnly: true }, this.props.children));
+        return (React.createElement(Label, { className: 'hub-c-label-tag', readOnly: true, "data-cy": 'tag' }, this.props.children));
     };
     return Tag;
 }(React.Component));
