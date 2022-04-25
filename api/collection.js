@@ -52,7 +52,7 @@ var API = /** @class */ (function (_super) {
                 data: response.data.data.map(filterListItem) }) })); });
     };
     API.prototype.setDeprecation = function (collection, isDeprecated, repo) {
-        var path = "content/".concat(repo, "/v3/collections/");
+        var path = "v3/plugin/ansible/content/".concat(repo, "/collections/index/");
         return this.patch("".concat(collection.namespace.name, "/").concat(collection.name), {
             deprecated: isDeprecated,
         }, path);
@@ -105,7 +105,7 @@ var API = /** @class */ (function (_super) {
         // UI API doesn't have tarball download link, so query it separately here
         return new Promise(function (resolve, reject) {
             _this.http
-                .get("content/".concat(distro_base_path, "/v3/collections/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))
+                .get("v3/plugin/ansible/content/".concat(distro_base_path, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))
                 .then(function (result) {
                 resolve(result.data['download_url']);
             })
@@ -113,10 +113,10 @@ var API = /** @class */ (function (_super) {
         });
     };
     API.prototype.deleteCollectionVersion = function (repo, collection) {
-        return this.http.delete("content/".concat(repo, "/v3/collections/").concat(collection.namespace.name, "/").concat(collection.name, "/versions/").concat(collection.latest_version.version, "/"));
+        return this.http.delete("v3/plugin/ansible/content/".concat(repo, "/collections/index/").concat(collection.namespace.name, "/").concat(collection.name, "/versions/").concat(collection.latest_version.version, "/"));
     };
     API.prototype.deleteCollection = function (repo, collection) {
-        return this.http.delete("content/".concat(repo, "/v3/collections/").concat(collection.namespace.name, "/").concat(collection.name, "/"));
+        return this.http.delete("v3/plugin/ansible/content/".concat(repo, "/collections/index/").concat(collection.namespace.name, "/").concat(collection.name, "/"));
     };
     API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params, cancelToken) {
         if (params === void 0) { params = {}; }
