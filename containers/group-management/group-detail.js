@@ -553,7 +553,7 @@ var GroupDetail = /** @class */ (function (_super) {
             _this.setState({
                 showUserRemoveModal: null,
             });
-            _this.addAlert(t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["User \"", "\" has been successfully removed group \"", "\"."], ["User \"", "\" has been successfully removed group \"", "\"."])), user.username, name), 'success');
+            _this.addAlert(t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["User \"", "\" has been successfully removed from group \"", "\"."], ["User \"", "\" has been successfully removed from group \"", "\"."])), user.username, name), 'success');
             _this.queryUsers();
         })
             .catch(function (e) {
