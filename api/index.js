@@ -38,4 +38,5 @@ export { GenericPulpAPI } from './generic-pulp';
 export { SettingsAPI } from './settings';
 export { SettingsType } from './response-types/settings';
 export { SignCollectionAPI } from './sign-collections';
+export { RoleType } from './response-types/role';
 //# sourceMappingURL=index.js.map
