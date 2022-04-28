@@ -45,7 +45,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
 import { ParamHelper, filterIsSet, lastSyncStatus, lastSynced, mapErrorMessages, parsePulpIDFromURL, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, StatefulDropdown, closeAlertMixin, EmptyStateUnauthorized, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, closeAlertMixin, EmptyStateUnauthorized, ListItemActions, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
@@ -235,6 +235,10 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.renderTableRow = function (item, index) {
         var _this = this;
+        var buttons = [
+            React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
+                React.createElement(Trans, null, "Sync from registry")),
+        ];
         var dropdownItems = [
             this.context.user.model_permissions.change_containerregistry && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
@@ -268,11 +272,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             React.createElement("td", null,
                 lastSyncStatus(item) || '---',
                 lastSynced(item)),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } },
-                React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
-                    React.createElement(Trans, null, "Sync from registry")),
-                ' ',
-                dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems, ariaLabel: 'registry-list-kebab' })))));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems, buttons: buttons })));
     };
     ExecutionEnvironmentRegistryList.prototype.queryRegistries = function (noLoading) {
         var _this = this;

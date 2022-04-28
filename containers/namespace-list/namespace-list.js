@@ -177,7 +177,10 @@ var NamespaceList = /** @class */ (function (_super) {
                             React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                                 React.createElement(ToolbarItem, null,
                                     React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
-                                    React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
+                                    React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: function (p) {
+                                            updateParams(p);
+                                            _this.setState({ inputText: '' });
+                                        }, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
                             React.createElement(ToolbarGroup, { style: { alignSelf: 'start' } },
                                 React.createElement(ToolbarItem, null,
                                     React.createElement(Sort, { options: [

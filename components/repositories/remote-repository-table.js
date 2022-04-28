@@ -22,7 +22,7 @@ import * as React from 'react';
 import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { PulpStatus } from 'src/api';
-import { DateComponent, SortTable, StatefulDropdown } from 'src/components';
+import { DateComponent, SortTable, ListItemActions } from 'src/components';
 import { Constants } from 'src/constants';
 import { lastSynced, lastSyncStatus } from 'src/utilities';
 var RemoteRepositoryTable = /** @class */ (function (_super) {
@@ -104,7 +104,18 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
     };
     RemoteRepositoryTable.prototype.renderRow = function (remote, i) {
         var _this = this;
+        var _a;
         var user = this.props.user;
+        var buttons = remote.repositories.length
+            ? this.getConfigureOrSyncButton(remote)
+            : [
+                React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))), key: 'empty' },
+                    React.createElement(Button, { variant: 'plain' },
+                        React.createElement(ExclamationCircleIcon, null))),
+            ];
+        var dropdownItems = [
+            remote.repositories.length && ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.change_remote) && (React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"]))))),
+        ];
         return (React.createElement("tr", { key: i },
             React.createElement("td", null, remote.name),
             React.createElement("td", null, remote.repositories.map(function (r) { return r.name; }).join(', ')),
@@ -112,39 +123,35 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: remote.updated_at }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null, lastSynced(remote) || '---'),
             React.createElement("td", null, lastSyncStatus(remote) || '---'),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, remote.repositories.length === 0 ? (React.createElement(Tooltip, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["There are no repos associated with this remote."], ["There are no repos associated with this remote."]))) },
-                React.createElement(Button, { variant: 'plain' },
-                    React.createElement(ExclamationCircleIcon, null)))) : (!!user &&
-                user.model_permissions.change_remote && (React.createElement(React.Fragment, null,
-                this.getConfigureOrSyncButton(remote),
-                React.createElement("span", null,
-                    React.createElement(StatefulDropdown, { items: [
-                            React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"])))),
-                        ] }))))))));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems, buttons: buttons })));
     };
     RemoteRepositoryTable.prototype.getConfigureOrSyncButton = function (remote) {
         var _this = this;
+        var _a;
         var user = this.props.user;
-        if (!!user && !user.model_permissions.change_remote) {
+        if (!((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.change_remote)) {
             return null;
         }
-        var configButton = (React.createElement(Button, { onClick: function () { return _this.props.editRemote(remote); }, variant: 'secondary' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Configure"], ["Configure"])))));
-        var syncButton = (React.createElement(React.Fragment, null,
-            React.createElement(Button, { isDisabled: remote.repositories.length === 0 ||
+        var configButton = [
+            React.createElement(Button, { key: 'config', onClick: function () { return _this.props.editRemote(remote); }, variant: 'secondary' }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Configure"], ["Configure"])))),
+        ];
+        var syncButton = [
+            React.createElement(Button, { key: 'sync', isDisabled: remote.repositories.length === 0 ||
                     (remote.last_sync_task &&
                         ['running', 'waiting'].includes(remote.last_sync_task.state)), onClick: function () {
                     return _this.props.syncRemote(remote.repositories[0].distributions[0].base_path);
-                }, variant: 'secondary' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync"], ["Sync"]))))));
+                }, variant: 'secondary' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync"], ["Sync"])))),
+        ];
         var remoteType = 'none';
-        for (var _i = 0, _a = Constants.UPSTREAM_HOSTS; _i < _a.length; _i++) {
-            var host = _a[_i];
+        for (var _i = 0, _b = Constants.UPSTREAM_HOSTS; _i < _b.length; _i++) {
+            var host = _b[_i];
             if (remote.url.includes(host)) {
                 remoteType = 'community';
                 break;
             }
         }
-        for (var _b = 0, _c = Constants.DOWNSTREAM_HOSTS; _b < _c.length; _b++) {
-            var host = _c[_b];
+        for (var _c = 0, _d = Constants.DOWNSTREAM_HOSTS; _c < _d.length; _c++) {
+            var host = _d[_c];
             if (remote.url.includes(host)) {
                 remoteType = 'certified';
                 break;

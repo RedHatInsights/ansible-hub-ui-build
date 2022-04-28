@@ -44,7 +44,7 @@ import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, LoadingPageSpinner, Main, Pagination, SortTable, StatefulDropdown, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { formatPath, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -281,7 +281,7 @@ var GroupList = /** @class */ (function (_super) {
                 React.createElement(Link, { to: formatPath(Paths.groupDetail, {
                         group: group.id,
                     }) }, group.name)),
-            React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length > 0 && (React.createElement(StatefulDropdown, { items: dropdownItems })))));
+            React.createElement(ListItemActions, { kebabItems: dropdownItems })));
     };
     Object.defineProperty(GroupList.prototype, "updateParams", {
         get: function () {

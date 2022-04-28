@@ -39,7 +39,7 @@ import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, 
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
-import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, StatefulDropdown, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, } from '../../components';
+import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, ListItemActions, } from '../../components';
 import { withContainerRepo } from './base';
 import './execution-environment-detail_images.scss';
 var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
@@ -268,7 +268,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement("td", null, isManifestList ? (React.createElement(ShaLabel, { digest: image.digest })) : (React.createElement(ShaLink, { digest: image.digest }))),
                 React.createElement("td", null,
                     React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
-                React.createElement("td", { style: { paddingRight: '0px', textAlign: 'right' } }, dropdownItems.length && (React.createElement(StatefulDropdown, { items: dropdownItems })))),
+                React.createElement(ListItemActions, { kebabItems: dropdownItems })),
             expandedImage === image && (React.createElement("tr", null,
                 React.createElement("td", { colSpan: cols }, this.renderManifestList(image, ShaLink))))));
     };
