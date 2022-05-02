@@ -23,6 +23,7 @@ import './collection-filter.scss';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AppliedFilters, CompoundFilter } from 'src/components';
 import { Constants } from 'src/constants';
+import { AppContext } from 'src/loaders/app-context';
 var CollectionFilter = /** @class */ (function (_super) {
     __extends(CollectionFilter, _super);
     function CollectionFilter(props) {
@@ -78,6 +79,7 @@ var CollectionFilter = /** @class */ (function (_super) {
                                     keywords: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["keywords"], ["keywords"]))),
                                 }, style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ignoredParams })))))));
     };
+    CollectionFilter.contextType = AppContext;
     return CollectionFilter;
 }(React.Component));
 export { CollectionFilter };
