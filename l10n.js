@@ -45,7 +45,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { i18n } from '@lingui/core';
 import * as plurals from 'make-plural/plurals';
-var availableLanguages = ['en', 'es', 'fr', 'nl', 'ja', 'zh'];
+var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
 // Accept-Language
 export var userLanguage = navigator.languages
     .map(function (lang) { return lang.replace(/[-_].*/, ''); })
