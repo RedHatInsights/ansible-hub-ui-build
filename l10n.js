@@ -45,6 +45,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { i18n } from '@lingui/core';
 import * as plurals from 'make-plural/plurals';
+// remember to update .linguirc as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
 // Accept-Language
 export var userLanguage = navigator.languages
