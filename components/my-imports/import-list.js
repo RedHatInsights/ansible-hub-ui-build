@@ -121,7 +121,7 @@ var ImportList = /** @class */ (function (_super) {
                     'list-container': true,
                     'hub-c-toolbar__item-selected-item': item.type === selectedImport.type &&
                         item.id === selectedImport.id,
-                }) },
+                }), "data-cy": "ImportList-row-".concat(item.name) },
                 React.createElement("div", { className: 'left' },
                     React.createElement("i", { className: _this.getStatusClass(item.state) })),
                 React.createElement("div", { className: 'right' }, _this.renderDescription(item))));
