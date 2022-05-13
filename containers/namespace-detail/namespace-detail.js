@@ -40,6 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-detail.scss';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -226,7 +227,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 break;
             case 'deprecate':
                 CollectionAPI.setDeprecation(collection, !collection.deprecated, this.context.selectedRepo)
-                    .then(function () { return _this.loadCollections(); })
+                    .then(function (result) {
+                    var taskId = parsePulpIDFromURL(result.data.task);
+                    return waitForTask(taskId).then(function () {
+                        return _this.loadCollections();
+                    });
+                })
                     .catch(function () {
                     _this.setState({
                         warning: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
