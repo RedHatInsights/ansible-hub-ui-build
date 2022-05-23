@@ -269,14 +269,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var _a;
         var featureFlags = this.context.featureFlags;
         // not checking namespace permissions here, auto_sign happens API side, so is the permission check
         var canSign = (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_signing) && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_auto_sign);
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement(ListItemActions, null); // empty td;
         }
-        var needUploadSignature = ((_a = this.context.settings.GALAXY_REQUIRE_SIGNATURE_FOR_APPROVAL) !== null && _a !== void 0 ? _a : true) &&
+        var needUploadSignature = this.context.settings.GALAXY_SIGNATURE_UPLOAD_ENABLED &&
             version.sign_state === 'unsigned';
         var approveButton = [
             needUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
