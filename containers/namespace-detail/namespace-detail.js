@@ -228,12 +228,20 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 });
                 break;
             case 'deprecate':
+                this.setState({
+                    alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
+                        {
+                            variant: 'info',
+                            title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Deprecation status update starting for collection \"", "\"."], ["Deprecation status update starting for collection \"", "\"."])), collection.name),
+                        },
+                    ], false),
+                });
                 CollectionAPI.setDeprecation(collection, !collection.deprecated, this.context.selectedRepo)
                     .then(function (result) {
                     var taskId = parsePulpIDFromURL(result.data.task);
                     return waitForTask(taskId).then(function () {
                         var title = collection.deprecated
-                            ? t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Collection \"", "\" has been successfully undeprecated."], ["Collection \"", "\" has been successfully undeprecated."])), collection.name) : t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collection \"", "\" has been successfully deprecated."], ["Collection \"", "\" has been successfully deprecated."])), collection.name);
+                            ? t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collection \"", "\" has been successfully undeprecated."], ["Collection \"", "\" has been successfully undeprecated."])), collection.name) : t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Collection \"", "\" has been successfully deprecated."], ["Collection \"", "\" has been successfully deprecated."])), collection.name);
                         _this.setState({
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                 {
@@ -247,7 +255,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 })
                     .catch(function () {
                     _this.setState({
-                        warning: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
+                        warning: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
                 });
                 break;
@@ -263,8 +271,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             if (status === void 0) { status = 500; }
             return ({
                 variant: 'danger',
-                title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                description: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
+                description: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
             });
         };
         this.setState({
@@ -272,7 +280,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 {
                     id: 'loading-signing',
                     variant: 'success',
-                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
+                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
                 },
             ], false),
             isOpenSignModal: false,
@@ -371,7 +379,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Collection repositories could not be displayed."], ["Collection repositories could not be displayed."]))),
+                        title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Collection repositories could not be displayed."], ["Collection repositories could not be displayed."]))),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -391,25 +399,25 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+                    }) }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
                     "Cannot delete namespace until ",
                     React.createElement("br", null),
                     "collections' dependencies have ",
                     React.createElement("br", null),
                     "been deleted"), position: 'left' },
-                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
+                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
             React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
-            canSign && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
+                    }) }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+            canSign && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
         }
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
@@ -434,5 +442,5 @@ var NamespaceDetail = /** @class */ (function (_super) {
 export { NamespaceDetail };
 NamespaceDetail.contextType = AppContext;
 export default withRouter(NamespaceDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23;
 //# sourceMappingURL=namespace-detail.js.map
