@@ -17,10 +17,13 @@ import { HubAPI } from './hub';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
-        var _this = _super.call(this) || this;
-        _this.apiPath = API_HOST;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.apiPath = '';
         return _this;
     }
+    API.prototype.get = function () {
+        return _super.prototype.get.call(this, '');
+    };
     return API;
 }(HubAPI));
 export var ApplicationInfoAPI = new API();

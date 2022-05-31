@@ -91,7 +91,7 @@ var MyImports = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My imports"], ["My imports"]))) }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'hub-page-container' },
+                    React.createElement("div", { className: 'hub-page-container', "data-cy": 'MyImports' },
                         React.createElement("div", { className: 'import-list' },
                             React.createElement(ImportList, { importList: importList, selectedImport: selectedImport, loading: loadingImports, numberOfResults: resultsCount, params: params, namespaces: namespaces, selectImport: function (sImport) { return _this.selectImport(sImport); }, updateParams: function (params) {
                                     _this.updateParams(params, function () {

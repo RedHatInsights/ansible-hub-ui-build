@@ -17,7 +17,7 @@ import { BaseAPI } from './base';
 var PulpAPI = /** @class */ (function (_super) {
     __extends(PulpAPI, _super);
     function PulpAPI() {
-        return _super.call(this, '/pulp/api/v3/') || this;
+        return _super.call(this, API_HOST + PULP_API_BASE_PATH) || this;
     }
     return PulpAPI;
 }(BaseAPI));

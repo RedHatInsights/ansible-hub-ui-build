@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter, matchPath } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Alert } from '@patternfly/react-core';
 import { Routes } from './Routes';
 import '../app.scss';
 import { AppContext } from '../app-context';
@@ -143,6 +144,7 @@ var App = /** @class */ (function (_super) {
                 setAlerts: this.setAlerts,
                 settings: this.state.settings,
             } },
+            React.createElement(Alert, { isInline: true, variant: 'info', title: 'The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections.' }),
             React.createElement(Routes, { childProps: this.props }),
             React.createElement(UIVersion, null)));
     };

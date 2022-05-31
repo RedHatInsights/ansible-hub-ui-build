@@ -150,7 +150,10 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
             // convert '/bin/sh -c #(nop)  CMD ["sh"]' to 'CMD ["sh"]'
             // but keep anything without #(nop) unchanged
             var parseNop = function (str) { return str.replace(/^.*#\(nop\)\s+(.*)/, '$1'); };
-            var history = config_blob.data.history.map(function (_a) {
+            // Filter out layers that don't have a "created_by" field.
+            var history = config_blob.data.history
+                .filter(function (item) { return 'created_by' in item; })
+                .map(function (_a) {
                 var created_by = _a.created_by;
                 return ({
                     text: parseNop(created_by),

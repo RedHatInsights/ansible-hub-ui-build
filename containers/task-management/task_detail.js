@@ -270,7 +270,7 @@ var TaskDetail = /** @class */ (function (_super) {
             }
             if (result.data.reserved_resources_record.length) {
                 result.data.reserved_resources_record.forEach(function (resource) {
-                    var url = resource.replace('/pulp/api/v3/', '');
+                    var url = resource.replace(PULP_API_BASE_PATH, '');
                     var id = parsePulpIDFromURL(url);
                     var urlParts = resource.split('/');
                     var type = id ? urlParts[4] : urlParts[urlParts.length - 2];
