@@ -70,14 +70,14 @@ var CollectionInfo = /** @class */ (function (_super) {
                                     ' ',
                                     React.createElement(LoginLink, null)) })) : (React.createElement("div", null,
                                 React.createElement("a", { ref: this.downloadLinkRef, style: { display: 'none' } }),
-                                React.createElement(Button, { className: 'download-button', variant: 'link', icon: React.createElement(DownloadIcon, null), onClick: function () {
+                                React.createElement(Button, { className: 'download-button', variant: 'link', "data-cy": 'download-collection-tarball-button', icon: React.createElement(DownloadIcon, null), onClick: function () {
                                         return _this.download(_this.context.selectedRepo, namespace, name, latest_version);
                                     } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Download tarball"], ["Download tarball"]))))))))),
                 React.createElement(DownloadSignatureGridItem, { version: latest_version }),
                 latest_version.requires_ansible && (React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Requires Ansible"], ["Requires Ansible"])))),
-                        React.createElement(SplitItem, { isFilled: true }, latest_version.requires_ansible)))),
+                        React.createElement(SplitItem, { isFilled: true, "data-cy": 'ansible-requirement' }, latest_version.requires_ansible)))),
                 latest_version.docs_blob.collection_readme ? (React.createElement(GridItem, null,
                     React.createElement("div", { className: 'hub-readme-container' },
                         React.createElement("div", { className: 'pf-c-content', dangerouslySetInnerHTML: {

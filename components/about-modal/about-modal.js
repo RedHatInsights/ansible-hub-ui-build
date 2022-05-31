@@ -34,7 +34,7 @@ var AboutModalWindow = /** @class */ (function (_super) {
     }
     AboutModalWindow.prototype.componentDidMount = function () {
         var _this = this;
-        ApplicationInfoAPI.get('').then(function (result) {
+        ApplicationInfoAPI.get().then(function (result) {
             _this.setState({
                 applicationInfo: {
                     server_version: result.data.server_version,

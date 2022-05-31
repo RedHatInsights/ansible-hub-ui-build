@@ -317,6 +317,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 id: collection.latest_version.id,
                 version: collection.latest_version.version,
                 created: collection.latest_version.created_at,
+                sign_state: collection.latest_version.sign_state,
             });
         }
         var urlKeys = [
@@ -361,7 +362,7 @@ var CollectionHeader = /** @class */ (function (_super) {
         ].filter(Boolean);
         return (React.createElement(React.Fragment, null,
             canSign && (React.createElement(React.Fragment, null,
-                React.createElement(SignAllCertificatesModal, { name: collectionName, numberOfAffected: collection.all_versions.length, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
+                React.createElement(SignAllCertificatesModal, { name: collectionName, numberOfAffected: collection.total_versions, affectedUnsigned: collection.unsigned_versions, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
                         _this.setState({ isOpenSignAllModal: false });
                     } }),
                 React.createElement(SignSingleCertificateModal, { name: collectionName, version: collection.latest_version.version, isOpen: this.state.isOpenSignModal, onSubmit: this.signVersion, onCancel: function () { return _this.setState({ isOpenSignModal: false }); } }))),

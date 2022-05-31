@@ -253,7 +253,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var isNew = !(pulp === null || pulp === void 0 ? void 0 : pulp.repository); // only exists in real data
         var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.pulp_id;
         var alerts = this.state.alerts;
-        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remotePulpId: pulp_id, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise) {
+        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remotePulpId: pulp_id, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise, form) {
                 promise
                     .then(function () {
                     _this.setState({
@@ -263,10 +263,10 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                             variant: 'success',
                             title: isNew ? (React.createElement(Trans, null,
                                 "Execution environment \"",
-                                name,
+                                form.name,
                                 "\" has been added successfully.")) : (React.createElement(Trans, null,
                                 "Saved changes to execution environment \"",
-                                name,
+                                form.name,
                                 "\".")),
                         }),
                     }, function () { return _this.queryEnvironments(); });

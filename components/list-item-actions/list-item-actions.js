@@ -31,12 +31,12 @@ var ListItemActions = /** @class */ (function (_super) {
                 display: 'flex',
                 justifyContent: 'flex-end',
             } },
-            (buttons === null || buttons === void 0 ? void 0 : buttons.length) && React.createElement(List, null,
-                buttons,
-                " "),
-            (kebabItems === null || kebabItems === void 0 ? void 0 : kebabItems.length) && (React.createElement("div", { "data-cy": 'kebab-toggle' },
+            (buttons === null || buttons === void 0 ? void 0 : buttons.length) ? (React.createElement(React.Fragment, null,
+                React.createElement(List, null, buttons),
+                ' ')) : null,
+            (kebabItems === null || kebabItems === void 0 ? void 0 : kebabItems.length) ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
                 React.createElement(StatefulDropdown, { items: kebabItems }),
-                ' '))));
+                ' ')) : null));
     };
     return ListItemActions;
 }(React.Component));
