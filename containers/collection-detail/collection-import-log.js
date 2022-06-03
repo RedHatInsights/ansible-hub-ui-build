@@ -70,7 +70,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collection: collection, params: params, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadData(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'import-log', repo: this.context.selectedRepo }),
             React.createElement(Main, null,

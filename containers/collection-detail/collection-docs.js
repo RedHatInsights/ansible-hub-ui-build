@@ -45,7 +45,10 @@ var CollectionDocs = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDocs.prototype.componentDidMount = function () {
-        this.loadCollection(this.context.selectedRepo);
+        this.load(false);
+    };
+    CollectionDocs.prototype.load = function (forceUpdate) {
+        this.loadCollection(this.context.selectedRepo, forceUpdate);
     };
     CollectionDocs.prototype.render = function () {
         var _this = this;
@@ -117,7 +120,7 @@ var CollectionDocs = /** @class */ (function (_super) {
         //   this.docsRef.current.scrollIntoView();
         // }
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (p) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () {
                         return _this.loadCollection(_this.context.selectedRepo, true);
                     });
