@@ -22,7 +22,7 @@ import * as React from 'react';
 import cx from 'classnames';
 import { Card, CardHeader, CardBody, CardFooter, TextContent, Text, TextVariants, Badge, Tooltip, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
-import { NumericLabel, Logo, SignatureBadge } from 'src/components';
+import { CollectionNumericLabel, Logo, SignatureBadge } from 'src/components';
 import { formatPath, Paths } from 'src/paths';
 import { convertContentSummaryCounts } from 'src/utilities';
 import { Constants } from 'src/constants';
@@ -85,10 +85,7 @@ var CollectionCard = /** @class */ (function (_super) {
     };
     CollectionCard.prototype.renderTypeCount = function (type, count) {
         return (React.createElement("div", { key: type },
-            React.createElement("div", null,
-                React.createElement(NumericLabel, { number: count })),
-            React.createElement("div", { className: 'type-label' },
-                React.createElement(NumericLabel, { number: count, hideNumber: true, label: type, pluralLabels: Constants.COLLECTION_PLURAL_LABELS[type] }))));
+            React.createElement(CollectionNumericLabel, { count: count, newline: true, type: type })));
     };
     return CollectionCard;
 }(React.Component));
