@@ -28,18 +28,28 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './search.scss';
-import { withRouter } from 'react-router-dom';
-import { DataList, Switch } from '@patternfly/react-core';
-import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, } from 'src/components';
-import { CollectionAPI, MySyncListAPI, } from 'src/api';
+import { errorMessage } from 'src/utilities';
+import { withRouter, Redirect } from 'react-router-dom';
+import { DataList, Switch, DropdownItem, Button } from '@patternfly/react-core';
+import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, } from 'src/components';
+import { CollectionAPI, MySyncListAPI, MyNamespaceAPI, } from 'src/api';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { filterIsSet } from 'src/utilities';
-import { Paths } from 'src/paths';
+import { filterIsSet, waitForTask, parsePulpIDFromURL } from 'src/utilities';
+import { Paths, formatPath } from 'src/paths';
 var Search = /** @class */ (function (_super) {
     __extends(Search, _super);
     function Search(props) {
@@ -62,24 +72,51 @@ var Search = /** @class */ (function (_super) {
             numberOfResults: 0,
             loading: true,
             synclist: undefined,
+            alerts: [],
+            updateCollection: null,
+            showImportModal: false,
+            redirect: null,
         };
         return _this;
     }
     Search.prototype.componentDidMount = function () {
+        this.load();
+    };
+    Search.prototype.load = function () {
         this.queryCollections();
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             this.getSynclist();
         }
     };
+    Object.defineProperty(Search.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
     Search.prototype.render = function () {
         var _this = this;
-        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults;
+        if (this.state.redirect) {
+            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+        }
+        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection;
         var noData = collections.length === 0 &&
             !filterIsSet(params, ['keywords', 'tags', 'sign_state']);
         var updateParams = function (p) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
         return (React.createElement("div", { className: 'search-page' },
+            React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
+            showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
+                    return _this.setState({
+                        redirect: formatPath(Paths.myImports, {}, {
+                            namespace: updateCollection.namespace.name,
+                        }),
+                    });
+                }, 
+                // onCancel
+                setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: updateCollection.namespace.name })),
             React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
                 React.createElement("div", { className: 'toolbar' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
@@ -103,6 +140,14 @@ var Search = /** @class */ (function (_super) {
                             return _this.updateParams(p, function () { return _this.queryCollections(); });
                         }, perPageOptions: Constants.CARD_DEFAULT_PAGINATION_OPTIONS, count: numberOfResults }))))));
     };
+    Search.prototype.toggleImportModal = function (isOpen, warning) {
+        if (warning) {
+            this.setState({
+                alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [{ title: warning, variant: 'warning' }], false),
+            });
+        }
+        this.setState({ showImportModal: isOpen });
+    };
     Search.prototype.renderCollections = function (collections, params, updateParams) {
         if (collections.length === 0) {
             return (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
@@ -122,17 +167,92 @@ var Search = /** @class */ (function (_super) {
     };
     Search.prototype.renderCards = function (collections) {
         var _this = this;
-        return (React.createElement("div", { className: 'cards' }, collections.map(function (c) {
-            return (React.createElement(CollectionCard, __assign({ className: 'card', key: c.id }, c, { footer: _this.renderSyncToggle(c.name, c.namespace.name), repo: _this.context.selectedRepo })));
+        return (React.createElement("div", { className: 'hub-cards' }, collections.map(function (c) {
+            return (React.createElement(CollectionCard, __assign({ className: 'card', key: c.id }, c, { footer: _this.renderSyncToogle(c.name, c.namespace.name), repo: _this.context.selectedRepo, menu: _this.renderMenu(false, c) })));
         })));
     };
-    Search.prototype.renderSyncToggle = function (name, namespace) {
+    Search.prototype.handleControlClick = function (collection) {
+        var _this = this;
+        CollectionAPI.setDeprecation(collection, !collection.deprecated, this.context.selectedRepo)
+            .then(function (res) {
+            var taskId = parsePulpIDFromURL(res.data.task);
+            return waitForTask(taskId).then(function () {
+                var title = !collection.deprecated
+                    ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
+                _this.setState({
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            title: title,
+                            variant: 'success',
+                        },
+                    ], false),
+                });
+                _this.load();
+            });
+        })
+            .catch(function (err) {
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        variant: 'danger',
+                        title: !collection.deprecated
+                            ? t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
+                        description: errorMessage(status, statusText),
+                    },
+                ], false),
+            });
+        });
+    };
+    Search.prototype.renderMenu = function (list, collection) {
+        var _this = this;
+        var menuItems = [];
+        menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate', isDisabled: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE, description: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
+                ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Temporarily disabled due to sync issues. (AAH-1237)"], ["Temporarily disabled due to sync issues. (AAH-1237)"]))) : null }, collection.deprecated ? t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))));
+        if (!list) {
+            menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
+        }
+        return (React.createElement(React.Fragment, null,
+            list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+            React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })));
+    };
+    Search.prototype.renderSyncToogle = function (name, namespace) {
         var _this = this;
         var synclist = this.state.synclist;
         if (!synclist) {
             return null;
         }
-        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
+        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
+    };
+    Search.prototype.checkUploadPrivilleges = function (collection) {
+        var _this = this;
+        var addAlert = function () {
+            _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
+                        variant: 'warning',
+                    },
+                ], false),
+            });
+        };
+        MyNamespaceAPI.get(collection.namespace.name, {
+            include_related: 'my_permissions',
+        })
+            .then(function (value) {
+            if (value.data.related_fields.my_permissions.includes('galaxy.upload_to_namespace')) {
+                _this.setState({
+                    updateCollection: collection,
+                    showImportModal: true,
+                });
+            }
+            else {
+                addAlert();
+            }
+        })
+            .catch(function () {
+            addAlert();
+        });
     };
     Search.prototype.toggleCollectionSync = function (name, namespace) {
         var _this = this;
@@ -162,8 +282,10 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderList = function (collections) {
         var _this = this;
         return (React.createElement("div", { className: 'list-container' },
-            React.createElement("div", { className: 'list' },
-                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: _this.renderSyncToggle(c.name, c.namespace.name), repo: _this.context.selectedRepo }))); })))));
+            React.createElement("div", { className: 'hub-list' },
+                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: React.createElement(React.Fragment, null,
+                        _this.renderSyncToogle(c.name, c.namespace.name),
+                        _this.renderMenu(true, c)), repo: _this.context.selectedRepo }))); })))));
     };
     Search.prototype.getSynclist = function () {
         var _this = this;
@@ -201,5 +323,5 @@ var Search = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(Search);
 Search.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
 //# sourceMappingURL=search.js.map

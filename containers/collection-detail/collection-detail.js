@@ -55,7 +55,10 @@ var CollectionDetail = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDetail.prototype.componentDidMount = function () {
-        this.loadCollection(this.context.selectedRepo, true);
+        this.load(true);
+    };
+    CollectionDetail.prototype.load = function (forceReload) {
+        this.loadCollection(this.context.selectedRepo, forceReload);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
         if (!isEqual(prevProps.location, this.props.location)) {
@@ -83,7 +86,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (p) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () {
                         return _this.loadCollection(_this.context.selectedRepo, true);
                     });

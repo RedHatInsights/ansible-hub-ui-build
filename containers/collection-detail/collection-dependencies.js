@@ -67,7 +67,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDependencies.prototype.componentDidMount = function () {
-        this.loadData();
+        this.loadData(false);
     };
     CollectionDependencies.prototype.render = function () {
         var _this = this;
@@ -99,7 +99,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
         var noDependencies = !Object.keys(collection.latest_version.metadata.dependencies).length;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { collection: collection, params: headerParams, updateParams: function (p) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collection: collection, params: headerParams, updateParams: function (p) {
                     _this.updateParams(_this.combineParams(_this.state.params, p), function () {
                         return _this.loadData(true);
                     });
@@ -162,7 +162,9 @@ var CollectionDependencies = /** @class */ (function (_super) {
     CollectionDependencies.prototype.loadCollection = function (forceReload, callback) {
         var _this = this;
         CollectionAPI.getCached(this.props.match.params['namespace'], this.props.match.params['collection'], this.context.selectedRepo, this.state.params.version ? { version: this.state.params.version } : {}, forceReload)
-            .then(function (result) { return _this.setState({ collection: result }, callback); })
+            .then(function (result) {
+            _this.setState({ collection: result }, callback);
+        })
             .catch(function () {
             _this.props.history.push(Paths.notFound);
         });
