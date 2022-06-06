@@ -59,7 +59,7 @@ var SortTable = /** @class */ (function (_super) {
     SortTable.prototype.render = function () {
         var _this = this;
         return (React.createElement("thead", null,
-            React.createElement("tr", { "data-cy": 'SortTable-headers' }, this.props.options['headers'].map(function (element) {
+            React.createElement("tr", { className: 'hub-SortTable-headers', "data-cy": 'SortTable-headers' }, this.props.options['headers'].map(function (element) {
                 return _this.getHeaderItem(element);
             }))));
     };
