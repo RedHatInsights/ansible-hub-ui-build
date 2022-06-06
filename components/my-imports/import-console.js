@@ -52,7 +52,7 @@ var ImportConsole = /** @class */ (function (_super) {
         this.isLoading =
             selectedImport.state === PulpStatus.running ||
                 selectedImport.state === PulpStatus.waiting;
-        return (React.createElement("div", { className: 'hub-import-console pf-c-content' },
+        return (React.createElement("div", { className: 'hub-import-console pf-c-content', "data-cy": 'ImportConsole' },
             this.renderTitle(selectedImport),
             React.createElement("div", { className: 'message-list' },
                 React.createElement("div", { className: cx({
