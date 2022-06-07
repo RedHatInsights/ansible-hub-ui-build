@@ -418,7 +418,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
             collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
-            dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
+            dropdownItems.length > 0 && (React.createElement("div", { "data-cy": 'ns-kebab-toggle' },
+                React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
         var newState = { showImportModal: isOpen };
