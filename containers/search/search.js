@@ -207,13 +207,12 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
         var menuItems = [];
-        menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate', isDisabled: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE, description: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
-                ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Temporarily disabled due to sync issues. (AAH-1237)"], ["Temporarily disabled due to sync issues. (AAH-1237)"]))) : null }, collection.deprecated ? t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))));
+        menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))));
         if (!list) {
-            menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
+            menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
         }
         return (React.createElement(React.Fragment, null,
-            list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+            list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
             React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })));
     };
     Search.prototype.renderSyncToogle = function (name, namespace) {
@@ -222,7 +221,7 @@ var Search = /** @class */ (function (_super) {
         if (!synclist) {
             return null;
         }
-        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
+        return (React.createElement(Switch, { id: namespace + '.' + name, className: 'sync-toggle', label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync"], ["Sync"]))), isChecked: this.isCollectionSynced(name, namespace), onChange: function () { return _this.toggleCollectionSync(name, namespace); } }));
     };
     Search.prototype.checkUploadPrivilleges = function (collection) {
         var _this = this;
@@ -230,7 +229,7 @@ var Search = /** @class */ (function (_super) {
             _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
-                        title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
+                        title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
                         variant: 'warning',
                     },
                 ], false),
@@ -283,7 +282,7 @@ var Search = /** @class */ (function (_super) {
         var _this = this;
         return (React.createElement("div", { className: 'list-container' },
             React.createElement("div", { className: 'hub-list' },
-                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: React.createElement(React.Fragment, null,
+                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: React.createElement(React.Fragment, null,
                         _this.renderSyncToogle(c.name, c.namespace.name),
                         _this.renderMenu(true, c)), repo: _this.context.selectedRepo }))); })))));
     };
@@ -323,5 +322,5 @@ var Search = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(Search);
 Search.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 //# sourceMappingURL=search.js.map
