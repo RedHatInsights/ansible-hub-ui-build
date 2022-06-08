@@ -28,8 +28,9 @@ var DeleteModal = /** @class */ (function (_super) {
     DeleteModal.prototype.render = function () {
         var _a = this.props, cancelAction = _a.cancelAction, children = _a.children, deleteAction = _a.deleteAction, isDisabled = _a.isDisabled, title = _a.title, spinner = _a.spinner;
         return (React.createElement(Modal, { actions: [
-                React.createElement(Button, { key: 'delete', onClick: deleteAction, variant: 'danger', isDisabled: isDisabled, "data-cy": 'delete_button' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
-                    spinner && React.createElement(Spinner, { size: 'sm' })),
+                React.createElement("div", { "data-cy": 'delete-button', key: 'delete' },
+                    React.createElement(Button, { key: 'delete', onClick: deleteAction, variant: 'danger', isDisabled: isDisabled }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
+                        spinner && React.createElement(Spinner, { size: 'sm' }))),
                 React.createElement(Button, { key: 'cancel', onClick: cancelAction, variant: 'link' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ], isOpen: true, onClose: cancelAction, title: title, titleIconVariant: 'warning', variant: 'small', "data-cy": 'modal_checkbox' }, children));
     };
