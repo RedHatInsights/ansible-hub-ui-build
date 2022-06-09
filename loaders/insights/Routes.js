@@ -73,6 +73,16 @@ var TokenPage = lazy(function () {
     /* webpackChunkName: "settings" */
     '../../containers/token/token-insights');
 });
+var TaskListView = lazy(function () {
+    return import(
+    /* webpackChunkName: "settings" */
+    '../../containers/task-management/task-list-view');
+});
+var TaskDetail = lazy(function () {
+    return import(
+    /* webpackChunkName: "settings" */
+    '../../containers/task-management/task_detail');
+});
 var CertificationDashboard = lazy(function () {
     return import(
     /* webpackChunkName: "settings" */
@@ -103,6 +113,8 @@ export var Routes = function () {
             React.createElement(Route, { path: Paths.myCollections, component: ManageNamespace }),
             React.createElement(Route, { path: Paths.myCollectionsByRepo, component: ManageNamespace }),
             React.createElement(Route, { path: Paths.myNamespaces, component: MyNamespaces }),
+            React.createElement(Route, { path: Paths.taskList, component: TaskListView }),
+            React.createElement(Route, { path: Paths.taskDetail, component: TaskDetail }),
             React.createElement(Route, { path: Paths.collectionDocsPageByRepo, component: CollectionDocs }),
             React.createElement(Route, { path: Paths.collectionDocsIndexByRepo, component: CollectionDocs }),
             React.createElement(Route, { path: Paths.collectionContentDocsByRepo, component: CollectionDocs }),
