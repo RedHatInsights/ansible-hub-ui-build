@@ -219,7 +219,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         itemToEdit: __assign({}, item),
                     });
                 } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Edit"], ["Edit"]))))),
-            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+            item.pulp.repository.remote && canEdit && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
                         publishToController: {
