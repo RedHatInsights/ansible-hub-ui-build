@@ -8,12 +8,12 @@ import { DownloadIcon } from '@patternfly/react-icons';
 import { t } from '@lingui/macro';
 import { useContext } from 'src/loaders/app-context';
 export var DownloadSignatureGridItem = function (_a) {
-    var _b, _c, _d;
+    var _b, _c;
     var version = _a.version;
-    var signingEnabled = ((_c = (_b = useContext()) === null || _b === void 0 ? void 0 : _b.featureFlags) === null || _c === void 0 ? void 0 : _c.collection_signing) === true;
-    var _e = useState(false), show = _e[0], setShow = _e[1];
+    var display_signatures = (((_b = useContext()) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}).display_signatures;
+    var _d = useState(false), show = _d[0], setShow = _d[1];
     // No signature object or the signatures is empty
-    if (!signingEnabled || ((_d = version.metadata.signatures) === null || _d === void 0 ? void 0 : _d.length) < 1) {
+    if (!display_signatures || ((_c = version.metadata.signatures) === null || _c === void 0 ? void 0 : _c.length) < 1) {
         return null;
     }
     return (React.createElement(React.Fragment, null,
