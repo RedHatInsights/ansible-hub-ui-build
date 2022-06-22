@@ -234,19 +234,23 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement("tbody", null, versions.map(function (version, i) { return _this.renderRow(version, i); }))));
     };
     CertificationDashboard.prototype.renderStatus = function (version) {
+        var _a, _b;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement("span", { className: 'fa fa-lg fa-spin fa-spinner' });
         }
         if (version.repository_list.includes(Constants.PUBLISHED)) {
-            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, version.sign_state === 'signed'
+            var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
+            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, display_signatures && version.sign_state === 'signed'
                 ? t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Signed and approved"], ["Signed and approved"]))) : t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Approved"], ["Approved"])))));
         }
         if (version.repository_list.includes(Constants.NOTCERTIFIED)) {
             return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
+            var _c = ((_b = this.context) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}, can_upload_signatures = _c.can_upload_signatures, require_upload_signatures = _c.require_upload_signatures;
             return (React.createElement(Label, { variant: 'outline', color: 'orange', icon: React.createElement(ExclamationTriangleIcon, null) }, version.sign_state === 'unsigned' &&
-                this.context.settings.GALAXY_REQUIRE_SIGNATURE_FOR_APPROVAL
+                can_upload_signatures &&
+                require_upload_signatures
                 ? t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Needs signature and review"], ["Needs signature and review"]))) : t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Needs review"], ["Needs review"])))));
         }
     };
@@ -269,21 +273,22 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var featureFlags = this.context.featureFlags;
+        var _a;
         // not checking namespace permissions here, auto_sign happens API side, so is the permission check
-        var canSign = (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_signing) && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_auto_sign);
+        var _b = ((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}, can_upload_signatures = _b.can_upload_signatures, collection_auto_sign = _b.collection_auto_sign, require_upload_signatures = _b.require_upload_signatures;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement(ListItemActions, null); // empty td;
         }
-        var needUploadSignature = this.context.settings.GALAXY_SIGNATURE_UPLOAD_ENABLED &&
-            version.sign_state === 'unsigned';
+        var canUploadSignature = can_upload_signatures && version.sign_state === 'unsigned';
+        var mustUploadSignature = canUploadSignature && require_upload_signatures;
+        var autoSign = collection_auto_sign && !require_upload_signatures;
         var approveButton = [
-            needUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
+            canUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
                 React.createElement(Button, { onClick: function () { return _this.openUploadCertificateModal(version); } }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Upload signature"], ["Upload signature"])))),
                 ' ')),
-            React.createElement(Button, { key: 'approve', isDisabled: needUploadSignature, onClick: function () {
+            React.createElement(Button, { key: 'approve', isDisabled: mustUploadSignature, onClick: function () {
                     return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
-                } }, canSign ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Approve"], ["Approve"])))),
+                } }, autoSign ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Approve"], ["Approve"])))),
         ].filter(Boolean);
         var importsLink = (React.createElement(DropdownItem, { key: 'imports', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                     namespace: version.namespace,
@@ -292,7 +297,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 }) }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
         var certifyDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.PUBLISHED);
-            }, isDisabled: isDisabled, key: 'certify' }, canSign ? t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
+            }, isDisabled: isDisabled, key: 'certify' }, autoSign ? t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
         var rejectDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.NOTCERTIFIED);
             }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Reject"], ["Reject"]))))); };

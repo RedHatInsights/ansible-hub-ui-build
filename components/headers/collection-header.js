@@ -309,8 +309,9 @@ var CollectionHeader = /** @class */ (function (_super) {
     };
     CollectionHeader.prototype.render = function () {
         var _this = this;
-        var _a = this.props, collection = _a.collection, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
-        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
+        var _a;
+        var _b = this.props, collection = _b.collection, params = _b.params, updateParams = _b.updateParams, breadcrumbs = _b.breadcrumbs, activeTab = _b.activeTab, className = _b.className;
+        var _c = this.state, modalPagination = _c.modalPagination, isOpenVersionsModal = _c.isOpenVersionsModal, isOpenVersionsSelect = _c.isOpenVersionsSelect, redirect = _c.redirect, noDependencies = _c.noDependencies, collectionVersion = _c.collectionVersion, deleteCollection = _c.deleteCollection, confirmDelete = _c.confirmDelete, isDeletionPending = _c.isDeletionPending, showImportModal = _c.showImportModal, updateCollection = _c.updateCollection;
         var numOfshownVersions = 10;
         var all_versions = __spreadArray([], collection.all_versions, true);
         var match = all_versions.find(function (x) { return x.version === collection.latest_version.version; });
@@ -329,8 +330,9 @@ var CollectionHeader = /** @class */ (function (_super) {
             { key: 'repository', name: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.latest_version.created_at;
+        var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
         var signedString = function (v) {
-            if ('sign_state' in v) {
+            if (display_signatures && 'sign_state' in v) {
                 return v.sign_state === 'signed' ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["(signed)"], ["(signed)"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["(unsigned)"], ["(unsigned)"])));
             }
             else {
