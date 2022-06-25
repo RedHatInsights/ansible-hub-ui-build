@@ -93,8 +93,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a, _b;
-        var _c = this.state, alerts = _c.alerts, itemCount = _c.itemCount, itemToEdit = _c.itemToEdit, items = _c.items, loading = _c.loading, params = _c.params, publishToController = _c.publishToController, showRemoteModal = _c.showRemoteModal, unauthorized = _c.unauthorized, showDeleteModal = _c.showDeleteModal, selectedItem = _c.selectedItem;
+        var _a;
+        var _b = this.state, alerts = _b.alerts, itemCount = _b.itemCount, itemToEdit = _b.itemToEdit, items = _b.items, loading = _b.loading, params = _b.params, publishToController = _b.publishToController, showRemoteModal = _b.showRemoteModal, unauthorized = _b.unauthorized, showDeleteModal = _b.showDeleteModal, selectedItem = _b.selectedItem;
+        var user = this.context.user;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -102,15 +103,13 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(Trans, null, "Push container images"),
             " ",
             React.createElement(ExternalLinkAltIcon, null)));
-        var addRemoteButton = ((_b = (_a = this.context.user) === null || _a === void 0 ? void 0 : _a.model_permissions) === null || _b === void 0 ? void 0 : _b.add_containernamespace) && (React.createElement(React.Fragment, null,
-            React.createElement(Button, { onClick: function () {
-                    return _this.setState({
-                        showRemoteModal: true,
-                        itemToEdit: {},
-                    });
-                }, variant: 'primary' },
-                React.createElement(Trans, null, "Add execution environment")),
-            React.createElement("div", null, "\u00A0")));
+        var addRemoteButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_containernamespace) && (React.createElement(Button, { onClick: function () {
+                return _this.setState({
+                    showRemoteModal: true,
+                    itemToEdit: {},
+                });
+            }, variant: 'primary' },
+            React.createElement(Trans, null, "Add execution environment")));
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
@@ -128,6 +127,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 } })),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: React.createElement(React.Fragment, null,
                     addRemoteButton,
+                    addRemoteButton && pushImagesButton ? React.createElement("div", null, "\u00A0") : null,
                     pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'hub-container-list-toolbar' },
                     React.createElement(Toolbar, null,
