@@ -210,50 +210,54 @@ var GroupDetail = /** @class */ (function (_super) {
     };
     GroupDetail.prototype.renderPermissions = function () {
         var _this = this;
-        var groups = Constants.PERMISSIONS;
-        var _a = this.state, editPermissions = _a.editPermissions, savingPermissions = _a.savingPermissions, selectedPermissions = _a.permissions;
+        var _a = this.state, editPermissions = _a.editPermissions, savingPermissions = _a.savingPermissions, permissions = _a.permissions;
         var _b = this.context, user = _b.user, featureFlags = _b.featureFlags;
-        var isUserMgmtDisabled = false;
-        var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
-        if (isUserMgmtDisabled) {
-            Constants.USER_GROUP_MGMT_PERMISSIONS.forEach(function (perm) {
-                if (perm in filteredPermissions) {
-                    delete filteredPermissions[perm];
+        var external_authentication = (featureFlags || {}).external_authentication;
+        var ChipRow = function (_a) {
+            var object_permissions = _a.permGroup.object_permissions;
+            var availablePermissions = object_permissions
+                // hide selected
+                .filter(function (perm) { return !permissions.find(function (selected) { return perm === selected; }); })
+                // hide list when in keycloak mode
+                .filter(function (perm) {
+                return !external_authentication ||
+                    !Constants.USER_GROUP_MGMT_PERMISSIONS.find(function (disabled) { return perm === disabled; });
+            })
+                // make human readable (FIXME: sorted by English instead of using a predefined order)
+                .map(function (value) { return Constants.HUMAN_PERMISSIONS[value] || value; })
+                .sort();
+            var selectedPermissions = permissions
+                // hide permissions not in this group
+                .filter(function (selected) {
+                return object_permissions.find(function (perm) { return selected === perm; });
+            })
+                // make human readable
+                .map(function (value) { return Constants.HUMAN_PERMISSIONS[value] || value; });
+            var onClear = function () {
+                _this.setState({
+                    permissions: permissions.filter(function (x) { return !object_permissions.includes(x); }),
+                });
+            };
+            var onSelect = function (_event, selection) {
+                // FIXME: PermissionChipSelector should really work with the actual values, not english strings
+                var value = twoWayMapper(selection, Constants.HUMAN_PERMISSIONS);
+                var newPerms = new Set(_this.state.permissions);
+                if (newPerms.has(value)) {
+                    newPerms.delete(value);
                 }
-            });
-        }
+                else {
+                    newPerms.add(value);
+                }
+                _this.setState({ permissions: Array.from(newPerms) });
+            };
+            return (React.createElement(PermissionChipSelector, { availablePermissions: availablePermissions, isViewOnly: !editPermissions, menuAppendTo: 'inline', multilingual: true, onClear: onClear, onSelect: onSelect, selectedPermissions: selectedPermissions, setSelected: function (permissions) { return _this.setState({ permissions: permissions }); } }));
+        };
         return (React.createElement("section", { className: 'body' },
             React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } }, !editPermissions && user.model_permissions.change_group && (React.createElement(Button, { onClick: function () { return _this.setState({ editPermissions: true }); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Edit"], ["Edit"])))))),
-            React.createElement("div", null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name },
-                React.createElement(FlexItem, { style: { minWidth: '200px' } }, i18n._(group.label)),
+            React.createElement("div", null, Constants.PERMISSIONS.map(function (permGroup) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: permGroup.name, className: permGroup.name },
+                React.createElement(FlexItem, { style: { minWidth: '200px' } }, i18n._(permGroup.label)),
                 React.createElement(FlexItem, { grow: { default: 'grow' } },
-                    React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
-                            .filter(function (perm) {
-                            return !selectedPermissions.find(function (selected) { return selected === perm; });
-                        })
-                            .map(function (value) { return twoWayMapper(value, filteredPermissions); })
-                            .sort(), selectedPermissions: selectedPermissions
-                            .filter(function (selected) {
-                            return group.object_permissions.find(function (perm) { return selected === perm; });
-                        })
-                            .map(function (value) { return twoWayMapper(value, filteredPermissions); }), setSelected: function (perms) { return _this.setState({ permissions: perms }); }, menuAppendTo: 'inline', multilingual: true, isViewOnly: !editPermissions, onClear: function () {
-                            var clearedPerms = group.object_permissions;
-                            _this.setState({
-                                permissions: _this.state.permissions.filter(function (x) { return !clearedPerms.includes(x); }),
-                            });
-                        }, onSelect: function (event, selection) {
-                            var newPerms = new Set(_this.state.permissions);
-                            if (newPerms.has(twoWayMapper(selection, filteredPermissions))) {
-                                newPerms.delete(twoWayMapper(selection, filteredPermissions));
-                            }
-                            else {
-                                newPerms.add(twoWayMapper(selection, filteredPermissions));
-                            }
-                            _this.setState({ permissions: Array.from(newPerms) });
-                        } })))); })),
+                    React.createElement(ChipRow, { permGroup: permGroup })))); })),
             editPermissions && (React.createElement(Form, null,
                 React.createElement(ActionGroup, null,
                     React.createElement(Button, { variant: 'primary', isDisabled: savingPermissions, onClick: function () { return _this.actionSavePermissions(); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Save"], ["Save"])))),
@@ -509,15 +513,12 @@ var GroupDetail = /** @class */ (function (_super) {
         var _this = this;
         var currentUser = this.context.user;
         var featureFlags = this.context.featureFlags;
-        var isUserMgmtDisabled = false;
+        var isUserMgmtDisabled = featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.external_authentication;
         var dropdownItems = [
             !!currentUser &&
                 currentUser.model_permissions.change_group &&
                 !isUserMgmtDisabled && (React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Remove"], ["Remove"]))))),
         ];
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
         return (React.createElement("tr", { "data-cy": "GroupDetail-users-".concat(user.username), key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.userDetail, { userID: user.id }) }, user.username)),
