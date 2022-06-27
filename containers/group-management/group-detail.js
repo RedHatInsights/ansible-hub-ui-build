@@ -356,7 +356,7 @@ var GroupDetail = /** @class */ (function (_super) {
             React.createElement(Trans, null,
                 "User ",
                 React.createElement("b", null, username),
-                " will be removed from group",
+                " will be removed from group ",
                 React.createElement("b", null, groupname),
                 ".")));
     };
