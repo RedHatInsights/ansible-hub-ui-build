@@ -58,6 +58,14 @@ var AuthHandler = /** @class */ (function (_super) {
             promises.push(FeatureFlagsAPI.get().then(function (_a) {
                 var data = _a.data;
                 // we need this even if ActiveUserAPI fails, otherwise isExternalAuth will always be false, breaking keycloak redirect
+                if ('_messages' in data) {
+                    _this.props.updateInitialData({
+                        alerts: data._messages.map(function (msg) { return ({
+                            variant: 'warning',
+                            title: msg.split(':')[1],
+                        }); }),
+                    });
+                }
                 _this.props.updateInitialData({ featureFlags: data });
             }));
             promises.push(ActiveUserAPI.getUser());
