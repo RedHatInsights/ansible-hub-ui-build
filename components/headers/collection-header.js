@@ -445,7 +445,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             "v",
                             v.version),
-                        ' ', t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
+                        ' ', t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["updated ", ""], ["updated ", ""])), isLatestVersion(v)))); })),
                 React.createElement(Pagination, { params: {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
@@ -502,7 +502,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             React.createElement(Trans, null,
                                 v.version,
-                                " released ",
+                                " updated ",
                                 isLatestVersion(v)))); }))),
                     latestVersion ? (React.createElement("span", { className: 'last-updated' },
                         React.createElement(Trans, null,
