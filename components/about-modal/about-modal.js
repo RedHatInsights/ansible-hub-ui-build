@@ -28,7 +28,11 @@ var AboutModalWindow = /** @class */ (function (_super) {
     function AboutModalWindow(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            applicationInfo: { server_version: '', pulp_ansible_version: '' },
+            applicationInfo: {
+                galaxy_ng_commit: '',
+                pulp_ansible_version: '',
+                server_version: '',
+            },
         };
         return _this;
     }
@@ -37,8 +41,9 @@ var AboutModalWindow = /** @class */ (function (_super) {
         ApplicationInfoAPI.get().then(function (result) {
             _this.setState({
                 applicationInfo: {
-                    server_version: result.data.server_version,
+                    galaxy_ng_commit: result.data.galaxy_ng_commit,
                     pulp_ansible_version: result.data.pulp_ansible_version,
+                    server_version: result.data.server_version,
                 },
             });
         });
@@ -58,7 +63,10 @@ var AboutModalWindow = /** @class */ (function (_super) {
             React.createElement(TextContent, null,
                 React.createElement(TextList, { component: TextListVariants.dl },
                     React.createElement(Label, null, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Server version"], ["Server version"])))),
-                    React.createElement(Value, null, this.state.applicationInfo.server_version),
+                    React.createElement(Value, null,
+                        this.state.applicationInfo.server_version,
+                        React.createElement("br", null),
+                        this.state.applicationInfo.galaxy_ng_commit),
                     React.createElement(Label, null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
                     React.createElement(Value, null, this.state.applicationInfo.pulp_ansible_version),
                     React.createElement(Label, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["UI Version"], ["UI Version"])))),

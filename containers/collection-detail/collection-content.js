@@ -38,7 +38,10 @@ var CollectionContent = /** @class */ (function (_super) {
         return _this;
     }
     CollectionContent.prototype.componentDidMount = function () {
-        this.loadCollection(this.context.selectedRepo);
+        this.load(false);
+    };
+    CollectionContent.prototype.load = function (forceReload) {
+        this.loadCollection(this.context.selectedRepo, forceReload);
     };
     CollectionContent.prototype.render = function () {
         var _this = this;
@@ -66,7 +69,7 @@ var CollectionContent = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { collection: collection, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (params) {
                     return _this.updateParams(params, function () {
                         return _this.loadCollection(_this.context.selectedRepo, true);
                     });

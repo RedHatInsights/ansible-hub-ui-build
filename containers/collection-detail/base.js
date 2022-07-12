@@ -17,7 +17,12 @@ export function loadCollection(repo, forceReload, callback) {
     if (callback === void 0) { callback = function () { return null; }; }
     CollectionAPI.getCached(this.props.match.params['namespace'], this.props.match.params['collection'], repo, __assign(__assign({}, this.state.params), { include_related: 'my_permissions' }), forceReload)
         .then(function (result) {
-        _this.setState({ collection: result }, callback);
+        return CollectionAPI.list({
+            name: _this.props.match.params['collection'],
+        }, _this.context.selectedRepo).then(function (collections) {
+            result.deprecated = collections.data.data[0].deprecated;
+            _this.setState({ collection: result }, callback);
+        });
     })
         .catch(function () {
         _this.props.history.push(Paths.notFound);

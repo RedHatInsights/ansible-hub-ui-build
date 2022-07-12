@@ -30,10 +30,10 @@ import React from 'react';
 import { CheckCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import { useContext } from 'src/loaders/app-context';
 export var SignatureBadge = function (_a) {
-    var _b, _c;
-    var _d = _a.signState, signState = _d === void 0 ? 'unsigned' : _d, _e = _a.isCompact, isCompact = _e === void 0 ? false : _e, props = __rest(_a, ["signState", "isCompact"]);
-    var signingEnabled = ((_c = (_b = useContext()) === null || _b === void 0 ? void 0 : _b.featureFlags) === null || _c === void 0 ? void 0 : _c.collection_signing) === true;
-    if (!signingEnabled) {
+    var _b;
+    var _c = _a.signState, signState = _c === void 0 ? 'unsigned' : _c, _d = _a.isCompact, isCompact = _d === void 0 ? false : _d, props = __rest(_a, ["signState", "isCompact"]);
+    var display_signatures = (((_b = useContext()) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}).display_signatures;
+    if (!display_signatures) {
         return null;
     }
     var text = function () {

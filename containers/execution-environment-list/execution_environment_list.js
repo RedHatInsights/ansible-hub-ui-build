@@ -93,7 +93,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, selectedItem = _a.selectedItem;
+        var _a;
+        var _b = this.state, alerts = _b.alerts, itemCount = _b.itemCount, itemToEdit = _b.itemToEdit, items = _b.items, loading = _b.loading, params = _b.params, publishToController = _b.publishToController, showRemoteModal = _b.showRemoteModal, unauthorized = _b.unauthorized, showDeleteModal = _b.showDeleteModal, selectedItem = _b.selectedItem;
+        var user = this.context.user;
         var noData = items.length === 0 && !filterIsSet(params, ['name']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -101,7 +103,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(Trans, null, "Push container images"),
             " ",
             React.createElement(ExternalLinkAltIcon, null)));
-        var addRemoteButton = (React.createElement(Button, { onClick: function () {
+        var addRemoteButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_containernamespace) && (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     showRemoteModal: true,
                     itemToEdit: {},
@@ -125,7 +127,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 } })),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No container repositories yet"], ["No container repositories yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["You currently have no container repositories. Add a container repository via the CLI to get started."], ["You currently have no container repositories. Add a container repository via the CLI to get started."]))), button: React.createElement(React.Fragment, null,
                     addRemoteButton,
-                    React.createElement("div", null, "\u00A0"),
+                    addRemoteButton && pushImagesButton ? React.createElement("div", null, "\u00A0") : null,
                     pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'hub-container-list-toolbar' },
                     React.createElement(Toolbar, null,
@@ -217,7 +219,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         itemToEdit: __assign({}, item),
                     });
                 } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Edit"], ["Edit"]))))),
-            item.pulp.repository.remote && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+            item.pulp.repository.remote && canEdit && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(item.name); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
             React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                     _this.setState({
                         publishToController: {

@@ -32,8 +32,8 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import './my-imports.scss';
-import { Pagination, FormSelect, FormSelectOption, Spinner, Toolbar, } from '@patternfly/react-core';
-import { AppliedFilters, CompoundFilter } from 'src/components';
+import { Pagination, FormSelect, FormSelectOption, Toolbar, } from '@patternfly/react-core';
+import { AppliedFilters, CompoundFilter, LoadingPageSpinner, } from 'src/components';
 import { PulpStatus } from 'src/api';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { filterIsSet } from 'src/utilities';
@@ -106,7 +106,7 @@ var ImportList = /** @class */ (function (_super) {
         var _this = this;
         if (loading) {
             return (React.createElement("div", { className: 'loading' },
-                React.createElement(Spinner, null)));
+                React.createElement(LoadingPageSpinner, null)));
         }
         if (importList.length === 0 &&
             !filterIsSet(this.props.params, ['keywords', 'state'])) {

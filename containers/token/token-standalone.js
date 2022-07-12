@@ -31,7 +31,7 @@ import * as React from 'react';
 import './token.scss';
 import { withRouter } from 'react-router-dom';
 import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
-import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, } from 'src/components';
+import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, LoadingPageSpinner, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage } from 'src/utilities';
@@ -42,12 +42,13 @@ var TokenPage = /** @class */ (function (_super) {
         _this.state = {
             token: undefined,
             alerts: [],
+            loadingToken: false,
         };
         return _this;
     }
     TokenPage.prototype.render = function () {
         var _this = this;
-        var _a = this.state, token = _a.token, alerts = _a.alerts;
+        var _a = this.state, token = _a.token, alerts = _a.alerts, loadingToken = _a.loadingToken;
         var unauthorised = !this.context.user || this.context.user.is_anonymous;
         var expiration = this.context.settings.GALAXY_TOKEN_EXPIRATION;
         var expirationDate = new Date(Date.now() + 1000 * 60 * expiration);
@@ -83,23 +84,28 @@ var TokenPage = /** @class */ (function (_super) {
                                     React.createElement(Trans, null,
                                         React.createElement("b", null, "WARNING"),
                                         " copy this token now. This is the only time you will ever see it."))),
-                            React.createElement(ClipboardCopy, null, token))) : (React.createElement("div", { className: 'load-token' },
-                            React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Load token"], ["Load token"])))))))))))));
+                            React.createElement(ClipboardCopy, null, token))) : !token && !loadingToken ? (React.createElement("div", { className: 'load-token' },
+                            React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Load token"], ["Load token"])))))) : (React.createElement(LoadingPageSpinner, null)))))))));
     };
     TokenPage.prototype.loadToken = function () {
         var _this = this;
-        ActiveUserAPI.getToken()
-            .then(function (result) { return _this.setState({ token: result.data.token }); })
-            .catch(function (e) {
-            var _a = e.response, status = _a.status, statusText = _a.statusText;
-            _this.setState({
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
-                    {
-                        variant: 'danger',
-                        title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Token could not be displayed."], ["Token could not be displayed."]))),
-                        description: errorMessage(status, statusText),
-                    },
-                ], false),
+        this.setState({ loadingToken: true }, function () {
+            ActiveUserAPI.getToken()
+                .then(function (result) {
+                return _this.setState({ token: result.data.token, loadingToken: false });
+            })
+                .catch(function (e) {
+                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                _this.setState({
+                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                        {
+                            variant: 'danger',
+                            title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Token could not be displayed."], ["Token could not be displayed."]))),
+                            description: errorMessage(status, statusText),
+                        },
+                    ], false),
+                    loadingToken: false,
+                });
             });
         });
     };
