@@ -40,8 +40,9 @@ var CollectionFilter = /** @class */ (function (_super) {
     };
     CollectionFilter.prototype.render = function () {
         var _this = this;
-        var _a, _b;
-        var _c = this.props, ignoredParams = _c.ignoredParams, params = _c.params, updateParams = _c.updateParams;
+        var _a;
+        var _b = this.props, ignoredParams = _b.ignoredParams, params = _b.params, updateParams = _b.updateParams;
+        var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
         var filterConfig = [
             {
                 id: 'keywords',
@@ -56,7 +57,7 @@ var CollectionFilter = /** @class */ (function (_super) {
                     title: tag,
                 }); }),
             },
-            ((_b = (_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) === null || _b === void 0 ? void 0 : _b.collection_signing) === true && {
+            display_signatures && {
                 id: 'sign_state',
                 title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Sign state"], ["Sign state"]))),
                 inputType: 'select',

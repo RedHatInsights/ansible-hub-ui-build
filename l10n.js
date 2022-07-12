@@ -45,6 +45,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { i18n } from '@lingui/core';
 import * as plurals from 'make-plural/plurals';
+import * as moment from 'moment';
 // remember to update .linguirc as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
 // Accept-Language
@@ -74,6 +75,7 @@ function activate(locale) {
                     i18n.loadLocaleData(locale, { plurals: plurals[locale] });
                     i18n.load(locale, messages);
                     i18n.activate(locale);
+                    moment.locale(locale);
                     return [2 /*return*/];
             }
         });

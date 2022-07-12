@@ -23,9 +23,8 @@ import './list-item.scss';
 import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 import { Paths, formatPath } from 'src/paths';
-import { NumericLabel, Tag, Logo, DeprecatedTag, DateComponent, } from 'src/components';
+import { CollectionNumericLabel, Tag, Logo, DeprecatedTag, DateComponent, } from 'src/components';
 import { convertContentSummaryCounts } from 'src/utilities';
-import { Constants } from 'src/constants';
 import { SignatureBadge } from '../signing';
 var CollectionListItem = /** @class */ (function (_super) {
     __extends(CollectionListItem, _super);
@@ -57,8 +56,8 @@ var CollectionListItem = /** @class */ (function (_super) {
                             "Provided by ",
                             company)))) : null),
             React.createElement("div", { className: 'hub-entry' }, latest_version.metadata.description),
-            React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap content' }, Object.keys(contentSummary.contents).map(function (k) { return (React.createElement("div", { key: k },
-                React.createElement(NumericLabel, { className: 'hub-numeric-label-capitalize-text', label: k, number: contentSummary.contents[k], pluralLabels: Constants.COLLECTION_PLURAL_LABELS[k] }))); })),
+            React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' }, Object.keys(contentSummary.contents).map(function (type) { return (React.createElement("div", { key: type },
+                React.createElement(CollectionNumericLabel, { count: contentSummary.contents[type], type: type }))); })),
             React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' },
                 React.createElement(LabelGroup, null, latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },

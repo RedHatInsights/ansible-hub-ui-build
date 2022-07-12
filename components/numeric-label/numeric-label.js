@@ -14,29 +14,25 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
+import { plural } from '@lingui/macro';
 var NumericLabel = /** @class */ (function (_super) {
     __extends(NumericLabel, _super);
     function NumericLabel() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NumericLabel.prototype.render = function () {
-        var _a = this.props, className = _a.className, number = _a.number, label = _a.label, hideNumber = _a.hideNumber, pluralLabels = _a.pluralLabels;
-        var convertedNum;
-        if (typeof number === 'string') {
-            convertedNum = Number(number);
+        var _a = this.props, number = _a.number, newline = _a.newline, label = _a.label;
+        var numberElem = (React.createElement("span", { key: 'number' },
+            NumericLabel.roundNumber(number),
+            " "));
+        var labelElem = (React.createElement("span", { key: 'label', className: 'hub-numeric-label-label' }, label));
+        if (newline) {
+            numberElem = React.createElement("div", null, numberElem);
+            labelElem = React.createElement("div", null, labelElem);
         }
-        else {
-            convertedNum = number;
-        }
-        var plural = number === 1 ? '' : 's';
         return (React.createElement("div", null,
-            React.createElement("span", null,
-                hideNumber ? null : NumericLabel.roundNumber(convertedNum),
-                ' '),
-            React.createElement("span", { className: className }, pluralLabels ? (React.createElement(React.Fragment, null, this.setPluralLabel(pluralLabels, number))) : (React.createElement(React.Fragment, null,
-                " ",
-                label ? label + plural : null,
-                " ")))));
+            numberElem,
+            labelElem));
     };
     // Make this a static property so that we can use this function outside of
     // rendering the whole component
@@ -63,10 +59,37 @@ var NumericLabel = /** @class */ (function (_super) {
         // If larger than a billion, don't even bother.
         return '1B+';
     };
-    NumericLabel.prototype.setPluralLabel = function (plurals, number) {
-        return number === 0 || number === 1 ? plurals[number] : plurals['other'];
-    };
     return NumericLabel;
 }(React.Component));
 export { NumericLabel };
+var CollectionNumericLabel = /** @class */ (function (_super) {
+    __extends(CollectionNumericLabel, _super);
+    function CollectionNumericLabel() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    CollectionNumericLabel.prototype.render = function () {
+        var _a = this.props, count = _a.count, newline = _a.newline, type = _a.type;
+        var label = {
+            module: plural(count, {
+                one: 'Module',
+                other: 'Modules',
+            }),
+            role: plural(count, {
+                one: 'Role',
+                other: 'Roles',
+            }),
+            plugin: plural(count, {
+                one: 'Plugin',
+                other: 'Plugins',
+            }),
+            dependency: plural(count, {
+                one: 'Dependency',
+                other: 'Dependencies',
+            }),
+        }[type] || type;
+        return React.createElement(NumericLabel, { number: count, newline: newline, label: label });
+    };
+    return CollectionNumericLabel;
+}(React.Component));
+export { CollectionNumericLabel };
 //# sourceMappingURL=numeric-label.js.map

@@ -60,7 +60,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                     id: 'updated_at',
                 },
                 {
-                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Repo URL"], ["Repo URL"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Distribution URL"], ["Distribution URL"]))),
                     type: 'none',
                     id: 'ansible_cli_url',
                 },
