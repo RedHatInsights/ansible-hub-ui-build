@@ -51,6 +51,20 @@ var API = /** @class */ (function (_super) {
                 // remove module_utils, doc_fragments from each item
                 data: response.data.data.map(filterListItem) }) })); });
     };
+    API.prototype.getPublishedCount = function (distributionPath) {
+        return this.http
+            .get("v3/plugin/ansible/content/".concat(distributionPath, "/collections/index/"))
+            .then(function (result) {
+            return result.data.meta.count;
+        });
+    };
+    API.prototype.getExcludesCount = function (distributionPath) {
+        return this.http
+            .get("content/".concat(distributionPath, "/v3/excludes/"))
+            .then(function (result) {
+            return result.data;
+        });
+    };
     API.prototype.setDeprecation = function (collection, isDeprecated, repo) {
         var path = "v3/plugin/ansible/content/".concat(repo, "/collections/index/");
         return this.patch("".concat(collection.namespace.name, "/").concat(collection.name), {

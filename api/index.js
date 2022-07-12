@@ -1,7 +1,7 @@
 export { CollectionAPI } from './collection';
 export { NamespaceAPI } from './namespace';
 export { NamespaceType, NamespaceListType, NamespaceLinkType, } from './response-types/namespace';
-export { CollectionListType, CollectionDetailType, CollectionUsedByDependencies, DocsBlobType, PluginContentType, CollectionUploadType, ContentSummaryType, CollectionVersion, } from './response-types/collection';
+export { CollectionListType, CollectionDetailType, CollectionExcludesType, CollectionUsedByDependencies, DocsBlobType, PluginContentType, CollectionUploadType, ContentSummaryType, CollectionVersion, } from './response-types/collection';
 export { ImportListType, ImportDetailType, ImportMessageCodes, } from './response-types/import';
 export { PulpStatus } from './response-types/pulp';
 export { ImportAPI } from './import';
