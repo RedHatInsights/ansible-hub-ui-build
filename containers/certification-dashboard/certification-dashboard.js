@@ -67,9 +67,9 @@ import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
-import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, } from '@patternfly/react-core';
-import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
-import { CollectionVersionAPI, TaskAPI, CertificateUploadAPI, Repositories, } from 'src/api';
+import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, ButtonVariant, } from '@patternfly/react-core';
+import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, DownloadIcon, } from '@patternfly/react-icons';
+import { CollectionVersionAPI, TaskAPI, CertificateUploadAPI, Repositories, CollectionAPI, } from 'src/api';
 import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
 import { LoadingPageWithHeader, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, UploadSingCertificateModal, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
@@ -255,6 +255,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
+        var _this = this;
         return (React.createElement("tr", { key: index, "data-cy": 'CertificationDashboard-row' },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
@@ -265,7 +266,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
                         repo: version.repository_list[0],
                     }, {
                         version: version.version,
-                    }) }, version.version)),
+                    }) }, version.version),
+                React.createElement(Button, { variant: ButtonVariant.link, onClick: function () {
+                        _this.download(version.namespace, version.name, version.version);
+                    } },
+                    React.createElement(DownloadIcon, null))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: version.created_at })),
             React.createElement("td", null, this.renderStatus(version)),
@@ -481,6 +486,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [],
                 });
             });
+        });
+    };
+    CertificationDashboard.prototype.download = function (namespace, name, version) {
+        CollectionAPI.getDownloadURL('staging', namespace, name, version).then(function (downloadURL) {
+            window.location.assign(downloadURL);
         });
     };
     Object.defineProperty(CertificationDashboard.prototype, "updateParams", {
