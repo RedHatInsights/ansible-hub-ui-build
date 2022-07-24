@@ -67,10 +67,10 @@ import * as React from 'react';
 import './certification-dashboard.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
-import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, } from '@patternfly/react-core';
-import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, } from '@patternfly/react-icons';
-import { CollectionVersionAPI, TaskAPI, CertificateUploadAPI, Repositories, } from 'src/api';
-import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
+import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, ButtonVariant, } from '@patternfly/react-core';
+import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, DownloadIcon, } from '@patternfly/react-icons';
+import { CollectionVersionAPI, TaskAPI, CertificateUploadAPI, Repositories, CollectionAPI, } from 'src/api';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
 import { LoadingPageWithHeader, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, UploadSingCertificateModal, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
@@ -234,23 +234,28 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement("tbody", null, versions.map(function (version, i) { return _this.renderRow(version, i); }))));
     };
     CertificationDashboard.prototype.renderStatus = function (version) {
+        var _a, _b;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement("span", { className: 'fa fa-lg fa-spin fa-spinner' });
         }
         if (version.repository_list.includes(Constants.PUBLISHED)) {
-            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, version.sign_state === 'signed'
+            var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
+            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, display_signatures && version.sign_state === 'signed'
                 ? t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Signed and approved"], ["Signed and approved"]))) : t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Approved"], ["Approved"])))));
         }
         if (version.repository_list.includes(Constants.NOTCERTIFIED)) {
             return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
+            var _c = ((_b = this.context) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}, can_upload_signatures = _c.can_upload_signatures, require_upload_signatures = _c.require_upload_signatures;
             return (React.createElement(Label, { variant: 'outline', color: 'orange', icon: React.createElement(ExclamationTriangleIcon, null) }, version.sign_state === 'unsigned' &&
-                this.context.settings.GALAXY_REQUIRE_SIGNATURE_FOR_APPROVAL
+                can_upload_signatures &&
+                require_upload_signatures
                 ? t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Needs signature and review"], ["Needs signature and review"]))) : t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Needs review"], ["Needs review"])))));
         }
     };
     CertificationDashboard.prototype.renderRow = function (version, index) {
+        var _this = this;
         return (React.createElement("tr", { key: index, "data-cy": 'CertificationDashboard-row' },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
@@ -261,7 +266,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
                         repo: version.repository_list[0],
                     }, {
                         version: version.version,
-                    }) }, version.version)),
+                    }) }, version.version),
+                React.createElement(Button, { variant: ButtonVariant.link, onClick: function () {
+                        _this.download(version.namespace, version.name, version.version);
+                    } },
+                    React.createElement(DownloadIcon, null))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: version.created_at })),
             React.createElement("td", null, this.renderStatus(version)),
@@ -269,21 +278,22 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var featureFlags = this.context.featureFlags;
+        var _a;
         // not checking namespace permissions here, auto_sign happens API side, so is the permission check
-        var canSign = (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_signing) && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.collection_auto_sign);
+        var _b = ((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}, can_upload_signatures = _b.can_upload_signatures, collection_auto_sign = _b.collection_auto_sign, require_upload_signatures = _b.require_upload_signatures;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement(ListItemActions, null); // empty td;
         }
-        var needUploadSignature = this.context.settings.GALAXY_SIGNATURE_UPLOAD_ENABLED &&
-            version.sign_state === 'unsigned';
+        var canUploadSignature = can_upload_signatures && version.sign_state === 'unsigned';
+        var mustUploadSignature = canUploadSignature && require_upload_signatures;
+        var autoSign = collection_auto_sign && !require_upload_signatures;
         var approveButton = [
-            needUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
+            canUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
                 React.createElement(Button, { onClick: function () { return _this.openUploadCertificateModal(version); } }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Upload signature"], ["Upload signature"])))),
                 ' ')),
-            React.createElement(Button, { key: 'approve', isDisabled: needUploadSignature, onClick: function () {
+            React.createElement(Button, { key: 'approve', isDisabled: mustUploadSignature, onClick: function () {
                     return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
-                } }, canSign ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Approve"], ["Approve"])))),
+                } }, autoSign ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Approve"], ["Approve"])))),
         ].filter(Boolean);
         var importsLink = (React.createElement(DropdownItem, { key: 'imports', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                     namespace: version.namespace,
@@ -292,7 +302,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 }) }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
         var certifyDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.PUBLISHED);
-            }, isDisabled: isDisabled, key: 'certify' }, canSign ? t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
+            }, isDisabled: isDisabled, key: 'certify' }, autoSign ? t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
         var rejectDropDown = function (isDisabled, originalRepo) { return (React.createElement(DropdownItem, { onClick: function () {
                 return _this.updateCertification(version, originalRepo, Constants.NOTCERTIFIED);
             }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
@@ -343,25 +353,32 @@ var CertificationDashboard = /** @class */ (function (_super) {
                             signed_collection: signed_collection,
                         })
                             .then(function (result) {
-                            // This is a hack because it task return the full task api path:
-                            // eg.: /api/automation-hub/pulp/api/v3/tasks/0be64cb4-3b7e-4a6b-b35d-c3b589923a90/
-                            _this.waitForUpdate(result.data.task.slice(0, -1).split('/').pop(), version);
-                            _this.addAlert(React.createElement(Trans, null,
-                                "Certificate for collection \"",
-                                version.namespace,
-                                " ",
-                                version.name,
-                                ' ',
-                                "v",
-                                version.version,
-                                "\" has been successfully uploaded."), 'success');
+                            waitForTask(parsePulpIDFromURL(result.data.task))
+                                .then(function () {
+                                _this.updateList();
+                                _this.setState({
+                                    alerts: _this.state.alerts.concat({
+                                        variant: 'success',
+                                        title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), version.namespace, version.name, version.version),
+                                    }),
+                                });
+                            })
+                                .catch(function (error) {
+                                _this.setState({
+                                    alerts: _this.state.alerts.concat({
+                                        variant: 'danger',
+                                        title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                        description: error,
+                                    }),
+                                });
+                            });
                         })
                             .catch(function (error) {
                             var _a = error.response, status = _a.status, statusText = _a.statusText;
                             _this.setState({
                                 alerts: _this.state.alerts.concat({
                                     variant: 'danger',
-                                    title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
                                     description: errorMessage(status, statusText),
                                 }),
                             });
@@ -407,18 +424,16 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [],
                     alerts: alerts.concat({
                         variant: 'danger',
-                        title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                        title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
                         description: errorMessage(status, statusText),
                     }),
                 });
             });
         });
     };
-    CertificationDashboard.prototype.waitForUpdate = function (result, version) {
+    CertificationDashboard.prototype.waitForUpdate = function (taskId, version) {
         var _this = this;
-        var taskId = result;
         return TaskAPI.get(taskId).then(function (result) { return __awaiter(_this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -430,29 +445,33 @@ var CertificationDashboard = /** @class */ (function (_super) {
                         return [3 /*break*/, 3];
                     case 2:
                         if (result.data.state === 'completed') {
-                            return [2 /*return*/, CollectionVersionAPI.list(this.state.params).then(function (result) { return __awaiter(_this, void 0, void 0, function () {
-                                    return __generator(this, function (_a) {
-                                        this.setState({
-                                            versions: result.data.data,
-                                            updatingVersions: [],
-                                        });
-                                        return [2 /*return*/];
-                                    });
-                                }); })];
+                            return [2 /*return*/, this.updateList()];
                         }
                         else {
                             this.setState({
                                 updatingVersions: [],
                                 alerts: this.state.alerts.concat({
                                     variant: 'danger',
-                                    title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
-                                    description: errorMessage(500, t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Internal Server Error"], ["Internal Server Error"])))),
+                                    title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    description: errorMessage(500, t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Internal Server Error"], ["Internal Server Error"])))),
                                 }),
                             });
                         }
                         _a.label = 3;
                     case 3: return [2 /*return*/];
                 }
+            });
+        }); });
+    };
+    CertificationDashboard.prototype.updateList = function () {
+        var _this = this;
+        return CollectionVersionAPI.list(this.state.params).then(function (result) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.setState({
+                    versions: result.data.data,
+                    updatingVersions: [],
+                });
+                return [2 /*return*/];
             });
         }); });
     };
@@ -467,6 +486,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     updatingVersions: [],
                 });
             });
+        });
+    };
+    CertificationDashboard.prototype.download = function (namespace, name, version) {
+        CollectionAPI.getDownloadURL('staging', namespace, name, version).then(function (downloadURL) {
+            window.location.assign(downloadURL);
         });
     };
     Object.defineProperty(CertificationDashboard.prototype, "updateParams", {
@@ -498,5 +522,5 @@ var CertificationDashboard = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CertificationDashboard);
 CertificationDashboard.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37;
 //# sourceMappingURL=certification-dashboard.js.map

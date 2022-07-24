@@ -18,7 +18,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t, Trans } from '@lingui/macro';
-import * as moment from 'moment';
 import * as React from 'react';
 import './collection-info.scss';
 import { errorMessage } from 'src/utilities';
@@ -30,7 +29,6 @@ import { CollectionAPI } from 'src/api';
 import { Tag, ClipboardCopy, LoginLink } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
-import { userLanguage } from 'src/l10n';
 var CollectionInfo = /** @class */ (function (_super) {
     __extends(CollectionInfo, _super);
     function CollectionInfo(props) {
@@ -42,7 +40,6 @@ var CollectionInfo = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, params = _a.params;
         var installCommand = "ansible-galaxy collection install ".concat(namespace.name, ".").concat(name);
-        moment.locale(userLanguage);
         if (params.version) {
             installCommand += ":".concat(params.version);
         }

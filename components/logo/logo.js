@@ -25,15 +25,18 @@ var Logo = /** @class */ (function (_super) {
     }
     Logo.prototype.render = function () {
         var _this = this;
-        var _a = this.props, alt = _a.alt, className = _a.className, fallbackToDefault = _a.fallbackToDefault, image = _a.image, size = _a.size, unlockWidth = _a.unlockWidth, width = _a.width;
+        var _a = this.props, alt = _a.alt, className = _a.className, fallbackToDefault = _a.fallbackToDefault, image = _a.image, size = _a.size, unlockWidth = _a.unlockWidth, width = _a.width, flexGrow = _a.flexGrow;
         var failed = this.state.failed;
         var style = {
             height: size,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
             width: width,
         };
+        if (flexGrow) {
+            style['flexGrow'] = 1;
+        }
         if (unlockWidth) {
             style['minWidth'] = size;
         }

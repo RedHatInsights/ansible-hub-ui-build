@@ -254,13 +254,6 @@ var Constants = /** @class */ (function () {
         'tools',
         'windows',
     ];
-    Constants.COLLECTION_PLURAL_LABELS = {
-        dependency: {
-            '0': 'dependencies',
-            '1': 'dependency',
-            other: 'dependencies',
-        },
-    };
     Constants.TASK_NAMES = {
         'galaxy_ng.app.tasks.promotion._remove_content_from_repository': defineMessage({ message: "Remove content from repository" }),
         'galaxy_ng.app.tasks.publishing.import_and_auto_approve': defineMessage({

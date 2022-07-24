@@ -22,6 +22,7 @@ import * as React from 'react';
 import { DateComponent, EmptyStateNoData, SortTable, ClipboardCopy } from '..';
 import { Constants } from 'src/constants';
 import { getRepoUrl } from 'src/utilities';
+import { CollectionCount } from 'src/components';
 var LocalRepositoryTable = /** @class */ (function (_super) {
     __extends(LocalRepositoryTable, _super);
     function LocalRepositoryTable(props) {
@@ -50,7 +51,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                     id: 'repository',
                 },
                 {
-                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Content count"], ["Content count"]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection count"], ["Collection count"]))),
                     type: 'none',
                     id: 'content',
                 },
@@ -60,7 +61,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                     id: 'updated_at',
                 },
                 {
-                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Repo URL"], ["Repo URL"]))),
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Distribution URL"], ["Distribution URL"]))),
                     type: 'none',
                     id: 'ansible_cli_url',
                 },
@@ -92,7 +93,8 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
         return (React.createElement("tr", { key: distribution.name },
             React.createElement("td", null, distribution.name),
             React.createElement("td", null, distribution.repository.name),
-            React.createElement("td", null, distribution.repository.content_count),
+            React.createElement("td", null,
+                React.createElement(CollectionCount, { distributionPath: distribution.base_path })),
             DEPLOYMENT_MODE ===
                 Constants.INSIGHTS_DEPLOYMENT_MODE ? null : distribution.repository
                 .pulp_last_updated ? (React.createElement("td", null,

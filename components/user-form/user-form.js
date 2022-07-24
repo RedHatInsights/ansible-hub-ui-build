@@ -100,6 +100,7 @@ var UserForm = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, user = _a.user, errorMessages = _a.errorMessages, isReadonly = _a.isReadonly, saveUser = _a.saveUser, onCancel = _a.onCancel, isNewUser = _a.isNewUser, isMe = _a.isMe;
         var _b = this.state, passwordConfirm = _b.passwordConfirm, formErrors = _b.formErrors;
+        var minLength = this.context.settings.GALAXY_MINIMUM_PASSWORD_LENGTH || 9; // actually counts codepoints, close enough
         var formFields = [
             { id: 'username', title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Username"], ["Username"]))) },
             { id: 'first_name', title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["First name"], ["First name"]))) },
@@ -110,7 +111,7 @@ var UserForm = /** @class */ (function (_super) {
                 title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Password"], ["Password"]))),
                 type: TextInputTypes.password,
                 placeholder: isNewUser ? '' : '••••••••••••••••••••••',
-                formGroupLabelIcon: (React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."], ["Create a password using at least 9 characters, including special characters , ex <!@$%>. Avoid using common names or expressions."]))) })),
+                formGroupLabelIcon: (React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Create a password using at least ", " characters, including special characters , ex <!@$%>. Avoid using common names or expressions."], ["Create a password using at least ", " characters, including special characters , ex <!@$%>. Avoid using common names or expressions."])), minLength) })),
             },
         ];
         var requiredFields = __spreadArray(['username'], (isNewUser ? ['password'] : []), true);

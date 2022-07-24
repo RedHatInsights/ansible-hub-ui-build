@@ -395,7 +395,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderPageControls = function () {
         var _this = this;
-        var _a = this.state, canSign = _a.canSign, collections = _a.collections;
+        var _a;
+        var _b = this.state, canSign = _b.canSign, collections = _b.collections;
+        var can_upload_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).can_upload_signatures;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
@@ -410,7 +412,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                         namespace: this.state.namespace.name,
                     }) }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
-            canSign && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
+            canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-collections', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
@@ -418,7 +420,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
             collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
-            dropdownItems.length > 0 && React.createElement(StatefulDropdown, { items: dropdownItems })));
+            dropdownItems.length > 0 && (React.createElement("div", { "data-cy": 'ns-kebab-toggle' },
+                React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
     NamespaceDetail.prototype.toggleImportModal = function (isOpen, warning) {
         var newState = { showImportModal: isOpen };

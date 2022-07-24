@@ -137,17 +137,16 @@ var RepositoryForm = /** @class */ (function (_super) {
                                 } }),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsExclude, 'excludeTags'); } }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Add"], ["Add"])))))),
                     React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
-                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))),
-                    includeTags.length && excludeTags.length ? (React.createElement(Alert, { variant: 'warning', isInline: true, title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["It does not make sense to include and exclude tags at the same time."], ["It does not make sense to include and exclude tags at the same time."]))) })) : null)),
-                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Description"], ["Description"]))) },
+                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
+                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
-                (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))), className: 'hub-formgroup-groups' },
-                    React.createElement("div", { className: 'pf-c-form__helper-text' }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."], ["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."])), namespace)),
+                (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))), className: 'hub-formgroup-groups' },
+                    React.createElement("div", { className: 'pf-c-form__helper-text' }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."], ["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."])), namespace)),
                     React.createElement(ObjectPermissionField, { groups: this.state.selectedGroups, availablePermissions: Constants.CONTAINER_NAMESPACE_PERMISSIONS, setGroups: function (g) { return _this.setState({ selectedGroups: g }); }, menuAppendTo: 'parent', isDisabled: !this.props.permissions.includes('container.change_containernamespace'), onError: function (err) {
                             var _a = err.response, status = _a.status, statusText = _a.statusText;
                             _this.setState({
                                 formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                        title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                                        title: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
                                         description: errorMessage(status, statusText),
                                         variant: 'danger',
                                     } }),
@@ -201,7 +200,7 @@ var RepositoryForm = /** @class */ (function (_super) {
             var _a = e.response, status = _a.status, statusText = _a.statusText;
             _this.setState({
                 formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                        title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
                         description: errorMessage(status, statusText),
                         variant: 'danger',
                     } }),
@@ -273,5 +272,5 @@ var RepositoryForm = /** @class */ (function (_super) {
     return RepositoryForm;
 }(React.Component));
 export { RepositoryForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24;
 //# sourceMappingURL=repository-form.js.map

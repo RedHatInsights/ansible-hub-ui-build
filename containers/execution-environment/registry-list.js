@@ -236,8 +236,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     ExecutionEnvironmentRegistryList.prototype.renderTableRow = function (item, index) {
         var _this = this;
         var buttons = [
-            React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
-                React.createElement(Trans, null, "Sync from registry")),
+            this.context.user.model_permissions.change_containerregistry && (React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
+                React.createElement(Trans, null, "Sync from registry"))),
         ];
         var dropdownItems = [
             this.context.user.model_permissions.change_containerregistry && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
