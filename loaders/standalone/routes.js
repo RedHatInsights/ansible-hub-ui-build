@@ -38,8 +38,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
-import { ActiveUserAPI, FeatureFlagsAPI, SettingsAPI, } from 'src/api';
 import { AppContext } from '../app-context';
+import { loadContext } from '../load-context';
 import { Paths, formatPath } from 'src/paths';
 var AuthHandler = /** @class */ (function (_super) {
     __extends(AuthHandler, _super);
@@ -52,33 +52,13 @@ var AuthHandler = /** @class */ (function (_super) {
         var _this = this;
         // This component is mounted on every route change, so it's a good place
         // to check for an active user.
-        var _a = this.context, user = _a.user, settings = _a.settings;
-        if (!user || !settings) {
-            var promises = [];
-            promises.push(FeatureFlagsAPI.get().then(function (_a) {
-                var data = _a.data;
-                // we need this even if ActiveUserAPI fails, otherwise isExternalAuth will always be false, breaking keycloak redirect
-                if ('_messages' in data) {
-                    _this.props.updateInitialData({
-                        alerts: data._messages.map(function (msg) { return ({
-                            variant: 'warning',
-                            title: msg.split(':')[1],
-                        }); }),
-                    });
-                }
-                _this.props.updateInitialData({ featureFlags: data });
-            }));
-            promises.push(ActiveUserAPI.getUser());
-            promises.push(SettingsAPI.get());
-            Promise.all(promises)
-                .then(function (results) {
-                _this.props.updateInitialData({
-                    user: results[1],
-                    settings: results[2].data,
-                }, function () { return _this.setState({ isLoading: false }); });
-            })
-                .catch(function () { return _this.setState({ isLoading: false }); });
+        var _a = this.context, user = _a.user, settings = _a.settings, featureFlags = _a.featureFlags;
+        if (user && settings && featureFlags) {
+            return;
         }
+        loadContext()
+            .then(function (data) { return _this.props.updateInitialData(data); })
+            .then(function () { return _this.setState({ isLoading: false }); });
     };
     AuthHandler.prototype.render = function () {
         var isLoading = this.state.isLoading;

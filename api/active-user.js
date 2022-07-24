@@ -23,30 +23,7 @@ var API = /** @class */ (function (_super) {
         return _this;
     }
     API.prototype.getUser = function () {
-        var _this = this;
-        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
-            return new Promise(function (resolve, reject) {
-                window.insights.chrome.auth
-                    .getUser()
-                    // we don't care about entitlements stuff in the UI, so just
-                    // return the user's identity
-                    .then(function (result) { return resolve(result.identity); })
-                    .catch(function (result) { return reject(result); });
-            });
-        }
-        else if (DEPLOYMENT_MODE === Constants.STANDALONE_DEPLOYMENT_MODE) {
-            return new Promise(function (resolve, reject) {
-                _this.http
-                    .get(_this.apiPath)
-                    .then(function (result) {
-                    resolve(result.data);
-                })
-                    .catch(function (result) { return reject(result); });
-            });
-        }
-    };
-    API.prototype.getActiveUser = function () {
-        return this.http.get(this.apiPath);
+        return this.http.get(this.apiPath).then(function (result) { return result.data; });
     };
     API.prototype.saveUser = function (data) {
         return this.http.put(this.apiPath, data);
@@ -54,12 +31,9 @@ var API = /** @class */ (function (_super) {
     // insights has some asinine way of loading tokens that involves forcing the
     // page to refresh before loading the token that can't be done witha single
     // API request.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     API.prototype.getToken = function () {
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
-            return new Promise(function (resolve, reject) {
-                reject('Use window.insights.chrome.auth to get tokens for insights deployments');
-            });
+            return Promise.reject('Use window.insights.chrome.auth to get tokens for insights deployments');
         }
         return this.http.post('v3/auth/token/', {});
     };
@@ -73,21 +47,13 @@ var API = /** @class */ (function (_super) {
     API.prototype.login = function (username, password) {
         var _this = this;
         var loginURL = this.getUIPath('auth/login/');
-        return new Promise(function (resolve, reject) {
-            // Make a get request to the login endpoint to set CSRF tokens before making
-            // the authentication reqest
-            _this.http
-                .get(loginURL)
-                .then(function () {
-                _this.http
-                    .post(loginURL, {
-                    username: username,
-                    password: password,
-                })
-                    .then(function (response) { return resolve(response); })
-                    .catch(function (err) { return reject(err); });
-            })
-                .catch(function (err) { return reject(err); });
+        // Make a get request to the login endpoint to set CSRF tokens before making
+        // the authentication reqest
+        return this.http.get(loginURL).then(function () {
+            return _this.http.post(loginURL, {
+                username: username,
+                password: password,
+            });
         });
     };
     return API;
