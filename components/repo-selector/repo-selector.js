@@ -45,9 +45,6 @@ var RepoSelector = /** @class */ (function (_super) {
     }
     RepoSelector.prototype.render = function () {
         var _this = this;
-        if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
-            return null;
-        }
         var repoNames = Constants.REPOSITORYNAMES;
         return (React.createElement(Flex, null,
             React.createElement(FlexItem, null,

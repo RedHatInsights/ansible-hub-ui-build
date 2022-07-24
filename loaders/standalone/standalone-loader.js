@@ -332,14 +332,14 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.ctx = function (component) {
         return (React.createElement(AppContext.Provider, { value: {
-                user: this.state.user,
-                setUser: this.setUser,
-                selectedRepo: this.state.selectedRepo,
-                setRepo: this.setRepo,
-                featureFlags: this.state.featureFlags,
                 alerts: this.state.alerts,
+                featureFlags: this.state.featureFlags,
+                selectedRepo: this.state.selectedRepo,
                 setAlerts: this.setAlerts,
+                setRepo: this.setRepo,
+                setUser: this.setUser,
                 settings: this.state.settings,
+                user: this.state.user,
             } },
             component,
             React.createElement(UIVersion, null)));

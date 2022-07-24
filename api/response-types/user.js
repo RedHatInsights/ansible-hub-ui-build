@@ -1,9 +1,3 @@
-var InsightsUserType = /** @class */ (function () {
-    function InsightsUserType() {
-    }
-    return InsightsUserType;
-}());
-export { InsightsUserType };
 var Permissions = /** @class */ (function () {
     function Permissions() {
     }
