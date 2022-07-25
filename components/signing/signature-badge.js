@@ -46,7 +46,7 @@ export var SignatureBadge = function (_a) {
                 return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Partially signed"], ["Partially signed"])));
         }
     };
-    return (React.createElement(Label, __assign({ variant: 'outline', className: 'hub-signature-badge', color: signState === 'signed' ? 'green' : 'orange', icon: signState === 'signed' ? (React.createElement(CheckCircleIcon, null)) : (React.createElement(ExclamationTriangleIcon, null)), isCompact: isCompact }, props), text()));
+    return (React.createElement(Label, __assign({ "data-cy": 'signature-badge', variant: 'outline', className: 'hub-signature-badge', color: signState === 'signed' ? 'green' : 'orange', icon: signState === 'signed' ? (React.createElement(CheckCircleIcon, null)) : (React.createElement(ExclamationTriangleIcon, null)), isCompact: isCompact }, props), text()));
 };
 var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=signature-badge.js.map
