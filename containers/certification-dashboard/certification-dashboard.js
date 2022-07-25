@@ -291,7 +291,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             canUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
                 React.createElement(Button, { onClick: function () { return _this.openUploadCertificateModal(version); } }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Upload signature"], ["Upload signature"])))),
                 ' ')),
-            React.createElement(Button, { key: 'approve', isDisabled: mustUploadSignature, onClick: function () {
+            React.createElement(Button, { key: 'approve', isDisabled: mustUploadSignature, "data-cy": 'approve-button', onClick: function () {
                     return _this.updateCertification(version, Constants.NEEDSREVIEW, Constants.PUBLISHED);
                 } }, autoSign ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Approve"], ["Approve"])))),
         ].filter(Boolean);

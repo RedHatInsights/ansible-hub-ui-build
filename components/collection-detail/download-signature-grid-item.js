@@ -21,7 +21,7 @@ export var DownloadSignatureGridItem = function (_a) {
             React.createElement(Split, { hasGutter: true },
                 React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Signature"], ["Signature"])))),
                 React.createElement(SplitItem, null,
-                    React.createElement(Button, { style: { padding: 0 }, variant: ButtonVariant.link, icon: React.createElement(DownloadIcon, null), onClick: function () {
+                    React.createElement(Button, { style: { padding: 0 }, variant: ButtonVariant.link, icon: React.createElement(DownloadIcon, null), "data-cy": 'toggle-signature-button', onClick: function () {
                             setShow(!show);
                         } }, show ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Hide the signature"], ["Hide the signature"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Show the signature"], ["Show the signature"]))))))),
         React.createElement(GridItem, null, show &&

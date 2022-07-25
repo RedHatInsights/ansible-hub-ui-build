@@ -360,7 +360,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () {
                     return _this.openDeleteModalWithConfirm(collection.latest_version.version);
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
-            canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
+            canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
             canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () {
                     if (can_upload_signatures) {
                         _this.setState({
@@ -371,7 +371,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     else {
                         _this.setState({ isOpenSignModal: true });
                     }
-                } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
+                }, "data-cy": 'sign-version-button' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
             React.createElement(DropdownItem, { onClick: function () { return _this.deprecate(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
             React.createElement(DropdownItem, { key: 'upload-collection-version', onClick: function () { return _this.checkUploadPrivilleges(collection); }, "data-cy": 'upload-collection-version-dropdown' }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
         ].filter(Boolean);
