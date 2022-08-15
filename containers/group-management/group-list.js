@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -90,7 +79,7 @@ var GroupList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, redirect = _a.redirect, itemCount = _a.itemCount, params = _a.params, loading = _a.loading, createModalVisible = _a.createModalVisible, deleteModalVisible = _a.deleteModalVisible, editModalVisible = _a.editModalVisible, alerts = _a.alerts, groups = _a.groups, unauthorized = _a.unauthorized;
         var user = this.context.user;
-        var noData = groups.length === 0 && !filterIsSet(params, ['name']);
+        var noData = groups.length === 0 && !filterIsSet(params, ['name__contains']);
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -112,8 +101,8 @@ var GroupList = /** @class */ (function (_super) {
                                                 return _this.updateParams(p, function () { return _this.queryGroups(); });
                                             }, params: params, filterConfig: [
                                                 {
-                                                    id: 'name',
-                                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group"], ["Group"]))),
+                                                    id: 'name__contains',
+                                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group name"], ["Group name"]))),
                                                 },
                                             ] }))),
                                 !!user && user.model_permissions.add_group && (React.createElement(ToolbarGroup, null,
@@ -128,7 +117,9 @@ var GroupList = /** @class */ (function (_super) {
                         React.createElement(AppliedFilters, { updateParams: function (p) {
                                 _this.updateParams(p, function () { return _this.queryGroups(); });
                                 _this.setState({ inputText: '' });
-                            }, params: params, ignoredParams: ['page_size', 'page', 'sort'] })),
+                            }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
+                                name__contains: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group name"], ["Group name"]))),
+                            } })),
                     loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
                             return _this.updateParams(p, function () { return _this.queryGroups(); });
@@ -150,10 +141,11 @@ var GroupList = /** @class */ (function (_super) {
         var _this = this;
         var name = this.state.selectedGroup && this.state.selectedGroup.name;
         var _a = this.state, users = _a.deleteModalUsers, count = _a.deleteModalCount;
-        if (!users) {
+        var view_user = this.context.user.model_permissions.view_user;
+        if (!users && view_user) {
             this.queryUsers();
         }
-        return (React.createElement(DeleteGroupModal, { count: count, cancelAction: function () { return _this.hideDeleteModal(); }, deleteAction: function () { return _this.selectedGroup(_this.state.selectedGroup); }, name: name, users: users }));
+        return (React.createElement(DeleteGroupModal, { count: count, cancelAction: function () { return _this.hideDeleteModal(); }, deleteAction: function () { return _this.selectedGroup(_this.state.selectedGroup); }, name: name, users: users, canViewUsers: view_user }));
     };
     GroupList.prototype.hideDeleteModal = function () {
         this.setState({
@@ -183,7 +175,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
+                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Users list could not be displayed."], ["Users list could not be displayed."]))),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -224,7 +216,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Changes to group \"", "\" could not be saved."], ["Changes to group \"", "\" could not be saved."])), _this.state.selectedGroup),
+                        title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Changes to group \"", "\" could not be saved."], ["Changes to group \"", "\" could not be saved."])), _this.state.selectedGroup),
                     },
                 ], false),
             });
@@ -239,7 +231,7 @@ var GroupList = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Group"], ["Group"]))),
+                    title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Group name"], ["Group name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
@@ -250,7 +242,7 @@ var GroupList = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'hub-c-table-content pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Group list"], ["Group list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryGroups(); }); } }),
             React.createElement("tbody", null, groups.map(function (group, i) { return _this.renderTableRow(group, i); }))));
     };
@@ -258,23 +250,13 @@ var GroupList = /** @class */ (function (_super) {
         var _this = this;
         var user = this.context.user;
         var dropdownItems = [
-            React.createElement(React.Fragment, { key: 'dropdown' },
-                React.createElement(DropdownItem, { key: 'edit', onClick: function () {
-                        _this.setState({
-                            selectedGroup: __assign({}, group),
-                            redirect: formatPath(Paths.groupDetail, {
-                                group: group.id,
-                            }, { isEditing: true }),
-                        });
-                    } },
-                    React.createElement(Trans, null, "Edit")),
-                !!user && user.model_permissions.delete_group && (React.createElement(DropdownItem, { "aria-label": 'Delete', key: 'delete', onClick: function () {
-                        _this.setState({
-                            selectedGroup: group,
-                            deleteModalVisible: true,
-                        });
-                    } },
-                    React.createElement(Trans, null, "Delete")))),
+            !!user && user.model_permissions.delete_group && (React.createElement(DropdownItem, { "aria-label": 'Delete', key: 'delete', onClick: function () {
+                    _this.setState({
+                        selectedGroup: group,
+                        deleteModalVisible: true,
+                    });
+                } },
+                React.createElement(Trans, null, "Delete"))),
         ];
         return (React.createElement("tr", { "data-cy": "GroupList-row-".concat(group.name), key: index },
             React.createElement("td", null,
@@ -322,7 +304,7 @@ var GroupList = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
+                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Error deleting group."], ["Error deleting group."]))),
                     },
                 ], false),
             });
@@ -348,7 +330,7 @@ var GroupList = /** @class */ (function (_super) {
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
+                            title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
                             description: errorMessage(status, statusText),
                         },
                     ], false),
@@ -360,5 +342,5 @@ var GroupList = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(GroupList);
 GroupList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
 //# sourceMappingURL=group-list.js.map

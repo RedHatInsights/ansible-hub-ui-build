@@ -21,10 +21,14 @@ export var Paths;
 (function (Paths) {
     Paths["executionEnvironmentDetailActivities"] = "/containers/:container+/_content/activity";
     Paths["executionEnvironmentDetailImages"] = "/containers/:container+/_content/images";
+    Paths["executionEnvironmentDetailOwners"] = "/containers/:container+/_content/owners";
     Paths["executionEnvironmentDetail"] = "/containers/:container+";
     Paths["executionEnvironments"] = "/containers";
     Paths["executionEnvironmentManifest"] = "/containers/:container+/_content/images/:digest";
     Paths["executionEnvironmentsRegistries"] = "/registries";
+    Paths["roleEdit"] = "/role/:role";
+    Paths["roleList"] = "/roles";
+    Paths["createRole"] = "/roles/create";
     Paths["groupList"] = "/group-list";
     Paths["groupDetail"] = "/group/:group";
     Paths["taskDetail"] = "/task/:task";

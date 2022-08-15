@@ -37,7 +37,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
+import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RoleList, RoleCreate, EditRole, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
 import { AppContext } from '../app-context';
 import { loadContext } from '../load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -96,7 +96,7 @@ var Routes = /** @class */ (function (_super) {
     }
     // Note: must be ordered from most specific to least specific
     Routes.prototype.getRoutes = function () {
-        var featureFlags = this.context.featureFlags;
+        var _a = this.context, featureFlags = _a.featureFlags, user = _a.user;
         var isContainerDisabled = true;
         var isUserMgmtDisabled = false;
         if (featureFlags) {
@@ -107,6 +107,11 @@ var Routes = /** @class */ (function (_super) {
             {
                 comp: ExecutionEnvironmentDetailActivities,
                 path: Paths.executionEnvironmentDetailActivities,
+                isDisabled: isContainerDisabled,
+            },
+            {
+                comp: ExecutionEnvironmentDetailOwners,
+                path: Paths.executionEnvironmentDetailOwners,
                 isDisabled: isContainerDisabled,
             },
             {
@@ -141,6 +146,13 @@ var Routes = /** @class */ (function (_super) {
             { comp: GroupList, path: Paths.groupList },
             { comp: GroupDetail, path: Paths.groupDetail },
             { comp: TaskDetail, path: Paths.taskDetail },
+            { comp: EditRole, path: Paths.roleEdit },
+            {
+                comp: RoleCreate,
+                path: Paths.createRole,
+                isDisabled: !(user === null || user === void 0 ? void 0 : user.is_superuser),
+            },
+            { comp: RoleList, path: Paths.roleList },
             { comp: RepositoryList, path: Paths.repositories },
             { comp: UserProfile, path: Paths.userProfileSettings },
             {
