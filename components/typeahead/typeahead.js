@@ -64,7 +64,7 @@ var APISearchTypeAhead = /** @class */ (function (_super) {
         var variant = this.props.multiple
             ? SelectVariant.typeaheadMulti
             : SelectVariant.typeahead;
-        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, onClear: this.onClear, onSelect: this.onSelect, onToggle: this.onToggle, variant: variant, selections: selected, isOpen: isOpen, hasInlineFilter: true, onFilter: this.onFilter, placeholderText: this.props.placeholderText, isDisabled: this.props.isDisabled, toggleIcon: this.props.toggleIcon }, this.getOptions()));
+        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, onClear: this.onClear, onSelect: this.onSelect, onToggle: this.onToggle, variant: variant, selections: selected, isOpen: isOpen, hasInlineFilter: true, onFilter: this.onFilter, placeholderText: this.props.placeholderText, isDisabled: this.props.isDisabled, toggleIcon: this.props.toggleIcon, style: this.props.style }, this.getOptions()));
     };
     APISearchTypeAhead.prototype.getOptions = function () {
         var options = [];

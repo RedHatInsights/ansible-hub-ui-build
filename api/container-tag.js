@@ -27,9 +27,8 @@ var API = /** @class */ (function (_super) {
             tag: tag,
         });
     };
-    API.prototype.untag = function (repositoryID, tag, digest) {
+    API.prototype.untag = function (repositoryID, tag) {
         return this.http.post("".concat(this.apiPath).concat(repositoryID, "/untag/"), {
-            digest: digest,
             tag: tag,
         });
     };

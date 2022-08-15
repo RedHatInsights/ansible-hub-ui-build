@@ -41,11 +41,11 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
-import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
 import { MyNamespaceAPI } from 'src/api';
+import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { ParamHelper, mapErrorMessages, errorMessage, } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
     function EditNamespace(props) {
@@ -89,6 +89,12 @@ var EditNamespace = /** @class */ (function (_super) {
         if (!namespace) {
             return null;
         }
+        var updateNamespace = function (namespace) {
+            return _this.setState({
+                namespace: namespace,
+                unsavedData: true,
+            });
+        };
         return (React.createElement(React.Fragment, null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [
                     namespaceBreadcrumb,
@@ -103,17 +109,8 @@ var EditNamespace = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    params.tab.toLowerCase() === 'edit-details' ? (React.createElement(NamespaceForm, { namespace: namespace, errorMessages: errorMessages, updateNamespace: function (namespace) {
-                            return _this.setState({
-                                namespace: namespace,
-                                unsavedData: true,
-                            });
-                        } })) : (React.createElement(ResourcesForm, { updateNamespace: function (namespace) {
-                            return _this.setState({
-                                namespace: namespace,
-                                unsavedData: true,
-                            });
-                        }, namespace: namespace })),
+                    params.tab === 'edit-details' ? (React.createElement(NamespaceForm, { errorMessages: errorMessages, namespace: namespace, updateNamespace: updateNamespace })) : null,
+                    params.tab === 'edit-resources' ? (React.createElement(ResourcesForm, { namespace: namespace, updateNamespace: updateNamespace })) : null,
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
                             React.createElement(Button, { isDisabled: this.isSaveDisabled(), variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
