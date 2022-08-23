@@ -196,8 +196,6 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'group',
             'view_type',
         ];
-        var total_versions = collections.reduce(function (acc, c) { return acc + c.total_versions; }, 0);
-        var unsigned_versions = collections.reduce(function (acc, c) { return acc + c.unsigned_versions; }, 0);
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -262,7 +260,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }, urlPrefix: formatPath(Paths.myCollections, {
                         namespace: namespace.name,
                     }) })) : null),
-            canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, numberOfAffected: total_versions, affectedUnsigned: unsigned_versions, isOpen: this.state.isOpenSignModal, onSubmit: function () {
+            canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () {
                     _this.signAllCertificates(namespace);
                 }, onCancel: function () {
                     _this.setState({ isOpenSignModal: false });

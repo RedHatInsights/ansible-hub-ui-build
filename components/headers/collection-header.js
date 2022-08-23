@@ -387,7 +387,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: updateCollection.namespace.name })),
             canSign && (React.createElement(React.Fragment, null,
                 React.createElement(UploadSingCertificateModal, { isOpen: this.state.uploadCertificateModalOpen, onCancel: function () { return _this.closeUploadCertificateModal(); }, onSubmit: function (d) { return _this.submitCertificate(d); } }),
-                React.createElement(SignAllCertificatesModal, { name: collectionName, numberOfAffected: collection.total_versions, affectedUnsigned: collection.unsigned_versions, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
+                React.createElement(SignAllCertificatesModal, { name: collectionName, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
                         _this.setState({ isOpenSignAllModal: false });
                     } }),
                 React.createElement(SignSingleCertificateModal, { name: collectionName, version: collection.latest_version.version, isOpen: this.state.isOpenSignModal, onSubmit: this.signVersion, onCancel: function () { return _this.setState({ isOpenSignModal: false }); } }))),
