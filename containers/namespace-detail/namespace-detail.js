@@ -148,7 +148,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, canSign = _a.canSign, collections = _a.collections, namespace = _a.namespace, params = _a.params, redirect = _a.redirect, itemCount = _a.itemCount, showControls = _a.showControls, showImportModal = _a.showImportModal, warning = _a.warning, updateCollection = _a.updateCollection, isOpenNamespaceModal = _a.isOpenNamespaceModal, confirmDelete = _a.confirmDelete, isNamespacePending = _a.isNamespacePending, alerts = _a.alerts, deleteCollection = _a.deleteCollection, isDeletionPending = _a.isDeletionPending;
+        var _a;
+        var _b = this.state, canSign = _b.canSign, collections = _b.collections, namespace = _b.namespace, params = _b.params, redirect = _b.redirect, itemCount = _b.itemCount, showControls = _b.showControls, showImportModal = _b.showImportModal, warning = _b.warning, updateCollection = _b.updateCollection, isOpenNamespaceModal = _b.isOpenNamespaceModal, confirmDelete = _b.confirmDelete, isNamespacePending = _b.isNamespacePending, alerts = _b.alerts, deleteCollection = _b.deleteCollection, isDeletionPending = _b.isDeletionPending;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -196,6 +197,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'group',
             'view_type',
         ];
+        var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || this.context.user.model_permissions.change_namespace;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -255,7 +257,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         return _this.setState({
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [alert], false),
                         });
-                    }, groupId: params.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', reload: function () { return _this.load(); }, selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateGroups: function (groups) {
+                    }, canEditOwners: canEditOwners, groupId: params.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', reload: function () { return _this.load(); }, selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateGroups: function (groups) {
                         return MyNamespaceAPI.update(namespace.name, __assign(__assign({}, namespace), { groups: groups }));
                     }, urlPrefix: formatPath(Paths.myCollections, {
                         namespace: namespace.name,
@@ -375,7 +377,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _this = this;
         Promise.all([
             CollectionAPI.list(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), this.context.selectedRepo),
-            NamespaceAPI.get(this.props.match.params['namespace']),
+            NamespaceAPI.get(this.props.match.params['namespace'], {
+                include_related: 'my_permissions',
+            }),
             MyNamespaceAPI.get(this.props.match.params['namespace'], {
                 include_related: 'my_permissions',
             }).catch(function (e) {
