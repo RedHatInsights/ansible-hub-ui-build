@@ -21,6 +21,10 @@ var API = /** @class */ (function (_super) {
         _this.apiPath = _this.getUIPath('namespaces/');
         return _this;
     }
+    API.prototype.get = function (id, params) {
+        if (params === void 0) { params = {}; }
+        return this.http.get(this.apiPath + id + '/', { params: params });
+    };
     return API;
 }(HubAPI));
 export var NamespaceAPI = new API();
