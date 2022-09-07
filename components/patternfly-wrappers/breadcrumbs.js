@@ -16,6 +16,12 @@ var __extends = (this && this.__extends) || (function () {
 import * as React from 'react';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
+var BreadcrumbType = /** @class */ (function () {
+    function BreadcrumbType() {
+    }
+    return BreadcrumbType;
+}());
+export { BreadcrumbType };
 var Breadcrumbs = /** @class */ (function (_super) {
     __extends(Breadcrumbs, _super);
     function Breadcrumbs() {

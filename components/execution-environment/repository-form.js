@@ -28,14 +28,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Alert, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
-import { TagIcon } from '@patternfly/react-icons';
-import { isEqual, isEmpty, xorWith, cloneDeep } from 'lodash';
-import { APISearchTypeAhead, ObjectPermissionField, HelperText, } from 'src/components';
-import { ContainerDistributionAPI, ExecutionEnvironmentNamespaceAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
-import { Constants } from 'src/constants';
+import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
+import { Link } from 'react-router-dom';
+import { APISearchTypeAhead, HelperText } from 'src/components';
+import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
+import { Paths, formatPath } from 'src/paths';
 import { errorMessage } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
@@ -44,8 +44,6 @@ var RepositoryForm = /** @class */ (function (_super) {
         _this.state = {
             name: _this.props.name || '',
             description: _this.props.description,
-            selectedGroups: [],
-            originalSelectedGroups: [],
             addTagsInclude: '',
             addTagsExclude: '',
             excludeTags: _this.props.excludeTags,
@@ -55,7 +53,6 @@ var RepositoryForm = /** @class */ (function (_super) {
             upstreamName: _this.props.upstreamName || '',
             formErrors: {
                 registries: null,
-                groups: null,
             },
         };
         return _this;
@@ -86,13 +83,10 @@ var RepositoryForm = /** @class */ (function (_super) {
                 });
             });
         }
-        if (!this.props.isNew) {
-            this.loadSelectedGroups();
-        }
     };
     RepositoryForm.prototype.render = function () {
         var _this = this;
-        var _a = this.props, onSave = _a.onSave, onCancel = _a.onCancel, namespace = _a.namespace, isNew = _a.isNew, isRemote = _a.isRemote, formError = _a.formError;
+        var _a = this.props, onSave = _a.onSave, onCancel = _a.onCancel, namespace = _a.namespace, isNew = _a.isNew, isRemote = _a.isRemote;
         var _b = this.state, name = _b.name, description = _b.description, upstreamName = _b.upstreamName, excludeTags = _b.excludeTags, includeTags = _b.includeTags, registrySelection = _b.registrySelection, registries = _b.registries, addTagsInclude = _b.addTagsInclude, addTagsExclude = _b.addTagsExclude, formErrors = _b.formErrors;
         return (React.createElement(Modal, { variant: 'large', onClose: onCancel, isOpen: true, title: isNew ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Add execution environment"], ["Add execution environment"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit execution environment"], ["Edit execution environment"]))), actions: [
                 React.createElement(Button, { key: 'save', variant: 'primary', isDisabled: !this.formIsValid(), onClick: function () { return onSave(_this.onSave(), _this.state); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
@@ -137,25 +131,22 @@ var RepositoryForm = /** @class */ (function (_super) {
                                 } }),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsExclude, 'excludeTags'); } }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Add"], ["Add"])))))),
                     React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
-                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))),
-                    includeTags.length && excludeTags.length ? (React.createElement(Alert, { variant: 'warning', isInline: true, title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["It does not make sense to include and exclude tags at the same time."], ["It does not make sense to include and exclude tags at the same time."]))) })) : null)),
-                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Description"], ["Description"]))) },
+                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
+                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
-                (formErrors === null || formErrors === void 0 ? void 0 : formErrors.groups) ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(FormGroup, { key: 'groups', fieldId: 'groups', label: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))), className: 'hub-formgroup-groups' },
-                    React.createElement("div", { className: 'pf-c-form__helper-text' }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."], ["Adding groups provides access to all repositories in the\n                    \"", "\" container namespace."])), namespace)),
-                    React.createElement(ObjectPermissionField, { groups: this.state.selectedGroups, availablePermissions: Constants.CONTAINER_NAMESPACE_PERMISSIONS, setGroups: function (g) { return _this.setState({ selectedGroups: g }); }, menuAppendTo: 'parent', isDisabled: !this.props.permissions.includes('container.change_containernamespace'), onError: function (err) {
-                            var _a = err.response, status = _a.status, statusText = _a.statusText;
-                            _this.setState({
-                                formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                                        title: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
-                                        description: errorMessage(status, statusText),
-                                        variant: 'danger',
-                                    } }),
-                            });
-                        } }),
-                    !!formError &&
-                        formError.length > 0 &&
-                        formError.map(function (error) { return (React.createElement(Alert, { title: error.title, variant: 'danger', isInline: true, key: error.title }, error.detail)); }))))));
+                React.createElement(FormGroup, { fieldId: 'none', label: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
+                    React.createElement(Alert, { isInline: true, variant: 'info', title: isNew ? (React.createElement(Trans, null,
+                            "Moved to the ",
+                            React.createElement("b", null, "Owners"),
+                            " tab")) : (React.createElement(Trans, null,
+                            "Moved to the",
+                            ' ',
+                            React.createElement(Link, { target: '_blank', to: formatPath(Paths.executionEnvironmentDetailOwners, {
+                                    container: name,
+                                }) }, "Owners"),
+                            ' ',
+                            React.createElement(ExternalLinkAltIcon, null),
+                            " tab")) })))));
     };
     RepositoryForm.prototype.validateName = function (name) {
         var regex = /^([0-9A-Za-z._-]+\/)?[0-9A-Za-z._-]+$/;
@@ -187,27 +178,6 @@ var RepositoryForm = /** @class */ (function (_super) {
             return registries;
         });
     };
-    RepositoryForm.prototype.loadSelectedGroups = function () {
-        var _this = this;
-        var namespace = this.props.namespace;
-        return ExecutionEnvironmentNamespaceAPI.get(namespace)
-            .then(function (result) {
-            return _this.setState({
-                selectedGroups: cloneDeep(result.data.groups),
-                originalSelectedGroups: result.data.groups,
-            });
-        })
-            .catch(function (e) {
-            var _a = e.response, status = _a.status, statusText = _a.statusText;
-            _this.setState({
-                formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
-                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Groups list could not be displayed."], ["Groups list could not be displayed."]))),
-                        description: errorMessage(status, statusText),
-                        variant: 'danger',
-                    } }),
-            });
-        });
-    };
     RepositoryForm.prototype.addTags = function (tags, key) {
         var _a;
         var current = new Set(this.state[key]);
@@ -226,8 +196,8 @@ var RepositoryForm = /** @class */ (function (_super) {
             _a));
     };
     RepositoryForm.prototype.onSave = function () {
-        var _a = this.props, originalDescription = _a.description, distributionPulpId = _a.distributionPulpId, isNew = _a.isNew, isRemote = _a.isRemote, originalName = _a.name, namespace = _a.namespace, remotePulpId = _a.remotePulpId;
-        var _b = this.state, description = _b.description, exclude_tags = _b.excludeTags, include_tags = _b.includeTags, name = _b.name, _c = _b.registrySelection[0], _d = _c === void 0 ? { id: null } : _c, registry = _d.id, selectedGroups = _b.selectedGroups, originalSelectedGroups = _b.originalSelectedGroups, upstream_name = _b.upstreamName;
+        var _a = this.props, originalDescription = _a.description, distributionPulpId = _a.distributionPulpId, isNew = _a.isNew, isRemote = _a.isRemote, originalName = _a.name, remotePulpId = _a.remotePulpId;
+        var _b = this.state, description = _b.description, exclude_tags = _b.excludeTags, include_tags = _b.includeTags, name = _b.name, _c = _b.registrySelection[0], _d = _c === void 0 ? { id: null } : _c, registry = _d.id, upstream_name = _b.upstreamName;
         if (isRemote && isNew) {
             return ExecutionEnvironmentRemoteAPI.create({
                 name: name,
@@ -251,27 +221,10 @@ var RepositoryForm = /** @class */ (function (_super) {
             // remote edit or local edit - description, if changed
             description !== originalDescription &&
                 ContainerDistributionAPI.patch(distributionPulpId, { description: description }),
-            // remote edit or local edit - groups, if changed
-            !this.compareGroupsAndPerms(selectedGroups.sort(), originalSelectedGroups.sort()) &&
-                ExecutionEnvironmentNamespaceAPI.update(namespace, {
-                    groups: selectedGroups,
-                }),
         ]);
-    };
-    //Compare groups and compare their permissions
-    RepositoryForm.prototype.compareGroupsAndPerms = function (original, newOne) {
-        var same = true;
-        if (original.length === newOne.length) {
-            original.forEach(function (x, index) {
-                if (!isEmpty(xorWith(x.object_permissions.sort(), newOne[index].object_permissions.sort(), isEqual))) {
-                    same = false;
-                }
-            });
-        }
-        return isEmpty(xorWith(original, newOne, isEqual)) && same;
     };
     return RepositoryForm;
 }(React.Component));
 export { RepositoryForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
 //# sourceMappingURL=repository-form.js.map

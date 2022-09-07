@@ -41,11 +41,11 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
+import { MyNamespaceAPI } from 'src/api';
 import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
-import { MyNamespaceAPI, ActiveUserAPI, } from 'src/api';
+import { AppContext } from 'src/loaders/app-context';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { ParamHelper, mapErrorMessages, errorMessage, } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
     function EditNamespace(props) {
@@ -58,7 +58,6 @@ var EditNamespace = /** @class */ (function (_super) {
             loading: false,
             alerts: [],
             namespace: null,
-            userId: '',
             newLinkURL: '',
             newLinkName: '',
             errorMessages: {},
@@ -72,40 +71,14 @@ var EditNamespace = /** @class */ (function (_super) {
     }
     EditNamespace.prototype.componentDidMount = function () {
         var _this = this;
-        this.setState({ loading: true }, function () {
-            ActiveUserAPI.getUser()
-                .then(function (result) {
-                _this.setState({ userId: result.account_number }, function () {
-                    return _this.loadNamespace();
-                });
-            })
-                .catch(function (e) {
-                var _a = e.response, status = _a.status, statusText = _a.statusText;
-                _this.setState({
-                    loading: false,
-                    redirect: formatPath(Paths.namespaceByRepo, {
-                        namespace: _this.props.match.params['namespace'],
-                        repo: _this.context.selectedRepo,
-                    }),
-                }, function () {
-                    var _a;
-                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                        {
-                            variant: 'danger',
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Active user profile \"", "\" could not be displayed."], ["Active user profile \"", "\" could not be displayed."])), (_a = _this.context.user) === null || _a === void 0 ? void 0 : _a.username),
-                            description: errorMessage(status, statusText),
-                        },
-                    ], false));
-                });
-            });
-        });
+        this.setState({ loading: true }, function () { return _this.loadNamespace(); });
     };
     EditNamespace.prototype.render = function () {
         var _this = this;
-        var _a = this.state, namespace = _a.namespace, errorMessages = _a.errorMessages, saving = _a.saving, redirect = _a.redirect, params = _a.params, userId = _a.userId, unauthorized = _a.unauthorized, loading = _a.loading;
+        var _a = this.state, namespace = _a.namespace, errorMessages = _a.errorMessages, saving = _a.saving, redirect = _a.redirect, params = _a.params, unauthorized = _a.unauthorized, loading = _a.loading;
         var tabs = [
-            { id: 'edit-details', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit details"], ["Edit details"]))) },
-            { id: 'edit-resources', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
+            { id: 'edit-details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit details"], ["Edit details"]))) },
+            { id: 'edit-resources', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
         ];
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
@@ -116,6 +89,12 @@ var EditNamespace = /** @class */ (function (_super) {
         if (!namespace) {
             return null;
         }
+        var updateNamespace = function (namespace) {
+            return _this.setState({
+                namespace: namespace,
+                unsavedData: true,
+            });
+        };
         return (React.createElement(React.Fragment, null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [
                     namespaceBreadcrumb,
@@ -125,28 +104,19 @@ var EditNamespace = /** @class */ (function (_super) {
                             namespace: namespace.name,
                         }),
                     },
-                    { name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))) },
+                    { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))) },
                 ], tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    params.tab.toLowerCase() === 'edit-details' ? (React.createElement(NamespaceForm, { userId: userId, namespace: namespace, errorMessages: errorMessages, updateNamespace: function (namespace) {
-                            return _this.setState({
-                                namespace: namespace,
-                                unsavedData: true,
-                            });
-                        } })) : (React.createElement(ResourcesForm, { updateNamespace: function (namespace) {
-                            return _this.setState({
-                                namespace: namespace,
-                                unsavedData: true,
-                            });
-                        }, namespace: namespace })),
+                    params.tab === 'edit-details' ? (React.createElement(NamespaceForm, { errorMessages: errorMessages, namespace: namespace, updateNamespace: updateNamespace })) : null,
+                    params.tab === 'edit-resources' ? (React.createElement(ResourcesForm, { namespace: namespace, updateNamespace: updateNamespace })) : null,
                     React.createElement(Form, null,
                         React.createElement(ActionGroup, null,
-                            React.createElement(Button, { isDisabled: this.isSaveDisabled(), variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Save"], ["Save"])))),
-                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+                            React.createElement(Button, { isDisabled: this.isSaveDisabled(), variant: 'primary', onClick: function () { return _this.saveNamespace(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
+                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.cancel(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                             saving ? React.createElement(Spinner, null) : null),
-                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
+                        this.state.unsavedData ? (React.createElement("div", { style: { color: 'red' } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You have unsaved changes"], ["You have unsaved changes"]))))) : null))))));
     };
     EditNamespace.prototype.isSaveDisabled = function () {
         var namespace = this.state.namespace;
@@ -223,7 +193,7 @@ var EditNamespace = /** @class */ (function (_super) {
                     _this.setState({
                         alerts: _this.state.alerts.concat({
                             variant: 'danger',
-                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Changes to namespace \"", "\" could not be saved."], ["Changes to namespace \"", "\" could not be saved."])), _this.state.namespace.name),
+                            title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Changes to namespace \"", "\" could not be saved."], ["Changes to namespace \"", "\" could not be saved."])), _this.state.namespace.name),
                             description: errorMessage(result.status, result.statusText),
                         }),
                         saving: false,
@@ -250,5 +220,5 @@ var EditNamespace = /** @class */ (function (_super) {
 }(React.Component));
 EditNamespace.contextType = AppContext;
 export default withRouter(EditNamespace);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=edit-namespace.js.map

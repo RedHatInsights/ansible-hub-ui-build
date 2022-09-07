@@ -64,14 +64,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, DeleteCollectionUtils } from 'src/utilities';
 import './header.scss';
 import { Redirect } from 'react-router-dom';
 import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, Tooltip, Checkbox, } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
-import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, StatefulDropdown, DeleteModal, SignSingleCertificateModal, SignAllCertificatesModal, UploadSingCertificateModal, ImportModal, } from 'src/components';
+import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, StatefulDropdown, SignSingleCertificateModal, SignAllCertificatesModal, UploadSingCertificateModal, ImportModal, DeleteCollectionModal, } from 'src/components';
 import { CollectionAPI, SignCollectionAPI, MyNamespaceAPI, Repositories, CertificateUploadAPI, } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
 import { waitForTask, canSign as canSignNS, parsePulpIDFromURL, } from 'src/utilities';
@@ -277,45 +277,6 @@ var CollectionHeader = /** @class */ (function (_super) {
                 }
             });
         };
-        _this.deleteCollection = function () {
-            var _a = _this.state, deleteCollection = _a.deleteCollection, name = _a.deleteCollection.name;
-            CollectionAPI.deleteCollection(_this.context.selectedRepo, deleteCollection)
-                .then(function (res) {
-                var taskId = parsePulpIDFromURL(res.data.task);
-                waitForTask(taskId).then(function () {
-                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                        {
-                            variant: 'success',
-                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection \"", "\" has been successfully deleted."], ["Collection \"", "\" has been successfully deleted."])), name),
-                        },
-                    ], false));
-                    _this.setState({
-                        collectionVersion: null,
-                        deleteCollection: null,
-                        isDeletionPending: false,
-                        redirect: formatPath(Paths.namespaceByRepo, {
-                            repo: _this.context.selectedRepo,
-                            namespace: deleteCollection.namespace.name,
-                        }),
-                    });
-                });
-            })
-                .catch(function (err) {
-                var _a = err.response, status = _a.status, statusText = _a.statusText;
-                _this.setState({
-                    collectionVersion: null,
-                    deleteCollection: null,
-                    isDeletionPending: false,
-                    alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
-                        {
-                            variant: 'danger',
-                            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Collection \"", "\" could not be deleted."], ["Collection \"", "\" could not be deleted."])), name),
-                            description: errorMessage(status, statusText),
-                        },
-                    ], false),
-                });
-            });
-        };
         _this.closeModal = function () {
             _this.setState({ deleteCollection: null });
         };
@@ -343,7 +304,11 @@ var CollectionHeader = /** @class */ (function (_super) {
         return _this;
     }
     CollectionHeader.prototype.componentDidMount = function () {
-        this.getUsedbyDependencies();
+        var _this = this;
+        var collection = this.props.collection;
+        DeleteCollectionUtils.getUsedbyDependencies(collection)
+            .then(function (noDependencies) { return _this.setState({ noDependencies: noDependencies }); })
+            .catch(function (alert) { return _this.addAlert(alert); });
     };
     CollectionHeader.prototype.render = function () {
         var _this = this;
@@ -362,23 +327,23 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         }
         var urlKeys = [
-            { key: 'documentation', name: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
-            { key: 'homepage', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Website"], ["Website"]))) },
-            { key: 'issues', name: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
-            { key: 'repository', name: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Repo"], ["Repo"]))) },
+            { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
+            { key: 'homepage', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Website"], ["Website"]))) },
+            { key: 'issues', name: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Issue tracker"], ["Issue tracker"]))) },
+            { key: 'repository', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.latest_version.created_at;
         var _d = ((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}, display_signatures = _d.display_signatures, can_upload_signatures = _d.can_upload_signatures;
         var signedString = function (v) {
             if (display_signatures && 'sign_state' in v) {
-                return v.sign_state === 'signed' ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["(signed)"], ["(signed)"]))) : t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["(unsigned)"], ["(unsigned)"])));
+                return v.sign_state === 'signed' ? t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["(signed)"], ["(signed)"]))) : t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["(unsigned)"], ["(unsigned)"])));
             }
             else {
                 return '';
             }
         };
         var isLatestVersion = function (v) {
-            return "".concat(moment(v.created).fromNow(), " ").concat(signedString(v), "\n      ").concat(v.version === all_versions[0].version ? t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
+            return "".concat(moment(v.created).fromNow(), " ").concat(signedString(v), "\n      ").concat(v.version === all_versions[0].version ? t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["(latest)"], ["(latest)"]))) : '');
         };
         var collectionName = collection.name, namespace = collection.namespace;
         var company = namespace.company || namespace.name;
@@ -387,19 +352,15 @@ var CollectionHeader = /** @class */ (function (_super) {
         }
         var canSign = canSignNS(this.context, namespace);
         var dropdownItems = [
-            noDependencies
-                ? this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { key: 'delete-collection-enabled', onClick: function () { return _this.openDeleteModalWithConfirm(); }, "data-cy": 'delete-collection-dropdown' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))
-                : this.context.user.model_permissions.delete_collection && (React.createElement(Tooltip, { key: 'delete-collection-disabled', position: 'left', content: React.createElement(Trans, null,
-                        "Cannot delete until collections ",
-                        React.createElement("br", null),
-                        "that depend on this collection ",
-                        React.createElement("br", null),
-                        "have been deleted.") },
-                    React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete entire collection"], ["Delete entire collection"])))))),
+            DeleteCollectionUtils.deleteMenuOption({
+                canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                noDependencies: noDependencies,
+                onClick: function () { return _this.openDeleteModalWithConfirm(); },
+            }),
             this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () {
                     return _this.openDeleteModalWithConfirm(collection.latest_version.version);
-                } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
-            canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
+                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
+            canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
             canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () {
                     if (can_upload_signatures) {
                         _this.setState({
@@ -410,9 +371,9 @@ var CollectionHeader = /** @class */ (function (_super) {
                     else {
                         _this.setState({ isOpenSignModal: true });
                     }
-                } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
-            React.createElement(DropdownItem, { onClick: function () { return _this.deprecate(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
-            React.createElement(DropdownItem, { key: 'upload-collection-version', onClick: function () { return _this.checkUploadPrivilleges(collection); }, "data-cy": 'upload-collection-version-dropdown' }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
+                }, "data-cy": 'sign-version-button' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), collection.latest_version.version))),
+            React.createElement(DropdownItem, { onClick: function () { return _this.deprecate(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+            React.createElement(DropdownItem, { key: 'upload-collection-version', onClick: function () { return _this.checkUploadPrivilleges(collection); }, "data-cy": 'upload-collection-version-dropdown' }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
         ].filter(Boolean);
         return (React.createElement(React.Fragment, null,
             showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -426,14 +387,14 @@ var CollectionHeader = /** @class */ (function (_super) {
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: updateCollection.namespace.name })),
             canSign && (React.createElement(React.Fragment, null,
                 React.createElement(UploadSingCertificateModal, { isOpen: this.state.uploadCertificateModalOpen, onCancel: function () { return _this.closeUploadCertificateModal(); }, onSubmit: function (d) { return _this.submitCertificate(d); } }),
-                React.createElement(SignAllCertificatesModal, { name: collectionName, numberOfAffected: collection.total_versions, affectedUnsigned: collection.unsigned_versions, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
+                React.createElement(SignAllCertificatesModal, { name: collectionName, isOpen: this.state.isOpenSignAllModal, onSubmit: this.signCollection, onCancel: function () {
                         _this.setState({ isOpenSignAllModal: false });
                     } }),
                 React.createElement(SignSingleCertificateModal, { name: collectionName, version: collection.latest_version.version, isOpen: this.state.isOpenSignModal, onSubmit: this.signVersion, onCancel: function () { return _this.setState({ isOpenSignModal: false }); } }))),
-            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
+            React.createElement(Modal, { isOpen: isOpenVersionsModal, title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), variant: 'small', onClose: function () { return _this.setState({ isOpenVersionsModal: false }); } },
                 React.createElement(List, { isPlain: true },
                     React.createElement("div", { className: 'versions-modal-header' },
-                        React.createElement(Text, null, t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
+                        React.createElement(Text, null, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
                         React.createElement(Pagination, { isTop: true, params: {
                                 page: modalPagination.page,
                                 page_size: modalPagination.pageSize,
@@ -445,51 +406,40 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             "v",
                             v.version),
-                        ' ', t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["released ", ""], ["released ", ""])), isLatestVersion(v)))); })),
+                        ' ', t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["updated ", ""], ["updated ", ""])), isLatestVersion(v)))); })),
                 React.createElement(Pagination, { params: {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
                     }, updateParams: this.updatePaginationParams, count: all_versions.length })),
-            deleteCollection && (React.createElement(DeleteModal, { spinner: isDeletionPending, cancelAction: this.closeModal, deleteAction: function () {
+            React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, collectionVersion: collectionVersion, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
                     return _this.setState({ isDeletionPending: true }, function () {
                         collectionVersion
                             ? _this.deleteCollectionVersion(collectionVersion)
-                            : _this.deleteCollection();
+                            : DeleteCollectionUtils.deleteCollection({
+                                collection: deleteCollection,
+                                setState: function (state) { return _this.setState(state); },
+                                load: null,
+                                redirect: formatPath(Paths.namespaceByRepo, {
+                                    repo: _this.context.selectedRepo,
+                                    namespace: deleteCollection.namespace.name,
+                                }),
+                                selectedRepo: _this.context.selectedRepo,
+                                addAlert: function (alert) {
+                                    return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.state.alerts, true), [alert], false));
+                                },
+                            });
                     });
-                }, isDisabled: !confirmDelete || isDeletionPending, title: collectionVersion
-                    ? t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Delete collection version?"], ["Delete collection version?"]))) : t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Delete collection?"], ["Delete collection?"]))) },
-                React.createElement(React.Fragment, null,
-                    React.createElement(Text, { style: { paddingBottom: 'var(--pf-global--spacer--md)' } }, collectionVersion ? (React.createElement(React.Fragment, null, deleteCollection.all_versions.length === 1 ? (React.createElement(Trans, null,
-                        "Deleting",
-                        ' ',
-                        React.createElement("b", null,
-                            deleteCollection.name,
-                            " v",
-                            collectionVersion),
-                        ' ',
-                        "and its data will be lost and this will cause the entire collection to be deleted.")) : (React.createElement(Trans, null,
-                        "Deleting",
-                        ' ',
-                        React.createElement("b", null,
-                            deleteCollection.name,
-                            " v",
-                            collectionVersion),
-                        ' ',
-                        "and its data will be lost.")))) : (React.createElement(Trans, null,
-                        "Deleting ",
-                        React.createElement("b", null, deleteCollection.name),
-                        " and its data will be lost."))),
-                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
-            React.createElement(BaseHeader, { className: className, title: collection.name, logo: collection.namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: collection.namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                    React.createElement("span", null, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Version"], ["Version"])))),
+                } }),
+            React.createElement(BaseHeader, { className: className, title: collection.name, logo: collection.namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: collection.namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
+                    React.createElement("span", null, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v".concat(collection.latest_version.version), "aria-label": t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
+                            }, selections: "v".concat(collection.latest_version.version), "aria-label": t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < all_versions.length
                                 ? {
-                                    text: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["View more"], ["View more"]))),
+                                    text: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
                                         return _this.setState({
                                             isOpenVersionsModal: true,
@@ -502,7 +452,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             } },
                             React.createElement(Trans, null,
                                 v.version,
-                                " released ",
+                                " updated ",
                                 isLatestVersion(v)))); }))),
                     latestVersion ? (React.createElement("span", { className: 'last-updated' },
                         React.createElement(Trans, null,
@@ -510,7 +460,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             React.createElement(DateComponent, { date: latestVersion })))) : null,
                     React.createElement(SignatureBadge, { isCompact: true, signState: collection.latest_version.sign_state })), pageControls: dropdownItems.length > 0 ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
                     React.createElement(StatefulDropdown, { items: dropdownItems }))) : null },
-                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
@@ -532,7 +482,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
-                        title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
+                        title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
                         variant: 'warning',
                     },
                 ], false),
@@ -567,27 +517,27 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
             {
                 active: active === 'dependencies',
-                title: t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
+                title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
                 link: formatPath(Paths.collectionDependenciesByRepo, pathParams, reduced),
             },
         ];
@@ -614,7 +564,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             alerts: this.state.alerts.concat({
                                 id: 'upload-certificate',
                                 variant: 'info',
-                                title: t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" is being uploaded."], ["The certificate for \"", " ", " v", "\" is being uploaded."])), version.namespace, version.name, version.version),
+                                title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" is being uploaded."], ["The certificate for \"", " ", " v", "\" is being uploaded."])), version.namespace, version.name, version.version),
                             }),
                         });
                         this.closeUploadCertificateModal();
@@ -636,7 +586,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                     })
                                         .concat({
                                         variant: 'success',
-                                        title: t(templateObject_43 || (templateObject_43 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), version.namespace, version.name, version.version),
+                                        title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), version.namespace, version.name, version.version),
                                     }),
                                 });
                             });
@@ -650,7 +600,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 })
                                     .concat({
                                     variant: 'danger',
-                                    title: t(templateObject_44 || (templateObject_44 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    title: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
                                     description: error,
                                 }),
                             });
@@ -677,7 +627,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             var taskId = parsePulpIDFromURL(res.data.task);
             return waitForTask(taskId).then(function () {
                 var title = !collection.deprecated
-                    ? t(templateObject_45 || (templateObject_45 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_46 || (templateObject_46 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
+                    ? t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
                 _this.setState({
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
@@ -699,7 +649,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: !collection.deprecated
-                            ? t(templateObject_47 || (templateObject_47 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_48 || (templateObject_48 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
+                            ? t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -722,25 +672,9 @@ var CollectionHeader = /** @class */ (function (_super) {
             confirmDelete: false,
         });
     };
-    CollectionHeader.prototype.getUsedbyDependencies = function () {
-        var _this = this;
-        var _a = this.props.collection, name = _a.name, namespace = _a.namespace;
-        CollectionAPI.getUsedDependenciesByCollection(namespace.name, name)
-            .then(function (_a) {
-            var data = _a.data;
-            _this.setState({ noDependencies: !data.data.length });
-        })
-            .catch(function (err) {
-            var _a = err.response, status = _a.status, statusText = _a.statusText;
-            _this.setState({
-                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
-                    {
-                        variant: 'danger',
-                        title: t(templateObject_49 || (templateObject_49 = __makeTemplateObject(["Dependencies for collection \"", "\" could not be displayed."], ["Dependencies for collection \"", "\" could not be displayed."])), name),
-                        description: errorMessage(status, statusText),
-                    },
-                ], false),
-            });
+    CollectionHeader.prototype.addAlert = function (alert) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
         });
     };
     Object.defineProperty(CollectionHeader.prototype, "closeAlert", {
@@ -754,5 +688,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41;
 //# sourceMappingURL=collection-header.js.map

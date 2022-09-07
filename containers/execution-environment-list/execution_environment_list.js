@@ -211,7 +211,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     ExecutionEnvironmentList.prototype.renderTableRow = function (item, index) {
         var _this = this;
         var description = item.description;
-        var canEdit = item.namespace.my_permissions.includes('container.change_containernamespace');
+        var permissions = item.namespace.my_permissions;
+        var canEdit = permissions.includes('container.change_containernamespace') ||
+            permissions.includes('container.namespace_change_containerdistribution');
         var dropdownItems = [
             canEdit && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({

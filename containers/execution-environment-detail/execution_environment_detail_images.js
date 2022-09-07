@@ -36,10 +36,11 @@ import { sum } from 'lodash';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { formatPath, Paths } from 'src/paths';
 import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
+import { AppContext } from 'src/loaders/app-context';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
-import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, AlertList, closeAlertMixin, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, ListItemActions, } from '../../components';
+import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, ListItemActions, } from '../../components';
 import { withContainerRepo } from './base';
 import './execution-environment-detail_images.scss';
 var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
@@ -67,7 +68,6 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             publishToController: null,
             selectedImage: undefined,
             deleteModalVisible: false,
-            alerts: [],
             confirmDelete: false,
             expandedImage: null,
             isDeletionPending: false,
@@ -139,7 +139,6 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var canEditTags = this.props.containerRepository.namespace.my_permissions.includes('container.namespace_modify_content_containerpushrepository');
         var digest = (selectedImage || {}).digest;
         return (React.createElement("section", { className: 'body' },
-            React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             deleteModalVisible && (React.createElement(DeleteModal, { spinner: isDeletionPending, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete image?"], ["Delete image?"]))), cancelAction: function () {
                     return _this.setState({
                         deleteModalVisible: false,
@@ -156,9 +155,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (value) { return _this.setState({ confirmDelete: value }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' }))),
             React.createElement(TagManifestModal, { isOpen: !!manageTagsManifestDigest, closeModal: function () { return _this.setState({ manageTagsManifestDigest: null }); }, containerManifest: images.find(function (el) { return el.digest === manageTagsManifestDigest; }), reloadManifests: function () {
                     return _this.queryImages(_this.props.containerRepository.name);
-                }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) {
-                    _this.setState({ alerts: _this.state.alerts.concat(alert) });
-                }, containerRepository: this.props.containerRepository }),
+                }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) { return _this.props.addAlert(alert); }, containerRepository: this.props.containerRepository }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
             React.createElement("div", { className: 'detail-images-toolbar toolbar' },
                 React.createElement(Toolbar, null,
@@ -244,9 +241,9 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
+            this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
                     _this.setState({ deleteModalVisible: true, selectedImage: image });
-                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"])))),
+                } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });
         return (React.createElement(React.Fragment, { key: index },
             React.createElement("tr", null,
@@ -350,15 +347,13 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         isDeletionPending: false,
                         confirmDelete: false,
                         deleteModalVisible: false,
-                        alerts: _this.state.alerts.concat([
-                            {
-                                variant: 'success',
-                                title: (React.createElement(Trans, null,
-                                    "Image \"",
-                                    digest,
-                                    "\" has been successfully deleted.")),
-                            },
-                        ]),
+                    });
+                    _this.props.addAlert({
+                        variant: 'success',
+                        title: (React.createElement(Trans, null,
+                            "Image \"",
+                            digest,
+                            "\" has been successfully deleted.")),
                     });
                     _this.queryImages(_this.props.match.params['container']);
                 });
@@ -370,13 +365,11 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     selectedImage: null,
                     confirmDelete: false,
                     isDeletionPending: false,
-                    alerts: _this.state.alerts.concat([
-                        {
-                            variant: 'danger',
-                            title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Image \"", "\" could not be deleted."], ["Image \"", "\" could not be deleted."])), digest),
-                            description: errorMessage(status, statusText),
-                        },
-                    ]),
+                });
+                _this.props.addAlert({
+                    variant: 'danger',
+                    title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Image \"", "\" could not be deleted."], ["Image \"", "\" could not be deleted."])), digest),
+                    description: errorMessage(status, statusText),
                 });
             });
         });
@@ -388,15 +381,9 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ExecutionEnvironmentDetailImages.prototype, "closeAlert", {
-        get: function () {
-            return closeAlertMixin('alerts');
-        },
-        enumerable: false,
-        configurable: true
-    });
     return ExecutionEnvironmentDetailImages;
 }(React.Component));
 export default withRouter(withContainerRepo(ExecutionEnvironmentDetailImages));
+ExecutionEnvironmentDetailImages.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=execution_environment_detail_images.js.map

@@ -21,7 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import './header.scss';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { BaseHeader, Logo, Tabs, Breadcrumbs } from 'src/components';
+import { BaseHeader, Logo, Tabs, Breadcrumbs, } from 'src/components';
 var PartnerHeader = /** @class */ (function (_super) {
     __extends(PartnerHeader, _super);
     function PartnerHeader() {

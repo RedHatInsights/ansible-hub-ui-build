@@ -72,6 +72,12 @@ var ContentSummaryType = /** @class */ (function () {
     return ContentSummaryType;
 }());
 export { ContentSummaryType };
+var CollectionExcludesType = /** @class */ (function () {
+    function CollectionExcludesType() {
+    }
+    return CollectionExcludesType;
+}());
+export { CollectionExcludesType };
 var CollectionDetailType = /** @class */ (function () {
     function CollectionDetailType() {
     }

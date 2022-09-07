@@ -32,9 +32,7 @@ var CollectionListItem = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CollectionListItem.prototype.render = function () {
-        var _a = this.props, name = _a.name, 
-        // download_count,
-        latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, repo = _a.repo, sign_state = _a.sign_state;
+        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, repo = _a.repo, sign_state = _a.sign_state;
         var cells = [];
         var company = namespace.company || namespace.name;
         if (showNamespace) {

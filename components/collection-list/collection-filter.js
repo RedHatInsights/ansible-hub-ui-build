@@ -64,7 +64,6 @@ var CollectionFilter = /** @class */ (function (_super) {
                 options: [
                     { id: 'signed', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Signed"], ["Signed"]))) },
                     { id: 'unsigned', title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Unsigned"], ["Unsigned"]))) },
-                    { id: 'partial', title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Partial"], ["Partial"]))) },
                 ],
             },
         ].filter(Boolean);
@@ -75,14 +74,14 @@ var CollectionFilter = /** @class */ (function (_super) {
                         React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: filterConfig }),
                         React.createElement(ToolbarItem, null,
                             React.createElement(AppliedFilters, { niceNames: {
-                                    sign_state: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["sign state"], ["sign state"]))),
-                                    tags: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["tags"], ["tags"]))),
-                                    keywords: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["keywords"], ["keywords"]))),
+                                    sign_state: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["sign state"], ["sign state"]))),
+                                    tags: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["tags"], ["tags"]))),
+                                    keywords: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["keywords"], ["keywords"]))),
                                 }, style: { marginTop: '16px' }, updateParams: updateParams, params: params, ignoredParams: ignoredParams })))))));
     };
     CollectionFilter.contextType = AppContext;
     return CollectionFilter;
 }(React.Component));
 export { CollectionFilter };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=collection-filter.js.map

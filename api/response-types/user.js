@@ -1,15 +1,15 @@
-var InsightsUserType = /** @class */ (function () {
-    function InsightsUserType() {
-    }
-    return InsightsUserType;
-}());
-export { InsightsUserType };
 var Permissions = /** @class */ (function () {
     function Permissions() {
     }
     return Permissions;
 }());
 export { Permissions };
+var GroupType = /** @class */ (function () {
+    function GroupType() {
+    }
+    return GroupType;
+}());
+export { GroupType };
 var UserType = /** @class */ (function () {
     function UserType() {
     }

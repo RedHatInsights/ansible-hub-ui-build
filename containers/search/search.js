@@ -40,15 +40,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './search.scss';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, DeleteCollectionUtils, filterIsSet, waitForTask, parsePulpIDFromURL, } from 'src/utilities';
 import { withRouter, Redirect } from 'react-router-dom';
 import { DataList, Switch, DropdownItem, Button } from '@patternfly/react-core';
-import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, } from 'src/components';
+import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, DeleteCollectionModal, } from 'src/components';
 import { CollectionAPI, MySyncListAPI, MyNamespaceAPI, } from 'src/api';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { filterIsSet, waitForTask, parsePulpIDFromURL } from 'src/utilities';
 import { Paths, formatPath } from 'src/paths';
 var Search = /** @class */ (function (_super) {
     __extends(Search, _super);
@@ -76,6 +75,10 @@ var Search = /** @class */ (function (_super) {
             updateCollection: null,
             showImportModal: false,
             redirect: null,
+            noDependencies: false,
+            deleteCollection: null,
+            confirmDelete: false,
+            isDeletionPending: false,
         };
         return _this;
     }
@@ -87,6 +90,11 @@ var Search = /** @class */ (function (_super) {
         if (DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE) {
             this.getSynclist();
         }
+    };
+    Search.prototype.addAlert = function (alert) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
+        });
     };
     Object.defineProperty(Search.prototype, "closeAlert", {
         get: function () {
@@ -100,7 +108,7 @@ var Search = /** @class */ (function (_super) {
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection;
+        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection, deleteCollection = _a.deleteCollection, confirmDelete = _a.confirmDelete, isDeletionPending = _a.isDeletionPending;
         var noData = collections.length === 0 &&
             !filterIsSet(params, ['keywords', 'tags', 'sign_state']);
         var updateParams = function (p) {
@@ -108,6 +116,18 @@ var Search = /** @class */ (function (_super) {
         };
         return (React.createElement("div", { className: 'search-page' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
+            React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
+                    return _this.setState({ isDeletionPending: true }, function () {
+                        return DeleteCollectionUtils.deleteCollection({
+                            collection: deleteCollection,
+                            setState: function (state) { return _this.setState(state); },
+                            load: function () { return _this.load(); },
+                            redirect: false,
+                            selectedRepo: _this.context.selectedRepo,
+                            addAlert: function (alert) { return _this.addAlert(alert); },
+                        });
+                    });
+                } }),
             showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
                     return _this.setState({
                         redirect: formatPath(Paths.myImports, {}, {
@@ -206,14 +226,26 @@ var Search = /** @class */ (function (_super) {
     };
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
-        var menuItems = [];
-        menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))));
+        var menuItems = [
+            DeleteCollectionUtils.deleteMenuOption({
+                canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                noDependencies: null,
+                onClick: function () {
+                    return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
+                        addAlert: function (alert) { return _this.addAlert(alert); },
+                        setState: function (state) { return _this.setState(state); },
+                        collection: collection,
+                    });
+                },
+            }),
+            React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+        ];
         if (!list) {
             menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
         }
         return (React.createElement(React.Fragment, null,
             list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
-            React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })));
+            React.createElement(StatefulDropdown, { items: menuItems.filter(Boolean), ariaLabel: 'collection-kebab' })));
     };
     Search.prototype.renderSyncToogle = function (name, namespace) {
         var _this = this;

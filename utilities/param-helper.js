@@ -138,6 +138,15 @@ var ParamHelper = /** @class */ (function () {
         }
         updateParams(params);
     };
+    // check if params are valid for sorting
+    ParamHelper.validSortParams = function (sort, sortParams, defaultSort) {
+        var isDesc = sort.includes('-');
+        var ascSort = isDesc ? sort.replace('-', '') : sort;
+        if (sortParams.includes(ascSort)) {
+            return isDesc ? sort : ascSort;
+        }
+        return defaultSort;
+    };
     return ParamHelper;
 }());
 export { ParamHelper };
