@@ -21,11 +21,14 @@ var EmptyStateCustom = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     EmptyStateCustom.prototype.render = function () {
-        return (React.createElement(EmptyState, { variant: EmptyStateVariant.small },
+        return (React.createElement(EmptyState, { variant: EmptyStateVariant[this.props.variant], "data-cy": 'EmptyState' },
             React.createElement(EmptyStateIcon, { icon: this.props.icon }),
             React.createElement(Title, { headingLevel: 'h4', size: 'lg' }, this.props.title),
             React.createElement(EmptyStateBody, null, this.props.description),
             this.props.button && (React.createElement(EmptyStatePrimary, null, this.props.button))));
+    };
+    EmptyStateCustom.defaultProps = {
+        variant: 'small',
     };
     return EmptyStateCustom;
 }(React.Component));

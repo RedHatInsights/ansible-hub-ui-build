@@ -151,8 +151,8 @@ var NamespaceList = /** @class */ (function (_super) {
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
                         redirect: formatPath(Paths.myCollections, {
-                            namespace: result['name'],
-                        }),
+                            namespace: result.name,
+                        }, { tab: 'owners' }),
                     });
                 } }),
             React.createElement(AlertList, { alerts: alerts, closeAlert: function () { return _this.closeAlert(); } }),

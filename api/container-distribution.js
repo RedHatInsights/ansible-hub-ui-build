@@ -20,6 +20,7 @@ var API = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.apiPath = 'distributions/container/container/';
         return _this;
+        // patch(id, data)
     }
     return API;
 }(PulpAPI));

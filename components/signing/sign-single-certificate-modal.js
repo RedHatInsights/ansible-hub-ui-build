@@ -8,7 +8,7 @@ import React from 'react';
 export var SignSingleCertificateModal = function (_a) {
     var name = _a.name, version = _a.version, isOpen = _a.isOpen, onSubmit = _a.onSubmit, onCancel = _a.onCancel;
     return (React.createElement(Modal, { variant: ModalVariant.medium, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sign version ", ""], ["Sign version ", ""])), version), isOpen: isOpen, onClose: onCancel, actions: [
-            React.createElement(Button, { key: 'sign', variant: ButtonVariant.primary, onClick: onSubmit }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Sign"], ["Sign"])))),
+            React.createElement(Button, { key: 'sign', "data-cy": 'modal-sign-button', variant: ButtonVariant.primary, onClick: onSubmit }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Sign"], ["Sign"])))),
             React.createElement(Button, { key: 'cancel', variant: ButtonVariant.link, onClick: onCancel }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
         ] },
         React.createElement("p", null,

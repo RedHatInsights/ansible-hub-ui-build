@@ -304,6 +304,13 @@ var App = /** @class */ (function (_super) {
                     },
                     url: Paths.groupList,
                 }),
+                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return user.model_permissions.view_group;
+                    },
+                    url: Paths.roleList,
+                }),
             ]),
         ];
     };
@@ -332,14 +339,14 @@ var App = /** @class */ (function (_super) {
     };
     App.prototype.ctx = function (component) {
         return (React.createElement(AppContext.Provider, { value: {
-                user: this.state.user,
-                setUser: this.setUser,
-                selectedRepo: this.state.selectedRepo,
-                setRepo: this.setRepo,
-                featureFlags: this.state.featureFlags,
                 alerts: this.state.alerts,
+                featureFlags: this.state.featureFlags,
+                selectedRepo: this.state.selectedRepo,
                 setAlerts: this.setAlerts,
+                setRepo: this.setRepo,
+                setUser: this.setUser,
                 settings: this.state.settings,
+                user: this.state.user,
             } },
             component,
             React.createElement(UIVersion, null)));
@@ -347,5 +354,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=standalone-loader.js.map

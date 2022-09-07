@@ -21,15 +21,6 @@ var API = /** @class */ (function (_super) {
         _this.apiPath = _this.getUIPath('groups/');
         return _this;
     }
-    API.prototype.getPermissions = function (id) {
-        return this.http.get(this.apiPath + id + '/model-permissions/?limit=100000&offset=0');
-    };
-    API.prototype.addPermission = function (id, data) {
-        return this.http.post(this.apiPath + id + '/model-permissions/', data);
-    };
-    API.prototype.removePermission = function (id, permissionId) {
-        return this.http.delete(this.apiPath + id + '/model-permissions/' + permissionId + '/');
-    };
     return API;
 }(HubAPI));
 export var GroupAPI = new API();

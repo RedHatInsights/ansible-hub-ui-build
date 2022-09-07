@@ -14,7 +14,7 @@ export var UploadSingCertificateModal = function (_a) {
         setPath(file);
     };
     return (React.createElement(Modal, { variant: ModalVariant.medium, title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Upload signature"], ["Upload signature"]))), isOpen: isOpen, onClose: onCancel, actions: [
-            React.createElement(Button, { key: 'upload', variant: ButtonVariant.primary, onClick: function () {
+            React.createElement(Button, { key: 'upload', variant: ButtonVariant.primary, isDisabled: !filename, onClick: function () {
                     onSubmit(path);
                     setFilename('');
                     setPath(null);
