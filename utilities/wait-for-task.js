@@ -4,6 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { TaskAPI } from 'src/api';
+import { parsePulpIDFromURL } from './parse-pulp-id';
 export function waitForTask(task, bailAfter) {
     if (bailAfter === void 0) { bailAfter = 10; }
     return TaskAPI.get(task).then(function (result) {
@@ -21,6 +22,10 @@ export function waitForTask(task, bailAfter) {
             });
         }
     });
+}
+export function waitForTaskUrl(taskUrl, bailAfter) {
+    if (bailAfter === void 0) { bailAfter = 10; }
+    return waitForTask(parsePulpIDFromURL(taskUrl), bailAfter);
 }
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=wait-for-task.js.map

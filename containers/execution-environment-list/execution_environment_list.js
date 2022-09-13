@@ -299,7 +299,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         this.setState({ loading: true }, function () {
             return ExecutionEnvironmentAPI.list(_this.state.params)
                 .then(function (result) {
-                return _this.setState({
+                _this.setState({
                     items: result.data.data,
                     itemCount: result.data.meta.count,
                     loading: false,
@@ -325,14 +325,15 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         configurable: true
     });
     ExecutionEnvironmentList.prototype.addAlert = function (title, variant, description) {
+        this.addAlertObj({
+            description: description,
+            title: title,
+            variant: variant,
+        });
+    };
+    ExecutionEnvironmentList.prototype.addAlertObj = function (alert) {
         this.setState({
-            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
-                {
-                    description: description,
-                    title: title,
-                    variant: variant,
-                },
-            ], false),
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
         });
     };
     ExecutionEnvironmentList.prototype.sync = function (name) {

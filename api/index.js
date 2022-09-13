@@ -43,4 +43,5 @@ export { SignCollectionAPI } from './sign-collections';
 export { RoleType, GroupRoleType } from './response-types/role';
 export { CertificateUploadAPI } from './certificate-upload';
 export { Repositories } from './repositories';
+export { SignContainersAPI } from './sign-containers';
 //# sourceMappingURL=index.js.map
