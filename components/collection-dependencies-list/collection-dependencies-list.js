@@ -21,8 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { List, ListItem, ListVariant } from '@patternfly/react-core';
-import { EmptyStateNoData } from 'src/components';
-import { formatPath, Paths } from 'src/paths';
+import { EmptyStateNoData, HelperText } from 'src/components';
 import 'src/containers/collection-detail/collection-dependencies.scss';
 var CollectionDependenciesList = /** @class */ (function (_super) {
     __extends(CollectionDependenciesList, _super);
@@ -30,29 +29,20 @@ var CollectionDependenciesList = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CollectionDependenciesList.prototype.render = function () {
-        var _this = this;
-        var _a = this.props, collection = _a.collection, repo = _a.repo;
+        var _a = this.props, collection = _a.collection, dependencies_repos = _a.dependencies_repos;
         var dependencies = collection.latest_version.metadata.dependencies;
         if (!Object.keys(dependencies).length) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection does not have dependencies."], ["Collection does not have dependencies."]))) }));
         }
-        return (React.createElement(List, { variant: ListVariant.inline, className: 'hub-c-list-dependencies' }, Object.keys(dependencies).map(function (dependency, i) { return (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
-            React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
-                    collection: _this.splitDependencyName(dependency).collection,
-                    namespace: _this.splitDependencyName(dependency).namespace,
-                    repo: repo,
-                }, _this.separateVersion(dependencies[dependency])) }, _this.splitDependencyName(dependency).collection))); })));
-    };
-    CollectionDependenciesList.prototype.splitDependencyName = function (dependency) {
-        var _a = dependency.split('.'), namespace = _a[0], collection = _a[1];
-        return { namespace: namespace, collection: collection };
-    };
-    CollectionDependenciesList.prototype.separateVersion = function (version) {
-        var v = version.match(/((\d+\.*)+)/);
-        return v ? { version: v[0] } : {};
+        return (React.createElement(List, { variant: ListVariant.inline, className: 'hub-c-list-dependencies' }, dependencies_repos.map(function (dependency, i) { return (React.createElement(React.Fragment, null,
+            dependency.path && (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
+                React.createElement(Link, { to: dependency.path }, dependency.name))),
+            !dependency.path && (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
+                dependency.name,
+                React.createElement(HelperText, { content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection was not found in the system. You must upload it."], ["Collection was not found in the system. You must upload it."]))) }))))); })));
     };
     return CollectionDependenciesList;
 }(React.Component));
 export { CollectionDependenciesList };
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=collection-dependencies-list.js.map

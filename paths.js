@@ -11,7 +11,8 @@ export function formatPath(path, data, params) {
         url = url.replace(':' + k + '+', data[k]).replace(':' + k, data[k]);
     }
     if (params) {
-        return "".concat(url, "?").concat(ParamHelper.getQueryString(params));
+        var path_1 = "".concat(url, "?").concat(ParamHelper.getQueryString(params));
+        return path_1;
     }
     else {
         return url;
