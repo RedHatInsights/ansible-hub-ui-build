@@ -207,7 +207,7 @@ var RoleList = /** @class */ (function (_super) {
                     React.createElement("p", null, "This will also remove all associated permissions under this role.")))),
             React.createElement(BaseHeader, { title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))) }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["There are currently no roles"], ["There are currently no roles"]))), description: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Please add a role by using the button below."], ["Please add a role by using the button below."]))), button: addRoles })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'role-list' },
+                React.createElement("div", { className: 'hub-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,

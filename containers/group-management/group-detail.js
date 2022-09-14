@@ -47,7 +47,6 @@ import { filterIsSet, ParamHelper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
 import { Button, DropdownItem, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
-import './group-management.scss';
 import GroupDetailRoleManagement from './group-detail-role-management/group-detail-role-management';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);

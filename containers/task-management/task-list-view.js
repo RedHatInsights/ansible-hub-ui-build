@@ -87,7 +87,7 @@ var TaskListView = /** @class */ (function (_super) {
             cancelModalVisible ? this.renderCancelModal() : null,
             React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
             unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-task-list' },
+                React.createElement("div", { className: 'hub-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,

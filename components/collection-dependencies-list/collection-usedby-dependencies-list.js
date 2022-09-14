@@ -39,7 +39,7 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Not required for use by other collections"], ["Not required for use by other collections"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection is not being used by any collection."], ["Collection is not being used by any collection."]))) }));
         }
         return (React.createElement(React.Fragment, null,
-            React.createElement("div", { className: 'hub-usedby-dependencies-header' },
+            React.createElement("div", { className: 'hub-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarGroup, null,
                         React.createElement(ToolbarItem, null,
