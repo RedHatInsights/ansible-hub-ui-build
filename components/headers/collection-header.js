@@ -98,8 +98,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === void 0) { status = 500; }
                 return ({
                     variant: 'danger',
-                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                    description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to sign all versions in the collection."], ["Failed to sign all versions in the collection."]))),
+                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to sign all versions in the collection."], ["Failed to sign all versions in the collection."]))),
+                    description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
                 });
             };
             _this.setState({
@@ -146,8 +146,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === void 0) { status = 500; }
                 return ({
                     variant: 'danger',
-                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                    description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed to sign the version."], ["Failed to sign the version."]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Failed to sign the version."], ["Failed to sign the version."]))),
+                    description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
                 });
             };
             _this.setState({
