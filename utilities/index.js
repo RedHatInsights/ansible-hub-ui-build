@@ -16,4 +16,5 @@ export { validateURLHelper } from './validateURLHelper';
 export { canSign, canSignEE } from './can-sign';
 export { DeleteCollectionUtils } from './delete-collection';
 export { RepoSigningUtils } from './repo-signing';
+export { translateLockedRolesDescription } from './translate-locked-roles-desc';
 //# sourceMappingURL=index.js.map

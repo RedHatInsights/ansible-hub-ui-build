@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { RoleAPI } from 'src/api';
 import { Constants } from 'src/constants';
 import { RolePermissions, LoadingPageSpinner } from 'src/components';
+import { translateLockedRolesDescription } from 'src/utilities';
 export var GroupRolePermissions = function (_a) {
     var name = _a.name, filteredPermissions = _a.filteredPermissions;
     var _b = useState(null), role = _b[0], setRole = _b[1];
@@ -30,7 +31,7 @@ export var GroupRolePermissions = function (_a) {
         filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
     }
     return (React.createElement(React.Fragment, null,
-        React.createElement("p", null, role.description),
+        React.createElement("p", null, translateLockedRolesDescription(role.name, role.description)),
         React.createElement(RolePermissions, { filteredPermissions: filteredPermissions, selectedPermissions: role.permissions, showCustom: true, showEmpty: false })));
 };
 //# sourceMappingURL=group-role-permissions.js.map

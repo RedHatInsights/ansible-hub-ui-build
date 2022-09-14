@@ -44,7 +44,7 @@ import { AppContext } from 'src/loaders/app-context';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
 import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, PermissionChipSelector, DateComponent, } from 'src/components';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Flex, FlexItem, Tooltip, } from '@patternfly/react-core';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, twoWayMapper, } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, twoWayMapper, translateLockedRolesDescription, } from 'src/utilities';
 import { RoleAPI } from 'src/api/role';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
@@ -276,7 +276,7 @@ var RoleList = /** @class */ (function (_super) {
                                         return twoWayMapper(value, filteredPermissions);
                                     }), menuAppendTo: 'inline', multilingual: true, isViewOnly: true })))); })), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.name), colSpan: 6, rowIndex: i },
                         React.createElement("td", { "data-cy": 'name-field' }, role.name),
-                        React.createElement("td", null, role.description),
+                        React.createElement("td", null, translateLockedRolesDescription(role.name, role.description)),
                         React.createElement("td", null,
                             React.createElement(DateComponent, { date: role.pulp_created })),
                         React.createElement("td", null, role.locked ? (React.createElement(Tooltip, { content: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Built-in roles cannot be edited or deleted."], ["Built-in roles cannot be edited or deleted."]))) },
