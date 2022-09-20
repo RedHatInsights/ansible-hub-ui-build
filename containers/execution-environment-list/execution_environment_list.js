@@ -137,8 +137,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                                     React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
                                             return _this.setState({ inputText: text });
                                         }, updateParams: function (p) {
-                                            p['page'] = 1;
-                                            _this.updateParams(p, function () {
+                                            return _this.updateParams(p, function () {
                                                 return _this.queryEnvironments();
                                             });
                                         }, params: params, filterConfig: [

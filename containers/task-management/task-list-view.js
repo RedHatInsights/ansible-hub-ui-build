@@ -95,8 +95,7 @@ var TaskListView = /** @class */ (function (_super) {
                                     React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
                                             return _this.setState({ inputText: text });
                                         }, updateParams: function (p) {
-                                            p['page'] = 1;
-                                            _this.updateParams(p, function () { return _this.queryTasks(); });
+                                            return _this.updateParams(p, function () { return _this.queryTasks(); });
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__contains',
@@ -178,10 +177,7 @@ var TaskListView = /** @class */ (function (_super) {
             ],
         };
         return (React.createElement("table", { "aria-label": t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'hub-c-table-content pf-c-table' },
-            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
-                    p['page'] = 1;
-                    _this.updateParams(p, function () { return _this.queryTasks(); });
-                } }),
+            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryTasks(); }); } }),
             React.createElement("tbody", null, items.map(function (item, i) { return _this.renderTableRow(item, i); }))));
     };
     TaskListView.prototype.renderTableRow = function (item, index) {
