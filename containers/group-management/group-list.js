@@ -78,7 +78,7 @@ var GroupList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, redirect = _a.redirect, itemCount = _a.itemCount, params = _a.params, loading = _a.loading, createModalVisible = _a.createModalVisible, deleteModalVisible = _a.deleteModalVisible, editModalVisible = _a.editModalVisible, alerts = _a.alerts, groups = _a.groups, unauthorized = _a.unauthorized;
         var user = this.context.user;
-        var noData = groups.length === 0 && !filterIsSet(params, ['name__contains']);
+        var noData = groups.length === 0 && !filterIsSet(params, ['name__icontains']);
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -100,7 +100,7 @@ var GroupList = /** @class */ (function (_super) {
                                                 return _this.updateParams(p, function () { return _this.queryGroups(); });
                                             }, params: params, filterConfig: [
                                                 {
-                                                    id: 'name__contains',
+                                                    id: 'name__icontains',
                                                     title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group name"], ["Group name"]))),
                                                 },
                                             ] }))),
@@ -117,7 +117,7 @@ var GroupList = /** @class */ (function (_super) {
                                 _this.updateParams(p, function () { return _this.queryGroups(); });
                                 _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: {
-                                name__contains: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group name"], ["Group name"]))),
+                                name__icontains: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group name"], ["Group name"]))),
                             } })),
                     loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                     React.createElement(Pagination, { params: params, updateParams: function (p) {
