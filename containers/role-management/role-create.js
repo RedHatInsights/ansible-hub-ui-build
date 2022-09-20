@@ -22,7 +22,6 @@ import { errorMessage } from 'src/utilities';
 import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
 import * as React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import './role.scss';
 import { RoleForm, RoleHeader, EmptyStateUnauthorized, Main, } from 'src/components';
 import { Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';

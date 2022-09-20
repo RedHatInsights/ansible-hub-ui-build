@@ -4,7 +4,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { TaskAPI } from 'src/api';
-export function waitForTask(task, bailAfter) {
+import { parsePulpIDFromURL } from './parse-pulp-id';
+export function waitForTask(task, waitMs, bailAfter) {
+    if (waitMs === void 0) { waitMs = 5000; }
     if (bailAfter === void 0) { bailAfter = 10; }
     return TaskAPI.get(task).then(function (result) {
         var _a, _b;
@@ -16,11 +18,15 @@ export function waitForTask(task, bailAfter) {
             if (!bailAfter) {
                 return Promise.reject(new Error(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Giving up waiting for task after 10 attempts."], ["Giving up waiting for task after 10 attempts."])))));
             }
-            return new Promise(function (r) { return setTimeout(r, 5000); }).then(function () {
+            return new Promise(function (r) { return setTimeout(r, waitMs); }).then(function () {
                 return waitForTask(task, bailAfter - 1);
             });
         }
     });
+}
+export function waitForTaskUrl(taskUrl, bailAfter) {
+    if (bailAfter === void 0) { bailAfter = 10; }
+    return waitForTask(parsePulpIDFromURL(taskUrl), bailAfter);
 }
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=wait-for-task.js.map

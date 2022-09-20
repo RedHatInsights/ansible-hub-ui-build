@@ -26,7 +26,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateNoData, RolePermissions, LoadingPageWithHeader, Pagination, RoleListTable, SelectRoles, PreviewRoles, ExpandableRow, WizardModal, EmptyStateFilter, ListItemActions, } from 'src/components';
 import { GroupRoleAPI, } from 'src/api';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
 import './group-detail-role-management.scss';
@@ -183,7 +183,7 @@ var GroupDetailRoleManagement = function (_a) {
             } })),
         noData ? (React.createElement("section", { className: 'body hub-empty-state-box' },
             React.createElement(EmptyStateNoData, { title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["There are currently no roles assigned to this group."], ["There are currently no roles assigned to this group."]))), description: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Please add a role by using the button below."], ["Please add a role by using the button below."]))), button: addRoles }))) : (React.createElement("section", { className: 'body' },
-            React.createElement("div", { className: 'hub-group-list-toolbar' },
+            React.createElement("div", { className: 'hub-list-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
@@ -208,7 +208,7 @@ var GroupDetailRoleManagement = function (_a) {
             !noFilteredData ? (React.createElement(React.Fragment, null,
                 React.createElement(RoleListTable, { params: params, updateParams: updateParams, tableHeader: tableHeader }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: i, rowIndex: i, expandableRowContent: React.createElement(RolePermissions, { filteredPermissions: filteredPermissions, selectedPermissions: role.permissions, showCustom: true, showEmpty: false }), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.role) },
                     React.createElement("td", null, role.role),
-                    React.createElement("td", null, role.description),
+                    React.createElement("td", null, translateLockedRolesDescription(role.role, role.description)),
                     React.createElement(ListItemActions, { kebabItems: [
                             user.model_permissions.change_group && (React.createElement(DropdownItem, { key: 'remove-role', onClick: function () { return setSelectedDeleteRole(role); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Remove role"], ["Remove role"]))))),
                         ] }))); })),

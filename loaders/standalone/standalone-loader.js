@@ -280,7 +280,14 @@ var App = /** @class */ (function (_super) {
                     return !user.is_anonymous;
                 },
             }),
-            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
+                url: Paths.signatureKeys,
+                condition: function (_a) {
+                    var featureFlags = _a.featureFlags;
+                    return featureFlags.display_signatures;
+                },
+            }),
+            menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
                 condition: function (_a) {
@@ -289,22 +296,22 @@ var App = /** @class */ (function (_super) {
                         !user.is_anonymous;
                 },
             }),
-            menuSection(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Users"], ["Users"]))), {
+            menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_user;
                     },
                     url: Paths.userList,
                 }),
-                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_group;
                     },
                     url: Paths.groupList,
                 }),
-                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+                menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                     condition: function (_a) {
                         var user = _a.user;
                         return user.model_permissions.view_group;
@@ -354,5 +361,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
 //# sourceMappingURL=standalone-loader.js.map

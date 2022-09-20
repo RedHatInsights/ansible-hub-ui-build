@@ -28,7 +28,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import './group-management.scss';
 import { errorMessage } from 'src/utilities';
 import { withRouter, Link, Redirect, } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
@@ -92,7 +91,7 @@ var GroupList = /** @class */ (function (_super) {
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No groups yet"], ["No groups yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups will appear once created"], ["Groups will appear once created"]))), button: !!user &&
                     user.model_permissions.add_group && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'hub-group-list-toolbar' },
+                    React.createElement("div", { className: 'hub-list-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,

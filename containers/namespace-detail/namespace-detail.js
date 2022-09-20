@@ -322,8 +322,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             if (status === void 0) { status = 500; }
             return ({
                 variant: 'danger',
-                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                description: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                description: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
             });
         };
         this.setState({

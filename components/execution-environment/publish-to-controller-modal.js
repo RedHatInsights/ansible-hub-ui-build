@@ -245,7 +245,6 @@ var PublishToControllerModal = /** @class */ (function (_super) {
                 React.createElement(Flex, null,
                     React.createElement(FlexItem, null,
                         React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (controllerParams) {
-                                controllerParams.page = 1;
                                 _this.setState({ controllerParams: controllerParams }, function () {
                                     return _this.fetchControllers();
                                 });

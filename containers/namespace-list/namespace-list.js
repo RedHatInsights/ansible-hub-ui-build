@@ -143,10 +143,6 @@ var NamespaceList = /** @class */ (function (_super) {
         }
         // Namespaces or Partners
         var title = i18n._(namespaceBreadcrumb.name);
-        var updateParams = function (p) {
-            p['page'] = 1;
-            _this.updateParams(p, function () { return _this.loadNamespaces(); });
-        };
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
@@ -176,16 +172,20 @@ var NamespaceList = /** @class */ (function (_super) {
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
+                                    React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
+                                            return _this.updateParams(p, function () { return _this.loadNamespaces(); });
+                                        }, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
                                     React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: function (p) {
-                                            updateParams(p);
+                                            _this.updateParams(p, function () { return _this.loadNamespaces(); });
                                             _this.setState({ inputText: '' });
                                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
                             React.createElement(ToolbarGroup, { style: { alignSelf: 'start' } },
                                 React.createElement(ToolbarItem, null,
                                     React.createElement(Sort, { options: [
                                             { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' },
-                                        ], params: params, updateParams: updateParams })),
+                                        ], params: params, updateParams: function (p) {
+                                            return _this.updateParams(p, function () { return _this.loadNamespaces(); });
+                                        } })),
                                 ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) && (React.createElement(ToolbarItem, { key: 'create-button' },
                                     React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                     React.createElement("div", null,

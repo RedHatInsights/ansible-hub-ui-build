@@ -44,7 +44,7 @@ import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api
 import { formatPath, Paths } from '../../paths';
 import { Button, DropdownItem } from '@patternfly/react-core';
 import { AlertList, DeleteExecutionEnvironmentModal, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
-import { ParamHelper, parsePulpIDFromURL, waitForTask } from 'src/utilities';
+import { ParamHelper, parsePulpIDFromURL, waitForTask, RepoSigningUtils, canSignEE, } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 // A higher order component to wrap individual detail pages
 export function withContainerRepo(WrappedComponent) {
@@ -109,6 +109,9 @@ export function withContainerRepo(WrappedComponent) {
                     this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                             _this.setState({ showDeleteModal: true });
                         } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete"], ["Delete"]))))),
+                    this.state.repo && canSignEE(this.context, this.state.repo) && (React.createElement(DropdownItem, { key: 'sign', onClick: function () {
+                            _this.sign();
+                        } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Sign"], ["Sign"]))))),
                 ].filter(function (truthy) { return truthy; });
                 var _h = this.state, alerts = _h.alerts, repo = _h.repo, publishToController = _h.publishToController, showDeleteModal = _h.showDeleteModal;
                 // move to Owner tab when it can have its own breadcrumbs
@@ -123,8 +126,8 @@ export function withContainerRepo(WrappedComponent) {
                             if (description === void 0) { description = undefined; }
                             return _this.addAlert(text, variant, description);
                         } })),
-                    React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), groupId: groupId, container: this.state.repo, pageControls: React.createElement(React.Fragment, null,
-                            showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary', "data-cy": 'edit-container' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
+                    React.createElement(ExecutionEnvironmentHeader, { id: this.props.match.params['container'], updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), groupId: groupId, container: this.state.repo, displaySignatures: this.context.featureFlags.display_signatures, pageControls: React.createElement(React.Fragment, null,
+                            showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary', "data-cy": 'edit-container' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                             React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                     React.createElement(Main, null,
                         this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, formError: this.state.formError, onSave: function (promise) {
@@ -173,8 +176,8 @@ export function withContainerRepo(WrappedComponent) {
                     .then(function (result) {
                     var _a;
                     _this.setState({
-                        loading: false,
                         repo: result.data,
+                        loading: false,
                     });
                     var last_sync_task = ((_a = result.data.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) || {};
                     if (last_sync_task.state &&
@@ -210,14 +213,15 @@ export function withContainerRepo(WrappedComponent) {
                 configurable: true
             });
             class_1.prototype.addAlert = function (title, variant, description) {
+                this.addAlertObj({
+                    description: description,
+                    title: title,
+                    variant: variant,
+                });
+            };
+            class_1.prototype.addAlertObj = function (alert) {
                 this.setState({
-                    alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
-                        {
-                            description: description,
-                            title: title,
-                            variant: variant,
-                        },
-                    ], false),
+                    alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
                 });
             };
             class_1.prototype.sync = function (name) {
@@ -238,7 +242,11 @@ export function withContainerRepo(WrappedComponent) {
                             "for the status of this task.")));
                     _this.loadRepo();
                 })
-                    .catch(function () { return _this.addAlert(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+                    .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            };
+            class_1.prototype.sign = function () {
+                var _this = this;
+                RepoSigningUtils.sign(this.state.repo, this.context, function (alert) { return _this.addAlertObj(alert); }, function () { return _this.loadRepo(); });
             };
             return class_1;
         }(React.Component)),
@@ -246,5 +254,5 @@ export function withContainerRepo(WrappedComponent) {
         _a.displayName = "withContainerRepo(".concat(WrappedComponent.displayName, ")"),
         _a;
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=base.js.map
