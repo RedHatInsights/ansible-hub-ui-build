@@ -69,6 +69,7 @@ export var Paths;
     Paths["userProfileSettings"] = "/settings/user-profile";
     Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
+    Paths["signatureKeys"] = "/signature-keys";
 })(Paths || (Paths = {}));
 export var namespaceBreadcrumb = {
     name: {
