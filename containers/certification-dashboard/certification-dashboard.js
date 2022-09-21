@@ -334,7 +334,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
         var _this = this;
         this.setState({ updatingVersions: [version] });
         return CollectionVersionAPI.setRepository(version.namespace, version.name, version.version, originalRepo, destinationRepo)
-            .then(function (result) { return waitForTask(result.data.remove_task_id, 500); })
+            .then(function (result) {
+            return waitForTask(result.data.remove_task_id, { waitMs: 500 });
+        })
             .then(function () {
             return _this.addAlert(t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
         })
