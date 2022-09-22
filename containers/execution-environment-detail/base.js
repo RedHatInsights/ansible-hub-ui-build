@@ -68,6 +68,12 @@ export function withContainerRepo(WrappedComponent) {
             class_1.prototype.componentDidMount = function () {
                 this.loadRepo();
             };
+            class_1.prototype.componentDidUpdate = function () {
+                // when reloading the same tab, state doesn't reset
+                if (this.state.redirect) {
+                    this.setState({ redirect: null });
+                }
+            };
             class_1.prototype.render = function () {
                 var _this = this;
                 var _a, _b, _c, _d, _e, _f, _g;

@@ -198,6 +198,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'view_type',
         ];
         var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || this.context.user.model_permissions.change_namespace;
+        // remove ?group (owners tab) when switching tabs
+        var tabParams = __assign({}, params);
+        delete tabParams.group;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -230,7 +233,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             " and its data will be lost.")),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
-            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
+            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
                         React.createElement("div", { className: 'hub-pagination-container' },
