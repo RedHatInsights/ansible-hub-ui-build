@@ -239,8 +239,9 @@ var Constants = /** @class */ (function () {
         published: defineMessage({ message: "Published" }),
         'rh-certified': defineMessage({ message: "Red Hat Certified" }),
         community: defineMessage({ message: "Community" }),
+        validated: defineMessage({ message: "Validated" }),
     };
-    Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified'];
+    Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified', 'validated'];
     Constants.COLLECTION_FILTER_TAGS = [
         'application',
         'cloud',
