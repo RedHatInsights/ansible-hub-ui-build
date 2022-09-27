@@ -32,11 +32,11 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import cx from 'classnames';
 import './my-imports.scss';
-import { Pagination, FormSelect, FormSelectOption, Toolbar, } from '@patternfly/react-core';
-import { AppliedFilters, CompoundFilter, LoadingPageSpinner, } from 'src/components';
-import { PulpStatus } from 'src/api';
+import { Pagination, Toolbar } from '@patternfly/react-core';
+import { AppliedFilters, CompoundFilter, LoadingPageSpinner, APISearchTypeAhead, } from 'src/components';
+import { PulpStatus, MyNamespaceAPI, } from 'src/api';
 import { ParamHelper } from 'src/utilities/param-helper';
-import { filterIsSet } from 'src/utilities';
+import { filterIsSet, errorMessage } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { DateComponent, EmptyStateNoData, EmptyStateFilter } from '..';
 var ImportList = /** @class */ (function (_super) {
@@ -46,14 +46,18 @@ var ImportList = /** @class */ (function (_super) {
         _this.state = {
             kwField: '',
             inputText: '',
+            namespaces: [],
         };
         return _this;
     }
+    ImportList.prototype.componentDidMount = function () {
+        this.loadNamespaces(this.props.params.namespace);
+    };
     ImportList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, selectImport = _a.selectImport, importList = _a.importList, selectedImport = _a.selectedImport, namespaces = _a.namespaces, numberOfResults = _a.numberOfResults, params = _a.params, updateParams = _a.updateParams, loading = _a.loading;
+        var _a = this.props, selectImport = _a.selectImport, importList = _a.importList, selectedImport = _a.selectedImport, numberOfResults = _a.numberOfResults, params = _a.params, updateParams = _a.updateParams, loading = _a.loading;
         return (React.createElement("div", { className: 'import-list' },
-            this.renderNamespacePicker(namespaces),
+            this.renderApiSearchAhead(),
             React.createElement(Toolbar, null,
                 React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) { return _this.props.updateParams(p); }, params: params, filterConfig: [
                         {
@@ -92,21 +96,24 @@ var ImportList = /** @class */ (function (_super) {
                     state: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Status"], ["Status"]))),
                 } }),
             React.createElement("div", { "data-cy": 'import-list-data' }, this.renderList(selectImport, importList, selectedImport, loading)),
-            React.createElement(Pagination, { itemCount: numberOfResults, perPage: params.page_size || Constants.DEFAULT_PAGE_SIZE, page: params.page || 1, onSetPage: function (_, p) {
+            this.props.params.namespace && (React.createElement(Pagination, { itemCount: numberOfResults, perPage: params.page_size || Constants.DEFAULT_PAGE_SIZE, page: params.page || 1, onSetPage: function (_, p) {
                     return updateParams(ParamHelper.setParam(params, 'page', p));
                 }, onPerPageSelect: function (_, p) {
                     updateParams(__assign(__assign({}, params), { page: 1, page_size: p }));
-                }, isCompact: true })));
+                }, isCompact: true }))));
     };
     ImportList.prototype.renderList = function (selectImport, importList, selectedImport, loading) {
         var _this = this;
+        if (!this.props.params.namespace) {
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No namespace selected."], ["No namespace selected."]))), description: '' }));
+        }
         if (loading) {
             return (React.createElement("div", { className: 'loading' },
                 React.createElement(LoadingPageSpinner, null)));
         }
         if (importList.length === 0 &&
             !filterIsSet(this.props.params, ['keywords', 'state'])) {
-            return (React.createElement(EmptyStateNoData, { title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["No imports"], ["No imports"]))), description: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["There have not been any imports on this namespace."], ["There have not been any imports on this namespace."]))) }));
+            return (React.createElement(EmptyStateNoData, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No imports"], ["No imports"]))), description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["There have not been any imports on this namespace."], ["There have not been any imports on this namespace."]))) }));
         }
         else if (importList.length === 0) {
             return React.createElement(EmptyStateFilter, null);
@@ -148,19 +155,40 @@ var ImportList = /** @class */ (function (_super) {
                 return statusClass + 'fa-circle failed';
         }
     };
-    ImportList.prototype.renderNamespacePicker = function (namespaces) {
+    ImportList.prototype.loadNamespaces = function (namespace_filter) {
+        var _this = this;
+        if (!namespace_filter) {
+            namespace_filter = '';
+        }
+        MyNamespaceAPI.list({ page_size: 10, keywords: namespace_filter })
+            .then(function (result) {
+            _this.setState({ namespaces: result.data.data });
+        })
+            .catch(function (e) {
+            return _this.props.addAlert({
+                variant: 'danger',
+                title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                description: errorMessage(e.status, e.statusText),
+            });
+        });
+    };
+    ImportList.prototype.renderApiSearchAhead = function () {
         var _this = this;
         return (React.createElement("div", { className: 'namespace-selector-wrapper' },
-            React.createElement("div", { className: 'label' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespace"], ["Namespace"])))),
+            React.createElement("div", { className: 'label' }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Namespace"], ["Namespace"])))),
             React.createElement("div", { className: 'selector' },
-                React.createElement(FormSelect, { onChange: function (val) {
-                        var params = ParamHelper.setParam(_this.props.params, 'namespace', val);
+                React.createElement(APISearchTypeAhead, { loadResults: function (name) { return _this.loadNamespaces(name); }, onSelect: function (event, value) {
+                        var params = ParamHelper.setParam(_this.props.params, 'namespace', value);
                         params['page'] = 1;
                         _this.props.updateParams(params);
-                    }, value: this.props.params.namespace, "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select namespace"], ["Select namespace"]))) }, namespaces.map(function (ns) { return (React.createElement(FormSelectOption, { key: ns.name, label: ns.name, value: ns.name })); })))));
+                    }, onClear: function () {
+                        var params = ParamHelper.setParam(_this.props.params, 'namespace', '');
+                        params['page'] = 1;
+                        _this.props.updateParams(params);
+                    }, placeholderText: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Select namespace"], ["Select namespace"]))), selections: [{ id: -1, name: this.props.params.namespace }], results: this.state.namespaces }))));
     };
     return ImportList;
 }(React.Component));
 export { ImportList };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 //# sourceMappingURL=import-list.js.map
