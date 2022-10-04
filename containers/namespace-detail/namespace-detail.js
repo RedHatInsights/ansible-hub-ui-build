@@ -168,14 +168,20 @@ var NamespaceDetail = /** @class */ (function (_super) {
             {
                 name: namespace.name,
                 url: tab === 'owners'
-                    ? formatPath(Paths.myCollections, { namespace: namespace.name })
+                    ? formatPath(Paths.namespaceByRepo, {
+                        repo: this.context.selectedRepo,
+                        namespace: namespace.name,
+                    })
                     : null,
             },
             tab === 'owners'
                 ? {
                     name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))),
                     url: params.group
-                        ? formatPath(Paths.myCollections, { namespace: namespace.name }, { tab: 'owners' })
+                        ? formatPath(Paths.namespaceByRepo, {
+                            repo: this.context.selectedRepo,
+                            namespace: namespace.name,
+                        }, { tab: 'owners' })
                         : null,
                 }
                 : null,
@@ -262,7 +268,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         });
                     }, canEditOwners: canEditOwners, groupId: params.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', reload: function () { return _this.load(); }, selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateGroups: function (groups) {
                         return MyNamespaceAPI.update(namespace.name, __assign(__assign({}, namespace), { groups: groups }));
-                    }, urlPrefix: formatPath(Paths.myCollections, {
+                    }, urlPrefix: formatPath(Paths.namespaceByRepo, {
+                        repo: this.context.selectedRepo,
                         namespace: namespace.name,
                     }) })) : null),
             canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () {
