@@ -146,7 +146,8 @@ var NamespaceList = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
-                        redirect: formatPath(Paths.myCollections, {
+                        redirect: formatPath(Paths.namespaceByRepo, {
+                            repo: 'published',
                             namespace: result.name,
                         }, { tab: 'owners' }),
                     });
