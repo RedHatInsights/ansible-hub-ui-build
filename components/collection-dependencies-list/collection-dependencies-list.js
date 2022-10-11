@@ -36,9 +36,9 @@ var CollectionDependenciesList = /** @class */ (function (_super) {
         }
         return (React.createElement(List, { variant: ListVariant.inline, className: 'hub-c-list-dependencies' }, dependencies_repos.map(function (dependency, i) { return (React.createElement(React.Fragment, null,
             dependency.path && (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
-                React.createElement(Link, { to: dependency.path }, dependency.name))),
+                React.createElement(Link, { to: dependency.path }, dependency.namespace + '.' + dependency.name))),
             !dependency.path && (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
-                dependency.name,
+                dependency.namespace + '.' + dependency.name,
                 React.createElement(HelperText, { content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection was not found in the system. You must upload it."], ["Collection was not found in the system. You must upload it."]))) }))))); })));
     };
     return CollectionDependenciesList;

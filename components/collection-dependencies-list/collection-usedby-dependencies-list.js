@@ -67,7 +67,7 @@ var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
                                         namespace: namespace,
                                         repo: repository_list[0],
                                     }, ParamHelper.getReduced({ version: version }, _this.ignoredParams)) },
-                                    name,
+                                    namespace + '.' + name,
                                     " v",
                                     version))));
                     }))),
