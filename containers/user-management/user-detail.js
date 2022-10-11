@@ -49,10 +49,9 @@ var UserDetail = /** @class */ (function (_super) {
     }
     UserDetail.prototype.componentDidMount = function () {
         var _this = this;
+        var _a = this.context, hasPermission = _a.hasPermission, user = _a.user;
         var id = this.props.match.params['userID'];
-        if (!this.context.user ||
-            this.context.user.is_anonymous ||
-            !this.context.user.model_permissions.view_user) {
+        if (!user || user.is_anonymous || !hasPermission('galaxy.view_user')) {
             this.setState({ unauthorised: true });
         }
         else {
@@ -67,7 +66,7 @@ var UserDetail = /** @class */ (function (_super) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
         var _a = this.state, userDetail = _a.userDetail, errorMessages = _a.errorMessages, alerts = _a.alerts, showDeleteModal = _a.showDeleteModal, unauthorised = _a.unauthorised;
-        var user = this.context.user;
+        var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         if (unauthorised) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
@@ -90,12 +89,12 @@ var UserDetail = /** @class */ (function (_super) {
                     });
                 } }),
             React.createElement(UserFormPage, { user: userDetail, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user) { return _this.setState({ userDetail: user }); }, isReadonly: true, extraControls: React.createElement("div", { style: { display: 'flex', justifyContent: 'flex-end' } },
-                    !!user && user.model_permissions.change_user ? (React.createElement("div", null,
+                    !!user && hasPermission('galaxy.change_user') ? (React.createElement("div", null,
                         React.createElement(Link, { to: formatPath(Paths.editUser, {
                                 userID: userDetail.id,
                             }) },
                             React.createElement(Button, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"]))))))) : null,
-                    !!user && user.model_permissions.delete_user ? (React.createElement("div", { style: { marginLeft: '8px' } },
+                    !!user && hasPermission('galaxy.delete_user') ? (React.createElement("div", { style: { marginLeft: '8px' } },
                         React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.setState({ showDeleteModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Delete"], ["Delete"])))))) : null) })));
     };
     Object.defineProperty(UserDetail.prototype, "closeAlert", {

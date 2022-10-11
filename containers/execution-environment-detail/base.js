@@ -103,6 +103,7 @@ export function withContainerRepo(WrappedComponent) {
                 var permissions = this.state.repo.namespace.my_permissions;
                 var showEdit = permissions.includes('container.namespace_change_containerdistribution') || permissions.includes('container.change_containernamespace');
                 var canSync = permissions.includes('container.change_containernamespace');
+                var hasPermission = this.context.hasPermission;
                 var dropdownItems = [
                     this.state.repo.pulp.repository.remote && canSync && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); }, isDisabled: ['running', 'waiting'].includes((_b = (_a = this.state.repo.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) === null || _b === void 0 ? void 0 : _b.state) }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
                     React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
@@ -112,7 +113,7 @@ export function withContainerRepo(WrappedComponent) {
                                 },
                             });
                         } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-                    this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+                    hasPermission('container.delete_containerrepository') && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                             _this.setState({ showDeleteModal: true });
                         } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete"], ["Delete"]))))),
                     this.state.repo && canSignEE(this.context, this.state.repo) && (React.createElement(DropdownItem, { key: 'sign', onClick: function () {

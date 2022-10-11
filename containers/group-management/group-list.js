@@ -67,7 +67,8 @@ var GroupList = /** @class */ (function (_super) {
         return _this;
     }
     GroupList.prototype.componentDidMount = function () {
-        if (!this.context.user || !this.context.user.model_permissions.view_group) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user || !hasPermission('galaxy.view_group')) {
             this.setState({ unauthorized: true });
         }
         else {
@@ -77,7 +78,7 @@ var GroupList = /** @class */ (function (_super) {
     GroupList.prototype.render = function () {
         var _this = this;
         var _a = this.state, redirect = _a.redirect, itemCount = _a.itemCount, params = _a.params, loading = _a.loading, createModalVisible = _a.createModalVisible, deleteModalVisible = _a.deleteModalVisible, editModalVisible = _a.editModalVisible, alerts = _a.alerts, groups = _a.groups, unauthorized = _a.unauthorized;
-        var user = this.context.user;
+        var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         var noData = groups.length === 0 && !filterIsSet(params, ['name__icontains']);
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
@@ -89,7 +90,7 @@ var GroupList = /** @class */ (function (_super) {
             editModalVisible ? this.renderEditModal() : null,
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Groups"], ["Groups"]))) }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No groups yet"], ["No groups yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups will appear once created"], ["Groups will appear once created"]))), button: !!user &&
-                    user.model_permissions.add_group && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
+                    hasPermission('galaxy.add_group') && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ createModalVisible: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Create"], ["Create"]))))) })) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'hub-list-toolbar' },
                         React.createElement(Toolbar, null,
@@ -104,7 +105,7 @@ var GroupList = /** @class */ (function (_super) {
                                                     title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Group name"], ["Group name"]))),
                                                 },
                                             ] }))),
-                                !!user && user.model_permissions.add_group && (React.createElement(ToolbarGroup, null,
+                                !!user && hasPermission('galaxy.add_group') && (React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
                                         React.createElement(Button, { onClick: function () {
                                                 return _this.setState({ createModalVisible: true });
@@ -140,7 +141,8 @@ var GroupList = /** @class */ (function (_super) {
         var _this = this;
         var name = this.state.selectedGroup && this.state.selectedGroup.name;
         var _a = this.state, users = _a.deleteModalUsers, count = _a.deleteModalCount;
-        var view_user = this.context.user.model_permissions.view_user;
+        var hasPermission = this.context.hasPermission;
+        var view_user = hasPermission('galaxy.view_user').view_user;
         if (!users && view_user) {
             this.queryUsers();
         }
@@ -247,9 +249,9 @@ var GroupList = /** @class */ (function (_super) {
     };
     GroupList.prototype.renderTableRow = function (group, index) {
         var _this = this;
-        var user = this.context.user;
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
         var dropdownItems = [
-            !!user && user.model_permissions.delete_group && (React.createElement(DropdownItem, { "aria-label": 'Delete', key: 'delete', onClick: function () {
+            !!user && hasPermission('galaxy.delete_group') && (React.createElement(DropdownItem, { "aria-label": 'Delete', key: 'delete', onClick: function () {
                     _this.setState({
                         selectedGroup: group,
                         deleteModalVisible: true,

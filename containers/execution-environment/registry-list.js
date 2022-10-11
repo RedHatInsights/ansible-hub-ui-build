@@ -87,8 +87,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         if (this.context.user.is_anonymous) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
-        var addButton = this.context.user.model_permissions
-            .add_containerregistry ? (React.createElement(Button, { onClick: function () {
+        var hasPermission = this.context.hasPermission;
+        var addButton = hasPermission('galaxy.add_containerregistry') ? (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     remoteFormErrors: {},
                     remoteFormNew: true,
@@ -231,12 +231,13 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.renderTableRow = function (item, index) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         var buttons = [
-            this.context.user.model_permissions.change_containerregistry && (React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
+            hasPermission('galaxy.change_containerregistryremote') && (React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                 React.createElement(Trans, null, "Sync from registry"))),
         ];
         var dropdownItems = [
-            this.context.user.model_permissions.change_containerregistry && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+            hasPermission('galaxy.change_containerregistryremote') && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
                         remoteFormErrors: {},
                         remoteFormNew: false,
@@ -246,7 +247,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     });
                 } },
                 React.createElement(Trans, null, "Edit"))),
-            this.context.user.model_permissions.delete_containerregistry && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+            hasPermission('galaxy.delete_containerregistryremote') && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({
                         showDeleteModal: true,
                         remoteToEdit: item,

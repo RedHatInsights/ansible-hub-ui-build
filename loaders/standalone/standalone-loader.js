@@ -49,6 +49,7 @@ import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
 import { AboutModalWindow, UIVersion, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
+import { hasPermission } from 'src/utilities';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
 var App = /** @class */ (function (_super) {
@@ -253,9 +254,8 @@ var App = /** @class */ (function (_super) {
                     },
                 }),
                 menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approval"], ["Approval"]))), {
-                    condition: function (_a) {
-                        var user = _a.user;
-                        return user.model_permissions.move_collection;
+                    condition: function (params) {
+                        return hasPermission(params, 'ansible.modify_ansible_repo_content');
                     },
                     url: Paths.approvalDashboard,
                 }),
@@ -298,24 +298,15 @@ var App = /** @class */ (function (_super) {
             }),
             menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
                 menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
-                    condition: function (_a) {
-                        var user = _a.user;
-                        return user.model_permissions.view_user;
-                    },
+                    condition: function (params) { return hasPermission(params, 'galaxy.view_user'); },
                     url: Paths.userList,
                 }),
                 menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
-                    condition: function (_a) {
-                        var user = _a.user;
-                        return user.model_permissions.view_group;
-                    },
+                    condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
                     url: Paths.groupList,
                 }),
                 menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
-                    condition: function (_a) {
-                        var user = _a.user;
-                        return user.model_permissions.view_group;
-                    },
+                    condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
                     url: Paths.roleList,
                 }),
             ]),
@@ -345,6 +336,7 @@ var App = /** @class */ (function (_super) {
         });
     };
     App.prototype.ctx = function (component) {
+        var _this = this;
         return (React.createElement(AppContext.Provider, { value: {
                 alerts: this.state.alerts,
                 featureFlags: this.state.featureFlags,
@@ -354,6 +346,13 @@ var App = /** @class */ (function (_super) {
                 setUser: this.setUser,
                 settings: this.state.settings,
                 user: this.state.user,
+                hasPermission: function (name) {
+                    return hasPermission({
+                        user: _this.state.user,
+                        settings: _this.state.settings,
+                        featureFlags: _this.state.featureFlags,
+                    }, name);
+                },
             } },
             component,
             React.createElement(UIVersion, null)));

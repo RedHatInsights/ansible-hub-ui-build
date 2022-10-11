@@ -203,7 +203,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'group',
             'view_type',
         ];
-        var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || this.context.user.model_permissions.change_namespace;
+        var hasPermission = this.context.hasPermission;
+        var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || hasPermission('galaxy.change_namespace');
         // remove ?group (owners tab) when switching tabs
         var tabParams = __assign({}, params);
         delete tabParams.group;
@@ -461,11 +462,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _a;
         var _b = this.state, canSign = _b.canSign, collections = _b.collections;
         var can_upload_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).can_upload_signatures;
+        var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
                     }) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+            hasPermission('galaxy.delete_namespace') && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
                     "Cannot delete namespace until ",
                     React.createElement("br", null),
                     "collections' dependencies have ",
@@ -510,11 +512,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderCollectionControls = function (collection) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
             React.createElement(Button, { onClick: function () { return _this.handleCollectionAction(collection.id, 'upload'); }, variant: 'secondary' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
             React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                        canDeleteCollection: hasPermission('ansible.delete_collection'),
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({

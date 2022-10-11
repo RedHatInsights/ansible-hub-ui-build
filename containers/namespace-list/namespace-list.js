@@ -128,13 +128,12 @@ var NamespaceList = /** @class */ (function (_super) {
     };
     NamespaceList.prototype.render = function () {
         var _this = this;
-        var _a;
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount, loading = _b.loading, inputText = _b.inputText;
+        var _a = this.state, namespaces = _a.namespaces, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, inputText = _a.inputText;
         var filterOwner = this.props.filterOwner;
-        var _c = this.context, user = _c.user, alerts = _c.alerts;
+        var _b = this.context, alerts = _b.alerts, hasPermission = _b.hasPermission;
         var noData = !filterIsSet(this.state.params, ['keywords']) &&
             namespaces !== undefined &&
             namespaces.length === 0;
@@ -187,7 +186,7 @@ var NamespaceList = /** @class */ (function (_super) {
                                         ], params: params, updateParams: function (p) {
                                             return _this.updateParams(p, function () { return _this.loadNamespaces(); });
                                         } })),
-                                ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) && (React.createElement(ToolbarItem, { key: 'create-button' },
+                                hasPermission('galaxy.add_namespace') && (React.createElement(ToolbarItem, { key: 'create-button' },
                                     React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                     React.createElement("div", null,
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -201,14 +200,13 @@ var NamespaceList = /** @class */ (function (_super) {
     };
     NamespaceList.prototype.renderBody = function () {
         var _this = this;
-        var _a;
-        var _b = this.state, namespaces = _b.namespaces, loading = _b.loading;
-        var _c = this.props, namespacePath = _c.namespacePath, filterOwner = _c.filterOwner;
-        var user = this.context.user;
+        var _a = this.state, namespaces = _a.namespaces, loading = _a.loading;
+        var _b = this.props, namespacePath = _b.namespacePath, filterOwner = _b.filterOwner;
+        var hasPermission = this.context.hasPermission;
         var noDataTitle = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
         var noDataDescription = !filterOwner
             ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
-        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
+        var noDataButton = hasPermission('galaxy.add_namespace') ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
         if (loading) {
             return (React.createElement("section", null,
                 React.createElement(LoadingPageSpinner, null),

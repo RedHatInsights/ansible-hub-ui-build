@@ -71,9 +71,10 @@ var CertificationDashboard = /** @class */ (function (_super) {
         return _this;
     }
     CertificationDashboard.prototype.componentDidMount = function () {
-        if (!this.context.user ||
-            this.context.user.is_anonymous ||
-            !this.context.user.model_permissions.move_collection) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user ||
+            user.is_anonymous ||
+            !hasPermission('ansible.modify_ansible_repo_content')) {
             this.setState({ unauthorized: true });
         }
         else {

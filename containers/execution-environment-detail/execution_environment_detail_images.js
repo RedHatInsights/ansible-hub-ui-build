@@ -205,6 +205,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags, cols) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         var manifestLink = function (digestOrTag) {
             return formatPath(Paths.executionEnvironmentManifest, {
                 container: _this.props.match.params['container'],
@@ -241,7 +242,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
+            hasPermission('container.delete_containerrepository') && (React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
                     _this.setState({ deleteModalVisible: true, selectedImage: image });
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });
