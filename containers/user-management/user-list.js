@@ -77,7 +77,8 @@ var UserList = /** @class */ (function (_super) {
         return _this;
     }
     UserList.prototype.componentDidMount = function () {
-        if (!this.context.user || !this.context.user.model_permissions.view_user) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user || !hasPermission('galaxy.view_user')) {
             this.setState({ unauthorized: true });
         }
         else {
@@ -87,7 +88,7 @@ var UserList = /** @class */ (function (_super) {
     UserList.prototype.render = function () {
         var _this = this;
         var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, redirect = _a.redirect, showDeleteModal = _a.showDeleteModal, deleteUser = _a.deleteUser, alerts = _a.alerts, unauthorized = _a.unauthorized;
-        var user = this.context.user;
+        var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
@@ -131,7 +132,7 @@ var UserList = /** @class */ (function (_super) {
                                                     title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Email"], ["Email"]))),
                                                 },
                                             ] }))),
-                                !!user && user.model_permissions.add_user ? (React.createElement(ToolbarGroup, null,
+                                !!user && hasPermission('galaxy.add_user') ? (React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
                                         React.createElement(Link, { to: Paths.createUser },
                                             React.createElement(Button, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))))))) : null)),
@@ -213,14 +214,13 @@ var UserList = /** @class */ (function (_super) {
     UserList.prototype.renderTableRow = function (user, index) {
         var _this = this;
         var dropdownItems = [];
-        if (!!this.context.user &&
-            this.context.user.model_permissions.change_user) {
+        var hasPermission = this.context.hasPermission;
+        if (!!this.context.user && hasPermission('galaxy.change_user')) {
             dropdownItems.push(React.createElement(DropdownItem, { key: 'edit', component: React.createElement(Link, { to: formatPath(Paths.editUser, {
                         userID: user.id,
                     }) }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Edit"], ["Edit"])))) }));
         }
-        if (!!this.context.user &&
-            this.context.user.model_permissions.delete_user) {
+        if (!!this.context.user && hasPermission('galaxy.delete_user')) {
             dropdownItems.push(React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.deleteUser(user); } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Delete"], ["Delete"])))));
         }
         return (React.createElement("tr", { "data-cy": "UserList-row-".concat(user.username), key: index },

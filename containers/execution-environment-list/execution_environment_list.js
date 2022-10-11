@@ -93,9 +93,8 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentList.prototype.render = function () {
         var _this = this;
-        var _a;
-        var _b = this.state, alerts = _b.alerts, itemCount = _b.itemCount, itemToEdit = _b.itemToEdit, items = _b.items, loading = _b.loading, params = _b.params, publishToController = _b.publishToController, showRemoteModal = _b.showRemoteModal, unauthorized = _b.unauthorized, showDeleteModal = _b.showDeleteModal, selectedItem = _b.selectedItem;
-        var user = this.context.user;
+        var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, itemToEdit = _a.itemToEdit, items = _a.items, loading = _a.loading, params = _a.params, publishToController = _a.publishToController, showRemoteModal = _a.showRemoteModal, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, selectedItem = _a.selectedItem;
+        var hasPermission = this.context.hasPermission;
         var noData = items.length === 0 && !filterIsSet(params, ['name__icontains']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
                 return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
@@ -103,7 +102,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             React.createElement(Trans, null, "Push container images"),
             " ",
             React.createElement(ExternalLinkAltIcon, null)));
-        var addRemoteButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_containernamespace) && (React.createElement(Button, { onClick: function () {
+        var addRemoteButton = hasPermission('container.add_containernamespace') && (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     showRemoteModal: true,
                     itemToEdit: {},
@@ -215,6 +214,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var permissions = item.namespace.my_permissions;
         var canEdit = permissions.includes('container.change_containernamespace') ||
             permissions.includes('container.namespace_change_containerdistribution');
+        var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             canEdit && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
@@ -230,7 +230,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+            hasPermission('container.delete_containerrepository') && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({ selectedItem: item, showDeleteModal: true });
                 } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });

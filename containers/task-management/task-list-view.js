@@ -67,14 +67,14 @@ var TaskListView = /** @class */ (function (_super) {
         return _this;
     }
     TaskListView.prototype.componentDidMount = function () {
-        var _a, _b;
-        if (!this.context.user || this.context.user.is_anonymous) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user || user.is_anonymous) {
             this.setState({ loading: false, unauthorised: true });
         }
         else {
             this.queryTasks();
         }
-        if (!((_b = (_a = this.context.user) === null || _a === void 0 ? void 0 : _a.model_permissions) === null || _b === void 0 ? void 0 : _b.view_task)) {
+        if (!hasPermission('core.view_task')) {
             this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have permission to view all tasks. Only tasks created by you are visible."], ["You do not have permission to view all tasks. Only tasks created by you are visible."]))), 'info');
         }
     };

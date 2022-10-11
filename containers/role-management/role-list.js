@@ -66,11 +66,13 @@ var RoleList = /** @class */ (function (_super) {
                         roleToEdit: role,
                     });
                 } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Delete"], ["Delete"])))));
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            var hasPermission = _this.context.hasPermission;
             var dropdownItems = _this.context.user.is_superuser
                 ? [
-                    // this.context.user.model_permissions.change_containerregistry &&
+                    // hasPermission('galaxy.change_containerregistryremote') &&
                     locked ? (React.createElement(Tooltip, { key: 'edit', content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Built-in roles cannot be edited."], ["Built-in roles cannot be edited."]))) }, editItem)) : (editItem),
-                    // this.context.user.model_permissions.delete_containerregistry &&
+                    // hasPermission('galaxy.delete_containerregistryremote') &&
                     locked ? (React.createElement(Tooltip, { key: 'delete', content: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Built-in roles cannot be deleted."], ["Built-in roles cannot be deleted."]))) }, deleteItem)) : (deleteItem),
                 ]
                 : null;
