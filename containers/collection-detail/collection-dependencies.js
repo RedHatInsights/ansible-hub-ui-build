@@ -135,9 +135,12 @@ var CollectionDependencies = /** @class */ (function (_super) {
         var promises = [];
         Object.keys(dependencies).forEach(function (dependency) {
             var _a = dependency.split('.'), namespace = _a[0], collection = _a[1];
+            var version = dependencies[dependency];
+            version = _this.separateVersion(version).version;
             var dependency_repo = {
                 name: collection,
                 namespace: namespace,
+                version: version,
                 repo: '',
                 path: '',
             };
@@ -150,19 +153,18 @@ var CollectionDependencies = /** @class */ (function (_super) {
         });
     };
     CollectionDependencies.prototype.loadDependencyRepo = function (dependency_repo) {
-        var _this = this;
         return CollectionVersionAPI.list({
             namespace: dependency_repo.namespace,
             name: dependency_repo.name,
+            version: dependency_repo.version,
         })
             .then(function (result) {
             dependency_repo.repo = result.data.data[0].repository_list[0];
-            var dependencies = _this.state.collection.latest_version.metadata.dependencies;
             dependency_repo.path = formatPath(Paths.collectionByRepo, {
                 collection: dependency_repo.name,
                 namespace: dependency_repo.namespace,
                 repo: dependency_repo.repo,
-            }, _this.separateVersion(dependencies[dependency_repo.namespace + '.' + dependency_repo.name]));
+            }, dependency_repo.version);
         })
             .catch(function () {
             // do nothing, dependency_repo.path and repo stays empty

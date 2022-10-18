@@ -39,7 +39,7 @@ var CollectionDependenciesList = /** @class */ (function (_super) {
                 React.createElement(Link, { to: dependency.path }, dependency.namespace + '.' + dependency.name))),
             !dependency.path && (React.createElement(ListItem, { key: i, style: { marginRight: '70px' } },
                 dependency.namespace + '.' + dependency.name,
-                React.createElement(HelperText, { content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection was not found in the system. You must upload it."], ["Collection was not found in the system. You must upload it."]))) }))))); })));
+                React.createElement(HelperText, { content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection version ", " was not found in the system. You must upload it."], ["Collection version ", " was not found in the system. You must upload it."])), dependency.version) }))))); })));
     };
     return CollectionDependenciesList;
 }(React.Component));
