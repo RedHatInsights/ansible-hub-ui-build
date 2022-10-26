@@ -100,7 +100,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     namespaceBreadcrumb,
                     {
                         name: namespace.name,
-                        url: formatPath(Paths.myCollections, {
+                        url: formatPath(Paths.namespaceByRepo, {
+                            repo: this.context.selectedRepo,
                             namespace: namespace.name,
                         }),
                     },
@@ -166,7 +167,8 @@ var EditNamespace = /** @class */ (function (_super) {
                     errorMessages: {},
                     saving: false,
                     unsavedData: false,
-                    redirect: formatPath(Paths.myCollections, {
+                    redirect: formatPath(Paths.namespaceByRepo, {
+                        repo: _this.context.selectedRepo,
                         namespace: _this.state.namespace.name,
                     }),
                 }, function () {
@@ -211,7 +213,8 @@ var EditNamespace = /** @class */ (function (_super) {
     });
     EditNamespace.prototype.cancel = function () {
         this.setState({
-            redirect: formatPath(Paths.myCollections, {
+            redirect: formatPath(Paths.namespaceByRepo, {
+                repo: this.context.selectedRepo,
                 namespace: this.state.namespace.name,
             }),
         });

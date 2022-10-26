@@ -168,14 +168,20 @@ var NamespaceDetail = /** @class */ (function (_super) {
             {
                 name: namespace.name,
                 url: tab === 'owners'
-                    ? formatPath(Paths.myCollections, { namespace: namespace.name })
+                    ? formatPath(Paths.namespaceByRepo, {
+                        repo: this.context.selectedRepo,
+                        namespace: namespace.name,
+                    })
                     : null,
             },
             tab === 'owners'
                 ? {
                     name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))),
                     url: params.group
-                        ? formatPath(Paths.myCollections, { namespace: namespace.name }, { tab: 'owners' })
+                        ? formatPath(Paths.namespaceByRepo, {
+                            repo: this.context.selectedRepo,
+                            namespace: namespace.name,
+                        }, { tab: 'owners' })
                         : null,
                 }
                 : null,
@@ -197,7 +203,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'group',
             'view_type',
         ];
-        var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || this.context.user.model_permissions.change_namespace;
+        var hasPermission = this.context.hasPermission;
+        var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || hasPermission('galaxy.change_namespace');
+        // remove ?group (owners tab) when switching tabs
+        var tabParams = __assign({}, params);
+        delete tabParams.group;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -230,7 +240,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             " and its data will be lost.")),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
-            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
+            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
                         React.createElement("div", { className: 'hub-pagination-container' },
@@ -259,7 +269,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         });
                     }, canEditOwners: canEditOwners, groupId: params.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', reload: function () { return _this.load(); }, selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateGroups: function (groups) {
                         return MyNamespaceAPI.update(namespace.name, __assign(__assign({}, namespace), { groups: groups }));
-                    }, urlPrefix: formatPath(Paths.myCollections, {
+                    }, urlPrefix: formatPath(Paths.namespaceByRepo, {
+                        repo: this.context.selectedRepo,
                         namespace: namespace.name,
                     }) })) : null),
             canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () {
@@ -322,8 +333,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             if (status === void 0) { status = 500; }
             return ({
                 variant: 'danger',
-                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                description: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                description: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
             });
         };
         this.setState({
@@ -451,11 +462,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _a;
         var _b = this.state, canSign = _b.canSign, collections = _b.collections;
         var can_upload_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).can_upload_signatures;
+        var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
                     }) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            this.context.user.model_permissions.delete_namespace && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+            hasPermission('galaxy.delete_namespace') && (React.createElement(React.Fragment, { key: '2' }, this.state.isNamespaceEmpty ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
                     "Cannot delete namespace until ",
                     React.createElement("br", null),
                     "collections' dependencies have ",
@@ -500,11 +512,12 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderCollectionControls = function (collection) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
             React.createElement(Button, { onClick: function () { return _this.handleCollectionAction(collection.id, 'upload'); }, variant: 'secondary' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
             React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                        canDeleteCollection: hasPermission('ansible.delete_collection'),
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({

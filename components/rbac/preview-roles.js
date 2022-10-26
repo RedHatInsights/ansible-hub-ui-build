@@ -3,6 +3,7 @@ import React from 'react';
 import { Flex, FlexItem, Label, Divider } from '@patternfly/react-core';
 import { Tooltip } from 'src/components';
 import { Constants } from 'src/constants';
+import { translateLockedRolesDescription } from 'src/utilities';
 var splitByDot = function (perm) {
     var _a = perm.split('.', 2), category = _a[0], permission = _a[1];
     var catTitle = category.charAt(0).toUpperCase() + category.slice(1);
@@ -25,7 +26,8 @@ export var PreviewRoles = function (_a) {
             React.createElement(FlexItem, null,
                 React.createElement("strong", null, role.name),
                 ' ',
-                (role === null || role === void 0 ? void 0 : role.description) && "- ".concat(role === null || role === void 0 ? void 0 : role.description),
+                (role === null || role === void 0 ? void 0 : role.description) &&
+                    "- ".concat(translateLockedRolesDescription(role.name, role.description)),
                 React.createElement(Flex, { className: 'hub-permissions' }, role.permissions.map(function (permission) { return (React.createElement(FlexItem, { key: permission, className: 'hub-permission', "data-cy": "HubPermission-".concat(permission) },
                     React.createElement(Tooltip, { content: Constants.HUMAN_PERMISSIONS[permission] || permission },
                         React.createElement(Label, null, splitByDot(permission))))); }))),

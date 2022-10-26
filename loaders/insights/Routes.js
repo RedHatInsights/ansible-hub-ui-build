@@ -93,6 +93,11 @@ var Repository = lazy(function () {
     /* webpackChunkName: "repository-list" */
     '../../containers/repositories/repository-list');
 });
+var SignatureKeysList = lazy(function () {
+    return import(
+    /* webpackChunkName: "signature-keys-list" */
+    '../../containers/signature-keys/list');
+});
 /**
  * the Switch component changes routes depending on the path.
  *
@@ -113,6 +118,7 @@ export var Routes = function () {
             React.createElement(Route, { path: Paths.myCollections, component: ManageNamespace }),
             React.createElement(Route, { path: Paths.myCollectionsByRepo, component: ManageNamespace }),
             React.createElement(Route, { path: Paths.myNamespaces, component: MyNamespaces }),
+            React.createElement(Route, { path: Paths.signatureKeys, component: SignatureKeysList }),
             React.createElement(Route, { path: Paths.taskList, component: TaskListView }),
             React.createElement(Route, { path: Paths.taskDetail, component: TaskDetail }),
             React.createElement(Route, { path: Paths.collectionDocsPageByRepo, component: CollectionDocs }),

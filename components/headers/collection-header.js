@@ -98,8 +98,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === void 0) { status = 500; }
                 return ({
                     variant: 'danger',
-                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                    description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to sign all versions in the collection."], ["Failed to sign all versions in the collection."]))),
+                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to sign all versions in the collection."], ["Failed to sign all versions in the collection."]))),
+                    description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
                 });
             };
             _this.setState({
@@ -146,8 +146,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 if (status === void 0) { status = 500; }
                 return ({
                     variant: 'danger',
-                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
-                    description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed to sign the version."], ["Failed to sign the version."]))),
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Failed to sign the version."], ["Failed to sign the version."]))),
+                    description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
                 });
             };
             _this.setState({
@@ -351,13 +351,14 @@ var CollectionHeader = /** @class */ (function (_super) {
             return React.createElement(Redirect, { push: true, to: redirect });
         }
         var canSign = canSignNS(this.context, namespace);
+        var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                canDeleteCollection: hasPermission('ansible.delete_collection'),
                 noDependencies: noDependencies,
                 onClick: function () { return _this.openDeleteModalWithConfirm(); },
             }),
-            this.context.user.model_permissions.delete_collection && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () {
+            hasPermission('ansible.delete_collection') && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () {
                     return _this.openDeleteModalWithConfirm(collection.latest_version.version);
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", ""], ["Delete version ", ""])), collection.latest_version.version))),
             canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),

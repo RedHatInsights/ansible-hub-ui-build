@@ -157,7 +157,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     return _this.queryImages(_this.props.containerRepository.name);
                 }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) { return _this.props.addAlert(alert); }, containerRepository: this.props.containerRepository }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-            React.createElement("div", { className: 'detail-images-toolbar toolbar' },
+            React.createElement("div", { className: 'hub-toolbar toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
@@ -205,6 +205,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags, cols) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         var manifestLink = function (digestOrTag) {
             return formatPath(Paths.executionEnvironmentManifest, {
                 container: _this.props.match.params['container'],
@@ -241,7 +242,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         },
                     });
                 } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Use in Controller"], ["Use in Controller"])))),
-            this.context.user.model_permissions.delete_containerrepository && (React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
+            hasPermission('container.delete_containerrepository') && (React.createElement(DropdownItem, { key: 'delete-image', onClick: function () {
                     _this.setState({ deleteModalVisible: true, selectedImage: image });
                 } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete"], ["Delete"]))))),
         ].filter(function (truthy) { return truthy; });

@@ -65,13 +65,14 @@ var ExecutionEnvironmentDetailOwners = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailOwners.prototype.queryNamespace = function (name) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         ExecutionEnvironmentNamespaceAPI.get(name).then(function (_a) {
             var _b = _a.data, groups = _b.groups, my_permissions = _b.my_permissions;
             return _this.setState({
                 name: name,
                 groups: groups,
                 canEditOwners: my_permissions.includes('container.change_containernamespace') ||
-                    _this.context.user.model_permissions.change_containernamespace,
+                    hasPermission('container.change_containernamespace'),
             });
         });
     };

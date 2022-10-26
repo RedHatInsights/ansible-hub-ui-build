@@ -67,14 +67,14 @@ var TaskListView = /** @class */ (function (_super) {
         return _this;
     }
     TaskListView.prototype.componentDidMount = function () {
-        var _a, _b;
-        if (!this.context.user || this.context.user.is_anonymous) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user || user.is_anonymous) {
             this.setState({ loading: false, unauthorised: true });
         }
         else {
             this.queryTasks();
         }
-        if (!((_b = (_a = this.context.user) === null || _a === void 0 ? void 0 : _a.model_permissions) === null || _b === void 0 ? void 0 : _b.view_task)) {
+        if (!hasPermission('core.view_task')) {
             this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have permission to view all tasks. Only tasks created by you are visible."], ["You do not have permission to view all tasks. Only tasks created by you are visible."]))), 'info');
         }
     };
@@ -87,7 +87,7 @@ var TaskListView = /** @class */ (function (_super) {
             cancelModalVisible ? this.renderCancelModal() : null,
             React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
             unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-task-list' },
+                React.createElement("div", { className: 'hub-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -95,8 +95,7 @@ var TaskListView = /** @class */ (function (_super) {
                                     React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
                                             return _this.setState({ inputText: text });
                                         }, updateParams: function (p) {
-                                            p['page'] = 1;
-                                            _this.updateParams(p, function () { return _this.queryTasks(); });
+                                            return _this.updateParams(p, function () { return _this.queryTasks(); });
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__contains',
@@ -178,10 +177,7 @@ var TaskListView = /** @class */ (function (_super) {
             ],
         };
         return (React.createElement("table", { "aria-label": t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'hub-c-table-content pf-c-table' },
-            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
-                    p['page'] = 1;
-                    _this.updateParams(p, function () { return _this.queryTasks(); });
-                } }),
+            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryTasks(); }); } }),
             React.createElement("tbody", null, items.map(function (item, i) { return _this.renderTableRow(item, i); }))));
     };
     TaskListView.prototype.renderTableRow = function (item, index) {
