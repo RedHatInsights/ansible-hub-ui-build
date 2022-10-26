@@ -44,7 +44,7 @@ import { AppContext } from 'src/loaders/app-context';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
 import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, PermissionChipSelector, DateComponent, } from 'src/components';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Flex, FlexItem, Tooltip, } from '@patternfly/react-core';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, twoWayMapper, } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, twoWayMapper, translateLockedRolesDescription, } from 'src/utilities';
 import { RoleAPI } from 'src/api/role';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
@@ -66,11 +66,13 @@ var RoleList = /** @class */ (function (_super) {
                         roleToEdit: role,
                     });
                 } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Delete"], ["Delete"])))));
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            var hasPermission = _this.context.hasPermission;
             var dropdownItems = _this.context.user.is_superuser
                 ? [
-                    // this.context.user.model_permissions.change_containerregistry &&
+                    // hasPermission('galaxy.change_containerregistryremote') &&
                     locked ? (React.createElement(Tooltip, { key: 'edit', content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Built-in roles cannot be edited."], ["Built-in roles cannot be edited."]))) }, editItem)) : (editItem),
-                    // this.context.user.model_permissions.delete_containerregistry &&
+                    // hasPermission('galaxy.delete_containerregistryremote') &&
                     locked ? (React.createElement(Tooltip, { key: 'delete', content: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Built-in roles cannot be deleted."], ["Built-in roles cannot be deleted."]))) }, deleteItem)) : (deleteItem),
                 ]
                 : null;
@@ -207,7 +209,7 @@ var RoleList = /** @class */ (function (_super) {
                     React.createElement("p", null, "This will also remove all associated permissions under this role.")))),
             React.createElement(BaseHeader, { title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))) }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["There are currently no roles"], ["There are currently no roles"]))), description: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Please add a role by using the button below."], ["Please add a role by using the button below."]))), button: addRoles })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'role-list' },
+                React.createElement("div", { className: 'hub-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -215,8 +217,7 @@ var RoleList = /** @class */ (function (_super) {
                                     React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
                                             return _this.setState({ inputText: text });
                                         }, updateParams: function (p) {
-                                            p['page'] = 1;
-                                            _this.updateParams(p, function () { return _this.queryRoles(); });
+                                            return _this.updateParams(p, function () { return _this.queryRoles(); });
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__icontains',
@@ -276,7 +277,7 @@ var RoleList = /** @class */ (function (_super) {
                                         return twoWayMapper(value, filteredPermissions);
                                     }), menuAppendTo: 'inline', multilingual: true, isViewOnly: true })))); })), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.name), colSpan: 6, rowIndex: i },
                         React.createElement("td", { "data-cy": 'name-field' }, role.name),
-                        React.createElement("td", null, role.description),
+                        React.createElement("td", null, translateLockedRolesDescription(role.name, role.description)),
                         React.createElement("td", null,
                             React.createElement(DateComponent, { date: role.pulp_created })),
                         React.createElement("td", null, role.locked ? (React.createElement(Tooltip, { content: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Built-in roles cannot be edited or deleted."], ["Built-in roles cannot be edited or deleted."]))) },

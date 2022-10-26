@@ -226,9 +226,10 @@ var Search = /** @class */ (function (_super) {
     };
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
+        var hasPermission = this.context.hasPermission;
         var menuItems = [
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: this.context.user.model_permissions.delete_collection,
+                canDeleteCollection: hasPermission('ansible.delete_collection'),
                 noDependencies: null,
                 onClick: function () {
                     return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({

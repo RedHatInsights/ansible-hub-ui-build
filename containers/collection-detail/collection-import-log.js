@@ -75,7 +75,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
                 }, breadcrumbs: breadcrumbs, activeTab: 'import-log', repo: this.context.selectedRepo }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(ImportConsole, { loading: loadingImports, task: selectedImportDetail, followMessages: false, setFollowMessages: function () { return null; }, selectedImport: selectedImport, apiError: apiError, hideCollectionName: true })))));
+                    React.createElement(ImportConsole, { empty: false, loading: loadingImports, task: selectedImportDetail, followMessages: false, setFollowMessages: function () { return null; }, selectedImport: selectedImport, apiError: apiError, hideCollectionName: true })))));
     };
     CollectionImportLog.prototype.loadData = function (forceReload) {
         var _this = this;

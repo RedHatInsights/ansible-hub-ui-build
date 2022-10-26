@@ -47,7 +47,6 @@ import { filterIsSet, ParamHelper } from 'src/utilities';
 import { formatPath, Paths } from 'src/paths';
 import { Button, DropdownItem, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
-import './group-management.scss';
 import GroupDetailRoleManagement from './group-detail-role-management/group-detail-role-management';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);
@@ -87,9 +86,8 @@ var GroupDetail = /** @class */ (function (_super) {
         return _this;
     }
     GroupDetail.prototype.componentDidMount = function () {
-        if (!this.context.user ||
-            this.context.user.is_anonymous ||
-            !this.context.user.model_permissions.view_group) {
+        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        if (!user || user.is_anonymous || !hasPermission('galaxy.view_group')) {
             this.setState({ unauthorised: true });
         }
         else {
@@ -102,9 +100,9 @@ var GroupDetail = /** @class */ (function (_super) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
         var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users, unauthorised = _a.unauthorised;
-        var user = this.context.user;
+        var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         var tabs = [{ id: 'access', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Access"], ["Access"]))) }];
-        if (!!user && user.model_permissions.view_user) {
+        if (!!user && hasPermission('galaxy.view_user')) {
             tabs.push({ id: 'users', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Users"], ["Users"]))) });
         }
         if (!group && alerts && alerts.length) {
@@ -138,8 +136,8 @@ var GroupDetail = /** @class */ (function (_super) {
     };
     GroupDetail.prototype.renderControls = function () {
         var _this = this;
-        var user = this.context.user;
-        if (!user || !user.model_permissions.delete_group) {
+        var _a = this.context, hasPermission = _a.hasPermission, user = _a.user;
+        if (!user || !hasPermission('galaxy.delete_group')) {
             return null;
         }
         return (React.createElement(ToolbarItem, null,
@@ -230,7 +228,8 @@ var GroupDetail = /** @class */ (function (_super) {
                 _this.addAlert(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Group \"", "\" could not be deleted."], ["Group \"", "\" could not be deleted."])), group), 'danger', errorMessage(status, statusText));
             });
         };
-        var view_user = this.context.user.model_permissions.view_user;
+        var hasPermission = this.context.hasPermission;
+        var view_user = hasPermission('galaxy.view_user').view_user;
         if (!users && view_user) {
             this.queryUsers();
         }
@@ -294,7 +293,7 @@ var GroupDetail = /** @class */ (function (_super) {
     GroupDetail.prototype.renderUsers = function (users) {
         var _this = this;
         var _a = this.state, itemCount = _a.itemCount, params = _a.params;
-        var _b = this.context, user = _b.user, featureFlags = _b.featureFlags;
+        var _b = this.context, user = _b.user, featureFlags = _b.featureFlags, hasPermission = _b.hasPermission;
         var noData = itemCount === 0 &&
             !filterIsSet(this.state.params, [
                 'username',
@@ -309,7 +308,7 @@ var GroupDetail = /** @class */ (function (_super) {
         }
         if (noData) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users will appear once added to this group"], ["Users will appear once added to this group"]))), button: !!user &&
-                    user.model_permissions.change_group &&
+                    hasPermission('galaxy.change_group') &&
                     !isUserMgmtDisabled && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Add"], ["Add"]))))) }));
         }
         return (React.createElement("section", { className: 'body' },
@@ -339,7 +338,7 @@ var GroupDetail = /** @class */ (function (_super) {
                                         },
                                     ] }))),
                         !!user &&
-                            user.model_permissions.change_group &&
+                            hasPermission('galaxy.change_group') &&
                             !isUserMgmtDisabled && (React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,
                                 React.createElement(Button, { onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Add"], ["Add"]))))))))),
@@ -408,11 +407,11 @@ var GroupDetail = /** @class */ (function (_super) {
     GroupDetail.prototype.renderTableRow = function (user, index) {
         var _this = this;
         var currentUser = this.context.user;
-        var featureFlags = this.context.featureFlags;
+        var _a = this.context, featureFlags = _a.featureFlags, hasPermission = _a.hasPermission;
         var isUserMgmtDisabled = featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.external_authentication;
         var dropdownItems = [
             !!currentUser &&
-                currentUser.model_permissions.change_group &&
+                hasPermission('galaxy.change_group') &&
                 !isUserMgmtDisabled && (React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ showUserRemoveModal: user }); } }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Remove"], ["Remove"]))))),
         ];
         return (React.createElement("tr", { "data-cy": "GroupDetail-users-".concat(user.username), key: index },
