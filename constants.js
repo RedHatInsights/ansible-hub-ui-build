@@ -239,9 +239,8 @@ var Constants = /** @class */ (function () {
         published: defineMessage({ message: "Published" }),
         'rh-certified': defineMessage({ message: "Red Hat Certified" }),
         community: defineMessage({ message: "Community" }),
-        validated: defineMessage({ message: "Validated" }),
     };
-    Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified', 'validated'];
+    Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified'];
     Constants.COLLECTION_FILTER_TAGS = [
         'application',
         'cloud',
@@ -356,27 +355,8 @@ var Constants = /** @class */ (function () {
         running: t(templateObject_68 || (templateObject_68 = __makeTemplateObject(["Running"], ["Running"]))),
         waiting: t(templateObject_69 || (templateObject_69 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
     };
-    Constants.LOCKED_ROLES_WITH_DESCRIPTION = {
-        // galaxy roles
-        'galaxy.content_admin': t(templateObject_70 || (templateObject_70 = __makeTemplateObject(["Manage all content types."], ["Manage all content types."]))),
-        'galaxy.collection_admin': t(templateObject_71 || (templateObject_71 = __makeTemplateObject(["Create, delete and change collection namespaces. Upload and delete collections. Sync collections from remotes. Approve and reject collections."], ["Create, delete and change collection namespaces. Upload and delete collections. Sync collections from remotes. Approve and reject collections."]))),
-        'galaxy.collection_publisher': t(templateObject_72 || (templateObject_72 = __makeTemplateObject(["Upload and modify collections."], ["Upload and modify collections."]))),
-        'galaxy.collection_curator': t(templateObject_73 || (templateObject_73 = __makeTemplateObject(["Approve, reject and sync collections from remotes."], ["Approve, reject and sync collections from remotes."]))),
-        'galaxy.collection_namespace_owner': t(templateObject_74 || (templateObject_74 = __makeTemplateObject(["Change and upload collections to namespaces."], ["Change and upload collections to namespaces."]))),
-        'galaxy.execution_environment_admin': t(templateObject_75 || (templateObject_75 = __makeTemplateObject(["Push, delete, and change execution environments. Create, delete and change remote registries."], ["Push, delete, and change execution environments. Create, delete and change remote registries."]))),
-        'galaxy.execution_environment_publisher': t(templateObject_76 || (templateObject_76 = __makeTemplateObject(["Push, and change execution environments."], ["Push, and change execution environments."]))),
-        'galaxy.execution_environment_namespace_owner': t(templateObject_77 || (templateObject_77 = __makeTemplateObject(["Create and update execution environments under existing container namespaces."], ["Create and update execution environments under existing container namespaces."]))),
-        'galaxy.execution_environment_collaborator': t(templateObject_78 || (templateObject_78 = __makeTemplateObject(["Change existing execution environments."], ["Change existing execution environments."]))),
-        'galaxy.group_admin': t(templateObject_79 || (templateObject_79 = __makeTemplateObject(["View, add, remove and change groups."], ["View, add, remove and change groups."]))),
-        'galaxy.user_admin': t(templateObject_80 || (templateObject_80 = __makeTemplateObject(["View, add, remove and change users."], ["View, add, remove and change users."]))),
-        'galaxy.synclist_owner': t(templateObject_81 || (templateObject_81 = __makeTemplateObject(["View, add, remove and change synclists."], ["View, add, remove and change synclists."]))),
-        'galaxy.task_admin': t(templateObject_82 || (templateObject_82 = __makeTemplateObject(["View, and cancel any task."], ["View, and cancel any task."]))),
-        // core roles
-        'core.task_owner': t(templateObject_83 || (templateObject_83 = __makeTemplateObject(["Allow all actions on a task."], ["Allow all actions on a task."]))),
-        'core.taskschedule_owner': t(templateObject_84 || (templateObject_84 = __makeTemplateObject(["Allow all actions on a taskschedule."], ["Allow all actions on a taskschedule."]))),
-    };
     return Constants;
 }());
 export { Constants };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50, templateObject_51, templateObject_52, templateObject_53, templateObject_54, templateObject_55, templateObject_56, templateObject_57, templateObject_58, templateObject_59, templateObject_60, templateObject_61, templateObject_62, templateObject_63, templateObject_64, templateObject_65, templateObject_66, templateObject_67, templateObject_68, templateObject_69, templateObject_70, templateObject_71, templateObject_72, templateObject_73, templateObject_74, templateObject_75, templateObject_76, templateObject_77, templateObject_78, templateObject_79, templateObject_80, templateObject_81, templateObject_82, templateObject_83, templateObject_84;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50, templateObject_51, templateObject_52, templateObject_53, templateObject_54, templateObject_55, templateObject_56, templateObject_57, templateObject_58, templateObject_59, templateObject_60, templateObject_61, templateObject_62, templateObject_63, templateObject_64, templateObject_65, templateObject_66, templateObject_67, templateObject_68, templateObject_69;
 //# sourceMappingURL=constants.js.map

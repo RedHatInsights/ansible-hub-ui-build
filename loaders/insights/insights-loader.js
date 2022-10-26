@@ -28,7 +28,6 @@ import { AppContext } from '../app-context';
 import { loadContext } from '../load-context';
 import { Paths } from 'src/paths';
 import { UIVersion } from 'src/components';
-import { hasPermission } from 'src/utilities';
 var DEFAULT_REPO = 'published';
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -108,7 +107,6 @@ var App = /** @class */ (function (_super) {
         }
     };
     App.prototype.render = function () {
-        var _this = this;
         // block the page from rendering if we're on a repo route and the repo in the
         // url doesn't match the current state
         // This gives componentDidUpdate a chance to recognize that route has chnaged
@@ -133,13 +131,6 @@ var App = /** @class */ (function (_super) {
                 setUser: this.setUser,
                 settings: this.state.settings,
                 user: this.state.user,
-                hasPermission: function (name) {
-                    return hasPermission({
-                        user: _this.state.user,
-                        settings: _this.state.settings,
-                        featureFlags: _this.state.featureFlags,
-                    }, name);
-                },
             } },
             React.createElement(Alert, { isInline: true, variant: 'info', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."], ["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."]))) }),
             React.createElement(Routes, { childProps: this.props }),

@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { TextInput, InputGroup, Button, ButtonVariant, DropdownItem, Select, SelectGroup, SelectOption, SelectVariant, } from '@patternfly/react-core';
@@ -121,11 +110,11 @@ var CompoundFilter = /** @class */ (function (_super) {
         }
     };
     CompoundFilter.prototype.submitMultiple = function (newValues) {
-        this.props.updateParams(__assign(__assign({}, ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, newValues)), { page: 1 }));
+        this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, newValues));
     };
     CompoundFilter.prototype.submitFilter = function (id) {
         if (id === void 0) { id = undefined; }
-        this.props.updateParams(__assign(__assign({}, ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, id ? id : this.props.inputText)), { page: 1 }));
+        this.props.updateParams(ParamHelper.setParam(this.props.params, this.state.selectedFilter.id, id ? id : this.props.inputText));
     };
     CompoundFilter.prototype.selectTitleById = function (inputText, selectedFilter) {
         if (!inputText || !(selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.options)) {

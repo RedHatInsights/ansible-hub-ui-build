@@ -37,7 +37,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RoleList, RoleCreate, EditRole, RepositoryList, SignatureKeysList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
+import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RoleList, RoleCreate, EditRole, RepositoryList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
 import { AppContext } from '../app-context';
 import { loadContext } from '../load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -160,7 +160,6 @@ var Routes = /** @class */ (function (_super) {
                 path: Paths.createUser,
                 isDisabled: isUserMgmtDisabled,
             },
-            { comp: SignatureKeysList, path: Paths.signatureKeys },
             { comp: EditUser, path: Paths.editUser, isDisabled: isUserMgmtDisabled },
             { comp: UserDetail, path: Paths.userDetail },
             { comp: UserList, path: Paths.userList },

@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './sort.scss';
@@ -65,13 +54,13 @@ var Sort = /** @class */ (function (_super) {
         }
         var desc = isDescending ? '-' : '';
         this.setState({ isExpanded: false }, function () {
-            return _this.props.updateParams(__assign(__assign({}, ParamHelper.setParam(_this.props.params, _this.props.sortParamName, desc + option.id)), { page: 1 }));
+            return _this.props.updateParams(ParamHelper.setParam(_this.props.params, _this.props.sortParamName, desc + option.id));
         });
     };
     Sort.prototype.setDescending = function () {
         var field = this.getSelected(this.props.params);
         var descending = !this.getIsDescending(this.props.params);
-        this.props.updateParams(__assign(__assign({}, ParamHelper.setParam(this.props.params, this.props.sortParamName, (descending ? '-' : '') + field.id)), { page: 1 }));
+        this.props.updateParams(ParamHelper.setParam(this.props.params, this.props.sortParamName, (descending ? '-' : '') + field.id));
     };
     Sort.prototype.getIsDescending = function (params) {
         var sort = params[this.props.sortParamName];

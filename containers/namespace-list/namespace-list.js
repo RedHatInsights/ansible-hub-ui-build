@@ -128,12 +128,13 @@ var NamespaceList = /** @class */ (function (_super) {
     };
     NamespaceList.prototype.render = function () {
         var _this = this;
+        var _a;
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var _a = this.state, namespaces = _a.namespaces, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, inputText = _a.inputText;
+        var _b = this.state, namespaces = _b.namespaces, params = _b.params, itemCount = _b.itemCount, loading = _b.loading, inputText = _b.inputText;
         var filterOwner = this.props.filterOwner;
-        var _b = this.context, alerts = _b.alerts, hasPermission = _b.hasPermission;
+        var _c = this.context, user = _c.user, alerts = _c.alerts;
         var noData = !filterIsSet(this.state.params, ['keywords']) &&
             namespaces !== undefined &&
             namespaces.length === 0;
@@ -142,11 +143,14 @@ var NamespaceList = /** @class */ (function (_super) {
         }
         // Namespaces or Partners
         var title = i18n._(namespaceBreadcrumb.name);
+        var updateParams = function (p) {
+            p['page'] = 1;
+            _this.updateParams(p, function () { return _this.loadNamespaces(); });
+        };
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
-                        redirect: formatPath(Paths.namespaceByRepo, {
-                            repo: 'published',
+                        redirect: formatPath(Paths.myCollections, {
                             namespace: result.name,
                         }, { tab: 'owners' }),
                     });
@@ -172,21 +176,17 @@ var NamespaceList = /** @class */ (function (_super) {
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },
                                 React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
-                                            return _this.updateParams(p, function () { return _this.loadNamespaces(); });
-                                        }, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
+                                    React.createElement(CompoundFilter, { inputText: inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: updateParams, params: params, filterConfig: [{ id: 'keywords', title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["keywords"], ["keywords"]))) }] }),
                                     React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: function (p) {
-                                            _this.updateParams(p, function () { return _this.loadNamespaces(); });
+                                            updateParams(p);
                                             _this.setState({ inputText: '' });
                                         }, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
                             React.createElement(ToolbarGroup, { style: { alignSelf: 'start' } },
                                 React.createElement(ToolbarItem, null,
                                     React.createElement(Sort, { options: [
                                             { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' },
-                                        ], params: params, updateParams: function (p) {
-                                            return _this.updateParams(p, function () { return _this.loadNamespaces(); });
-                                        } })),
-                                hasPermission('galaxy.add_namespace') && (React.createElement(ToolbarItem, { key: 'create-button' },
+                                        ], params: params, updateParams: updateParams })),
+                                ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) && (React.createElement(ToolbarItem, { key: 'create-button' },
                                     React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                     React.createElement("div", null,
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -200,13 +200,14 @@ var NamespaceList = /** @class */ (function (_super) {
     };
     NamespaceList.prototype.renderBody = function () {
         var _this = this;
-        var _a = this.state, namespaces = _a.namespaces, loading = _a.loading;
-        var _b = this.props, namespacePath = _b.namespacePath, filterOwner = _b.filterOwner;
-        var hasPermission = this.context.hasPermission;
+        var _a;
+        var _b = this.state, namespaces = _b.namespaces, loading = _b.loading;
+        var _c = this.props, namespacePath = _c.namespacePath, filterOwner = _c.filterOwner;
+        var user = this.context.user;
         var noDataTitle = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
         var noDataDescription = !filterOwner
             ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
-        var noDataButton = hasPermission('galaxy.add_namespace') ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
+        var noDataButton = ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.add_namespace) ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
         if (loading) {
             return (React.createElement("section", null,
                 React.createElement(LoadingPageSpinner, null),

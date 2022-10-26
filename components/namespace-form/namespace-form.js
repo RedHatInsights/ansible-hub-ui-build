@@ -37,7 +37,6 @@ import { Link } from 'react-router-dom';
 import { NamespaceCard } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { validateURLHelper } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm() {
@@ -63,8 +62,7 @@ var NamespaceForm = /** @class */ (function (_super) {
                 React.createElement(Alert, { isInline: true, variant: 'info', title: React.createElement(Trans, null,
                         "Moved to the",
                         ' ',
-                        React.createElement(Link, { target: '_blank', to: formatPath(Paths.namespaceByRepo, {
-                                repo: this.context.selectedRepo,
+                        React.createElement(Link, { target: '_blank', to: formatPath(Paths.myCollections, {
                                 namespace: namespace.name,
                             }, { tab: 'owners' }) }, "Namespace owners"),
                         ' ',
@@ -164,7 +162,6 @@ var NamespaceForm = /** @class */ (function (_super) {
                     React.createElement(TrashIcon, { className: 'clickable', onClick: function () { return _this.removeLink(index); }, size: 'sm' })),
                 React.createElement("div", { className: 'link-container' }, last && (React.createElement(PlusCircleIcon, { className: 'clickable', onClick: function () { return _this.addLink(); }, size: 'sm' }))))));
     };
-    NamespaceForm.contextType = AppContext;
     return NamespaceForm;
 }(React.Component));
 export { NamespaceForm };

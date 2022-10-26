@@ -91,10 +91,7 @@ var NamespaceModal = /** @class */ (function (_super) {
                 React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: this.handleSubmit, isDisabled: !newNamespaceName || !newNamespaceNameValid }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: this.toggleModal }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
-            React.createElement(Form, { onSubmit: function (e) {
-                    e.preventDefault();
-                    _this.handleSubmit();
-                } },
+            React.createElement(Form, null,
                 React.createElement(FormGroup, { label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Name"], ["Name"]))), isRequired: true, fieldId: 'name', helperTextInvalid: this.state.errorMessages['name'], validated: this.toError(this.state.newNamespaceNameValid), labelIcon: React.createElement(HelperText, { content: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Namespace names are limited to alphanumeric characters and underscores, must have a minimum length of 2 characters and cannot start with an \u2018_\u2019."], ["Namespace names are limited to alphanumeric characters and underscores, must have a minimum length of 2 characters and cannot start with an \u2018_\u2019."]))), header: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Namespace name"], ["Namespace name"]))) }) },
                     React.createElement(InputGroup, null,
                         React.createElement(TextInput, { validated: this.toError(this.state.newNamespaceNameValid), isRequired: true, type: 'text', id: 'newNamespaceName', name: 'newNamespaceName', value: newNamespaceName, onChange: function (value) {

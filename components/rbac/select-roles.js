@@ -27,7 +27,7 @@ import React, { useEffect, useState } from 'react';
 import { Flex, FlexItem, Label } from '@patternfly/react-core';
 import { RoleAPI } from 'src/api';
 import { CompoundFilter, RoleListTable, Pagination, AppliedFilters, LoadingPageSpinner, CheckboxRow, EmptyStateFilter, EmptyStateNoData, } from 'src/components';
-import { filterIsSet, translateLockedRolesDescription } from 'src/utilities';
+import { filterIsSet } from 'src/utilities';
 export var SelectRoles = function (_a) {
     var assignedRoles = _a.assignedRoles, selectedRoles = _a.selectedRoles, onRolesUpdate = _a.onRolesUpdate, message = _a.message, pulpObjectType = _a.pulpObjectType;
     var _b = useState(''), inputText = _b[0], setInputText = _b[1];
@@ -130,7 +130,7 @@ export var SelectRoles = function (_a) {
                                     : __spreadArray(__spreadArray([], selectedRoles, true), [role], false));
                             }, isDisabled: isAssigned(role.name), "data-cy": "RoleListTable-CheckboxRow-row-".concat(role.name) },
                             React.createElement("td", null, role.name),
-                            React.createElement("td", null, translateLockedRolesDescription(role.name, role.description)))); }))))))),
+                            React.createElement("td", null, role.description))); }))))))),
             !noData && (React.createElement(FlexItem, null,
                 React.createElement(Pagination, { params: localParams, updateParams: function (p) { return setLocalParams(p); }, count: rolesItemCount }))))));
 };

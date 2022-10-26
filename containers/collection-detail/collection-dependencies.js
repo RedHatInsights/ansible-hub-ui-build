@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
-import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
+import { CollectionAPI, } from 'src/api';
 import { CollectionHeader, LoadingPageWithHeader, Main, CollectionDependenciesList, CollectionUsedbyDependenciesList, EmptyStateNoData, AlertList, closeAlertMixin, } from 'src/components';
 import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
@@ -58,7 +58,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
         params['sort'] = !params['sort'] ? '-collection' : 'collection';
         _this.state = {
             collection: undefined,
-            dependencies_repos: [],
             params: params,
             usedByDependencies: [],
             usedByDependenciesCount: 0,
@@ -113,7 +112,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
                             !usedByDependenciesCount &&
                             !filterIsSet(params, ['name__icontains']) ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(React.Fragment, null,
                             React.createElement("p", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["This collections requires the following collections for use"], ["This collections requires the following collections for use"])))),
-                            noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, dependencies_repos: this.state.dependencies_repos })),
+                            noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, repo: this.context.selectedRepo })),
                             React.createElement("p", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["This collection is being used by"], ["This collection is being used by"])))),
                             React.createElement(CollectionUsedbyDependenciesList, { repo: this.context.selectedRepo, usedByDependencies: usedByDependencies, itemCount: usedByDependenciesCount, params: dependenciesParams, usedByDependenciesLoading: usedByDependenciesLoading, updateParams: function (p) {
                                     return _this.updateParams(_this.combineParams(_this.state.params, p), function () { return _this.loadUsedByDependencies(); });
@@ -122,55 +121,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
     CollectionDependencies.prototype.loadData = function (forceReload) {
         var _this = this;
         if (forceReload === void 0) { forceReload = false; }
-        this.loadCollection(forceReload, function () {
-            return _this.loadCollectionsDependenciesRepos(function () {
-                return _this.loadUsedByDependencies();
-            });
-        });
-    };
-    CollectionDependencies.prototype.loadCollectionsDependenciesRepos = function (callback) {
-        var _this = this;
-        var dependencies = this.state.collection.latest_version.metadata.dependencies;
-        var dependencies_repos = [];
-        var promises = [];
-        Object.keys(dependencies).forEach(function (dependency) {
-            var _a = dependency.split('.'), namespace = _a[0], collection = _a[1];
-            var version = dependencies[dependency];
-            version = _this.separateVersion(version).version;
-            var dependency_repo = {
-                name: collection,
-                namespace: namespace,
-                version: version,
-                repo: '',
-                path: '',
-            };
-            dependencies_repos.push(dependency_repo);
-            var promise = _this.loadDependencyRepo(dependency_repo);
-            promises.push(promise);
-        });
-        Promise.all(promises).then(function () {
-            _this.setState({ dependencies_repos: dependencies_repos }, callback());
-        });
-    };
-    CollectionDependencies.prototype.loadDependencyRepo = function (dependency_repo) {
-        return CollectionVersionAPI.list({
-            namespace: dependency_repo.namespace,
-            name: dependency_repo.name,
-            version: dependency_repo.version,
-        })
-            .then(function (result) {
-            dependency_repo.repo = result.data.data[0].repository_list[0];
-            dependency_repo.path = formatPath(Paths.collectionByRepo, {
-                collection: dependency_repo.name,
-                namespace: dependency_repo.namespace,
-                repo: dependency_repo.repo,
-            }, dependency_repo.version);
-        })
-            .catch(function () {
-            // do nothing, dependency_repo.path and repo stays empty
-            // this may mean that collection was not found - thus is not in the system.
-            // user will be notified in the list of dependencies rather than alerts
-        });
+        this.loadCollection(forceReload, function () { return _this.loadUsedByDependencies(); });
     };
     CollectionDependencies.prototype.loadUsedByDependencies = function () {
         var _this = this;
@@ -239,10 +190,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    CollectionDependencies.prototype.separateVersion = function (version) {
-        var v = version.match(/((\d+\.*)+)/);
-        return v ? { version: v[0] } : {};
-    };
     return CollectionDependencies;
 }(React.Component));
 export default withRouter(CollectionDependencies);

@@ -21,7 +21,7 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { Paths, formatPath } from 'src/paths';
-import { BaseHeader, Breadcrumbs, Tabs, SignatureBadge } from 'src/components';
+import { BaseHeader, Breadcrumbs, Tabs } from 'src/components';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentHeader, _super);
@@ -31,7 +31,7 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     ExecutionEnvironmentHeader.prototype.render = function () {
         var _this = this;
         var _a;
-        var _b = this.props, container = _b.container, groupId = _b.groupId, tab = _b.tab, displaySignatures = _b.displaySignatures;
+        var _b = this.props, container = _b.container, groupId = _b.groupId, tab = _b.tab;
         var tabs = [
             { id: 'detail', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))) },
             { id: 'activity', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))) },
@@ -66,10 +66,6 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                         ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), groupId) }
                         : null,
                 ].filter(Boolean) }), pageControls: this.props.pageControls },
-            displaySignatures &&
-                this.props.container.pulp.repository.sign_state && (React.createElement(SignatureBadge, { isCompact: true, signState: this.props.container.pulp.repository.sign_state == 'signed'
-                    ? 'signed'
-                    : 'unsigned' })),
             last_sync_task && (React.createElement("p", { className: 'hub-m-truncated' },
                 React.createElement(Trans, null,
                     "Last updated from registry ",
@@ -82,9 +78,10 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
             React.createElement("span", null),
             React.createElement("div", { className: 'hub-tab-link-container' },
                 React.createElement("div", { className: 'tabs' },
-                    React.createElement(Tabs, { tabs: tabs, params: { tab: tab }, updateParams: function (_a) {
-                            var tab = _a.tab;
-                            return _this.props.updateState({ redirect: tab });
+                    React.createElement(Tabs, { tabs: tabs, params: { tab: tab }, updateParams: function (p) {
+                            if (tab !== p.tab) {
+                                _this.props.updateState({ redirect: p.tab });
+                            }
                         } })))));
     };
     return ExecutionEnvironmentHeader;

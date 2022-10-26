@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { cloneDeep } from 'lodash';
 var ParamHelper = /** @class */ (function () {
     function ParamHelper() {
@@ -147,7 +136,7 @@ var ParamHelper = /** @class */ (function () {
             var key = deleteKeys_1[_i];
             params = ParamHelper.deleteParam(params, key);
         }
-        updateParams(__assign(__assign({}, params), { page: 1 }));
+        updateParams(params);
     };
     // check if params are valid for sorting
     ParamHelper.validSortParams = function (sort, sortParams, defaultSort) {

@@ -49,7 +49,6 @@ import { Routes } from './routes';
 import { Paths, formatPath } from 'src/paths';
 import { ActiveUserAPI, } from 'src/api';
 import { AboutModalWindow, UIVersion, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
-import { hasPermission } from 'src/utilities';
 import { AppContext } from '../app-context';
 import Logo from 'src/../static/images/logo_large.svg';
 var App = /** @class */ (function (_super) {
@@ -254,8 +253,9 @@ var App = /** @class */ (function (_super) {
                     },
                 }),
                 menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approval"], ["Approval"]))), {
-                    condition: function (params) {
-                        return hasPermission(params, 'ansible.modify_ansible_repo_content');
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return user.model_permissions.move_collection;
                     },
                     url: Paths.approvalDashboard,
                 }),
@@ -280,14 +280,7 @@ var App = /** @class */ (function (_super) {
                     return !user.is_anonymous;
                 },
             }),
-            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
-                url: Paths.signatureKeys,
-                condition: function (_a) {
-                    var featureFlags = _a.featureFlags;
-                    return featureFlags.display_signatures;
-                },
-            }),
-            menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
                 condition: function (_a) {
@@ -296,17 +289,26 @@ var App = /** @class */ (function (_super) {
                         !user.is_anonymous;
                 },
             }),
-            menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
-                    condition: function (params) { return hasPermission(params, 'galaxy.view_user'); },
+            menuSection(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Users"], ["Users"]))), {
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return user.model_permissions.view_user;
+                    },
                     url: Paths.userList,
                 }),
-                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
-                    condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
+                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return user.model_permissions.view_group;
+                    },
                     url: Paths.groupList,
                 }),
-                menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
-                    condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
+                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+                    condition: function (_a) {
+                        var user = _a.user;
+                        return user.model_permissions.view_group;
+                    },
                     url: Paths.roleList,
                 }),
             ]),
@@ -336,7 +338,6 @@ var App = /** @class */ (function (_super) {
         });
     };
     App.prototype.ctx = function (component) {
-        var _this = this;
         return (React.createElement(AppContext.Provider, { value: {
                 alerts: this.state.alerts,
                 featureFlags: this.state.featureFlags,
@@ -346,13 +347,6 @@ var App = /** @class */ (function (_super) {
                 setUser: this.setUser,
                 settings: this.state.settings,
                 user: this.state.user,
-                hasPermission: function (name) {
-                    return hasPermission({
-                        user: _this.state.user,
-                        settings: _this.state.settings,
-                        featureFlags: _this.state.featureFlags,
-                    }, name);
-                },
             } },
             component,
             React.createElement(UIVersion, null)));
@@ -360,5 +354,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=standalone-loader.js.map

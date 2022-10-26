@@ -40,6 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import * as React from 'react';
 import { t, Trans } from '@lingui/macro';
 import { errorMessage } from 'src/utilities';
+import './registry-list.scss';
 import { withRouter, Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
@@ -87,8 +88,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
         if (this.context.user.is_anonymous) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
-        var hasPermission = this.context.hasPermission;
-        var addButton = hasPermission('galaxy.add_containerregistry') ? (React.createElement(Button, { onClick: function () {
+        var addButton = this.context.user.model_permissions
+            .add_containerregistry ? (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     remoteFormErrors: {},
                     remoteFormNew: true,
@@ -152,7 +153,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     " will be deleted."))),
             React.createElement(BaseHeader, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))) }),
             noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No remote registries yet"], ["No remote registries yet"]))), description: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["You currently have no remote registries."], ["You currently have no remote registries."]))), button: addButton })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-list-toolbar' },
+                React.createElement("div", { className: 'hub-container-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,
@@ -160,7 +161,10 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                                     React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
                                             return _this.setState({ inputText: text });
                                         }, updateParams: function (p) {
-                                            return _this.updateParams(p, function () { return _this.queryRegistries(); });
+                                            p['page'] = 1;
+                                            _this.updateParams(p, function () {
+                                                return _this.queryRegistries();
+                                            });
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__icontains',
@@ -231,13 +235,12 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.renderTableRow = function (item, index) {
         var _this = this;
-        var hasPermission = this.context.hasPermission;
         var buttons = [
-            hasPermission('galaxy.change_containerregistryremote') && (React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
+            this.context.user.model_permissions.change_containerregistry && (React.createElement(Button, { key: 'sync', variant: 'secondary', onClick: function () { return _this.syncRegistry(item); } },
                 React.createElement(Trans, null, "Sync from registry"))),
         ];
         var dropdownItems = [
-            hasPermission('galaxy.change_containerregistryremote') && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
+            this.context.user.model_permissions.change_containerregistry && (React.createElement(DropdownItem, { key: 'edit', onClick: function () {
                     return _this.setState({
                         remoteFormErrors: {},
                         remoteFormNew: false,
@@ -247,7 +250,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     });
                 } },
                 React.createElement(Trans, null, "Edit"))),
-            hasPermission('galaxy.delete_containerregistryremote') && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
+            this.context.user.model_permissions.delete_containerregistry && (React.createElement(DropdownItem, { key: 'delete', onClick: function () {
                     return _this.setState({
                         showDeleteModal: true,
                         remoteToEdit: item,

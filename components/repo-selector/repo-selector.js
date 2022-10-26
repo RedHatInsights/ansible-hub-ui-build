@@ -64,7 +64,7 @@ var RepoSelector = /** @class */ (function (_super) {
     };
     RepoSelector.prototype.getRepoName = function (repoName) {
         var repo = Constants.REPOSITORYNAMES[repoName];
-        return repo ? i18n._(repo) : repoName;
+        return i18n._(repo);
     };
     RepoSelector.contextType = AppContext;
     return RepoSelector;

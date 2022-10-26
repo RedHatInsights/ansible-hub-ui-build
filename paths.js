@@ -11,8 +11,7 @@ export function formatPath(path, data, params) {
         url = url.replace(':' + k + '+', data[k]).replace(':' + k, data[k]);
     }
     if (params) {
-        var path_1 = "".concat(url, "?").concat(ParamHelper.getQueryString(params));
-        return path_1;
+        return "".concat(url, "?").concat(ParamHelper.getQueryString(params));
     }
     else {
         return url;
@@ -69,7 +68,6 @@ export var Paths;
     Paths["userProfileSettings"] = "/settings/user-profile";
     Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
-    Paths["signatureKeys"] = "/signature-keys";
 })(Paths || (Paths = {}));
 export var namespaceBreadcrumb = {
     name: {

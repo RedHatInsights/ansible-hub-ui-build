@@ -56,9 +56,8 @@ var UserCreate = /** @class */ (function (_super) {
         if (this.state.redirect) {
             return React.createElement(Redirect, { push: true, to: this.state.redirect });
         }
-        var hasPermission = this.context.hasPermission;
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages;
-        var notAuthorised = !this.context.user || !hasPermission('galaxy.add_user');
+        var notAuthorised = !this.context.user || !this.context.user.model_permissions.add_user;
         var breadcrumbs = [
             { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
             { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create new user"], ["Create new user"]))) },

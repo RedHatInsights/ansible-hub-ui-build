@@ -81,10 +81,7 @@ var ImportConsole = /** @class */ (function (_super) {
                 "\u00A0")));
     };
     ImportConsole.prototype.renderTitle = function (selectedImport) {
-        var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion, empty = _a.empty;
-        if (empty) {
-            return;
-        }
+        var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion;
         var collectionHead = (React.createElement(React.Fragment, null,
             selectedImport.namespace,
             ".",

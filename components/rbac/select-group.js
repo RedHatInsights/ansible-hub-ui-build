@@ -39,7 +39,7 @@ export var SelectGroup = function (_a) {
         return (selectedGroup === null || selectedGroup === void 0 ? void 0 : selectedGroup.name) === name;
     };
     var noData = groups.length === 0;
-    if (noData && !filterIsSet(localParams, ['name__icontains'])) {
+    if (noData && !filterIsSet(localParams, ['name__contains'])) {
         return (React.createElement("div", { className: 'hub-custom-wizard-layout hub-no-data' },
             React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No assignable groups."], ["No assignable groups."]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["There are currently no groups that can be assigned to this namespace."], ["There are currently no groups that can be assigned to this namespace."]))) })));
     }
@@ -86,15 +86,15 @@ export var SelectGroup = function (_a) {
                         React.createElement("div", { className: 'hub-filter' },
                             React.createElement(CompoundFilter, { inputText: inputText, onChange: function (inputText) { return setInputText(inputText); }, params: localParams, updateParams: function (p) { return setLocalParams(p); }, filterConfig: [
                                     {
-                                        id: 'name__icontains',
+                                        id: 'name__contains',
                                         title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Name"], ["Name"]))),
                                     },
                                 ] })),
                         React.createElement(AppliedFilters, { updateParams: function (p) {
                                 setLocalParams(p);
                                 setInputText('');
-                            }, params: localParams, niceNames: { name__icontains: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))) }, ignoredParams: ['sort', 'page_size', 'page'], style: { marginTop: '8px' } })),
-                    React.createElement(FlexItem, { style: { flexGrow: 1 } }, noData && filterIsSet(localParams, ['name__icontains']) ? (React.createElement("div", { className: 'hub-no-filter-data' },
+                            }, params: localParams, niceNames: { name__contains: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))) }, ignoredParams: ['sort', 'page_size', 'page'], style: { marginTop: '8px' } })),
+                    React.createElement(FlexItem, { style: { flexGrow: 1 } }, noData && filterIsSet(localParams, ['name__contains']) ? (React.createElement("div", { className: 'hub-no-filter-data' },
                         React.createElement(EmptyStateFilter, null))) : (React.createElement("div", { className: 'hub-selected-roles-list' },
                         React.createElement(RoleListTable, { isStickyHeader: true, params: localParams, updateParams: function (p) {
                                 setLocalParams(p);
