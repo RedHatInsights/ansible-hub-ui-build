@@ -70,9 +70,11 @@ var App = /** @class */ (function (_super) {
             if (!((_a = event === null || event === void 0 ? void 0 : event.domEvent) === null || _a === void 0 ? void 0 : _a.href)) {
                 return;
             }
-            // basename is either `/ansible/automation-hub` or `/beta/ansible/automation-hub`, no trailing /
+            // basename is either `/ansible/automation-hub` or `/beta/ansible/automation-hub`, remove trailing /
             // menu events don't have the /beta, converting
-            var basename = _this.props.basename.replace(/^\/beta\//, '/');
+            var basename = _this.props.basename
+                .replace(/^\/beta\//, '/')
+                .replace(/\/$/, '');
             // domEvent: has the right href, always starts with /ansible/ansible-hub, no /beta prefix
             // go to the href, relative to our *actual* basename (basename has no trailing /, so a path will start with / unless empty
             var href = event.domEvent.href.replace(basename, '') || '/';
