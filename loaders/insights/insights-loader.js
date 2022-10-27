@@ -28,6 +28,7 @@ import { AppContext } from '../app-context';
 import { loadContext } from '../load-context';
 import { Paths } from 'src/paths';
 import { UIVersion } from 'src/components';
+import { hasPermission } from 'src/utilities';
 var DEFAULT_REPO = 'published';
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
@@ -69,9 +70,11 @@ var App = /** @class */ (function (_super) {
             if (!((_a = event === null || event === void 0 ? void 0 : event.domEvent) === null || _a === void 0 ? void 0 : _a.href)) {
                 return;
             }
-            // basename is either `/ansible/automation-hub` or `/beta/ansible/automation-hub`, no trailing /
+            // basename is either `/ansible/automation-hub` or `/beta/ansible/automation-hub`, remove trailing /
             // menu events don't have the /beta, converting
-            var basename = _this.props.basename.replace(/^\/beta\//, '/');
+            var basename = _this.props.basename
+                .replace(/^\/beta\//, '/')
+                .replace(/\/$/, '');
             // domEvent: has the right href, always starts with /ansible/ansible-hub, no /beta prefix
             // go to the href, relative to our *actual* basename (basename has no trailing /, so a path will start with / unless empty
             var href = event.domEvent.href.replace(basename, '') || '/';
@@ -107,6 +110,7 @@ var App = /** @class */ (function (_super) {
         }
     };
     App.prototype.render = function () {
+        var _this = this;
         // block the page from rendering if we're on a repo route and the repo in the
         // url doesn't match the current state
         // This gives componentDidUpdate a chance to recognize that route has chnaged
@@ -131,6 +135,13 @@ var App = /** @class */ (function (_super) {
                 setUser: this.setUser,
                 settings: this.state.settings,
                 user: this.state.user,
+                hasPermission: function (name) {
+                    return hasPermission({
+                        user: _this.state.user,
+                        settings: _this.state.settings,
+                        featureFlags: _this.state.featureFlags,
+                    }, name);
+                },
             } },
             React.createElement(Alert, { isInline: true, variant: 'info', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."], ["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."]))) }),
             React.createElement(Routes, { childProps: this.props }),

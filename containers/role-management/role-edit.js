@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { parsePulpIDFromURL, errorMessage, } from 'src/utilities';
+import { parsePulpIDFromURL, errorMessage, translateLockedRolesDescription, } from 'src/utilities';
 import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
 import { RoleAPI } from 'src/api/role';
 import { withRouter, Redirect } from 'react-router-dom';
@@ -150,7 +150,7 @@ var EditRole = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(RoleHeader, { title: editPermissions ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit role permissions"], ["Edit role permissions"]))) : role.name, subTitle: role.description, breadcrumbs: breadcrumbs }),
+            React.createElement(RoleHeader, { title: editPermissions ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Edit role permissions"], ["Edit role permissions"]))) : role.name, subTitle: translateLockedRolesDescription(role.name, role.description), breadcrumbs: breadcrumbs }),
             unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(RoleForm, __assign({}, this.state, { name: name, nameDisabled: true, description: description, descriptionHelperText: errorMessages['description'], descriptionValidated: errorMessages['description'] ? 'error' : null, onDescriptionChange: function (value) {

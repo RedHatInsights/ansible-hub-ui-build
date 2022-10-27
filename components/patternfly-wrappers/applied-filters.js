@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Chip, ChipGroup, Button } from '@patternfly/react-core';
@@ -56,7 +67,7 @@ var AppliedFilters = /** @class */ (function (_super) {
             React.createElement(ChipGroup, { categoryName: niceNames[key] || key }, chips.map(function (v, i) {
                 var _a;
                 return (React.createElement(Chip, { key: i, onClick: function () {
-                        return updateParams(ParamHelper.deleteParam(params, key, v));
+                        return updateParams(__assign(__assign({}, ParamHelper.deleteParam(params, key, v)), { page: 1 }));
                     } }, ((_a = niceValues === null || niceValues === void 0 ? void 0 : niceValues[key]) === null || _a === void 0 ? void 0 : _a[v]) || v));
             }))));
     };

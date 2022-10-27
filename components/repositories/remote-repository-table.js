@@ -21,6 +21,7 @@ import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { AppContext } from 'src/loaders/app-context';
 import { PulpStatus } from 'src/api';
 import { DateComponent, SortTable, ListItemActions } from 'src/components';
 import { Constants } from 'src/constants';
@@ -104,8 +105,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
     };
     RemoteRepositoryTable.prototype.renderRow = function (remote, i) {
         var _this = this;
-        var _a;
-        var user = this.props.user;
+        var hasPermission = this.context.hasPermission;
         var buttons = remote.repositories.length
             ? this.getConfigureOrSyncButton(remote)
             : [
@@ -114,7 +114,8 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                         React.createElement(ExclamationCircleIcon, null))),
             ];
         var dropdownItems = [
-            remote.repositories.length && ((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.change_remote) && (React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"]))))),
+            remote.repositories.length &&
+                hasPermission('ansible.change_collectionremote') && (React.createElement(DropdownItem, { key: 'edit', onClick: function () { return _this.props.editRemote(remote); } }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Edit"], ["Edit"]))))),
         ];
         return (React.createElement("tr", { key: i },
             React.createElement("td", null, remote.name),
@@ -127,9 +128,8 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
     };
     RemoteRepositoryTable.prototype.getConfigureOrSyncButton = function (remote) {
         var _this = this;
-        var _a;
-        var user = this.props.user;
-        if (!((_a = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _a === void 0 ? void 0 : _a.change_remote)) {
+        var hasPermission = this.context.hasPermission;
+        if (!hasPermission('ansible.change_collectionremote')) {
             return null;
         }
         var configButton = [
@@ -143,15 +143,15 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
                 }, variant: 'secondary' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync"], ["Sync"])))),
         ];
         var remoteType = 'none';
-        for (var _i = 0, _b = Constants.UPSTREAM_HOSTS; _i < _b.length; _i++) {
-            var host = _b[_i];
+        for (var _i = 0, _a = Constants.UPSTREAM_HOSTS; _i < _a.length; _i++) {
+            var host = _a[_i];
             if (remote.url.includes(host)) {
                 remoteType = 'community';
                 break;
             }
         }
-        for (var _c = 0, _d = Constants.DOWNSTREAM_HOSTS; _c < _d.length; _c++) {
-            var host = _d[_c];
+        for (var _b = 0, _c = Constants.DOWNSTREAM_HOSTS; _b < _c.length; _b++) {
+            var host = _c[_b];
             if (remote.url.includes(host)) {
                 remoteType = 'certified';
                 break;
@@ -174,6 +174,7 @@ var RemoteRepositoryTable = /** @class */ (function (_super) {
         }
         return configButton;
     };
+    RemoteRepositoryTable.contextType = AppContext;
     return RemoteRepositoryTable;
 }(React.Component));
 export { RemoteRepositoryTable };

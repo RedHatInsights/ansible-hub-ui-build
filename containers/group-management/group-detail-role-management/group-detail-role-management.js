@@ -26,21 +26,20 @@ import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateNoData, RolePermissions, LoadingPageWithHeader, Pagination, RoleListTable, SelectRoles, PreviewRoles, ExpandableRow, WizardModal, EmptyStateFilter, ListItemActions, } from 'src/components';
 import { GroupRoleAPI, } from 'src/api';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, } from 'src/utilities';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
 import './group-detail-role-management.scss';
 var GroupDetailRoleManagement = function (_a) {
-    var _b;
     var params = _a.params, updateParams = _a.updateParams, context = _a.context, group = _a.group, addAlert = _a.addAlert, nonQueryParams = _a.nonQueryParams;
-    var _c = useState(false), showAddRolesModal = _c[0], setShowAddRolesModal = _c[1];
-    var _d = useState(null), selectedDeleteRole = _d[0], setSelectedDeleteRole = _d[1];
-    var _e = useState(true), loading = _e[0], setLoading = _e[1];
-    var _f = useState([]), roles = _f[0], setRoles = _f[1];
-    var _g = useState(0), rolesItemCount = _g[0], setRolesItemCount = _g[1];
-    var _h = useState([]), selectedRoles = _h[0], setSelectedRoles = _h[1];
-    var _j = useState(params['role__icontains'] || ''), inputText = _j[0], setInputText = _j[1];
-    var _k = useState(false), isRoleDeleting = _k[0], setIsRoleDeleting = _k[1];
+    var _b = useState(false), showAddRolesModal = _b[0], setShowAddRolesModal = _b[1];
+    var _c = useState(null), selectedDeleteRole = _c[0], setSelectedDeleteRole = _c[1];
+    var _d = useState(true), loading = _d[0], setLoading = _d[1];
+    var _e = useState([]), roles = _e[0], setRoles = _e[1];
+    var _f = useState(0), rolesItemCount = _f[0], setRolesItemCount = _f[1];
+    var _g = useState([]), selectedRoles = _g[0], setSelectedRoles = _g[1];
+    var _h = useState(params['role__icontains'] || ''), inputText = _h[0], setInputText = _h[1];
+    var _j = useState(false), isRoleDeleting = _j[0], setIsRoleDeleting = _j[1];
     useEffect(function () {
         queryRolesWithPermissions();
         setInputText(params['role__icontains'] || '');
@@ -90,7 +89,7 @@ var GroupDetailRoleManagement = function (_a) {
             "."),
         React.createElement("br", null),
         React.createElement(Trans, null, "This will revoke all permissions associated with this role from the group.")));
-    var user = context.user, featureFlags = context.featureFlags;
+    var featureFlags = context.featureFlags, hasPermission = context.hasPermission;
     var isUserMgmtDisabled = false;
     var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
     if (featureFlags) {
@@ -103,7 +102,7 @@ var GroupDetailRoleManagement = function (_a) {
             }
         });
     }
-    var addRoles = ((_b = user === null || user === void 0 ? void 0 : user.model_permissions) === null || _b === void 0 ? void 0 : _b.change_group) && (React.createElement(Button, { onClick: function () { return setShowAddRolesModal(true); }, variant: 'primary', "data-cy": 'add-roles' },
+    var addRoles = hasPermission('galaxy.change_group') && (React.createElement(Button, { onClick: function () { return setShowAddRolesModal(true); }, variant: 'primary', "data-cy": 'add-roles' },
         React.createElement(Trans, null, "Add roles")));
     if (loading) {
         return (React.createElement("section", { className: 'body' },
@@ -183,7 +182,7 @@ var GroupDetailRoleManagement = function (_a) {
             } })),
         noData ? (React.createElement("section", { className: 'body hub-empty-state-box' },
             React.createElement(EmptyStateNoData, { title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["There are currently no roles assigned to this group."], ["There are currently no roles assigned to this group."]))), description: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Please add a role by using the button below."], ["Please add a role by using the button below."]))), button: addRoles }))) : (React.createElement("section", { className: 'body' },
-            React.createElement("div", { className: 'hub-group-list-toolbar' },
+            React.createElement("div", { className: 'hub-list-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
@@ -208,9 +207,9 @@ var GroupDetailRoleManagement = function (_a) {
             !noFilteredData ? (React.createElement(React.Fragment, null,
                 React.createElement(RoleListTable, { params: params, updateParams: updateParams, tableHeader: tableHeader }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: i, rowIndex: i, expandableRowContent: React.createElement(RolePermissions, { filteredPermissions: filteredPermissions, selectedPermissions: role.permissions, showCustom: true, showEmpty: false }), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.role) },
                     React.createElement("td", null, role.role),
-                    React.createElement("td", null, role.description),
+                    React.createElement("td", null, translateLockedRolesDescription(role.role, role.description)),
                     React.createElement(ListItemActions, { kebabItems: [
-                            user.model_permissions.change_group && (React.createElement(DropdownItem, { key: 'remove-role', onClick: function () { return setSelectedDeleteRole(role); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Remove role"], ["Remove role"]))))),
+                            hasPermission('galaxy.change_group') && (React.createElement(DropdownItem, { key: 'remove-role', onClick: function () { return setSelectedDeleteRole(role); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Remove role"], ["Remove role"]))))),
                         ] }))); })),
                 React.createElement("div", { style: { paddingTop: '24px', paddingBottom: '8px' } },
                     React.createElement(Pagination, { params: params, updateParams: updateParams, count: rolesItemCount })))) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
