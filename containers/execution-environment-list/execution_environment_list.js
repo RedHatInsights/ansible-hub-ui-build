@@ -183,12 +183,12 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                 {
                     title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Created"], ["Created"]))),
                     type: 'numeric',
-                    id: 'created',
+                    id: 'created_at',
                 },
                 {
                     title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Last modified"], ["Last modified"]))),
                     type: 'alpha',
-                    id: 'updated',
+                    id: 'updated_at',
                 },
                 {
                     title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Container registry type"], ["Container registry type"]))),
@@ -242,9 +242,9 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             description ? (React.createElement("td", { className: 'pf-m-truncate' },
                 React.createElement(Tooltip, { content: description }, description))) : (React.createElement("td", null)),
             React.createElement("td", null,
-                React.createElement(DateComponent, { date: item.created })),
+                React.createElement(DateComponent, { date: item.created_at })),
             React.createElement("td", null,
-                React.createElement(DateComponent, { date: item.updated })),
+                React.createElement(DateComponent, { date: item.updated_at })),
             React.createElement("td", null,
                 React.createElement(Label, null, item.pulp.repository.remote ? t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Remote"], ["Remote"]))) : t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Local"], ["Local"]))))),
             React.createElement(ListItemActions, { kebabItems: dropdownItems })));
@@ -253,12 +253,12 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var _this = this;
         var _a, _b, _c;
         var name = itemToEdit.name, namespace = itemToEdit.namespace, description = itemToEdit.description, pulp = itemToEdit.pulp;
-        var _d = ((_a = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _a === void 0 ? void 0 : _a.remote) || {}, pulp_id = _d.pulp_id, registry = _d.registry, upstream_name = _d.upstream_name, include_tags = _d.include_tags, exclude_tags = _d.exclude_tags;
+        var _d = ((_a = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _a === void 0 ? void 0 : _a.remote) || {}, remoteId = _d.id, registry = _d.registry, upstream_name = _d.upstream_name, include_tags = _d.include_tags, exclude_tags = _d.exclude_tags;
         var remote = (pulp === null || pulp === void 0 ? void 0 : pulp.repository) ? !!((_b = pulp === null || pulp === void 0 ? void 0 : pulp.repository) === null || _b === void 0 ? void 0 : _b.remote) : true; // add only supports remote
         var isNew = !(pulp === null || pulp === void 0 ? void 0 : pulp.repository); // only exists in real data
-        var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.pulp_id;
+        var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.id;
         var alerts = this.state.alerts;
-        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remotePulpId: pulp_id, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise, form) {
+        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remoteId: remoteId, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise, form) {
                 promise
                     .then(function () {
                     _this.setState({

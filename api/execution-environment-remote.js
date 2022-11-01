@@ -26,7 +26,7 @@ var API = /** @class */ (function (_super) {
     // get(pk)
     // update(pk, data)
     API.prototype.sync = function (name) {
-        var apiPath = this.getUIPath('execution-environments/repositories/');
+        var apiPath = 'v3/plugin/execution-environments/repositories/';
         return this.http.post(apiPath + name + '/_content/sync/', {});
     };
     return API;

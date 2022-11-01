@@ -260,7 +260,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         return isManifestList ? (React.createElement(TagLabel, { key: tag, tag: tag })) : (React.createElement(TagLink, { key: tag, tag: tag }));
                     }))),
                 React.createElement("td", null,
-                    React.createElement(DateComponent, { date: image.pulp_created })),
+                    React.createElement(DateComponent, { date: image.created_at })),
                 React.createElement("td", null, isManifestList ? '---' : image.layers),
                 React.createElement("td", null, isManifestList ? '---' : getHumanSize(image.size)),
                 React.createElement("td", null, isManifestList ? (React.createElement(ShaLabel, { digest: image.digest })) : (React.createElement(ShaLink, { digest: image.digest }))),
@@ -312,13 +312,13 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 .then(function (_a) {
                 var _b = _a.data, data = _b.data, meta = _b.meta;
                 var images = data.map(function (_a) {
-                    var digest = _a.digest, image_manifests = _a.image_manifests, layers = _a.layers, media_type = _a.media_type, pulp_created = _a.pulp_created, tags = _a.tags;
+                    var digest = _a.digest, image_manifests = _a.image_manifests, layers = _a.layers, media_type = _a.media_type, created_at = _a.created_at, tags = _a.tags;
                     return ({
                         digest: digest,
                         image_manifests: image_manifests,
                         isManifestList: !!media_type.match('manifest.list'),
                         layers: layers.length,
-                        pulp_created: pulp_created,
+                        created_at: created_at,
                         size: sum(layers.map(function (l) { return l.size || 0; })),
                         tags: tags,
                     });

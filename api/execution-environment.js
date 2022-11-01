@@ -18,7 +18,7 @@ var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.apiPath = _this.getUIPath('execution-environments/repositories/');
+        _this.apiPath = 'v3/plugin/execution-environments/repositories/';
         return _this;
     }
     API.prototype.readme = function (name) {
