@@ -88,7 +88,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
         var hasPermission = this.context.hasPermission;
-        var addButton = hasPermission('galaxy.add_containerregistry') ? (React.createElement(Button, { onClick: function () {
+        var addButton = hasPermission('galaxy.add_containerregistryremote') ? (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     remoteFormErrors: {},
                     remoteFormNew: true,
