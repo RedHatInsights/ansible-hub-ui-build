@@ -171,8 +171,8 @@ var RepositoryForm = /** @class */ (function (_super) {
         return ExecutionEnvironmentRegistryAPI.list(__assign({}, (name ? { name__icontains: name } : {}))).then(function (_a) {
             var data = _a.data;
             var registries = data.data.map(function (_a) {
-                var pk = _a.pk, name = _a.name;
-                return ({ id: pk, name: name });
+                var id = _a.id, name = _a.name;
+                return ({ id: id, name: name });
             });
             _this.setState({ registries: registries });
             return registries;
@@ -196,7 +196,7 @@ var RepositoryForm = /** @class */ (function (_super) {
             _a));
     };
     RepositoryForm.prototype.onSave = function () {
-        var _a = this.props, originalDescription = _a.description, distributionPulpId = _a.distributionPulpId, isNew = _a.isNew, isRemote = _a.isRemote, originalName = _a.name, remotePulpId = _a.remotePulpId;
+        var _a = this.props, originalDescription = _a.description, distributionPulpId = _a.distributionPulpId, isNew = _a.isNew, isRemote = _a.isRemote, originalName = _a.name, remoteId = _a.remoteId;
         var _b = this.state, description = _b.description, exclude_tags = _b.excludeTags, include_tags = _b.includeTags, name = _b.name, _c = _b.registrySelection[0], _d = _c === void 0 ? { id: null } : _c, registry = _d.id, upstream_name = _b.upstreamName;
         if (isRemote && isNew) {
             return ExecutionEnvironmentRemoteAPI.create({
@@ -211,7 +211,7 @@ var RepositoryForm = /** @class */ (function (_super) {
             // remote edit - upstream, tags, registry
             isRemote &&
                 !isNew &&
-                ExecutionEnvironmentRemoteAPI.update(remotePulpId, {
+                ExecutionEnvironmentRemoteAPI.update(remoteId, {
                     name: originalName,
                     upstream_name: upstream_name,
                     registry: registry,

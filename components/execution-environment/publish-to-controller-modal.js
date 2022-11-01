@@ -106,7 +106,7 @@ var PublishToControllerModal = /** @class */ (function (_super) {
         var _this = this;
         // filter tags by digest when provided from Images list
         var digest = this.props.digest;
-        return ExecutionEnvironmentAPI.tags(image, __assign(__assign({ sort: '-pulp_created' }, (digest ? { tagged_manifest__digest: digest } : {})), (name ? { name__icontains: name } : {})))
+        return ExecutionEnvironmentAPI.tags(image, __assign(__assign({ sort: '-created_at' }, (digest ? { tagged_manifest__digest: digest } : {})), (name ? { name__icontains: name } : {})))
             .then(function (_a) {
             var data = _a.data;
             var tags = data.data.map(function (_a) {

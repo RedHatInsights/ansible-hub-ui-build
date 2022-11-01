@@ -13,15 +13,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { HubAPI } from './hub';
+import { PulpAPI } from './pulp';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.apiPath = _this.getUIPath('execution-environments/namespaces/');
+        _this.apiPath = 'pulp_container/namespaces/';
         return _this;
     }
+    API.prototype.listRoles = function (id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + id + '/list_roles/');
+    };
+    API.prototype.addRole = function (id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + id + '/add_role/');
+    };
+    API.prototype.myPermissions = function (id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + id + '/my_permissions/');
+    };
+    API.prototype.removeRole = function (id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + id + '/remove_role/');
+    };
     return API;
-}(HubAPI));
+}(PulpAPI));
 export var ExecutionEnvironmentNamespaceAPI = new API();
 //# sourceMappingURL=execution-environment-namespace.js.map
