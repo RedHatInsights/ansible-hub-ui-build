@@ -143,7 +143,8 @@ var App = /** @class */ (function (_super) {
                     }, name);
                 },
             } },
-            React.createElement(Alert, { isInline: true, variant: 'info', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."], ["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."]))) }),
+            React.createElement(Alert, { isInline: true, variant: 'warning', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Automation Hub has a scheduled downtime between 8am-9am ET on 2022-11-15."], ["Automation Hub has a scheduled downtime between 8am-9am ET on 2022-11-15."]))) }),
+            React.createElement(Alert, { isInline: true, variant: 'info', title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."], ["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."]))) }),
             React.createElement(Routes, { childProps: this.props }),
             React.createElement(UIVersion, null)));
     };
@@ -155,5 +156,5 @@ var App = /** @class */ (function (_super) {
  *          https://reactjs.org/docs/higher-order-components.html
  */
 export default withRouter(connect()(App));
-var templateObject_1;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=insights-loader.js.map
