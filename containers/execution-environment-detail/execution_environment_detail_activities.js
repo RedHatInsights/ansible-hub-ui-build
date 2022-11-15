@@ -124,7 +124,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                         " was added")));
                             }
                             activities.push({
-                                created: activity.pulp_created,
+                                created: activity.created_at,
                                 action: activityDescription,
                             });
                         });
@@ -153,7 +153,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
                                         " was removed")));
                             }
                             activities.push({
-                                created: activity.pulp_created,
+                                created: activity.created_at,
                                 action: activityDescription,
                             });
                         });

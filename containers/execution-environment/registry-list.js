@@ -88,7 +88,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
         var hasPermission = this.context.hasPermission;
-        var addButton = hasPermission('galaxy.add_containerregistry') ? (React.createElement(Button, { onClick: function () {
+        var addButton = hasPermission('galaxy.add_containerregistryremote') ? (React.createElement(Button, { onClick: function () {
                 return _this.setState({
                     remoteFormErrors: {},
                     remoteFormNew: true,
@@ -125,7 +125,7 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                     }
                     var promise = remoteFormNew
                         ? ExecutionEnvironmentRegistryAPI.create(newRemote)
-                        : ExecutionEnvironmentRegistryAPI.smartUpdate(remoteToEdit.pk, remoteToEdit, remoteUnmodified);
+                        : ExecutionEnvironmentRegistryAPI.smartUpdate(remoteToEdit.id, remoteToEdit, remoteUnmodified);
                     promise
                         .then(function () {
                         _this.setState({
@@ -292,8 +292,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.deleteRegistry = function (_a) {
         var _this = this;
-        var pk = _a.pk, name = _a.name;
-        ExecutionEnvironmentRegistryAPI.delete(pk)
+        var id = _a.id, name = _a.name;
+        ExecutionEnvironmentRegistryAPI.delete(id)
             .then(function () {
             return _this.addAlert(React.createElement(Trans, null,
                 "Remote registry \"",
@@ -311,8 +311,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.syncRegistry = function (_a) {
         var _this = this;
-        var pk = _a.pk, name = _a.name;
-        ExecutionEnvironmentRegistryAPI.sync(pk)
+        var id = _a.id, name = _a.name;
+        ExecutionEnvironmentRegistryAPI.sync(id)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
             _this.addAlert(React.createElement(Trans, null,
