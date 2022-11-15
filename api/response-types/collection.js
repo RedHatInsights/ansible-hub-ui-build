@@ -44,6 +44,24 @@ var CollectionListType = /** @class */ (function () {
     return CollectionListType;
 }());
 export { CollectionListType };
+var PluginOption = /** @class */ (function () {
+    function PluginOption() {
+    }
+    return PluginOption;
+}());
+export { PluginOption };
+var PluginDoc = /** @class */ (function () {
+    function PluginDoc() {
+    }
+    return PluginDoc;
+}());
+export { PluginDoc };
+var ReturnedValue = /** @class */ (function () {
+    function ReturnedValue() {
+    }
+    return ReturnedValue;
+}());
+export { ReturnedValue };
 var PluginContentType = /** @class */ (function () {
     function PluginContentType() {
     }
