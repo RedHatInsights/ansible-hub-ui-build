@@ -170,7 +170,7 @@ var TagManifestModal = /** @class */ (function (_super) {
             var _loop_1 = function (tag) {
                 promises.push({
                     tag: tag,
-                    promise: ContainerTagAPI.untag(repository.pulp.repository.pulp_id, tag).catch(function (e) { return _this.handleFailedTag(tag, e, 'remove'); }),
+                    promise: ContainerTagAPI.untag(repository.pulp.repository.id, tag).catch(function (e) { return _this.handleFailedTag(tag, e, 'remove'); }),
                 });
             };
             for (var _i = 0, _a = _this.state.tagsToRemove; _i < _a.length; _i++) {
@@ -180,7 +180,7 @@ var TagManifestModal = /** @class */ (function (_super) {
             var _loop_2 = function (tag) {
                 promises.push({
                     tag: tag,
-                    promise: ContainerTagAPI.tag(repository.pulp.repository.pulp_id, tag, containerManifest.digest).catch(function (e) { return _this.handleFailedTag(tag, e, 'add'); }),
+                    promise: ContainerTagAPI.tag(repository.pulp.repository.id, tag, containerManifest.digest).catch(function (e) { return _this.handleFailedTag(tag, e, 'add'); }),
                 });
             };
             for (var _b = 0, _c = _this.state.tagsToAdd; _b < _c.length; _b++) {

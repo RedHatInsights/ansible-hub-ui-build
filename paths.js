@@ -5,7 +5,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import { ParamHelper } from './utilities/param-helper';
 export function formatPath(path, data, params) {
-    var url = path;
+    var url = path + '/';
     for (var _i = 0, _a = Object.keys(data); _i < _a.length; _i++) {
         var k = _a[_i];
         url = url.replace(':' + k + '+', data[k]).replace(':' + k, data[k]);

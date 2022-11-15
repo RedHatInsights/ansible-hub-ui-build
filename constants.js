@@ -28,7 +28,7 @@ var Constants = /** @class */ (function () {
                 'galaxy.add_namespace',
                 'galaxy.change_namespace',
                 'galaxy.delete_namespace',
-                'galaxy.upload_to_namespace', // (model_permissions.upload_to_namespace)
+                'galaxy.upload_to_namespace',
             ],
         },
         {
@@ -36,7 +36,7 @@ var Constants = /** @class */ (function () {
             label: defineMessage({ message: "Collections" }),
             object_permissions: [
                 'ansible.modify_ansible_repo_content',
-                'ansible.delete_collection', // model_permissions.delete_collection
+                'ansible.delete_collection',
             ],
         },
         {
@@ -46,7 +46,7 @@ var Constants = /** @class */ (function () {
                 'galaxy.view_user',
                 'galaxy.delete_user',
                 'galaxy.add_user',
-                'galaxy.change_user', // model_permissions.change_user
+                'galaxy.change_user',
             ],
         },
         {
@@ -56,7 +56,7 @@ var Constants = /** @class */ (function () {
                 'galaxy.view_group',
                 'galaxy.delete_group',
                 'galaxy.add_group',
-                'galaxy.change_group', // model_permissions.change_group
+                'galaxy.change_group',
             ],
         },
         {
@@ -65,26 +65,18 @@ var Constants = /** @class */ (function () {
             object_permissions: [
                 'ansible.change_collectionremote',
                 'ansible.view_collectionremote',
-                // 'ansible.add_collectionremote', // (model_permissions.add_remote)
-                // 'ansible.delete_collectionremote', // (model_permissions.delete_remote)
             ],
         },
         {
             name: 'containers',
             label: defineMessage({ message: "Containers" }),
             object_permissions: [
-                // Turning off private container permissions since they aren't supported yet
-                // 'container.namespace_pull_containerdistribution',
-                // 'container.namespace_view_containerdistribution',
-                // 'container.add_containerrepository', // (model_permissions.add_containerrepository)
-                // 'container.change_containerrepository', // (model_permissions.change_containerrepository)
                 'container.delete_containerrepository',
                 'container.namespace_change_containerdistribution',
                 'container.namespace_modify_content_containerpushrepository',
                 'container.namespace_push_containerdistribution',
                 'container.add_containernamespace',
-                'container.change_containernamespace', // (model_permissions.change_containernamespace)
-                // 'container.delete_containernamespace', // (model_permissions.delete_containernamespace)
+                'container.change_containernamespace',
             ],
         },
         {
@@ -93,7 +85,7 @@ var Constants = /** @class */ (function () {
             object_permissions: [
                 'galaxy.add_containerregistryremote',
                 'galaxy.change_containerregistryremote',
-                'galaxy.delete_containerregistryremote', // model_permissions.delete_containerregistry
+                'galaxy.delete_containerregistryremote',
             ],
         },
         {
@@ -105,36 +97,6 @@ var Constants = /** @class */ (function () {
                 'core.view_task',
             ],
         },
-        // These aren't currently used. Removing them to reduce confusion in the UI
-        // {
-        //   name: 'distribution',
-        //   label: '...',
-        //   object_permissions: [
-        //     'ansible.view_ansibledistribution', // (model_permissions.view_distribution)
-        //     'ansible.add_ansibledistribution', // (model_permissions.add_distribution)
-        //     'ansible.change_ansibledistribution', // (model_permissions.change_distribution)
-        //     'ansible.delete_ansibledistribution', // (model_permissions.delete_distribution)
-        //   ],
-        // },
-        // {
-        //   name: 'synclists',
-        //   label: '...',
-        //   object_permissions: [
-        //     'galaxy.delete_synclist',
-        //     'galaxy.change_synclist',
-        //     'galaxy.view_synclist',
-        //     'galaxy.add_synclist',
-        //   ],
-        // },
-        // {
-        //   name: 'container_distribution',
-        //   label: '...',
-        //   object_permissions: [
-        //     'container.add_containerdistribution', // (model_permissions.add_containerdistribution)
-        //     'container.change_containerdistribution', // (model_permissions.change_containerdistribution)
-        //     'container.delete_containerdistribution', // (model_permissions.delete_containerdistribution)
-        //   ],
-        // },
     ];
     Constants.USER_GROUP_MGMT_PERMISSIONS = [
         'galaxy.delete_user',
@@ -239,6 +201,7 @@ var Constants = /** @class */ (function () {
         published: defineMessage({ message: "Published" }),
         'rh-certified': defineMessage({ message: "Red Hat Certified" }),
         community: defineMessage({ message: "Community" }),
+        validated: defineMessage({ message: "Validated" }),
     };
     Constants.ALLOWEDREPOS = ['community', 'published', 'rh-certified', 'validated'];
     Constants.COLLECTION_FILTER_TAGS = [

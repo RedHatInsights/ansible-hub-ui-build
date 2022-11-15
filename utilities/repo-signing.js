@@ -31,7 +31,7 @@ var RepoSigningUtils = /** @class */ (function () {
         SignContainersAPI.getSigningService(service)
             .then(function (result) {
             var pulp_href = result.data.results[0]['pulp_href'];
-            return SignContainersAPI.sign(item.pulp.repository.pulp_id, RepoSigningUtils.getContainerPulpType(item), pulp_href, item.pulp.distribution.base_path).then(function (result) {
+            return SignContainersAPI.sign(item.pulp.repository.id, RepoSigningUtils.getContainerPulpType(item), pulp_href, item.pulp.distribution.base_path).then(function (result) {
                 addAlert({
                     variant: 'success',
                     title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Signing started for container \"", "\"."], ["Signing started for container \"", "\"."])), item.name),

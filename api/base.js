@@ -54,7 +54,9 @@ var BaseAPI = /** @class */ (function () {
         var _this = this;
         this.http = axios.create({
             baseURL: apiBaseUrl,
-            paramsSerializer: function (params) { return ParamHelper.getQueryString(params); },
+            paramsSerializer: {
+                serialize: function (params) { return ParamHelper.getQueryString(params); },
+            },
         });
         this.http.interceptors.request.use(function (request) { return _this.authHandler(request); });
     }
