@@ -196,6 +196,7 @@ var App = /** @class */ (function (_super) {
                     user && featureFlags && React.createElement(Menu, { items: menu }))) }));
         // Hide navs on login page
         if (this.props.location.pathname === Paths.login ||
+            this.props.location.pathname === formatPath(Paths.login, {}) ||
             this.props.location.pathname === UI_EXTERNAL_LOGIN_URI) {
             return this.ctx(React.createElement(Routes, { updateInitialData: this.updateInitialData }));
         }
