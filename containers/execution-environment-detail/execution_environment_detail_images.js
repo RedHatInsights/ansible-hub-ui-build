@@ -205,10 +205,12 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetailImages.prototype.renderTableRow = function (image, index, canEditTags, cols) {
         var _this = this;
+        var _a;
         var hasPermission = this.context.hasPermission;
+        var container = this.props.match.params['container'];
         var manifestLink = function (digestOrTag) {
             return formatPath(Paths.executionEnvironmentManifest, {
-                container: _this.props.match.params['container'],
+                container: container,
                 digest: digestOrTag,
             });
         };
@@ -222,10 +224,12 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
             return (React.createElement(Link, { to: manifestLink(tag) },
                 React.createElement(TagLabel, { tag: tag })));
         };
-        var url = getContainersURL();
-        var instruction = image.tags.length === 0
-            ? image.digest
-            : this.props.match.params['container'] + ':' + image.tags[0];
+        var instructions = 'podman pull ' +
+            getContainersURL({
+                name: container,
+                tag: (_a = image.tags) === null || _a === void 0 ? void 0 : _a[0],
+                digest: image.digest,
+            });
         var isRemote = !!this.props.containerRepository.pulp.repository.remote;
         var isManifestList = image.isManifestList;
         var expandedImage = this.state.expandedImage;
@@ -265,7 +269,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 React.createElement("td", null, isManifestList ? '---' : getHumanSize(image.size)),
                 React.createElement("td", null, isManifestList ? (React.createElement(ShaLabel, { digest: image.digest })) : (React.createElement(ShaLink, { digest: image.digest }))),
                 React.createElement("td", null,
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, 'podman pull ' + url + '/' + instruction)),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, instructions)),
                 React.createElement(ListItemActions, { kebabItems: dropdownItems })),
             expandedImage === image && (React.createElement("tr", null,
                 React.createElement("td", { colSpan: cols }, this.renderManifestList(image, ShaLink))))));

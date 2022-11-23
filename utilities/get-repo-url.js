@@ -8,7 +8,10 @@ export function getRepoUrl(distributionPath) {
         : "".concat(host).concat(API_BASE_PATH);
 }
 // returns the server name for (protocol-less) container urls
-export function getContainersURL() {
-    return window.location.href.split('://')[1].split('/ui')[0];
+// url/image, url/image:tag, url/image@digest (including sha256: prefix)
+export function getContainersURL(_a) {
+    var name = _a.name, tag = _a.tag, digest = _a.digest;
+    var host = window.location.host;
+    return "".concat(host, "/").concat(name).concat(tag ? ":".concat(tag) : '').concat(digest && !tag ? "@".concat(digest) : '');
 }
 //# sourceMappingURL=get-repo-url.js.map
