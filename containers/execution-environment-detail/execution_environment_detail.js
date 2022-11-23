@@ -49,14 +49,12 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentDetail.prototype.renderDetail = function () {
         var _this = this;
-        var url = getContainersURL();
-        var instructions = 'podman pull ' +
-            url +
-            '/' +
-            this.props.containerRepository.name +
-            ':latest';
         var containerRepository = this.props.containerRepository;
         var canEdit = containerRepository.namespace.my_permissions.includes('container.change_containernamespace');
+        var instructions = 'podman pull ' +
+            getContainersURL({
+                name: containerRepository.name,
+            });
         return (React.createElement(Flex, { direction: { default: 'column' } },
             React.createElement(FlexItem, null,
                 React.createElement("section", { className: 'body card-area' },
