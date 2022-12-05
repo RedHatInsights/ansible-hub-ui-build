@@ -23,6 +23,14 @@ import { AboutModal, TextContent, TextList, TextListItem, TextListItemVariants, 
 import Logo from 'src/../static/images/logo_large.svg';
 import { ApplicationInfoAPI } from 'src/api';
 import { detect } from 'detect-browser';
+var Label = function (_a) {
+    var children = _a.children;
+    return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
+};
+var Value = function (_a) {
+    var children = _a.children;
+    return (React.createElement(TextListItem, { component: TextListItemVariants.dd }, children));
+};
 var AboutModalWindow = /** @class */ (function (_super) {
     __extends(AboutModalWindow, _super);
     function AboutModalWindow(props) {
@@ -55,14 +63,6 @@ var AboutModalWindow = /** @class */ (function (_super) {
         var _a;
         var _b = this.props, isOpen = _b.isOpen, onClose = _b.onClose, brandImageAlt = _b.brandImageAlt, productName = _b.productName, user = _b.user, userName = _b.userName;
         var browser = detect();
-        var Label = function (_a) {
-            var children = _a.children;
-            return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
-        };
-        var Value = function (_a) {
-            var children = _a.children;
-            return (React.createElement(TextListItem, { component: TextListItemVariants.dd }, children));
-        };
         return (React.createElement(AboutModal, { isOpen: isOpen, trademark: '', brandImageSrc: Logo, onClose: onClose, brandImageAlt: brandImageAlt, productName: productName },
             React.createElement(TextContent, null,
                 React.createElement(TextList, { component: TextListVariants.dl },
