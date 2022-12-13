@@ -37,7 +37,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RoleList, RoleCreate, EditRole, RepositoryList, SignatureKeysList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
+import { CertificationDashboard, CollectionContent, CollectionDetail, CollectionDocs, CollectionImportLog, CollectionDependencies, EditNamespace, LegacyNamespaces, LegacyNamespace, LegacyRoles, LegacyRole, LoginPage, MyImports, NamespaceDetail, MyNamespaces, Partners, NotFound, Search, TokenPageStandalone, UserList, EditUser, UserDetail, UserCreate, UserProfile, GroupList, GroupDetail, RoleList, RoleCreate, EditRole, RepositoryList, SignatureKeysList, ExecutionEnvironmentList, ExecutionEnvironmentRegistryList, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentManifest, TaskListView, TaskDetail, } from 'src/containers';
 import { AppContext } from '../app-context';
 import { loadContext } from '../load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -139,6 +139,11 @@ var Routes = /** @class */ (function (_super) {
                 path: Paths.executionEnvironmentsRegistries,
                 isDisabled: isContainerDisabled,
             },
+            // LEGACY ...
+            { comp: LegacyNamespace, path: Paths.legacyNamespace },
+            { comp: LegacyNamespaces, path: Paths.legacyNamespaces },
+            { comp: LegacyRole, path: Paths.legacyRole },
+            { comp: LegacyRoles, path: Paths.legacyRoles },
             {
                 comp: TaskListView,
                 path: Paths.taskList,

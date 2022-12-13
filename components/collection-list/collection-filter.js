@@ -43,12 +43,13 @@ var CollectionFilter = /** @class */ (function (_super) {
         var _a;
         var _b = this.props, ignoredParams = _b.ignoredParams, params = _b.params, updateParams = _b.updateParams;
         var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
+        var display_tags = ignoredParams.includes('tags') === false;
         var filterConfig = [
             {
                 id: 'keywords',
                 title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Keywords"], ["Keywords"]))),
             },
-            {
+            display_tags && {
                 id: 'tags',
                 title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Tag"], ["Tag"]))),
                 inputType: 'multiple',
