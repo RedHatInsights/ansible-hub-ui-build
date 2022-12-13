@@ -23,6 +23,14 @@ import { AboutModal, TextContent, TextList, TextListItem, TextListItemVariants, 
 import Logo from 'src/../static/images/logo_large.svg';
 import { ApplicationInfoAPI } from 'src/api';
 import { detect } from 'detect-browser';
+var Label = function (_a) {
+    var children = _a.children;
+    return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
+};
+var Value = function (_a) {
+    var children = _a.children;
+    return (React.createElement(TextListItem, { component: TextListItemVariants.dd }, children));
+};
 var AboutModalWindow = /** @class */ (function (_super) {
     __extends(AboutModalWindow, _super);
     function AboutModalWindow(props) {
@@ -32,6 +40,7 @@ var AboutModalWindow = /** @class */ (function (_super) {
                 galaxy_ng_commit: '',
                 pulp_ansible_version: '',
                 server_version: '',
+                aap_version: '',
             },
         };
         return _this;
@@ -39,26 +48,21 @@ var AboutModalWindow = /** @class */ (function (_super) {
     AboutModalWindow.prototype.componentDidMount = function () {
         var _this = this;
         ApplicationInfoAPI.get().then(function (result) {
+            var _a;
             _this.setState({
                 applicationInfo: {
                     galaxy_ng_commit: result.data.galaxy_ng_commit,
                     pulp_ansible_version: result.data.pulp_ansible_version,
                     server_version: result.data.server_version,
+                    aap_version: (_a = result.data) === null || _a === void 0 ? void 0 : _a.aap_version,
                 },
             });
         });
     };
     AboutModalWindow.prototype.render = function () {
-        var _a = this.props, isOpen = _a.isOpen, onClose = _a.onClose, brandImageAlt = _a.brandImageAlt, productName = _a.productName, user = _a.user, userName = _a.userName;
+        var _a;
+        var _b = this.props, isOpen = _b.isOpen, onClose = _b.onClose, brandImageAlt = _b.brandImageAlt, productName = _b.productName, user = _b.user, userName = _b.userName;
         var browser = detect();
-        var Label = function (_a) {
-            var children = _a.children;
-            return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
-        };
-        var Value = function (_a) {
-            var children = _a.children;
-            return (React.createElement(TextListItem, { component: TextListItemVariants.dd }, children));
-        };
         return (React.createElement(AboutModal, { isOpen: isOpen, trademark: '', brandImageSrc: Logo, onClose: onClose, brandImageAlt: brandImageAlt, productName: productName },
             React.createElement(TextContent, null,
                 React.createElement(TextList, { component: TextListVariants.dl },
@@ -69,19 +73,22 @@ var AboutModalWindow = /** @class */ (function (_super) {
                         this.state.applicationInfo.galaxy_ng_commit),
                     React.createElement(Label, null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Pulp Ansible Version"], ["Pulp Ansible Version"])))),
                     React.createElement(Value, null, this.state.applicationInfo.pulp_ansible_version),
-                    React.createElement(Label, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["UI Version"], ["UI Version"])))),
+                    ((_a = this.state.applicationInfo) === null || _a === void 0 ? void 0 : _a.aap_version) && (React.createElement(React.Fragment, null,
+                        React.createElement(Label, null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Ansible Automation Platform"], ["Ansible Automation Platform"])))),
+                        React.createElement(Value, null, this.state.applicationInfo.aap_version))),
+                    React.createElement(Label, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["UI Version"], ["UI Version"])))),
                     React.createElement(Value, null, UI_COMMIT_HASH),
-                    React.createElement(Label, null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Username"], ["Username"])))),
+                    React.createElement(Label, null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Username"], ["Username"])))),
                     React.createElement(Value, null, userName),
-                    React.createElement(Label, null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
+                    React.createElement(Label, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["User Groups"], ["User Groups"])))),
                     React.createElement(Value, null, user.groups.map(function (group) { return group.name; }).join()),
-                    React.createElement(Label, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
+                    React.createElement(Label, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Browser Version"], ["Browser Version"])))),
                     React.createElement(Value, null, browser.name + ' ' + browser.version),
-                    React.createElement(Label, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
+                    React.createElement(Label, null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Browser OS"], ["Browser OS"])))),
                     React.createElement(Value, null, browser.os)))));
     };
     return AboutModalWindow;
 }(React.Component));
 export { AboutModalWindow };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=about-modal.js.map

@@ -164,7 +164,6 @@ var PublishToControllerModal = /** @class */ (function (_super) {
     PublishToControllerModal.prototype.renderControllers = function () {
         var _a = this.props, image = _a.image, isOpen = _a.isOpen;
         var _b = this.state, controllers = _b.controllers, digest = _b.digest, tag = _b.tag;
-        var url = getContainersURL();
         var unsafeLinksSupported = !Object.keys(window).includes('chrome');
         if (!isOpen || !controllers) {
             return null;
@@ -176,9 +175,13 @@ var PublishToControllerModal = /** @class */ (function (_super) {
         if (!digest && !tag) {
             return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No tag or digest selected."], ["No tag or digest selected."])));
         }
+        var imageUrl = encodeURIComponent(getContainersURL({
+            name: image,
+            tag: tag,
+            digest: digest,
+        }));
         return (React.createElement(List, { isPlain: true, isBordered: true }, controllers.map(function (host) {
-            var imageUrl = "".concat(url, "/").concat(tag ? "".concat(image, ":").concat(tag) : digest);
-            var href = "".concat(host, "/#/execution_environments/add?image=").concat(encodeURIComponent(imageUrl));
+            var href = "".concat(host, "/#/execution_environments/add?image=").concat(imageUrl);
             return (React.createElement(ListItem, { style: { paddingTop: '8px' }, key: host },
                 React.createElement("a", { href: href, target: '_blank', rel: 'noreferrer' }, host),
                 ' ',
