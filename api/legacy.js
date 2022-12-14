@@ -21,6 +21,10 @@ var LegacyAPI = /** @class */ (function (_super) {
         _this.API_VERSION = 'v1';
         return _this;
     }
+    LegacyAPI.prototype.mapPageToOffset = function (p) {
+        // override BaseAPI's function to persist page, page_size, etc ...
+        return p;
+    };
     LegacyAPI.prototype.get = function (apiPath) {
         var fullPath = 'v1/' + apiPath;
         if (fullPath.includes('?')) {
