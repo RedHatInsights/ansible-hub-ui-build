@@ -28,15 +28,24 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Alert, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
-import { APISearchTypeAhead, HelperText } from 'src/components';
+import { APISearchTypeAhead, HelperText, AlertList, closeAlertMixin, } from 'src/components';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, isFieldValid, isFormValid, mapErrorMessages, alertErrorsWithoutFields, } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
     function RepositoryForm(props) {
@@ -51,9 +60,8 @@ var RepositoryForm = /** @class */ (function (_super) {
             registries: null,
             registrySelection: [],
             upstreamName: _this.props.upstreamName || '',
-            formErrors: {
-                registries: null,
-            },
+            formErrors: {},
+            alerts: [],
         };
         return _this;
     }
@@ -74,12 +82,14 @@ var RepositoryForm = /** @class */ (function (_super) {
             })
                 .catch(function (e) {
                 var _a = e.response, status = _a.status, statusText = _a.statusText;
+                var errorTitle = t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Registries list could not be displayed."], ["Registries list could not be displayed."])));
+                _this.addAlert({
+                    variant: 'danger',
+                    title: errorTitle,
+                    description: errorMessage(status, statusText),
+                });
                 _this.setState({
-                    formErrors: __assign(__assign({}, _this.state.formErrors), { registries: {
-                            title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Registries list could not be displayed."], ["Registries list could not be displayed."]))),
-                            description: errorMessage(status, statusText),
-                            variant: 'danger',
-                        } }),
+                    formErrors: __assign(__assign({}, _this.state.formErrors), { registries: errorTitle }),
                 });
             });
         }
@@ -92,25 +102,34 @@ var RepositoryForm = /** @class */ (function (_super) {
                 React.createElement(Button, { key: 'save', variant: 'primary', isDisabled: !this.formIsValid(), onClick: function () { return onSave(_this.onSave(), _this.state); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'link', onClick: onCancel }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
+            React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(Form, null,
                 !isRemote ? (React.createElement(React.Fragment, null,
                     React.createElement(FormGroup, { key: 'name', fieldId: 'name', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))) },
                         React.createElement(TextInput, { id: 'name', value: name, isDisabled: true, type: 'text' })),
                     React.createElement(FormGroup, { key: 'namespace', fieldId: 'namespace', label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Container namespace"], ["Container namespace"]))) },
                         React.createElement(TextInput, { id: 'namespace', value: namespace, isDisabled: true, type: 'text' })))) : (React.createElement(React.Fragment, null,
-                    React.createElement(FormGroup, { isRequired: true, key: 'name', fieldId: 'name', label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Name"], ["Name"]))), helperTextInvalid: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."], ["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."]))), validated: this.validateName(name) },
-                        React.createElement(TextInput, { id: 'name', value: name, isDisabled: !isNew, onChange: function (value) { return _this.setState({ name: value }); }, validated: this.validateName(name) })),
-                    React.createElement(FormGroup, { key: 'upstreamName', fieldId: 'upstreamName', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upstream name"], ["Upstream name"]))), isRequired: true, labelIcon: React.createElement(HelperText, { content: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Use the namespace/name format for namespaced containers. Otherwise, use the library/name format."], ["Use the namespace/name format for namespaced containers. Otherwise, use the library/name format."]))) }) },
+                    React.createElement(FormGroup, { isRequired: true, key: 'name', fieldId: 'name', label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Name"], ["Name"]))), helperTextInvalid: this.state.formErrors['name'], validated: isFieldValid(this.state.formErrors, 'name') },
+                        React.createElement(TextInput, { id: 'name', value: name, isDisabled: !isNew, onChange: function (value) {
+                                _this.setState({ name: value });
+                                _this.validateName(value);
+                            }, validated: isFieldValid(this.state.formErrors, 'name') })),
+                    React.createElement(FormGroup, { key: 'upstreamName', fieldId: 'upstreamName', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Upstream name"], ["Upstream name"]))), isRequired: true, labelIcon: React.createElement(HelperText, { content: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Use the namespace/name format for namespaced containers. Otherwise, use the library/name format."], ["Use the namespace/name format for namespaced containers. Otherwise, use the library/name format."]))) }) },
                         React.createElement(TextInput, { id: 'upstreamName', value: upstreamName, onChange: function (value) { return _this.setState({ upstreamName: value }); } })),
-                    React.createElement(FormGroup, { key: 'registry', fieldId: 'registry', label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Registry"], ["Registry"]))), className: 'hub-formgroup-registry', isRequired: true }, (formErrors === null || formErrors === void 0 ? void 0 : formErrors.registries) ? (React.createElement(Alert, { title: formErrors.registries.title, variant: 'danger', isInline: true }, formErrors.registries.description)) : (React.createElement(React.Fragment, null, registries ? (React.createElement(APISearchTypeAhead, { loadResults: function (name) { return _this.loadRegistries(name); }, onClear: function () { return _this.setState({ registrySelection: [] }); }, onSelect: function (event, value) {
+                    React.createElement(FormGroup, { key: 'registry', fieldId: 'registry', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Registry"], ["Registry"]))), className: 'hub-formgroup-registry', isRequired: true, helperTextInvalid: this.state.formErrors['registries'] ||
+                            this.state.formErrors['registry'], validated: isFieldValid(this.state.formErrors, [
+                            'registries',
+                            'registry',
+                        ]) }, !(formErrors === null || formErrors === void 0 ? void 0 : formErrors.registries) && (React.createElement(React.Fragment, null, registries ? (React.createElement(APISearchTypeAhead, { loadResults: function (name) { return _this.loadRegistries(name); }, onClear: function () { return _this.setState({ registrySelection: [] }); }, onSelect: function (event, value) {
                             return _this.setState({
                                 registrySelection: registries.filter(function (_a) {
                                     var name = _a.name;
                                     return name === value;
                                 }),
+                                formErrors: __assign(__assign({}, formErrors), { registry: null }),
                             });
-                        }, placeholderText: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Select a registry"], ["Select a registry"]))), results: registries, selections: registrySelection })) : (React.createElement(Spinner, null))))),
-                    React.createElement(FormGroup, { fieldId: 'addTagsInclude', label: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Add tag(s) to include"], ["Add tag(s) to include"]))) },
+                        }, placeholderText: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Select a registry"], ["Select a registry"]))), results: registries, selections: registrySelection })) : (React.createElement(Spinner, null))))),
+                    React.createElement(FormGroup, { fieldId: 'addTagsInclude', label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Add tag(s) to include"], ["Add tag(s) to include"]))) },
                         React.createElement(InputGroup, null,
                             React.createElement(TextInput, { type: 'text', id: 'addTagsInclude', value: addTagsInclude, onChange: function (val) { return _this.setState({ addTagsInclude: val }); }, onKeyUp: function (e) {
                                     // l10n: don't translate
@@ -118,10 +137,10 @@ var RepositoryForm = /** @class */ (function (_super) {
                                         _this.addTags(addTagsInclude, 'includeTags');
                                     }
                                 } }),
-                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsInclude, 'includeTags'); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Add"], ["Add"])))))),
-                    React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Currently included tags"], ["Currently included tags"]))) },
+                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsInclude, 'includeTags'); } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Add"], ["Add"])))))),
+                    React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Currently included tags"], ["Currently included tags"]))) },
                         React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, includeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'includeTags'); }, key: tag }, tag)); }))),
-                    React.createElement(FormGroup, { fieldId: 'addTagsExclude', label: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Add tag(s) to exclude"], ["Add tag(s) to exclude"]))) },
+                    React.createElement(FormGroup, { fieldId: 'addTagsExclude', label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Add tag(s) to exclude"], ["Add tag(s) to exclude"]))) },
                         React.createElement(InputGroup, null,
                             React.createElement(TextInput, { type: 'text', id: 'addTagsExclude', value: addTagsExclude, onChange: function (val) { return _this.setState({ addTagsExclude: val }); }, onKeyUp: function (e) {
                                     // l10n: don't translate
@@ -129,12 +148,12 @@ var RepositoryForm = /** @class */ (function (_super) {
                                         _this.addTags(addTagsExclude, 'excludeTags');
                                     }
                                 } }),
-                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsExclude, 'excludeTags'); } }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Add"], ["Add"])))))),
-                    React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
+                            React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsExclude, 'excludeTags'); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Add"], ["Add"])))))),
+                    React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
                         React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
-                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Description"], ["Description"]))) },
+                React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
-                React.createElement(FormGroup, { fieldId: 'none', label: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
+                React.createElement(FormGroup, { fieldId: 'none', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
                     React.createElement(Alert, { isInline: true, variant: 'info', title: isNew ? (React.createElement(Trans, null,
                             "Moved to the ",
                             React.createElement("b", null, "Owners"),
@@ -151,10 +170,12 @@ var RepositoryForm = /** @class */ (function (_super) {
     RepositoryForm.prototype.validateName = function (name) {
         var regex = /^([0-9A-Za-z._-]+\/)?[0-9A-Za-z._-]+$/;
         if (name === '' || regex.test(name)) {
-            return 'default';
+            this.setState({ formErrors: __assign(__assign({}, this.state.formErrors), { name: null }) });
+            return;
         }
         else {
-            return 'error';
+            var error = t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."], ["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."])));
+            this.setState({ formErrors: __assign(__assign({}, this.state.formErrors), { name: error }) });
         }
     };
     RepositoryForm.prototype.formIsValid = function () {
@@ -163,8 +184,11 @@ var RepositoryForm = /** @class */ (function (_super) {
             // no validation for local
             return true;
         }
-        var nameValid = name && this.validateName(name) === 'default';
-        return nameValid && upstreamName && registrySelection.length;
+        if (!isFormValid(this.state.formErrors)) {
+            return false;
+        }
+        // validation for non empty fields
+        return name && upstreamName && registrySelection.length;
     };
     RepositoryForm.prototype.loadRegistries = function (name) {
         var _this = this;
@@ -196,10 +220,12 @@ var RepositoryForm = /** @class */ (function (_super) {
             _a));
     };
     RepositoryForm.prototype.onSave = function () {
+        var _this = this;
         var _a = this.props, originalDescription = _a.description, distributionPulpId = _a.distributionPulpId, isNew = _a.isNew, isRemote = _a.isRemote, originalName = _a.name, remoteId = _a.remoteId;
         var _b = this.state, description = _b.description, exclude_tags = _b.excludeTags, include_tags = _b.includeTags, name = _b.name, _c = _b.registrySelection[0], _d = _c === void 0 ? { id: null } : _c, registry = _d.id, upstream_name = _b.upstreamName;
+        var promise = null;
         if (isRemote && isNew) {
-            return ExecutionEnvironmentRemoteAPI.create({
+            promise = ExecutionEnvironmentRemoteAPI.create({
                 name: name,
                 upstream_name: upstream_name,
                 registry: registry,
@@ -207,24 +233,43 @@ var RepositoryForm = /** @class */ (function (_super) {
                 exclude_tags: exclude_tags,
             });
         }
-        return Promise.all([
-            // remote edit - upstream, tags, registry
-            isRemote &&
-                !isNew &&
-                ExecutionEnvironmentRemoteAPI.update(remoteId, {
-                    name: originalName,
-                    upstream_name: upstream_name,
-                    registry: registry,
-                    include_tags: include_tags,
-                    exclude_tags: exclude_tags,
-                }),
-            // remote edit or local edit - description, if changed
-            description !== originalDescription &&
-                ContainerDistributionAPI.patch(distributionPulpId, { description: description }),
-        ]);
+        else {
+            promise = Promise.all([
+                // remote edit - upstream, tags, registry
+                isRemote &&
+                    !isNew &&
+                    ExecutionEnvironmentRemoteAPI.update(remoteId, {
+                        name: originalName,
+                        upstream_name: upstream_name,
+                        registry: registry,
+                        include_tags: include_tags,
+                        exclude_tags: exclude_tags,
+                    }),
+                // remote edit or local edit - description, if changed
+                description !== originalDescription &&
+                    ContainerDistributionAPI.patch(distributionPulpId, { description: description }),
+            ]);
+        }
+        return promise.catch(function (e) {
+            _this.setState({ formErrors: mapErrorMessages(e) });
+            alertErrorsWithoutFields(_this.state.formErrors, ['name', 'registry', 'registries'], function (alert) { return _this.addAlert(alert); }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Error when saving registry."], ["Error when saving registry."]))), function (state) { return _this.setState({ formErrors: state }); });
+            return Promise.reject(new Error(e));
+        });
     };
+    RepositoryForm.prototype.addAlert = function (alert) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
+        });
+    };
+    Object.defineProperty(RepositoryForm.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
     return RepositoryForm;
 }(React.Component));
 export { RepositoryForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
 //# sourceMappingURL=repository-form.js.map

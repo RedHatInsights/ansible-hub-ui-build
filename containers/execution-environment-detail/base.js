@@ -61,7 +61,6 @@ export function withContainerRepo(WrappedComponent) {
                     editing: false,
                     alerts: [],
                     showDeleteModal: false,
-                    formError: [],
                 };
                 return _this;
             }
@@ -137,9 +136,8 @@ export function withContainerRepo(WrappedComponent) {
                             showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary', "data-cy": 'edit-container' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                             React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                     React.createElement(Main, null,
-                        this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, formError: this.state.formError, onSave: function (promise) {
-                                promise
-                                    .then(function (results) {
+                        this.state.editing && (React.createElement(RepositoryForm, { name: this.state.repo.name, namespace: this.state.repo.namespace.name, description: this.state.repo.description, permissions: permissions, onSave: function (promise) {
+                                promise.then(function (results) {
                                     var task = results.find(function (x) { return x.data && x.data.task; });
                                     _this.setState({
                                         editing: false,
@@ -160,16 +158,6 @@ export function withContainerRepo(WrappedComponent) {
                                     else {
                                         _this.loadRepo();
                                     }
-                                })
-                                    .catch(function (err) {
-                                    return _this.setState({
-                                        formError: err.response.data.errors.map(function (error) {
-                                            return {
-                                                title: error.title,
-                                                detail: error.source.parameter + ': ' + error.detail,
-                                            };
-                                        }),
-                                    });
                                 });
                             }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_c = this.state.repo.pulp.repository.remote) === null || _c === void 0 ? void 0 : _c.upstream_name, registry: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.registry, excludeTags: ((_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.exclude_tags) || [], includeTags: ((_f = this.state.repo.pulp.repository.remote) === null || _f === void 0 ? void 0 : _f.include_tags) || [], remoteId: (_g = this.state.repo.pulp.repository.remote) === null || _g === void 0 ? void 0 : _g.id })),
                         React.createElement(WrappedComponent, __assign({ containerRepository: this.state.repo, editing: this.state.editing, addAlert: function (_a) {
