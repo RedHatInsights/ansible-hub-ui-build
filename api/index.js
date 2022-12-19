@@ -45,4 +45,8 @@ export { RoleType, GroupRoleType } from './response-types/role';
 export { CertificateUploadAPI } from './certificate-upload';
 export { Repositories } from './repositories';
 export { SignContainersAPI } from './sign-containers';
+export { LegacyRoleListType } from './response-types/legacy-role';
+export { LegacyRoleDetailType } from './response-types/legacy-role';
+export { LegacyNamespaceListType } from './response-types/legacy-namespace';
+export { LegacyNamespaceDetailType } from './response-types/legacy-namespace';
 //# sourceMappingURL=index.js.map

@@ -107,7 +107,7 @@ var SignatureKeysList = lazy(function () {
  *      component - component to be rendered when a route has been chosen.
  */
 export var Routes = function () {
-    return (React.createElement(Suspense, { fallback: LoadingPageWithHeader },
+    return (React.createElement(Suspense, { fallback: React.createElement(LoadingPageWithHeader, null) },
         React.createElement(Switch, null,
             React.createElement(Route, { path: Paths.repositories, component: Repository }),
             React.createElement(Route, { path: Paths.approvalDashboard, component: CertificationDashboard }),

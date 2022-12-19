@@ -274,21 +274,34 @@ var App = /** @class */ (function (_super) {
                     url: Paths.executionEnvironmentsRegistries,
                 }),
             ]),
-            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+            menuSection(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Legacy"], ["Legacy"]))), {
+                condition: function (_a) {
+                    var featureFlags = _a.featureFlags;
+                    return featureFlags.legacy_roles;
+                },
+            }, [
+                menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))), {
+                    url: Paths.legacyRoles,
+                }),
+                menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Legacy Namespaces"], ["Legacy Namespaces"]))), {
+                    url: Paths.legacyNamespaces,
+                }),
+            ]),
+            menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
                 url: Paths.taskList,
                 condition: function (_a) {
                     var user = _a.user;
                     return !user.is_anonymous;
                 },
             }),
-            menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
+            menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
                 url: Paths.signatureKeys,
                 condition: function (_a) {
-                    var featureFlags = _a.featureFlags;
-                    return featureFlags.display_signatures;
+                    var featureFlags = _a.featureFlags, user = _a.user;
+                    return featureFlags.display_signatures && !user.is_anonymous;
                 },
             }),
-            menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
                 url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
                 external: true,
                 condition: function (_a) {
@@ -297,16 +310,16 @@ var App = /** @class */ (function (_super) {
                         !user.is_anonymous;
                 },
             }),
-            menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-                menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
+            menuSection(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+                menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Users"], ["Users"]))), {
                     condition: function (params) { return hasPermission(params, 'galaxy.view_user'); },
                     url: Paths.userList,
                 }),
-                menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+                menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                     condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
                     url: Paths.groupList,
                 }),
-                menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+                menuItem(t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                     condition: function (params) { return hasPermission(params, 'galaxy.view_group'); },
                     url: Paths.roleList,
                 }),
@@ -324,6 +337,10 @@ var App = /** @class */ (function (_super) {
         return some(items, 'active');
     };
     App.prototype.setRepoToURL = function () {
+        // bypass this logic if looking at legacy things ...
+        if (matchPath(this.props.location.pathname, { path: '/legacy' })) {
+            return null;
+        }
         var match = this.isRepoURL(this.props.location.pathname);
         if (match) {
             if (match.params['repo'] !== this.state.selectedRepo) {
@@ -361,5 +378,5 @@ var App = /** @class */ (function (_super) {
     return App;
 }(React.Component));
 export default withRouter(App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23;
 //# sourceMappingURL=standalone-loader.js.map
