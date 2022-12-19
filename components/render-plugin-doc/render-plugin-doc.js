@@ -374,12 +374,12 @@ var RenderPluginDoc = /** @class */ (function (_super) {
     RenderPluginDoc.prototype.renderChoices = function (option) {
         var choices, defaul;
         if (option['type'] === 'bool') {
-            choices = ['no', 'yes'];
+            choices = ['true', 'false'];
             if (option['default'] === true) {
-                defaul = 'yes';
+                defaul = 'true';
             }
             else if (option['default'] === false) {
-                defaul = 'no';
+                defaul = 'false';
             }
         }
         else {
