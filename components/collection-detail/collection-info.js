@@ -51,7 +51,9 @@ var CollectionInfo = /** @class */ (function (_super) {
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["License"], ["License"])))),
-                        React.createElement(SplitItem, { isFilled: true }, latest_version.metadata.license))),
+                        React.createElement(SplitItem, { isFilled: true }, latest_version.metadata.license
+                            ? latest_version.metadata.license.join(', ')
+                            : ''))),
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Installation"], ["Installation"])))),
