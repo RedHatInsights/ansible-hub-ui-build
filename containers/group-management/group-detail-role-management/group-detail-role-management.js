@@ -24,11 +24,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
-import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateNoData, RolePermissions, LoadingPageWithHeader, Pagination, RoleListTable, SelectRoles, PreviewRoles, ExpandableRow, WizardModal, EmptyStateFilter, ListItemActions, } from 'src/components';
+import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateNoData, PermissionCategories, LoadingPageWithHeader, Pagination, RoleListTable, SelectRoles, PreviewRoles, ExpandableRow, WizardModal, EmptyStateFilter, ListItemActions, } from 'src/components';
 import { GroupRoleAPI, } from 'src/api';
 import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { Constants } from 'src/constants';
 import './group-detail-role-management.scss';
 var GroupDetailRoleManagement = function (_a) {
     var params = _a.params, updateParams = _a.updateParams, context = _a.context, group = _a.group, addAlert = _a.addAlert, nonQueryParams = _a.nonQueryParams;
@@ -89,19 +88,7 @@ var GroupDetailRoleManagement = function (_a) {
             "."),
         React.createElement("br", null),
         React.createElement(Trans, null, "This will revoke all permissions associated with this role from the group.")));
-    var featureFlags = context.featureFlags, hasPermission = context.hasPermission;
-    var isUserMgmtDisabled = false;
-    var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
-    if (featureFlags) {
-        isUserMgmtDisabled = featureFlags.external_authentication;
-    }
-    if (isUserMgmtDisabled) {
-        Constants.USER_GROUP_MGMT_PERMISSIONS.forEach(function (perm) {
-            if (perm in filteredPermissions) {
-                delete filteredPermissions[perm];
-            }
-        });
-    }
+    var hasPermission = context.hasPermission;
     var addRoles = hasPermission('galaxy.change_group') && (React.createElement(Button, { onClick: function () { return setShowAddRolesModal(true); }, variant: 'primary', "data-cy": 'add-roles' },
         React.createElement(Trans, null, "Add roles")));
     if (loading) {
@@ -205,7 +192,7 @@ var GroupDetailRoleManagement = function (_a) {
                     role__icontains: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Name"], ["Name"]))),
                 } }),
             !noFilteredData ? (React.createElement(React.Fragment, null,
-                React.createElement(RoleListTable, { params: params, updateParams: updateParams, tableHeader: tableHeader }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: i, rowIndex: i, expandableRowContent: React.createElement(RolePermissions, { filteredPermissions: filteredPermissions, selectedPermissions: role.permissions, showCustom: true, showEmpty: false }), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.role) },
+                React.createElement(RoleListTable, { params: params, updateParams: updateParams, tableHeader: tableHeader }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: i, rowIndex: i, expandableRowContent: React.createElement(PermissionCategories, { permissions: role.permissions, showCustom: true, showEmpty: false }), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.role) },
                     React.createElement("td", null, role.role),
                     React.createElement("td", null, translateLockedRolesDescription(role.role, role.description)),
                     React.createElement(ListItemActions, { kebabItems: [

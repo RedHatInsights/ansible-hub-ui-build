@@ -17,24 +17,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { i18n } from '@lingui/core';
-import { PermissionChipSelector } from 'src/components';
-import { ActionGroup, Button, Flex, FlexItem, Form, TextInput, InputGroup, FormGroup, Title, Divider, Spinner, } from '@patternfly/react-core';
-import { twoWayMapper } from 'src/utilities';
-import { Constants } from 'src/constants';
+import { ActionGroup, Button, Divider, Form, FormGroup, InputGroup, Spinner, TextInput, Title, } from '@patternfly/react-core';
+import { PermissionCategories } from 'src/components';
 var RoleForm = /** @class */ (function (_super) {
     __extends(RoleForm, _super);
     function RoleForm(props) {
@@ -51,10 +37,8 @@ var RoleForm = /** @class */ (function (_super) {
     };
     RoleForm.prototype.render = function () {
         var _this = this;
-        var selectedPermissions = this.state.permissions;
+        var permissions = this.state.permissions;
         var _a = this.props, name = _a.name, onNameChange = _a.onNameChange, nameValidated = _a.nameValidated, nameHelperText = _a.nameHelperText, description = _a.description, descriptionValidated = _a.descriptionValidated, descriptionHelperText = _a.descriptionHelperText, onDescriptionChange = _a.onDescriptionChange, saveRole = _a.saveRole, cancelRole = _a.cancelRole, nameDisabled = _a.nameDisabled, isSavingDisabled = _a.isSavingDisabled, saving = _a.saving;
-        var groups = Constants.PERMISSIONS;
-        var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
         return (React.createElement(React.Fragment, null,
             React.createElement(Form, null,
                 React.createElement("div", null,
@@ -71,39 +55,9 @@ var RoleForm = /** @class */ (function (_super) {
                     React.createElement(Divider, null),
                     React.createElement("br", null),
                     React.createElement(Title, { headingLevel: 'h2' }, "Permissions"),
-                    groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name, "data-cy": "RoleForm-Permissions-row-".concat(group.name) },
-                        React.createElement(FlexItem, { style: { minWidth: '200px' } }, i18n._(group.label)),
-                        React.createElement(FlexItem, { grow: { default: 'grow' } },
-                            React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
-                                    .filter(function (perm) {
-                                    return !selectedPermissions.find(function (selected) { return selected === perm; });
-                                })
-                                    .map(function (value) { return twoWayMapper(value, filteredPermissions); })
-                                    .sort(), selectedPermissions: selectedPermissions
-                                    .filter(function (selected) {
-                                    return group.object_permissions.find(function (perm) { return selected === perm; });
-                                })
-                                    .map(function (value) { return twoWayMapper(value, filteredPermissions); }), setSelected: function (perms) {
-                                    return _this.setState({ permissions: perms });
-                                }, menuAppendTo: 'inline', multilingual: true, isViewOnly: false, onClear: function () {
-                                    var clearedPerms = group.object_permissions;
-                                    _this.setState({
-                                        permissions: _this.state.permissions.filter(function (x) { return !clearedPerms.includes(x); }),
-                                    });
-                                }, onSelect: function (event, selection) {
-                                    var newPerms = new Set(_this.state.permissions);
-                                    if (newPerms.has(twoWayMapper(selection, filteredPermissions))) {
-                                        newPerms.delete(twoWayMapper(selection, filteredPermissions));
-                                    }
-                                    else {
-                                        newPerms.add(twoWayMapper(selection, filteredPermissions));
-                                    }
-                                    _this.setState({
-                                        permissions: Array.from(newPerms),
-                                    });
-                                } })))); })),
+                    React.createElement(PermissionCategories, { permissions: permissions, setSelected: function (permissions) { return _this.setState({ permissions: permissions }); }, showCustom: false, showEmpty: true })),
                 React.createElement(ActionGroup, null,
-                    React.createElement(Button, { variant: 'primary', isDisabled: isSavingDisabled, onClick: function () { return saveRole(selectedPermissions); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
+                    React.createElement(Button, { variant: 'primary', isDisabled: isSavingDisabled, onClick: function () { return saveRole(permissions); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Save"], ["Save"])))),
                     React.createElement(Button, { variant: 'secondary', onClick: cancelRole }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
                     saving ? React.createElement(Spinner, null) : null))));
     };
