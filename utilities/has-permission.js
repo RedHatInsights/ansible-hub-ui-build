@@ -4,6 +4,6 @@ export function hasPermission(_a, name) {
     if (!(user === null || user === void 0 ? void 0 : user.model_permissions)) {
         return false;
     }
-    return !!user.model_permissions[name]['has_model_permission'];
+    return !!user.model_permissions[name].has_model_permission;
 }
 //# sourceMappingURL=has-permission.js.map

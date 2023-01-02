@@ -1,9 +1,9 @@
-var Permissions = /** @class */ (function () {
-    function Permissions() {
+var ModelPermissionsType = /** @class */ (function () {
+    function ModelPermissionsType() {
     }
-    return Permissions;
+    return ModelPermissionsType;
 }());
-export { Permissions };
+export { ModelPermissionsType };
 var GroupType = /** @class */ (function () {
     function GroupType() {
     }

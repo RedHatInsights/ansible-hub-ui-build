@@ -49,6 +49,7 @@ export { NumericLabel, CollectionNumericLabel, } from './numeric-label/numeric-l
 export { OwnersTab } from './rbac/owners-tab';
 export { Pagination } from './patternfly-wrappers/pagination';
 export { PartnerHeader } from './headers/partner-header';
+export { PermissionCategories } from './rbac/permission-categories';
 export { PermissionChipSelector } from './rbac/permission-chip-selector';
 export { PublishToControllerModal } from './execution-environment/publish-to-controller-modal';
 export { RenderPluginDoc } from './render-plugin-doc/render-plugin-doc';
@@ -58,7 +59,6 @@ export { RepoSelector } from './repo-selector/repo-selector';
 export { RepositoryForm } from './execution-environment/repository-form';
 export { RoleForm } from './rbac/role-form';
 export { RoleHeader } from './rbac/role-header';
-export { RolePermissions } from './rbac/role-permissions';
 export { ResourcesForm } from './namespace-form/resources-form';
 export { TagManifestModal } from './execution-environment/tag-manifest-modal';
 export { ShaLabel } from './sha-label/sha-label';

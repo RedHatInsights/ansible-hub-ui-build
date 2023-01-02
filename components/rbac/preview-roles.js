@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 import { Flex, FlexItem, Label, Divider } from '@patternfly/react-core';
 import { Tooltip } from 'src/components';
-import { Constants } from 'src/constants';
+import { useContext } from 'src/loaders/app-context';
 import { translateLockedRolesDescription } from 'src/utilities';
 var splitByDot = function (perm) {
     var _a = perm.split('.', 2), category = _a[0], permission = _a[1];
@@ -16,6 +16,7 @@ var splitByDot = function (perm) {
 };
 export var PreviewRoles = function (_a) {
     var group = _a.group, selectedRoles = _a.selectedRoles;
+    var model_permissions = useContext().user.model_permissions;
     return (React.createElement("div", { className: 'hub-custom-wizard-layout' },
         React.createElement("p", null,
             React.createElement(Trans, null,
@@ -28,9 +29,12 @@ export var PreviewRoles = function (_a) {
                 ' ',
                 (role === null || role === void 0 ? void 0 : role.description) &&
                     "- ".concat(translateLockedRolesDescription(role.name, role.description)),
-                React.createElement(Flex, { className: 'hub-permissions' }, role.permissions.map(function (permission) { return (React.createElement(FlexItem, { key: permission, className: 'hub-permission', "data-cy": "HubPermission-".concat(permission) },
-                    React.createElement(Tooltip, { content: Constants.HUMAN_PERMISSIONS[permission] || permission },
-                        React.createElement(Label, null, splitByDot(permission))))); }))),
+                React.createElement(Flex, { className: 'hub-permissions' }, role.permissions.map(function (permission) {
+                    var _a;
+                    return (React.createElement(FlexItem, { key: permission, className: 'hub-permission', "data-cy": "HubPermission-".concat(permission) },
+                        React.createElement(Tooltip, { content: ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission },
+                            React.createElement(Label, null, splitByDot(permission)))));
+                }))),
             React.createElement(FlexItem, null,
                 React.createElement(Divider, null)))); }))));
 };

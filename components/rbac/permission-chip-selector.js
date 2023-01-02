@@ -18,77 +18,54 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { i18n } from '@lingui/core';
 import * as React from 'react';
 import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patternfly/react-core';
+import { AppContext } from 'src/loaders/app-context';
 var PermissionChipSelector = /** @class */ (function (_super) {
     __extends(PermissionChipSelector, _super);
     function PermissionChipSelector(props) {
         var _this = _super.call(this, props) || this;
-        _this.clearSelection = function () {
-            _this.props.setSelected([]);
-        };
-        _this.onToggle = function (isOpen) {
-            _this.setState({
-                isOpen: isOpen,
-            });
-        };
-        _this.onSelect = function (event, selection) {
-            // value contains orginal key in english
-            if (_this.props.multilingual && selection.value) {
-                selection = selection.value;
-            }
-            if (_this.props.onSelect) {
-                _this.props.onSelect(event, selection);
-            }
-            else {
-                var newPerms = new Set(_this.props.selectedPermissions);
-                if (newPerms.has(selection)) {
-                    newPerms.delete(selection);
-                }
-                else {
-                    newPerms.add(selection);
-                }
-                _this.props.setSelected(Array.from(newPerms));
-            }
-        };
         _this.state = { isOpen: false };
         return _this;
     }
     PermissionChipSelector.prototype.render = function () {
         var _this = this;
-        if (this.props.isViewOnly) {
-            var items = this.props.selectedPermissions.length
-                ? this.props.selectedPermissions
-                : [this.placeholderText()];
-            return (React.createElement(LabelGroup, null, items.map(function (text) { return (React.createElement(Label, { key: text }, _this.props.multilingual ? i18n._(text) : text)); })));
+        var model_permissions = this.context.user.model_permissions;
+        var _a = this.props, availablePermissions = _a.availablePermissions, isDisabled = _a.isDisabled, isViewOnly = _a.isViewOnly, onCategoryClear = _a.onCategoryClear, onPermissionToggle = _a.onPermissionToggle, selectedPermissions = _a.selectedPermissions;
+        var isOpen = this.state.isOpen;
+        if (isViewOnly) {
+            var items = selectedPermissions.map(function (permission) {
+                var _a;
+                return ({
+                    label: ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission,
+                    value: permission,
+                });
+            });
+            return (React.createElement(LabelGroup, null,
+                items.length ? null : (React.createElement(Label, { key: 'placeholder' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No permission"], ["No permission"]))))),
+                items.map(function (text) { return (React.createElement(Label, { key: text.value, title: text.value }, text.label)); })));
         }
-        var selections = [];
-        if (this.props.multilingual) {
-            selections = this.props.selectedPermissions.map(function (value) { return ({
-                // orginal english value
-                value: value,
-                // translated
-                toString: function () { return i18n._(value); },
-            }); });
-        }
-        else {
-            selections = this.props.selectedPermissions;
-        }
-        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: this.onToggle, onSelect: this.onSelect, onClear: this.props.onClear ? this.props.onClear : this.clearSelection, selections: selections, isOpen: this.state.isOpen, placeholderText: this.placeholderText(), isDisabled: !!this.props.isDisabled }, this.props.availablePermissions.length === 0
+        // { value: 'galaxy.foo', toString: () => "View foo (translated)" }
+        var selections = selectedPermissions.map(function (permission) { return ({
+            value: permission,
+            toString: function () { var _a; return ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission; },
+        }); });
+        return (React.createElement(Select, { menuAppendTo: 'inline', variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: function (isOpen) { return _this.setState({ isOpen: isOpen }); }, onSelect: function (event, permission) {
+                return onPermissionToggle(permission['value'] || permission);
+            }, onClear: function () { return onCategoryClear(); }, selections: selections, isOpen: isOpen, placeholderText: !isDisabled && !isViewOnly
+                ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))) : selectedPermissions.length === 0
+                ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No permission"], ["No permission"]))) : '', isDisabled: !!isDisabled }, availablePermissions.length === 0
             ? [
-                React.createElement(SelectOption, { isDisabled: true, key: 'not_found', value: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Not found"], ["Not found"]))) }),
+                React.createElement(SelectOption, { isDisabled: true, key: 'not_found', value: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Not found"], ["Not found"]))) }),
             ]
-            : this.props.availablePermissions.map(function (option, index) { return (React.createElement(SelectOption, { key: index, value: option }, _this.props.multilingual ? i18n._(option) : option)); })));
+            : availablePermissions.map(function (permission) {
+                var _a;
+                return (React.createElement(SelectOption, { key: permission, value: permission }, ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission));
+            })));
     };
-    PermissionChipSelector.prototype.placeholderText = function () {
-        if (!this.props.isDisabled && !this.props.isViewOnly) {
-            return t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"])));
-        }
-        return this.props.selectedPermissions.length === 0 ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No permission"], ["No permission"]))) : '';
-    };
+    PermissionChipSelector.contextType = AppContext;
     return PermissionChipSelector;
 }(React.Component));
 export { PermissionChipSelector };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=permission-chip-selector.js.map
