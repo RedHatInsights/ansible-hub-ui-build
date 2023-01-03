@@ -20,6 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './legacy-roles.scss';
+import { EmptyStateNoData } from 'src/components';
 import { Link, withRouter } from 'react-router-dom';
 import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, Nav, NavItem, NavList, Panel, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -87,6 +88,7 @@ var LegacyRoleVersions = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             role_versions: [],
+            loading: true,
         };
         return _this;
     }
@@ -96,12 +98,16 @@ var LegacyRoleVersions = /** @class */ (function (_super) {
         LegacyRoleAPI.get(url).then(function (response) {
             _this.setState(function () { return ({
                 role_versions: response.data.results,
+                loading: false,
             }); });
         });
     };
     LegacyRoleVersions.prototype.render = function () {
         return (React.createElement("div", { id: 'versions-div' },
-            React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of versions"], ["List of versions"]))) }, this.state.role_versions.reverse().map(function (rversion) { return (React.createElement(DataListItem, { key: rversion.name, "aria-labelledby": 'compact-item2' },
+            !this.state.loading &&
+                this.state.role_versions &&
+                this.state.role_versions.length == 0 ? (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No versions"], ["No versions"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["The role is versionless and will always install from the head/main/master branch."], ["The role is versionless and will always install from the head/main/master branch."]))) })) : (''),
+            React.createElement(DataList, { "aria-label": t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["List of versions"], ["List of versions"]))) }, this.state.role_versions.reverse().map(function (rversion) { return (React.createElement(DataListItem, { key: rversion.name, "aria-labelledby": 'compact-item2' },
                 React.createElement(LegacyRoleVersion, { role_version: rversion }))); }))));
     };
     return LegacyRoleVersions;
@@ -183,7 +189,7 @@ var LegacyRole = /** @class */ (function (_super) {
         var header_cells = [];
         if (this.state.role !== undefined && this.state.role !== null) {
             header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
+                React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
                 React.createElement(Link, { to: namespace_url }, namespace.name)));
             header_cells.push(React.createElement(DataListCell, { key: 'content' },
                 React.createElement("div", null,
@@ -243,7 +249,7 @@ var LegacyRole = /** @class */ (function (_super) {
             },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(DataList, { "aria-label": t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Role Header"], ["Role Header"]))) },
+            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Role Header"], ["Role Header"]))) },
                 React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
                     React.createElement(DataListItemRow, null,
                         React.createElement(Breadcrumbs, { links: breadcrumbs })),
@@ -261,5 +267,5 @@ var LegacyRole = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(LegacyRole);
 LegacyRole.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=legacy-role.js.map
