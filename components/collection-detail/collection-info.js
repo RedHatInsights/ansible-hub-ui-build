@@ -38,7 +38,8 @@ var CollectionInfo = /** @class */ (function (_super) {
     }
     CollectionInfo.prototype.render = function () {
         var _this = this;
-        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, params = _a.params;
+        var _a, _b;
+        var _c = this.props, name = _c.name, latest_version = _c.latest_version, namespace = _c.namespace, params = _c.params;
         var installCommand = "ansible-galaxy collection install ".concat(namespace.name, ".").concat(name);
         if (params.version) {
             installCommand += ":".concat(params.version);
@@ -48,12 +49,12 @@ var CollectionInfo = /** @class */ (function (_super) {
             React.createElement(Grid, { hasGutter: true },
                 React.createElement(GridItem, null, latest_version.metadata.description),
                 React.createElement(GridItem, null, latest_version.metadata.tags.map(function (tag, i) { return (React.createElement(Tag, { key: i }, tag)); })),
-                React.createElement(GridItem, null,
+                ((_b = (_a = latest_version === null || latest_version === void 0 ? void 0 : latest_version.metadata) === null || _a === void 0 ? void 0 : _a.license) === null || _b === void 0 ? void 0 : _b.length) > 0 && (React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["License"], ["License"])))),
                         React.createElement(SplitItem, { isFilled: true }, latest_version.metadata.license
                             ? latest_version.metadata.license.join(', ')
-                            : ''))),
+                            : '')))),
                 React.createElement(GridItem, null,
                     React.createElement(Split, { hasGutter: true },
                         React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Installation"], ["Installation"])))),
