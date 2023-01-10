@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -39,15 +28,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import React from 'react';
 import { t, Trans } from '@lingui/macro';
-import { i18n } from '@lingui/core';
 import { AppContext } from 'src/loaders/app-context';
 import { Link, withRouter, Redirect, } from 'react-router-dom';
-import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, PermissionChipSelector, DateComponent, } from 'src/components';
-import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Flex, FlexItem, Tooltip, } from '@patternfly/react-core';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, twoWayMapper, translateLockedRolesDescription, } from 'src/utilities';
+import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, DateComponent, PermissionCategories, } from 'src/components';
+import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
+import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 import { RoleAPI } from 'src/api/role';
 import { Paths, formatPath } from 'src/paths';
-import { Constants } from 'src/constants';
 var RoleList = /** @class */ (function (_super) {
     __extends(RoleList, _super);
     function RoleList(props) {
@@ -140,22 +127,8 @@ var RoleList = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, redirect = _a.redirect, params = _a.params, loading = _a.loading, roleCount = _a.roleCount, alerts = _a.alerts, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, roleToEdit = _a.roleToEdit, roles = _a.roles;
         var noData = roleCount === 0 && !filterIsSet(params, ['name__icontains', 'locked']);
-        var groups = Constants.PERMISSIONS;
-        var featureFlags = this.context.featureFlags;
-        var isUserMgmtDisabled = false;
-        var filteredPermissions = __assign({}, Constants.HUMAN_PERMISSIONS);
         if (redirect) {
             return React.createElement(Redirect, { push: true, to: redirect });
-        }
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
-        if (isUserMgmtDisabled) {
-            Constants.USER_GROUP_MGMT_PERMISSIONS.forEach(function (perm) {
-                if (perm in filteredPermissions) {
-                    delete filteredPermissions[perm];
-                }
-            });
         }
         var isSuperuser = this.context.user.is_superuser;
         var addRoles = isSuperuser && (React.createElement(Link, { to: Paths.createRole },
@@ -259,23 +232,7 @@ var RoleList = /** @class */ (function (_super) {
                     ' ',
                     roleCount ? (React.createElement(RoleListTable, { isStickyHeader: false, params: this.state.params, updateParams: function (p) {
                             _this.updateParams(p, function () { return _this.queryRoles(); });
-                        }, tableHeader: { headers: tableHeader } }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: role.name, expandableRowContent: React.createElement(React.Fragment, null, groups.map(function (group) { return (React.createElement(Flex, { style: { marginTop: '16px' }, alignItems: { default: 'alignItemsCenter' }, key: group.name, className: group.name },
-                            React.createElement(FlexItem, { style: { minWidth: '200px' } }, i18n._(group.label)),
-                            React.createElement(FlexItem, { grow: { default: 'grow' } },
-                                React.createElement(PermissionChipSelector, { availablePermissions: group.object_permissions
-                                        .filter(function (perm) {
-                                        return !role.permissions.find(function (selected) { return selected === perm; });
-                                    })
-                                        .map(function (value) {
-                                        return twoWayMapper(value, filteredPermissions);
-                                    })
-                                        .sort(), selectedPermissions: role.permissions
-                                        .filter(function (selected) {
-                                        return group.object_permissions.find(function (perm) { return selected === perm; });
-                                    })
-                                        .map(function (value) {
-                                        return twoWayMapper(value, filteredPermissions);
-                                    }), menuAppendTo: 'inline', multilingual: true, isViewOnly: true })))); })), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.name), colSpan: 6, rowIndex: i },
+                        }, tableHeader: { headers: tableHeader } }, roles.map(function (role, i) { return (React.createElement(ExpandableRow, { key: role.name, expandableRowContent: React.createElement(PermissionCategories, { permissions: role.permissions, showCustom: true, showEmpty: false }), "data-cy": "RoleListTable-ExpandableRow-row-".concat(role.name), colSpan: 6, rowIndex: i },
                         React.createElement("td", { "data-cy": 'name-field' }, role.name),
                         React.createElement("td", null, translateLockedRolesDescription(role.name, role.description)),
                         React.createElement("td", null,

@@ -75,7 +75,6 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
             showDeleteModal: false,
             selectedItem: null,
             inputText: '',
-            formError: [],
         };
         return _this;
     }
@@ -258,9 +257,8 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var isNew = !(pulp === null || pulp === void 0 ? void 0 : pulp.repository); // only exists in real data
         var distributionPulpId = (_c = pulp === null || pulp === void 0 ? void 0 : pulp.distribution) === null || _c === void 0 ? void 0 : _c.id;
         var alerts = this.state.alerts;
-        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remoteId: remoteId, distributionPulpId: distributionPulpId, formError: this.state.formError, onSave: function (promise, form) {
-                promise
-                    .then(function () {
+        return (React.createElement(RepositoryForm, { isRemote: !!remote, isNew: isNew, name: name, namespace: namespace === null || namespace === void 0 ? void 0 : namespace.name, description: description, upstreamName: upstream_name, registry: registry, excludeTags: exclude_tags || [], includeTags: include_tags || [], permissions: (namespace === null || namespace === void 0 ? void 0 : namespace.my_permissions) || [], remoteId: remoteId, distributionPulpId: distributionPulpId, onSave: function (promise, form) {
+                promise.then(function () {
                     _this.setState({
                         showRemoteModal: false,
                         itemToEdit: null,
@@ -275,24 +273,12 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                                 "\".")),
                         }),
                     }, function () { return _this.queryEnvironments(); });
-                })
-                    .catch(function (err) {
-                    _this.setState({
-                        formError: err.response.data.errors.map(function (error) {
-                            return {
-                                title: error.title,
-                                detail: error.source.parameter + ': ' + error.detail,
-                            };
-                        }),
-                    });
                 });
             }, onCancel: function () {
                 return _this.setState({
                     showRemoteModal: false,
                     itemToEdit: null,
                 });
-            }, addAlert: function (variant, title, description) {
-                return _this.addAlert(title, variant, description);
             } }));
     };
     ExecutionEnvironmentList.prototype.queryEnvironments = function () {

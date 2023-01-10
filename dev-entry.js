@@ -8,9 +8,10 @@ import { init } from './store';
 import App from './loaders/insights/insights-loader';
 import 'src/l10n';
 // Entrypoint for compiling the app to run in insights production mode.
-var AnsibleHub = function () { return (React.createElement(Provider, { store: init(logger).getStore() },
-    React.createElement(Router, { basename: UI_BASE_PATH },
-        React.createElement(I18nProvider, { i18n: i18n },
-            React.createElement(App, { basename: UI_BASE_PATH }))))); };
+var AnsibleHub = function () { return (React.createElement(React.StrictMode, null,
+    React.createElement(Provider, { store: init(logger).getStore() },
+        React.createElement(Router, { basename: UI_BASE_PATH },
+            React.createElement(I18nProvider, { i18n: i18n },
+                React.createElement(App, { basename: UI_BASE_PATH })))))); };
 export default AnsibleHub;
 //# sourceMappingURL=dev-entry.js.map

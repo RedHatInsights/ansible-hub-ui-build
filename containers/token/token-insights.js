@@ -129,7 +129,7 @@ var TokenPage = /** @class */ (function (_super) {
                     React.createElement(Trans, null,
                         "To revoke a token or see all of your tokens, visit the",
                         ' ',
-                        React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account/applications', target: '_blank', rel: 'noreferrer' }, "offline API token management"),
+                        React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account', target: '_blank', rel: 'noreferrer' }, "offline API token management"),
                         ' ',
                         "page.")),
                 React.createElement("section", { className: 'body pf-c-content' },
@@ -141,7 +141,14 @@ var TokenPage = /** @class */ (function (_super) {
                     React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this URL to configure the authentication URLs that clients need to download content from Automation Hub.")),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token")))));
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token")),
+                React.createElement("section", { className: 'body pf-c-content' },
+                    React.createElement("h2", null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["CRC public key"], ["CRC public key"])))),
+                    React.createElement("p", null,
+                        React.createElement(Trans, null,
+                            "We use a number of keys to sign our software packages. The necessary public keys are included in the relevant products and are used to automatically verify software updates. You can also verify the packages manually using the keys on this page. More information can be found",
+                            ' ',
+                            React.createElement("a", { href: 'https://access.redhat.com/security/team/key', target: '_blank', rel: 'noreferrer' }, "here.")))))));
     };
     TokenPage.prototype.loadToken = function () {
         // doOffline causes the page to refresh and will make the data
@@ -160,5 +167,5 @@ var TokenPage = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(TokenPage);
 TokenPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=token-insights.js.map
