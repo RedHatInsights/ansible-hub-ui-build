@@ -6,7 +6,7 @@ export { ImportListType, ImportDetailType, ImportMessageCodes, } from './respons
 export { PulpStatus } from './response-types/pulp';
 export { ImportAPI } from './import';
 export { ActiveUserAPI } from './active-user';
-export { UserType, MeType, GroupType } from './response-types/user';
+export { GroupType, MeType, ModelPermissionsType, UserType, } from './response-types/user';
 export { CollectionVersionAPI } from './collection-version';
 export { MyNamespaceAPI } from './my-namespace';
 export { UserAPI } from './user';
@@ -45,4 +45,8 @@ export { RoleType, GroupRoleType } from './response-types/role';
 export { CertificateUploadAPI } from './certificate-upload';
 export { Repositories } from './repositories';
 export { SignContainersAPI } from './sign-containers';
+export { LegacyRoleListType } from './response-types/legacy-role';
+export { LegacyRoleDetailType } from './response-types/legacy-role';
+export { LegacyNamespaceListType } from './response-types/legacy-namespace';
+export { LegacyNamespaceDetailType } from './response-types/legacy-namespace';
 //# sourceMappingURL=index.js.map
