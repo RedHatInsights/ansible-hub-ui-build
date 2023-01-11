@@ -43,25 +43,28 @@ var LegacyRoles = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.updateParams = function (p) {
             var page = p.page, page_size = p.page_size, order_by = p.order_by, keywords = p.keywords, tags = p.tags;
-            LegacyRoleAPI.list({
-                page: page,
-                page_size: page_size,
-                order_by: order_by,
-                tags: tags,
-                keywords: keywords,
-            }).then(function (response) {
-                _this.setState(function () { return ({
-                    mounted: true,
-                    params: {
-                        page: page,
-                        page_size: page_size,
-                        order_by: order_by,
-                        keywords: keywords,
-                        tags: tags,
-                    },
-                    count: response.data.count,
-                    legacyroles: response.data.results,
-                }); });
+            _this.setState({ loading: true }, function () {
+                LegacyRoleAPI.list({
+                    page: page,
+                    page_size: page_size,
+                    order_by: order_by,
+                    tags: tags,
+                    keywords: keywords,
+                }).then(function (response) {
+                    _this.setState(function () { return ({
+                        mounted: true,
+                        loading: false,
+                        params: {
+                            page: page,
+                            page_size: page_size,
+                            order_by: order_by,
+                            keywords: keywords,
+                            tags: tags,
+                        },
+                        count: response.data.count,
+                        legacyroles: response.data.results,
+                    }); });
+                });
             });
         };
         _this.state = __assign(__assign({}, props), { params: {
@@ -73,34 +76,14 @@ var LegacyRoles = /** @class */ (function (_super) {
         return _this;
     }
     LegacyRoles.prototype.componentDidMount = function () {
-        var _this = this;
         var thisQS = window.location.search;
         var urlParams = new URLSearchParams(thisQS);
-        var page = parseInt(urlParams.get('page')) || 1;
-        var page_num = parseInt(urlParams.get('page')) || 1;
-        var page_size = parseInt(urlParams.get('page_size')) || 10;
-        var order_by = urlParams.get('order_by') || 'created';
-        var keywords = urlParams.get('keywords');
-        var tags = urlParams.get('tags');
-        LegacyRoleAPI.list({
-            page: page,
-            page_size: page_size,
-            order_by: order_by,
-            tags: tags,
-            keywords: keywords,
-        }).then(function (response) {
-            _this.setState(function () { return ({
-                mounted: true,
-                loading: false,
-                params: {
-                    page: page_num,
-                    page_size: page_size,
-                    order_by: order_by,
-                    keywords: keywords,
-                },
-                count: response.data.count,
-                legacyroles: response.data.results,
-            }); });
+        this.updateParams({
+            page: parseInt(urlParams.get('page'), 10) || 1,
+            page_size: parseInt(urlParams.get('page_size'), 10) || 10,
+            order_by: urlParams.get('order_by') || 'created',
+            keywords: urlParams.get('keywords'),
+            tags: urlParams.get('tags'),
         });
     };
     LegacyRoles.prototype.render = function () {

@@ -69,7 +69,7 @@ import './header.scss';
 import { Redirect } from 'react-router-dom';
 import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Select, SelectOption, SelectVariant, List, ListItem, Modal, Alert, Text, Button, DropdownItem, } from '@patternfly/react-core';
+import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Text, } from '@patternfly/react-core';
 import { AppContext } from 'src/loaders/app-context';
 import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, StatefulDropdown, SignSingleCertificateModal, SignAllCertificatesModal, UploadSingCertificateModal, ImportModal, DeleteCollectionModal, } from 'src/components';
 import { CollectionAPI, SignCollectionAPI, MyNamespaceAPI, Repositories, CertificateUploadAPI, } from 'src/api';
@@ -376,6 +376,8 @@ var CollectionHeader = /** @class */ (function (_super) {
             React.createElement(DropdownItem, { onClick: function () { return _this.deprecate(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
             React.createElement(DropdownItem, { key: 'upload-collection-version', onClick: function () { return _this.checkUploadPrivilleges(collection); }, "data-cy": 'upload-collection-version-dropdown' }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
         ].filter(Boolean);
+        var issueUrl = 'https://access.redhat.com/support/cases/#/case/new/open-case/describe-issue/recommendations?caseCreate=true&product=Ansible%20Automation%20Hub&version=Online&summary=' +
+            encodeURIComponent("".concat(namespace.name, "-").concat(collectionName, "-").concat(collection.latest_version.version));
         return (React.createElement(React.Fragment, null,
             showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
                     return _this.setState({
@@ -459,9 +461,14 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement(Trans, null,
                             "Last updated ",
                             React.createElement(DateComponent, { date: latestVersion })))) : null,
-                    React.createElement(SignatureBadge, { isCompact: true, signState: collection.latest_version.sign_state })), pageControls: dropdownItems.length > 0 ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
-                    React.createElement(StatefulDropdown, { items: dropdownItems }))) : null },
-                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
+                    React.createElement(SignatureBadge, { isCompact: true, signState: collection.latest_version.sign_state })), pageControls: React.createElement(Flex, null,
+                    DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? (React.createElement(FlexItem, null,
+                        React.createElement("a", { href: issueUrl, target: '_blank', rel: 'noreferrer' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Create issue"], ["Create issue"])))),
+                        ' ',
+                        React.createElement(ExternalLinkAltIcon, null))) : null,
+                    dropdownItems.length > 0 ? (React.createElement(FlexItem, { "data-cy": 'kebab-toggle' },
+                        React.createElement(StatefulDropdown, { items: dropdownItems }))) : null) },
+                collection.deprecated && (React.createElement(Alert, { variant: 'danger', isInline: true, title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["This collection has been deprecated."], ["This collection has been deprecated."]))) })),
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                 React.createElement("div", { className: 'hub-tab-link-container' },
                     React.createElement("div", { className: 'tabs' }, this.renderTabs(activeTab)),
@@ -483,7 +490,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
-                        title: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
+                        title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["You don't have rights to do this operation."], ["You don't have rights to do this operation."]))),
                         variant: 'warning',
                     },
                 ], false),
@@ -518,27 +525,27 @@ var CollectionHeader = /** @class */ (function (_super) {
         var tabs = [
             {
                 active: active === 'install',
-                title: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Install"], ["Install"]))),
+                title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Install"], ["Install"]))),
                 link: formatPath(Paths.collectionByRepo, pathParams, reduced),
             },
             {
                 active: active === 'documentation',
-                title: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
+                title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Documentation"], ["Documentation"]))),
                 link: formatPath(Paths.collectionDocsIndexByRepo, pathParams, reduced),
             },
             {
                 active: active === 'contents',
-                title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Contents"], ["Contents"]))),
+                title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Contents"], ["Contents"]))),
                 link: formatPath(Paths.collectionContentListByRepo, pathParams, reduced),
             },
             {
                 active: active === 'import-log',
-                title: t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Import log"], ["Import log"]))),
+                title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Import log"], ["Import log"]))),
                 link: formatPath(Paths.collectionImportLogByRepo, pathParams, reduced),
             },
             {
                 active: active === 'dependencies',
-                title: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
+                title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))),
                 link: formatPath(Paths.collectionDependenciesByRepo, pathParams, reduced),
             },
         ];
@@ -565,7 +572,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             alerts: this.state.alerts.concat({
                                 id: 'upload-certificate',
                                 variant: 'info',
-                                title: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" is being uploaded."], ["The certificate for \"", " ", " v", "\" is being uploaded."])), version.namespace, version.name, version.version),
+                                title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" is being uploaded."], ["The certificate for \"", " ", " v", "\" is being uploaded."])), version.namespace, version.name, version.version),
                             }),
                         });
                         this.closeUploadCertificateModal();
@@ -587,7 +594,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                     })
                                         .concat({
                                         variant: 'success',
-                                        title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), version.namespace, version.name, version.version),
+                                        title: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), version.namespace, version.name, version.version),
                                     }),
                                 });
                             });
@@ -601,7 +608,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 })
                                     .concat({
                                     variant: 'danger',
-                                    title: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
+                                    title: t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version),
                                     description: error,
                                 }),
                             });
@@ -628,7 +635,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             var taskId = parsePulpIDFromURL(res.data.task);
             return waitForTask(taskId).then(function () {
                 var title = !collection.deprecated
-                    ? t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
+                    ? t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
                 _this.setState({
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
@@ -650,7 +657,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: !collection.deprecated
-                            ? t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
+                            ? t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -689,5 +696,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     return CollectionHeader;
 }(React.Component));
 export { CollectionHeader };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42;
 //# sourceMappingURL=collection-header.js.map

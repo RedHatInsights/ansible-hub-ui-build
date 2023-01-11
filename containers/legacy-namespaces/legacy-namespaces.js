@@ -42,24 +42,26 @@ var LegacyNamespaces = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.updateParams = function (p) {
             var page = p.page, page_size = p.page_size, order_by = p.order_by, keywords = p.keywords;
-            LegacyNamespaceAPI.list({
-                page: page,
-                page_size: page_size,
-                order_by: order_by,
-                keywords: keywords,
-            }).then(function (response) {
-                _this.setState(function () { return ({
-                    mounted: true,
-                    loading: false,
-                    params: {
-                        page: page,
-                        page_size: page_size,
-                        order_by: order_by,
-                        keywords: keywords,
-                    },
-                    count: response.data.count,
-                    legacynamespaces: response.data.results,
-                }); });
+            _this.setState({ loading: true }, function () {
+                LegacyNamespaceAPI.list({
+                    page: page,
+                    page_size: page_size,
+                    order_by: order_by,
+                    keywords: keywords,
+                }).then(function (response) {
+                    _this.setState(function () { return ({
+                        mounted: true,
+                        loading: false,
+                        params: {
+                            page: page,
+                            page_size: page_size,
+                            order_by: order_by,
+                            keywords: keywords,
+                        },
+                        count: response.data.count,
+                        legacynamespaces: response.data.results,
+                    }); });
+                });
             });
         };
         _this.state = __assign(__assign({}, props), { params: {
@@ -71,31 +73,13 @@ var LegacyNamespaces = /** @class */ (function (_super) {
         return _this;
     }
     LegacyNamespaces.prototype.componentDidMount = function () {
-        var _this = this;
         var thisQS = window.location.search;
         var urlParams = new URLSearchParams(thisQS);
-        var page = parseInt(urlParams.get('page')) || 1;
-        var page_size = parseInt(urlParams.get('page_size')) || 10;
-        var order_by = urlParams.get('order_by') || 'name';
-        var keywords = urlParams.get('keywords') || null;
-        LegacyNamespaceAPI.list({
-            page: page,
-            page_size: page_size,
-            order_by: order_by,
-            keywords: keywords,
-        }).then(function (response) {
-            _this.setState(function () { return ({
-                mounted: true,
-                loading: false,
-                params: {
-                    page: page,
-                    page_size: page_size,
-                    order_by: order_by,
-                    keywords: keywords,
-                },
-                count: response.data.count,
-                legacynamespaces: response.data.results,
-            }); });
+        this.updateParams({
+            page: parseInt(urlParams.get('page'), 10) || 1,
+            page_size: parseInt(urlParams.get('page_size'), 10) || 10,
+            order_by: urlParams.get('order_by') || 'name',
+            keywords: urlParams.get('keywords') || null,
         });
     };
     LegacyNamespaces.prototype.render = function () {

@@ -86,8 +86,8 @@ var LegacyNamespaceRoles = /** @class */ (function (_super) {
         var namespace = this.state.namespace;
         var thisQS = window.location.search;
         var urlParams = new URLSearchParams(thisQS);
-        var page = parseInt(urlParams.get('page')) || 1;
-        var page_size = parseInt(urlParams.get('page_size')) || 10;
+        var page = parseInt(urlParams.get('page'), 10) || 1;
+        var page_size = parseInt(urlParams.get('page_size'), 10) || 10;
         var order_by = urlParams.get('order_by') || 'created';
         LegacyRoleAPI.list({
             page: page,
