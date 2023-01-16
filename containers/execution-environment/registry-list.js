@@ -335,8 +335,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
     };
     ExecutionEnvironmentRegistryList.prototype.indexRegistry = function (_a) {
         var _this = this;
-        var pk = _a.pk, name = _a.name;
-        ExecutionEnvironmentRegistryAPI.index(pk)
+        var id = _a.id, name = _a.name;
+        ExecutionEnvironmentRegistryAPI.index(id)
             .then(function (result) {
             var task_id = parsePulpIDFromURL(result.data.task);
             _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Indexing started for execution environment \"", "\"."], ["Indexing started for execution environment \"", "\"."])), name), 'success', React.createElement("span", null,
