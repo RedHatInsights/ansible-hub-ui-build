@@ -40,12 +40,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './execution-environment.scss';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { filterIsSet, parsePulpIDFromURL, ParamHelper } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, EmptyStateUnauthorized, ListItemActions, } from 'src/components';
-import { formatPath, Paths } from '../../paths';
+import { formatPath, formatEEPath, Paths } from '../../paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
@@ -235,7 +236,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentList-row-".concat(item.name), key: index },
             React.createElement("td", null,
-                React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetail, {
+                React.createElement(Link, { to: formatEEPath(Paths.executionEnvironmentDetail, {
                         container: item.pulp.distribution.base_path,
                     }) }, item.name)),
             description ? (React.createElement("td", { className: 'pf-m-truncate' },

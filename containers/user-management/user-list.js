@@ -27,15 +27,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownItem, Label, Tooltip, LabelGroup, } from '@patternfly/react-core';
 import { UserPlusIcon } from '@patternfly/react-icons';
 import { UserAPI } from 'src/api';
-import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, ListItemActions, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { ParamHelper, errorMessage, filterIsSet, withRouter, } from 'src/utilities';
 var UserList = /** @class */ (function (_super) {
     __extends(UserList, _super);
     function UserList(props) {
@@ -90,7 +90,7 @@ var UserList = /** @class */ (function (_super) {
         var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, redirect = _a.redirect, showDeleteModal = _a.showDeleteModal, deleteUser = _a.deleteUser, alerts = _a.alerts, unauthorized = _a.unauthorized;
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -134,7 +134,7 @@ var UserList = /** @class */ (function (_super) {
                                             ] }))),
                                 !!user && hasPermission('galaxy.add_user') ? (React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
-                                        React.createElement(Link, { to: Paths.createUser },
+                                        React.createElement(Link, { to: formatPath(Paths.createUser) },
                                             React.createElement(Button, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))))))) : null)),
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.queryUsers(); });
@@ -163,7 +163,7 @@ var UserList = /** @class */ (function (_super) {
                 'first_name__contains',
                 'last_name__contains',
                 'email__contains',
-            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: Paths.createUser },
+            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: formatPath(Paths.createUser) },
                     React.createElement(Button, { variant: 'primary' }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Create"], ["Create"]))))) }));
         }
         var sortTableOptions = {

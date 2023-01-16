@@ -66,7 +66,7 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { errorMessage, DeleteCollectionUtils } from 'src/utilities';
 import './header.scss';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import * as moment from 'moment';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Text, } from '@patternfly/react-core';
@@ -348,7 +348,7 @@ var CollectionHeader = /** @class */ (function (_super) {
         var collectionName = collection.name, namespace = collection.namespace;
         var company = namespace.company || namespace.name;
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         var canSign = canSignNS(this.context, namespace);
         var hasPermission = this.context.hasPermission;
@@ -433,7 +433,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                             });
                     });
                 } }),
-            React.createElement(BaseHeader, { className: className, title: collection.name, logo: collection.namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: collection.namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
+            React.createElement(BaseHeader, { className: className, title: collection.name, logo: collection.namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: collection.namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { path: Paths.searchByRepo, selectedRepo: this.context.selectedRepo, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
                     React.createElement("span", null, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {

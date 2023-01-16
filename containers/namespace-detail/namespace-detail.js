@@ -41,7 +41,8 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './namespace-detail.scss';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import ReactMarkdown from 'react-markdown';
@@ -65,7 +66,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 return NamespaceAPI.delete(name)
                     .then(function () {
                     _this.setState({
-                        redirect: formatPath(namespaceBreadcrumb.url, {}),
+                        redirect: namespaceBreadcrumb.url,
                         confirmDelete: false,
                         isNamespacePending: false,
                     });
@@ -106,7 +107,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'page',
             'page_size',
         ]);
-        params['namespace'] = props.match.params['namespace'];
+        params['namespace'] = props.routeParams.namespace;
         _this.state = {
             canSign: false,
             collections: [],
@@ -137,8 +138,6 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.componentDidMount = function () {
         this.load();
         this.setState({ alerts: this.context.alerts || [] });
-    };
-    NamespaceDetail.prototype.componentWillUnmount = function () {
         this.context.setAlerts([]);
     };
     NamespaceDetail.prototype.componentDidUpdate = function (prevProps) {
@@ -147,7 +146,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 'page',
                 'page_size',
             ]);
-            params['namespace'] = this.props.match.params['namespace'];
+            params['namespace'] = this.props.routeParams.namespace;
             this.setState({
                 params: params,
                 group: this.filterGroup(params['group'], this.state.namespace.groups),
@@ -189,7 +188,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _a;
         var _b = this.state, canSign = _b.canSign, collections = _b.collections, namespace = _b.namespace, params = _b.params, redirect = _b.redirect, itemCount = _b.itemCount, showControls = _b.showControls, showImportModal = _b.showImportModal, warning = _b.warning, updateCollection = _b.updateCollection, isOpenNamespaceModal = _b.isOpenNamespaceModal, confirmDelete = _b.confirmDelete, isNamespacePending = _b.isNamespacePending, alerts = _b.alerts, deleteCollection = _b.deleteCollection, isDeletionPending = _b.isDeletionPending;
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         if (!namespace) {
             return React.createElement(LoadingPageWithHeader, null);
@@ -278,7 +277,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             " and its data will be lost.")),
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
-            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: this.props.match.path, pathParams: { namespace: namespace.name } }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
+            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), contextSelector: React.createElement(RepoSelector, { path: this.props.routePath, pathParams: { namespace: namespace.name }, selectedRepo: this.context.selectedRepo }), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
                         React.createElement("div", { className: 'hub-pagination-container' },
@@ -471,10 +470,10 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _this = this;
         Promise.all([
             CollectionAPI.list(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), this.context.selectedRepo),
-            NamespaceAPI.get(this.props.match.params['namespace'], {
+            NamespaceAPI.get(this.props.routeParams.namespace, {
                 include_related: 'my_permissions',
             }),
-            MyNamespaceAPI.get(this.props.match.params['namespace'], {
+            MyNamespaceAPI.get(this.props.routeParams.namespace, {
                 include_related: 'my_permissions',
             }).catch(function (e) {
                 // TODO this needs fixing on backend to return nothing in these cases with 200 status
@@ -502,7 +501,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             _this.loadAllRepos(val[0].data.meta.count);
         })
             .catch(function () {
-            _this.setState({ redirect: Paths.notFound });
+            _this.setState({ redirect: formatPath(Paths.notFound) });
         });
     };
     NamespaceDetail.prototype.loadAllRepos = function (currentRepoCount) {
@@ -512,7 +511,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var repoPromises = Object.keys(Constants.REPOSITORYNAMES)
             .filter(function (repo) { return repo !== _this.context.selectedRepo; })
             .map(function (repo) {
-            return CollectionAPI.list({ namespace: _this.props.match.params['namespace'] }, repo);
+            return CollectionAPI.list({ namespace: _this.props.routeParams.namespace }, repo);
         });
         Promise.all(repoPromises)
             .then(function (results) {

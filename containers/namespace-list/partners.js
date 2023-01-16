@@ -25,7 +25,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { NamespaceList } from './namespace-list';
 import { Paths } from 'src/paths';
 var Partners = /** @class */ (function (_super) {

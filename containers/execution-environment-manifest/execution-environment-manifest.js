@@ -30,21 +30,23 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ShaLabel, } from '../../components';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ShaLabel, } from 'src/components';
 import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, ClipboardCopyButton, Card, CardBody, CardTitle, } from '@patternfly/react-core';
 import { sum } from 'lodash';
-import { Paths, formatPath } from '../../paths';
-import { ExecutionEnvironmentAPI } from '../../api';
+import { Paths, formatEEPath, formatPath } from 'src/paths';
+import { ExecutionEnvironmentAPI } from 'src/api';
 import { getHumanSize } from 'src/utilities';
 import './execution-environment-manifest.scss';
+import { withContainerParamFix } from '../execution-environment-detail/base';
 var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentManifest, _super);
     function ExecutionEnvironmentManifest(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            container: { name: _this.props.match.params['container'] },
-            digest: _this.props.match.params['digest'],
+            container: { name: _this.props.routeParams.container },
+            digest: _this.props.routeParams.digest,
             environment: [],
             error: false,
             labels: [],
@@ -81,11 +83,11 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Image layers"], ["Image layers"]))), breadcrumbs: React.createElement(Breadcrumbs, { links: [
                         {
                             name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))),
-                            url: Paths.executionEnvironments,
+                            url: formatPath(Paths.executionEnvironments),
                         },
                         {
                             name: this.state.container.name,
-                            url: formatPath(Paths.executionEnvironmentDetail, {
+                            url: formatEEPath(Paths.executionEnvironmentDetail, {
                                 container: container.name,
                             }),
                         },
@@ -103,7 +105,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
             React.createElement(Main, null, error ? (React.createElement(Trans, null,
                 "Manifest lists are not currently supported on this screen, please use the",
                 ' ',
-                React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetailImages, {
+                React.createElement(Link, { to: formatEEPath(Paths.executionEnvironmentDetailImages, {
                         container: container.name,
                     }) }, "Images"),
                 ' ',
@@ -177,6 +179,6 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
     };
     return ExecutionEnvironmentManifest;
 }(React.Component));
-export default withRouter(ExecutionEnvironmentManifest);
+export default withRouter(withContainerParamFix(ExecutionEnvironmentManifest));
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=execution-environment-manifest.js.map

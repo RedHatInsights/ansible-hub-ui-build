@@ -19,10 +19,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from 'src/components';
 import { FlexItem, Flex, Title, Button, Card, CardBody, } from '@patternfly/react-core';
-import { withContainerRepo } from './base';
+import { withContainerParamFix, withContainerRepo, } from './base';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { getContainersURL } from 'src/utilities';
 import './execution-environment-detail.scss';
@@ -115,6 +115,6 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     };
     return ExecutionEnvironmentDetail;
 }(React.Component));
-export default withRouter(withContainerRepo(ExecutionEnvironmentDetail));
+export default withRouter(withContainerParamFix(withContainerRepo(ExecutionEnvironmentDetail)));
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=execution_environment_detail.js.map

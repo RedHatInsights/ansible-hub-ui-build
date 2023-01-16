@@ -29,7 +29,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { errorMessage } from 'src/utilities';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
@@ -81,7 +82,7 @@ var GroupList = /** @class */ (function (_super) {
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         var noData = groups.length === 0 && !filterIsSet(params, ['name__icontains']);
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),

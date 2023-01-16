@@ -10,22 +10,20 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { CollectionAPI } from 'src/api';
-import { Paths } from 'src/paths';
-export function loadCollection(repo, forceReload, callback) {
-    var _this = this;
-    if (forceReload === void 0) { forceReload = false; }
-    if (callback === void 0) { callback = function () { return null; }; }
-    CollectionAPI.getCached(this.props.match.params['namespace'], this.props.match.params['collection'], repo, __assign(__assign({}, this.state.params), { include_related: 'my_permissions' }), forceReload)
+import { Paths, formatPath } from 'src/paths';
+export function loadCollection(_a) {
+    var forceReload = _a.forceReload, matchParams = _a.matchParams, navigate = _a.navigate, selectedRepo = _a.selectedRepo, setCollection = _a.setCollection, stateParams = _a.stateParams;
+    CollectionAPI.getCached(matchParams['namespace'], matchParams['collection'], selectedRepo, __assign(__assign({}, stateParams), { include_related: 'my_permissions' }), forceReload)
         .then(function (result) {
         return CollectionAPI.list({
-            name: _this.props.match.params['collection'],
-        }, _this.context.selectedRepo).then(function (collections) {
+            name: matchParams['collection'],
+        }, selectedRepo).then(function (collections) {
             result.deprecated = collections.data.data[0].deprecated;
-            _this.setState({ collection: result }, callback);
+            setCollection(result);
         });
     })
         .catch(function () {
-        _this.props.history.push(Paths.notFound);
+        navigate(formatPath(Paths.notFound));
     });
 }
 //# sourceMappingURL=base.js.map

@@ -30,14 +30,15 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
 import { ParamHelper, mapErrorMessages, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
 import { Button, ToolbarItem } from '@patternfly/react-core';
-import { Paths } from 'src/paths';
+import { Paths, formatPath } from 'src/paths';
 var Repository = /** @class */ (function () {
     function Repository() {
     }
@@ -195,7 +196,7 @@ var RepositoryList = /** @class */ (function (_super) {
     RepositoryList.prototype.renderControls = function () {
         if (this.state.params.tab == 'local') {
             return (React.createElement(ToolbarItem, null,
-                React.createElement(Link, { to: Paths.token },
+                React.createElement(Link, { to: formatPath(Paths.token) },
                     React.createElement(Button, null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Get token"], ["Get token"])))))));
         }
     };

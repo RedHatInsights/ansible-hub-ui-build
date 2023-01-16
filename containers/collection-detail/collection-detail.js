@@ -34,7 +34,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { isEqual } from 'lodash';
 import { CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, AlertList, closeAlertMixin, } from 'src/components';
 import { loadCollection } from './base';
@@ -55,14 +55,11 @@ var CollectionDetail = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDetail.prototype.componentDidMount = function () {
-        this.load(true);
-    };
-    CollectionDetail.prototype.load = function (forceReload) {
-        this.loadCollection(this.context.selectedRepo, forceReload);
+        this.loadCollection(true);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
         if (!isEqual(prevProps.location, this.props.location)) {
-            this.loadCollection(this.context.selectedRepo);
+            this.loadCollection(false);
         }
     };
     CollectionDetail.prototype.render = function () {
@@ -86,10 +83,8 @@ var CollectionDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
-                    return _this.updateParams(p, function () {
-                        return _this.loadCollection(_this.context.selectedRepo, true);
-                    });
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collection: collection, params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () { return _this.loadCollection(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.context.selectedRepo }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
@@ -105,13 +100,17 @@ var CollectionDetail = /** @class */ (function (_super) {
                             });
                         } }))))));
     };
-    Object.defineProperty(CollectionDetail.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionDetail.prototype.loadCollection = function (forceReload) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            selectedRepo: this.context.selectedRepo,
+            setCollection: function (collection) { return _this.setState({ collection: collection }); },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionDetail.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();

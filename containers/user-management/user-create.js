@@ -19,12 +19,12 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { BaseHeader, Breadcrumbs, EmptyStateUnauthorized, UserFormPage, } from 'src/components';
-import { mapErrorMessages } from 'src/utilities';
+import { Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
-import { Paths } from 'src/paths';
+import { BaseHeader, Breadcrumbs, EmptyStateUnauthorized, UserFormPage, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { mapErrorMessages, withRouter, } from 'src/utilities';
 var UserCreate = /** @class */ (function (_super) {
     __extends(UserCreate, _super);
     function UserCreate(props) {
@@ -32,7 +32,7 @@ var UserCreate = /** @class */ (function (_super) {
         _this.saveUser = function () {
             var user = _this.state.user;
             UserAPI.create(user)
-                .then(function () { return _this.setState({ redirect: Paths.userList }); })
+                .then(function () { return _this.setState({ redirect: formatPath(Paths.userList) }); })
                 .catch(function (err) {
                 _this.setState({ errorMessages: mapErrorMessages(err) });
             });
@@ -54,13 +54,13 @@ var UserCreate = /** @class */ (function (_super) {
     UserCreate.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var hasPermission = this.context.hasPermission;
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages;
         var notAuthorised = !this.context.user || !hasPermission('galaxy.add_user');
         var breadcrumbs = [
-            { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
+            { url: formatPath(Paths.userList), name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
             { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create new user"], ["Create new user"]))) },
         ];
         var title = t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Create new user"], ["Create new user"])));
@@ -68,7 +68,7 @@ var UserCreate = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), title: title }),
             React.createElement(EmptyStateUnauthorized, null))) : (React.createElement(UserFormPage, { user: user, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user, errorMessages) {
                 return _this.setState({ user: user, errorMessages: errorMessages });
-            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: Paths.userList }); }, isNewUser: true }));
+            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: formatPath(Paths.userList) }); }, isNewUser: true }));
     };
     return UserCreate;
 }(React.Component));

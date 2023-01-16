@@ -29,7 +29,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './certification-dashboard.scss';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
 import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, ButtonVariant, } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, DownloadIcon, } from '@patternfly/react-icons';

@@ -39,9 +39,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { CollectionHeader, LoadingPageWithHeader, Main, CollectionDependenciesList, CollectionUsedbyDependenciesList, EmptyStateNoData, AlertList, closeAlertMixin, } from 'src/components';
+import { loadCollection } from './base';
 import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -210,12 +211,15 @@ var CollectionDependencies = /** @class */ (function (_super) {
     };
     CollectionDependencies.prototype.loadCollection = function (forceReload, callback) {
         var _this = this;
-        CollectionAPI.getCached(this.props.match.params['namespace'], this.props.match.params['collection'], this.context.selectedRepo, this.state.params.version ? { version: this.state.params.version } : {}, forceReload)
-            .then(function (result) {
-            _this.setState({ collection: result }, callback);
-        })
-            .catch(function () {
-            _this.props.history.push(Paths.notFound);
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            selectedRepo: this.context.selectedRepo,
+            setCollection: function (collection) { return _this.setState({ collection: collection }, callback); },
+            stateParams: this.state.params.version
+                ? { version: this.state.params.version }
+                : {},
         });
     };
     Object.defineProperty(CollectionDependencies.prototype, "updateParams", {

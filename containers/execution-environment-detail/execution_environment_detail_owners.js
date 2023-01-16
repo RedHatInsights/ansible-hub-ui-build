@@ -19,14 +19,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { ExecutionEnvironmentNamespaceAPI, GroupAPI, } from 'src/api';
 import { OwnersTab } from 'src/components';
-import { formatPath, Paths } from 'src/paths';
+import { formatEEPath, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ParamHelper, errorMessage } from 'src/utilities';
 import './execution-environment-detail.scss';
-import { withContainerRepo } from './base';
+import { withContainerParamFix, withContainerRepo, } from './base';
 var ExecutionEnvironmentDetailOwners = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetailOwners, _super);
     function ExecutionEnvironmentDetailOwners(props) {
@@ -140,7 +140,7 @@ var ExecutionEnvironmentDetailOwners = /** @class */ (function (_super) {
                     alertFailure: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Group \"", "\" roles could not be update in \"", "\"."], ["Group \"", "\" roles could not be update in \"", "\"."])), group.name, name),
                     stateUpdate: { showRoleRemoveModal: null },
                 });
-            }, selectRolesMessage: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["The selected roles will be added to this specific Execution Environment."], ["The selected roles will be added to this specific Execution Environment."]))), urlPrefix: formatPath(Paths.executionEnvironmentDetailOwners, {
+            }, selectRolesMessage: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["The selected roles will be added to this specific Execution Environment."], ["The selected roles will be added to this specific Execution Environment."]))), urlPrefix: formatEEPath(Paths.executionEnvironmentDetailOwners, {
                 container: name,
             }) }));
     };
@@ -211,6 +211,6 @@ var ExecutionEnvironmentDetailOwners = /** @class */ (function (_super) {
     return ExecutionEnvironmentDetailOwners;
 }(React.Component));
 ExecutionEnvironmentDetailOwners.contextType = AppContext;
-export default withRouter(withContainerRepo(ExecutionEnvironmentDetailOwners));
+export default withRouter(withContainerParamFix(withContainerRepo(ExecutionEnvironmentDetailOwners)));
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
 //# sourceMappingURL=execution_environment_detail_owners.js.map

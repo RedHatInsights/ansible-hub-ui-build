@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Tooltip } from '@patternfly/react-core';
-import { Paths, formatPath } from 'src/paths';
+import { Paths, formatEEPath, formatPath } from 'src/paths';
 import { BaseHeader, Breadcrumbs, Tabs, SignatureBadge } from 'src/components';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
@@ -41,13 +41,13 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
         var last_sync_task = (_a = container.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task;
         return (React.createElement(BaseHeader, { title: container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
-                        url: Paths.executionEnvironments,
+                        url: formatPath(Paths.executionEnvironments),
                         name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))),
                     },
                     {
                         name: container.name,
                         url: tab === 'owners'
-                            ? formatPath(Paths.executionEnvironmentDetail, {
+                            ? formatEEPath(Paths.executionEnvironmentDetail, {
                                 container: container.name,
                             })
                             : null,
@@ -56,7 +56,7 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
                         ? {
                             name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Owners"], ["Owners"]))),
                             url: groupId
-                                ? formatPath(Paths.executionEnvironmentDetailOwners, {
+                                ? formatEEPath(Paths.executionEnvironmentDetailOwners, {
                                     container: container.name,
                                 })
                                 : null,
