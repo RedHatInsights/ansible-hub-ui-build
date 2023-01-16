@@ -44,7 +44,7 @@ import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
 import { APISearchTypeAhead, HelperText, AlertList, closeAlertMixin, } from 'src/components';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
+import { Paths, formatEEPath } from 'src/paths';
 import { errorMessage, isFieldValid, isFormValid, mapErrorMessages, alertErrorsWithoutFields, } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
@@ -160,7 +160,7 @@ var RepositoryForm = /** @class */ (function (_super) {
                             " tab")) : (React.createElement(Trans, null,
                             "Moved to the",
                             ' ',
-                            React.createElement(Link, { target: '_blank', to: formatPath(Paths.executionEnvironmentDetailOwners, {
+                            React.createElement(Link, { target: '_blank', to: formatEEPath(Paths.executionEnvironmentDetailOwners, {
                                     container: name,
                                 }) }, "Owners"),
                             ' ',

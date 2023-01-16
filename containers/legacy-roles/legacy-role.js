@@ -21,7 +21,8 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './legacy-roles.scss';
 import { EmptyStateNoData } from 'src/components';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, Nav, NavItem, NavList, Panel, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
@@ -116,8 +117,8 @@ var LegacyRole = /** @class */ (function (_super) {
     __extends(LegacyRole, _super);
     function LegacyRole(props) {
         var _this = _super.call(this, props) || this;
-        var roleUser = props.match.params.username;
-        var roleName = props.match.params.name;
+        var roleUser = props.routeParams.username;
+        var roleName = props.routeParams.name;
         _this.state = {
             id: null,
             role: null,

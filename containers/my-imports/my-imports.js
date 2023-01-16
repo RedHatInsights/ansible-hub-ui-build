@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './my-imports.scss';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { cloneDeep } from 'lodash';
 import { BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, AlertList, } from 'src/components';
 import { ImportAPI, PulpStatus, CollectionVersionAPI, } from 'src/api';

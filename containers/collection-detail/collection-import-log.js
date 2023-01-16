@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { ImportAPI } from 'src/api';
 import { CollectionHeader, LoadingPageWithHeader, ImportConsole, Main, } from 'src/components';
 import { loadCollection } from './base';
@@ -82,7 +82,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
         if (forceReload === void 0) { forceReload = false; }
         var failMsg = t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Could not load import log"], ["Could not load import log"])));
         this.setState({ loadingImports: true }, function () {
-            _this.loadCollection(_this.context.selectedRepo, forceReload, function () {
+            _this.loadCollection(forceReload, function () {
                 ImportAPI.list({
                     namespace: _this.state.collection.namespace.name,
                     name: _this.state.collection.name,
@@ -116,13 +116,17 @@ var CollectionImportLog = /** @class */ (function (_super) {
             });
         });
     };
-    Object.defineProperty(CollectionImportLog.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionImportLog.prototype.loadCollection = function (forceReload, callback) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            selectedRepo: this.context.selectedRepo,
+            setCollection: function (collection) { return _this.setState({ collection: collection }, callback); },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionImportLog.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();

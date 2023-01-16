@@ -29,12 +29,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
+import { withRouter } from 'src/utilities';
 import { LoadingPageWithHeader, UserFormPage, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
-import { Paths } from 'src/paths';
+import { Paths, formatPath } from 'src/paths';
 import { mapErrorMessages } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
 var UserProfile = /** @class */ (function (_super) {
@@ -57,10 +58,10 @@ var UserProfile = /** @class */ (function (_super) {
                         },
                     ]),
                 }, function () { return _this.context.setUser(result.data); });
-                // Redirect to login page when password is changed
+                // redirect to login page when password is changed
                 // SSO not relevant, user edit disabled
                 if (user.password) {
-                    _this.setState({ redirect: Paths.login });
+                    _this.setState({ redirect: formatPath(Paths.login) });
                 }
             })
                 .catch(function (err) {
@@ -85,12 +86,12 @@ var UserProfile = /** @class */ (function (_super) {
             _this.initialState = __assign({}, extendedResult);
             _this.setState({ user: extendedResult });
         })
-            .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
+            .catch(function () { return _this.setState({ redirect: formatPath(Paths.notFound) }); });
     };
     UserProfile.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages, inEditMode = _a.inEditMode, alerts = _a.alerts;
         var featureFlags = this.context.featureFlags;

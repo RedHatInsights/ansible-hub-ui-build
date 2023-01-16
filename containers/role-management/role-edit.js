@@ -42,9 +42,10 @@ import * as React from 'react';
 import { parsePulpIDFromURL, errorMessage, translateLockedRolesDescription, } from 'src/utilities';
 import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
 import { RoleAPI } from 'src/api/role';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { AlertList, closeAlertMixin, EmptyStateUnauthorized, LoadingPageWithHeader, Main, RoleForm, RoleHeader, } from 'src/components';
-import { Paths } from 'src/paths';
+import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 var EditRole = /** @class */ (function (_super) {
     __extends(EditRole, _super);
@@ -54,7 +55,7 @@ var EditRole = /** @class */ (function (_super) {
         _this.cancelRole = function () {
             _this.setState({
                 errorMessages: {},
-                redirect: Paths.roleList,
+                redirect: formatPath(Paths.roleList),
             });
         };
         _this.editRole = function (permissions) {
@@ -63,7 +64,7 @@ var EditRole = /** @class */ (function (_super) {
                 var roleID = parsePulpIDFromURL(pulp_href) + '/';
                 var _a = _this.state, name = _a.name, description = _a.description;
                 RoleAPI.updatePermissions(roleID, { name: name, description: description, permissions: permissions })
-                    .then(function () { return _this.setState({ redirect: Paths.roleList }); })
+                    .then(function () { return _this.setState({ redirect: formatPath(Paths.roleList) }); })
                     .catch(function (err) {
                     var _a = err.response, status = _a.status, statusText = _a.statusText;
                     if (err.response.status === 400) {
@@ -84,7 +85,7 @@ var EditRole = /** @class */ (function (_super) {
                 });
             });
         };
-        var id = _this.props.match.params['role'];
+        var id = _this.props.routeParams.role;
         _this.state = {
             role: null,
             params: {
@@ -127,7 +128,7 @@ var EditRole = /** @class */ (function (_super) {
             })
                 .catch(function (e) {
                 var _a = e.response, status = _a.status, statusText = _a.statusText;
-                _this.setState({ redirect: Paths.notFound });
+                _this.setState({ redirect: formatPath(Paths.notFound) });
                 _this.addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Role \"", "\" could not be displayed."], ["Role \"", "\" could not be displayed."])), _this.state.role.name), 'danger', errorMessage(status, statusText));
             });
         }
@@ -135,7 +136,7 @@ var EditRole = /** @class */ (function (_super) {
     EditRole.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, name = _a.name, description = _a.description, alerts = _a.alerts, editPermissions = _a.editPermissions, role = _a.role, errorMessages = _a.errorMessages, unauthorised = _a.unauthorised, saving = _a.saving;
         if (!role && alerts && alerts.length) {
@@ -145,7 +146,7 @@ var EditRole = /** @class */ (function (_super) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var breadcrumbs = [
-            { url: Paths.roleList, name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Roles"], ["Roles"]))) },
+            { url: formatPath(Paths.roleList), name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Roles"], ["Roles"]))) },
             { name: role.name },
         ];
         return (React.createElement(React.Fragment, null,

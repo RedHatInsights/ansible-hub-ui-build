@@ -34,14 +34,15 @@ import './execution-environment-detail.scss';
 import { errorMessage } from 'src/utilities';
 import { sum } from 'lodash';
 import { ExecutionEnvironmentAPI } from 'src/api';
-import { formatPath, Paths } from 'src/paths';
+import { formatEEPath, Paths } from 'src/paths';
 import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { AppliedFilters, CompoundFilter, Pagination, SortTable, EmptyStateNoData, EmptyStateFilter, ShaLabel, TagLabel, TagManifestModal, PublishToControllerModal, DateComponent, ClipboardCopy, DeleteModal, LoadingPageSpinner, ListItemActions, } from '../../components';
-import { withContainerRepo } from './base';
+import { withContainerParamFix, withContainerRepo, } from './base';
 import './execution-environment-detail_images.scss';
 var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetailImages, _super);
@@ -164,7 +165,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                             React.createElement(ToolbarItem, null,
                                 React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) { return _this.setState({ inputText: text }); }, updateParams: function (p) {
                                         return _this.updateParams(p, function () {
-                                            return _this.queryImages(_this.props.match.params['container']);
+                                            return _this.queryImages(_this.props.routeParams.container);
                                         });
                                     }, params: params, filterConfig: [
                                         {
@@ -178,20 +179,20 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                                     ] }))))),
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () {
-                            return _this.queryImages(_this.props.match.params['container']);
+                            return _this.queryImages(_this.props.routeParams.container);
                         });
                     }, count: this.state.numberOfImages, isTop: true })),
             React.createElement("div", null,
                 React.createElement(AppliedFilters, { updateParams: function (p) {
                         _this.updateParams(p, function () {
-                            return _this.queryImages(_this.props.match.params['container']);
+                            return _this.queryImages(_this.props.routeParams.container);
                         });
                         _this.setState({ inputText: '' });
                     }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'id', 'tab'] })),
             images.length === 0 && filterIsSet(params, ['tag']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement("table", { "aria-label": t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Images"], ["Images"]))), className: 'hub-c-table-content pf-c-table' },
                 React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                         return _this.updateParams(p, function () {
-                            return _this.queryImages(_this.props.match.params['container']);
+                            return _this.queryImages(_this.props.routeParams.container);
                         });
                     } }),
                 React.createElement("tbody", null, images.map(function (image, i) {
@@ -199,7 +200,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                 })))),
             React.createElement(Pagination, { params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () {
-                        return _this.queryImages(_this.props.match.params['container']);
+                        return _this.queryImages(_this.props.routeParams.container);
                     });
                 }, count: this.state.numberOfImages })));
     };
@@ -207,9 +208,9 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var _this = this;
         var _a;
         var hasPermission = this.context.hasPermission;
-        var container = this.props.match.params['container'];
+        var container = this.props.routeParams.container;
         var manifestLink = function (digestOrTag) {
-            return formatPath(Paths.executionEnvironmentManifest, {
+            return formatEEPath(Paths.executionEnvironmentManifest, {
                 container: container,
                 digest: digestOrTag,
             });
@@ -341,7 +342,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
         var selectedImage = this.state.selectedImage;
         var digest = selectedImage.digest;
         this.setState({ isDeletionPending: true }, function () {
-            return ExecutionEnvironmentAPI.deleteImage(_this.props.match.params['container'], selectedImage.digest)
+            return ExecutionEnvironmentAPI.deleteImage(_this.props.routeParams.container, selectedImage.digest)
                 .then(function (result) {
                 var taskId = result.data.task.split('tasks/')[1].replace('/', '');
                 _this.setState({
@@ -360,7 +361,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                             digest,
                             "\" has been successfully deleted.")),
                     });
-                    _this.queryImages(_this.props.match.params['container']);
+                    _this.queryImages(_this.props.routeParams.container);
                 });
             })
                 .catch(function (err) {
@@ -388,7 +389,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
     });
     return ExecutionEnvironmentDetailImages;
 }(React.Component));
-export default withRouter(withContainerRepo(ExecutionEnvironmentDetailImages));
+export default withRouter(withContainerParamFix(withContainerRepo(ExecutionEnvironmentDetailImages)));
 ExecutionEnvironmentDetailImages.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
 //# sourceMappingURL=execution_environment_detail_images.js.map

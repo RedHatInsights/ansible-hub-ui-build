@@ -22,7 +22,7 @@ import * as React from 'react';
 import './not-found.scss';
 // had to declare *.gif in src/index.d.ts
 import NotFoundImage from 'src/../static/images/not_found.svg';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { Bullseye } from '@patternfly/react-core';
 import { BaseHeader, Main } from 'src/components';
 var NotFound = /** @class */ (function (_super) {

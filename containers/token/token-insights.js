@@ -28,9 +28,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
-import { Paths } from 'src/paths';
+import { Paths, formatPath } from 'src/paths';
 import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
 import { errorMessage, getRepoUrl } from 'src/utilities';
 import { AppContext } from 'src/loaders/app-context';
@@ -98,10 +99,11 @@ var TokenPage = /** @class */ (function (_super) {
                         React.createElement(Trans, null,
                             "Use the",
                             ' ',
-                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
-                            " page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
+                            React.createElement(Link, { to: formatPath(Paths.repositories) }, "Repository Management"),
                             ' ',
-                            React.createElement(Link, { to: Paths.search }, "Collections"),
+                            "page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
+                            ' ',
+                            React.createElement(Link, { to: formatPath(Paths.search) }, "Collections"),
                             " page to control which collections are added to their organization's sync repository."))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),

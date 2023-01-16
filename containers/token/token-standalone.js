@@ -29,7 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import './token.scss';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, LoadingPageSpinner, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';

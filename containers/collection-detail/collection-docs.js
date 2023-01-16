@@ -20,7 +20,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './collection-detail.scss';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { Alert } from '@patternfly/react-core';
 import { CollectionHeader, EmptyStateCustom, LoadingPageWithHeader, Main, RenderPluginDoc, TableOfContents, } from 'src/components';
@@ -44,15 +45,12 @@ var CollectionDocs = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDocs.prototype.componentDidMount = function () {
-        this.load(false);
-    };
-    CollectionDocs.prototype.load = function (forceUpdate) {
-        this.loadCollection(this.context.selectedRepo, forceUpdate);
+        this.loadCollection(false);
     };
     CollectionDocs.prototype.render = function () {
         var _this = this;
         var _a = this.state, params = _a.params, collection = _a.collection;
-        var urlFields = this.props.match.params;
+        var urlFields = this.props.routeParams;
         if (!collection) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -119,10 +117,8 @@ var CollectionDocs = /** @class */ (function (_super) {
         //   this.docsRef.current.scrollIntoView();
         // }
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
-                    return _this.updateParams(p, function () {
-                        return _this.loadCollection(_this.context.selectedRepo, true);
-                    });
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collection: collection, params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () { return _this.loadCollection(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'documentation', className: 'header', repo: this.context.selectedRepo }),
             React.createElement(Main, { className: 'main' },
                 React.createElement("section", { className: 'docs-container' },
@@ -182,13 +178,17 @@ var CollectionDocs = /** @class */ (function (_super) {
     CollectionDocs.prototype.renderCommunityWarningMessage = function () {
         return (React.createElement(EmptyStateCustom, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Warning"], ["Warning"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Community collections do not have docs nor content counts, but all content gets synchronized"], ["Community collections do not have docs nor content counts, but all content gets synchronized"]))), icon: ExclamationTriangleIcon }));
     };
-    Object.defineProperty(CollectionDocs.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionDocs.prototype.loadCollection = function (forceReload) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            selectedRepo: this.context.selectedRepo,
+            setCollection: function (collection) { return _this.setState({ collection: collection }); },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionDocs.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();

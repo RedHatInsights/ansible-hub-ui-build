@@ -30,16 +30,16 @@ import * as React from 'react';
 import './task.scss';
 import { i18n } from '@lingui/core';
 import { t, Trans } from '@lingui/macro';
-import { Link, withRouter, Redirect, } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
+import { capitalize } from 'lodash';
 import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
 import { Constants } from 'src/constants';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { capitalize } from 'lodash';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, withRouter } from 'src/utilities';
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {
@@ -67,7 +67,7 @@ var TaskDetail = /** @class */ (function (_super) {
         }
     };
     TaskDetail.prototype.componentDidUpdate = function (prevProps) {
-        if (prevProps.match.params['task'] !== this.props.match.params['task']) {
+        if (prevProps.routeParams.task !== this.props.routeParams.task) {
             this.setState({ loading: true });
             this.loadContent();
         }
@@ -76,7 +76,7 @@ var TaskDetail = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, loading = _a.loading, task = _a.task, parentTask = _a.parentTask, childTasks = _a.childTasks, cancelModalVisible = _a.cancelModalVisible, alerts = _a.alerts, taskName = _a.taskName, resources = _a.resources, redirect = _a.redirect;
         var breadcrumbs = [
-            { url: Paths.taskList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
+            { url: formatPath(Paths.taskList), name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
             { name: task ? taskName : '' },
         ];
         var parentTaskId = null;
@@ -84,7 +84,7 @@ var TaskDetail = /** @class */ (function (_super) {
             parentTaskId = parsePulpIDFromURL(parentTask.pulp_href);
         }
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -238,7 +238,7 @@ var TaskDetail = /** @class */ (function (_super) {
         if (!this.state.polling && !this.state.task) {
             this.setState({ polling: setInterval(function () { return _this.loadContent(); }, 10000) });
         }
-        var taskId = this.props.match.params['task'];
+        var taskId = this.props.routeParams.task;
         return TaskManagementAPI.get(taskId)
             .then(function (result) {
             var allRelatedTasks = [];
@@ -323,7 +323,7 @@ var TaskDetail = /** @class */ (function (_super) {
             });
         })
             .catch(function () {
-            _this.setState({ redirect: Paths.notFound });
+            _this.setState({ redirect: formatPath(Paths.notFound) });
         });
     };
     Object.defineProperty(TaskDetail.prototype, "closeAlert", {

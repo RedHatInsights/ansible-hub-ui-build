@@ -18,13 +18,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { Button } from '@patternfly/react-core';
-import { AlertList, DeleteUserModal, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, closeAlertMixin, } from 'src/components';
 import { UserAPI } from 'src/api';
+import { AlertList, DeleteUserModal, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, closeAlertMixin, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { withRouter } from 'src/utilities';
 var UserDetail = /** @class */ (function (_super) {
     __extends(UserDetail, _super);
     function UserDetail(props) {
@@ -34,7 +35,7 @@ var UserDetail = /** @class */ (function (_super) {
                 showDeleteModal: false,
             }, function () {
                 if (didDelete) {
-                    _this.setState({ redirect: Paths.userList });
+                    _this.setState({ redirect: formatPath(Paths.userList) });
                 }
             });
         };
@@ -50,20 +51,20 @@ var UserDetail = /** @class */ (function (_super) {
     UserDetail.prototype.componentDidMount = function () {
         var _this = this;
         var _a = this.context, hasPermission = _a.hasPermission, user = _a.user;
-        var id = this.props.match.params['userID'];
+        var id = this.props.routeParams.userID;
         if (!user || user.is_anonymous || !hasPermission('galaxy.view_user')) {
             this.setState({ unauthorised: true });
         }
         else {
             UserAPI.get(id)
                 .then(function (result) { return _this.setState({ userDetail: result.data }); })
-                .catch(function () { return _this.setState({ redirect: Paths.notFound }); });
+                .catch(function () { return _this.setState({ redirect: formatPath(Paths.notFound) }); });
         }
     };
     UserDetail.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, userDetail = _a.userDetail, errorMessages = _a.errorMessages, alerts = _a.alerts, showDeleteModal = _a.showDeleteModal, unauthorised = _a.unauthorised;
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
@@ -74,7 +75,7 @@ var UserDetail = /** @class */ (function (_super) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var breadcrumbs = [
-            { url: Paths.userList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
+            { url: formatPath(Paths.userList), name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) },
             { name: userDetail.username },
         ];
         var title = t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["User details"], ["User details"])));

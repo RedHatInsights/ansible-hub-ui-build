@@ -39,7 +39,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { MyNamespaceAPI } from 'src/api';
 import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
@@ -81,7 +82,7 @@ var EditNamespace = /** @class */ (function (_super) {
             { id: 'edit-resources', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
         ];
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         if (loading) {
             return React.createElement(LoadingPageSpinner, null);
@@ -135,7 +136,7 @@ var EditNamespace = /** @class */ (function (_super) {
     });
     EditNamespace.prototype.loadNamespace = function () {
         var _this = this;
-        MyNamespaceAPI.get(this.props.match.params['namespace'])
+        MyNamespaceAPI.get(this.props.routeParams.namespace)
             .then(function (response) {
             // Add an empty link to the end of the links array to create an empty field
             // on the link edit form for adding new links

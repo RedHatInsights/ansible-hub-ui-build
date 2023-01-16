@@ -40,7 +40,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import * as React from 'react';
 import { t, Trans } from '@lingui/macro';
 import { errorMessage } from 'src/utilities';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
+import { Link } from 'react-router-dom';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
 import { ParamHelper, filterIsSet, lastSyncStatus, lastSynced, mapErrorMessages, parsePulpIDFromURL, } from 'src/utilities';

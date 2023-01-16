@@ -31,7 +31,8 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './legacy-namespace.scss';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, } from '@patternfly/react-core';
 import { BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
@@ -124,7 +125,7 @@ var LegacyNamespace = /** @class */ (function (_super) {
     // This is the details page for a legacy namespace
     function LegacyNamespace(props) {
         var _this = _super.call(this, props) || this;
-        var namespaceid = props.match.params.namespaceid;
+        var namespaceid = props.routeParams.namespaceid;
         _this.state = __assign(__assign({}, props), { loading: true, namespaceid: namespaceid, namespace: null, roles: null });
         return _this;
     }

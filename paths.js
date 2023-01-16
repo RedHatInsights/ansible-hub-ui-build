@@ -2,13 +2,30 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t } from '@lingui/macro';
-import { ParamHelper } from './utilities/param-helper';
+import { Constants } from 'src/constants';
+import { ParamHelper } from 'src/utilities';
 export function formatPath(path, data, params) {
-    var url = path + '/';
+    if (data === void 0) { data = {}; }
+    // insights router has basename="/" or "/beta/", with hub under a nested "ansible/automation-hub" route - our urls are relative to that
+    var url = DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
+        ? UI_BASE_PATH.replace('/beta/', '/').replace(/\/$/, '')
+        : '';
+    url += path + '/';
     for (var _i = 0, _a = Object.keys(data); _i < _a.length; _i++) {
         var k = _a[_i];
-        url = url.replace(':' + k + '+', data[k]).replace(':' + k, data[k]);
+        url = url.replace(':' + k, encodeURIComponent(data[k]));
     }
     if (params) {
         var path_1 = "".concat(url, "?").concat(ParamHelper.getQueryString(params));
@@ -18,14 +35,40 @@ export function formatPath(path, data, params) {
         return url;
     }
 }
+// handle long/short EE routes:
+// (path, container: 'namespaced/name') -> (pathWithNamespace, { namespace: 'namespaced', container: 'name' })
+// (path, container: 'simple') -> (path, { container: 'simple' })
+// see also withContainerParamFix
+export function formatEEPath(path, data, params) {
+    var _a;
+    var _b;
+    var pathsWithNamespace = (_a = {},
+        _a[Paths.executionEnvironmentDetail] = Paths.executionEnvironmentDetailWithNamespace,
+        _a[Paths.executionEnvironmentDetailActivities] = Paths.executionEnvironmentDetailActivitiesWithNamespace,
+        _a[Paths.executionEnvironmentDetailImages] = Paths.executionEnvironmentDetailImagesWithNamespace,
+        _a[Paths.executionEnvironmentDetailOwners] = Paths.executionEnvironmentDetailOwnersWithNamespace,
+        _a[Paths.executionEnvironmentManifest] = Paths.executionEnvironmentManifestWithNamespace,
+        _a);
+    if ((_b = data.container) === null || _b === void 0 ? void 0 : _b.includes('/')) {
+        var _c = data.container.split('/'), namespace = _c[0], container = _c[1];
+        var pathWithNamespace = pathsWithNamespace[path];
+        return formatPath(pathWithNamespace, __assign(__assign({}, data), { namespace: namespace, container: container }), params);
+    }
+    return formatPath(path, data, params);
+}
 export var Paths;
 (function (Paths) {
-    Paths["executionEnvironmentDetailActivities"] = "/containers/:container+/_content/activity";
-    Paths["executionEnvironmentDetailImages"] = "/containers/:container+/_content/images";
-    Paths["executionEnvironmentDetailOwners"] = "/containers/:container+/_content/owners";
-    Paths["executionEnvironmentDetail"] = "/containers/:container+";
+    Paths["executionEnvironmentDetail"] = "/containers/:container";
+    Paths["executionEnvironmentDetailWithNamespace"] = "/containers/:namespace/:container";
+    Paths["executionEnvironmentDetailActivities"] = "/containers/:container/_content/activity";
+    Paths["executionEnvironmentDetailActivitiesWithNamespace"] = "/containers/:namespace/:container/_content/activity";
+    Paths["executionEnvironmentDetailImages"] = "/containers/:container/_content/images";
+    Paths["executionEnvironmentDetailImagesWithNamespace"] = "/containers/:namespace/:container/_content/images";
+    Paths["executionEnvironmentDetailOwners"] = "/containers/:container/_content/owners";
+    Paths["executionEnvironmentDetailOwnersWithNamespace"] = "/containers/:namespace/:container/_content/owners";
+    Paths["executionEnvironmentManifest"] = "/containers/:container/_content/images/:digest";
+    Paths["executionEnvironmentManifestWithNamespace"] = "/containers/:namespace/:container/_content/images/:digest";
     Paths["executionEnvironments"] = "/containers";
-    Paths["executionEnvironmentManifest"] = "/containers/:container+/_content/images/:digest";
     Paths["executionEnvironmentsRegistries"] = "/registries";
     Paths["roleEdit"] = "/role/:role";
     Paths["roleList"] = "/roles";
@@ -80,7 +123,7 @@ export var namespaceBreadcrumb = {
         namespaces: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))),
         partners: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))),
     }[NAMESPACE_TERM],
-    url: Paths[NAMESPACE_TERM],
+    url: formatPath(Paths[NAMESPACE_TERM]),
 };
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=paths.js.map

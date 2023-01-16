@@ -39,10 +39,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import './search.scss';
-import { errorMessage, DeleteCollectionUtils, filterIsSet, waitForTask, parsePulpIDFromURL, } from 'src/utilities';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { DataList, Switch, DropdownItem, Button } from '@patternfly/react-core';
+import './search.scss';
+import { DeleteCollectionUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
 import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, DeleteCollectionModal, } from 'src/components';
 import { CollectionAPI, MySyncListAPI, MyNamespaceAPI, } from 'src/api';
 import { ParamHelper } from 'src/utilities/param-helper';
@@ -106,7 +106,7 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection, deleteCollection = _a.deleteCollection, confirmDelete = _a.confirmDelete, isDeletionPending = _a.isDeletionPending;
         var noData = collections.length === 0 &&
@@ -137,7 +137,7 @@ var Search = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: updateCollection.namespace.name })),
-            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
+            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { path: Paths.searchByRepo, selectedRepo: this.context.selectedRepo }) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
                 React.createElement("div", { className: 'toolbar' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
                     React.createElement("div", { className: 'hub-pagination-container' },

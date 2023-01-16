@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './legacy-namespaces.scss';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'src/utilities';
 import { DataList } from '@patternfly/react-core';
 import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, } from 'src/components';
 import { LegacyNamespaceAPI } from 'src/api/legacynamespace';

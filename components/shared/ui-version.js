@@ -21,11 +21,9 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import React from 'react';
-import PropTypes from 'prop-types';
 export var HTMLComment = function (_a) {
     var text = _a.text, props = __rest(_a, ["text"]);
     return (React.createElement("div", __assign({}, props, { dangerouslySetInnerHTML: { __html: "<!-- ".concat(text, " -->") } })));
 };
-HTMLComment.propTypes = { text: PropTypes.string };
 export var UIVersion = function () { return (React.createElement(HTMLComment, { className: 'hub-ui-version', text: "ansible-hub-ui ".concat(UI_COMMIT_HASH) })); };
 //# sourceMappingURL=ui-version.js.map
