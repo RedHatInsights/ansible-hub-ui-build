@@ -61,7 +61,6 @@ var NumericLabel = /** @class */ (function (_super) {
     };
     return NumericLabel;
 }(React.Component));
-export { NumericLabel };
 var CollectionNumericLabel = /** @class */ (function (_super) {
     __extends(CollectionNumericLabel, _super);
     function CollectionNumericLabel() {

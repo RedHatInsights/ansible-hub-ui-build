@@ -20,7 +20,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import './not-found.scss';
-// had to declare *.gif in src/index.d.ts
 import NotFoundImage from 'src/../static/images/not_found.svg';
 import { withRouter } from 'src/utilities';
 import { Bullseye } from '@patternfly/react-core';

@@ -39,7 +39,6 @@ var SortFieldType = /** @class */ (function () {
     }
     return SortFieldType;
 }());
-export { SortFieldType };
 var Sort = /** @class */ (function (_super) {
     __extends(Sort, _super);
     function Sort(props) {

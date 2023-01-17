@@ -39,8 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { parsePulpIDFromURL, errorMessage, translateLockedRolesDescription, } from 'src/utilities';
-import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
+import { errorMessage, mapNetworkErrors, parsePulpIDFromURL, translateLockedRolesDescription, validateInput, } from 'src/utilities';
 import { RoleAPI } from 'src/api/role';
 import { Navigate } from 'react-router-dom';
 import { withRouter } from 'src/utilities';

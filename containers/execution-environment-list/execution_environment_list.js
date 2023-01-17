@@ -46,7 +46,7 @@ import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, Too
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { filterIsSet, parsePulpIDFromURL, ParamHelper } from 'src/utilities';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, EmptyStateUnauthorized, ListItemActions, } from 'src/components';
-import { formatPath, formatEEPath, Paths } from '../../paths';
+import { formatPath, formatEEPath, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {

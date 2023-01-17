@@ -21,10 +21,10 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'src/utilities';
-import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from '../../components';
+import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from 'src/components';
 import { FlexItem, Flex, Button } from '@patternfly/react-core';
-import { formatEEPath, Paths } from '../../paths';
-import { ActivitiesAPI } from '../../api';
+import { formatEEPath, Paths } from 'src/paths';
+import { ActivitiesAPI } from 'src/api';
 import './execution-environment-detail.scss';
 import { withContainerParamFix, withContainerRepo, } from './base';
 var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
