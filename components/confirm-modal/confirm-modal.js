@@ -17,9 +17,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import * as React from 'react';
-import { Button, Modal, Spinner } from '@patternfly/react-core';
 import { t } from '@lingui/macro';
+import { Button, Modal, Spinner } from '@patternfly/react-core';
+import * as React from 'react';
 var ConfirmModal = /** @class */ (function (_super) {
     __extends(ConfirmModal, _super);
     function ConfirmModal() {

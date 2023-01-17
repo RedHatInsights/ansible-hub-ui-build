@@ -37,16 +37,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { ActionGroup, Button, Form, Spinner } from '@patternfly/react-core';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
 import { MyNamespaceAPI } from 'src/api';
-import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
+import { AlertList, EmptyStateUnauthorized, LoadingPageSpinner, Main, NamespaceForm, PartnerHeader, ResourcesForm, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
-import { ParamHelper, mapErrorMessages, errorMessage, } from 'src/utilities';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, mapErrorMessages, } from 'src/utilities';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
     function EditNamespace(props) {

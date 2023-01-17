@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
-import cx from 'classnames';
-import './switcher.scss';
 import { ListIcon, ThLargeIcon } from '@patternfly/react-icons';
+import cx from 'classnames';
+import * as React from 'react';
 import { ParamHelper } from 'src/utilities/param-helper';
+import './switcher.scss';
 var CardListSwitcher = /** @class */ (function (_super) {
     __extends(CardListSwitcher, _super);
     function CardListSwitcher() {

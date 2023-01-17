@@ -18,10 +18,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { EmptyStateCustom } from './empty-state-custom';
 import { LockIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { LoginLink } from 'src/components';
+import { EmptyStateCustom } from './empty-state-custom';
 var EmptyStateUnauthorized = /** @class */ (function (_super) {
     __extends(EmptyStateUnauthorized, _super);
     function EmptyStateUnauthorized() {

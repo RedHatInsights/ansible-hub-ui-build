@@ -37,17 +37,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { errorMessage } from 'src/utilities';
-import { Link, Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, SortTable, Tabs, } from 'src/components';
-import { GroupAPI, UserAPI, } from 'src/api';
-import { filterIsSet, ParamHelper } from 'src/utilities';
-import { formatPath, Paths } from 'src/paths';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import * as React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { GroupAPI, UserAPI, } from 'src/api';
+import { APISearchTypeAhead, AlertList, AppliedFilters, BaseHeader, Breadcrumbs, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, SortTable, Tabs, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage } from 'src/utilities';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, filterIsSet } from 'src/utilities';
 import GroupDetailRoleManagement from './group-detail-role-management/group-detail-role-management';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);

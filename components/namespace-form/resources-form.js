@@ -30,8 +30,8 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import './namespace-form.scss';
 import { MarkdownEditor } from '..';
+import './namespace-form.scss';
 var placeholder = "## Custom resources\n\nYou can use this page to add any resources which you think might help your users automate all the things.\n\nConsider using it for:\n\n- Links to blog posts\n- Training resources\n- Documentation\n- Cat gifs? If that's your thing :)\n";
 var ResourcesForm = /** @class */ (function (_super) {
     __extends(ResourcesForm, _super);

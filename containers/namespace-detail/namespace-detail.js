@@ -37,21 +37,21 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './namespace-detail.scss';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { Link, Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { Alert, AlertActionCloseButton, Button, DropdownItem, Tooltip, Text, Checkbox, } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { Alert, AlertActionCloseButton, Button, Checkbox, DropdownItem, Text, Tooltip, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, SignCollectionAPI, } from 'src/api';
-import { CollectionFilter, CollectionList, ImportModal, LoadingPageWithHeader, Main, OwnersTab, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, SignAllCertificatesModal, DeleteCollectionModal, } from 'src/components';
-import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, waitForTask, canSignNamespace, DeleteCollectionUtils, } from 'src/utilities';
+import { Link, Navigate } from 'react-router-dom';
+import { CollectionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
+import { AlertList, ClipboardCopy, CollectionFilter, CollectionList, DeleteCollectionModal, DeleteModal, EmptyStateNoData, ImportModal, LoadingPageWithHeader, Main, OwnersTab, Pagination, PartnerHeader, RepoSelector, SignAllCertificatesModal, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoUrl, waitForTask, } from 'src/utilities';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import './namespace-detail.scss';
 var NamespaceDetail = /** @class */ (function (_super) {
     __extends(NamespaceDetail, _super);
     function NamespaceDetail(props) {

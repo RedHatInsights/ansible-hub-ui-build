@@ -18,9 +18,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { EmptyStateCustom } from './empty-state-custom';
 var EmptyStateFilter = /** @class */ (function (_super) {
     __extends(EmptyStateFilter, _super);

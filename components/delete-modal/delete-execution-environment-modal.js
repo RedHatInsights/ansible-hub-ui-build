@@ -17,13 +17,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Checkbox, Text } from '@patternfly/react-core';
 import * as React from 'react';
 import { ExecutionEnvironmentAPI } from 'src/api';
-import { waitForTask } from 'src/utilities';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { waitForTask } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
-import { Checkbox, Text } from '@patternfly/react-core';
 var DeleteExecutionEnvironmentModal = /** @class */ (function (_super) {
     __extends(DeleteExecutionEnvironmentModal, _super);
     function DeleteExecutionEnvironmentModal(props) {

@@ -53,12 +53,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
 import * as React from 'react';
 import { UserAPI } from 'src/api';
-import { mapErrorMessages } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { AppContext } from 'src/loaders/app-context';
+import { mapErrorMessages } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
 var DeleteUserModal = /** @class */ (function (_super) {
     __extends(DeleteUserModal, _super);

@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-import { BaseHeader, Main, Breadcrumbs, UserForm, } from 'src/components';
+import { BaseHeader, Breadcrumbs, Main, UserForm, } from 'src/components';
 var UserFormPage = /** @class */ (function (_super) {
     __extends(UserFormPage, _super);
     function UserFormPage() {

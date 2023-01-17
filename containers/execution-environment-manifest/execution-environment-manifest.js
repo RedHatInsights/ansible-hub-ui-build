@@ -28,18 +28,18 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Card, CardBody, CardTitle, ClipboardCopyButton, DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, Flex, FlexItem, LabelGroup, Title, } from '@patternfly/react-core';
+import { sum } from 'lodash';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, TagLabel, ShaLabel, } from 'src/components';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, Flex, FlexItem, LabelGroup, Title, ClipboardCopyButton, Card, CardBody, CardTitle, } from '@patternfly/react-core';
-import { sum } from 'lodash';
-import { Paths, formatEEPath, formatPath } from 'src/paths';
 import { ExecutionEnvironmentAPI } from 'src/api';
+import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, ShaLabel, TagLabel, } from 'src/components';
+import { Paths, formatEEPath, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
 import { getHumanSize } from 'src/utilities';
-import './execution-environment-manifest.scss';
 import { withContainerParamFix } from '../execution-environment-detail/base';
+import './execution-environment-manifest.scss';
 var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentManifest, _super);
     function ExecutionEnvironmentManifest(props) {

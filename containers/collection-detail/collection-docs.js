@@ -18,18 +18,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
+import { Alert } from '@patternfly/react-core';
+import { ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import * as React from 'react';
-import './collection-detail.scss';
-import { withRouter } from 'src/utilities';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { Alert } from '@patternfly/react-core';
 import { CollectionHeader, EmptyStateCustom, LoadingPageWithHeader, Main, RenderPluginDoc, TableOfContents, } from 'src/components';
-import { loadCollection } from './base';
-import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
-import { ExclamationTriangleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
+import { loadCollection } from './base';
+import './collection-detail.scss';
 // renders markdown files in collection docs/ directory
 var CollectionDocs = /** @class */ (function (_super) {
     __extends(CollectionDocs, _super);

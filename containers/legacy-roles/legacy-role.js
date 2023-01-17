@@ -17,18 +17,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './legacy-roles.scss';
-import { EmptyStateNoData } from 'src/components';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, Nav, NavItem, NavList, Panel, TextContent, Text, TextVariants, } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Nav, NavItem, NavList, Panel, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { EmptyStateNoData } from 'src/components';
+import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import './legacy-roles.scss';
 var LegacyRoleInstall = /** @class */ (function (_super) {
     __extends(LegacyRoleInstall, _super);
     function LegacyRoleInstall() {

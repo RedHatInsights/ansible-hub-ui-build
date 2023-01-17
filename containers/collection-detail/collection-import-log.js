@@ -19,13 +19,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'src/utilities';
 import { ImportAPI } from 'src/api';
-import { CollectionHeader, LoadingPageWithHeader, ImportConsole, Main, } from 'src/components';
-import { loadCollection } from './base';
-import { ParamHelper } from 'src/utilities/param-helper';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
+import { CollectionHeader, ImportConsole, LoadingPageWithHeader, Main, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/param-helper';
+import { loadCollection } from './base';
 var CollectionImportLog = /** @class */ (function (_super) {
     __extends(CollectionImportLog, _super);
     function CollectionImportLog(props) {

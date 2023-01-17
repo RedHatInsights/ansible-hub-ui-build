@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import * as React from 'react';
 var APISearchTypeAhead = /** @class */ (function (_super) {
     __extends(APISearchTypeAhead, _super);
     function APISearchTypeAhead(props) {

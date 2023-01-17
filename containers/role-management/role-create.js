@@ -20,11 +20,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { errorMessage, mapNetworkErrors, validateInput, withRouter, } from 'src/utilities';
-import { EmptyStateUnauthorized, Main, RoleForm, RoleHeader, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
-import { AppContext } from 'src/loaders/app-context';
 import { RoleAPI } from 'src/api/role';
+import { EmptyStateUnauthorized, Main, RoleForm, RoleHeader, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage, mapNetworkErrors, validateInput, withRouter, } from 'src/utilities';
 var RoleCreate = /** @class */ (function (_super) {
     __extends(RoleCreate, _super);
     function RoleCreate(props) {

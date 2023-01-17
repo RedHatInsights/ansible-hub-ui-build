@@ -3,8 +3,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import React from 'react';
 import { Modal, ModalVariant, Wizard as PFWizard, } from '@patternfly/react-core';
+import React from 'react';
 export var WizardModal = function (_a) {
     var steps = _a.steps, title = _a.title, onClose = _a.onClose, onSave = _a.onSave, variant = _a.variant;
     return (React.createElement(Modal, { isOpen: true, variant: variant !== null && variant !== void 0 ? variant : ModalVariant.large, showClose: false, "aria-label": title, hasNoBodyWrapper: true },

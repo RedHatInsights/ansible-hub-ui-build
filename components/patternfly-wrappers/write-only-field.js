@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button, InputGroup, TextInput } from '@patternfly/react-core';
+import * as React from 'react';
 var WriteOnlyField = /** @class */ (function (_super) {
     __extends(WriteOnlyField, _super);
     function WriteOnlyField() {

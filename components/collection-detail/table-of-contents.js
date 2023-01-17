@@ -29,13 +29,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { capitalize } from 'lodash';
-import { Link } from 'react-router-dom';
 import { Nav, NavExpandable, NavItem, NavList, SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { capitalize } from 'lodash';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 var DocsEntry = /** @class */ (function () {
     function DocsEntry() {
     }

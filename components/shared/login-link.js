@@ -17,11 +17,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { t } from '@lingui/macro';
-import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
 var LoginLink = /** @class */ (function (_super) {
     __extends(LoginLink, _super);
     function LoginLink() {

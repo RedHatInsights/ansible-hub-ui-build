@@ -28,16 +28,16 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './namespace-form.scss';
+import { Trans, t } from '@lingui/macro';
 import { Alert, Form, FormGroup, TextArea, TextInput, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, PlusCircleIcon, TrashIcon, } from '@patternfly/react-icons';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { NamespaceCard } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { validateURLHelper } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
+import './namespace-form.scss';
 var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm() {

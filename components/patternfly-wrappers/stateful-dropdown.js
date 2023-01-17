@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
+import { Dropdown, DropdownPosition, DropdownToggle, KebabToggle, } from '@patternfly/react-core';
 import * as React from 'react';
-import { Dropdown, DropdownPosition, KebabToggle, DropdownToggle, } from '@patternfly/react-core';
 var StatefulDropdown = /** @class */ (function (_super) {
     __extends(StatefulDropdown, _super);
     function StatefulDropdown(props) {

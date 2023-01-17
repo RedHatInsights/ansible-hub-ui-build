@@ -13,12 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, } from '@patternfly/react-core';
 import * as React from 'react';
-import './legacy-namespace-item.scss';
-import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
-import { Paths, formatPath } from 'src/paths';
 import { Logo } from 'src/components';
+import { Paths, formatPath } from 'src/paths';
+import './legacy-namespace-item.scss';
 var LegacyNamespaceListItem = /** @class */ (function (_super) {
     __extends(LegacyNamespaceListItem, _super);
     function LegacyNamespaceListItem() {

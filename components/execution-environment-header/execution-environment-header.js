@@ -17,11 +17,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
 import { Tooltip } from '@patternfly/react-core';
+import * as React from 'react';
+import { BaseHeader, Breadcrumbs, SignatureBadge, Tabs } from 'src/components';
 import { Paths, formatEEPath, formatPath } from 'src/paths';
-import { BaseHeader, Breadcrumbs, Tabs, SignatureBadge } from 'src/components';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentHeader, _super);

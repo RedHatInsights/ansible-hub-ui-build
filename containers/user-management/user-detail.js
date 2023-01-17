@@ -18,13 +18,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
+import { Button } from '@patternfly/react-core';
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Button } from '@patternfly/react-core';
 import { UserAPI } from 'src/api';
 import { AlertList, DeleteUserModal, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, closeAlertMixin, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
 var UserDetail = /** @class */ (function (_super) {
     __extends(UserDetail, _super);

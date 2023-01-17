@@ -18,13 +18,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
+import { SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Toolbar, ToolbarItem, ToolbarGroup, SearchInput, } from '@patternfly/react-core';
-import { Pagination, EmptyStateNoData, EmptyStateFilter, Sort, LoadingPageSpinner, } from 'src/components';
-import { ParamHelper, filterIsSet } from 'src/utilities';
-import { formatPath, Paths } from 'src/paths';
+import { EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, Sort, } from 'src/components';
 import 'src/containers/collection-detail/collection-dependencies.scss';
+import { Paths, formatPath } from 'src/paths';
+import { ParamHelper, filterIsSet } from 'src/utilities';
 var CollectionUsedbyDependenciesList = /** @class */ (function (_super) {
     __extends(CollectionUsedbyDependenciesList, _super);
     function CollectionUsedbyDependenciesList() {

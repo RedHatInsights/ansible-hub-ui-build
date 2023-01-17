@@ -2,16 +2,16 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Trans, t } from '@lingui/macro';
 import { DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, QuestionCircleIcon, } from '@patternfly/react-icons';
-import { StandaloneMenu } from './menu';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Logo from 'src/../static/images/logo_large.svg';
 import { ActiveUserAPI, } from 'src/api';
 import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import Logo from 'src/../static/images/logo_large.svg';
+import { StandaloneMenu } from './menu';
 export var StandaloneLayout = function (_a) {
     var children = _a.children, featureFlags = _a.featureFlags, selectedRepo = _a.selectedRepo, setUser = _a.setUser, settings = _a.settings, user = _a.user;
     var location = useLocation();

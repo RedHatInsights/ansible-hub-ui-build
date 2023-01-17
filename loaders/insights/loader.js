@@ -2,18 +2,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import '../app.scss';
 import { t } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
 import { Alert } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import '../app.scss';
-import { AppContext } from '../app-context';
-import { loadContext } from '../load-context';
-import { InsightsRoutes } from './routes';
+import React, { useEffect, useState } from 'react';
+import { matchPath, useLocation } from 'react-router-dom';
 import { UIVersion } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { hasPermission } from 'src/utilities';
+import { AppContext } from '../app-context';
+import { loadContext } from '../load-context';
+import { InsightsRoutes } from './routes';
 var DEFAULT_REPO = 'published';
 var isRepoURL = function (pathname) {
     return matchPath({ path: formatPath(Paths.searchByRepo) + '*' }, pathname);

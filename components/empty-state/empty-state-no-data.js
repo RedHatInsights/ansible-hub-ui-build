@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { CubesIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { PlusCircleIcon, CubesIcon } from '@patternfly/react-icons';
 import { EmptyStateCustom } from './empty-state-custom';
 var EmptyStateNoData = /** @class */ (function (_super) {
     __extends(EmptyStateNoData, _super);

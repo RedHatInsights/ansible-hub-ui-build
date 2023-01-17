@@ -26,15 +26,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Button, Card, CardBody, CardTitle } from '@patternfly/react-core';
 import * as React from 'react';
-import './token.scss';
-import { withRouter } from 'src/utilities';
-import { Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
-import { BaseHeader, Main, ClipboardCopy, EmptyStateUnauthorized, DateComponent, AlertList, closeAlertMixin, LoadingPageSpinner, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
+import { AlertList, BaseHeader, ClipboardCopy, DateComponent, EmptyStateUnauthorized, LoadingPageSpinner, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { withRouter } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
+import './token.scss';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {

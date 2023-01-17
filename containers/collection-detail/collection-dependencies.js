@@ -39,13 +39,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'src/utilities';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
-import { CollectionHeader, LoadingPageWithHeader, Main, CollectionDependenciesList, CollectionUsedbyDependenciesList, EmptyStateNoData, AlertList, closeAlertMixin, } from 'src/components';
-import { loadCollection } from './base';
-import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
+import { AlertList, CollectionDependenciesList, CollectionHeader, CollectionUsedbyDependenciesList, EmptyStateNoData, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
+import { loadCollection } from './base';
 import './collection-dependencies.scss';
 var CollectionDependencies = /** @class */ (function (_super) {
     __extends(CollectionDependencies, _super);

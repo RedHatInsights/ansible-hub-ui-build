@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { Label } from '@patternfly/react-core';
 import * as React from 'react';
 import './tag.scss';
-import { Label } from '@patternfly/react-core';
 var Tag = /** @class */ (function (_super) {
     __extends(Tag, _super);
     function Tag() {

@@ -29,11 +29,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './sort.scss';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import { SortAmountDownIcon, SortAmountUpIcon, SortAlphaDownIcon, SortAlphaUpIcon, } from '@patternfly/react-icons';
+import { SortAlphaDownIcon, SortAlphaUpIcon, SortAmountDownIcon, SortAmountUpIcon, } from '@patternfly/react-icons';
+import * as React from 'react';
 import { ParamHelper } from 'src/utilities/param-helper';
+import './sort.scss';
 var SortFieldType = /** @class */ (function () {
     function SortFieldType() {
     }

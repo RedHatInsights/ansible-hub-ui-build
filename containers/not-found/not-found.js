@@ -18,12 +18,12 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './not-found.scss';
-import NotFoundImage from 'src/../static/images/not_found.svg';
-import { withRouter } from 'src/utilities';
 import { Bullseye } from '@patternfly/react-core';
+import * as React from 'react';
+import NotFoundImage from 'src/../static/images/not_found.svg';
 import { BaseHeader, Main } from 'src/components';
+import { withRouter } from 'src/utilities';
+import './not-found.scss';
 var NotFound = /** @class */ (function (_super) {
     __extends(NotFound, _super);
     function NotFound() {

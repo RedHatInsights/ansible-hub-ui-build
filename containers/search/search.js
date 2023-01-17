@@ -38,17 +38,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
+import { Button, DataList, DropdownItem, Switch } from '@patternfly/react-core';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
-import { DataList, Switch, DropdownItem, Button } from '@patternfly/react-core';
-import './search.scss';
-import { DeleteCollectionUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
-import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, DeleteCollectionModal, } from 'src/components';
-import { CollectionAPI, MySyncListAPI, MyNamespaceAPI, } from 'src/api';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { CollectionAPI, MyNamespaceAPI, MySyncListAPI, } from 'src/api';
+import { AlertList, BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, DeleteCollectionModal, EmptyStateFilter, EmptyStateNoData, ImportModal, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
+import { DeleteCollectionUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/param-helper';
+import './search.scss';
 var Search = /** @class */ (function (_super) {
     __extends(Search, _super);
     function Search(props) {

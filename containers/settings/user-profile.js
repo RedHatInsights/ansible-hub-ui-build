@@ -28,16 +28,16 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Button } from '@patternfly/react-core';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { Button } from '@patternfly/react-core';
-import { withRouter } from 'src/utilities';
-import { LoadingPageWithHeader, UserFormPage, AlertList, closeAlertMixin, } from 'src/components';
 import { ActiveUserAPI } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
-import { mapErrorMessages } from 'src/utilities';
+import { AlertList, LoadingPageWithHeader, UserFormPage, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { mapErrorMessages } from 'src/utilities';
 var UserProfile = /** @class */ (function (_super) {
     __extends(UserProfile, _super);
     function UserProfile(props) {

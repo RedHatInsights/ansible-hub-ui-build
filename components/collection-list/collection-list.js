@@ -29,11 +29,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './list.scss';
 import { DataList } from '@patternfly/react-core';
-import { CollectionListItem, Pagination, EmptyStateFilter, } from 'src/components';
+import * as React from 'react';
+import { CollectionListItem, EmptyStateFilter, Pagination, } from 'src/components';
 import { ParamHelper } from 'src/utilities/param-helper';
+import './list.scss';
 // only used in namespace detail, collections uses individual items
 var CollectionList = /** @class */ (function (_super) {
     __extends(CollectionList, _super);

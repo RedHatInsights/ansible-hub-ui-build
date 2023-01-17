@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon, } from '@patternfly/react-icons';
 import * as React from 'react';
-import { LongArrowAltUpIcon, LongArrowAltDownIcon, ArrowsAltVIcon, } from '@patternfly/react-icons';
 import { ParamHelper } from 'src/utilities';
 import './sort-table.scss';
 var SortTable = /** @class */ (function (_super) {

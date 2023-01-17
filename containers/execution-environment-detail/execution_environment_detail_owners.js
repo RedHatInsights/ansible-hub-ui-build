@@ -19,14 +19,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { withRouter } from 'src/utilities';
 import { ExecutionEnvironmentNamespaceAPI, GroupAPI, } from 'src/api';
 import { OwnersTab } from 'src/components';
-import { formatEEPath, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatEEPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
 import { ParamHelper, errorMessage } from 'src/utilities';
-import './execution-environment-detail.scss';
 import { withContainerParamFix, withContainerRepo, } from './base';
+import './execution-environment-detail.scss';
 var ExecutionEnvironmentDetailOwners = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetailOwners, _super);
     function ExecutionEnvironmentDetailOwners(props) {

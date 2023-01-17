@@ -46,9 +46,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Constants } from 'src/constants';
 import { ParamHelper } from 'src/utilities';
-import Cookies from 'js-cookie';
 var BaseAPI = /** @class */ (function () {
     function BaseAPI(apiBaseUrl) {
         var _this = this;

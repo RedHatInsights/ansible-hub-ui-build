@@ -17,11 +17,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarItem, } from '@patternfly/react-core';
+import { sortBy } from 'lodash';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { sortBy } from 'lodash';
-import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarItem, } from '@patternfly/react-core';
 import { DeleteModal, EmptyStateNoData, ExpandableRow, GroupRolePermissions, ListItemActions, LoadingPageSpinner, PreviewRoles, RoleListTable, SelectGroup, SelectRoles, SortTable, WizardModal, } from 'src/components';
 import { ParamHelper } from 'src/utilities';
 var OwnersTab = /** @class */ (function (_super) {

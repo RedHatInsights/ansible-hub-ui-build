@@ -17,13 +17,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { Trans, t } from '@lingui/macro';
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import * as React from 'react';
-import { t, Trans } from '@lingui/macro';
-import './legacy-role-item.scss';
-import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
+import { DateComponent, Logo, Tag } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { Tag, Logo, DateComponent } from 'src/components';
+import './legacy-role-item.scss';
 var LegacyRoleListItem = /** @class */ (function (_super) {
     __extends(LegacyRoleListItem, _super);
     function LegacyRoleListItem() {

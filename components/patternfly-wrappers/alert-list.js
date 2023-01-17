@@ -22,8 +22,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
 import { Alert, AlertActionCloseButton, } from '@patternfly/react-core';
+import * as React from 'react';
 var AlertType = /** @class */ (function () {
     function AlertType() {
     }

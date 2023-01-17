@@ -13,11 +13,11 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
-import cx from 'classnames';
-import './header.scss';
 import { Title } from '@patternfly/react-core';
+import cx from 'classnames';
+import * as React from 'react';
 import { Constants } from 'src/constants';
+import './header.scss';
 var BaseHeader = /** @class */ (function (_super) {
     __extends(BaseHeader, _super);
     function BaseHeader() {

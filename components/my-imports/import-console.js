@@ -18,15 +18,15 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
+import { Spinner, Tooltip } from '@patternfly/react-core';
 import cx from 'classnames';
-import './my-imports.scss';
-import { Tooltip, Spinner } from '@patternfly/react-core';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { formatPath, Paths } from 'src/paths';
 import { PulpStatus, } from 'src/api';
 import { StatusIndicator } from 'src/components';
 import { Constants } from 'src/constants';
+import { Paths, formatPath } from 'src/paths';
+import './my-imports.scss';
 var ImportConsole = /** @class */ (function (_super) {
     __extends(ImportConsole, _super);
     function ImportConsole(props) {

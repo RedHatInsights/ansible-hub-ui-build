@@ -26,10 +26,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
 import { t } from '@lingui/macro';
-import { CollectionAPI } from 'src/api';
 import { Spinner } from '@patternfly/react-core';
+import * as React from 'react';
+import { CollectionAPI } from 'src/api';
 import { errorMessage } from 'src/utilities';
 var CollectionCount = /** @class */ (function (_super) {
     __extends(CollectionCount, _super);

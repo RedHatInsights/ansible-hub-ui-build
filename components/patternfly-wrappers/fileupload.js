@@ -28,9 +28,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
 import { t } from '@lingui/macro';
 import { FileUpload as PFFileUpload, } from '@patternfly/react-core';
+import * as React from 'react';
 var FileUpload = /** @class */ (function (_super) {
     __extends(FileUpload, _super);
     function FileUpload() {

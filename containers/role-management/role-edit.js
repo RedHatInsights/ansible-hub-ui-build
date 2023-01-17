@@ -39,13 +39,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import * as React from 'react';
-import { errorMessage, mapNetworkErrors, parsePulpIDFromURL, translateLockedRolesDescription, validateInput, } from 'src/utilities';
-import { RoleAPI } from 'src/api/role';
 import { Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { AlertList, closeAlertMixin, EmptyStateUnauthorized, LoadingPageWithHeader, Main, RoleForm, RoleHeader, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import { RoleAPI } from 'src/api/role';
+import { AlertList, EmptyStateUnauthorized, LoadingPageWithHeader, Main, RoleForm, RoleHeader, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage, mapNetworkErrors, parsePulpIDFromURL, translateLockedRolesDescription, validateInput, } from 'src/utilities';
+import { withRouter } from 'src/utilities';
 var EditRole = /** @class */ (function (_super) {
     __extends(EditRole, _super);
     function EditRole(props) {

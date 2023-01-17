@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import * as React from 'react';
 var LoadingPageSpinner = /** @class */ (function (_super) {
     __extends(LoadingPageSpinner, _super);
     function LoadingPageSpinner() {

@@ -18,14 +18,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { AppContext } from 'src/loaders/app-context';
+import * as React from 'react';
 import { PulpStatus } from 'src/api';
-import { DateComponent, SortTable, ListItemActions } from 'src/components';
+import { DateComponent, ListItemActions, SortTable } from 'src/components';
 import { Constants } from 'src/constants';
-import { lastSynced, lastSyncStatus } from 'src/utilities';
+import { AppContext } from 'src/loaders/app-context';
+import { lastSyncStatus, lastSynced } from 'src/utilities';
 var RemoteRepositoryTable = /** @class */ (function (_super) {
     __extends(RemoteRepositoryTable, _super);
     function RemoteRepositoryTable(props) {
