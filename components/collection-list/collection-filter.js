@@ -40,9 +40,8 @@ var CollectionFilter = /** @class */ (function (_super) {
     };
     CollectionFilter.prototype.render = function () {
         var _this = this;
-        var _a;
-        var _b = this.props, ignoredParams = _b.ignoredParams, params = _b.params, updateParams = _b.updateParams;
-        var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
+        var _a = this.props, ignoredParams = _a.ignoredParams, params = _a.params, updateParams = _a.updateParams;
+        var display_signatures = this.context.featureFlags.display_signatures;
         var display_tags = ignoredParams.includes('tags') === false;
         var filterConfig = [
             {

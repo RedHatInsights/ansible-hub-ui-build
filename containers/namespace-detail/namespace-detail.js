@@ -48,7 +48,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import ReactMarkdown from 'react-markdown';
 import { CollectionAPI, NamespaceAPI, MyNamespaceAPI, SignCollectionAPI, } from 'src/api';
 import { CollectionFilter, CollectionList, ImportModal, LoadingPageWithHeader, Main, OwnersTab, Pagination, PartnerHeader, EmptyStateNoData, RepoSelector, StatefulDropdown, ClipboardCopy, AlertList, closeAlertMixin, DeleteModal, SignAllCertificatesModal, DeleteCollectionModal, } from 'src/components';
-import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, waitForTask, canSign as canSignNS, DeleteCollectionUtils, } from 'src/utilities';
+import { ParamHelper, getRepoUrl, filterIsSet, errorMessage, waitForTask, canSignNamespace, DeleteCollectionUtils, } from 'src/utilities';
 import { Constants } from 'src/constants';
 import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
@@ -286,7 +286,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 tab === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, repo: this.context.selectedRepo, renderCollectionControls: function (collection) {
                             return _this.renderCollectionControls(collection);
-                        } })))) : null,
+                        }, displaySignatures: this.context.featureFlags.display_signatures })))) : null,
                 tab === 'cli-configuration' ? (React.createElement("section", { className: 'body' },
                     React.createElement("div", null,
                         React.createElement("div", null,
@@ -495,7 +495,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 itemCount: val[0].data.meta.count,
                 namespace: val[1].data,
                 showControls: !!val[2],
-                canSign: canSignNS(_this.context, (_a = val[2]) === null || _a === void 0 ? void 0 : _a.data),
+                canSign: canSignNamespace(_this.context, (_a = val[2]) === null || _a === void 0 ? void 0 : _a.data),
                 group: _this.filterGroup(_this.state.params['group'], val[1].data['groups']),
             });
             _this.loadAllRepos(val[0].data.meta.count);
@@ -542,9 +542,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderPageControls = function () {
         var _this = this;
-        var _a;
-        var _b = this.state, canSign = _b.canSign, collections = _b.collections;
-        var can_upload_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).can_upload_signatures;
+        var _a = this.state, canSign = _a.canSign, collections = _a.collections;
+        var can_upload_signatures = this.context.featureFlags.can_upload_signatures;
         var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {

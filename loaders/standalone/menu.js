@@ -126,7 +126,8 @@ function standaloneMenu(_a) {
             url: formatPath(Paths.signatureKeys),
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, user = _a.user;
-                return featureFlags.display_signatures && !user.is_anonymous;
+                return (featureFlags.collection_signing || featureFlags.container_signing) &&
+                    !user.is_anonymous;
             },
         }),
         menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {

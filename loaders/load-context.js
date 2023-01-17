@@ -3,7 +3,7 @@ export function loadContext() {
     var getFeatureFlags = FeatureFlagsAPI.get().then(function (_a) {
         var featureFlags = _a.data;
         return ({
-            alerts: ((featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags._messages) || []).map(function (msg) { return ({
+            alerts: (featureFlags._messages || []).map(function (msg) { return ({
                 variant: 'warning',
                 title: msg.split(':')[1],
             }); }),

@@ -42,9 +42,9 @@ var CollectionList = /** @class */ (function (_super) {
     }
     CollectionList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, collections = _a.collections, params = _a.params, updateParams = _a.updateParams, ignoredParams = _a.ignoredParams, itemCount = _a.itemCount, showControls = _a.showControls, repo = _a.repo;
+        var _a = this.props, collections = _a.collections, displaySignatures = _a.displaySignatures, params = _a.params, updateParams = _a.updateParams, ignoredParams = _a.ignoredParams, itemCount = _a.itemCount, showControls = _a.showControls, repo = _a.repo;
         return (React.createElement(React.Fragment, null,
-            React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ controls: showControls ? _this.props.renderCollectionControls(c) : null, key: c.id }, c, { repo: repo }))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
+            React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ controls: showControls ? _this.props.renderCollectionControls(c) : null, key: c.id }, c, { repo: repo, displaySignatures: displaySignatures }))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
                     ParamHelper.clearAllFilters({
                         params: params,
                         ignoredParams: ignoredParams,

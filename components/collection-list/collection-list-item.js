@@ -32,7 +32,7 @@ var CollectionListItem = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     CollectionListItem.prototype.render = function () {
-        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, repo = _a.repo, sign_state = _a.sign_state;
+        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, showNamespace = _a.showNamespace, controls = _a.controls, deprecated = _a.deprecated, displaySignatures = _a.displaySignatures, repo = _a.repo, sign_state = _a.sign_state;
         var cells = [];
         var company = namespace.company || namespace.name;
         if (showNamespace) {
@@ -67,7 +67,7 @@ var CollectionListItem = /** @class */ (function (_super) {
             React.createElement("div", { className: 'hub-entry' },
                 "v",
                 latest_version.version),
-            React.createElement(SignatureBadge, { className: 'hub-entry', signState: sign_state })));
+            displaySignatures ? (React.createElement(SignatureBadge, { className: 'hub-entry', signState: sign_state })) : null));
         return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },
             React.createElement(DataListItemRow, null,
                 React.createElement(DataListItemCells, { dataListCells: cells }))));

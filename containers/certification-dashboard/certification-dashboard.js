@@ -200,12 +200,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
             React.createElement("tbody", null, versions.map(function (version, i) { return _this.renderRow(version, i); }))));
     };
     CertificationDashboard.prototype.renderStatus = function (version) {
-        var _a, _b;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement("span", { className: 'fa fa-lg fa-spin fa-spinner' });
         }
         if (version.repository_list.includes(Constants.PUBLISHED)) {
-            var display_signatures = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).display_signatures;
+            var display_signatures = this.context.featureFlags.display_signatures;
             return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, display_signatures && version.sign_state === 'signed'
                 ? t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Signed and approved"], ["Signed and approved"]))) : t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Approved"], ["Approved"])))));
         }
@@ -213,7 +212,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
         }
         if (version.repository_list.includes(Constants.NEEDSREVIEW)) {
-            var _c = ((_b = this.context) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}, can_upload_signatures = _c.can_upload_signatures, require_upload_signatures = _c.require_upload_signatures;
+            var _a = this.context.featureFlags, can_upload_signatures = _a.can_upload_signatures, require_upload_signatures = _a.require_upload_signatures;
             return (React.createElement(Label, { variant: 'outline', color: 'orange', icon: React.createElement(ExclamationTriangleIcon, null) }, version.sign_state === 'unsigned' &&
                 can_upload_signatures &&
                 require_upload_signatures
@@ -244,9 +243,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.renderButtons = function (version) {
         var _this = this;
-        var _a;
         // not checking namespace permissions here, auto_sign happens API side, so is the permission check
-        var _b = ((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}, can_upload_signatures = _b.can_upload_signatures, collection_auto_sign = _b.collection_auto_sign, require_upload_signatures = _b.require_upload_signatures;
+        var _a = this.context.featureFlags, can_upload_signatures = _a.can_upload_signatures, collection_auto_sign = _a.collection_auto_sign, require_upload_signatures = _a.require_upload_signatures;
         if (this.state.updatingVersions.includes(version)) {
             return React.createElement(ListItemActions, null); // empty td;
         }

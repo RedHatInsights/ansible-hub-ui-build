@@ -303,10 +303,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 'email',
                 'role__icontains',
             ]);
-        var isUserMgmtDisabled = false;
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
+        var isUserMgmtDisabled = featureFlags.external_authentication;
         if (noData) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users will appear once added to this group"], ["Users will appear once added to this group"]))), button: !!user &&
                     hasPermission('galaxy.change_group') &&
@@ -409,7 +406,7 @@ var GroupDetail = /** @class */ (function (_super) {
         var _this = this;
         var currentUser = this.context.user;
         var _a = this.context, featureFlags = _a.featureFlags, hasPermission = _a.hasPermission;
-        var isUserMgmtDisabled = featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.external_authentication;
+        var isUserMgmtDisabled = featureFlags.external_authentication;
         var dropdownItems = [
             !!currentUser &&
                 hasPermission('galaxy.change_group') &&
