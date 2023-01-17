@@ -13,11 +13,11 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
 import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
+import { Flex, FlexItem, InputGroup, InputGroupText, Select, SelectOption, } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, FlexItem, InputGroup, InputGroupText, Select, SelectOption, } from '@patternfly/react-core';
 import { Constants } from 'src/constants';
 import { formatPath } from 'src/paths';
 import './repo-selector.scss';

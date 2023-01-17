@@ -28,14 +28,14 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
+import { Button, Checkbox, ExpandableSection, Flex, FlexItem, Form, FormGroup, Modal, Switch, TextInput, } from '@patternfly/react-core';
+import { DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import * as FileSaver from 'file-saver';
-import { Form, FormGroup, TextInput, Flex, FlexItem, Button, Modal, Checkbox, ExpandableSection, Switch, } from '@patternfly/react-core';
-import { WriteOnlyField, HelperText, FileUpload } from 'src/components';
-import { AppContext } from 'src/loaders/app-context';
-import { DownloadIcon, ExclamationTriangleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
+import * as React from 'react';
+import { FileUpload, HelperText, WriteOnlyField } from 'src/components';
 import { Constants } from 'src/constants';
+import { AppContext } from 'src/loaders/app-context';
 import { isFieldSet, isWriteOnly } from 'src/utilities';
 import { validateURLHelper } from 'src/utilities';
 var RemoteForm = /** @class */ (function (_super) {

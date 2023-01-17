@@ -17,16 +17,16 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Button, Flex, FlexItem } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from 'src/components';
-import { FlexItem, Flex, Button } from '@patternfly/react-core';
-import { formatEEPath, Paths } from 'src/paths';
 import { ActivitiesAPI } from 'src/api';
-import './execution-environment-detail.scss';
+import { DateComponent, EmptyStateNoData, ShaLabel, SortTable, TagLabel, } from 'src/components';
+import { Paths, formatEEPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
 import { withContainerParamFix, withContainerRepo, } from './base';
+import './execution-environment-detail.scss';
 var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetailActivities, _super);
     function ExecutionEnvironmentDetailActivities(props) {

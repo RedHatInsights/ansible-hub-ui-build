@@ -38,11 +38,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
+import { ActionGroup, Alert, Button, FormGroup, Label, Switch, TextInput, TextInputTypes, Tooltip, } from '@patternfly/react-core';
 import * as React from 'react';
-import { FormGroup, TextInput, ActionGroup, Button, Label, Tooltip, Switch, Alert, TextInputTypes, } from '@patternfly/react-core';
+import { GroupAPI } from 'src/api';
 import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';
-import { GroupAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage } from 'src/utilities';
 var UserForm = /** @class */ (function (_super) {

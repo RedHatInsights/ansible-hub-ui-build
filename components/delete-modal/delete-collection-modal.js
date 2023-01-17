@@ -17,9 +17,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+import { Trans, t } from '@lingui/macro';
+import { Checkbox, Text } from '@patternfly/react-core';
 import React from 'react';
-import { t, Trans } from '@lingui/macro';
-import { Text, Checkbox } from '@patternfly/react-core';
 import { DeleteModal } from 'src/components';
 var DeleteCollectionModal = /** @class */ (function (_super) {
     __extends(DeleteCollectionModal, _super);

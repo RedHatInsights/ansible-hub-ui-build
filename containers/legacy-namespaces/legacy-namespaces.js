@@ -29,13 +29,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './legacy-namespaces.scss';
-import { withRouter } from 'src/utilities';
 import { DataList } from '@patternfly/react-core';
-import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, } from 'src/components';
+import * as React from 'react';
 import { LegacyNamespaceAPI } from 'src/api/legacynamespace';
+import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { withRouter } from 'src/utilities';
+import './legacy-namespaces.scss';
 var LegacyNamespaces = /** @class */ (function (_super) {
     __extends(LegacyNamespaces, _super);
     function LegacyNamespaces(props) {

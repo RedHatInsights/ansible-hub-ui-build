@@ -17,15 +17,15 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
+import { Badge, Card, CardBody, CardFooter, CardHeader, Text, TextContent, TextVariants, Tooltip, } from '@patternfly/react-core';
 import cx from 'classnames';
-import { Card, CardHeader, CardBody, CardFooter, TextContent, Text, TextVariants, Badge, Tooltip, } from '@patternfly/react-core';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, Logo, SignatureBadge } from 'src/components';
-import { formatPath, Paths } from 'src/paths';
-import { convertContentSummaryCounts } from 'src/utilities';
 import { Constants } from 'src/constants';
+import { Paths, formatPath } from 'src/paths';
+import { convertContentSummaryCounts } from 'src/utilities';
 var CollectionCard = /** @class */ (function (_super) {
     __extends(CollectionCard, _super);
     function CollectionCard() {

@@ -37,10 +37,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
 import { Button, ClipboardCopyButton, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, List, ListItem, Modal, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { ControllerAPI, ExecutionEnvironmentAPI } from 'src/api';
 import { APISearchTypeAhead, AlertList, AppliedFilters, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, ShaLabel, closeAlertMixin, } from 'src/components';
 import { errorMessage, filterIsSet, getContainersURL } from 'src/utilities';

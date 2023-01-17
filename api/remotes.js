@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { HubAPI } from './hub';
 import { clearSetFieldsFromRequest } from 'src/utilities';
+import { HubAPI } from './hub';
 // removes unchanged values and write only fields before updating
 export function smartUpdate(remote, unmodifiedRemote) {
     // Deletes any write only fields from the object that are market as is_set.

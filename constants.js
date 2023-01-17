@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, defineMessage } from '@lingui/macro';
+import { defineMessage, t } from '@lingui/macro';
 var Constants = /** @class */ (function () {
     function Constants() {
     }

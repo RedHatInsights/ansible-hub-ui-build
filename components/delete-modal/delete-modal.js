@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
+import * as React from 'react';
 var DeleteModal = /** @class */ (function (_super) {
     __extends(DeleteModal, _super);
     function DeleteModal() {

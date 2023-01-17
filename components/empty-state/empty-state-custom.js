@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
 import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStatePrimary, EmptyStateVariant, Title, } from '@patternfly/react-core';
+import * as React from 'react';
 var EmptyStateCustom = /** @class */ (function (_super) {
     __extends(EmptyStateCustom, _super);
     function EmptyStateCustom() {

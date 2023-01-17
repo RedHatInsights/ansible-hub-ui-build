@@ -18,10 +18,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './header.scss';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { BaseHeader, Logo, Tabs, Breadcrumbs, } from 'src/components';
+import * as React from 'react';
+import { BaseHeader, Breadcrumbs, Logo, Tabs, } from 'src/components';
+import './header.scss';
 var PartnerHeader = /** @class */ (function (_super) {
     __extends(PartnerHeader, _super);
     function PartnerHeader() {

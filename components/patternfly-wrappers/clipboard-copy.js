@@ -39,9 +39,9 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import * as React from 'react';
 import { t } from '@lingui/macro';
 import { ClipboardCopy as PFClipboardCopy } from '@patternfly/react-core';
+import * as React from 'react';
 var ClipboardCopy = /** @class */ (function (_super) {
     __extends(ClipboardCopy, _super);
     function ClipboardCopy() {

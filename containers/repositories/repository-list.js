@@ -29,16 +29,16 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter } from 'src/utilities';
-import { Link } from 'react-router-dom';
-import { BaseHeader, LoadingPageSpinner, Main, Tabs, RemoteRepositoryTable, LocalRepositoryTable, RemoteForm, EmptyStateNoData, EmptyStateUnauthorized, } from 'src/components';
-import { ParamHelper, mapErrorMessages, } from 'src/utilities';
-import { Constants } from 'src/constants';
-import { RemoteAPI, DistributionAPI, MyDistributionAPI, } from 'src/api';
-import { AppContext } from 'src/loaders/app-context';
 import { Button, ToolbarItem } from '@patternfly/react-core';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { DistributionAPI, MyDistributionAPI, RemoteAPI, } from 'src/api';
+import { BaseHeader, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, LocalRepositoryTable, Main, RemoteForm, RemoteRepositoryTable, Tabs, } from 'src/components';
+import { Constants } from 'src/constants';
+import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, mapErrorMessages, } from 'src/utilities';
 var Repository = /** @class */ (function () {
     function Repository() {
     }

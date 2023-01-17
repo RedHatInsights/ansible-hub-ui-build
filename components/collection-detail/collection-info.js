@@ -17,18 +17,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './collection-info.scss';
-import { errorMessage } from 'src/utilities';
-import { Link } from 'react-router-dom';
-import { Split, SplitItem, Grid, GridItem, Button, Alert, } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { Alert, Button, Grid, GridItem, Split, SplitItem, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
-import { DownloadSignatureGridItem } from './download-signature-grid-item';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { CollectionAPI } from 'src/api';
-import { Tag, ClipboardCopy, LoginLink } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import { ClipboardCopy, LoginLink, Tag } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage } from 'src/utilities';
+import './collection-info.scss';
+import { DownloadSignatureGridItem } from './download-signature-grid-item';
 var CollectionInfo = /** @class */ (function (_super) {
     __extends(CollectionInfo, _super);
     function CollectionInfo(props) {

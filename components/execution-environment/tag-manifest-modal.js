@@ -62,11 +62,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { Button, Modal, Spinner, Label, LabelGroup, Form, FormGroup, TextInput, InputGroup, Alert, AlertActionLink, } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { Alert, AlertActionLink, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextInput, } from '@patternfly/react-core';
 import { TagIcon } from '@patternfly/react-icons';
-import { ExecutionEnvironmentAPI, ContainerTagAPI, TaskAPI, PulpStatus, } from 'src/api';
+import * as React from 'react';
+import { ContainerTagAPI, ExecutionEnvironmentAPI, PulpStatus, TaskAPI, } from 'src/api';
 import { parsePulpIDFromURL } from 'src/utilities';
 var VALID_TAG_REGEX = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 var TagManifestModal = /** @class */ (function (_super) {

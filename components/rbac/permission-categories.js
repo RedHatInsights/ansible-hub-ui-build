@@ -37,12 +37,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
 import { t } from '@lingui/macro';
-import { AppContext } from 'src/loaders/app-context';
+import { Flex, FlexItem } from '@patternfly/react-core';
+import * as React from 'react';
 import { PermissionChipSelector } from 'src/components';
 import { Constants } from 'src/constants';
-import { Flex, FlexItem } from '@patternfly/react-core';
+import { AppContext } from 'src/loaders/app-context';
 function knownPermissionsAndCategories(model_permissions, allPermissions) {
     if (allPermissions === void 0) { allPermissions = Object.keys(model_permissions); }
     var categories = {};

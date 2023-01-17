@@ -29,16 +29,16 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
+import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, } from '@patternfly/react-core';
 import * as React from 'react';
-import './legacy-namespace.scss';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, } from '@patternfly/react-core';
-import { BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
-import { LegacyRoleAPI } from 'src/api/legacyrole';
 import { LegacyNamespaceAPI } from 'src/api/legacynamespace';
+import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import './legacy-namespace.scss';
 var LegacyNamespaceRoles = /** @class */ (function (_super) {
     __extends(LegacyNamespaceRoles, _super);
     // This is the list of roles that is shown on

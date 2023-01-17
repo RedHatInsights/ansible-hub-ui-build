@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button, Form, FormGroup, InputGroup, Modal, ModalVariant, TextInput, } from '@patternfly/react-core';
+import * as React from 'react';
 import { NamespaceAPI } from 'src/api';
 import { HelperText } from 'src/components';
 var NamespaceModal = /** @class */ (function (_super) {

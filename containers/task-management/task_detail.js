@@ -26,20 +26,20 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
-import './task.scss';
 import { i18n } from '@lingui/core';
-import { t, Trans } from '@lingui/macro';
-import { Link, Navigate } from 'react-router-dom';
-import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 import { capitalize } from 'lodash';
+import * as React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
+import { AlertList, BaseHeader, Breadcrumbs, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { Paths, formatPath } from 'src/paths';
 import { errorMessage, withRouter } from 'src/utilities';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import './task.scss';
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {

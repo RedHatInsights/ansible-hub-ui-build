@@ -13,8 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { Tabs as PFTabs, Tab, TabTitleText } from '@patternfly/react-core';
 import * as React from 'react';
-import { Tab, Tabs as PFTabs, TabTitleText } from '@patternfly/react-core';
 import { ParamHelper } from 'src/utilities/param-helper';
 var TabsType = /** @class */ (function () {
     function TabsType() {

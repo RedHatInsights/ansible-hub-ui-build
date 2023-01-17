@@ -29,13 +29,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './legacy-roles.scss';
-import { withRouter } from 'src/utilities';
 import { DataList } from '@patternfly/react-core';
-import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Pagination, } from 'src/components';
+import * as React from 'react';
 import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Pagination, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { withRouter } from 'src/utilities';
+import './legacy-roles.scss';
 var LegacyRoles = /** @class */ (function (_super) {
     __extends(LegacyRoles, _super);
     // This is the main roles page

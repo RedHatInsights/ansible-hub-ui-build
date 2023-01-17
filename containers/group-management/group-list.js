@@ -26,17 +26,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { errorMessage } from 'src/utilities';
-import { Link, Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { GroupAPI, UserAPI, } from 'src/api';
-import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { formatPath, Paths } from 'src/paths';
+import * as React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { GroupAPI, UserAPI, } from 'src/api';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage } from 'src/utilities';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, filterIsSet, mapErrorMessages, } from 'src/utilities';
 var GroupList = /** @class */ (function (_super) {
     __extends(GroupList, _super);
     function GroupList(props) {

@@ -18,9 +18,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
+import { List, ListItem, ListVariant } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { List, ListItem, ListVariant } from '@patternfly/react-core';
 import { EmptyStateNoData, HelperText } from 'src/components';
 import 'src/containers/collection-detail/collection-dependencies.scss';
 var CollectionDependenciesList = /** @class */ (function (_super) {

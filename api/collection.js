@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { HubAPI } from './hub';
 import axios from 'axios';
+import { HubAPI } from './hub';
 function filterContents(contents) {
     if (contents) {
         return contents.filter(function (item) { return !['doc_fragments', 'module_utils'].includes(item.content_type); });

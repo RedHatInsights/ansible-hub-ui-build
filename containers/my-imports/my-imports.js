@@ -38,13 +38,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './my-imports.scss';
-import { withRouter } from 'src/utilities';
 import { cloneDeep } from 'lodash';
-import { BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, AlertList, } from 'src/components';
-import { ImportAPI, PulpStatus, CollectionVersionAPI, } from 'src/api';
+import * as React from 'react';
+import { CollectionVersionAPI, ImportAPI, PulpStatus, } from 'src/api';
+import { AlertList, BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, } from 'src/components';
+import { withRouter } from 'src/utilities';
 import { ParamHelper } from 'src/utilities/param-helper';
+import './my-imports.scss';
 var MyImports = /** @class */ (function (_super) {
     __extends(MyImports, _super);
     function MyImports(props) {

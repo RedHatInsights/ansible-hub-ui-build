@@ -20,12 +20,12 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';
-import { mapErrorMessages } from 'src/utilities';
 import { UserAPI } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
+import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { mapErrorMessages } from 'src/utilities';
 var UserEdit = /** @class */ (function (_super) {
     __extends(UserEdit, _super);
     function UserEdit(props) {

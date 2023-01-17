@@ -18,11 +18,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './cards.scss';
 import { Card, CardBody, CardFooter, CardHeader, CardHeaderMain, CardTitle, Tooltip, } from '@patternfly/react-core';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from 'src/components';
+import './cards.scss';
 var NamespaceCard = /** @class */ (function (_super) {
     __extends(NamespaceCard, _super);
     function NamespaceCard() {

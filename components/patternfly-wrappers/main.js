@@ -35,8 +35,8 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import * as React from 'react';
 import cx from 'classnames';
+import * as React from 'react';
 var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main() {

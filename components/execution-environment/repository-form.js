@@ -37,15 +37,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
 import { Alert, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { APISearchTypeAhead, HelperText, AlertList, closeAlertMixin, } from 'src/components';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
+import { APISearchTypeAhead, AlertList, HelperText, closeAlertMixin, } from 'src/components';
 import { Paths, formatEEPath } from 'src/paths';
-import { errorMessage, isFieldValid, isFormValid, mapErrorMessages, alertErrorsWithoutFields, } from 'src/utilities';
+import { alertErrorsWithoutFields, errorMessage, isFieldValid, isFormValid, mapErrorMessages, } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
     function RepositoryForm(props) {

@@ -2,10 +2,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import React, { useState } from 'react';
+import { t } from '@lingui/macro';
 import { Button, ButtonVariant, CodeBlock, CodeBlockCode, GridItem, Split, SplitItem, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
-import { t } from '@lingui/macro';
+import React, { useState } from 'react';
 import { useContext } from 'src/loaders/app-context';
 export var DownloadSignatureGridItem = function (_a) {
     var _b;

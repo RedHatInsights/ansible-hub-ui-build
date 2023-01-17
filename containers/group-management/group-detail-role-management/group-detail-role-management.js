@@ -22,12 +22,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
-import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateNoData, PermissionCategories, LoadingPageWithHeader, Pagination, RoleListTable, SelectRoles, PreviewRoles, ExpandableRow, WizardModal, EmptyStateFilter, ListItemActions, } from 'src/components';
-import { GroupRoleAPI, } from 'src/api';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import React, { useEffect, useState } from 'react';
+import { GroupRoleAPI, } from 'src/api';
+import { AppliedFilters, CompoundFilter, DeleteModal, EmptyStateFilter, EmptyStateNoData, ExpandableRow, ListItemActions, LoadingPageWithHeader, Pagination, PermissionCategories, PreviewRoles, RoleListTable, SelectRoles, WizardModal, } from 'src/components';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 import './group-detail-role-management.scss';
 var GroupDetailRoleManagement = function (_a) {
     var params = _a.params, updateParams = _a.updateParams, context = _a.context, group = _a.group, addAlert = _a.addAlert, nonQueryParams = _a.nonQueryParams;

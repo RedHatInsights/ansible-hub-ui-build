@@ -22,11 +22,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import { Trans, t } from '@lingui/macro';
 import { Flex, FlexItem, Label } from '@patternfly/react-core';
+import React, { useEffect, useState } from 'react';
 import { RoleAPI } from 'src/api';
-import { CompoundFilter, RoleListTable, Pagination, AppliedFilters, LoadingPageSpinner, CheckboxRow, EmptyStateFilter, EmptyStateNoData, } from 'src/components';
+import { AppliedFilters, CheckboxRow, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RoleListTable, } from 'src/components';
 import { filterIsSet, translateLockedRolesDescription } from 'src/utilities';
 export var SelectRoles = function (_a) {
     var assignedRoles = _a.assignedRoles, selectedRoles = _a.selectedRoles, onRolesUpdate = _a.onRolesUpdate, message = _a.message, pulpObjectType = _a.pulpObjectType;

@@ -29,8 +29,8 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
+import { Button, Chip, ChipGroup } from '@patternfly/react-core';
 import * as React from 'react';
-import { Chip, ChipGroup, Button } from '@patternfly/react-core';
 import { ParamHelper } from 'src/utilities';
 var AppliedFilters = /** @class */ (function (_super) {
     __extends(AppliedFilters, _super);

@@ -27,19 +27,19 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
+import { Button, ButtonVariant, DropdownItem, Label, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import * as React from 'react';
-import './certification-dashboard.scss';
-import { withRouter } from 'src/utilities';
 import { Link } from 'react-router-dom';
+import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, Repositories, } from 'src/api';
 import { BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
-import { Toolbar, ToolbarGroup, ToolbarItem, Button, DropdownItem, Label, ButtonVariant, } from '@patternfly/react-core';
-import { ExclamationTriangleIcon, ExclamationCircleIcon, CheckCircleIcon, DownloadIcon, } from '@patternfly/react-icons';
-import { CollectionVersionAPI, CertificateUploadAPI, Repositories, CollectionAPI, } from 'src/api';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
-import { LoadingPageWithHeader, CompoundFilter, LoadingPageSpinner, AppliedFilters, Pagination, AlertList, closeAlertMixin, SortTable, UploadSingCertificateModal, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import { AlertList, AppliedFilters, CompoundFilter, LoadingPageSpinner, LoadingPageWithHeader, Pagination, SortTable, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import './certification-dashboard.scss';
 var CertificationDashboard = /** @class */ (function (_super) {
     __extends(CertificationDashboard, _super);
     function CertificationDashboard(props) {

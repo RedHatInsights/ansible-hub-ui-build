@@ -26,20 +26,20 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
 import { i18n } from '@lingui/core';
+import { Trans, t } from '@lingui/macro';
+import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import * as React from 'react';
-import './task.scss';
-import { Constants } from 'src/constants';
-import { withRouter } from 'src/utilities';
 import { Link } from 'react-router-dom';
-import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, } from '@patternfly/react-core';
-import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
 import { TaskManagementAPI } from 'src/api';
-import { formatPath, Paths } from 'src/paths';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, ConfirmModal, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatusIndicator, Tooltip, closeAlertMixin, } from 'src/components';
+import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import './task.scss';
 var TaskListView = /** @class */ (function (_super) {
     __extends(TaskListView, _super);
     function TaskListView(props) {

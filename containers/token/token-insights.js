@@ -26,16 +26,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
+import { Button, ClipboardCopyVariant } from '@patternfly/react-core';
 import * as React from 'react';
-import { withRouter } from 'src/utilities';
 import { Link } from 'react-router-dom';
-import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
-import { Paths, formatPath } from 'src/paths';
-import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
-import { errorMessage, getRepoUrl } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 import { MyDistributionAPI } from 'src/api';
+import { AlertList, BaseHeader, ClipboardCopy, Main, closeAlertMixin, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { errorMessage, getRepoUrl } from 'src/utilities';
 var TokenPage = /** @class */ (function (_super) {
     __extends(TokenPage, _super);
     function TokenPage(props) {

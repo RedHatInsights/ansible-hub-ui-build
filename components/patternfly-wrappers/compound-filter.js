@@ -29,9 +29,9 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { TextInput, InputGroup, Button, ButtonVariant, DropdownItem, Select, SelectGroup, SelectOption, SelectVariant, } from '@patternfly/react-core';
+import { Button, ButtonVariant, DropdownItem, InputGroup, Select, SelectGroup, SelectOption, SelectVariant, TextInput, } from '@patternfly/react-core';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { StatefulDropdown } from 'src/components';
 import { ParamHelper } from 'src/utilities';
 var FilterOption = /** @class */ (function () {

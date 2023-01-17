@@ -18,8 +18,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Button, Form, FormGroup, Modal, ModalVariant, TextInput, } from '@patternfly/react-core';
+import * as React from 'react';
 var GroupModal = /** @class */ (function (_super) {
     __extends(GroupModal, _super);
     function GroupModal(props) {

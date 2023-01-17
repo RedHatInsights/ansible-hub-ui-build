@@ -18,9 +18,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Label } from '@patternfly/react-core';
-import { OutlinedClockIcon, ExclamationIcon, SyncAltIcon, CheckCircleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
+import { CheckCircleIcon, ExclamationCircleIcon, ExclamationIcon, OutlinedClockIcon, SyncAltIcon, } from '@patternfly/react-icons';
+import * as React from 'react';
 import { PulpStatus } from 'src/api';
 var StatusIndicator = /** @class */ (function (_super) {
     __extends(StatusIndicator, _super);

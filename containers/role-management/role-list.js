@@ -26,16 +26,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import React from 'react';
-import { t, Trans } from '@lingui/macro';
-import { AppContext } from 'src/loaders/app-context';
-import { Link, Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, DateComponent, PermissionCategories, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { RoleAPI } from 'src/api/role';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ExpandableRow, ListItemActions, LoadingPageSpinner, Main, Pagination, PermissionCategories, RoleListTable, closeAlertMixin, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 var RoleList = /** @class */ (function (_super) {
     __extends(RoleList, _super);
     function RoleList(props) {

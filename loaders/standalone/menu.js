@@ -24,11 +24,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 /* eslint react/prop-types: 0 */
 import { t } from '@lingui/macro';
+import { Nav, NavExpandable, NavGroup, NavItem, NavList, } from '@patternfly/react-core';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { reject, some } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { reject, some } from 'lodash';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Nav, NavExpandable, NavGroup, NavItem, NavList, } from '@patternfly/react-core';
 import { Paths, formatPath } from 'src/paths';
 import { hasPermission } from 'src/utilities';
 var menuItem = function (name, options) {

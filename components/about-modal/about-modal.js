@@ -18,11 +18,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { AboutModal, TextContent, TextList, TextListItem, TextListItemVariants, TextListVariants, } from '@patternfly/react-core';
+import { detect } from 'detect-browser';
+import * as React from 'react';
 import Logo from 'src/../static/images/logo_large.svg';
 import { ApplicationInfoAPI } from 'src/api';
-import { detect } from 'detect-browser';
 var Label = function (_a) {
     var children = _a.children;
     return (React.createElement(TextListItem, { component: TextListItemVariants.dt }, children));
