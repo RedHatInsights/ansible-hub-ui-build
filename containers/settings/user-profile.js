@@ -95,10 +95,7 @@ var UserProfile = /** @class */ (function (_super) {
         }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages, inEditMode = _a.inEditMode, alerts = _a.alerts;
         var featureFlags = this.context.featureFlags;
-        var isUserMgmtDisabled = false;
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
+        var isUserMgmtDisabled = featureFlags.external_authentication;
         if (!user) {
             return React.createElement(LoadingPageWithHeader, null);
         }

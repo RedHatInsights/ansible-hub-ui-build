@@ -188,7 +188,7 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderCards = function (collections) {
         var _this = this;
         return (React.createElement("div", { className: 'hub-cards' }, collections.map(function (c) {
-            return (React.createElement(CollectionCard, __assign({ className: 'card', key: c.id }, c, { footer: _this.renderSyncToogle(c.name, c.namespace.name), repo: _this.context.selectedRepo, menu: _this.renderMenu(false, c) })));
+            return (React.createElement(CollectionCard, __assign({ className: 'card', key: c.id }, c, { footer: _this.renderSyncToogle(c.name, c.namespace.name), repo: _this.context.selectedRepo, menu: _this.renderMenu(false, c), displaySignatures: _this.context.featureFlags.display_signatures })));
         })));
     };
     Search.prototype.handleControlClick = function (collection) {
@@ -317,7 +317,7 @@ var Search = /** @class */ (function (_super) {
             React.createElement("div", { className: 'hub-list' },
                 React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: React.createElement(React.Fragment, null,
                         _this.renderSyncToogle(c.name, c.namespace.name),
-                        _this.renderMenu(true, c)), repo: _this.context.selectedRepo }))); })))));
+                        _this.renderMenu(true, c)), repo: _this.context.selectedRepo, displaySignatures: _this.context.featureFlags.display_signatures }))); })))));
     };
     Search.prototype.getSynclist = function () {
         var _this = this;

@@ -35,14 +35,14 @@ var CollectionCard = /** @class */ (function (_super) {
     }
     CollectionCard.prototype.render = function () {
         var _this = this;
-        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, footer = _a.footer, repo = _a.repo, sign_state = _a.sign_state, menu = _a.menu;
+        var _a = this.props, name = _a.name, latest_version = _a.latest_version, namespace = _a.namespace, className = _a.className, displaySignatures = _a.displaySignatures, footer = _a.footer, repo = _a.repo, sign_state = _a.sign_state, menu = _a.menu;
         var company = namespace.company || namespace.name;
         var contentSummary = convertContentSummaryCounts(latest_version.metadata);
         return (React.createElement(Card, { className: cx('hub-c-card-collection-container ', className) },
             React.createElement(CardHeader, { className: 'logo-row' },
                 React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true, flexGrow: true }),
                 React.createElement(TextContent, null, this.getCertification(repo)),
-                React.createElement(SignatureBadge, { isCompact: true, signState: sign_state }),
+                displaySignatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: sign_state })) : null,
                 menu),
             React.createElement(CardHeader, null,
                 React.createElement("div", { className: 'name' },

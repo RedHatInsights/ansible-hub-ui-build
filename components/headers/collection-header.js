@@ -74,7 +74,7 @@ import { AppContext } from 'src/loaders/app-context';
 import { BaseHeader, Breadcrumbs, LinkTabs, Logo, RepoSelector, Pagination, AlertList, closeAlertMixin, StatefulDropdown, SignSingleCertificateModal, SignAllCertificatesModal, UploadSingCertificateModal, ImportModal, DeleteCollectionModal, } from 'src/components';
 import { CollectionAPI, SignCollectionAPI, MyNamespaceAPI, Repositories, CertificateUploadAPI, } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
-import { waitForTask, canSign as canSignNS, parsePulpIDFromURL, } from 'src/utilities';
+import { waitForTask, canSignNamespace, parsePulpIDFromURL, } from 'src/utilities';
 import { ParamHelper } from 'src/utilities/param-helper';
 import { DateComponent } from '../date-component/date-component';
 import { Constants } from 'src/constants';
@@ -312,9 +312,8 @@ var CollectionHeader = /** @class */ (function (_super) {
     };
     CollectionHeader.prototype.render = function () {
         var _this = this;
-        var _a;
-        var _b = this.props, collection = _b.collection, params = _b.params, updateParams = _b.updateParams, breadcrumbs = _b.breadcrumbs, activeTab = _b.activeTab, className = _b.className;
-        var _c = this.state, modalPagination = _c.modalPagination, isOpenVersionsModal = _c.isOpenVersionsModal, isOpenVersionsSelect = _c.isOpenVersionsSelect, redirect = _c.redirect, noDependencies = _c.noDependencies, collectionVersion = _c.collectionVersion, deleteCollection = _c.deleteCollection, confirmDelete = _c.confirmDelete, isDeletionPending = _c.isDeletionPending, showImportModal = _c.showImportModal, updateCollection = _c.updateCollection;
+        var _a = this.props, collection = _a.collection, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
+        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
         var numOfshownVersions = 10;
         var all_versions = __spreadArray([], collection.all_versions, true);
         var match = all_versions.find(function (x) { return x.version === collection.latest_version.version; });
@@ -333,7 +332,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             { key: 'repository', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.latest_version.created_at;
-        var _d = ((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}, display_signatures = _d.display_signatures, can_upload_signatures = _d.can_upload_signatures;
+        var _c = this.context.featureFlags, display_signatures = _c.display_signatures, can_upload_signatures = _c.can_upload_signatures;
         var signedString = function (v) {
             if (display_signatures && 'sign_state' in v) {
                 return v.sign_state === 'signed' ? t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["(signed)"], ["(signed)"]))) : t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["(unsigned)"], ["(unsigned)"])));
@@ -350,7 +349,7 @@ var CollectionHeader = /** @class */ (function (_super) {
         if (redirect) {
             return React.createElement(Navigate, { to: redirect });
         }
-        var canSign = canSignNS(this.context, namespace);
+        var canSign = canSignNamespace(this.context, namespace);
         var hasPermission = this.context.hasPermission;
         var dropdownItems = [
             DeleteCollectionUtils.deleteMenuOption({
@@ -461,7 +460,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement(Trans, null,
                             "Last updated ",
                             React.createElement(DateComponent, { date: latestVersion })))) : null,
-                    React.createElement(SignatureBadge, { isCompact: true, signState: collection.latest_version.sign_state })), pageControls: React.createElement(Flex, null,
+                    display_signatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: collection.latest_version.sign_state })) : null), pageControls: React.createElement(Flex, null,
                     DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? (React.createElement(FlexItem, null,
                         React.createElement("a", { href: issueUrl, target: '_blank', rel: 'noreferrer' }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Create issue"], ["Create issue"])))),
                         ' ',

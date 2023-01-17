@@ -102,10 +102,9 @@ var RemoteForm = /** @class */ (function (_super) {
     };
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields) {
         var _this = this;
-        var _a;
-        var _b = this.props, remote = _b.remote, errorMessages = _b.errorMessages;
+        var _a = this.props, remote = _a.remote, errorMessages = _a.errorMessages;
         var filenames = this.state.filenames;
-        var signatures_enabled = (((_a = this.context) === null || _a === void 0 ? void 0 : _a.featureFlags) || {}).signatures_enabled;
+        var collection_signing = this.context.featureFlags.collection_signing;
         var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file', rel: 'noreferrer' }, "requirements.yml"));
         var filename = function (field) {
             return filenames[field].original ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["(uploaded)"], ["(uploaded)"]))) : filenames[field].name;
@@ -124,7 +123,7 @@ var RemoteForm = /** @class */ (function (_super) {
                 React.createElement(TextInput, { validated: this.toError(!('name' in errorMessages)), isRequired: requiredFields.includes('name'), isDisabled: disabledFields.includes('name'), id: 'name', type: 'text', value: remote.name || '', onChange: function (value) { return _this.updateRemote(value, 'name'); } })),
             React.createElement(FormGroup, __assign({ fieldId: 'url', label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["URL"], ["URL"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["The URL of an external content source."], ["The URL of an external content source."]))) }), isRequired: requiredFields.includes('url') }, validateURLHelper(errorMessages['url'], remote.url), { helperTextIcon: React.createElement(ExclamationTriangleIcon, null), helperTextInvalidIcon: React.createElement(ExclamationCircleIcon, null) }),
                 React.createElement(TextInput, { validated: validateURLHelper(errorMessages['url'], remote.url).validated, isRequired: requiredFields.includes('url'), isDisabled: disabledFields.includes('url'), id: 'url', type: 'text', value: remote.url || '', onChange: function (value) { return _this.updateRemote(value, 'url'); } })),
-            !disabledFields.includes('signed_only') && signatures_enabled ? (React.createElement(FormGroup, { fieldId: 'signed_only', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Signed only"], ["Signed only"]))), label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Download only signed collections"], ["Download only signed collections"]))) },
+            !disabledFields.includes('signed_only') && collection_signing ? (React.createElement(FormGroup, { fieldId: 'signed_only', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Signed only"], ["Signed only"]))), label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Download only signed collections"], ["Download only signed collections"]))) },
                 React.createElement(Switch, { id: 'signed_only', isChecked: remote.signed_only, onChange: function (value) { return _this.updateRemote(value, 'signed_only'); } }))) : null,
             !disabledFields.includes('token') && (React.createElement(FormGroup, { fieldId: 'token', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Token"], ["Token"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Token for authenticating to the server URL."], ["Token for authenticating to the server URL."]))) }), isRequired: requiredFields.includes('token'), validated: this.toError(!('token' in errorMessages)), helperTextInvalid: errorMessages['token'] },
                 React.createElement(WriteOnlyField, { isValueSet: isFieldSet('token', remote.write_only_fields), onClear: function () { return _this.updateIsSet('token', false); } },
