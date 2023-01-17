@@ -7,5 +7,6 @@ import 'src/l10n';
 var AnsibleHub = function () { return (React.createElement(React.StrictMode, null,
     React.createElement(I18nProvider, { i18n: i18n },
         React.createElement(App, null)))); };
+// ignore unused exports default
 export default AnsibleHub;
 //# sourceMappingURL=entry-insights.js.map

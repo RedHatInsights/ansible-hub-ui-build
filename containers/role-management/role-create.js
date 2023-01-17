@@ -18,12 +18,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { errorMessage } from 'src/utilities';
-import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { withRouter } from 'src/utilities';
-import { RoleForm, RoleHeader, EmptyStateUnauthorized, Main, } from 'src/components';
+import { errorMessage, mapNetworkErrors, validateInput, withRouter, } from 'src/utilities';
+import { EmptyStateUnauthorized, Main, RoleForm, RoleHeader, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
 import { RoleAPI } from 'src/api/role';

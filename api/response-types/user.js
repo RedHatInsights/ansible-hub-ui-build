@@ -16,10 +16,4 @@ var UserType = /** @class */ (function () {
     return UserType;
 }());
 export { UserType };
-var MeType = /** @class */ (function () {
-    function MeType() {
-    }
-    return MeType;
-}());
-export { MeType };
 //# sourceMappingURL=user.js.map

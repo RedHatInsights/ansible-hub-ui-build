@@ -33,11 +33,6 @@ var Constants = /** @class */ (function () {
         'galaxy-qa.ansible.com',
     ];
     Constants.DOWNSTREAM_HOSTS = [
-        // FIXME 2021-09: remove obsolete cloud* references
-        'cloud.redhat.com',
-        'cloud.stage.redhat.com',
-        'ci.cloud.redhat.com',
-        'qa.cloud.redhat.com',
         'console.redhat.com',
         'console.stage.redhat.com',
         'ci.console.redhat.com',

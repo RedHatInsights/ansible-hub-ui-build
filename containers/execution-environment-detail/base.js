@@ -41,7 +41,7 @@ import { t, Trans } from '@lingui/macro';
 import * as React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
-import { formatPath, formatEEPath, Paths } from '../../paths';
+import { formatPath, formatEEPath, Paths } from 'src/paths';
 import { Button, DropdownItem } from '@patternfly/react-core';
 import { AlertList, DeleteExecutionEnvironmentModal, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { ParamHelper, parsePulpIDFromURL, waitForTask, RepoSigningUtils, canSignEE, } from 'src/utilities';

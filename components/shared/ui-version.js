@@ -21,7 +21,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import React from 'react';
-export var HTMLComment = function (_a) {
+var HTMLComment = function (_a) {
     var text = _a.text, props = __rest(_a, ["text"]);
     return (React.createElement("div", __assign({}, props, { dangerouslySetInnerHTML: { __html: "<!-- ".concat(text, " -->") } })));
 };

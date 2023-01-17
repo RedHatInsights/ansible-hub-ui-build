@@ -49,7 +49,7 @@ import * as moment from 'moment';
 // remember to update .linguirc as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
 // Accept-Language
-export var userLanguage = navigator.languages
+var userLanguage = navigator.languages
     .map(function (lang) { return lang.replace(/[-_].*/, ''); })
     .filter(function (lang) { return availableLanguages.includes(lang); })[0] || 'en';
 function activate(locale) {
