@@ -176,16 +176,16 @@ var NamespaceList = /** @class */ (function (_super) {
                                     React.createElement(AppliedFilters, { style: { marginTop: '16px' }, updateParams: function (p) {
                                             _this.updateParams(p, function () { return _this.loadNamespaces(); });
                                             _this.setState({ inputText: '' });
-                                        }, params: params, ignoredParams: ['page_size', 'page', 'sort'] }))),
+                                        }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceNames: { keywords: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["keywords"], ["keywords"]))) } }))),
                             React.createElement(ToolbarGroup, { style: { alignSelf: 'start' } },
                                 React.createElement(ToolbarItem, null,
                                     React.createElement(Sort, { options: [
-                                            { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' },
+                                            { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))), id: 'name', type: 'alpha' },
                                         ], params: params, updateParams: function (p) {
                                             return _this.updateParams(p, function () { return _this.loadNamespaces(); });
                                         } })),
                                 hasPermission('galaxy.add_namespace') && (React.createElement(ToolbarItem, { key: 'create-button' },
-                                    React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"]))))))))),
+                                    React.createElement(Button, { variant: 'primary', onClick: this.handleModalToggle }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Create"], ["Create"]))))))))),
                     React.createElement("div", null,
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.loadNamespaces(); });
@@ -201,10 +201,10 @@ var NamespaceList = /** @class */ (function (_super) {
         var _a = this.state, namespaces = _a.namespaces, loading = _a.loading;
         var _b = this.props, namespacePath = _b.namespacePath, filterOwner = _b.filterOwner;
         var hasPermission = this.context.hasPermission;
-        var noDataTitle = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
+        var noDataTitle = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No namespaces yet"], ["No namespaces yet"])));
         var noDataDescription = !filterOwner
-            ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
-        var noDataButton = hasPermission('galaxy.add_namespace') ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
+            ? t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Namespaces will appear once created"], ["Namespaces will appear once created"]))) : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["This account is not set up to manage any namespaces"], ["This account is not set up to manage any namespaces"])));
+        var noDataButton = hasPermission('galaxy.add_namespace') ? (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.handleModalToggle(); } }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Create"], ["Create"]))))) : null;
         if (loading) {
             return (React.createElement("section", null,
                 React.createElement(LoadingPageSpinner, null),
@@ -242,7 +242,7 @@ var NamespaceList = /** @class */ (function (_super) {
                 }, function () {
                     return _this.addAlert({
                         variant: 'danger',
-                        title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
+                        title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Namespaces list could not be displayed."], ["Namespaces list could not be displayed."]))),
                         description: errorMessage(status, statusText),
                     });
                 });
@@ -272,5 +272,5 @@ var NamespaceList = /** @class */ (function (_super) {
 }(React.Component));
 export { NamespaceList };
 NamespaceList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=namespace-list.js.map

@@ -37,7 +37,8 @@ var LegacyRoleInstall = /** @class */ (function (_super) {
     LegacyRoleInstall.prototype.render = function () {
         var installCMD = "ansible-galaxy role install ".concat(this.props.github_user, ".").concat(this.props.name);
         return (React.createElement(React.Fragment, null,
-            React.createElement("h1", null, "Installation:"),
+            React.createElement("h1", null,
+                React.createElement(Trans, null, "Installation:")),
             React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, installCMD)));
     };
     return LegacyRoleInstall;

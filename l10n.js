@@ -48,6 +48,10 @@ import * as plurals from 'make-plural/plurals';
 import * as moment from 'moment';
 // remember to update .linguirc as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
+// map missing moment locales (node_modules/moment/src/locale/<locale>.js must exist, except for english)
+var momentLocales = {
+    zh: 'zh-cn',
+};
 function activate(locale, pseudolocalization) {
     if (pseudolocalization === void 0) { pseudolocalization = false; }
     return __awaiter(this, void 0, void 0, function () {
@@ -72,7 +76,7 @@ function activate(locale, pseudolocalization) {
                     i18n.loadLocaleData(locale, { plurals: plurals[locale] });
                     i18n.load(locale, messages);
                     i18n.activate(locale);
-                    moment.locale(locale);
+                    moment.locale(momentLocales[locale] || locale);
                     return [2 /*return*/];
             }
         });

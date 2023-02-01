@@ -28,11 +28,23 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
-import { Pagination as PaginationPF, PaginationVariant, ToggleTemplate, } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { Pagination as PaginationPF, PaginationVariant, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Constants } from 'src/constants';
 import { ParamHelper } from 'src/utilities/param-helper';
+// AAP-3737 - support both "1 - 2 of 3" and "3 的 1 - 2"
+var ToggleTemplate = function (_a) {
+    var _b = _a.firstIndex, firstIndex = _b === void 0 ? 0 : _b, _c = _a.lastIndex, lastIndex = _c === void 0 ? 0 : _c, _d = _a.itemCount, itemCount = _d === void 0 ? 0 : _d;
+    return (React.createElement(Trans, null,
+        React.createElement("b", null,
+            firstIndex,
+            " - ",
+            lastIndex),
+        ' ',
+        "of ",
+        React.createElement("b", null, itemCount)));
+};
 var Pagination = /** @class */ (function (_super) {
     __extends(Pagination, _super);
     function Pagination() {
@@ -53,7 +65,7 @@ var Pagination = /** @class */ (function (_super) {
                 ofWord: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["of"], ["of"]))),
                 perPageSuffix: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["per page"], ["per page"]))),
                 items: null,
-            }, toggleTemplate: function (props) { return React.createElement(ToggleTemplate, __assign({ ofWord: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["of"], ["of"]))) }, props)); } })));
+            }, toggleTemplate: function (props) { return React.createElement(ToggleTemplate, __assign({}, props)); } })));
     };
     Pagination.prototype.mapPerPageOptions = function (options) {
         return options.map(function (option) { return ({
@@ -64,5 +76,5 @@ var Pagination = /** @class */ (function (_super) {
     return Pagination;
 }(React.Component));
 export { Pagination };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2;
 //# sourceMappingURL=pagination.js.map

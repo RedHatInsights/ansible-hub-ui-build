@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import { Button, Chip, ChipGroup } from '@patternfly/react-core';
 import * as React from 'react';
-import { ParamHelper } from 'src/utilities';
+import { ParamHelper, chipGroupProps } from 'src/utilities';
 var AppliedFilters = /** @class */ (function (_super) {
     __extends(AppliedFilters, _super);
     function AppliedFilters() {
@@ -64,7 +64,7 @@ var AppliedFilters = /** @class */ (function (_super) {
             chips = [params[key]];
         }
         return (React.createElement("div", { style: { display: 'inline', marginRight: '8px' }, key: key },
-            React.createElement(ChipGroup, { categoryName: niceNames[key] || key }, chips.map(function (v, i) {
+            React.createElement(ChipGroup, __assign({ categoryName: niceNames[key] || key }, chipGroupProps()), chips.map(function (v, i) {
                 var _a;
                 return (React.createElement(Chip, { key: i, onClick: function () {
                         return updateParams(__assign(__assign({}, ParamHelper.deleteParam(params, key, v)), { page: 1 }));

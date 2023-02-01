@@ -21,6 +21,7 @@ import { t } from '@lingui/macro';
 import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patternfly/react-core';
 import * as React from 'react';
 import { AppContext } from 'src/loaders/app-context';
+import { chipGroupProps } from 'src/utilities';
 var PermissionChipSelector = /** @class */ (function (_super) {
     __extends(PermissionChipSelector, _super);
     function PermissionChipSelector(props) {
@@ -50,7 +51,7 @@ var PermissionChipSelector = /** @class */ (function (_super) {
             value: permission,
             toString: function () { var _a; return ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission; },
         }); });
-        return (React.createElement(Select, { menuAppendTo: 'inline', variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: function (isOpen) { return _this.setState({ isOpen: isOpen }); }, onSelect: function (event, permission) {
+        return (React.createElement(Select, { menuAppendTo: 'inline', variant: SelectVariant.typeaheadMulti, chipGroupProps: chipGroupProps(), typeAheadAriaLabel: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: function (isOpen) { return _this.setState({ isOpen: isOpen }); }, onSelect: function (event, permission) {
                 return onPermissionToggle(permission['value'] || permission);
             }, onClear: function () { return onCategoryClear(); }, selections: selections, isOpen: isOpen, placeholderText: !isDisabled && !isViewOnly
                 ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))) : selectedPermissions.length === 0

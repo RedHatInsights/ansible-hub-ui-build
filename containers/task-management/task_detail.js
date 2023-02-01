@@ -40,6 +40,9 @@ import { Paths, formatPath } from 'src/paths';
 import { errorMessage, withRouter } from 'src/utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import './task.scss';
+var maybeTranslate = function (name) {
+    return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;
+};
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {
@@ -124,9 +127,7 @@ var TaskDetail = /** @class */ (function (_super) {
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
                                         React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
-                                            }) }, (Constants.TASK_NAMES[parentTask.name] &&
-                                            i18n._(Constants.TASK_NAMES[parentTask.name])) ||
-                                            parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
+                                            }) }, maybeTranslate(parentTask.name))) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
                                         React.createElement(DescriptionListDescription, null, childTasks.length
@@ -135,9 +136,7 @@ var TaskDetail = /** @class */ (function (_super) {
                                                 return (React.createElement(React.Fragment, { key: childTaskId },
                                                     React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
-                                                        }) }, (Constants.TASK_NAMES[childTask.name] &&
-                                                        i18n._(Constants.TASK_NAMES[childTask.name])) ||
-                                                        childTask.name),
+                                                        }) }, maybeTranslate(childTask.name)),
                                                     React.createElement("br", null)));
                                             })
                                             : t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No child task"], ["No child task"])))))))),
@@ -315,9 +314,7 @@ var TaskDetail = /** @class */ (function (_super) {
                     childTasks: childTasks,
                     parentTask: parentTask,
                     loading: false,
-                    taskName: (Constants.TASK_NAMES[result.data.name] &&
-                        i18n._(Constants.TASK_NAMES[result.data.name])) ||
-                        result.data.name,
+                    taskName: maybeTranslate(result.data.name),
                     resources: resources,
                 });
             });
