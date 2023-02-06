@@ -42,7 +42,7 @@ export var CollectionContentList = function (_a) {
             React.createElement(Toolbar, null,
                 React.createElement(ToolbarGroup, null,
                     React.createElement(ToolbarItem, null,
-                        React.createElement(SearchInput, { value: params.keywords || '', onChange: function (val) {
+                        React.createElement(SearchInput, { value: params.keywords || '', onChange: function (_e, val) {
                                 return updateParams(ParamHelper.setParam(params, 'keywords', val));
                             }, onClear: function () {
                                 return updateParams(ParamHelper.setParam(params, 'keywords', ''));

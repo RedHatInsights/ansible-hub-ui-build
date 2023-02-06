@@ -45,8 +45,8 @@ export var TableOfContents = function (props) {
         React.createElement(Toolbar, null,
             React.createElement(ToolbarGroup, null,
                 React.createElement(ToolbarItem, null,
-                    React.createElement(SearchInput, { ref: props.searchBarRef, value: params.keywords, onChange: function (val) {
-                            updateParams(ParamHelper.setParam(params, 'keywords', val));
+                    React.createElement(SearchInput, { ref: props.searchBarRef, value: params.keywords, onChange: function (_e, val) {
+                            return updateParams(ParamHelper.setParam(params, 'keywords', val));
                         }, onClear: function () {
                             return updateParams(ParamHelper.setParam(params, 'keywords', ''));
                         }, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["find-content"], ["find-content"]))), placeholder: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
@@ -111,8 +111,8 @@ function parseLinks(docs_blob, props, context) {
         }
     }
     // Sort docs
-    for (var _d = 0, _e = Object.keys(table); _d < _e.length; _d++) {
-        var k = _e[_d];
+    for (var _d = 0, _f = Object.keys(table); _d < _f.length; _d++) {
+        var k = _f[_d];
         table[k].sort(function (a, b) {
             // Make sure that anything starting with _ goes to the bottom
             // of the list
