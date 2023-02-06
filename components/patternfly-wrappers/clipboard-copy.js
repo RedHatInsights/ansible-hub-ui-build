@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -41,18 +26,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { t } from '@lingui/macro';
 import { ClipboardCopy as PFClipboardCopy } from '@patternfly/react-core';
-import * as React from 'react';
-var ClipboardCopy = /** @class */ (function (_super) {
-    __extends(ClipboardCopy, _super);
-    function ClipboardCopy() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ClipboardCopy.prototype.render = function () {
-        var _a = this.props, children = _a.children, props = __rest(_a, ["children"]);
-        return (React.createElement(PFClipboardCopy, __assign({ hoverTip: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))), clickTip: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Successfully copied to clipboard!"], ["Successfully copied to clipboard!"]))) }, props), children));
-    };
-    return ClipboardCopy;
-}(React.Component));
-export { ClipboardCopy };
+import React from 'react';
+export var ClipboardCopy = function (_a) {
+    var children = _a.children, props = __rest(_a, ["children"]);
+    return (React.createElement(PFClipboardCopy, __assign({ hoverTip: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))), clickTip: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Successfully copied to clipboard!"], ["Successfully copied to clipboard!"]))) }, props), children));
+};
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=clipboard-copy.js.map

@@ -1,5 +1,5 @@
 export { APISearchTypeAhead } from './typeahead/typeahead';
-export { AlertList, AlertType, closeAlertMixin, } from './patternfly-wrappers/alert-list';
+export { AlertList, AlertType, closeAlert, closeAlertMixin, } from './patternfly-wrappers/alert-list';
 export { AppliedFilters } from './patternfly-wrappers/applied-filters';
 export { AboutModalWindow } from './about-modal/about-modal';
 export { BaseHeader } from './headers/base-header';

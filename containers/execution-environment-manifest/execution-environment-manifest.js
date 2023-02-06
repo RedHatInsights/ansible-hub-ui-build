@@ -36,8 +36,7 @@ import { Link } from 'react-router-dom';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { BaseHeader, Breadcrumbs, LoadingPageWithHeader, Main, ShaLabel, TagLabel, } from 'src/components';
 import { Paths, formatEEPath, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { getHumanSize } from 'src/utilities';
+import { chipGroupProps, getHumanSize, withRouter, } from 'src/utilities';
 import { withContainerParamFix } from '../execution-environment-detail/base';
 import './execution-environment-manifest.scss';
 var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
@@ -98,7 +97,7 @@ var ExecutionEnvironmentManifest = /** @class */ (function (_super) {
                 React.createElement("div", { className: 'copy-sha' },
                     React.createElement(ShaLabel, { digest: digest, long: true }),
                     React.createElement(ClipboardCopyButton, { className: 'eco-clipboard-copy', variant: 'plain', onClick: function () { return navigator.clipboard.writeText(digest); }, id: digest, textId: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Copy to clipboard"], ["Copy to clipboard"]))) }, digest)),
-                React.createElement(LabelGroup, { numLabels: 6 }, labels.map(function (label) { return (React.createElement(TagLabel, { tag: label, key: label })); })),
+                React.createElement(LabelGroup, __assign({}, chipGroupProps(), { numLabels: 6 }), labels.map(function (label) { return (React.createElement(TagLabel, { tag: label, key: label })); })),
                 React.createElement("div", { style: { padding: '4px 0' } },
                     React.createElement(Trans, null,
                         "Size: ",

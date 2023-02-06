@@ -45,7 +45,7 @@ import { Link } from 'react-router-dom';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { APISearchTypeAhead, AlertList, HelperText, closeAlertMixin, } from 'src/components';
 import { Paths, formatEEPath } from 'src/paths';
-import { alertErrorsWithoutFields, errorMessage, isFieldValid, isFormValid, mapErrorMessages, } from 'src/utilities';
+import { alertErrorsWithoutFields, chipGroupProps, errorMessage, isFieldValid, isFormValid, mapErrorMessages, } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
     function RepositoryForm(props) {
@@ -139,7 +139,7 @@ var RepositoryForm = /** @class */ (function (_super) {
                                 } }),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsInclude, 'includeTags'); } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Add"], ["Add"])))))),
                     React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Currently included tags"], ["Currently included tags"]))) },
-                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, includeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'includeTags'); }, key: tag }, tag)); }))),
+                        React.createElement(LabelGroup, __assign({}, chipGroupProps(), { id: 'remove-tag', defaultIsOpen: true }), includeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'includeTags'); }, key: tag }, tag)); }))),
                     React.createElement(FormGroup, { fieldId: 'addTagsExclude', label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Add tag(s) to exclude"], ["Add tag(s) to exclude"]))) },
                         React.createElement(InputGroup, null,
                             React.createElement(TextInput, { type: 'text', id: 'addTagsExclude', value: addTagsExclude, onChange: function (val) { return _this.setState({ addTagsExclude: val }); }, onKeyUp: function (e) {
@@ -150,7 +150,7 @@ var RepositoryForm = /** @class */ (function (_super) {
                                 } }),
                             React.createElement(Button, { variant: 'secondary', onClick: function () { return _this.addTags(addTagsExclude, 'excludeTags'); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Add"], ["Add"])))))),
                     React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
-                        React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
+                        React.createElement(LabelGroup, __assign({}, chipGroupProps(), { id: 'remove-tag', defaultIsOpen: true }), excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
                 React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Description"], ["Description"]))) },
                     React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
                 React.createElement(FormGroup, { fieldId: 'none', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },

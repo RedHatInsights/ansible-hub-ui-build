@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { Trans, t } from '@lingui/macro';
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Nav, NavItem, NavList, Panel, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -27,7 +38,7 @@ import { EmptyStateNoData } from 'src/components';
 import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
+import { chipGroupProps, withRouter } from 'src/utilities';
 import './legacy-roles.scss';
 var LegacyRoleInstall = /** @class */ (function (_super) {
     __extends(LegacyRoleInstall, _super);
@@ -202,7 +213,7 @@ var LegacyRole = /** @class */ (function (_super) {
                             this.state.role.name))),
                 React.createElement("div", { className: 'hub-entry' }, this.state.role.description),
                 React.createElement("div", { className: 'hub-entry' },
-                    React.createElement(LabelGroup, null, this.state.role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+                    React.createElement(LabelGroup, __assign({}, chipGroupProps()), this.state.role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
             header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'version' },
                 React.createElement("div", { className: 'hub-right-col hub-entry' },
                     React.createElement(Trans, null,

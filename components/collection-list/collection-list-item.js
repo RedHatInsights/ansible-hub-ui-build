@@ -17,13 +17,24 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { Trans, t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { convertContentSummaryCounts } from 'src/utilities';
+import { chipGroupProps, convertContentSummaryCounts } from 'src/utilities';
 import { SignatureBadge } from '../signing';
 import './list-item.scss';
 var CollectionListItem = /** @class */ (function (_super) {
@@ -57,7 +68,7 @@ var CollectionListItem = /** @class */ (function (_super) {
             React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' }, Object.keys(contentSummary.contents).map(function (type) { return (React.createElement("div", { key: type },
                 React.createElement(CollectionNumericLabel, { count: contentSummary.contents[type], type: type }))); })),
             React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' },
-                React.createElement(LabelGroup, null, latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+                React.createElement(LabelGroup, __assign({}, chipGroupProps()), latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
             controls ? React.createElement("div", { className: 'hub-entry' }, controls) : null,
             React.createElement("div", { className: 'hub-right-col hub-entry' },

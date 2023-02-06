@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -36,17 +21,9 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import cx from 'classnames';
-import * as React from 'react';
-var Main = /** @class */ (function (_super) {
-    __extends(Main, _super);
-    function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Main.prototype.render = function () {
-        var _a = this.props, children = _a.children, className = _a.className, extra = __rest(_a, ["children", "className"]);
-        return (React.createElement("section", __assign({ className: cx('pf-l-page__main-section', 'pf-c-page__main-section', className) }, extra), children));
-    };
-    return Main;
-}(React.Component));
-export { Main };
+import React from 'react';
+export var Main = function (_a) {
+    var children = _a.children, className = _a.className, extra = __rest(_a, ["children", "className"]);
+    return (React.createElement("section", __assign({ className: cx('pf-l-page__main-section', 'pf-c-page__main-section', className) }, extra), children));
+};
 //# sourceMappingURL=main.js.map
