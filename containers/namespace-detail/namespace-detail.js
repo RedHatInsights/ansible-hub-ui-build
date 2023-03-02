@@ -226,7 +226,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), params.group) }
                 : null,
         ].filter(Boolean);
-        var repositoryUrl = getRepoUrl('inbound-' + namespace.name);
+        var repositoryUrl = getRepoUrl();
         var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
         var updateParams = function (params) {
             return _this.updateParams(params, function () { return _this.loadCollections(); });

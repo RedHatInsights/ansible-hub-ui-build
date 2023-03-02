@@ -71,7 +71,7 @@ var API = /** @class */ (function (_super) {
             deprecated: isDeprecated,
         }, path);
     };
-    API.prototype.upload = function (repositoryPath, data, progressCallback, cancelToken) {
+    API.prototype.upload = function (data, progressCallback, cancelToken) {
         var formData = new FormData();
         formData.append('file', data.file);
         // formData.append('sha256', artifact.sha256);
@@ -84,7 +84,7 @@ var API = /** @class */ (function (_super) {
         if (cancelToken) {
             config['cancelToken'] = cancelToken.token;
         }
-        return this.http.post('content/' + repositoryPath + '/v3/artifacts/collections/', formData, config);
+        return this.http.post('v3/artifacts/collections/', formData, config);
     };
     API.prototype.getCancelToken = function () {
         return axios.CancelToken.source();

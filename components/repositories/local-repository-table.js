@@ -87,7 +87,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
             "server_list = ".concat(distribution.repository.name, "_repo"),
             '',
             "[galaxy_server.".concat(distribution.repository.name, "_repo]"),
-            "url=".concat(getRepoUrl(distribution.base_path)),
+            "url=".concat(getRepoUrl()),
             'token=<put your token here>',
         ];
         return (React.createElement("tr", { key: distribution.name },
@@ -100,7 +100,7 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
                 .pulp_last_updated ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: distribution.repository.pulp_last_updated }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null,
-                React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(distribution.base_path))),
+                React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl())),
             DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? null : (React.createElement("td", null,
                 React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n'))))));
     };

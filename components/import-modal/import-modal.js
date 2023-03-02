@@ -142,7 +142,7 @@ var ImportModal = /** @class */ (function (_super) {
             sha256: '',
         };
         this.cancelToken = CollectionAPI.getCancelToken();
-        CollectionAPI.upload('inbound-' + this.props.namespace, artifact, function (e) {
+        CollectionAPI.upload(artifact, function (e) {
             _this.setState({
                 uploadProgress: e.loaded / e.total,
             });
