@@ -139,16 +139,24 @@ function standaloneMenu(_a) {
                     !user.is_anonymous;
             },
         }),
-        menuSection(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-            menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Users"], ["Users"]))), {
+        menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
+            url: 'https://www.redhat.com/en/about/terms-use',
+            external: true,
+            condition: function (_a) {
+                var featureFlags = _a.featureFlags;
+                return featureFlags.legacy_roles;
+            },
+        }),
+        menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+            menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_user'); },
                 url: formatPath(Paths.userList),
             }),
-            menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+            menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.groupList),
             }),
-            menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.roleList),
             }),
@@ -216,5 +224,5 @@ export var StandaloneMenu = function (_a) {
     return (React.createElement(StandaloneNav, null,
         React.createElement(Menu, { items: menu, context: context, expandedSections: expandedSections })));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
 //# sourceMappingURL=menu.js.map
