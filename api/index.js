@@ -47,4 +47,5 @@ export { Repositories } from './repositories';
 export { SignContainersAPI } from './sign-containers';
 export { LegacyRoleDetailType, LegacyRoleListType, } from './response-types/legacy-role';
 export { LegacyNamespaceDetailType, LegacyNamespaceListType, } from './response-types/legacy-namespace';
+export { WisdomDenyIndexAPI } from './wisdom-deny-index';
 //# sourceMappingURL=index.js.map

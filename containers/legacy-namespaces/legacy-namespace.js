@@ -28,13 +28,22 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t } from '@lingui/macro';
-import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, } from '@patternfly/react-core';
+import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, DropdownItem, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyNamespaceAPI } from 'src/api/legacynamespace';
 import { LegacyRoleAPI } from 'src/api/legacyrole';
-import { BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, } from 'src/components';
+import { AlertList, BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
@@ -126,9 +135,21 @@ var LegacyNamespace = /** @class */ (function (_super) {
     function LegacyNamespace(props) {
         var _this = _super.call(this, props) || this;
         var namespaceid = props.routeParams.namespaceid;
-        _this.state = __assign(__assign({}, props), { loading: true, namespaceid: namespaceid, namespace: null, roles: null });
+        _this.state = __assign(__assign({}, props), { loading: true, namespaceid: namespaceid, namespace: null, roles: null, isOpenWisdomModal: false, alerts: [] });
         return _this;
     }
+    LegacyNamespace.prototype.addAlert = function (alert) {
+        this.setState({
+            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
+        });
+    };
+    Object.defineProperty(LegacyNamespace.prototype, "closeAlert", {
+        get: function () {
+            return closeAlertMixin('alerts');
+        },
+        enumerable: false,
+        configurable: true
+    });
     LegacyNamespace.prototype.componentDidMount = function () {
         var _this = this;
         LegacyNamespaceAPI.get('namespaces/' + this.state.namespaceid).then(function (response) {
@@ -140,9 +161,12 @@ var LegacyNamespace = /** @class */ (function (_super) {
         });
     };
     LegacyNamespace.prototype.render = function () {
+        var _this = this;
+        var _a;
         if (this.state.loading === true) {
             return React.createElement(LoadingPageSpinner, null);
         }
+        var ai_deny_index = this.context.featureFlags.ai_deny_index;
         var infocells = [];
         var namespace_url = formatPath(Paths.legacyNamespace, {
             namespaceid: this.state.namespace.id,
@@ -153,9 +177,23 @@ var LegacyNamespace = /** @class */ (function (_super) {
                 React.createElement(Link, { to: namespace_url }, this.state.namespace.name)));
             infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns-name' },
                 React.createElement(BaseHeader, { title: this.state.namespace.name })));
+            var summary_fields = this.state.namespace.summary_fields;
+            var userOwnsLegacyNamespace = (_a = summary_fields === null || summary_fields === void 0 ? void 0 : summary_fields.owners) === null || _a === void 0 ? void 0 : _a.filter(function (n) { return n.username == _this.context.user.username; }).length;
+            var dropdownItems = [];
+            if (ai_deny_index &&
+                (this.context.user.is_superuser || userOwnsLegacyNamespace)) {
+                dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Wisdom settings"], ["Wisdom settings"])))));
+            }
+            if (dropdownItems.length) {
+                infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'kebab' },
+                    React.createElement("div", { "data-cy": 'ns-kebab-toggle', className: 'hub-kebab-toggle' },
+                        React.createElement(StatefulDropdown, { items: dropdownItems }))));
+            }
         }
         return (React.createElement(React.Fragment, null,
-            React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Namespace Header"], ["Namespace Header"]))) },
+            this.state.isOpenWisdomModal && (React.createElement(WisdomModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () { return _this.setState({ isOpenWisdomModal: false }); }, scope: 'legacy_namespace', reference: this.state.namespace.name })),
+            React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
+            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Namespace Header"], ["Namespace Header"]))), className: 'hub-legacy-namespace-page' },
                 React.createElement(DataListItem, { "data-cy": 'LegacyNamespace' },
                     React.createElement(DataListItemRow, null,
                         React.createElement(DataListItemCells, { dataListCells: infocells })))),
@@ -165,5 +203,5 @@ var LegacyNamespace = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(LegacyNamespace);
 LegacyNamespace.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=legacy-namespace.js.map
