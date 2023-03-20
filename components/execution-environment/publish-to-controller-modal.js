@@ -182,7 +182,8 @@ export var PublishToControllerModal = function (props) {
         })));
     }
     var image = props.image, isOpen = props.isOpen, onClose = props.onClose;
-    var docsLink = 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1';
+    // redirects to ./2.x (latest)
+    var docsLink = 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/';
     var noData = (controllers === null || controllers === void 0 ? void 0 : controllers.length) === 0 &&
         !filterIsSet(controllerParams, ['host__icontains']);
     var notListedMessage = (React.createElement(React.Fragment, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["If the Controller is not listed in the table, check settings.py."], ["If the Controller is not listed in the table, check settings.py."]))),

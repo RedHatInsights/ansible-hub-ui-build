@@ -40,12 +40,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem } from '@patternfly/react-core';
 import * as React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { AlertList, DeleteExecutionEnvironmentModal, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatEEPath, formatPath } from 'src/paths';
-import { ParamHelper, RepoSigningUtils, canSignEE, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import { ParamHelper, RepoSigningUtils, canSignEE, taskAlert, waitForTask, } from 'src/utilities';
 // opposite of formatEEPath - converts routeParams from {namespace, container} to {container: "namespace/container"}
 export function withContainerParamFix(WrappedComponent) {
     var Component = function (props) {
@@ -233,22 +233,12 @@ export function withContainerRepo(WrappedComponent) {
             class_1.prototype.sync = function (name) {
                 var _this = this;
                 ExecutionEnvironmentRemoteAPI.sync(name)
-                    .then(function (result) {
-                    var task_id = parsePulpIDFromURL(result.data.task);
-                    _this.addAlert(React.createElement(Trans, null,
-                        "Sync started for remote registry \"",
-                        name,
-                        "\"."), 'info', React.createElement("span", null,
-                        React.createElement(Trans, null,
-                            "See the task management",
-                            ' ',
-                            React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
-                                "detail page",
-                                ' '),
-                            "for the status of this task.")));
+                    .then(function (_a) {
+                    var data = _a.data;
+                    _this.addAlertObj(taskAlert(data.task, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync started for remote registry \"", "\"."], ["Sync started for remote registry \"", "\"."])), name)));
                     _this.loadRepo();
                 })
-                    .catch(function () { return _this.addAlert(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+                    .catch(function () { return _this.addAlert(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
             };
             class_1.prototype.sign = function () {
                 var _this = this;
@@ -260,5 +250,5 @@ export function withContainerRepo(WrappedComponent) {
         _a.displayName = "withContainerRepo(".concat(WrappedComponent.displayName || WrappedComponent.name, ")"),
         _a;
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=base.js.map
