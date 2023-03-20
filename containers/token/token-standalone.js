@@ -54,7 +54,7 @@ var TokenPage = /** @class */ (function (_super) {
         var expirationDate = new Date(Date.now() + 1000 * 60 * expiration);
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API token management"], ["API token management"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API token"], ["API token"]))) }),
             React.createElement(Main, null, unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Card, null,
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement(CardTitle, null,

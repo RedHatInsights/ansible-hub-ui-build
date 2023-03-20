@@ -75,7 +75,7 @@ function standaloneMenu(_a) {
                 },
                 url: formatPath(Paths.repositories),
             }),
-            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API token management"], ["API token management"]))), {
+            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API token"], ["API token"]))), {
                 url: formatPath(Paths.token),
                 condition: function (_a) {
                     var user = _a.user;

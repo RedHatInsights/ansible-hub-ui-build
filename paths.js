@@ -46,7 +46,7 @@ export function formatEEPath(path, data, params) {
         _a[Paths.executionEnvironmentDetail] = Paths.executionEnvironmentDetailWithNamespace,
         _a[Paths.executionEnvironmentDetailActivities] = Paths.executionEnvironmentDetailActivitiesWithNamespace,
         _a[Paths.executionEnvironmentDetailImages] = Paths.executionEnvironmentDetailImagesWithNamespace,
-        _a[Paths.executionEnvironmentDetailOwners] = Paths.executionEnvironmentDetailOwnersWithNamespace,
+        _a[Paths.executionEnvironmentDetailAccess] = Paths.executionEnvironmentDetailAccessWithNamespace,
         _a[Paths.executionEnvironmentManifest] = Paths.executionEnvironmentManifestWithNamespace,
         _a);
     if ((_b = data.container) === null || _b === void 0 ? void 0 : _b.includes('/')) {
@@ -64,8 +64,8 @@ export var Paths;
     Paths["executionEnvironmentDetailActivitiesWithNamespace"] = "/containers/:namespace/:container/_content/activity";
     Paths["executionEnvironmentDetailImages"] = "/containers/:container/_content/images";
     Paths["executionEnvironmentDetailImagesWithNamespace"] = "/containers/:namespace/:container/_content/images";
-    Paths["executionEnvironmentDetailOwners"] = "/containers/:container/_content/owners";
-    Paths["executionEnvironmentDetailOwnersWithNamespace"] = "/containers/:namespace/:container/_content/owners";
+    Paths["executionEnvironmentDetailAccess"] = "/containers/:container/_content/access";
+    Paths["executionEnvironmentDetailAccessWithNamespace"] = "/containers/:namespace/:container/_content/access";
     Paths["executionEnvironmentManifest"] = "/containers/:container/_content/images/:digest";
     Paths["executionEnvironmentManifestWithNamespace"] = "/containers/:namespace/:container/_content/images/:digest";
     Paths["executionEnvironments"] = "/containers";

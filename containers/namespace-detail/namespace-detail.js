@@ -44,7 +44,7 @@ import * as React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link, Navigate } from 'react-router-dom';
 import { CollectionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
-import { AlertList, ClipboardCopy, CollectionFilter, CollectionList, DeleteCollectionModal, DeleteModal, EmptyStateNoData, ImportModal, LoadingPageWithHeader, Main, OwnersTab, Pagination, PartnerHeader, RepoSelector, SignAllCertificatesModal, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
+import { AccessTab, AlertList, ClipboardCopy, CollectionFilter, CollectionList, DeleteCollectionModal, DeleteModal, EmptyStateNoData, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, RepoSelector, SignAllCertificatesModal, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
@@ -196,32 +196,32 @@ var NamespaceDetail = /** @class */ (function (_super) {
             { id: 'collections', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collections"], ["Collections"]))) },
             showControls && { id: 'cli-configuration', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["CLI configuration"], ["CLI configuration"]))) },
             namespace.resources && { id: 'resources', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Resources"], ["Resources"]))) },
-            { id: 'owners', name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))) },
+            { id: 'access', name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Access"], ["Access"]))) },
         ].filter(Boolean);
         var tab = params['tab'] || 'collections';
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
                 name: namespace.name,
-                url: tab === 'owners'
+                url: tab === 'access'
                     ? formatPath(Paths.namespaceByRepo, {
                         repo: this.context.selectedRepo,
                         namespace: namespace.name,
                     })
                     : null,
             },
-            tab === 'owners'
+            tab === 'access'
                 ? {
-                    name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Namespace owners"], ["Namespace owners"]))),
+                    name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Access"], ["Access"]))),
                     url: params.group
                         ? formatPath(Paths.namespaceByRepo, {
                             repo: this.context.selectedRepo,
                             namespace: namespace.name,
-                        }, { tab: 'owners' })
+                        }, { tab: 'access' })
                         : null,
                 }
                 : null,
-            tab === 'owners' && params.group
+            tab === 'access' && params.group
                 ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), params.group) }
                 : null,
         ].filter(Boolean);
@@ -241,7 +241,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ];
         var hasPermission = this.context.hasPermission;
         var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || hasPermission('galaxy.change_namespace');
-        // remove ?group (owners tab) when switching tabs
+        // remove ?group (access tab) when switching tabs
         var tabParams = __assign({}, params);
         delete tabParams.group;
         return (React.createElement(React.Fragment, null,
@@ -300,7 +300,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                                 ".")),
                         React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl)))) : null,
                 tab === 'resources' ? this.renderResources(namespace) : null,
-                tab === 'owners' ? (React.createElement(OwnersTab, { showGroupRemoveModal: this.state.showGroupRemoveModal, showGroupSelectWizard: this.state.showGroupSelectWizard, showRoleRemoveModal: this.state.showRoleRemoveModal, showRoleSelectWizard: this.state.showRoleSelectWizard, canEditOwners: canEditOwners, group: this.state.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateProps: function (prop) {
+                tab === 'access' ? (React.createElement(AccessTab, { showGroupRemoveModal: this.state.showGroupRemoveModal, showGroupSelectWizard: this.state.showGroupSelectWizard, showRoleRemoveModal: this.state.showRoleRemoveModal, showRoleSelectWizard: this.state.showRoleSelectWizard, canEditOwners: canEditOwners, group: this.state.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateProps: function (prop) {
                         _this.setState(prop);
                     }, addGroup: function (group, roles) {
                         var groups = namespace.groups, name = namespace.name;

@@ -99,7 +99,7 @@ export function withContainerRepo(WrappedComponent) {
                     images: formatEEPath(Paths.executionEnvironmentDetailImages, {
                         container: container,
                     }),
-                    owners: formatEEPath(Paths.executionEnvironmentDetailOwners, {
+                    access: formatEEPath(Paths.executionEnvironmentDetailAccess, {
                         container: container,
                     }),
                     notFound: formatPath(Paths.notFound),
@@ -195,10 +195,10 @@ export function withContainerRepo(WrappedComponent) {
                     .catch(function () { return _this.setState({ redirect: 'notFound' }); });
             };
             class_1.prototype.getTab = function () {
-                var tabs = ['detail', 'images', 'activity', 'owners'];
+                var tabs = ['detail', 'images', 'activity', 'access'];
                 var location = this.props.location.pathname.split('/');
                 var index = location.findIndex(function (s) { return s === '_content'; });
-                // match /containers/owners/_content/owners but not /containers/owners
+                // match /containers/access/_content/access but not /containers/access
                 // also handles /containers/:name/_content/images/:digest
                 if (index !== -1) {
                     var loc = location[index + 1];

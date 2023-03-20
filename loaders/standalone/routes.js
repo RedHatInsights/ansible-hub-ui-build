@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentDetailOwners, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RepositoryList, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenPageStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
+import { CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RepositoryList, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenPageStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
 import { AppContext, useContext } from 'src/loaders/app-context';
 import { loadContext } from 'src/loaders/load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -74,8 +74,8 @@ var StandaloneRoutes = /** @class */ (function (_super) {
                 isDisabled: isContainerDisabled,
             },
             {
-                component: ExecutionEnvironmentDetailOwners,
-                path: Paths.executionEnvironmentDetailOwnersWithNamespace,
+                component: ExecutionEnvironmentDetailAccess,
+                path: Paths.executionEnvironmentDetailAccessWithNamespace,
                 isDisabled: isContainerDisabled,
             },
             {
@@ -99,8 +99,8 @@ var StandaloneRoutes = /** @class */ (function (_super) {
                 isDisabled: isContainerDisabled,
             },
             {
-                component: ExecutionEnvironmentDetailOwners,
-                path: Paths.executionEnvironmentDetailOwners,
+                component: ExecutionEnvironmentDetailAccess,
+                path: Paths.executionEnvironmentDetailAccess,
                 isDisabled: isContainerDisabled,
             },
             {

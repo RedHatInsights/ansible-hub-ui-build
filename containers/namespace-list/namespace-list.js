@@ -146,7 +146,7 @@ var NamespaceList = /** @class */ (function (_super) {
                         redirect: formatPath(Paths.namespaceByRepo, {
                             repo: 'published',
                             namespace: result.name,
-                        }, { tab: 'owners' }),
+                        }, { tab: 'collections' }),
                     });
                 } }),
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),

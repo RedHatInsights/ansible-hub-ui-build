@@ -37,14 +37,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { Trans, t } from '@lingui/macro';
-import { Alert, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
+import { t } from '@lingui/macro';
+import { Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
+import { TagIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { APISearchTypeAhead, AlertList, HelperText, closeAlertMixin, } from 'src/components';
-import { Paths, formatEEPath } from 'src/paths';
 import { alertErrorsWithoutFields, chipGroupProps, errorMessage, isFieldValid, isFormValid, mapErrorMessages, } from 'src/utilities';
 var RepositoryForm = /** @class */ (function (_super) {
     __extends(RepositoryForm, _super);
@@ -152,20 +150,7 @@ var RepositoryForm = /** @class */ (function (_super) {
                     React.createElement(FormGroup, { fieldId: 'currentTag', label: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Currently excluded tags"], ["Currently excluded tags"]))) },
                         React.createElement(LabelGroup, __assign({}, chipGroupProps(), { id: 'remove-tag', defaultIsOpen: true }), excludeTags.map(function (tag) { return (React.createElement(Label, { icon: React.createElement(TagIcon, null), onClose: function () { return _this.removeTag(tag, 'excludeTags'); }, key: tag }, tag)); }))))),
                 React.createElement(FormGroup, { key: 'description', fieldId: 'description', label: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Description"], ["Description"]))) },
-                    React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })),
-                React.createElement(FormGroup, { fieldId: 'none', label: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Groups with access"], ["Groups with access"]))) },
-                    React.createElement(Alert, { isInline: true, variant: 'info', title: isNew ? (React.createElement(Trans, null,
-                            "Moved to the ",
-                            React.createElement("b", null, "Owners"),
-                            " tab")) : (React.createElement(Trans, null,
-                            "Moved to the",
-                            ' ',
-                            React.createElement(Link, { target: '_blank', to: formatEEPath(Paths.executionEnvironmentDetailOwners, {
-                                    container: name,
-                                }) }, "Owners"),
-                            ' ',
-                            React.createElement(ExternalLinkAltIcon, null),
-                            " tab")) })))));
+                    React.createElement(TextArea, { id: 'description', value: description || '', isDisabled: !this.props.permissions.includes('container.namespace_change_containerdistribution'), onChange: function (value) { return _this.setState({ description: value }); }, type: 'text', resizeOrientation: 'vertical', autoResize: true })))));
     };
     RepositoryForm.prototype.validateName = function (name) {
         var regex = /^([0-9A-Za-z._-]+\/)?[0-9A-Za-z._-]+$/;
@@ -174,7 +159,7 @@ var RepositoryForm = /** @class */ (function (_super) {
             return;
         }
         else {
-            var error = t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."], ["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."])));
+            var error = t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."], ["Container names can only contain alphanumeric characters, \".\", \"_\", \"-\" and a up to one \"/\"."])));
             this.setState({ formErrors: __assign(__assign({}, this.state.formErrors), { name: error }) });
         }
     };
@@ -252,7 +237,7 @@ var RepositoryForm = /** @class */ (function (_super) {
         }
         return promise.catch(function (e) {
             _this.setState({ formErrors: mapErrorMessages(e) });
-            alertErrorsWithoutFields(_this.state.formErrors, ['name', 'registry', 'registries'], function (alert) { return _this.addAlert(alert); }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Error when saving registry."], ["Error when saving registry."]))), function (state) { return _this.setState({ formErrors: state }); });
+            alertErrorsWithoutFields(_this.state.formErrors, ['name', 'registry', 'registries'], function (alert) { return _this.addAlert(alert); }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Error when saving registry."], ["Error when saving registry."]))), function (state) { return _this.setState({ formErrors: state }); });
             return Promise.reject(new Error(e));
         });
     };
@@ -271,5 +256,5 @@ var RepositoryForm = /** @class */ (function (_super) {
     return RepositoryForm;
 }(React.Component));
 export { RepositoryForm };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
 //# sourceMappingURL=repository-form.js.map
