@@ -39,6 +39,7 @@ var FilterOption = /** @class */ (function () {
     }
     return FilterOption;
 }());
+export { FilterOption };
 var CompoundFilter = /** @class */ (function (_super) {
     __extends(CompoundFilter, _super);
     function CompoundFilter(props) {

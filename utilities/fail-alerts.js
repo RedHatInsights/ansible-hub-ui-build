@@ -14,5 +14,14 @@ export function errorMessage(statusCode, statusText) {
     };
     return messages[statusCode] || messages.default;
 }
+export var handleHttpError = function (title, callback, addAlert) { return function (e) {
+    var _a = e.response, status = _a.status, statusText = _a.statusText;
+    addAlert({
+        title: title,
+        variant: 'danger',
+        description: errorMessage(status, statusText),
+    });
+    callback();
+}; };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=fail-alerts.js.map

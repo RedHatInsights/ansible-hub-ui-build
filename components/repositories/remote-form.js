@@ -31,13 +31,11 @@ var __assign = (this && this.__assign) || function () {
 import { Trans, t } from '@lingui/macro';
 import { Button, Checkbox, ExpandableSection, Flex, FlexItem, Form, FormGroup, Modal, Switch, TextInput, } from '@patternfly/react-core';
 import { DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
-import * as FileSaver from 'file-saver';
-import * as React from 'react';
+import React from 'react';
 import { FileUpload, HelperText, WriteOnlyField } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { isFieldSet, isWriteOnly } from 'src/utilities';
-import { validateURLHelper } from 'src/utilities';
+import { downloadString, isFieldSet, isWriteOnly, validateURLHelper, } from 'src/utilities';
 var RemoteForm = /** @class */ (function (_super) {
     __extends(RemoteForm, _super);
     function RemoteForm(props) {
@@ -139,9 +137,7 @@ var RemoteForm = /** @class */ (function (_super) {
                         React.createElement(FileUpload, { validated: this.toError(!('requirements_file' in errorMessages)), isRequired: requiredFields.includes('requirements_file'), id: 'yaml', type: 'text', filename: filename('requirements_file'), value: this.props.remote.requirements_file || '', hideDefaultPreview: true, onChange: fileOnChange('requirements_file') })),
                     React.createElement(FlexItem, null,
                         React.createElement(Button, { isDisabled: !this.props.remote.requirements_file, onClick: function () {
-                                FileSaver.saveAs(new Blob([_this.props.remote.requirements_file], {
-                                    type: 'text/plain;charset=utf-8',
-                                }), filenames.requirements_file.name);
+                                return downloadString(_this.props.remote.requirements_file, filenames.requirements_file.name);
                             }, variant: 'plain', "aria-label": t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Download requirements file"], ["Download requirements file"]))) },
                             React.createElement(DownloadIcon, null)))))),
             React.createElement(FormGroup, { "data-cy": 'username', fieldId: 'username', label: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Username"], ["Username"]))), labelIcon: React.createElement(HelperText, { content: disabledFields.includes('token')
@@ -179,9 +175,7 @@ var RemoteForm = /** @class */ (function (_super) {
                                 React.createElement(FileUpload, { validated: this.toError(!('client_cert' in errorMessages)), isRequired: requiredFields.includes('client_cert'), id: 'yaml', type: 'text', filename: filename('client_cert'), value: this.props.remote.client_cert || '', hideDefaultPreview: true, onChange: fileOnChange('client_cert') })),
                             React.createElement(FlexItem, null,
                                 React.createElement(Button, { "data-cy": 'client_cert', isDisabled: !this.props.remote.client_cert, onClick: function () {
-                                        FileSaver.saveAs(new Blob([_this.props.remote.client_cert], {
-                                            type: 'text/plain;charset=utf-8',
-                                        }), filenames.client_cert.name);
+                                        return downloadString(_this.props.remote.client_cert, filenames.client_cert.name);
                                     }, variant: 'plain', "aria-label": t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Download client certification file"], ["Download client certification file"]))) },
                                     React.createElement(DownloadIcon, null))))),
                     React.createElement(FormGroup, { fieldId: 'ca_cert', label: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["CA certificate"], ["CA certificate"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["A PEM encoded client certificate used for authentication."], ["A PEM encoded client certificate used for authentication."]))) }), isRequired: requiredFields.includes('ca_cert'), validated: this.toError(!('ca_cert' in errorMessages)), helperTextInvalid: errorMessages['ca_cert'] },
@@ -190,9 +184,7 @@ var RemoteForm = /** @class */ (function (_super) {
                                 React.createElement(FileUpload, { validated: this.toError(!('ca_cert' in errorMessages)), isRequired: requiredFields.includes('ca_cert'), id: 'yaml', type: 'text', filename: filename('ca_cert'), value: this.props.remote.ca_cert || '', hideDefaultPreview: true, onChange: fileOnChange('ca_cert') })),
                             React.createElement(FlexItem, null,
                                 React.createElement(Button, { "data-cy": 'ca_cert', isDisabled: !this.props.remote.ca_cert, onClick: function () {
-                                        FileSaver.saveAs(new Blob([_this.props.remote.ca_cert], {
-                                            type: 'text/plain;charset=utf-8',
-                                        }), filenames.ca_cert.name);
+                                        return downloadString(_this.props.remote.ca_cert, filenames.ca_cert.name);
                                     }, variant: 'plain', "aria-label": t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Download CA certification file"], ["Download CA certification file"]))) },
                                     React.createElement(DownloadIcon, null))))),
                     React.createElement(FormGroup, { fieldId: 'download_concurrency', label: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Download concurrency"], ["Download concurrency"]))), labelIcon: React.createElement(HelperText, { content: t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Total number of simultaneous connections."], ["Total number of simultaneous connections."]))) }), validated: !this.isNumericSet(remote.download_concurrency) ||

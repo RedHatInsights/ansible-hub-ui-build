@@ -30,6 +30,7 @@ import { reject, some } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Paths, formatPath } from 'src/paths';
+import { isLoggedIn } from 'src/permissions';
 import { hasPermission } from 'src/utilities';
 var menuItem = function (name, options) {
     if (options === void 0) { options = {}; }
@@ -69,18 +70,12 @@ function standaloneMenu(_a) {
                 },
             }),
             menuItem(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repository Management"], ["Repository Management"]))), {
-                condition: function (_a) {
-                    var user = _a.user;
-                    return !user.is_anonymous;
-                },
+                condition: isLoggedIn,
                 url: formatPath(Paths.repositories),
             }),
             menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API token"], ["API token"]))), {
                 url: formatPath(Paths.token),
-                condition: function (_a) {
-                    var user = _a.user;
-                    return !user.is_anonymous;
-                },
+                condition: isLoggedIn,
             }),
             menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                 condition: function (context) {
@@ -117,10 +112,7 @@ function standaloneMenu(_a) {
         ]),
         menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
             url: formatPath(Paths.taskList),
-            condition: function (_a) {
-                var user = _a.user;
-                return !user.is_anonymous;
-            },
+            condition: isLoggedIn,
         }),
         menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
             url: formatPath(Paths.signatureKeys),

@@ -41,7 +41,7 @@ import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import * as React from 'react';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, closeAlertMixin, } from 'src/components';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, CopyURL, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { ParamHelper, errorMessage, filterIsSet, lastSyncStatus, lastSynced, mapErrorMessages, taskAlert, withRouter, } from 'src/utilities';
 var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
@@ -262,7 +262,8 @@ var ExecutionEnvironmentRegistryList = /** @class */ (function (_super) {
                 React.createElement(DateComponent, { date: item.created_at })),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: item.updated_at })),
-            React.createElement("td", null, item.url),
+            React.createElement("td", null,
+                React.createElement(CopyURL, { url: item.url })),
             React.createElement("td", null,
                 lastSyncStatus(item) || '---',
                 lastSynced(item)),
