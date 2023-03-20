@@ -222,17 +222,15 @@ var CollectionHeader = /** @class */ (function (_super) {
                     }
                     else {
                         // last version in collection => collection will be deleted => redirect
-                        _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                            {
-                                variant: 'success',
-                                title: (React.createElement(Trans, null,
-                                    "Collection \"",
-                                    name,
-                                    " v",
-                                    collectionVersion,
-                                    "\" has been successfully deleted.")),
-                            },
-                        ], false));
+                        _this.context.queueAlert({
+                            variant: 'success',
+                            title: (React.createElement(Trans, null,
+                                "Collection \"",
+                                name,
+                                " v",
+                                collectionVersion,
+                                "\" has been successfully deleted.")),
+                        });
                         _this.setState({
                             redirect: formatPath(Paths.namespaceByRepo, {
                                 repo: _this.context.selectedRepo,
@@ -426,9 +424,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                     namespace: deleteCollection.namespace.name,
                                 }),
                                 selectedRepo: _this.context.selectedRepo,
-                                addAlert: function (alert) {
-                                    return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.state.alerts, true), [alert], false));
-                                },
+                                addAlert: function (alert) { return _this.context.queueAlert(alert); },
                             });
                     });
                 } }),

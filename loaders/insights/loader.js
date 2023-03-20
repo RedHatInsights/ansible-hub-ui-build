@@ -2,6 +2,15 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import '../app.scss';
 import { t } from '@lingui/macro';
 import { Alert } from '@patternfly/react-core';
@@ -66,9 +75,11 @@ var App = function (_props) {
     if (!user) {
         return null;
     }
+    var queueAlert = function (alert) { return setAlerts(function (alerts) { return __spreadArray(__spreadArray([], alerts, true), [alert], false); }); };
     return (React.createElement(AppContext.Provider, { value: {
             alerts: alerts,
             featureFlags: featureFlags,
+            queueAlert: queueAlert,
             selectedRepo: selectedRepo,
             setAlerts: setAlerts,
             setUser: setUser,

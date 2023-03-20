@@ -28,15 +28,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 import { Trans, t } from '@lingui/macro';
 import { ActionGroup, Button, Form, Spinner } from '@patternfly/react-core';
 import * as React from 'react';
@@ -173,15 +164,13 @@ var EditNamespace = /** @class */ (function (_super) {
                         namespace: _this.state.namespace.name,
                     }),
                 }, function () {
-                    return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                        {
-                            variant: 'success',
-                            title: (React.createElement(Trans, null,
-                                "Saved changes to namespace \"",
-                                _this.state.namespace.name,
-                                "\".")),
-                        },
-                    ], false));
+                    return _this.context.queueAlert({
+                        variant: 'success',
+                        title: (React.createElement(Trans, null,
+                            "Saved changes to namespace \"",
+                            _this.state.namespace.name,
+                            "\".")),
+                    });
                 });
             })
                 .catch(function (error) {

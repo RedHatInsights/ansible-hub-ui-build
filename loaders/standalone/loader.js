@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import '../app.scss';
 import '@patternfly/patternfly/patternfly.scss';
 import React, { useEffect, useState } from 'react';
@@ -45,9 +54,11 @@ var App = function (_props) {
         location.pathname !== UI_EXTERNAL_LOGIN_URI) {
         component = (React.createElement(StandaloneLayout, { featureFlags: featureFlags, selectedRepo: selectedRepo, settings: settings, user: user, setUser: setUser }, component));
     }
+    var queueAlert = function (alert) { return setAlerts(function (alerts) { return __spreadArray(__spreadArray([], alerts, true), [alert], false); }); };
     return (React.createElement(AppContext.Provider, { value: {
             alerts: alerts,
             featureFlags: featureFlags,
+            queueAlert: queueAlert,
             selectedRepo: selectedRepo,
             setAlerts: setAlerts,
             setUser: setUser,

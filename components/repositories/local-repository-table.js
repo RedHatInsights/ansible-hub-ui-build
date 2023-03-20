@@ -82,27 +82,26 @@ var LocalRepositoryTable = /** @class */ (function (_super) {
             React.createElement("tbody", null, repositories.map(function (distribution) { return _this.renderRow(distribution); }))));
     };
     LocalRepositoryTable.prototype.renderRow = function (distribution) {
+        var _a, _b, _c, _d;
         var cliConfig = [
             '[galaxy]',
-            "server_list = ".concat(distribution.repository.name, "_repo"),
+            "server_list = ".concat((_a = distribution.repository) === null || _a === void 0 ? void 0 : _a.name, "_repo"),
             '',
-            "[galaxy_server.".concat(distribution.repository.name, "_repo]"),
+            "[galaxy_server.".concat((_b = distribution.repository) === null || _b === void 0 ? void 0 : _b.name, "_repo]"),
             "url=".concat(getRepoUrl()),
             'token=<put your token here>',
         ];
         return (React.createElement("tr", { key: distribution.name },
             React.createElement("td", null, distribution.name),
-            React.createElement("td", null, distribution.repository.name),
+            React.createElement("td", null, (_c = distribution.repository) === null || _c === void 0 ? void 0 : _c.name),
             React.createElement("td", null,
                 React.createElement(CollectionCount, { distributionPath: distribution.base_path })),
             DEPLOYMENT_MODE ===
-                Constants.INSIGHTS_DEPLOYMENT_MODE ? null : distribution.repository
-                .pulp_last_updated ? (React.createElement("td", null,
+                Constants.INSIGHTS_DEPLOYMENT_MODE ? null : ((_d = distribution.repository) === null || _d === void 0 ? void 0 : _d.pulp_last_updated) ? (React.createElement("td", null,
                 React.createElement(DateComponent, { date: distribution.repository.pulp_last_updated }))) : (React.createElement("td", null, '---')),
             React.createElement("td", null,
                 React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl())),
-            DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? null : (React.createElement("td", null,
-                React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n'))))));
+            DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? null : (React.createElement("td", null, distribution.repository ? (React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, cliConfig.join('\n'))) : ('---')))));
     };
     return LocalRepositoryTable;
 }(React.Component));

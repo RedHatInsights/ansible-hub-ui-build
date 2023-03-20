@@ -70,15 +70,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         confirmDelete: false,
                         isNamespacePending: false,
                     });
-                    _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                        {
-                            variant: 'success',
-                            title: (React.createElement(Trans, null,
-                                "Namespace \"",
-                                name,
-                                "\" has been successfully deleted.")),
-                        },
-                    ], false));
+                    _this.context.queueAlert({
+                        variant: 'success',
+                        title: (React.createElement(Trans, null,
+                            "Namespace \"",
+                            name,
+                            "\" has been successfully deleted.")),
+                    });
                 })
                     .catch(function (e) {
                     var _a = e.response, status = _a.status, statusText = _a.statusText;
