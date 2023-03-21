@@ -24,7 +24,9 @@ export var AppliedFilters = function (_a) {
         return null;
     }
     var renderGroup = function (key) {
-        var chips = Array.isArray(params[key]) ? params[key] : [params[key]];
+        var chips = Array.isArray(params[key])
+            ? params[key]
+            : [params[key]];
         var unsetFilter = function (v) {
             return updateParams(__assign(__assign({}, ParamHelper.deleteParam(params, key, v)), { page: 1 }));
         };
