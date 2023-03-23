@@ -126,7 +126,13 @@ export var AnsibleRepositoryForm = function (_a) {
                 return (React.createElement(SelectOption, { key: k, value: v }));
             }))),
         React.createElement(FormGroup, { key: 'labels', fieldId: 'labels', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Labels"], ["Labels"]))) },
-            React.createElement(PulpLabels, { labels: repository.pulp_labels }),
+            React.createElement("div", { 
+                // prevents "N more" clicks from submitting the form
+                onClick: function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                } },
+                React.createElement(PulpLabels, { labels: repository.pulp_labels })),
             React.createElement("div", { style: { marginTop: '12px' } },
                 React.createElement(Checkbox, { isChecked: createLabel, isDisabled: true, label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Create a \"content: approved_for_use\" label"], ["Create a \"content: approved_for_use\" label"]))), id: 'create_label' }),
                 React.createElement(Checkbox, { isChecked: hideFromSearch, isDisabled: disableHideFromSearch, label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Hide from search"], ["Hide from search"]))), id: 'hide_from_search', onChange: function (value) { return setHideFromSearch(value); } }),

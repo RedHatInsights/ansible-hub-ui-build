@@ -75,10 +75,12 @@ export var ListPage = function (_a) {
     title = _a.title;
     renderModals || (renderModals = function (actionContext) {
         return (React.createElement(React.Fragment, null,
-            (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
-                headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); }),
-            (listItemActions === null || listItemActions === void 0 ? void 0 : listItemActions.length) &&
-                listItemActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })));
+            (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length)
+                ? headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+                : null,
+            (listItemActions === null || listItemActions === void 0 ? void 0 : listItemActions.length)
+                ? listItemActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+                : null));
     });
     var klass = (_b = /** @class */ (function (_super) {
             __extends(class_1, _super);

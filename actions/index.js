@@ -10,4 +10,5 @@ export { ansibleRepositoryCreateAction } from './ansible-repository-create';
 export { ansibleRepositoryDeleteAction } from './ansible-repository-delete';
 export { ansibleRepositoryEditAction } from './ansible-repository-edit';
 export { ansibleRepositorySyncAction } from './ansible-repository-sync';
+export { ansibleRepositoryVersionRevertAction } from './ansible-repository-version-revert';
 //# sourceMappingURL=index.js.map

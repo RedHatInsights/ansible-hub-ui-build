@@ -63,18 +63,19 @@ export var PageWithTabs = function (_a) {
     // ({ addAlert, state, setState, query }) => <ConfirmationModal... />
     renderModals = _a.renderModals, renderTab = _a.renderTab, 
     // [{ id, name }]
-    tabs = _a.tabs;
+    tabs = _a.tabs, 
+    // params => params
+    tabUpdateParams = _a.tabUpdateParams;
     renderModals || (renderModals = function (actionContext) {
-        return (React.createElement(React.Fragment, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
-            headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })));
+        return (React.createElement(React.Fragment, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length)
+            ? headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+            : null));
     });
     var klass = (_b = /** @class */ (function (_super) {
             __extends(class_1, _super);
             function class_1(props) {
                 var _this = _super.call(this, props) || this;
-                var params = ParamHelper.parseParamString(props.location.search, [
-                    'tab',
-                ]);
+                var params = ParamHelper.parseParamString(props.location.search);
                 if (!params['tab']) {
                     params['tab'] = tabs[0].id;
                 }
@@ -98,6 +99,12 @@ export var PageWithTabs = function (_a) {
                     });
                 }
             };
+            class_1.prototype.componentDidUpdate = function (prevProps) {
+                if (prevProps.location !== this.props.location) {
+                    var params = ParamHelper.parseParamString(this.props.location.search);
+                    this.setState({ params: __assign({ tab: tabs[0].id }, params) });
+                }
+            };
             class_1.prototype.render = function () {
                 var _this = this;
                 var routeParams = this.props.routeParams;
@@ -118,6 +125,7 @@ export var PageWithTabs = function (_a) {
                     React.createElement(BaseHeader, { title: name, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs({
                                 name: name,
                                 tab: tab,
+                                params: params,
                             }) }), pageControls: loading ? null : (React.createElement("div", { className: 'hub-list-toolbar' },
                             React.createElement(Toolbar, null,
                                 React.createElement(ToolbarContent, null,
@@ -128,7 +136,9 @@ export var PageWithTabs = function (_a) {
                         headerDetails(item),
                         React.createElement("div", { className: 'hub-tab-link-container' },
                             React.createElement("div", { className: 'tabs' },
-                                React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) { return _this.updateParams(p); } })))), renderModals === null || renderModals === void 0 ? void 0 :
+                                React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) {
+                                        return _this.updateParams(tabUpdateParams ? tabUpdateParams(p) : p);
+                                    } })))), renderModals === null || renderModals === void 0 ? void 0 :
                     renderModals(actionContext),
                     unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body', "data-cy": "PageWithTabs-".concat(displayName, "-").concat(params.tab) }, this.renderTab(params.tab, actionContext)))))));
             };

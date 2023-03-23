@@ -48,7 +48,7 @@ export { AnsibleDistributionAPI } from './ansible-distribution';
 export { AnsibleRemoteAPI } from './ansible-remote';
 export { AnsibleRemoteType } from './response-types/ansible-remote';
 export { AnsibleRepositoryAPI } from './ansible-repository';
-export { AnsibleRepositoryType } from './response-types/ansible-repository';
+export { AnsibleRepositoryType, AnsibleRepositoryVersionType, } from './response-types/ansible-repository';
 export { SignContainersAPI } from './sign-containers';
 export { LegacyRoleDetailType, LegacyRoleListType, } from './response-types/legacy-role';
 export { LegacyNamespaceDetailType, LegacyNamespaceListType, } from './response-types/legacy-namespace';

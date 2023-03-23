@@ -4,4 +4,10 @@ var AnsibleRepositoryType = /** @class */ (function () {
     return AnsibleRepositoryType;
 }());
 export { AnsibleRepositoryType };
+var AnsibleRepositoryVersionType = /** @class */ (function () {
+    function AnsibleRepositoryVersionType() {
+    }
+    return AnsibleRepositoryVersionType;
+}());
+export { AnsibleRepositoryVersionType };
 //# sourceMappingURL=ansible-repository.js.map

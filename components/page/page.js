@@ -61,8 +61,9 @@ export var Page = function (_a) {
     // ({ addAlert, state, setState, query }) => <ConfirmationModal... />
     renderModals = _a.renderModals, render = _a.render;
     renderModals || (renderModals = function (actionContext) {
-        return (React.createElement(React.Fragment, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
-            headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })));
+        return (React.createElement(React.Fragment, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length)
+            ? headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+            : null));
     });
     var klass = (_b = /** @class */ (function (_super) {
             __extends(class_1, _super);

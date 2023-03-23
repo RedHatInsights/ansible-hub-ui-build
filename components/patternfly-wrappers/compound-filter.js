@@ -80,12 +80,15 @@ var CompoundFilter = /** @class */ (function (_super) {
         var _this = this;
         var filterConfig = this.props.filterConfig;
         var selectedFilter = this.state.selectedFilter;
+        if (filterConfig.length === 0) {
+            return null;
+        }
         var filterOptions = filterConfig.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
                 _this.props.onChange('');
                 _this.setState({ selectedFilter: v });
             }, key: v.id }, v.title)); });
         return (React.createElement(InputGroup, { "data-cy": 'compound_filter' },
-            filterConfig.length != 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
+            filterConfig.length !== 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
                     React.createElement(FilterIcon, null),
                     '   ',
                     selectedFilter.title), position: 'left', isPlain: false, items: filterOptions })),

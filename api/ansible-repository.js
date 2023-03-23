@@ -30,6 +30,11 @@ var API = /** @class */ (function (_super) {
     API.prototype.sync = function (id) {
         return this.http.post(this.apiPath + id + '/sync/', {});
     };
+    API.prototype.revert = function (id, version_href) {
+        return this.http.post(this.apiPath + id + '/modify/', {
+            base_version: version_href,
+        });
+    };
     return API;
 }(PulpAPI));
 export var AnsibleRepositoryAPI = new API();
