@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RepositoryList, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenPageStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
+import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RepositoryList, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenPageStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
 import { AppContext, useContext } from 'src/loaders/app-context';
 import { loadContext } from 'src/loaders/load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -148,6 +148,18 @@ var StandaloneRoutes = /** @class */ (function (_super) {
             },
             { component: RoleList, path: Paths.roleList },
             { component: RepositoryList, path: Paths.repositories },
+            { component: AnsibleRemoteDetail, path: Paths.ansibleRemoteDetail },
+            { component: AnsibleRemoteEdit, path: Paths.ansibleRemoteEdit },
+            { component: AnsibleRemoteList, path: Paths.ansibleRemotes },
+            {
+                component: AnsibleRepositoryDetail,
+                path: Paths.ansibleRepositoryDetail,
+            },
+            {
+                component: AnsibleRepositoryEdit,
+                path: Paths.ansibleRepositoryEdit,
+            },
+            { component: AnsibleRepositoryList, path: Paths.ansibleRepositories },
             { component: UserProfile, path: Paths.userProfileSettings },
             {
                 component: UserCreate,

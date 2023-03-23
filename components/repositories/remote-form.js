@@ -77,6 +77,7 @@ var RemoteForm = /** @class */ (function (_super) {
         var requiredFields = ['name', 'url'];
         var disabledFields = allowEditName ? [] : ['name'];
         switch (remoteType) {
+            case 'ansible-remote':
             case 'none':
                 // require only name, url; nothing disabled
                 break;
@@ -108,10 +109,10 @@ var RemoteForm = /** @class */ (function (_super) {
     };
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields, extra) {
         var _this = this;
-        var _a = this.props, errorMessages = _a.errorMessages, remote = _a.remote;
+        var _a = this.props, errorMessages = _a.errorMessages, remote = _a.remote, remoteType = _a.remoteType;
         var filenames = this.state.filenames;
         var collection_signing = this.context.featureFlags.collection_signing;
-        var writeOnlyFields = remote['write_only_fields'];
+        var writeOnlyFields = remote[remoteType === 'ansible-remote' ? 'hidden_fields' : 'write_only_fields'];
         var docsAnsibleLink = (React.createElement("a", { target: '_blank', href: 'https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file', rel: 'noreferrer' }, "requirements.yml"));
         var filename = function (field) {
             return filenames[field].original ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["(uploaded)"], ["(uploaded)"]))) : filenames[field].name;
@@ -224,7 +225,7 @@ var RemoteForm = /** @class */ (function (_super) {
                 return false;
             }
         }
-        if (['community', 'certified', 'none'].includes(remoteType)) {
+        if (['community', 'certified', 'none', 'ansible-remote'].includes(remoteType)) {
             // only required in remotes, not registries
             if (remote.download_concurrency < 1) {
                 return false;
@@ -252,8 +253,8 @@ var RemoteForm = /** @class */ (function (_super) {
     };
     RemoteForm.prototype.updateIsSet = function (fieldName, value) {
         var _a;
-        var remote = this.props.remote;
-        var hiddenFieldsName = 'write_only_fields';
+        var _b = this.props, remote = _b.remote, remoteType = _b.remoteType;
+        var hiddenFieldsName = remoteType === 'ansible-remote' ? 'hidden_fields' : 'write_only_fields';
         var newFields = remote[hiddenFieldsName].map(function (field) {
             return field.name === fieldName ? __assign(__assign({}, field), { is_set: value }) : field;
         });

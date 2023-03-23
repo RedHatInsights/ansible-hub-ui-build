@@ -73,48 +73,56 @@ function standaloneMenu(_a) {
                 condition: isLoggedIn,
                 url: formatPath(Paths.repositories),
             }),
-            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["API token"], ["API token"]))), {
+            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repositories"], ["Repositories"]))), {
+                condition: isLoggedIn,
+                url: formatPath(Paths.ansibleRepositories),
+            }),
+            menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remotes"], ["Remotes"]))), {
+                condition: isLoggedIn,
+                url: formatPath(Paths.ansibleRemotes),
+            }),
+            menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API token"], ["API token"]))), {
                 url: formatPath(Paths.token),
                 condition: isLoggedIn,
             }),
-            menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Approval"], ["Approval"]))), {
+            menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                 condition: function (context) {
                     return hasPermission(context, 'ansible.modify_ansible_repo_content');
                 },
                 url: formatPath(Paths.approvalDashboard),
             }),
         ]),
-        menuSection(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+        menuSection(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, user = _a.user;
                 return featureFlags.execution_environments && !user.is_anonymous;
             },
         }, [
-            menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+            menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                 url: formatPath(Paths.executionEnvironments),
             }),
-            menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
+            menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
                 url: formatPath(Paths.executionEnvironmentsRegistries),
             }),
         ]),
-        menuSection(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Legacy"], ["Legacy"]))), {
+        menuSection(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Legacy"], ["Legacy"]))), {
             condition: function (_a) {
                 var featureFlags = _a.featureFlags;
                 return featureFlags.legacy_roles;
             },
         }, [
-            menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))), {
+            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))), {
                 url: formatPath(Paths.legacyRoles),
             }),
-            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Legacy Namespaces"], ["Legacy Namespaces"]))), {
+            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Legacy Namespaces"], ["Legacy Namespaces"]))), {
                 url: formatPath(Paths.legacyNamespaces),
             }),
         ]),
-        menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+        menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
             url: formatPath(Paths.taskList),
             condition: isLoggedIn,
         }),
-        menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
+        menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
             url: formatPath(Paths.signatureKeys),
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, user = _a.user;
@@ -122,7 +130,7 @@ function standaloneMenu(_a) {
                     !user.is_anonymous;
             },
         }),
-        menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+        menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
             url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
             external: true,
             condition: function (_a) {
@@ -131,7 +139,7 @@ function standaloneMenu(_a) {
                     !user.is_anonymous;
             },
         }),
-        menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
+        menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
             url: 'https://www.redhat.com/en/about/terms-use',
             external: true,
             condition: function (_a) {
@@ -139,16 +147,16 @@ function standaloneMenu(_a) {
                 return featureFlags.legacy_roles;
             },
         }),
-        menuSection(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-            menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users"], ["Users"]))), {
+        menuSection(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Users"], ["Users"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_user'); },
                 url: formatPath(Paths.userList),
             }),
-            menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+            menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.groupList),
             }),
-            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+            menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.roleList),
             }),
@@ -216,5 +224,5 @@ export var StandaloneMenu = function (_a) {
     return (React.createElement(StandaloneNav, null,
         React.createElement(Menu, { items: menu, context: context, expandedSections: expandedSections })));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
 //# sourceMappingURL=menu.js.map

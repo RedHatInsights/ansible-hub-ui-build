@@ -58,6 +58,12 @@ export function formatEEPath(path, data, params) {
 }
 export var Paths;
 (function (Paths) {
+    Paths["ansibleRemoteDetail"] = "/ansible/remotes/:name";
+    Paths["ansibleRemoteEdit"] = "/ansible/remotes/:name/edit";
+    Paths["ansibleRemotes"] = "/ansible/remotes";
+    Paths["ansibleRepositories"] = "/ansible/repositories";
+    Paths["ansibleRepositoryDetail"] = "/ansible/repositories/:name";
+    Paths["ansibleRepositoryEdit"] = "/ansible/repositories/:name/edit";
     Paths["executionEnvironmentDetail"] = "/containers/:container";
     Paths["executionEnvironmentDetailWithNamespace"] = "/containers/:namespace/:container";
     Paths["executionEnvironmentDetailActivities"] = "/containers/:container/_content/activity";
