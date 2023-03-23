@@ -25,6 +25,13 @@ var API = /** @class */ (function (_super) {
         var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(originalRepo, "/").concat(destinationRepo, "/");
         return this.create({}, path);
     };
+    API.prototype.copyToRepository = function (namespace, name, version, originalRepo, destinationRepo) {
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/copy/").concat(originalRepo, "/").concat(destinationRepo, "/");
+        return this.create({}, path);
+    };
+    API.prototype.get = function (id) {
+        return _super.prototype.get.call(this, id, 'pulp/api/v3/content/ansible/collection_versions/');
+    };
     return API;
 }(HubAPI));
 export { API };
