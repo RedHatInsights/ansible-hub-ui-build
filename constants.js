@@ -20,6 +20,7 @@ var Constants = /** @class */ (function () {
         : 'rh-certified';
     Constants.NOTCERTIFIED = 'rejected';
     Constants.NEEDSREVIEW = 'staging';
+    Constants.APPROVED = 'approved';
     Constants.USER_GROUP_MGMT_PERMISSIONS = [
         'galaxy.delete_user',
         'galaxy.add_user',

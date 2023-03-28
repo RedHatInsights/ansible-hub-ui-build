@@ -18,7 +18,7 @@ var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.apiPath = _this.getUIPath('collection-versions/');
+        _this.apiPath = 'v3/plugin/ansible/search/collection-versions/';
         return _this;
     }
     API.prototype.setRepository = function (namespace, name, version, originalRepo, destinationRepo) {
