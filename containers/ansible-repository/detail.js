@@ -10,24 +10,25 @@ import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { isLoggedIn } from 'src/permissions';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
-import { AccessTab } from './tab-access';
+import { RepositoryAccessTab } from './tab-access';
 import { CollectionVersionsTab } from './tab-collection-versions';
 import { DetailsTab } from './tab-details';
 import { RepositoryVersionsTab } from './tab-repository-versions';
 var wip = '🚧 ';
 var tabs = [
     { id: 'details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
-    { id: 'access', name: wip + t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
+    { id: 'access', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
     { id: 'collection-versions', name: wip + t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) },
     { id: 'repository-versions', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Versions"], ["Versions"]))) },
 ];
 export var AnsibleRepositoryDetail = PageWithTabs({
     breadcrumbs: function (_a) {
-        var name = _a.name, tab = _a.tab, repositoryVersion = _a.params.repositoryVersion;
+        var name = _a.name, tab = _a.tab, _b = _a.params, repositoryVersion = _b.repositoryVersion, group = _b.group;
         return [
             { url: formatPath(Paths.ansibleRepositories), name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repositories"], ["Repositories"]))) },
             { url: formatPath(Paths.ansibleRepositoryDetail, { name: name }), name: name },
-            tab.id === 'repository-versions' && repositoryVersion
+            (tab.id === 'repository-versions' && repositoryVersion) ||
+                (tab.id === 'access' && group)
                 ? {
                     url: formatPath(Paths.ansibleRepositoryDetail, { name: name }, { tab: tab.id }),
                     name: tab.name,
@@ -35,12 +36,14 @@ export var AnsibleRepositoryDetail = PageWithTabs({
                 : null,
             tab.id === 'repository-versions' && repositoryVersion
                 ? { name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Version ", ""], ["Version ", ""])), repositoryVersion) }
-                : { name: tab.name },
+                : tab.id === 'access' && group
+                    ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) }
+                    : { name: tab.name },
         ].filter(Boolean);
     },
     condition: isLoggedIn,
     displayName: 'AnsibleRepositoryDetail',
-    errorTitle: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
+    errorTitle: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     headerActions: [
         ansibleRepositoryEditAction,
         ansibleRepositorySyncAction,
@@ -63,7 +66,7 @@ export var AnsibleRepositoryDetail = PageWithTabs({
     renderTab: function (tab, item, actionContext) {
         return ({
             details: React.createElement(DetailsTab, { item: item, actionContext: actionContext }),
-            access: React.createElement(AccessTab, { item: item, actionContext: actionContext }),
+            access: React.createElement(RepositoryAccessTab, { item: item, actionContext: actionContext }),
             'collection-versions': (React.createElement(CollectionVersionsTab, { item: item, actionContext: actionContext })),
             'repository-versions': (React.createElement(RepositoryVersionsTab, { item: item, actionContext: actionContext })),
         }[tab]);
@@ -71,9 +74,10 @@ export var AnsibleRepositoryDetail = PageWithTabs({
     tabs: tabs,
     tabUpdateParams: function (p) {
         delete p.repositoryVersion;
+        delete p.group;
         return p;
     },
 });
 export default AnsibleRepositoryDetail;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=detail.js.map

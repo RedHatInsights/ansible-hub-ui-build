@@ -53,6 +53,18 @@ var API = /** @class */ (function (_super) {
     API.prototype.update = function (_id, _obj) {
         throw 'use smartUpdate()';
     };
+    API.prototype.listRoles = function (id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + id + '/list_roles/');
+    };
+    API.prototype.addRole = function (id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + id + '/add_role/');
+    };
+    API.prototype.myPermissions = function (id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + id + '/my_permissions/');
+    };
+    API.prototype.removeRole = function (id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + id + '/remove_role/');
+    };
     return API;
 }(PulpAPI));
 export var AnsibleRemoteAPI = new API();
