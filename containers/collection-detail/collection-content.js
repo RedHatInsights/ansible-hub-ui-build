@@ -32,55 +32,58 @@ var CollectionContent = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collection: null,
+            content: null,
             params: params,
         };
         return _this;
     }
     CollectionContent.prototype.componentDidMount = function () {
-        this.loadCollection(false);
+        this.loadCollections(false);
     };
     CollectionContent.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params;
-        if (!collection) {
+        var _a = this.state, collections = _a.collections, collection = _a.collection, params = _a.params, content = _a.content;
+        if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: collection_version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: collection_version.namespace,
             },
             {
                 url: formatPath(Paths.collectionByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    repo: this.context.selectedRepo,
+                    namespace: collection_version.namespace,
+                    collection: collection_version.name,
+                    repo: repository.name,
                 }),
-                name: collection.name,
+                name: collection_version.name,
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collection: collection, params: params, updateParams: function (params) {
-                    return _this.updateParams(params, function () { return _this.loadCollection(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'contents', repo: this.context.selectedRepo }),
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (params) {
+                    return _this.updateParams(params, function () { return _this.loadCollections(true); });
+                }, breadcrumbs: breadcrumbs, activeTab: 'contents' }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionContentList, { contents: collection.latest_version.metadata.contents, collection: collection.name, namespace: collection.namespace.name, params: params, updateParams: function (p) { return _this.updateParams(p); } })))));
+                    React.createElement(CollectionContentList, { contents: content.contents, collection: collection, params: params, updateParams: function (p) { return _this.updateParams(p); } })))));
     };
-    CollectionContent.prototype.loadCollection = function (forceReload) {
+    CollectionContent.prototype.loadCollections = function (forceReload) {
         var _this = this;
         loadCollection({
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            selectedRepo: this.context.selectedRepo,
-            setCollection: function (collection) { return _this.setState({ collection: collection }); },
+            setCollection: function (collections, collection, content) {
+                _this.setState({ collections: collections, collection: collection, content: content });
+            },
             stateParams: this.state.params,
         });
     };

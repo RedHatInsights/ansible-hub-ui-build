@@ -9,15 +9,13 @@ import cx from 'classnames';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyStateCustom } from 'src/components';
-import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper } from 'src/utilities/param-helper';
 import './collection-content-list.scss';
 export var CollectionContentList = function (_a) {
     var _b;
-    var contents = _a.contents, collection = _a.collection, namespace = _a.namespace, params = _a.params, updateParams = _a.updateParams;
+    var contents = _a.contents, collection = _a.collection, params = _a.params, updateParams = _a.updateParams;
     var ignoredParams = ['keywords', 'showing'];
-    var context = useContext();
     var toShow = [];
     var summary = { all: 0 };
     var showing = params.showing || 'all';
@@ -37,6 +35,7 @@ export var CollectionContentList = function (_a) {
             toShow.push(c);
         }
     }
+    var collection_version = collection.collection_version, repository = collection.repository;
     return (React.createElement("div", null,
         React.createElement("div", null,
             React.createElement(Toolbar, null,
@@ -69,16 +68,16 @@ export var CollectionContentList = function (_a) {
             React.createElement("tbody", null, toShow.map(function (content, i) { return (React.createElement("tr", { key: i },
                 React.createElement("td", null,
                     React.createElement(Link, { to: formatPath(Paths.collectionContentDocsByRepo, {
-                            collection: collection,
-                            namespace: namespace,
+                            collection: collection_version.name,
+                            namespace: collection_version.namespace,
                             type: content.content_type,
                             name: content.name,
-                            repo: context.selectedRepo,
+                            repo: repository.name,
                         }, ParamHelper.getReduced(params, ignoredParams)) }, content.name)),
                 React.createElement("td", null, content.content_type),
                 React.createElement("td", null, content.description))); }))),
         summary.all <= 0 &&
-            context.selectedRepo === 'community' &&
+            repository.name === 'community' &&
             renderCommunityWarningMessage()));
 };
 function renderCommunityWarningMessage() {

@@ -10,6 +10,7 @@ var CollectionDependencies = lazy(function () { return import('src/containers/co
 var CollectionDetail = lazy(function () { return import('src/containers/collection-detail/collection-detail'); });
 var CollectionDocs = lazy(function () { return import('src/containers/collection-detail/collection-docs'); });
 var CollectionImportLog = lazy(function () { return import('src/containers/collection-detail/collection-import-log'); });
+var CollectionDistributions = lazy(function () { return import('src/containers/collection-detail/collection-distributions'); });
 var EditNamespace = lazy(function () { return import('src/containers/edit-namespace/edit-namespace'); });
 var MyImports = lazy(function () { return import('src/containers/my-imports/my-imports'); });
 var MyNamespaces = lazy(function () { return import('src/containers/namespace-list/my-namespaces'); });
@@ -62,9 +63,13 @@ var routes = [
         path: Paths.collectionDependenciesByRepo,
         component: CollectionDependencies,
     },
+    {
+        component: CollectionDistributions,
+        path: Paths.collectionDistributionsByRepo,
+    },
     { path: Paths.collectionByRepo, component: CollectionDetail },
-    { path: Paths.namespaceByRepo, component: NamespaceDetail },
-    { path: Paths.searchByRepo, component: Search },
+    { path: Paths.namespaceDetail, component: NamespaceDetail },
+    { path: Paths.collections, component: Search },
     { path: Paths.collectionDocsPage, component: CollectionDocs },
     { path: Paths.collectionDocsIndex, component: CollectionDocs },
     {
@@ -82,6 +87,7 @@ var routes = [
     { path: Paths.myImports, component: MyImports },
     { path: Paths.collection, component: CollectionDetail },
     { path: Paths.namespace, component: NamespaceDetail },
+    { path: Paths.collections, component: Search },
     { path: Paths.search, component: Search },
 ];
 /**

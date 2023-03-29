@@ -18,7 +18,6 @@ import { Nav, NavExpandable, NavItem, NavList, SearchInput, Toolbar, ToolbarGrou
 import { capitalize } from 'lodash';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
 var DocsEntry = /** @class */ (function () {
@@ -34,11 +33,10 @@ var Table = /** @class */ (function () {
 export var TableOfContents = function (props) {
     var _a = useState(null), docsBlob = _a[0], setDocsBlob = _a[1];
     var _b = useState(null), table = _b[0], setTable = _b[1];
-    var context = useContext();
     var collapsedCategories = [];
     var className = props.className, docs_blob = props.docs_blob, updateParams = props.updateParams, params = props.params;
     if (!table || docsBlob !== docs_blob) {
-        setTable(parseLinks(docs_blob, props, context));
+        setTable(parseLinks(docs_blob, props));
         setDocsBlob(docs_blob);
     }
     return (React.createElement("div", { className: className },
@@ -58,12 +56,12 @@ export var TableOfContents = function (props) {
                         : renderLinks(table[key], key, props.params.keywords || '', collapsedCategories, props);
                 })))));
 };
-function parseLinks(docs_blob, props, context) {
+function parseLinks(docs_blob, props) {
     var namespace = props.namespace, collection = props.collection;
     var baseUrlParams = {
         namespace: namespace,
         collection: collection,
-        repo: context.selectedRepo,
+        repo: props.repository,
     };
     var table = {
         documentation: [],

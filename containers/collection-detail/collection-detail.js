@@ -48,47 +48,50 @@ var CollectionDetail = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collection: null,
+            content: null,
+            distroBasePath: null,
             params: params,
             alerts: [],
         };
         return _this;
     }
     CollectionDetail.prototype.componentDidMount = function () {
-        this.loadCollection(true);
+        this.loadCollections(true);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
         if (!isEqual(prevProps.location, this.props.location)) {
-            this.loadCollection(false);
+            this.loadCollections(false);
         }
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params, alerts = _a.alerts;
-        if (!collection) {
+        var _a = this.state, collections = _a.collections, collection = _a.collection, content = _a.content, params = _a.params, alerts = _a.alerts;
+        if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var version = collection.collection_version;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: version.namespace,
             },
             {
-                name: collection.name,
+                name: version.name,
             },
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collection: collection, params: params, updateParams: function (p) {
-                    return _this.updateParams(p, function () { return _this.loadCollection(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.context.selectedRepo }),
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () { return _this.loadCollections(true); });
+                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.published }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionInfo, __assign({}, collection, { updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
+                    React.createElement(CollectionInfo, __assign({}, collection, { content: content, updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
                             return _this.setState({
                                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                     {
@@ -100,14 +103,19 @@ var CollectionDetail = /** @class */ (function (_super) {
                             });
                         } }))))));
     };
-    CollectionDetail.prototype.loadCollection = function (forceReload) {
+    CollectionDetail.prototype.loadCollections = function (forceReload) {
         var _this = this;
         loadCollection({
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            selectedRepo: this.context.selectedRepo,
-            setCollection: function (collection) { return _this.setState({ collection: collection }); },
+            setCollection: function (collections, collection, content) {
+                _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                });
+            },
             stateParams: this.state.params,
         });
     };

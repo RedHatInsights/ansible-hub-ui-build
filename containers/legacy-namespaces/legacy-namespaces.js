@@ -85,6 +85,7 @@ var LegacyNamespaces = /** @class */ (function (_super) {
     LegacyNamespaces.prototype.render = function () {
         var ignoredParams = [
             'namespace',
+            'repository__name',
             'page',
             'page_size',
             'sort',

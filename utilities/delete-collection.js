@@ -5,14 +5,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { Trans, t } from '@lingui/macro';
 import { DropdownItem, Tooltip } from '@patternfly/react-core';
 import React from 'react';
-import { CollectionAPI } from 'src/api';
+import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { errorMessage, parsePulpIDFromURL, waitForTask } from 'src/utilities';
 var DeleteCollectionUtils = /** @class */ (function () {
     function DeleteCollectionUtils() {
     }
     DeleteCollectionUtils.getUsedbyDependencies = function (collection) {
-        var name = collection.name, namespace = collection.namespace;
-        return CollectionAPI.getUsedDependenciesByCollection(namespace.name, name)
+        var _a = collection.collection_version, name = _a.name, namespace = _a.namespace;
+        return CollectionVersionAPI.getUsedDependenciesByCollection(namespace, name)
             .then(function (_a) {
             var data = _a.data;
             return data.data.length === 0;
@@ -80,11 +80,11 @@ var DeleteCollectionUtils = /** @class */ (function () {
         }
     };
     DeleteCollectionUtils.deleteCollection = function (_a) {
-        var collection = _a.collection, setState = _a.setState, load = _a.load, redirect = _a.redirect, selectedRepo = _a.selectedRepo, addAlert = _a.addAlert;
-        CollectionAPI.deleteCollection(selectedRepo, collection)
+        var collection = _a.collection, setState = _a.setState, load = _a.load, redirect = _a.redirect, addAlert = _a.addAlert;
+        CollectionAPI.deleteCollection(collection)
             .then(function (res) {
             var taskId = parsePulpIDFromURL(res.data.task);
-            var name = collection.name;
+            var name = collection.collection_version.name;
             waitForTask(taskId).then(function () {
                 addAlert({
                     variant: 'success',
@@ -105,7 +105,7 @@ var DeleteCollectionUtils = /** @class */ (function () {
             var _a = err.response, status = _a.status, statusText = _a.statusText;
             addAlert({
                 variant: 'danger',
-                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection \"", "\" could not be deleted."], ["Collection \"", "\" could not be deleted."])), name),
+                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection \"", "\" could not be deleted."], ["Collection \"", "\" could not be deleted."])), collection.collection_version.name),
                 description: errorMessage(status, statusText),
             });
         })

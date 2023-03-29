@@ -32,7 +32,7 @@ import { t } from '@lingui/macro';
 import { Button, ButtonVariant, DropdownItem, InputGroup, Select, SelectGroup, SelectOption, SelectVariant, TextInput, } from '@patternfly/react-core';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { StatefulDropdown } from 'src/components';
+import { APISearchTypeAhead, StatefulDropdown } from 'src/components';
 import { ParamHelper } from 'src/utilities';
 var FilterOption = /** @class */ (function () {
     function FilterOption() {
@@ -78,7 +78,7 @@ var CompoundFilter = /** @class */ (function (_super) {
     }
     CompoundFilter.prototype.render = function () {
         var _this = this;
-        var filterConfig = this.props.filterConfig;
+        var _a = this.props, filterConfig = _a.filterConfig, selectFilter = _a.selectFilter;
         var selectedFilter = this.state.selectedFilter;
         if (filterConfig.length === 0) {
             return null;
@@ -86,6 +86,7 @@ var CompoundFilter = /** @class */ (function (_super) {
         var filterOptions = filterConfig.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
                 _this.props.onChange('');
                 _this.setState({ selectedFilter: v });
+                selectFilter && selectFilter(v.id);
             }, key: v.id }, v.title)); });
         return (React.createElement(InputGroup, { "data-cy": 'compound_filter' },
             filterConfig.length !== 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
@@ -114,8 +115,26 @@ var CompoundFilter = /** @class */ (function (_super) {
                             _this.props.onChange(v.id);
                             _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));
+            case 'typeahead': {
+                var typeAheadResults = this.props.filterConfig
+                    .find(function (_a) {
+                    var id = _a.id;
+                    return id === selectedFilter.id;
+                })
+                    .options.map(function (_a) {
+                    var id = _a.id, title = _a.title;
+                    return ({ id: id, name: title });
+                });
+                return (React.createElement(APISearchTypeAhead, { multiple: false, loadResults: function (name) {
+                        _this.props.onChange(name);
+                    }, onClear: function () {
+                        _this.props.onChange('');
+                    }, onSelect: function (event, value) {
+                        _this.submitFilter(value);
+                    }, placeholderText: (selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.placeholder) || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), results: typeAheadResults }));
+            }
             default:
-                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
+                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
         }
     };
     CompoundFilter.prototype.handleEnter = function (e) {
@@ -140,5 +159,5 @@ var CompoundFilter = /** @class */ (function (_super) {
     return CompoundFilter;
 }(React.Component));
 export { CompoundFilter };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=compound-filter.js.map

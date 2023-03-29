@@ -47,14 +47,11 @@ var menuSection = function (name, options, items) {
             return some(items, function (item) { return item.condition.apply(item, params); });
         } }, options), { type: 'section', name: name, items: items }));
 };
-function standaloneMenu(_a) {
-    var repository = _a.repository;
+function standaloneMenu() {
     return [
         menuSection(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
             menuItem(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collections"], ["Collections"]))), {
-                url: formatPath(Paths.searchByRepo, {
-                    repo: repository || 'published',
-                }),
+                url: formatPath(Paths.collections),
                 condition: function (_a) {
                     var settings = _a.settings, user = _a.user;
                     return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
@@ -195,13 +192,13 @@ function Menu(_a) {
     return (React.createElement(React.Fragment, null, items.map(function (item) { return (React.createElement(ItemOrSection, { key: item.name, item: item, context: context, expandedSections: expandedSections })); })));
 }
 export var StandaloneMenu = function (_a) {
-    var repository = _a.repository, context = _a.context;
+    var context = _a.context;
     var _b = useState([]), expandedSections = _b[0], setExpandedSections = _b[1];
     var location = useLocation();
     var _c = useState([]), menu = _c[0], setMenu = _c[1];
     useEffect(function () {
-        setMenu(standaloneMenu({ repository: repository }));
-    }, [repository]);
+        setMenu(standaloneMenu());
+    }, []);
     useEffect(function () {
         activateMenu(menu, location.pathname);
         setExpandedSections(menu.filter(function (i) { return i.type === 'section' && i.active; }).map(function (i) { return i.name; }));

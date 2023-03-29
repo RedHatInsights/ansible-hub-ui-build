@@ -107,9 +107,11 @@ export var Paths;
     Paths["collectionContentListByRepo"] = "/repo/:repo/:namespace/:collection/content";
     Paths["collectionImportLogByRepo"] = "/repo/:repo/:namespace/:collection/import-log";
     Paths["collectionDependenciesByRepo"] = "/repo/:repo/:namespace/:collection/dependencies";
+    Paths["collectionDistributionsByRepo"] = "/repo/:repo/:namespace/:collection/distributions";
     Paths["namespaceByRepo"] = "/repo/:repo/:namespace";
     Paths["collection"] = "/:namespace/:collection";
     Paths["namespace"] = "/:namespace";
+    Paths["namespaceDetail"] = "/namespaces/:namespace";
     Paths["partners"] = "/partners";
     Paths["namespaces"] = "/namespaces";
     Paths["notFound"] = "/not-found";
@@ -123,6 +125,7 @@ export var Paths;
     Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
     Paths["signatureKeys"] = "/signature-keys";
+    Paths["collections"] = "/collections";
 })(Paths || (Paths = {}));
 export var namespaceBreadcrumb = {
     name: {

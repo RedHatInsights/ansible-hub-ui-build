@@ -44,6 +44,12 @@ var CollectionVersionSearch = /** @class */ (function () {
     return CollectionVersionSearch;
 }());
 export { CollectionVersionSearch };
+var CollectionVersionContentType = /** @class */ (function () {
+    function CollectionVersionContentType() {
+    }
+    return CollectionVersionContentType;
+}());
+export { CollectionVersionContentType };
 var CollectionListType = /** @class */ (function () {
     function CollectionListType() {
     }

@@ -14,7 +14,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { Trans, t } from '@lingui/macro';
-import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Label, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
@@ -22,43 +22,48 @@ import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, convertContentSummaryCounts } from 'src/utilities';
 import { SignatureBadge } from '../signing';
 import './list-item.scss';
-export var CollectionListItem = function (props) {
-    var name = props.name, latest_version = props.latest_version, namespace = props.namespace, showNamespace = props.showNamespace, controls = props.controls, deprecated = props.deprecated, displaySignatures = props.displaySignatures, repo = props.repo, sign_state = props.sign_state;
+export var CollectionListItem = function (_a) {
+    var collection_version = _a.collection_version, namespace = _a.namespace_metadata, repository = _a.repository, is_signed = _a.is_signed, is_deprecated = _a.is_deprecated, displaySignatures = _a.displaySignatures, showNamespace = _a.showNamespace, controls = _a.controls;
     var cells = [];
-    var company = namespace.company || namespace.name;
+    var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
     if (showNamespace) {
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
+            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
     }
-    var contentSummary = convertContentSummaryCounts(latest_version.metadata);
+    var contentSummary = convertContentSummaryCounts(collection_version);
     cells.push(React.createElement(DataListCell, { key: 'content' },
         React.createElement("div", null,
             React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
-                    collection: name,
-                    namespace: namespace.name,
-                    repo: repo,
-                }), "data-cy": 'CollectionList-name' }, name),
-            deprecated && React.createElement(DeprecatedTag, null),
+                    collection: collection_version.name,
+                    namespace: collection_version.namespace,
+                    repo: repository.name,
+                }), "data-cy": 'CollectionList-name' }, collection_version.name),
+            is_deprecated && React.createElement(DeprecatedTag, null),
             showNamespace ? (React.createElement(TextContent, null,
                 React.createElement(Text, { component: TextVariants.small },
                     React.createElement(Trans, null,
-                        "Provided by ",
-                        company)))) : null),
-        React.createElement("div", { className: 'hub-entry' }, latest_version.metadata.description),
+                        "Provided by\u00A0",
+                        React.createElement(Link, { to: formatPath(Paths.namespaceDetail, {
+                                namespace: collection_version.namespace,
+                            }) }, company))))) : null),
         React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' }, Object.keys(contentSummary.contents).map(function (type) { return (React.createElement("div", { key: type },
             React.createElement(CollectionNumericLabel, { count: contentSummary.contents[type], type: type }))); })),
         React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' },
-            React.createElement(LabelGroup, __assign({}, chipGroupProps()), latest_version.metadata.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+            React.createElement(LabelGroup, __assign({}, chipGroupProps()), collection_version.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag.name)); })))));
     cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
         controls ? React.createElement("div", { className: 'hub-entry' }, controls) : null,
         React.createElement("div", { className: 'hub-right-col hub-entry' },
             React.createElement(Trans, null,
                 "Updated ",
-                React.createElement(DateComponent, { date: latest_version.created_at }))),
+                React.createElement(DateComponent, { date: collection_version.pulp_created }))),
         React.createElement("div", { className: 'hub-entry' },
             "v",
-            latest_version.version),
-        displaySignatures ? (React.createElement(SignatureBadge, { className: 'hub-entry', signState: sign_state })) : null));
+            collection_version.version),
+        React.createElement(Label, { variant: 'outline', className: 'hub-repository-badge' },
+            React.createElement(Link, { to: formatPath(Paths.ansibleRepositoryDetail, {
+                    name: repository.name,
+                }) }, repository.name)),
+        displaySignatures ? (React.createElement(SignatureBadge, { className: 'hub-entry', variant: 'outline', signState: is_signed ? 'signed' : 'unsigned' })) : null));
     return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },
         React.createElement(DataListItemRow, null,
             React.createElement(DataListItemCells, { dataListCells: cells }))));

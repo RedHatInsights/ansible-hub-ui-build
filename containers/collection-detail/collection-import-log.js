@@ -32,7 +32,9 @@ var CollectionImportLog = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collection: null,
+            collections: [],
+            content: null,
             params: params,
             loadingImports: true,
             selectedImportDetail: undefined,
@@ -46,33 +48,33 @@ var CollectionImportLog = /** @class */ (function (_super) {
     };
     CollectionImportLog.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params, loadingImports = _a.loadingImports, selectedImportDetail = _a.selectedImportDetail, selectedImport = _a.selectedImport, apiError = _a.apiError;
+        var _a = this.state, collection = _a.collection, collections = _a.collections, params = _a.params, loadingImports = _a.loadingImports, selectedImportDetail = _a.selectedImportDetail, selectedImport = _a.selectedImport, apiError = _a.apiError, content = _a.content;
         if (!collection) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: collection_version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: collection_version.namespace,
             },
             {
                 url: formatPath(Paths.collectionByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    repo: this.context.selectedRepo,
+                    namespace: collection_version.namespace,
+                    collection: collection_version.name,
+                    repo: repository.name,
                 }),
-                name: collection.name,
+                name: collection_version.name,
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collection: collection, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadData(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'import-log', repo: this.context.selectedRepo }),
+                }, breadcrumbs: breadcrumbs, activeTab: 'import-log' }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(ImportConsole, { empty: false, loading: loadingImports, task: selectedImportDetail, followMessages: false, setFollowMessages: function () { return null; }, selectedImport: selectedImport, apiError: apiError, hideCollectionName: true })))));
@@ -84,9 +86,9 @@ var CollectionImportLog = /** @class */ (function (_super) {
         this.setState({ loadingImports: true }, function () {
             _this.loadCollection(forceReload, function () {
                 ImportAPI.list({
-                    namespace: _this.state.collection.namespace.name,
-                    name: _this.state.collection.name,
-                    version: _this.state.collection.latest_version.version,
+                    namespace: _this.state.collection.collection_version.namespace,
+                    name: _this.state.collection.collection_version.name,
+                    version: _this.state.collection.collection_version.version,
                     sort: '-created',
                 })
                     .then(function (importListResult) {
@@ -122,8 +124,9 @@ var CollectionImportLog = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            selectedRepo: this.context.selectedRepo,
-            setCollection: function (collection) { return _this.setState({ collection: collection }, callback); },
+            setCollection: function (collections, collection, content) {
+                return _this.setState({ collections: collections, collection: collection, content: content }, callback);
+            },
             stateParams: this.state.params,
         });
     };

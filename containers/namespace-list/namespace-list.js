@@ -143,8 +143,7 @@ var NamespaceList = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({
-                        redirect: formatPath(Paths.namespaceByRepo, {
-                            repo: 'published',
+                        redirect: formatPath(Paths.namespaceDetail, {
                             namespace: result.name,
                         }, { tab: 'collections' }),
                     });
@@ -216,7 +215,6 @@ var NamespaceList = /** @class */ (function (_super) {
         return (React.createElement("section", { className: 'card-layout' }, namespaces.map(function (ns, i) { return (React.createElement("div", { key: i, className: 'card-wrapper' },
             React.createElement(NamespaceCard, __assign({ namespaceURL: formatPath(namespacePath, {
                     namespace: ns.name,
-                    repo: _this.context.selectedRepo,
                 }), key: i }, ns)))); })));
     };
     NamespaceList.prototype.loadNamespaces = function () {

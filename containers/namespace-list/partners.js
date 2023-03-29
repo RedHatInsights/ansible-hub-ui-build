@@ -34,7 +34,7 @@ var Partners = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Partners.prototype.render = function () {
-        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceByRepo, filterOwner: false })));
+        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceDetail, filterOwner: false })));
     };
     return Partners;
 }(React.Component));
