@@ -29,7 +29,7 @@ import React from 'react';
 import { AnsibleRemoteAPI } from 'src/api';
 import { Page, RemoteForm } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canAddAnsibleRemote, canEditAnsibleRemote } from 'src/permissions';
 import { parsePulpIDFromURL, taskAlert } from 'src/utilities';
 var initialRemote = {
     name: '',
@@ -61,14 +61,29 @@ export var AnsibleRemoteEdit = Page({
             name ? { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit"], ["Edit"]))) } : { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Add"], ["Add"]))) },
         ].filter(Boolean);
     },
-    condition: isLoggedIn,
+    condition: function (context, item) {
+        return canAddAnsibleRemote(context) || canEditAnsibleRemote(context, item);
+    },
     displayName: 'AnsibleRemoteEdit',
     errorTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
     query: function (_a) {
         var name = _a.name;
-        return AnsibleRemoteAPI.list({ name: name }).then(function (_a) {
+        return AnsibleRemoteAPI.list({ name: name })
+            .then(function (_a) {
             var results = _a.data.results;
             return results[0];
+        })
+            .then(function (remote) {
+            return AnsibleRemoteAPI.myPermissions(parsePulpIDFromURL(remote.pulp_href))
+                .then(function (_a) {
+                var permissions = _a.data.permissions;
+                return permissions;
+            })
+                .catch(function (e) {
+                console.error(e);
+                return [];
+            })
+                .then(function (my_permissions) { return (__assign(__assign({}, remote), { my_permissions: my_permissions })); });
         });
     },
     title: function (_a) {

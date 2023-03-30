@@ -8,15 +8,15 @@ var ActionType = /** @class */ (function () {
 }());
 export { ActionType };
 export var Action = function (_a) {
-    var buttonVariant = _a.buttonVariant, title = _a.title, onClick = _a.onClick, _b = _a.modal, modal = _b === void 0 ? null : _b, _c = _a.visible, visible = _c === void 0 ? function () { return true; } : _c, _d = _a.disabled, disabled = _d === void 0 ? function () { return null; } : _d;
+    var buttonVariant = _a.buttonVariant, _b = _a.condition, condition = _b === void 0 ? function () { return true; } : _b, _c = _a.disabled, disabled = _c === void 0 ? function () { return null; } : _c, _d = _a.modal, modal = _d === void 0 ? null : _d, onClick = _a.onClick, title = _a.title, _e = _a.visible, visible = _e === void 0 ? function () { return true; } : _e;
     return ({
         title: title,
         button: function (item, actionContext) {
-            return visible(item, actionContext) ? (disabled(item, actionContext) ? (React.createElement(Tooltip, { content: disabled(item, actionContext), key: title },
+            return condition(actionContext, item) && visible(item, actionContext) ? (disabled(item, actionContext) ? (React.createElement(Tooltip, { content: disabled(item, actionContext), key: title },
                 React.createElement(Button, { variant: buttonVariant, isDisabled: true }, title))) : (React.createElement(Button, { variant: buttonVariant, key: title, onClick: function () { return onClick(item, actionContext); } }, title))) : null;
         },
         dropdownItem: function (item, actionContext) {
-            return visible(item, actionContext) ? (disabled(item, actionContext) ? (React.createElement(DropdownItem, { key: title, description: disabled(item, actionContext), isDisabled: true }, title)) : (React.createElement(DropdownItem, { key: title, onClick: function () { return onClick(item, actionContext); } }, title))) : null;
+            return condition(actionContext, item) && visible(item, actionContext) ? (disabled(item, actionContext) ? (React.createElement(DropdownItem, { key: title, description: disabled(item, actionContext), isDisabled: true }, title)) : (React.createElement(DropdownItem, { key: title, onClick: function () { return onClick(item, actionContext); } }, title))) : null;
         },
         modal: modal,
         visible: visible,

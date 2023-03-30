@@ -4,8 +4,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Paths, formatPath } from 'src/paths';
+import { canAddAnsibleRemote } from 'src/permissions';
 import { Action } from './action';
 export var ansibleRemoteCreateAction = Action({
+    condition: canAddAnsibleRemote,
     title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Add remote"], ["Add remote"]))),
     onClick: function (item, _a) {
         var navigate = _a.navigate;

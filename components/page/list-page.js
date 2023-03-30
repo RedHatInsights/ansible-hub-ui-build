@@ -131,12 +131,14 @@ export var ListPage = function (_a) {
                 }));
                 var actionContext = {
                     addAlert: function (alert) { return _this.addAlert(alert); },
+                    hasObjectPermission: function () { return false; },
                     hasPermission: this.context.hasPermission,
                     navigate: this.props.navigate,
                     query: function () { return _this.query(); },
                     queueAlert: this.context.queueAlert,
                     setState: function (s) { return _this.setState(s); },
                     state: this.state,
+                    user: this.context.user,
                 };
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),

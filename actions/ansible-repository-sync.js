@@ -4,9 +4,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { AnsibleRepositoryAPI } from 'src/api';
+import { canSyncAnsibleRepository } from 'src/permissions';
 import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositorySyncAction = Action({
+    condition: canSyncAnsibleRepository,
     title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync"], ["Sync"]))),
     onClick: function (_a, _b) {
         var name = _a.name, pulp_href = _a.pulp_href;

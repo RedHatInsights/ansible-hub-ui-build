@@ -6,9 +6,11 @@ import { t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
 import { DeleteAnsibleRepositoryModal } from 'src/components';
+import { canDeleteAnsibleRepository } from 'src/permissions';
 import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositoryDeleteAction = Action({
+    condition: canDeleteAnsibleRepository,
     title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, query = _a.query, setState = _a.setState, state = _a.state;

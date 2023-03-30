@@ -6,6 +6,7 @@ import { Trans, t } from '@lingui/macro';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
+import { canRevertAnsibleRepositoryVersion } from 'src/permissions';
 import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 var RevertModal = function (_a) {
@@ -39,6 +40,7 @@ function revert(_a, _b) {
         .catch(handleHttpError(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed to revert repository \"", "\" to version \"", "\""], ["Failed to revert repository \"", "\" to version \"", "\""])), repositoryName, number), function () { return setState({ revertModal: null }); }, addAlert));
 }
 export var ansibleRepositoryVersionRevertAction = Action({
+    condition: canRevertAnsibleRepositoryVersion,
     title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Revert to this version"], ["Revert to this version"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, state = _a.state, setState = _a.setState, query = _a.query;

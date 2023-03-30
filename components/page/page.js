@@ -96,12 +96,14 @@ export var Page = function (_a) {
                 var _b = this.state, alerts = _b.alerts, item = _b.item, loading = _b.loading, unauthorised = _b.unauthorised;
                 var actionContext = {
                     addAlert: function (alert) { return _this.addAlert(alert); },
+                    hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); },
                     hasPermission: this.context.hasPermission,
                     navigate: this.props.navigate,
                     query: function () { return _this.query(); },
                     queueAlert: this.context.queueAlert,
                     setState: function (s) { return _this.setState(s); },
                     state: this.state,
+                    user: this.context.user,
                 };
                 var name = (item === null || item === void 0 ? void 0 : item.name) || ((_a = transformParams(routeParams)) === null || _a === void 0 ? void 0 : _a.name) || null;
                 return (React.createElement(React.Fragment, null,

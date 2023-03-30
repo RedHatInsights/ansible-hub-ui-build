@@ -29,7 +29,7 @@ import React from 'react';
 import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
 import { AnsibleRepositoryForm, Page } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canAddAnsibleRepository, canEditAnsibleRepository, } from 'src/permissions';
 import { parsePulpIDFromURL, taskAlert } from 'src/utilities';
 var initialRepository = {
     name: '',
@@ -50,14 +50,29 @@ export var AnsibleRepositoryEdit = Page({
             name ? { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit"], ["Edit"]))) } : { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Add"], ["Add"]))) },
         ].filter(Boolean);
     },
-    condition: isLoggedIn,
+    condition: function (context, item) {
+        return canAddAnsibleRepository(context) || canEditAnsibleRepository(context, item);
+    },
     displayName: 'AnsibleRepositoryEdit',
     errorTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     query: function (_a) {
         var name = _a.name;
-        return AnsibleRepositoryAPI.list({ name: name }).then(function (_a) {
+        return AnsibleRepositoryAPI.list({ name: name })
+            .then(function (_a) {
             var results = _a.data.results;
             return results[0];
+        })
+            .then(function (repository) {
+            return AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
+                .then(function (_a) {
+                var permissions = _a.data.permissions;
+                return permissions;
+            })
+                .catch(function (e) {
+                console.error(e);
+                return [];
+            })
+                .then(function (my_permissions) { return (__assign(__assign({}, repository), { my_permissions: my_permissions })); });
         });
     },
     title: function (_a) {

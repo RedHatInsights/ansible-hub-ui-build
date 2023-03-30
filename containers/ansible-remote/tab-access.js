@@ -7,9 +7,10 @@ import React, { useEffect, useState } from 'react';
 import { AnsibleRemoteAPI, GroupAPI, } from 'src/api';
 import { AccessTab } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
+import { canEditAnsibleRemoteAccess } from 'src/permissions';
 import { errorMessage, parsePulpIDFromURL } from 'src/utilities';
 export var RemoteAccessTab = function (_a) {
-    var item = _a.item, _b = _a.actionContext, addAlert = _b.addAlert, params = _b.state.params, hasPermission = _b.hasPermission;
+    var item = _a.item, _b = _a.actionContext, addAlert = _b.addAlert, params = _b.state.params, hasPermission = _b.hasPermission, user = _b.user;
     var id = (item === null || item === void 0 ? void 0 : item.pulp_href) && parsePulpIDFromURL(item.pulp_href);
     var _c = useState(item === null || item === void 0 ? void 0 : item.name), name = _c[0], setName = _c[1];
     var _d = useState(null), groups = _d[0], setGroups = _d[1]; // loading
@@ -24,6 +25,13 @@ export var RemoteAccessTab = function (_a) {
         AnsibleRemoteAPI.myPermissions(id)
             .then(function (_a) {
             var permissions = _a.data.permissions;
+            setCanEditOwners(canEditAnsibleRemoteAccess({
+                hasPermission: hasPermission,
+                hasObjectPermission: function (p) {
+                    return permissions.includes(p);
+                },
+                user: user,
+            }));
             AnsibleRemoteAPI.listRoles(id)
                 .then(function (_a) {
                 var roles = _a.data.roles;
@@ -46,8 +54,6 @@ export var RemoteAccessTab = function (_a) {
                 }
                 setName(name);
                 setGroups(groupRoles);
-                setCanEditOwners(permissions.includes('ansible.change_collectionremote') ||
-                    hasPermission('ansible.change_collectionremote'));
             })
                 .catch(function () {
                 setGroups([]);

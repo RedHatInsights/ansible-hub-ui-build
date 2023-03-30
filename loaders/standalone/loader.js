@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { UIVersion } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { hasPermission } from 'src/utilities';
+import { hasPermission as hasPermissionUtil } from 'src/utilities';
 import { AppContext } from '../app-context';
 import { StandaloneLayout } from './layout';
 import { StandaloneRoutes } from './routes';
@@ -30,13 +30,20 @@ var App = function (_props) {
         setSettings(settings);
         setUser(user);
     };
+    var queueAlert = function (alert) { return setAlerts(function (alerts) { return __spreadArray(__spreadArray([], alerts, true), [alert], false); }); };
+    var hasPermission = function (name) {
+        return hasPermissionUtil({
+            user: user,
+            settings: settings,
+            featureFlags: featureFlags,
+        }, name);
+    };
     var component = React.createElement(StandaloneRoutes, { updateInitialData: updateInitialData });
     // Hide navs on login page
     if (location.pathname !== formatPath(Paths.login) &&
         location.pathname !== UI_EXTERNAL_LOGIN_URI) {
-        component = (React.createElement(StandaloneLayout, { featureFlags: featureFlags, settings: settings, user: user, setUser: setUser }, component));
+        component = (React.createElement(StandaloneLayout, { featureFlags: featureFlags, settings: settings, user: user, setUser: setUser, hasPermission: hasPermission }, component));
     }
-    var queueAlert = function (alert) { return setAlerts(function (alerts) { return __spreadArray(__spreadArray([], alerts, true), [alert], false); }); };
     return (React.createElement(AppContext.Provider, { value: {
             alerts: alerts,
             featureFlags: featureFlags,
@@ -45,13 +52,7 @@ var App = function (_props) {
             setUser: setUser,
             settings: settings,
             user: user,
-            hasPermission: function (name) {
-                return hasPermission({
-                    user: user,
-                    settings: settings,
-                    featureFlags: featureFlags,
-                }, name);
-            },
+            hasPermission: hasPermission,
         } },
         component,
         React.createElement(UIVersion, null)));

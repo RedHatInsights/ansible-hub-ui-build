@@ -2,13 +2,25 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { Trans, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRepositoryCopyAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
 import { AnsibleRepositoryAPI } from 'src/api';
 import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canViewAnsibleRepositories } from 'src/permissions';
+import { parsePulpIDFromURL } from 'src/utilities';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 import { RepositoryAccessTab } from './tab-access';
 import { CollectionVersionsTab } from './tab-collection-versions';
@@ -41,7 +53,7 @@ export var AnsibleRepositoryDetail = PageWithTabs({
                     : { name: tab.name },
         ].filter(Boolean);
     },
-    condition: isLoggedIn,
+    condition: canViewAnsibleRepositories,
     displayName: 'AnsibleRepositoryDetail',
     errorTitle: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     headerActions: [
@@ -58,9 +70,22 @@ export var AnsibleRepositoryDetail = PageWithTabs({
         lastSyncStatus(item))))); },
     query: function (_a) {
         var name = _a.name;
-        return AnsibleRepositoryAPI.list({ name: name }).then(function (_a) {
+        return AnsibleRepositoryAPI.list({ name: name })
+            .then(function (_a) {
             var results = _a.data.results;
             return results[0];
+        })
+            .then(function (repository) {
+            return AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
+                .then(function (_a) {
+                var permissions = _a.data.permissions;
+                return permissions;
+            })
+                .catch(function (e) {
+                console.error(e);
+                return [];
+            })
+                .then(function (my_permissions) { return (__assign(__assign({}, repository), { my_permissions: my_permissions })); });
         });
     },
     renderTab: function (tab, item, actionContext) {

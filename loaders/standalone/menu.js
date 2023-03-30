@@ -30,7 +30,7 @@ import { reject, some } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canViewAnsibleRemotes, canViewAnsibleRepositories, isLoggedIn, } from 'src/permissions';
 import { hasPermission } from 'src/utilities';
 var menuItem = function (name, options) {
     if (options === void 0) { options = {}; }
@@ -71,11 +71,11 @@ function standaloneMenu() {
                 url: formatPath(Paths.repositories),
             }),
             menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repositories"], ["Repositories"]))), {
-                condition: isLoggedIn,
+                condition: canViewAnsibleRepositories,
                 url: formatPath(Paths.ansibleRepositories),
             }),
             menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remotes"], ["Remotes"]))), {
-                condition: isLoggedIn,
+                condition: canViewAnsibleRemotes,
                 url: formatPath(Paths.ansibleRemotes),
             }),
             menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API token"], ["API token"]))), {

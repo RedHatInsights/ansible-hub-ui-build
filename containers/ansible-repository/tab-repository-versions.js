@@ -50,8 +50,11 @@ var AnyAPI = function (href) {
     }(PulpAPI)))();
 };
 var VersionContent = function (_a) {
-    var href = _a.href, addAlert = _a.addAlert;
+    var href = _a.href, addAlert = _a.addAlert, hasPermission = _a.hasPermission;
     var _b = useState({}), state = _b[0], setState = _b[1];
+    if (!href) {
+        return null;
+    }
     var API = AnyAPI(href);
     var query = function (_a) {
         var params = _a.params;
@@ -79,6 +82,7 @@ var VersionContent = function (_a) {
             state: state,
             setState: setState,
             query: query,
+            hasPermission: hasPermission,
         }, defaultPageSize: 10, defaultSort: 'name', errorTitle: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collection versions could not be displayed."], ["Collection versions could not be displayed."]))), noDataDescription: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No collection versions in this repository version."], ["No collection versions in this repository version."]))), noDataTitle: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No collection versions yet"], ["No collection versions yet"]))), query: query, renderTableRow: renderTableRow, sortHeaders: [
             {
                 title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection"], ["Collection"]))),
@@ -123,7 +127,7 @@ var BaseVersion = function (_a) {
 };
 export var RepositoryVersionsTab = function (_a) {
     var _b, _c, _d;
-    var item = _a.item, _e = _a.actionContext, addAlert = _e.addAlert, state = _e.state;
+    var item = _a.item, _e = _a.actionContext, addAlert = _e.addAlert, state = _e.state, hasPermission = _e.hasPermission, hasObjectPermission = _e.hasObjectPermission;
     var pulpId = parsePulpIDFromURL(item.pulp_href);
     var latest_href = item.latest_version_href;
     var repositoryName = item.name;
@@ -204,6 +208,8 @@ export var RepositoryVersionsTab = function (_a) {
             state: modalState,
             setState: setModalState,
             query: queryList,
+            hasPermission: hasPermission,
+            hasObjectPermission: hasObjectPermission,
         }, defaultPageSize: 10, defaultSort: '-pulp_created', errorTitle: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Repository versions could not be displayed."], ["Repository versions could not be displayed."]))), filterConfig: null, listItemActions: [ansibleRepositoryVersionRevertAction], noDataButton: null, noDataDescription: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Repository versions will appear once the repository is modified."], ["Repository versions will appear once the repository is modified."]))), noDataTitle: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["No repository versions yet"], ["No repository versions yet"]))), query: queryList, renderTableRow: renderTableRow, sortHeaders: [
             {
                 title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Version number"], ["Version number"]))),

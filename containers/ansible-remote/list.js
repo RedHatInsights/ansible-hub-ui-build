@@ -20,7 +20,7 @@ import { ansibleRemoteCreateAction, ansibleRemoteDeleteAction, ansibleRemoteDown
 import { AnsibleRemoteAPI } from 'src/api';
 import { CopyURL, ListItemActions, ListPage } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canViewAnsibleRemotes } from 'src/permissions';
 import { parsePulpIDFromURL } from 'src/utilities';
 var listItemActions = [
     // Edit
@@ -35,7 +35,7 @@ var listItemActions = [
     ansibleRemoteDeleteAction,
 ];
 export var AnsibleRemoteList = ListPage({
-    condition: isLoggedIn,
+    condition: canViewAnsibleRemotes,
     defaultPageSize: 10,
     defaultSort: '-pulp_created',
     displayName: 'AnsibleRemoteList',

@@ -20,7 +20,7 @@ import { ansibleRepositoryCopyAction, ansibleRepositoryCreateAction, ansibleRepo
 import { AnsibleRepositoryAPI } from 'src/api';
 import { DateComponent, ListItemActions, ListPage } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canViewAnsibleRepositories } from 'src/permissions';
 import { lastSyncStatus, lastSynced, parsePulpIDFromURL } from 'src/utilities';
 var listItemActions = [
     // Edit
@@ -33,7 +33,7 @@ var listItemActions = [
     ansibleRepositoryDeleteAction,
 ];
 export var AnsibleRepositoryList = ListPage({
-    condition: isLoggedIn,
+    condition: canViewAnsibleRepositories,
     defaultPageSize: 10,
     defaultSort: '-pulp_created',
     displayName: 'AnsibleRepositoryList',

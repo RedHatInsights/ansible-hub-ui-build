@@ -2,13 +2,25 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRemoteDeleteAction, ansibleRemoteDownloadCAAction, ansibleRemoteDownloadClientAction, ansibleRemoteDownloadRequirementsAction, ansibleRemoteEditAction, } from 'src/actions';
 import { AnsibleRemoteAPI } from 'src/api';
 import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { isLoggedIn } from 'src/permissions';
+import { canViewAnsibleRemotes } from 'src/permissions';
+import { parsePulpIDFromURL } from 'src/utilities';
 import { RemoteAccessTab } from './tab-access';
 import { DetailsTab } from './tab-details';
 var tabs = [
@@ -32,7 +44,7 @@ export var AnsibleRemoteDetail = PageWithTabs({
                 : { name: tab.name },
         ].filter(Boolean);
     },
-    condition: isLoggedIn,
+    condition: canViewAnsibleRemotes,
     displayName: 'AnsibleRemoteDetail',
     errorTitle: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
     headerActions: [
@@ -44,9 +56,22 @@ export var AnsibleRemoteDetail = PageWithTabs({
     ],
     query: function (_a) {
         var name = _a.name;
-        return AnsibleRemoteAPI.list({ name: name }).then(function (_a) {
+        return AnsibleRemoteAPI.list({ name: name })
+            .then(function (_a) {
             var results = _a.data.results;
             return results[0];
+        })
+            .then(function (remote) {
+            return AnsibleRemoteAPI.myPermissions(parsePulpIDFromURL(remote.pulp_href))
+                .then(function (_a) {
+                var permissions = _a.data.permissions;
+                return permissions;
+            })
+                .catch(function (e) {
+                console.error(e);
+                return [];
+            })
+                .then(function (my_permissions) { return (__assign(__assign({}, remote), { my_permissions: my_permissions })); });
         });
     },
     renderTab: function (tab, item, actionContext) {
