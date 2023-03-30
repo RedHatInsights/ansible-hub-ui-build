@@ -22,4 +22,5 @@ export { RepoSigningUtils } from './repo-signing';
 export { translateLockedRolesDescription } from './translate-locked-roles-desc';
 export { RouteProps, withRouter } from './with-router';
 export { mapNetworkErrors, validateInput } from './map-role-errors';
+export { RepositoriesUtils } from './repositories';
 //# sourceMappingURL=index.js.map

@@ -24,9 +24,6 @@ var API = /** @class */ (function (_super) {
     API.prototype.getRepository = function (data) {
         return this.http.get("".concat(this.apiPath, "?name=").concat(data.name));
     };
-    API.prototype.listApproved = function () {
-        return this.http.get("".concat(this.apiPath, "?pulp_label_select=").concat(encodeURIComponent('pipeline=approved')));
-    };
     API.prototype.list = function (params) {
         return _super.prototype.list.call(this, params, this.apiPath);
     };
