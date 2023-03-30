@@ -79,7 +79,7 @@ export var AnsibleRepositoryEdit = Page({
             return null;
         }
         var saveRepository = function (_a) {
-            var createDistribution = _a.createDistribution, createLabel = _a.createLabel, hideFromSearch = _a.hideFromSearch, isPrivate = _a.isPrivate, pipeline = _a.pipeline;
+            var createDistribution = _a.createDistribution, hideFromSearch = _a.hideFromSearch, pipeline = _a.pipeline;
             var repositoryToEdit = state.repositoryToEdit;
             var data = __assign({}, repositoryToEdit);
             // prevent "This field may not be blank." for nullable fields
@@ -97,20 +97,11 @@ export var AnsibleRepositoryEdit = Page({
                 delete data.versions_href;
             }
             data.pulp_labels || (data.pulp_labels = {});
-            if (createLabel) {
-                data.pulp_labels.content = 'approved_for_use';
-            }
             if (hideFromSearch) {
                 data.pulp_labels.hide_from_search = '';
             }
             else {
                 delete data.pulp_labels.hide_from_search;
-            }
-            if (isPrivate) {
-                data.pulp_labels.is_private = 'true';
-            }
-            else {
-                delete data.pulp_labels.is_private;
             }
             if (pipeline) {
                 data.pulp_labels.pipeline = pipeline;

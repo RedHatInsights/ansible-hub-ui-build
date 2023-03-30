@@ -41,10 +41,14 @@ export var DetailsTab = function (_a) {
                 value: React.createElement(PulpLabels, { labels: item === null || item === void 0 ? void 0 : item.pulp_labels }),
             },
             {
-                label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Remote"], ["Remote"]))),
-                value: remote ? (React.createElement(Link, { to: formatPath(Paths.ansibleRemoteDetail, { name: remote.name }) }, remote.name)) : (t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["None"], ["None"])))),
+                label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Private"], ["Private"]))),
+                value: (item === null || item === void 0 ? void 0 : item.private) ? t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Yes"], ["Yes"]))) : t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No"], ["No"]))),
+            },
+            {
+                label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Remote"], ["Remote"]))),
+                value: remote ? (React.createElement(Link, { to: formatPath(Paths.ansibleRemoteDetail, { name: remote.name }) }, remote.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["None"], ["None"])))),
             },
         ] }));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12;
 //# sourceMappingURL=tab-details.js.map
