@@ -142,25 +142,27 @@ var Constants = /** @class */ (function () {
     };
     Constants.LOCKED_ROLES_WITH_DESCRIPTION = {
         // galaxy roles
-        'galaxy.content_admin': t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Manage all content types."], ["Manage all content types."]))),
+        'galaxy.ansible_repository_owner': t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Manage ansible repositories."], ["Manage ansible repositories."]))),
         'galaxy.collection_admin': t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Create, delete and change collection namespaces. Upload and delete collections. Sync collections from remotes. Approve and reject collections."], ["Create, delete and change collection namespaces. Upload and delete collections. Sync collections from remotes. Approve and reject collections."]))),
-        'galaxy.collection_publisher': t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Upload and modify collections."], ["Upload and modify collections."]))),
-        'galaxy.collection_curator': t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Approve, reject and sync collections from remotes."], ["Approve, reject and sync collections from remotes."]))),
-        'galaxy.collection_namespace_owner': t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Change and upload collections to namespaces."], ["Change and upload collections to namespaces."]))),
-        'galaxy.execution_environment_admin': t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Push, delete, and change execution environments. Create, delete and change remote registries."], ["Push, delete, and change execution environments. Create, delete and change remote registries."]))),
-        'galaxy.execution_environment_publisher': t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Push, and change execution environments."], ["Push, and change execution environments."]))),
-        'galaxy.execution_environment_namespace_owner': t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Create and update execution environments under existing container namespaces."], ["Create and update execution environments under existing container namespaces."]))),
+        'galaxy.collection_curator': t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Approve, reject and sync collections from remotes."], ["Approve, reject and sync collections from remotes."]))),
+        'galaxy.collection_namespace_owner': t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Change and upload collections to namespaces."], ["Change and upload collections to namespaces."]))),
+        'galaxy.collection_publisher': t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Upload and modify collections."], ["Upload and modify collections."]))),
+        'galaxy.collection_remote_owner': t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Manage collection remotes."], ["Manage collection remotes."]))),
+        'galaxy.content_admin': t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Manage all content types."], ["Manage all content types."]))),
+        'galaxy.execution_environment_admin': t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Push, delete, and change execution environments. Create, delete and change remote registries."], ["Push, delete, and change execution environments. Create, delete and change remote registries."]))),
         'galaxy.execution_environment_collaborator': t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Change existing execution environments."], ["Change existing execution environments."]))),
-        'galaxy.group_admin': t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["View, add, remove and change groups."], ["View, add, remove and change groups."]))),
-        'galaxy.user_admin': t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["View, add, remove and change users."], ["View, add, remove and change users."]))),
-        'galaxy.synclist_owner': t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["View, add, remove and change synclists."], ["View, add, remove and change synclists."]))),
-        'galaxy.task_admin': t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["View, and cancel any task."], ["View, and cancel any task."]))),
+        'galaxy.execution_environment_namespace_owner': t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Create and update execution environments under existing container namespaces."], ["Create and update execution environments under existing container namespaces."]))),
+        'galaxy.execution_environment_publisher': t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Push, and change execution environments."], ["Push, and change execution environments."]))),
+        'galaxy.group_admin': t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["View, add, remove and change groups."], ["View, add, remove and change groups."]))),
+        'galaxy.synclist_owner': t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["View, add, remove and change synclists."], ["View, add, remove and change synclists."]))),
+        'galaxy.task_admin': t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["View, and cancel any task."], ["View, and cancel any task."]))),
+        'galaxy.user_admin': t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["View, add, remove and change users."], ["View, add, remove and change users."]))),
         // core roles
-        'core.task_owner': t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Allow all actions on a task."], ["Allow all actions on a task."]))),
-        'core.taskschedule_owner': t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Allow all actions on a taskschedule."], ["Allow all actions on a taskschedule."]))),
+        'core.task_owner': t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Allow all actions on a task."], ["Allow all actions on a task."]))),
+        'core.taskschedule_owner': t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Allow all actions on a taskschedule."], ["Allow all actions on a taskschedule."]))),
     };
     return Constants;
 }());
 export { Constants };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
 //# sourceMappingURL=constants.js.map
