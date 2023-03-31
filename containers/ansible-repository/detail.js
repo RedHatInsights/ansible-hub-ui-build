@@ -33,7 +33,7 @@ var tabs = [
     { id: 'collection-versions', name: wip + t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) },
     { id: 'repository-versions', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Versions"], ["Versions"]))) },
 ];
-export var AnsibleRepositoryDetail = PageWithTabs({
+var AnsibleRepositoryDetail = PageWithTabs({
     breadcrumbs: function (_a) {
         var name = _a.name, tab = _a.tab, _b = _a.params, repositoryVersion = _b.repositoryVersion, group = _b.group;
         return [

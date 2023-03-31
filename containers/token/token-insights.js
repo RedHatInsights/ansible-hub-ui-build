@@ -36,9 +36,9 @@ import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
 import { errorMessage, getRepoUrl } from 'src/utilities';
-var TokenPage = /** @class */ (function (_super) {
-    __extends(TokenPage, _super);
-    function TokenPage(props) {
+var TokenInsights = /** @class */ (function (_super) {
+    __extends(TokenInsights, _super);
+    function TokenInsights(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             tokenData: undefined,
@@ -47,7 +47,7 @@ var TokenPage = /** @class */ (function (_super) {
         };
         return _this;
     }
-    TokenPage.prototype.getMyDistributionPath = function () {
+    TokenInsights.prototype.getMyDistributionPath = function () {
         var _this = this;
         MyDistributionAPI.list()
             .then(function (_a) {
@@ -75,7 +75,7 @@ var TokenPage = /** @class */ (function (_super) {
             });
         });
     };
-    TokenPage.prototype.componentDidMount = function () {
+    TokenInsights.prototype.componentDidMount = function () {
         var _this = this;
         // this function will fail if chrome.auth.doOffline() hasn't been called
         // so it never works the first time .. loadToken() causes a reload and then it works => no error handling
@@ -84,7 +84,7 @@ var TokenPage = /** @class */ (function (_super) {
         });
         this.getMyDistributionPath();
     };
-    TokenPage.prototype.render = function () {
+    TokenInsights.prototype.render = function () {
         var _this = this;
         var _a;
         var _b = this.state, tokenData = _b.tokenData, alerts = _b.alerts;
@@ -99,7 +99,7 @@ var TokenPage = /** @class */ (function (_super) {
                         React.createElement(Trans, null,
                             "Use the",
                             ' ',
-                            React.createElement(Link, { to: formatPath(Paths.repositories) }, "Repository Management"),
+                            React.createElement(Link, { to: formatPath(Paths.ansibleRepositories) }, "Repositories"),
                             ' ',
                             "page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
                             ' ',
@@ -152,22 +152,22 @@ var TokenPage = /** @class */ (function (_super) {
                             ' ',
                             React.createElement("a", { href: 'https://access.redhat.com/security/team/key', target: '_blank', rel: 'noreferrer' }, "here.")))))));
     };
-    TokenPage.prototype.loadToken = function () {
+    TokenInsights.prototype.loadToken = function () {
         // doOffline causes the page to refresh and will make the data
         // available to getOfflineToken() when the component mounts after
         // the reload
         window.insights.chrome.auth.doOffline();
     };
-    Object.defineProperty(TokenPage.prototype, "closeAlert", {
+    Object.defineProperty(TokenInsights.prototype, "closeAlert", {
         get: function () {
             return closeAlertMixin('alerts');
         },
         enumerable: false,
         configurable: true
     });
-    return TokenPage;
+    return TokenInsights;
 }(React.Component));
-export default withRouter(TokenPage);
-TokenPage.contextType = AppContext;
+export default withRouter(TokenInsights);
+TokenInsights.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=token-insights.js.map

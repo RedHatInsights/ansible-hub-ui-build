@@ -32,7 +32,7 @@ var listItemActions = [
     // Delete
     ansibleRepositoryDeleteAction,
 ];
-export var AnsibleRepositoryList = ListPage({
+var AnsibleRepositoryList = ListPage({
     condition: canViewAnsibleRepositories,
     defaultPageSize: 10,
     defaultSort: '-pulp_created',

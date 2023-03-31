@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RepositoryList, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenPageStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
+import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
 import { AppContext, useContext } from 'src/loaders/app-context';
 import { loadContext } from 'src/loaders/load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -147,7 +147,6 @@ var StandaloneRoutes = /** @class */ (function (_super) {
                 isDisabled: !(user === null || user === void 0 ? void 0 : user.is_superuser),
             },
             { component: RoleList, path: Paths.roleList },
-            { component: RepositoryList, path: Paths.repositories },
             { component: AnsibleRemoteDetail, path: Paths.ansibleRemoteDetail },
             { component: AnsibleRemoteEdit, path: Paths.ansibleRemoteEdit },
             { component: AnsibleRemoteList, path: Paths.ansibleRemotes },
@@ -176,7 +175,7 @@ var StandaloneRoutes = /** @class */ (function (_super) {
             { component: UserList, path: Paths.userList },
             { component: CertificationDashboard, path: Paths.approvalDashboard },
             { component: NotFound, path: Paths.notFound },
-            { component: TokenPageStandalone, path: Paths.token },
+            { component: TokenStandalone, path: Paths.token },
             { component: Partners, path: Paths[NAMESPACE_TERM] },
             { component: EditNamespace, path: Paths.editNamespace },
             { component: NamespaceDetail, path: Paths.myCollections },

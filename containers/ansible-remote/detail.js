@@ -27,7 +27,7 @@ var tabs = [
     { id: 'details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
     { id: 'access', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
 ];
-export var AnsibleRemoteDetail = PageWithTabs({
+var AnsibleRemoteDetail = PageWithTabs({
     breadcrumbs: function (_a) {
         var name = _a.name, tab = _a.tab, group = _a.params.group;
         return [

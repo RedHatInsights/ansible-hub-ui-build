@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { PulpAPI } from './pulp';
 // simplified version of smartUpdate from remote.ts
-export function smartUpdate(remote, unmodifiedRemote) {
+function smartUpdate(remote, unmodifiedRemote) {
     // Pulp complains if auth_url gets sent with a request that doesn't include a
     // valid token, even if the token exists in the database and isn't being changed.
     // To solve this issue, simply delete auth_url from the request if it hasn't

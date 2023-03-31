@@ -52,7 +52,7 @@ var initialRemote = {
         'token',
     ].map(function (name) { return ({ name: name, is_set: false }); }),
 };
-export var AnsibleRemoteEdit = Page({
+var AnsibleRemoteEdit = Page({
     breadcrumbs: function (_a) {
         var name = _a.name;
         return [

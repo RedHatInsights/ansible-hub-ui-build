@@ -38,7 +38,7 @@ var initialRepository = {
     pulp_labels: {},
     remote: null,
 };
-export var AnsibleRepositoryEdit = Page({
+var AnsibleRepositoryEdit = Page({
     breadcrumbs: function (_a) {
         var name = _a.name;
         return [

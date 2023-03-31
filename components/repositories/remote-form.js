@@ -34,7 +34,6 @@ import { ActionGroup, Button, Checkbox, ExpandableSection, Flex, FlexItem, Form,
 import { DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import React from 'react';
 import { FileUpload, HelperText, WriteOnlyField } from 'src/components';
-import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { downloadString, isFieldSet, isWriteOnly, validateURLHelper, } from 'src/utilities';
 var RemoteForm = /** @class */ (function (_super) {
@@ -70,25 +69,15 @@ var RemoteForm = /** @class */ (function (_super) {
         return _this;
     }
     RemoteForm.prototype.render = function () {
-        var _a = this.props, allowEditName = _a.allowEditName, closeModal = _a.closeModal, remote = _a.remote, saveRemote = _a.saveRemote, showMain = _a.showMain, showModal = _a.showModal, title = _a.title;
+        var _a = this.props, allowEditName = _a.allowEditName, closeModal = _a.closeModal, remote = _a.remote, saveRemote = _a.saveRemote, showMain = _a.showMain, showModal = _a.showModal, remoteType = _a.remoteType, title = _a.title;
         if (!remote) {
             return null;
         }
-        var remoteType = this.props.remoteType || this.getRemoteType(remote.url);
         var requiredFields = ['name', 'url'];
         var disabledFields = allowEditName ? [] : ['name'];
         switch (remoteType) {
             case 'ansible-remote':
-            case 'none':
                 // require only name, url; nothing disabled
-                break;
-            case 'certified':
-                requiredFields = requiredFields.concat(['auth_url']);
-                disabledFields = disabledFields.concat(['requirements_file']);
-                break;
-            case 'community':
-                requiredFields = requiredFields.concat(['requirements_file']);
-                disabledFields = disabledFields.concat(['auth_url', 'token']);
                 break;
             case 'registry':
                 disabledFields = disabledFields.concat([
@@ -99,7 +88,7 @@ var RemoteForm = /** @class */ (function (_super) {
                 ]);
                 break;
         }
-        var save = (React.createElement(Button, { isDisabled: !this.isValid(requiredFields, remoteType), key: 'confirm', variant: 'primary', onClick: function () { return saveRemote(); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Save"], ["Save"])))));
+        var save = (React.createElement(Button, { isDisabled: !this.isValid(requiredFields), key: 'confirm', variant: 'primary', onClick: function () { return saveRemote(); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Save"], ["Save"])))));
         var cancel = (React.createElement(Button, { key: 'cancel', variant: 'link', onClick: function () { return closeModal(); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Cancel"], ["Cancel"])))));
         if (showMain) {
             return (React.createElement(React.Fragment, null, this.renderForm(requiredFields, disabledFields, React.createElement(ActionGroup, { key: 'actions' },
@@ -240,15 +229,15 @@ var RemoteForm = /** @class */ (function (_super) {
                 } }, errorMessages['__nofield'])) : null,
             extra));
     };
-    RemoteForm.prototype.isValid = function (requiredFields, remoteType) {
-        var remote = this.props.remote;
+    RemoteForm.prototype.isValid = function (requiredFields) {
+        var _a = this.props, remote = _a.remote, remoteType = _a.remoteType;
         for (var _i = 0, requiredFields_1 = requiredFields; _i < requiredFields_1.length; _i++) {
             var field = requiredFields_1[_i];
             if (!remote[field] || remote[field] === '') {
                 return false;
             }
         }
-        if (['community', 'certified', 'none', 'ansible-remote'].includes(remoteType)) {
+        if (remoteType === 'ansible-remote') {
             // only required in remotes, not registries
             if (remote.download_concurrency < 1) {
                 return false;
@@ -258,21 +247,6 @@ var RemoteForm = /** @class */ (function (_super) {
             return false;
         }
         return true;
-    };
-    RemoteForm.prototype.getRemoteType = function (url) {
-        for (var _i = 0, _a = Constants.UPSTREAM_HOSTS; _i < _a.length; _i++) {
-            var host = _a[_i];
-            if (url.includes(host)) {
-                return 'community';
-            }
-        }
-        for (var _b = 0, _c = Constants.DOWNSTREAM_HOSTS; _b < _c.length; _b++) {
-            var host = _c[_b];
-            if (url.includes(host)) {
-                return 'certified';
-            }
-        }
-        return 'none';
     };
     RemoteForm.prototype.updateIsSet = function (fieldName, value) {
         var _a;

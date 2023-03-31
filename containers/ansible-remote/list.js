@@ -34,7 +34,7 @@ var listItemActions = [
     // Delete
     ansibleRemoteDeleteAction,
 ];
-export var AnsibleRemoteList = ListPage({
+var AnsibleRemoteList = ListPage({
     condition: canViewAnsibleRemotes,
     defaultPageSize: 10,
     defaultSort: '-pulp_created',

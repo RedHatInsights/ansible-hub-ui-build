@@ -122,7 +122,6 @@ export var Paths;
     Paths["editUser"] = "/users/:userID/edit";
     Paths["userDetail"] = "/users/:userID";
     Paths["userProfileSettings"] = "/settings/user-profile";
-    Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
     Paths["signatureKeys"] = "/signature-keys";
     Paths["collections"] = "/collections";

@@ -35,9 +35,9 @@ import { AppContext } from 'src/loaders/app-context';
 import { withRouter } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
 import './token.scss';
-var TokenPage = /** @class */ (function (_super) {
-    __extends(TokenPage, _super);
-    function TokenPage(props) {
+var TokenStandalone = /** @class */ (function (_super) {
+    __extends(TokenStandalone, _super);
+    function TokenStandalone(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             token: undefined,
@@ -46,7 +46,7 @@ var TokenPage = /** @class */ (function (_super) {
         };
         return _this;
     }
-    TokenPage.prototype.render = function () {
+    TokenStandalone.prototype.render = function () {
         var _this = this;
         var _a = this.state, token = _a.token, alerts = _a.alerts, loadingToken = _a.loadingToken;
         var unauthorised = !this.context.user || this.context.user.is_anonymous;
@@ -87,7 +87,7 @@ var TokenPage = /** @class */ (function (_super) {
                             React.createElement(ClipboardCopy, null, token))) : !token && !loadingToken ? (React.createElement("div", { className: 'load-token' },
                             React.createElement(Button, { onClick: function () { return _this.loadToken(); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Load token"], ["Load token"])))))) : (React.createElement(LoadingPageSpinner, null)))))))));
     };
-    TokenPage.prototype.loadToken = function () {
+    TokenStandalone.prototype.loadToken = function () {
         var _this = this;
         this.setState({ loadingToken: true }, function () {
             ActiveUserAPI.getToken()
@@ -109,16 +109,16 @@ var TokenPage = /** @class */ (function (_super) {
             });
         });
     };
-    Object.defineProperty(TokenPage.prototype, "closeAlert", {
+    Object.defineProperty(TokenStandalone.prototype, "closeAlert", {
         get: function () {
             return closeAlertMixin('alerts');
         },
         enumerable: false,
         configurable: true
     });
-    return TokenPage;
+    return TokenStandalone;
 }(React.Component));
-export default withRouter(TokenPage);
-TokenPage.contextType = AppContext;
+export default withRouter(TokenStandalone);
+TokenStandalone.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=token-standalone.js.map
