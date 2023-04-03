@@ -14,8 +14,9 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ansibleRepositoryCollectionVersionAddAction, ansibleRepositoryCollectionVersionRemoveAction, } from 'src/actions';
 import { CollectionVersionAPI, } from 'src/api';
 import { DetailList, ListItemActions } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
@@ -35,7 +36,8 @@ export var CollectionVersionsTab = function (_a) {
             });
         });
     };
-    var _c = useState({}), modalState = _c[0], setModalState = _c[1];
+    var _c = useState({ repository: item }), modalState = _c[0], setModalState = _c[1];
+    useEffect(function () { return setModalState(function (ms) { return (__assign(__assign({}, ms), { repository: item })); }); }, [item]);
     var renderTableRow = function (item, index, actionContext, listItemActions) {
         var _a = item.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version, description = _a.description;
         var kebabItems = listItemActions.map(function (action) {
@@ -63,20 +65,27 @@ export var CollectionVersionsTab = function (_a) {
             setState: setModalState,
             query: query,
             hasPermission: hasPermission,
-        }, defaultPageSize: 10, defaultSort: 'name', errorTitle: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collection versions could not be displayed."], ["Collection versions could not be displayed."]))), filterConfig: null, listItemActions: [
-        /*TODO*/
-        ], noDataButton: null, noDataDescription: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection versions will appear once the collection is modified."], ["Collection versions will appear once the collection is modified."]))), noDataTitle: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No collection versions yet"], ["No collection versions yet"]))), query: query, renderTableRow: renderTableRow, sortHeaders: [
+        }, defaultPageSize: 10, defaultSort: 'name', errorTitle: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collection versions could not be displayed."], ["Collection versions could not be displayed."]))), filterConfig: [
             {
-                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection"], ["Collection"]))),
+                id: 'keywords',
+                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Keywords"], ["Keywords"]))),
+            },
+            {
+                id: 'namespace',
+                title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+            },
+        ], headerActions: [ansibleRepositoryCollectionVersionAddAction], listItemActions: [ansibleRepositoryCollectionVersionRemoveAction], noDataButton: ansibleRepositoryCollectionVersionAddAction.button, noDataDescription: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection versions will appear once the collection is modified."], ["Collection versions will appear once the collection is modified."]))), noDataTitle: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["No collection versions yet"], ["No collection versions yet"]))), query: query, renderTableRow: renderTableRow, sortHeaders: [
+            {
+                title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection"], ["Collection"]))),
                 type: 'none',
                 id: 'col1',
             },
             {
-                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Description"], ["Description"]))),
+                title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Description"], ["Description"]))),
                 type: 'none',
                 id: 'col2',
             },
-        ], title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) }));
+        ], title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) }));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=tab-collection-versions.js.map

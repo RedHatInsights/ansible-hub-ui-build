@@ -35,6 +35,16 @@ var API = /** @class */ (function (_super) {
             base_version: version_href,
         });
     };
+    API.prototype.addContent = function (id, collection_version_href) {
+        return this.http.post(this.apiPath + id + '/modify/', {
+            add_content_units: [collection_version_href],
+        });
+    };
+    API.prototype.removeContent = function (id, collection_version_href) {
+        return this.http.post(this.apiPath + id + '/modify/', {
+            remove_content_units: [collection_version_href],
+        });
+    };
     API.prototype.listRoles = function (id, params) {
         return _super.prototype.list.call(this, params, this.apiPath + id + '/list_roles/');
     };

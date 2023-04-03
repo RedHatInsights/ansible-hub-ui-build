@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { AppliedFilters, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, SortTable, } from 'src/components';
 import { filterIsSet, handleHttpError } from 'src/utilities';
 export function DetailList(_a) {
-    var actionContext = _a.actionContext, defaultPageSize = _a.defaultPageSize, defaultSort = _a.defaultSort, errorTitle = _a.errorTitle, filterConfig = _a.filterConfig, listItemActions = _a.listItemActions, noDataButton = _a.noDataButton, noDataDescription = _a.noDataDescription, noDataTitle = _a.noDataTitle, query = _a.query, renderTableRow = _a.renderTableRow, sortHeaders = _a.sortHeaders, title = _a.title;
+    var actionContext = _a.actionContext, defaultPageSize = _a.defaultPageSize, defaultSort = _a.defaultSort, errorTitle = _a.errorTitle, filterConfig = _a.filterConfig, headerActions = _a.headerActions, listItemActions = _a.listItemActions, noDataButton = _a.noDataButton, noDataDescription = _a.noDataDescription, noDataTitle = _a.noDataTitle, query = _a.query, renderTableRow = _a.renderTableRow, sortHeaders = _a.sortHeaders, title = _a.title;
     var addAlert = actionContext.addAlert;
     var _b = useState([]), items = _b[0], setItems = _b[1];
     var _c = useState({
@@ -24,9 +24,13 @@ export function DetailList(_a) {
             .catch(handleHttpError(errorTitle, function () { return setItems([]); }, addAlert))
             .then(function () { return setLoading(false); });
     }, [params]);
-    var renderModals = function (actionContext) { return (React.createElement(React.Fragment, null, (listItemActions === null || listItemActions === void 0 ? void 0 : listItemActions.length)
-        ? listItemActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
-        : null)); };
+    var renderModals = function (actionContext) { return (React.createElement(React.Fragment, null,
+        (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length)
+            ? headerActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+            : null,
+        (listItemActions === null || listItemActions === void 0 ? void 0 : listItemActions.length)
+            ? listItemActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
+            : null)); };
     var knownFilters = (filterConfig || []).map(function (_a) {
         var id = _a.id;
         return id;
@@ -44,7 +48,9 @@ export function DetailList(_a) {
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,
-                                React.createElement(CompoundFilter, { inputText: inputText, onChange: setInputText, updateParams: setParams, params: params, filterConfig: filterConfig || [] }))))),
+                                React.createElement(CompoundFilter, { inputText: inputText, onChange: setInputText, updateParams: setParams, params: params, filterConfig: filterConfig || [] })),
+                            (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
+                                headerActions.map(function (action) { return (React.createElement(ToolbarItem, { key: action.title }, action.button(null, actionContext))); })))),
                 React.createElement(Pagination, { params: params, updateParams: setParams, count: itemCount, isTop: true })),
             React.createElement("div", null,
                 React.createElement(AppliedFilters, { updateParams: function (p) {
