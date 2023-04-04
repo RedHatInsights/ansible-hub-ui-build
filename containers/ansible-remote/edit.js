@@ -117,6 +117,7 @@ var AnsibleRemoteEdit = Page({
                 });
                 delete data.hidden_fields;
             }
+            delete data.my_permissions;
             // api requires traling slash, fix the trivial case
             if (data.url && !data.url.includes('?') && !data.url.endsWith('/')) {
                 data.url += '/';

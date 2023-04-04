@@ -111,6 +111,7 @@ var AnsibleRepositoryEdit = Page({
                 delete data.pulp_href;
                 delete data.versions_href;
             }
+            delete data.my_permissions;
             data.pulp_labels || (data.pulp_labels = {});
             if (hideFromSearch) {
                 data.pulp_labels.hide_from_search = '';
