@@ -88,7 +88,7 @@ var CollectionDetail = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.loadCollections(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.published }),
+                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.repo }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(CollectionInfo, __assign({}, collection, { content: content, updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
