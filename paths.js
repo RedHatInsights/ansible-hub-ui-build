@@ -109,7 +109,6 @@ export var Paths;
     Paths["collectionDependenciesByRepo"] = "/repo/:repo/:namespace/:collection/dependencies";
     Paths["collectionDistributionsByRepo"] = "/repo/:repo/:namespace/:collection/distributions";
     Paths["namespaceByRepo"] = "/repo/:repo/:namespace";
-    Paths["collection"] = "/:namespace/:collection";
     Paths["namespace"] = "/:namespace";
     Paths["namespaceDetail"] = "/namespaces/:namespace";
     Paths["partners"] = "/partners";

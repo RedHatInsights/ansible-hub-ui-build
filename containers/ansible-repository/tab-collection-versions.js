@@ -39,13 +39,14 @@ export var CollectionVersionsTab = function (_a) {
     var _c = useState({ repository: item }), modalState = _c[0], setModalState = _c[1];
     useEffect(function () { return setModalState(function (ms) { return (__assign(__assign({}, ms), { repository: item })); }); }, [item]);
     var renderTableRow = function (item, index, actionContext, listItemActions) {
-        var _a = item.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version, description = _a.description;
+        var _a = item.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version, description = _a.description, repository = item.repository;
         var kebabItems = listItemActions.map(function (action) {
             return action.dropdownItem(item, actionContext);
         });
         return (React.createElement("tr", { key: index },
             React.createElement("td", null,
-                React.createElement(Link, { to: formatPath(Paths.collection, {
+                React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
+                        repo: repository.name,
                         namespace: namespace,
                         collection: name,
                     }, {

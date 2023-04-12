@@ -50,7 +50,7 @@ var AnyAPI = function (href) {
     }(PulpAPI)))();
 };
 var VersionContent = function (_a) {
-    var href = _a.href, addAlert = _a.addAlert, hasPermission = _a.hasPermission;
+    var href = _a.href, addAlert = _a.addAlert, hasPermission = _a.hasPermission, repositoryName = _a.repositoryName;
     var _b = useState({}), state = _b[0], setState = _b[1];
     if (!href) {
         return null;
@@ -64,7 +64,8 @@ var VersionContent = function (_a) {
         var _b = _a.manifest.collection_info, namespace = _b.namespace, name = _b.name, version = _b.version, description = _a.description;
         return (React.createElement("tr", null,
             React.createElement("td", null,
-                React.createElement(Link, { to: formatPath(Paths.collection, {
+                React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
+                        repo: repositoryName,
                         namespace: namespace,
                         collection: name,
                     }, {
@@ -203,7 +204,7 @@ export var RepositoryVersionsTab = function (_a) {
                 },
             ] }),
         React.createElement("div", { className: 'pf-c-page__main-section', style: { padding: '8px 0', margin: '24px -16px 0' } }),
-        React.createElement(VersionContent, __assign({}, version.content_summary.present['ansible.collection_version'])))) : (React.createElement(Spinner, { size: 'md' }))) : (React.createElement(DetailList, { actionContext: {
+        React.createElement(VersionContent, __assign({}, version.content_summary.present['ansible.collection_version'], { repositoryName: repositoryName })))) : (React.createElement(Spinner, { size: 'md' }))) : (React.createElement(DetailList, { actionContext: {
             addAlert: addAlert,
             state: modalState,
             setState: setModalState,

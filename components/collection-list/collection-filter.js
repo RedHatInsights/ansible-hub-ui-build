@@ -19,6 +19,7 @@ export var CollectionFilter = function (props) {
     var loadRepos = function () {
         Repositories.list({
             name__icontains: inputText,
+            pulp_label_select: '!hide_from_search',
         }).then(function (res) {
             var repos = res.data.results.map(function (_a) {
                 var name = _a.name;
