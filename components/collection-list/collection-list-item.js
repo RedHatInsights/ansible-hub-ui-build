@@ -28,7 +28,7 @@ export var CollectionListItem = function (_a) {
     var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
     if (showNamespace) {
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
+            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '130px', unlockWidth: true, width: '97px' })));
     }
     var contentSummary = convertContentSummaryCounts(collection_version);
     cells.push(React.createElement(DataListCell, { key: 'content' },

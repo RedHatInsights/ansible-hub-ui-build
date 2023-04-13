@@ -6,6 +6,7 @@ import { t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
 import { DeleteAnsibleRepositoryModal } from 'src/components';
+import { Constants } from 'src/constants';
 import { canDeleteAnsibleRepository } from 'src/permissions';
 import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
@@ -25,6 +26,13 @@ export var ansibleRepositoryDeleteAction = Action({
             deleteModalOpen: { pulpId: id || parsePulpIDFromURL(pulp_href), name: name },
         });
     },
+    disabled: function (_a) {
+        var name = _a.name;
+        if (Constants.PROTECTED_REPOSITORIES.includes(name)) {
+            return t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Protected repositories cannot be deleted."], ["Protected repositories cannot be deleted."])));
+        }
+        return null;
+    },
 });
 function deleteRepository(_a, _b) {
     var name = _a.name, pulpId = _a.pulpId;
@@ -32,11 +40,11 @@ function deleteRepository(_a, _b) {
     return AnsibleRepositoryAPI.delete(pulpId)
         .then(function (_a) {
         var data = _a.data;
-        addAlert(taskAlert(data.task, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Removal started for repository ", ""], ["Removal started for repository ", ""])), name)));
+        addAlert(taskAlert(data.task, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Removal started for repository ", ""], ["Removal started for repository ", ""])), name)));
         setState({ deleteModalOpen: null });
         query();
     })
-        .catch(handleHttpError(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Failed to remove repository ", ""], ["Failed to remove repository ", ""])), name), function () { return null; }, addAlert));
+        .catch(handleHttpError(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Failed to remove repository ", ""], ["Failed to remove repository ", ""])), name), function () { return setState({ deleteModalOpen: null }); }, addAlert));
 }
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=ansible-repository-delete.js.map

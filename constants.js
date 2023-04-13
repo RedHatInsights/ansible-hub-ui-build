@@ -32,6 +32,14 @@ var Constants = /** @class */ (function () {
         community: defineMessage({ message: "Community" }),
         validated: defineMessage({ message: "Validated" }),
     };
+    Constants.PROTECTED_REPOSITORIES = [
+        'rh-certified',
+        'validated',
+        'community',
+        'published',
+        'staging',
+        'rejected',
+    ];
     Constants.COLLECTION_FILTER_TAGS = [
         'application',
         'cloud',
