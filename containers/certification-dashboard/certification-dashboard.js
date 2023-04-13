@@ -344,7 +344,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.renderRow = function (collectionData, index) {
         var _this = this;
         var version = collectionData.collection_version, repository = collectionData.repository;
-        return (React.createElement("tr", { key: index, "data-cy": 'CertificationDashboard-row' },
+        var data_cy = "CertificationDashboard-row-".concat(collectionData.repository.name, "-").concat(collectionData.collection_version.namespace, "-").concat(collectionData.collection_version.name);
+        return (React.createElement("tr", { key: index, "data-cy": data_cy },
             React.createElement("td", null, version.namespace),
             React.createElement("td", null, version.name),
             React.createElement("td", null,
