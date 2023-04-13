@@ -140,17 +140,31 @@ var AnsibleRepositoryEdit = Page({
                     return item.pulp_href;
                 });
             if (createDistribution) {
+                // only alphanumerics, slashes, underscores and dashes are allowed in base_path, transform anything else to _
+                var basePathTransform_1 = function (name) {
+                    return name.replaceAll(/[^-a-zA-Z0-9_/]/g, '_');
+                };
+                var distributionName_1 = data.name;
                 promise = promise
                     .then(function (pulp_href) {
                     return AnsibleDistributionAPI.create({
-                        name: data.name,
-                        base_path: data.name,
+                        name: distributionName_1,
+                        base_path: basePathTransform_1(distributionName_1),
                         repository: pulp_href,
+                    }).catch(function () {
+                        // if distribution already exists, try a numeric suffix to name & base_path
+                        distributionName_1 =
+                            data.name + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+                        return AnsibleDistributionAPI.create({
+                            name: distributionName_1,
+                            base_path: basePathTransform_1(distributionName_1),
+                            repository: pulp_href,
+                        });
                     });
                 })
                     .then(function (_a) {
                     var task = _a.data;
-                    return queueAlert(taskAlert(task, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Creation started for distribution ", ""], ["Creation started for distribution ", ""])), data.name)));
+                    return queueAlert(taskAlert(task, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Creation started for distribution ", ""], ["Creation started for distribution ", ""])), distributionName_1)));
                 });
             }
             promise

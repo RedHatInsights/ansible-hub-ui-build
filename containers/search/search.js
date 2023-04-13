@@ -39,6 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, DataList, DropdownItem, Switch } from '@patternfly/react-core';
+import cx from 'classnames';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, MySyncListAPI, } from 'src/api';
@@ -246,13 +247,12 @@ var Search = /** @class */ (function (_super) {
                 },
             }),
             hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"]))))),
-        ];
-        if (!list) {
-            menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
-        }
+            !list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+        ].filter(Boolean);
+        var displayMenu = menuItems.length > 0;
         return (React.createElement(React.Fragment, null,
-            list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
-            React.createElement(StatefulDropdown, { items: menuItems.filter(Boolean), ariaLabel: 'collection-kebab' })));
+            list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+            React.createElement("span", { className: cx(!displayMenu && 'hidden-menu-space') }, displayMenu && (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })))));
     };
     Search.prototype.renderSyncToogle = function (name, namespace) {
         var _this = this;
