@@ -202,7 +202,7 @@ var LegacyRole = /** @class */ (function (_super) {
         var header_cells = [];
         if (this.state.role !== undefined && this.state.role !== null) {
             header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
+                React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
                 React.createElement(Link, { to: namespace_url }, namespace.name)));
             header_cells.push(React.createElement(DataListCell, { key: 'content' },
                 React.createElement("div", null,

@@ -35,7 +35,7 @@ var RemoveCollectionVersionModal = function (_a) {
         }, deleteAction: function () {
             setPending(false);
             deleteAction();
-        }, isDisabled: pending, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Remove collection version?"], ["Remove collection version?"]))) },
+        }, isDisabled: pending, isRemove: true, title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Remove collection version?"], ["Remove collection version?"]))) },
         React.createElement(Text, null,
             React.createElement(Trans, null,
                 "Are you sure you want to remove the collection version",

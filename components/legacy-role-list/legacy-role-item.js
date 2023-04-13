@@ -71,7 +71,7 @@ var LegacyRoleListItem = /** @class */ (function (_super) {
         var cells = [];
         if (show_thumbnail !== false) {
             cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
+                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
         }
         cells.push(React.createElement(DataListCell, { key: 'content' },
             React.createElement("div", null,

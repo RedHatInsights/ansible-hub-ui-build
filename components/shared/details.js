@@ -4,7 +4,7 @@ export var Details = function (_a) {
     return (React.createElement(React.Fragment, null,
         fields.map(function (_a) {
             var label = _a.label, value = _a.value;
-            return (React.createElement("div", { key: label },
+            return (React.createElement("div", { key: label, style: { overflowWrap: 'break-word' } },
                 React.createElement("div", null,
                     React.createElement("b", null, label)),
                 React.createElement("div", null, value)));

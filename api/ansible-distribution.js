@@ -22,6 +22,7 @@ var API = /** @class */ (function (_super) {
         _this.useOrdering = true;
         return _this;
         // list(params?)
+        // delete(pk)
     }
     return API;
 }(PulpAPI));

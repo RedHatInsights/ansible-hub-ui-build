@@ -35,8 +35,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
-import { LoadingPageSpinner } from 'src/components';
-import { AlertList, BaseHeader, Breadcrumbs, EmptyStateUnauthorized, Main, Tabs, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, Breadcrumbs, EmptyStateUnauthorized, LoadingPageSpinner, Main, Tabs, closeAlertMixin, } from 'src/components';
+import { NotFound } from 'src/containers/not-found/not-found';
 import { AppContext } from 'src/loaders/app-context';
 import { ParamHelper, errorMessage, withRouter, } from 'src/utilities';
 export var PageWithTabs = function (_a) {
@@ -122,6 +122,11 @@ export var PageWithTabs = function (_a) {
                 };
                 var name = (item === null || item === void 0 ? void 0 : item.name) || routeParams.name;
                 var tab = tabs.find(function (t) { return t.id == params.tab; }) || tabs[0];
+                if (!loading && !unauthorised && !item) {
+                    return (React.createElement(React.Fragment, null,
+                        React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
+                        React.createElement(NotFound, null)));
+                }
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                     React.createElement(BaseHeader, { title: name, breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs({

@@ -75,6 +75,10 @@ var AnsibleRepositoryDetail = PageWithTabs({
             return results[0];
         })
             .then(function (repository) {
+            // using the list api, so an empty array is really a 404
+            if (!repository) {
+                return Promise.reject({ response: { status: 404 } });
+            }
             return AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
                 .then(function (_a) {
                 var permissions = _a.data.permissions;

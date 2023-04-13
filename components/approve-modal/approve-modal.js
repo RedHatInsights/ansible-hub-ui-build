@@ -66,19 +66,20 @@ import { AlertList, AppliedFilters, CheckboxRow, CompoundFilter, Pagination, Sor
 import { useContext } from 'src/loaders/app-context';
 import { errorMessage, parsePulpIDFromURL, waitForTaskUrl, } from 'src/utilities';
 export var ApproveModal = function (props) {
-    var _a = React.useState(false), isSelectorOpen = _a[0], setIsSelectorOpen = _a[1];
-    var _b = useState(''), inputText = _b[0], setInputText = _b[1];
-    var _c = useState([]), repositoryList = _c[0], setRepositoryList = _c[1];
-    var _d = useState(0), itemsCount = _d[0], setItemsCount = _d[1];
-    var _e = useState([]), alerts = _e[0], setAlerts = _e[1];
-    var _f = useState([]), selectedRepos = _f[0], setSelectedRepos = _f[1];
-    var _g = useState([]), fixedRepos = _g[0], setFixedRepos = _g[1];
-    var _h = useState(false), loading = _h[0], setLoading = _h[1];
-    var _j = useState({
+    var _a = useState(false), isSelectorChecked = _a[0], setIsSelectorChecked = _a[1];
+    var _b = useState(false), isSelectorOpen = _b[0], setIsSelectorOpen = _b[1];
+    var _c = useState(''), inputText = _c[0], setInputText = _c[1];
+    var _d = useState([]), repositoryList = _d[0], setRepositoryList = _d[1];
+    var _e = useState(0), itemsCount = _e[0], setItemsCount = _e[1];
+    var _f = useState([]), alerts = _f[0], setAlerts = _f[1];
+    var _g = useState([]), selectedRepos = _g[0], setSelectedRepos = _g[1];
+    var _h = useState([]), fixedRepos = _h[0], setFixedRepos = _h[1];
+    var _j = useState(false), loading = _j[0], setLoading = _j[1];
+    var _k = useState({
         page: 1,
         page_size: 10,
         sort: 'name',
-    }), params = _j[0], setParams = _j[1];
+    }), params = _k[0], setParams = _k[1];
     var context = useContext();
     function approve() {
         var error = '';
@@ -272,6 +273,7 @@ export var ApproveModal = function (props) {
         }
         function selectAll() {
             setSelectedRepos(props.allRepositories.map(function (a) { return a.name; }));
+            setIsSelectorChecked(true);
         }
         function selectPage() {
             var newRepos = __spreadArray([], selectedRepos, true);
@@ -281,9 +283,11 @@ export var ApproveModal = function (props) {
                 }
             });
             setSelectedRepos(newRepos);
+            setIsSelectorChecked(true);
         }
         function deselectAll() {
             setSelectedRepos(fixedRepos);
+            setIsSelectorChecked(false);
         }
         function deselectPage() {
             var newSelectedRepos = selectedRepos.filter(function (repo) {
@@ -291,6 +295,16 @@ export var ApproveModal = function (props) {
                     !repositoryList.find(function (repo2) { return repo2.name == repo; });
             });
             setSelectedRepos(newSelectedRepos);
+            setIsSelectorChecked(false);
+        }
+        function onToggleCheckbox() {
+            setIsSelectorChecked(!isSelectorChecked);
+            if (isSelectorChecked) {
+                deselectPage();
+            }
+            else {
+                selectPage();
+            }
         }
         var dropdownItems = [
             React.createElement(DropdownItem, { onClick: selectPage, key: 'select-page' }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Select page (", " items)"], ["Select page (", " items)"])), repositoryList.length)),
@@ -300,7 +314,7 @@ export var ApproveModal = function (props) {
             React.createElement(DropdownItem, { onClick: deselectAll, key: 'deselect-all' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Deselect all (", " items)"], ["Deselect all (", " items)"])), props.allRepositories.length)),
         ];
         return (React.createElement(Dropdown, { onSelect: onSelect, toggle: React.createElement(DropdownToggle, { splitButtonItems: [
-                    React.createElement(DropdownToggleCheckbox, { id: 'split-button-toggle-checkbox', key: 'split-checkbox', "aria-label": 'Select all' }),
+                    React.createElement(DropdownToggleCheckbox, { id: 'split-button-toggle-checkbox', key: 'split-checkbox', "aria-label": 'Select all', checked: isSelectorChecked, onChange: onToggleCheckbox }),
                 ], onToggle: onToggle, id: 'toggle-split-button' }), isOpen: isSelectorOpen, dropdownItems: dropdownItems }));
     }
     function renderTable() {

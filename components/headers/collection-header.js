@@ -200,11 +200,11 @@ var CollectionHeader = /** @class */ (function (_super) {
                 var taskId = parsePulpIDFromURL(res.data.task);
                 var name = deleteCollection.collection_version.name;
                 waitForTask(taskId).then(function () {
-                    if (collections.length > 1) {
-                        var topVersion = collections.filter(function (_a) {
-                            var collection_version = _a.collection_version;
-                            return collection_version.version !== collectionVersion;
-                        });
+                    var topVersion = (collections || []).filter(function (_a) {
+                        var collection_version = _a.collection_version;
+                        return collection_version.version !== collectionVersion;
+                    });
+                    if (topVersion.length) {
                         _this.props.updateParams(ParamHelper.setParam(_this.props.params, 'version', topVersion[0].collection_version.version));
                         _this.setState({
                             deleteCollection: null,
