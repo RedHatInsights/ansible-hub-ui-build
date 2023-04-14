@@ -224,7 +224,13 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 : null,
         ].filter(Boolean);
         var repositoryUrl = getRepoUrl();
-        var noData = itemCount === 0 && !filterIsSet(params, ['keywords']);
+        var noData = itemCount === 0 &&
+            !filterIsSet(params, [
+                'is_signed',
+                'keywords',
+                'repository_name',
+                'tags',
+            ]);
         var updateParams = function (params) {
             return _this.updateParams(params, function () { return _this.loadCollections(); });
         };

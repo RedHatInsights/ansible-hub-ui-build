@@ -51,8 +51,15 @@ var CompoundFilter = /** @class */ (function (_super) {
         };
         _this.onSelectMultiple = function (event) {
             var newParams = _this.props.params[_this.state.selectedFilter.id];
+            // no tags => falsy
+            // 1 tag => "foo"
+            // 2+ tags => ["foo", "bar"]
+            // convert all to an array
             if (!newParams) {
                 newParams = [];
+            }
+            if (!Array.isArray(newParams)) {
+                newParams = [newParams];
             }
             // TODO: Remove this replace after patternfly fixes the pf-random-id issue
             var selectedID = event.currentTarget.id.replace(/pf-random-id-\d+-/, '');
