@@ -66,6 +66,7 @@ export var CollectionVersionsTab = function (_a) {
             setState: setModalState,
             query: query,
             hasPermission: hasPermission,
+            hasObjectPermission: function (p) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, p); },
         }, defaultPageSize: 10, defaultSort: 'name', errorTitle: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collection versions could not be displayed."], ["Collection versions could not be displayed."]))), filterConfig: [
             {
                 id: 'keywords',
