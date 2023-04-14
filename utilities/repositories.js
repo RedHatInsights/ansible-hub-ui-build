@@ -38,6 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { t } from '@lingui/macro';
 import { Repositories } from 'src/api/repositories';
 import { waitForTaskUrl } from 'src/utilities';
@@ -122,6 +131,31 @@ var RepositoriesUtils = /** @class */ (function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, RepositoriesUtils.deleteOrAddCollection(repoName, collectionVersion_pulp_href, true)];
             });
+        });
+    };
+    RepositoriesUtils.pushToOrFilterOutCollections = function (selectedCollection, collections) {
+        // check if collection is already selected
+        var selectedItem = collections.find(function (_a) {
+            var _b = _a.collection_version, name = _b.name, namespace = _b.namespace, version = _b.version, repository = _a.repository;
+            return name === selectedCollection.collection_version.name &&
+                namespace === selectedCollection.collection_version.namespace &&
+                version === selectedCollection.collection_version.version &&
+                repository.name === selectedCollection.repository.name;
+        });
+        // if collection is not selected, add it to selected items
+        if (!selectedItem) {
+            return __spreadArray(__spreadArray([], collections, true), [selectedCollection], false);
+        }
+        // unselect collection
+        return collections.filter(function (_a) {
+            var collection_version = _a.collection_version, repository = _a.repository;
+            return collection_version.name !==
+                selectedCollection.collection_version.name ||
+                collection_version.namespace !==
+                    selectedCollection.collection_version.namespace ||
+                collection_version.version !==
+                    selectedCollection.collection_version.version ||
+                repository.name !== selectedCollection.repository.name;
         });
     };
     return RepositoriesUtils;

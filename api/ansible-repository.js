@@ -36,9 +36,9 @@ var API = /** @class */ (function (_super) {
             base_version: version_href,
         });
     };
-    API.prototype.addContent = function (id, collection_version_href) {
+    API.prototype.addContent = function (id, collection_version_hrefs) {
         return this.http.post(this.apiPath + id + '/modify/', {
-            add_content_units: [collection_version_href],
+            add_content_units: collection_version_hrefs,
         });
     };
     API.prototype.removeContent = function (id, collection_version_href) {
