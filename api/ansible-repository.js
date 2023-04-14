@@ -27,8 +27,9 @@ var API = /** @class */ (function (_super) {
         return this.list(params, this.getPath(null) + uuid + '/versions/');
     };
     // delete(uuid)
-    API.prototype.sync = function (id) {
-        return this.http.post(this.apiPath + id + '/sync/', {});
+    API.prototype.sync = function (id, body) {
+        if (body === void 0) { body = {}; }
+        return this.http.post(this.apiPath + id + '/sync/', body);
     };
     API.prototype.revert = function (id, version_href) {
         return this.http.post(this.apiPath + id + '/modify/', {

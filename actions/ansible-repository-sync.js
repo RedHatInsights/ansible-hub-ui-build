@@ -14,7 +14,7 @@ export var ansibleRepositorySyncAction = Action({
         var name = _a.name, pulp_href = _a.pulp_href;
         var addAlert = _b.addAlert, query = _b.query;
         var pulpId = parsePulpIDFromURL(pulp_href);
-        AnsibleRepositoryAPI.sync(pulpId)
+        AnsibleRepositoryAPI.sync(pulpId, { mirror: true })
             .then(function (_a) {
             var data = _a.data;
             addAlert(taskAlert(data.task, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Sync started for repository \"", "\"."], ["Sync started for repository \"", "\"."])), name)));
