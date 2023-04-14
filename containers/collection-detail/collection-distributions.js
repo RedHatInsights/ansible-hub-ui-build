@@ -60,24 +60,26 @@ import { loadCollection } from './base';
 var CollectionDistributions = function (props) {
     var routeParams = ParamHelper.parseParamString(props.location.search);
     var _a = useState([]), collections = _a[0], setCollections = _a[1];
-    var _b = useState(null), collection = _b[0], setCollection = _b[1];
-    var _c = useState(null), content = _c[0], setContent = _c[1];
-    var _d = useState(''), inputText = _d[0], setInputText = _d[1];
-    var _e = useState(null), distributions = _e[0], setDistributions = _e[1];
-    var _f = useState(0), count = _f[0], setCount = _f[1];
-    var _g = useState(true), loading = _g[0], setLoading = _g[1];
-    var _h = useState(Object.keys(routeParams).length
+    var _b = useState(0), collectionsCount = _b[0], setCollectionsCount = _b[1];
+    var _c = useState(null), collection = _c[0], setCollection = _c[1];
+    var _d = useState(null), content = _d[0], setContent = _d[1];
+    var _e = useState(''), inputText = _e[0], setInputText = _e[1];
+    var _f = useState(null), distributions = _f[0], setDistributions = _f[1];
+    var _g = useState(0), count = _g[0], setCount = _g[1];
+    var _h = useState(true), loading = _h[0], setLoading = _h[1];
+    var _j = useState(Object.keys(routeParams).length
         ? routeParams
         : {
             sort: '-pulp_created',
-        }), params = _h[0], setParams = _h[1];
+        }), params = _j[0], setParams = _j[1];
     var loadCollections = function (forceReload) {
         loadCollection({
             forceReload: forceReload,
             matchParams: props.routeParams,
             navigate: props.navigate,
-            setCollection: function (collections, collection, content) {
+            setCollection: function (collections, collection, content, collectionsCount) {
                 setCollections(collections);
+                setCollectionsCount(collectionsCount);
                 setCollection(collection);
                 setContent(content);
                 loadDistributions(collection.repository.pulp_href);
@@ -189,7 +191,7 @@ var CollectionDistributions = function (props) {
                     React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion', key: i }, cliConfig(distribution))))); }))));
     };
     return (React.createElement(React.Fragment, null,
-        React.createElement(CollectionHeader, { reload: function () { return loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (params) {
+        React.createElement(CollectionHeader, { reload: function () { return loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
                 updateParamsMixin(ParamHelper.setParam(params, 'version', params.version));
             }, breadcrumbs: breadcrumbs, activeTab: 'distributions' }),
         React.createElement(Main, null,

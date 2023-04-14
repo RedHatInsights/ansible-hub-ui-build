@@ -34,6 +34,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
         _this.state = {
             collection: null,
             collections: [],
+            collectionsCount: 0,
             content: null,
             params: params,
             loadingImports: true,
@@ -48,7 +49,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
     };
     CollectionImportLog.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, collections = _a.collections, params = _a.params, loadingImports = _a.loadingImports, selectedImportDetail = _a.selectedImportDetail, selectedImport = _a.selectedImport, apiError = _a.apiError, content = _a.content;
+        var _a = this.state, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, params = _a.params, loadingImports = _a.loadingImports, selectedImportDetail = _a.selectedImportDetail, selectedImport = _a.selectedImport, apiError = _a.apiError, content = _a.content;
         if (!collection) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -72,7 +73,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadData(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'import-log' }),
             React.createElement(Main, null,
@@ -124,8 +125,8 @@ var CollectionImportLog = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content) {
-                return _this.setState({ collections: collections, collection: collection, content: content }, callback);
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount }, callback);
             },
             stateParams: this.state.params,
         });

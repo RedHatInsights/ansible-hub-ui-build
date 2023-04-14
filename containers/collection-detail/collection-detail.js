@@ -49,6 +49,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
             collections: [],
+            collectionsCount: 0,
             collection: null,
             content: null,
             distroBasePath: null,
@@ -67,7 +68,7 @@ var CollectionDetail = /** @class */ (function (_super) {
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, collection = _a.collection, content = _a.content, params = _a.params, alerts = _a.alerts;
+        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, alerts = _a.alerts;
         if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -86,7 +87,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (p) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.loadCollections(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.repo }),
             React.createElement(Main, null,
@@ -109,11 +110,12 @@ var CollectionDetail = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content) {
-                _this.setState({
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({
                     collections: collections,
                     collection: collection,
                     content: content,
+                    collectionsCount: collectionsCount,
                 });
             },
             stateParams: this.state.params,

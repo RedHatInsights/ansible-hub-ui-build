@@ -26,12 +26,6 @@ var Constants = /** @class */ (function () {
         'galaxy.delete_group',
         'galaxy.add_group',
     ];
-    Constants.REPOSITORYNAMES = {
-        published: defineMessage({ message: "Published" }),
-        'rh-certified': defineMessage({ message: "Red Hat Certified" }),
-        community: defineMessage({ message: "Community" }),
-        validated: defineMessage({ message: "Validated" }),
-    };
     Constants.PROTECTED_REPOSITORIES = [
         'rh-certified',
         'validated',

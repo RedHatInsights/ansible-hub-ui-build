@@ -319,9 +319,8 @@ var CollectionHeader = /** @class */ (function (_super) {
     };
     CollectionHeader.prototype.render = function () {
         var _this = this;
-        var _a = this.props, collections = _a.collections, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
+        var _a = this.props, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
         var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
-        var numOfshownVersions = 10;
         var urlKeys = [
             { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
             { key: 'homepage', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Website"], ["Website"]))) },
@@ -395,7 +394,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                         React.createElement(Pagination, { isTop: true, params: {
                                 page: modalPagination.page,
                                 page_size: modalPagination.pageSize,
-                            }, updateParams: this.updatePaginationParams, count: collections.length })),
+                            }, updateParams: this.updatePaginationParams, count: collectionsCount })),
                     this.paginateVersions(collections).map(function (_a, i) {
                         var collection_version = _a.collection_version;
                         return (React.createElement(ListItem, { key: i },
@@ -410,7 +409,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 React.createElement(Pagination, { params: {
                         page: modalPagination.page,
                         page_size: modalPagination.pageSize,
-                    }, updateParams: this.updatePaginationParams, count: collections.length })),
+                    }, updateParams: this.updatePaginationParams, count: collectionsCount })),
             React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, collections: collections, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, collectionVersion: version, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
                     return _this.setState({ isDeletionPending: true }, function () {
                         collectionVersion
@@ -426,14 +425,14 @@ var CollectionHeader = /** @class */ (function (_super) {
                             });
                     });
                 } }),
-            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name, isDisabled: true }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
+            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
                     React.createElement("span", null, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Version"], ["Version"])))),
                     React.createElement("div", { className: 'install-version-dropdown' },
                         React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
                                 return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
                             }, variant: SelectVariant.single, onSelect: function () {
                                 return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v".concat(version), "aria-label": t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: numOfshownVersions < collections.length
+                            }, selections: "v".concat(version), "aria-label": t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: collections.length < collectionsCount
                                 ? {
                                     text: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["View more"], ["View more"]))),
                                     onClick: function () {
@@ -443,7 +442,9 @@ var CollectionHeader = /** @class */ (function (_super) {
                                         });
                                     },
                                 }
-                                : null }, this.renderSelectVersions(collections, numOfshownVersions).map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v".concat(v.version), onClick: function () {
+                                : null }, collections
+                            .map(function (c) { return c.collection_version; })
+                            .map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v".concat(v.version), onClick: function () {
                                 return updateParams(ParamHelper.setParam(params, 'version', v.version.toString()));
                             } },
                             React.createElement(Trans, null,
@@ -548,9 +549,6 @@ var CollectionHeader = /** @class */ (function (_super) {
             },
         ];
         return React.createElement(LinkTabs, { tabs: tabs });
-    };
-    CollectionHeader.prototype.renderSelectVersions = function (versions, count) {
-        return versions.slice(0, count).map(function (c) { return c.collection_version; });
     };
     CollectionHeader.prototype.submitCertificate = function (file) {
         return __awaiter(this, void 0, void 0, function () {

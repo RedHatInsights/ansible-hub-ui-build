@@ -33,6 +33,7 @@ var CollectionContent = /** @class */ (function (_super) {
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
             collections: [],
+            collectionsCount: 0,
             collection: null,
             content: null,
             params: params,
@@ -44,7 +45,7 @@ var CollectionContent = /** @class */ (function (_super) {
     };
     CollectionContent.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, collection = _a.collection, params = _a.params, content = _a.content;
+        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, params = _a.params, content = _a.content;
         if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -68,7 +69,7 @@ var CollectionContent = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collection: collection, content: content, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadCollections(true); });
                 }, breadcrumbs: breadcrumbs, activeTab: 'contents' }),
             React.createElement(Main, null,
@@ -81,8 +82,8 @@ var CollectionContent = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content) {
-                _this.setState({ collections: collections, collection: collection, content: content });
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount });
             },
             stateParams: this.state.params,
         });
