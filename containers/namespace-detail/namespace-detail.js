@@ -288,9 +288,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
                 tab === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, showControls: this.state.showControls, renderCollectionControls: function (collection) {
+                    React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, displaySignatures: this.context.featureFlags.display_signatures, collectionControls: function (collection) {
                             return _this.renderCollectionControls(collection);
-                        }, displaySignatures: this.context.featureFlags.display_signatures })))) : null,
+                        } })))) : null,
                 tab === 'cli-configuration' ? (React.createElement("section", { className: 'body' },
                     React.createElement("div", null,
                         React.createElement("div", null,
@@ -586,11 +586,15 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.renderCollectionControls = function (collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
-        return (React.createElement("div", { style: { display: 'flex', alignItems: 'center' } },
-            React.createElement(Button, { onClick: function () {
+        var showControls = this.state.showControls;
+        if (!showControls) {
+            return;
+        }
+        return {
+            uploadButton: (React.createElement(Button, { onClick: function () {
                     return _this.handleCollectionAction(collection.collection_version.pulp_href, 'upload');
-                }, variant: 'secondary' }, t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))),
-            React.createElement(StatefulDropdown, { items: [
+                }, variant: 'secondary' }, t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+            dropdownMenu: (React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
                         canDeleteCollection: hasPermission('ansible.delete_collection'),
                         noDependencies: null,
@@ -605,7 +609,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     React.createElement(DropdownItem, { onClick: function () {
                             return _this.handleCollectionAction(collection.collection_version.pulp_href, 'deprecate');
                         }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
-                ].filter(Boolean), ariaLabel: 'collection-kebab' })));
+                ].filter(Boolean), ariaLabel: 'collection-kebab' })),
+        };
     };
     return NamespaceDetail;
 }(React.Component));

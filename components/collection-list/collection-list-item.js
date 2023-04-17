@@ -14,7 +14,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { Trans, t } from '@lingui/macro';
-import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Label, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Flex, FlexItem, Label, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
@@ -23,7 +23,7 @@ import { chipGroupProps, convertContentSummaryCounts } from 'src/utilities';
 import { SignatureBadge } from '../signing';
 import './list-item.scss';
 export var CollectionListItem = function (_a) {
-    var collection_version = _a.collection_version, namespace = _a.namespace_metadata, repository = _a.repository, is_signed = _a.is_signed, is_deprecated = _a.is_deprecated, displaySignatures = _a.displaySignatures, showNamespace = _a.showNamespace, controls = _a.controls;
+    var _b = _a.collection, collection_version = _b.collection_version, namespace = _b.namespace_metadata, repository = _b.repository, is_signed = _b.is_signed, is_deprecated = _b.is_deprecated, displaySignatures = _a.displaySignatures, dropdownMenu = _a.dropdownMenu, showNamespace = _a.showNamespace, synclistSwitch = _a.synclistSwitch, uploadButton = _a.uploadButton;
     var cells = [];
     var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
     if (showNamespace) {
@@ -51,19 +51,28 @@ export var CollectionListItem = function (_a) {
         React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' },
             React.createElement(LabelGroup, __assign({}, chipGroupProps()), collection_version.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag.name)); })))));
     cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
-        controls ? React.createElement("div", { className: 'hub-entry' }, controls) : null,
-        React.createElement("div", { className: 'hub-right-col hub-entry' },
-            React.createElement(Trans, null,
-                "Updated ",
-                React.createElement(DateComponent, { date: collection_version.pulp_created }))),
-        React.createElement("div", { className: 'hub-entry' },
-            "v",
-            collection_version.version),
-        React.createElement(Label, { variant: 'outline', className: 'hub-repository-badge' },
-            React.createElement(Link, { to: formatPath(Paths.ansibleRepositoryDetail, {
-                    name: repository.name,
-                }) }, repository.name)),
-        displaySignatures ? (React.createElement(SignatureBadge, { className: 'hub-entry', variant: 'outline', signState: is_signed ? 'signed' : 'unsigned' })) : null));
+        React.createElement(Flex, { direction: { default: 'column' }, alignItems: { default: 'alignItemsFlexEnd' } },
+            React.createElement(Flex, { direction: { default: 'column' }, alignItems: { default: 'alignItemsFlexStart' } },
+                synclistSwitch && React.createElement(FlexItem, null, synclistSwitch),
+                uploadButton || dropdownMenu ? (React.createElement(FlexItem, null,
+                    uploadButton,
+                    dropdownMenu || React.createElement("span", { className: 'hidden-menu-space' }))) : null,
+                React.createElement(FlexItem, null,
+                    React.createElement("div", null,
+                        React.createElement(Trans, null,
+                            "Updated ",
+                            React.createElement(DateComponent, { date: collection_version.pulp_created }))),
+                    React.createElement("div", null,
+                        "v",
+                        collection_version.version))),
+            React.createElement(Flex, { direction: { default: 'row' }, alignSelf: { default: 'alignSelfFlexStart' } },
+                React.createElement(FlexItem, null,
+                    React.createElement(Label, { variant: 'outline' },
+                        React.createElement(Link, { to: formatPath(Paths.ansibleRepositoryDetail, {
+                                name: repository.name,
+                            }) }, repository.name))),
+                displaySignatures ? (React.createElement(FlexItem, null,
+                    React.createElement(SignatureBadge, { variant: 'outline', signState: is_signed ? 'signed' : 'unsigned' }))) : null))));
     return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },
         React.createElement(DataListItemRow, null,
             React.createElement(DataListItemCells, { dataListCells: cells }))));

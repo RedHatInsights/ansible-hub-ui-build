@@ -250,9 +250,13 @@ var Search = /** @class */ (function (_super) {
             !list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
         ].filter(Boolean);
         var displayMenu = menuItems.length > 0;
-        return (React.createElement(React.Fragment, null,
-            list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
-            React.createElement("span", { className: cx(!displayMenu && 'hidden-menu-space') }, displayMenu && (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })))));
+        if (list) {
+            return {
+                uploadButton: hasPermission('galaxy.upload_to_namespace') ? (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))) : null,
+                dropdownMenu: displayMenu ? (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })) : null,
+            };
+        }
+        return (React.createElement("span", { className: cx(!displayMenu && 'hidden-menu-space') }, displayMenu && (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' }))));
     };
     Search.prototype.renderSyncToogle = function (name, namespace) {
         var _this = this;
@@ -310,20 +314,13 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.isCollectionSynced = function (name, namespace) {
         var synclist = this.state.synclist;
         var found = synclist.collections.find(function (el) { return el.name === name && el.namespace === namespace; });
-        if (synclist.policy === 'include') {
-            return !(found === undefined);
-        }
-        else {
-            return found === undefined;
-        }
+        return synclist.policy === 'include' ? !!found : !found;
     };
     Search.prototype.renderList = function (collections) {
         var _this = this;
         return (React.createElement("div", { className: 'list-container' },
             React.createElement("div", { className: 'hub-list' },
-                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c, i) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: i }, c, { controls: React.createElement(React.Fragment, null,
-                        _this.renderSyncToogle(c.collection_version.name, c.collection_version.namespace),
-                        _this.renderMenu(true, c)), displaySignatures: _this.context.featureFlags.display_signatures }))); })))));
+                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c, i) { return (React.createElement(CollectionListItem, __assign({ key: i, collection: c, displaySignatures: _this.context.featureFlags.display_signatures, showNamespace: true, synclistSwitch: _this.renderSyncToogle(c.collection_version.name, c.collection_version.namespace) }, _this.renderMenu(true, c)))); })))));
     };
     Search.prototype.getSynclist = function () {
         var _this = this;

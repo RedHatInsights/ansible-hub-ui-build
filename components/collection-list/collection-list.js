@@ -21,9 +21,9 @@ import { ParamHelper } from 'src/utilities/param-helper';
 import './list.scss';
 // only used in namespace detail, collections uses individual items
 export var CollectionList = function (props) {
-    var collections = props.collections, displaySignatures = props.displaySignatures, params = props.params, updateParams = props.updateParams, ignoredParams = props.ignoredParams, itemCount = props.itemCount, showControls = props.showControls;
+    var collections = props.collections, collectionControls = props.collectionControls, displaySignatures = props.displaySignatures, params = props.params, updateParams = props.updateParams, ignoredParams = props.ignoredParams, itemCount = props.itemCount;
     return (React.createElement(React.Fragment, null,
-        React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c, i) { return (React.createElement(CollectionListItem, __assign({ controls: showControls ? props.renderCollectionControls(c) : null, key: i }, c, { displaySignatures: displaySignatures, showNamespace: true }))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
+        React.createElement(DataList, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.length > 0 ? (collections.map(function (c, i) { return (React.createElement(CollectionListItem, __assign({ key: i, collection: c, displaySignatures: displaySignatures, showNamespace: true }, collectionControls(c)))); })) : (React.createElement(EmptyStateFilter, { clearAllFilters: function () {
                 ParamHelper.clearAllFilters({
                     params: params,
                     ignoredParams: ignoredParams,
