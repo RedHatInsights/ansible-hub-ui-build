@@ -182,7 +182,7 @@ var LegacyNamespace = /** @class */ (function (_super) {
             var dropdownItems = [];
             if (ai_deny_index &&
                 (this.context.user.is_superuser || userOwnsLegacyNamespace)) {
-                dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Wisdom settings"], ["Wisdom settings"])))));
+                dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"])))));
             }
             if (dropdownItems.length) {
                 infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'kebab' },

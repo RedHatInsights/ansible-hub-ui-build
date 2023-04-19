@@ -550,7 +550,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             canSign &&
                 !can_upload_signatures &&
                 this.state.collections.length >= 1 && (React.createElement(DropdownItem, { key: 'sign-collections', "data-cy": 'sign-all-collections-button', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
-            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Wisdom settings"], ["Wisdom settings"]))))),
+            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
