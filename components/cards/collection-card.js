@@ -9,10 +9,12 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, Logo, SignatureBadge } from 'src/components';
 import { Constants } from 'src/constants';
+import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { convertContentSummaryCounts } from 'src/utilities';
 export var CollectionCard = function (_a) {
     var collection_version = _a.collection_version, namespace = _a.namespace_metadata, repository = _a.repository, is_signed = _a.is_signed, className = _a.className, displaySignatures = _a.displaySignatures, menu = _a.menu, footer = _a.footer;
+    var featureFlags = useContext().featureFlags;
     var MAX_DESCRIPTION_LENGTH = 60;
     var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
     var contentSummary = convertContentSummaryCounts(collection_version);
@@ -20,13 +22,13 @@ export var CollectionCard = function (_a) {
         React.createElement(CardHeader, { className: 'logo-row' },
             React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '40px', unlockWidth: true, flexGrow: true }),
             React.createElement("div", { className: 'card-badge-area' },
-                React.createElement(TextContent, null,
+                featureFlags.display_repositories ? (React.createElement(TextContent, null,
                     React.createElement(Text, { component: TextVariants.small },
                         React.createElement(Badge, { isRead: true },
                             React.createElement(Link, { to: formatPath(Paths.ansibleRepositoryDetail, {
                                     name: repository.name,
                                 }) }, repository.name === Constants.CERTIFIED_REPO
-                                ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Certified"], ["Certified"]))) : repository.name)))),
+                                ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Certified"], ["Certified"]))) : repository.name))))) : null,
                 displaySignatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: is_signed ? 'signed' : 'unsigned' })) : null),
             menu),
         React.createElement(CardHeader, null,

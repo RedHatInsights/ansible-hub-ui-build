@@ -18,12 +18,14 @@ import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Flex, F
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
+import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, convertContentSummaryCounts } from 'src/utilities';
 import { SignatureBadge } from '../signing';
 import './list-item.scss';
 export var CollectionListItem = function (_a) {
     var _b = _a.collection, collection_version = _b.collection_version, namespace = _b.namespace_metadata, repository = _b.repository, is_signed = _b.is_signed, is_deprecated = _b.is_deprecated, displaySignatures = _a.displaySignatures, dropdownMenu = _a.dropdownMenu, showNamespace = _a.showNamespace, synclistSwitch = _a.synclistSwitch, uploadButton = _a.uploadButton;
+    var featureFlags = useContext().featureFlags;
     var cells = [];
     var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
     if (showNamespace) {
@@ -66,11 +68,11 @@ export var CollectionListItem = function (_a) {
                         "v",
                         collection_version.version))),
             React.createElement(Flex, { direction: { default: 'row' }, alignSelf: { default: 'alignSelfFlexStart' } },
-                React.createElement(FlexItem, null,
+                featureFlags.display_repositories ? (React.createElement(FlexItem, null,
                     React.createElement(Label, { variant: 'outline' },
                         React.createElement(Link, { to: formatPath(Paths.ansibleRepositoryDetail, {
                                 name: repository.name,
-                            }) }, repository.name))),
+                            }) }, repository.name)))) : null,
                 displaySignatures ? (React.createElement(FlexItem, null,
                     React.createElement(SignatureBadge, { variant: 'outline', signState: is_signed ? 'signed' : 'unsigned' }))) : null))));
     return (React.createElement(DataListItem, { "data-cy": 'CollectionListItem' },

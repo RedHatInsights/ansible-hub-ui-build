@@ -74,20 +74,21 @@ export var Page = function (_a) {
             }
             class_1.prototype.componentDidMount = function () {
                 var _this = this;
-                if (!condition(this.context)) {
-                    this.setState({ loading: false, unauthorised: true });
-                }
-                else {
-                    this.query();
-                }
-                this.setState({ alerts: this.context.alerts || [] });
-                this.context.setAlerts([]);
-                if (didMount) {
-                    didMount({
-                        context: this.context,
-                        addAlert: function (alert) { return _this.addAlert(alert); },
-                    });
-                }
+                // condition check after query, for object permissions
+                this.query().then(function (item) {
+                    var actionContext = __assign(__assign({}, _this.context), { hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); } });
+                    if (!condition(actionContext)) {
+                        _this.setState({ loading: false, unauthorised: true });
+                    }
+                    _this.setState({ alerts: _this.context.alerts || [] });
+                    _this.context.setAlerts([]);
+                    if (didMount) {
+                        didMount({
+                            context: _this.context,
+                            addAlert: function (alert) { return _this.addAlert(alert); },
+                        });
+                    }
+                });
             };
             class_1.prototype.render = function () {
                 var _this = this;
@@ -123,26 +124,30 @@ export var Page = function (_a) {
                 var name = transformParams(this.props.routeParams).name;
                 if (!name) {
                     this.setState({ loading: false });
-                    return;
+                    return Promise.resolve(null);
                 }
-                this.setState({ loading: true }, function () {
-                    query({ name: name })
-                        .then(function (item) {
-                        _this.setState({
-                            item: item,
-                            loading: false,
-                        });
-                    })
-                        .catch(function (e) {
-                        var _a = e.response, status = _a.status, statusText = _a.statusText;
-                        _this.setState({
-                            loading: false,
-                            item: null,
-                        });
-                        _this.addAlert({
-                            title: errorTitle,
-                            variant: 'danger',
-                            description: errorMessage(status, statusText),
+                return new Promise(function (resolve, reject) {
+                    _this.setState({ loading: true }, function () {
+                        query({ name: name })
+                            .then(function (item) {
+                            _this.setState({
+                                item: item,
+                                loading: false,
+                            });
+                            resolve(item);
+                        })
+                            .catch(function (e) {
+                            var _a = e.response, status = _a.status, statusText = _a.statusText;
+                            _this.setState({
+                                loading: false,
+                                item: null,
+                            });
+                            _this.addAlert({
+                                title: errorTitle,
+                                variant: 'danger',
+                                description: errorMessage(status, statusText),
+                            });
+                            reject();
                         });
                     });
                 });

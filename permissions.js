@@ -27,8 +27,11 @@ export var canAddAnsibleRepository = has_model_perms('ansible.add_ansiblereposit
 export var canDeleteAnsibleRepository = has_model_or_obj_perms('ansible.delete_ansiblerepository');
 export var canEditAnsibleRepository = has_model_or_obj_perms('ansible.change_ansiblerepository');
 export var canSyncAnsibleRepository = canEditAnsibleRepository;
-// everybody can list/view, not has_model_or_obj_perms('ansible.view_ansiblerepository')
-export var canViewAnsibleRepositories = isLoggedIn;
+// everybody can list/view, not has_model_or_obj_perms('ansible.view_ansiblerepository'); under feature flag
+export var canViewAnsibleRepositories = function (_a) {
+    var user = _a.user, featureFlags = _a.featureFlags;
+    return user && (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.display_repositories);
+};
 export var canEditAnsibleRepositoryAccess = has_model_or_obj_perms('ansible.manage_roles_ansiblerepository');
 // Ansible Repository Versions
 // simulating has_repository_model_or_obj_perms by passing in repository as item

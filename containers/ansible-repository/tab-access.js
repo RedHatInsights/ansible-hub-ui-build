@@ -10,7 +10,7 @@ import { Paths, formatPath } from 'src/paths';
 import { canEditAnsibleRepositoryAccess } from 'src/permissions';
 import { errorMessage, parsePulpIDFromURL } from 'src/utilities';
 export var RepositoryAccessTab = function (_a) {
-    var item = _a.item, _b = _a.actionContext, addAlert = _b.addAlert, params = _b.state.params, hasPermission = _b.hasPermission, user = _b.user;
+    var item = _a.item, _b = _a.actionContext, addAlert = _b.addAlert, featureFlags = _b.featureFlags, hasPermission = _b.hasPermission, params = _b.state.params, user = _b.user;
     var id = (item === null || item === void 0 ? void 0 : item.pulp_href) && parsePulpIDFromURL(item.pulp_href);
     var _c = useState(item === null || item === void 0 ? void 0 : item.name), name = _c[0], setName = _c[1];
     var _d = useState(null), groups = _d[0], setGroups = _d[1]; // loading
@@ -31,6 +31,7 @@ export var RepositoryAccessTab = function (_a) {
                     return permissions.includes(p);
                 },
                 user: user,
+                featureFlags: featureFlags,
             }));
             AnsibleRepositoryAPI.listRoles(id)
                 .then(function (_a) {
