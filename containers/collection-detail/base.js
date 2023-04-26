@@ -51,6 +51,8 @@ export function loadCollection(_a) {
         return results[0];
     })
         .catch(function () { return navigate(formatPath(Paths.notFound)); });
+    // Note: this only provides the first page - containing the latest version, and all items for the version *selector*,
+    // but the version *modal* is using a separate call, in CollectionHeader updatePaginationParams
     var versions = CollectionVersionAPI.list(__assign(__assign({}, requestParams), { order_by: '-version', page_size: 10 }))
         .then(function (_a) {
         var data = _a.data;

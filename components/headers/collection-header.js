@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -63,12 +74,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { Trans, t } from '@lingui/macro';
-import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Text, } from '@patternfly/react-core';
+import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Spinner, Text, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import * as moment from 'moment';
 import * as React from 'react';
 import { Navigate } from 'react-router-dom';
-import { CertificateUploadAPI, CollectionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
+import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
 import { AlertList, BaseHeader, Breadcrumbs, DeleteCollectionModal, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
@@ -86,11 +97,24 @@ var CollectionHeader = /** @class */ (function (_super) {
         _this.ignoreParams = ['showing', 'keywords'];
         _this.updatePaginationParams = function (_a) {
             var page = _a.page, page_size = _a.page_size;
-            _this.setState({
-                modalPagination: {
-                    page: page,
-                    pageSize: page_size,
-                },
+            var modalPagination = {
+                page: page,
+                page_size: page_size,
+            };
+            _this.setState({ modalPagination: modalPagination, modalCollections: null });
+            var _b = _this.props.collection.collection_version, namespace = _b.namespace, name = _b.name;
+            var repository = _this.props.collection.repository;
+            var requestParams = __assign(__assign({}, (repository ? { repository_name: repository.name } : {})), { namespace: namespace, name: name });
+            // loadCollections provides initial data, pagination needs extra requests
+            CollectionVersionAPI.list(__assign(__assign(__assign({}, requestParams), { order_by: '-version' }), modalPagination))
+                .then(function (_a) {
+                var data = _a.data;
+                return data;
+            })
+                .catch(function () { return ({ data: [] }); })
+                .then(function (_a) {
+                var modalCollections = _a.data;
+                return _this.setState({ modalCollections: modalCollections });
             });
         };
         _this.signCollection = function () {
@@ -285,9 +309,10 @@ var CollectionHeader = /** @class */ (function (_super) {
             isOpenVersionsModal: false,
             isOpenSignModal: false,
             isOpenSignAllModal: false,
+            modalCollections: null,
             modalPagination: {
                 page: 1,
-                pageSize: Constants.DEFAULT_PAGINATION_OPTIONS[1],
+                page_size: Constants.DEFAULT_PAGINATION_OPTIONS[0],
             },
             deleteCollection: null,
             collectionVersion: null,
@@ -316,11 +341,17 @@ var CollectionHeader = /** @class */ (function (_super) {
             var data = _a.data;
             _this.setState({ namespace: data });
         });
+        this.setState({ modalCollections: this.props.collections });
+    };
+    CollectionHeader.prototype.componentDidUpdate = function (prevProps) {
+        if (this.props.collections !== prevProps.collections) {
+            this.setState({ modalCollections: this.props.collections });
+        }
     };
     CollectionHeader.prototype.render = function () {
         var _this = this;
         var _a = this.props, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
-        var _b = this.state, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
+        var _b = this.state, modalCollections = _b.modalCollections, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
         var urlKeys = [
             { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
             { key: 'homepage', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Website"], ["Website"]))) },
@@ -391,11 +422,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 React.createElement(List, { isPlain: true },
                     React.createElement("div", { className: 'versions-modal-header' },
                         React.createElement(Text, null, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["", "'s versions."], ["", "'s versions."])), collectionName)),
-                        React.createElement(Pagination, { isTop: true, params: {
-                                page: modalPagination.page,
-                                page_size: modalPagination.pageSize,
-                            }, updateParams: this.updatePaginationParams, count: collectionsCount })),
-                    this.paginateVersions(collections).map(function (_a, i) {
+                        React.createElement(Pagination, { isTop: true, params: modalPagination, updateParams: this.updatePaginationParams, count: collectionsCount })),
+                    modalCollections ? (modalCollections.map(function (_a, i) {
                         var collection_version = _a.collection_version;
                         return (React.createElement(ListItem, { key: i },
                             React.createElement(Button, { variant: 'link', isInline: true, onClick: function () {
@@ -405,11 +433,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 "v",
                                 collection_version.version),
                             ' ', t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["updated ", ""], ["updated ", ""])), isLatestVersion(collection_version))));
-                    })),
-                React.createElement(Pagination, { params: {
-                        page: modalPagination.page,
-                        page_size: modalPagination.pageSize,
-                    }, updateParams: this.updatePaginationParams, count: collectionsCount })),
+                    })) : (React.createElement(Spinner, null))),
+                React.createElement(Pagination, { params: modalPagination, updateParams: this.updatePaginationParams, count: collectionsCount })),
             React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, collections: collections, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, collectionVersion: version, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
                     return _this.setState({ isDeletionPending: true }, function () {
                         collectionVersion
@@ -611,10 +636,6 @@ var CollectionHeader = /** @class */ (function (_super) {
             uploadCertificateModalOpen: false,
             versionToUploadCertificate: undefined,
         });
-    };
-    CollectionHeader.prototype.paginateVersions = function (versions) {
-        var modalPagination = this.state.modalPagination;
-        return versions.slice(modalPagination.pageSize * (modalPagination.page - 1), modalPagination.pageSize * modalPagination.page);
     };
     CollectionHeader.prototype.deprecate = function (collection) {
         var _this = this;
