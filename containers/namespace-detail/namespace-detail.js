@@ -105,6 +105,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'page_size',
         ]);
         params['namespace'] = props.routeParams.namespace;
+        if (props.routeParams.repo && !params['repository_name']) {
+            params['repository_name'] = props.routeParams.repo;
+        }
         _this.state = {
             canSign: false,
             collections: [],
@@ -140,16 +143,23 @@ var NamespaceDetail = /** @class */ (function (_super) {
         this.context.setAlerts([]);
     };
     NamespaceDetail.prototype.componentDidUpdate = function (prevProps) {
+        var params = ParamHelper.parseParamString(this.props.location.search, [
+            'page',
+            'page_size',
+        ]);
         if (prevProps.location.search !== this.props.location.search) {
-            var params = ParamHelper.parseParamString(this.props.location.search, [
-                'page',
-                'page_size',
-            ]);
             params['namespace'] = this.props.routeParams.namespace;
             this.setState({
                 params: params,
                 group: this.filterGroup(params['group'], this.state.namespace.groups),
             });
+        }
+        if (prevProps.routeParams.repo !== this.props.routeParams.repo &&
+            this.props.routeParams.repo &&
+            (!params['repository_name'] ||
+                params['repository_name'] === prevProps.routeParams.repo)) {
+            params['repository_name'] = this.props.routeParams.repo;
+            this.setState({ params: params });
         }
     };
     NamespaceDetail.prototype.filterGroup = function (groupId, groups) {
@@ -236,7 +246,6 @@ var NamespaceDetail = /** @class */ (function (_super) {
         };
         var ignoredParams = [
             'namespace',
-            'repository__name',
             'page',
             'page_size',
             'sort',
@@ -249,6 +258,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         // remove ?group (access tab) when switching tabs
         var tabParams = __assign({}, params);
         delete tabParams.group;
+        var repository = params['repository_name'] || null;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -358,11 +368,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }, urlPrefix: formatPath(Paths.namespaceDetail, {
                         namespace: namespace.name,
                     }) })) : null),
-            canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () {
-                    _this.signAllCertificates(namespace);
-                }, onCancel: function () {
-                    _this.setState({ isOpenSignModal: false });
-                } }))));
+            canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () { return _this.signAllCertificates(namespace, repository); }, onCancel: function () { return _this.setState({ isOpenSignModal: false }); } }))));
     };
     NamespaceDetail.prototype.handleCollectionAction = function (pulp_href, action) {
         var _this = this;
@@ -413,11 +419,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
         return (React.createElement("div", { className: 'pf-c-content preview' },
             React.createElement(ReactMarkdown, null, namespace.resources)));
     };
-    NamespaceDetail.prototype.signAllCertificates = function (namespace) {
+    NamespaceDetail.prototype.signAllCertificates = function (namespace, repository) {
         var _this = this;
-        // get the repository from first collection
-        // all collections are in same repo, so this should be fine.
-        var collection = this.state.collections[0];
         var errorAlert = function (status) {
             if (status === void 0) { status = 500; }
             return ({
@@ -426,24 +429,23 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 description: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
             });
         };
-        this.setState({
-            alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
-                {
-                    id: 'loading-signing',
-                    variant: 'success',
-                    title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
-                },
-            ], false),
-            isOpenSignModal: false,
-        });
-        var name = collection.collection_version.name;
         SignCollectionAPI.sign({
             signing_service: this.context.settings.GALAXY_COLLECTION_SIGNING_SERVICE,
-            repository: collection.repository,
+            repository_name: repository,
             namespace: namespace.name,
-            collection: name,
         })
             .then(function (result) {
+            // FIXME: use taskAlert
+            _this.setState({
+                alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
+                    {
+                        id: 'loading-signing',
+                        variant: 'success',
+                        title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
+                    },
+                ], false),
+                isOpenSignModal: false,
+            });
             waitForTask(result.data.task_id)
                 .then(function () {
                 _this.load();
@@ -463,6 +465,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             // The request failed in the first place
             _this.setState({
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [errorAlert(error.response.status)], false),
+                isOpenSignModal: false,
             });
         });
     };
@@ -533,6 +536,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var can_upload_signatures = this.context.featureFlags.can_upload_signatures;
         var ai_deny_index = this.context.featureFlags.ai_deny_index;
         var hasPermission = this.context.hasPermission;
+        var repository = this.state.params['repository_name'] || null;
         var dropdownItems = [
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
@@ -549,15 +553,15 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }) }, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
             canSign &&
                 !can_upload_signatures &&
-                this.state.collections.length >= 1 && (React.createElement(DropdownItem, { key: 'sign-collections', "data-cy": 'sign-all-collections-button', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"]))))),
-            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"]))))),
+                (repository ? (React.createElement(DropdownItem, { key: 'sign-collections', "data-cy": 'sign-all-collections-button', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Sign all collections in ", ""], ["Sign all collections in ", ""])), repository))) : (React.createElement(DropdownItem, { key: 'sign-collections', isDisabled: true, description: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Please select a repository filter"], ["Please select a repository filter"]))) }, t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"])))))),
+            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
         }
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && (React.createElement("div", { "data-cy": 'ns-kebab-toggle' },
                 React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
@@ -593,7 +597,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         return {
             uploadButton: (React.createElement(Button, { onClick: function () {
                     return _this.handleCollectionAction(collection.collection_version.pulp_href, 'upload');
-                }, variant: 'secondary' }, t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+                }, variant: 'secondary' }, t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
             dropdownMenu: (React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
                         canDeleteCollection: hasPermission('ansible.delete_collection'),
@@ -608,7 +612,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }),
                     React.createElement(DropdownItem, { onClick: function () {
                             return _this.handleCollectionAction(collection.collection_version.pulp_href, 'deprecate');
-                        }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+                        }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
                 ].filter(Boolean), ariaLabel: 'collection-kebab' })),
         };
     };
@@ -617,5 +621,5 @@ var NamespaceDetail = /** @class */ (function (_super) {
 export { NamespaceDetail };
 NamespaceDetail.contextType = AppContext;
 export default withRouter(NamespaceDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40;
 //# sourceMappingURL=namespace-detail.js.map

@@ -95,11 +95,11 @@ export var CollectionFilter = function (props) {
                         } }),
                     React.createElement(ToolbarItem, null,
                         React.createElement(AppliedFilters, { niceNames: {
-                                is_signed: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["sign state"], ["sign state"]))),
-                                tags: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["tags"], ["tags"]))),
-                                keywords: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["keywords"], ["keywords"]))),
-                                repository_name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["repository"], ["repository"]))),
-                                namespace: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["namespace"], ["namespace"]))),
+                                is_signed: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Sign state"], ["Sign state"]))),
+                                tags: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Tags"], ["Tags"]))),
+                                keywords: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Keywords"], ["Keywords"]))),
+                                repository_name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repository"], ["Repository"]))),
+                                namespace: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
                             }, niceValues: {
                                 is_signed: {
                                     false: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["unsigned"], ["unsigned"]))),

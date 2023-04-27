@@ -71,7 +71,7 @@ export function findDistroBasePathByRepo(distributions, repository) {
     }
     // try to look for match by name, if not, just use the first distro
     var distro = distributions.find(function (distro) { return distro.name === repository.name; });
-    return distro ? distro.base_path : distro[0].base_path;
+    return distro ? distro.base_path : distributions[0].base_path;
 }
 function filterContents(contents) {
     if (contents) {
