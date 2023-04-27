@@ -23,12 +23,12 @@ var API = /** @class */ (function (_super) {
         return _this;
         // list(params?)
     }
-    API.prototype.setRepository = function (namespace, name, version, originalRepo, destinationRepo) {
-        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(originalRepo, "/").concat(destinationRepo, "/");
+    API.prototype.move = function (namespace, name, version, source_base_path, destination_base_path) {
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(source_base_path, "/").concat(destination_base_path, "/");
         return this.create({}, path);
     };
-    API.prototype.copyToRepository = function (namespace, name, version, originalRepo, destinationRepo) {
-        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/copy/").concat(originalRepo, "/").concat(destinationRepo, "/");
+    API.prototype.copy = function (namespace, name, version, source_base_path, destination_base_path) {
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/copy/").concat(source_base_path, "/").concat(destination_base_path, "/");
         return this.create({}, path);
     };
     API.prototype.get = function (id) {
