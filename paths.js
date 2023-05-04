@@ -25,6 +25,7 @@ export function formatPath(path, data, params) {
             .replace(/\/$/, '')
         : '';
     url += path + '/';
+    url = url.replaceAll('//', '/');
     for (var _i = 0, _a = Object.keys(data); _i < _a.length; _i++) {
         var k = _a[_i];
         url = url.replace(':' + k, encodeURIComponent(data[k]));
@@ -90,7 +91,7 @@ export var Paths;
     Paths["myImports"] = "/my-imports";
     Paths["login"] = "/login";
     Paths["logout"] = "/logout";
-    Paths["search"] = "/";
+    Paths["landingPage"] = "/";
     Paths["legacyRole"] = "/legacy/roles/:username/:name";
     Paths["legacyRoles"] = "/legacy/roles/";
     Paths["legacyNamespace"] = "/legacy/namespaces/:namespaceid";

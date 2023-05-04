@@ -103,7 +103,7 @@ var TokenInsights = /** @class */ (function (_super) {
                             ' ',
                             "page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
                             ' ',
-                            React.createElement(Link, { to: formatPath(Paths.search) }, "Collections"),
+                            React.createElement(Link, { to: formatPath(Paths.collections) }, "Collections"),
                             " page to control which collections are added to their organization's sync repository."))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),

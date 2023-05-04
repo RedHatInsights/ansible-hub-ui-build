@@ -51,7 +51,7 @@ export var StandaloneLayout = function (_a) {
     }
     var Header = (React.createElement(PageHeader, { logo: React.createElement(SmallLogo, { alt: APPLICATION_NAME }), logoComponent: function (_a) {
             var children = _a.children;
-            return (React.createElement(Link, { to: formatPath(Paths.collections) }, children));
+            return (React.createElement(Link, { to: formatPath(Paths.landingPage) }, children));
         }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(LoginLink, { next: location.pathname })) : (React.createElement("div", null,
             React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
             React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
