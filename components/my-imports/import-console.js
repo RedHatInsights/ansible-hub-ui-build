@@ -81,7 +81,8 @@ var ImportConsole = /** @class */ (function (_super) {
                 "\u00A0")));
     };
     ImportConsole.prototype.renderTitle = function (selectedImport) {
-        var _a = this.props, task = _a.task, hideCollectionName = _a.hideCollectionName, collectionVersion = _a.collectionVersion, empty = _a.empty;
+        var _a;
+        var _b = this.props, task = _b.task, hideCollectionName = _b.hideCollectionName, collection = _b.collection, empty = _b.empty;
         if (empty) {
             return;
         }
@@ -90,15 +91,15 @@ var ImportConsole = /** @class */ (function (_super) {
             ".",
             selectedImport.name));
         var approvalStatus = t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["waiting for import to finish"], ["waiting for import to finish"])));
-        if (collectionVersion) {
-            var rlist = collectionVersion.repository_list;
-            if (rlist.includes(Constants.NOTCERTIFIED)) {
+        if (collection) {
+            var repoStatus = (_a = collection.repository.pulp_labels) === null || _a === void 0 ? void 0 : _a.pipeline;
+            if (repoStatus === Constants.NOTCERTIFIED) {
                 approvalStatus = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["rejected"], ["rejected"])));
             }
-            else if (rlist.includes(Constants.NEEDSREVIEW)) {
+            else if (repoStatus === Constants.NEEDSREVIEW) {
                 approvalStatus = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["waiting for approval"], ["waiting for approval"])));
             }
-            else if (rlist.includes(Constants.PUBLISHED)) {
+            else if (repoStatus === Constants.APPROVED) {
                 approvalStatus = t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["approved"], ["approved"])));
             }
             else {
@@ -107,7 +108,7 @@ var ImportConsole = /** @class */ (function (_super) {
             collectionHead = (React.createElement(Link, { className: 'title', to: formatPath(Paths.collectionByRepo, {
                     namespace: selectedImport.namespace,
                     collection: selectedImport.name,
-                    repo: rlist[0],
+                    repo: collection === null || collection === void 0 ? void 0 : collection.repository.name,
                 }, {
                     version: selectedImport.version,
                 }) },

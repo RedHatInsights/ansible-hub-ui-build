@@ -13,17 +13,34 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import axios from 'axios';
 import { HubAPI } from './hub';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.apiPath = _this.getUIPath('collection-versions/');
+        _this.apiPath = 'v3/plugin/ansible/search/collection-versions/';
         return _this;
+        // list(params?)
     }
-    API.prototype.setRepository = function (namespace, name, version, originalRepo, destinationRepo) {
-        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(originalRepo, "/").concat(destinationRepo, "/");
+    API.prototype.move = function (namespace, name, version, source_base_path, destination_base_path) {
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/move/").concat(source_base_path, "/").concat(destination_base_path, "/");
         return this.create({}, path);
+    };
+    API.prototype.copy = function (namespace, name, version, source_base_path, destination_base_path) {
+        var path = "v3/collections/".concat(namespace, "/").concat(name, "/versions/").concat(version, "/copy/").concat(source_base_path, "/").concat(destination_base_path, "/");
+        return this.create({}, path);
+    };
+    API.prototype.get = function (id) {
+        return _super.prototype.get.call(this, id, 'pulp/api/v3/content/ansible/collection_versions/');
+    };
+    API.prototype.getUsedDependenciesByCollection = function (namespace, collection, params, cancelToken) {
+        if (params === void 0) { params = {}; }
+        if (cancelToken === void 0) { cancelToken = undefined; }
+        return this.http.get("".concat(this.apiPath, "?dependency=").concat(namespace, ".").concat(collection), { params: this.mapPageToOffset(params), cancelToken: cancelToken === null || cancelToken === void 0 ? void 0 : cancelToken.token });
+    };
+    API.prototype.getCancelToken = function () {
+        return axios.CancelToken.source();
     };
     return API;
 }(HubAPI));

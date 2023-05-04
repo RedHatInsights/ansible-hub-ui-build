@@ -75,7 +75,7 @@ var LoginPage = /** @class */ (function (_super) {
             passwordValue: '',
         };
         var params = ParamHelper.parseParamString(_this.props.location.search);
-        _this.redirectPage = params['next'] || formatPath(Paths.search);
+        _this.redirectPage = params['next'] || formatPath(Paths.landingPage);
         return _this;
     }
     LoginPage.prototype.render = function () {

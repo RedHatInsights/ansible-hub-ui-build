@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -67,7 +78,7 @@ import { Alert, AlertActionLink, Button, Form, FormGroup, InputGroup, Label, Lab
 import { TagIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { ContainerTagAPI, ExecutionEnvironmentAPI, PulpStatus, TaskAPI, } from 'src/api';
-import { parsePulpIDFromURL } from 'src/utilities';
+import { chipGroupProps, parsePulpIDFromURL } from 'src/utilities';
 var VALID_TAG_REGEX = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 var TagManifestModal = /** @class */ (function (_super) {
     __extends(TagManifestModal, _super);
@@ -151,7 +162,7 @@ var TagManifestModal = /** @class */ (function (_super) {
                             } }, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Yes"], ["Yes"])))),
                         React.createElement(AlertActionLink, { onClick: function () { return _this.setState({ tagToVerify: '' }); } }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No"], ["No"]))))) })),
                 React.createElement(FormGroup, { fieldId: 'remove-tag', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Current tags"], ["Current tags"]))) },
-                    React.createElement(LabelGroup, { id: 'remove-tag', defaultIsOpen: true }, this.getCurrentTags().map(function (tag) { return (React.createElement(Label, { disabled: isSaving, icon: React.createElement(TagIcon, null), onClose: isSaving ? undefined : function () { return _this.removeTag(tag); }, key: tag }, tag)); }))),
+                    React.createElement(LabelGroup, __assign({}, chipGroupProps(), { id: 'remove-tag', defaultIsOpen: true }), this.getCurrentTags().map(function (tag) { return (React.createElement(Label, { disabled: isSaving, icon: React.createElement(TagIcon, null), onClose: isSaving ? undefined : function () { return _this.removeTag(tag); }, key: tag }, tag)); }))),
                 pendingTasks > 0 && (React.createElement(Alert, { isInline: true, variant: 'info', title: React.createElement(Trans, null,
                         "Waiting for ",
                         pendingTasks,

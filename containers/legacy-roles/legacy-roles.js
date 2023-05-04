@@ -92,6 +92,7 @@ var LegacyRoles = /** @class */ (function (_super) {
         var ignoredParams = [
             'order_by',
             'namespace',
+            'repository__name',
             'page',
             'page_size',
             'sort',

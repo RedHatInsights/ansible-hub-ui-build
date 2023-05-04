@@ -13,7 +13,7 @@ import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/c
 import { Paths, formatPath } from 'src/paths';
 import { StandaloneMenu } from './menu';
 export var StandaloneLayout = function (_a) {
-    var children = _a.children, featureFlags = _a.featureFlags, selectedRepo = _a.selectedRepo, setUser = _a.setUser, settings = _a.settings, user = _a.user;
+    var children = _a.children, featureFlags = _a.featureFlags, hasPermission = _a.hasPermission, setUser = _a.setUser, settings = _a.settings, user = _a.user;
     var location = useLocation();
     var _b = useState(false), aboutModalVisible = _b[0], setAboutModalVisible = _b[1];
     var aboutModal = null;
@@ -51,13 +51,11 @@ export var StandaloneLayout = function (_a) {
     }
     var Header = (React.createElement(PageHeader, { logo: React.createElement(SmallLogo, { alt: APPLICATION_NAME }), logoComponent: function (_a) {
             var children = _a.children;
-            return (React.createElement(Link, { to: formatPath(Paths.searchByRepo, {
-                    repo: selectedRepo,
-                }) }, children));
+            return (React.createElement(Link, { to: formatPath(Paths.landingPage) }, children));
         }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(LoginLink, { next: location.pathname })) : (React.createElement("div", null,
             React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
             React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
-    var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(StandaloneMenu, { repository: selectedRepo, context: { user: user, settings: settings, featureFlags: featureFlags } }) }));
+    var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(StandaloneMenu, { context: { user: user, settings: settings, featureFlags: featureFlags, hasPermission: hasPermission } }) }));
     return (React.createElement(Page, { isManagedSidebar: true, header: Header, sidebar: Sidebar },
         children,
         aboutModalVisible && aboutModal));

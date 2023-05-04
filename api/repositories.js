@@ -24,6 +24,37 @@ var API = /** @class */ (function (_super) {
     API.prototype.getRepository = function (data) {
         return this.http.get("".concat(this.apiPath, "?name=").concat(data.name));
     };
+    API.prototype.list = function (params) {
+        return _super.prototype.list.call(this, params, this.apiPath);
+    };
+    API.prototype.copyCollectionVersion = function (pulp_id, collection_versions, destination_repositories, signing_service) {
+        var params = {
+            collection_versions: collection_versions,
+            destination_repositories: destination_repositories,
+        };
+        if (signing_service) {
+            params['signing_service'] = signing_service;
+        }
+        return this.http.post(this.apiPath + "".concat(pulp_id, "/copy_collection_version/"), params);
+    };
+    API.prototype.moveCollectionVersion = function (pulp_id, collection_versions, destination_repositories, signing_service) {
+        var params = {
+            collection_versions: collection_versions,
+            destination_repositories: destination_repositories,
+        };
+        if (signing_service) {
+            params['signing_service'] = signing_service;
+        }
+        return this.http.post(this.apiPath + "".concat(pulp_id, "/move_collection_version/"), params);
+    };
+    API.prototype.modify = function (pulp_id, add_content_units, remove_content_units, base_version) {
+        var params = {
+            add_content_units: add_content_units,
+            remove_content_units: remove_content_units,
+            base_version: base_version,
+        };
+        return this.http.post(this.apiPath + "".concat(pulp_id, "/modify/"), params);
+    };
     return API;
 }(PulpAPI));
 export var Repositories = new API();

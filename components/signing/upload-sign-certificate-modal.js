@@ -22,7 +22,7 @@ export var UploadSingCertificateModal = function (_a) {
             React.createElement(Button, { key: 'cancel', variant: ButtonVariant.link, onClick: onCancel }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
         ] },
         React.createElement("p", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Please select a signature file to upload."], ["Please select a signature file to upload."])))),
-        React.createElement(FileUpload, { id: 'certificate-file', filename: filename, filenamePlaceholder: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Drag and drop a file or upload one'"], ["Drag and drop a file or upload one'"]))), browseButtonText: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select file"], ["Select file"]))), onFileInputChange: handleFileInputChange, onClearClick: function () { return setFilename(''); } })));
+        React.createElement(FileUpload, { id: 'certificate-file', filename: filename, filenamePlaceholder: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Drag and drop a file or upload one."], ["Drag and drop a file or upload one."]))), browseButtonText: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select file"], ["Select file"]))), onFileInputChange: handleFileInputChange, onClearClick: function () { return setFilename(''); } })));
 };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=upload-sign-certificate-modal.js.map

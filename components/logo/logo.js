@@ -30,7 +30,7 @@ var Logo = /** @class */ (function (_super) {
         var style = {
             height: size,
             display: 'flex',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
             alignItems: 'center',
             width: width,
         };

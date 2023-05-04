@@ -21,7 +21,7 @@ export var CollectionUsedbyDependenciesList = function (_a) {
             React.createElement(Toolbar, null,
                 React.createElement(ToolbarGroup, null,
                     React.createElement(ToolbarItem, null,
-                        React.createElement(SearchInput, { value: params.name__icontains || '', onChange: function (val) {
+                        React.createElement(SearchInput, { value: params.name__icontains || '', onChange: function (_e, val) {
                                 return updateParams(ParamHelper.setParam(params, 'name__icontains', val));
                             }, onClear: function () {
                                 return updateParams(ParamHelper.setParam(params, 'name__icontains', ''));

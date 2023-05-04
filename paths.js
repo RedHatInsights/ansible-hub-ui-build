@@ -18,11 +18,14 @@ import { Constants } from 'src/constants';
 import { ParamHelper } from 'src/utilities';
 export function formatPath(path, data, params) {
     if (data === void 0) { data = {}; }
-    // insights router has basename="/" or "/beta/", with hub under a nested "ansible/automation-hub" route - our urls are relative to that
+    // insights router has basename="/", "/beta/" or "/preview/", with hub under a nested "ansible/automation-hub" route - our urls are relative to that
     var url = DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
-        ? UI_BASE_PATH.replace('/beta/', '/').replace(/\/$/, '')
+        ? UI_BASE_PATH.replace('/preview/', '/')
+            .replace('/beta/', '/')
+            .replace(/\/$/, '')
         : '';
     url += path + '/';
+    url = url.replaceAll('//', '/');
     for (var _i = 0, _a = Object.keys(data); _i < _a.length; _i++) {
         var k = _a[_i];
         url = url.replace(':' + k, encodeURIComponent(data[k]));
@@ -46,7 +49,7 @@ export function formatEEPath(path, data, params) {
         _a[Paths.executionEnvironmentDetail] = Paths.executionEnvironmentDetailWithNamespace,
         _a[Paths.executionEnvironmentDetailActivities] = Paths.executionEnvironmentDetailActivitiesWithNamespace,
         _a[Paths.executionEnvironmentDetailImages] = Paths.executionEnvironmentDetailImagesWithNamespace,
-        _a[Paths.executionEnvironmentDetailOwners] = Paths.executionEnvironmentDetailOwnersWithNamespace,
+        _a[Paths.executionEnvironmentDetailAccess] = Paths.executionEnvironmentDetailAccessWithNamespace,
         _a[Paths.executionEnvironmentManifest] = Paths.executionEnvironmentManifestWithNamespace,
         _a);
     if ((_b = data.container) === null || _b === void 0 ? void 0 : _b.includes('/')) {
@@ -58,14 +61,20 @@ export function formatEEPath(path, data, params) {
 }
 export var Paths;
 (function (Paths) {
+    Paths["ansibleRemoteDetail"] = "/ansible/remotes/:name";
+    Paths["ansibleRemoteEdit"] = "/ansible/remotes/:name/edit";
+    Paths["ansibleRemotes"] = "/ansible/remotes";
+    Paths["ansibleRepositories"] = "/ansible/repositories";
+    Paths["ansibleRepositoryDetail"] = "/ansible/repositories/:name";
+    Paths["ansibleRepositoryEdit"] = "/ansible/repositories/:name/edit";
     Paths["executionEnvironmentDetail"] = "/containers/:container";
     Paths["executionEnvironmentDetailWithNamespace"] = "/containers/:namespace/:container";
     Paths["executionEnvironmentDetailActivities"] = "/containers/:container/_content/activity";
     Paths["executionEnvironmentDetailActivitiesWithNamespace"] = "/containers/:namespace/:container/_content/activity";
     Paths["executionEnvironmentDetailImages"] = "/containers/:container/_content/images";
     Paths["executionEnvironmentDetailImagesWithNamespace"] = "/containers/:namespace/:container/_content/images";
-    Paths["executionEnvironmentDetailOwners"] = "/containers/:container/_content/owners";
-    Paths["executionEnvironmentDetailOwnersWithNamespace"] = "/containers/:namespace/:container/_content/owners";
+    Paths["executionEnvironmentDetailAccess"] = "/containers/:container/_content/access";
+    Paths["executionEnvironmentDetailAccessWithNamespace"] = "/containers/:namespace/:container/_content/access";
     Paths["executionEnvironmentManifest"] = "/containers/:container/_content/images/:digest";
     Paths["executionEnvironmentManifestWithNamespace"] = "/containers/:namespace/:container/_content/images/:digest";
     Paths["executionEnvironments"] = "/containers";
@@ -82,7 +91,7 @@ export var Paths;
     Paths["myImports"] = "/my-imports";
     Paths["login"] = "/login";
     Paths["logout"] = "/logout";
-    Paths["search"] = "/";
+    Paths["landingPage"] = "/";
     Paths["legacyRole"] = "/legacy/roles/:username/:name";
     Paths["legacyRoles"] = "/legacy/roles/";
     Paths["legacyNamespace"] = "/legacy/namespaces/:namespaceid";
@@ -101,9 +110,10 @@ export var Paths;
     Paths["collectionContentListByRepo"] = "/repo/:repo/:namespace/:collection/content";
     Paths["collectionImportLogByRepo"] = "/repo/:repo/:namespace/:collection/import-log";
     Paths["collectionDependenciesByRepo"] = "/repo/:repo/:namespace/:collection/dependencies";
+    Paths["collectionDistributionsByRepo"] = "/repo/:repo/:namespace/:collection/distributions";
     Paths["namespaceByRepo"] = "/repo/:repo/:namespace";
-    Paths["collection"] = "/:namespace/:collection";
     Paths["namespace"] = "/:namespace";
+    Paths["namespaceDetail"] = "/namespaces/:namespace";
     Paths["partners"] = "/partners";
     Paths["namespaces"] = "/namespaces";
     Paths["notFound"] = "/not-found";
@@ -114,9 +124,9 @@ export var Paths;
     Paths["editUser"] = "/users/:userID/edit";
     Paths["userDetail"] = "/users/:userID";
     Paths["userProfileSettings"] = "/settings/user-profile";
-    Paths["repositories"] = "/repositories";
     Paths["taskList"] = "/tasks";
     Paths["signatureKeys"] = "/signature-keys";
+    Paths["collections"] = "/collections";
 })(Paths || (Paths = {}));
 export var namespaceBreadcrumb = {
     name: {

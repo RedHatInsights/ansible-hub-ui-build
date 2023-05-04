@@ -143,7 +143,7 @@ var GroupList = /** @class */ (function (_super) {
         var name = this.state.selectedGroup && this.state.selectedGroup.name;
         var _a = this.state, users = _a.deleteModalUsers, count = _a.deleteModalCount;
         var hasPermission = this.context.hasPermission;
-        var view_user = hasPermission('galaxy.view_user').view_user;
+        var view_user = hasPermission('galaxy.view_user');
         if (!users && view_user) {
             this.queryUsers();
         }

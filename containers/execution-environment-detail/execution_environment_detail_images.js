@@ -38,9 +38,7 @@ import { ExecutionEnvironmentAPI } from 'src/api';
 import { AppliedFilters, ClipboardCopy, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, ListItemActions, LoadingPageSpinner, Pagination, PublishToControllerModal, ShaLabel, SortTable, TagLabel, TagManifestModal, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatEEPath } from 'src/paths';
-import { errorMessage } from 'src/utilities';
-import { ParamHelper, filterIsSet, getContainersURL, getHumanSize, waitForTask, } from 'src/utilities';
-import { withRouter } from 'src/utilities';
+import { ParamHelper, chipGroupProps, errorMessage, filterIsSet, getContainersURL, getHumanSize, waitForTask, withRouter, } from 'src/utilities';
 import { withContainerParamFix, withContainerRepo, } from './base';
 import './execution-environment-detail.scss';
 import './execution-environment-detail_images.scss';
@@ -259,7 +257,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                         });
                     } }, expandedImage === image ? (React.createElement(AngleDownIcon, null)) : (React.createElement(AngleRightIcon, null)))) : null),
                 React.createElement("td", null,
-                    React.createElement(LabelGroup, { className: 'hub-c-label-group-tags-column' }, image.tags
+                    React.createElement(LabelGroup, __assign({}, chipGroupProps(), { className: 'hub-c-label-group-tags-column' }), image.tags
                         .sort()
                         .map(function (tag) {
                         return isManifestList ? (React.createElement(TagLabel, { key: tag, tag: tag })) : (React.createElement(TagLink, { key: tag, tag: tag }));

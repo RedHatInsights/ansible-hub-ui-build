@@ -18,7 +18,6 @@ import { Nav, NavExpandable, NavItem, NavList, SearchInput, Toolbar, ToolbarGrou
 import { capitalize } from 'lodash';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
 var DocsEntry = /** @class */ (function () {
@@ -34,19 +33,18 @@ var Table = /** @class */ (function () {
 export var TableOfContents = function (props) {
     var _a = useState(null), docsBlob = _a[0], setDocsBlob = _a[1];
     var _b = useState(null), table = _b[0], setTable = _b[1];
-    var context = useContext();
     var collapsedCategories = [];
     var className = props.className, docs_blob = props.docs_blob, updateParams = props.updateParams, params = props.params;
     if (!table || docsBlob !== docs_blob) {
-        setTable(parseLinks(docs_blob, props, context));
+        setTable(parseLinks(docs_blob, props));
         setDocsBlob(docs_blob);
     }
     return (React.createElement("div", { className: className },
         React.createElement(Toolbar, null,
             React.createElement(ToolbarGroup, null,
                 React.createElement(ToolbarItem, null,
-                    React.createElement(SearchInput, { ref: props.searchBarRef, value: params.keywords, onChange: function (val) {
-                            updateParams(ParamHelper.setParam(params, 'keywords', val));
+                    React.createElement(SearchInput, { ref: props.searchBarRef, value: params.keywords, onChange: function (_e, val) {
+                            return updateParams(ParamHelper.setParam(params, 'keywords', val));
                         }, onClear: function () {
                             return updateParams(ParamHelper.setParam(params, 'keywords', ''));
                         }, "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["find-content"], ["find-content"]))), placeholder: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Find content"], ["Find content"]))) })))),
@@ -58,12 +56,12 @@ export var TableOfContents = function (props) {
                         : renderLinks(table[key], key, props.params.keywords || '', collapsedCategories, props);
                 })))));
 };
-function parseLinks(docs_blob, props, context) {
+function parseLinks(docs_blob, props) {
     var namespace = props.namespace, collection = props.collection;
     var baseUrlParams = {
         namespace: namespace,
         collection: collection,
-        repo: context.selectedRepo,
+        repo: props.repository,
     };
     var table = {
         documentation: [],
@@ -111,8 +109,8 @@ function parseLinks(docs_blob, props, context) {
         }
     }
     // Sort docs
-    for (var _d = 0, _e = Object.keys(table); _d < _e.length; _d++) {
-        var k = _e[_d];
+    for (var _d = 0, _f = Object.keys(table); _d < _f.length; _d++) {
+        var k = _f[_d];
         table[k].sort(function (a, b) {
             // Make sure that anything starting with _ goes to the bottom
             // of the list

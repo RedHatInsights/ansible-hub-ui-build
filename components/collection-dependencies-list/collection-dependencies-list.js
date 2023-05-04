@@ -10,7 +10,7 @@ import { EmptyStateNoData, HelperText } from 'src/components';
 import 'src/containers/collection-detail/collection-dependencies.scss';
 export var CollectionDependenciesList = function (_a) {
     var collection = _a.collection, dependencies_repos = _a.dependencies_repos;
-    var dependencies = collection.latest_version.metadata.dependencies;
+    var dependencies = collection.collection_version.dependencies;
     if (!Object.keys(dependencies).length) {
         return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection does not have dependencies."], ["Collection does not have dependencies."]))) }));
     }

@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -29,27 +14,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { MarkdownEditor } from '..';
 import './namespace-form.scss';
 var placeholder = "## Custom resources\n\nYou can use this page to add any resources which you think might help your users automate all the things.\n\nConsider using it for:\n\n- Links to blog posts\n- Training resources\n- Documentation\n- Cat gifs? If that's your thing :)\n";
-var ResourcesForm = /** @class */ (function (_super) {
-    __extends(ResourcesForm, _super);
-    function ResourcesForm() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ResourcesForm.prototype.render = function () {
-        var _this = this;
-        var namespace = this.props.namespace;
-        return (React.createElement(MarkdownEditor, { text: namespace.resources, placeholder: placeholder, helperText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You can can customize the Resources tab on your profile by entering custom markdown here."], ["You can can customize the Resources tab on your profile by entering custom markdown here."]))), updateText: function (value) { return _this.updateResources(value); }, editing: true }));
-    };
-    ResourcesForm.prototype.updateResources = function (data) {
-        var update = __assign({}, this.props.namespace);
-        update.resources = data;
-        this.props.updateNamespace(update);
-    };
-    return ResourcesForm;
-}(React.Component));
-export { ResourcesForm };
+export var ResourcesForm = function (_a) {
+    var namespace = _a.namespace, updateNamespace = _a.updateNamespace;
+    return (React.createElement(MarkdownEditor, { text: namespace.resources, placeholder: placeholder, helperText: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You can can customize the Resources tab on your profile by entering custom markdown here."], ["You can can customize the Resources tab on your profile by entering custom markdown here."]))), updateText: function (resources) { return updateNamespace(__assign(__assign({}, namespace), { resources: resources })); }, editing: true }));
+};
 var templateObject_1;
 //# sourceMappingURL=resources-form.js.map

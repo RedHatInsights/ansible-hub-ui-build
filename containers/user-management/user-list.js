@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -35,7 +46,7 @@ import { UserAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { ParamHelper, errorMessage, filterIsSet, withRouter, } from 'src/utilities';
+import { ParamHelper, chipGroupProps, errorMessage, filterIsSet, withRouter, } from 'src/utilities';
 var UserList = /** @class */ (function (_super) {
     __extends(UserList, _super);
     function UserList(props) {
@@ -234,7 +245,7 @@ var UserList = /** @class */ (function (_super) {
             React.createElement("td", null, user.last_name),
             React.createElement("td", null, user.email),
             React.createElement("td", null,
-                React.createElement(LabelGroup, null, user.groups.map(function (g) { return (React.createElement(Label, { key: g.id }, g.name)); }))),
+                React.createElement(LabelGroup, __assign({}, chipGroupProps()), user.groups.map(function (g) { return (React.createElement(Label, { key: g.id }, g.name)); }))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: user.date_joined })),
             React.createElement(ListItemActions, { kebabItems: dropdownItems })));

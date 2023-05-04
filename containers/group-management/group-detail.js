@@ -230,7 +230,7 @@ var GroupDetail = /** @class */ (function (_super) {
             });
         };
         var hasPermission = this.context.hasPermission;
-        var view_user = hasPermission('galaxy.view_user').view_user;
+        var view_user = hasPermission('galaxy.view_user');
         if (!users && view_user) {
             this.queryUsers();
         }

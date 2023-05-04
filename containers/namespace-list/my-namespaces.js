@@ -39,7 +39,7 @@ var MyNamespaces = /** @class */ (function (_super) {
         if (!this.context.user || this.context.user.is_anonymous) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
-        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.myCollectionsByRepo, filterOwner: true })));
+        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceDetail, filterOwner: true })));
     };
     return MyNamespaces;
 }(React.Component));

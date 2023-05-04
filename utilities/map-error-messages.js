@@ -8,23 +8,52 @@ var ErrorMessagesType = /** @class */ (function () {
 export { ErrorMessagesType };
 export function mapErrorMessages(err) {
     var messages = {};
+    var data = err.response.data;
     // 500 errors only have err.response.data string
-    if (typeof err.response.data === 'string') {
+    if (typeof data === 'string') {
         messages['__nofield'] = err.response.data;
         return messages;
     }
-    for (var _i = 0, _a = err.response.data.errors; _i < _a.length; _i++) {
-        var e = _a[_i];
-        if (e.source) {
-            messages[e.source.parameter] = e.detail;
+    // errors can come in several flavors depending on if the API is from
+    // pulp or anible.
+    // Galaxy error:
+    // {
+    //   "errors": [
+    //     {
+    //       "status": "400",
+    //       "code": "invalid",
+    //       "title": "<short_message>",
+    //       "detail": "<long_message>",
+    //       "source": {
+    //         "parameter": "<field_name>"
+    //       }
+    //     }
+    //   ]
+    // }
+    // Pulp error:
+    // {
+    //   "<field_name>": "<error_message>",
+    // }
+    // handle galaxy error
+    if ('errors' in data && Array.isArray(data['errors'])) {
+        for (var _i = 0, _a = err.response.data.errors; _i < _a.length; _i++) {
+            var e = _a[_i];
+            if (e.source) {
+                messages[e.source.parameter] = e.detail;
+            }
+            else {
+                // some error responses are too cool to have a
+                // parameter set on them >:(
+                messages['__nofield'] = e.detail || e.title;
+            }
         }
-        else {
-            // some error responses are too cool to have a
-            // parameter set on them >:(
-            messages['__nofield'] = e.detail || e.title;
-        }
+        return messages;
     }
-    return messages;
+    // handle pulp error
+    if (typeof data === 'object') {
+        return data;
+    }
+    return {};
 }
 export function isFieldValid(errorMessagesType, name) {
     var names = [];
