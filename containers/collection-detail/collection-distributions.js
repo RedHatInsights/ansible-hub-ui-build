@@ -137,7 +137,7 @@ var CollectionDistributions = function (props) {
             "server_list = ".concat(distribution.base_path),
             '',
             "[galaxy_server.".concat(distribution.base_path, "]"),
-            "url=".concat(getRepoUrl()),
+            "url=".concat(getRepoUrl(distribution.base_path)),
             'token=<put your token here>',
         ].join('\n');
     };

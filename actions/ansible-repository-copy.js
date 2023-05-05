@@ -15,7 +15,7 @@ export var ansibleRepositoryCopyAction = Action({
             "server_list = ".concat(item.name, "_repo"),
             '',
             "[galaxy_server.".concat(item.name, "_repo]"),
-            "url=".concat(getRepoUrl()),
+            "url=".concat(getRepoUrl(item.name)),
             'token=<put your token here>',
         ].join('\n');
         navigator.clipboard.writeText(cliConfig);
