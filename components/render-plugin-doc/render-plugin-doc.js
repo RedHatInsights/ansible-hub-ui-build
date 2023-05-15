@@ -256,8 +256,8 @@ var RenderPluginDoc = /** @class */ (function (_super) {
             return v;
         }
     };
-    RenderPluginDoc.prototype.renderDeprecated = function (doc, pluginName) {
-        var isDeprecated = doc.deprecated || pluginName.startsWith('_');
+    RenderPluginDoc.prototype.renderDeprecated = function (doc, _pluginName) {
+        var isDeprecated = doc.deprecated;
         if (!isDeprecated) {
             return null;
         }
