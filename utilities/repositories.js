@@ -136,11 +136,9 @@ var RepositoriesUtils = /** @class */ (function () {
     RepositoriesUtils.pushToOrFilterOutCollections = function (selectedCollection, collections) {
         // check if collection is already selected
         var selectedItem = collections.find(function (_a) {
-            var _b = _a.collection_version, name = _b.name, namespace = _b.namespace, version = _b.version, repository = _a.repository;
-            return name === selectedCollection.collection_version.name &&
-                namespace === selectedCollection.collection_version.namespace &&
-                version === selectedCollection.collection_version.version &&
-                repository.name === selectedCollection.repository.name;
+            var cv = _a.collection_version, repository = _a.repository;
+            return cv.pulp_href === selectedCollection.collection_version.pulp_href &&
+                repository.pulp_href === selectedCollection.repository.pulp_href;
         });
         // if collection is not selected, add it to selected items
         if (!selectedItem) {
@@ -148,14 +146,9 @@ var RepositoriesUtils = /** @class */ (function () {
         }
         // unselect collection
         return collections.filter(function (_a) {
-            var collection_version = _a.collection_version, repository = _a.repository;
-            return collection_version.name !==
-                selectedCollection.collection_version.name ||
-                collection_version.namespace !==
-                    selectedCollection.collection_version.namespace ||
-                collection_version.version !==
-                    selectedCollection.collection_version.version ||
-                repository.name !== selectedCollection.repository.name;
+            var cv = _a.collection_version, repository = _a.repository;
+            return cv.pulp_href !== selectedCollection.collection_version.pulp_href ||
+                repository.pulp_href !== selectedCollection.repository.pulp_href;
         });
     };
     return RepositoriesUtils;
