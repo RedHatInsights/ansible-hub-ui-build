@@ -51,7 +51,7 @@ var add = function (_a, collections, _b) {
     }), function () { return setState(function (ms) { return (__assign(__assign({}, ms), { addCollectionVersionModal: null })); }); }, addAlert));
 };
 var AddCollectionVersionModal = function (_a) {
-    var addAction = _a.addAction, closeAction = _a.closeAction;
+    var addAction = _a.addAction, closeAction = _a.closeAction, sourceRepository = _a.sourceRepository;
     var _b = useState([]), alerts = _b[0], setAlerts = _b[1];
     var _c = useState([]), selected = _c[0], setSelected = _c[1];
     var addAlert = function (alert) {
@@ -72,11 +72,12 @@ var AddCollectionVersionModal = function (_a) {
     var _d = useState({}), modalState = _d[0], setModalState = _d[1];
     var renderTableRow = function (item, index) {
         var _a = item.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version, description = _a.description, repository = item.repository;
+        var isCollectionInRepo = sourceRepository.pulp_href === repository.pulp_href;
         return (React.createElement("tr", { onClick: function () {
                 return setSelected(RepositoriesUtils.pushToOrFilterOutCollections(item, selected));
             }, key: index },
             React.createElement("td", null,
-                React.createElement(Checkbox, { "aria-label": "".concat(namespace, ".").concat(name, " v").concat(version), id: "collection-".concat(index), isChecked: selected.includes(item), name: "collection-".concat(index) })),
+                React.createElement(Checkbox, { "aria-label": "".concat(namespace, ".").concat(name, " v").concat(version), id: "collection-".concat(index), isChecked: isCollectionInRepo || selected.includes(item), name: "collection-".concat(index), isDisabled: isCollectionInRepo })),
             React.createElement("td", null,
                 namespace,
                 ".",
@@ -149,7 +150,7 @@ export var ansibleRepositoryCollectionVersionAddAction = Action({
                 });
             }, closeAction: function () {
                 return setState(function (ms) { return (__assign(__assign({}, ms), { addCollectionVersionModal: null })); });
-            } })) : null;
+            }, sourceRepository: state.repository })) : null;
     },
     onClick: function (_item, _a) {
         var _b = _a.state.repository, repositoryName = _b.name, repositoryHref = _b.pulp_href, setState = _a.setState;

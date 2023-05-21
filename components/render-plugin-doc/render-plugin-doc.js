@@ -33,16 +33,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+import { dom, parse } from 'antsibull-docs';
 import * as React from 'react';
 import './render-plugin-doc.scss';
 var RenderPluginDoc = /** @class */ (function (_super) {
     __extends(RenderPluginDoc, _super);
     function RenderPluginDoc(props) {
         var _this = _super.call(this, props) || this;
-        // checks if I(), B(), M(), U(), L(), or C() exists. Returns type (ex: B)
-        // and value in parenthesis. Based off of formatters in ansible:
-        // https://github.com/ansible/ansible/blob/devel/hacking/build_library/build_ansible/jinja2/filters.py#L26
-        _this.CUSTOM_FORMATTERS = /([IBMULC])\(([^)]+)\)/gm;
         _this.state = {
             renderError: false,
         };
@@ -198,52 +195,112 @@ var RenderPluginDoc = /** @class */ (function (_super) {
         this.returnContainMaxDepth = maxDepth;
         return returnValues;
     };
-    // This functions similar to how string.replace() works, except it returns
-    // a react object instead of a string
-    RenderPluginDoc.prototype.reactReplace = function (text, reg, replacement) {
-        var fragments = [];
-        var match;
-        var prevIndex = 0;
-        while ((match = reg.exec(text)) !== null) {
-            fragments.push(text.substr(prevIndex, reg.lastIndex - prevIndex - match[0].length));
-            fragments.push(replacement(match));
-            prevIndex = reg.lastIndex;
+    RenderPluginDoc.prototype.formatPartError = function (part) {
+        return React.createElement("span", { className: 'error' },
+            "ERROR while parsing: ",
+            part.message);
+    };
+    RenderPluginDoc.prototype.formatPartBold = function (part) {
+        return React.createElement("b", null, part.text);
+    };
+    RenderPluginDoc.prototype.formatPartCode = function (part) {
+        return React.createElement("span", { className: 'inline-code' }, part.text);
+    };
+    RenderPluginDoc.prototype.formatPartHorizontalLine = function (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    part) {
+        return React.createElement("hr", null);
+    };
+    RenderPluginDoc.prototype.formatPartItalic = function (part) {
+        return React.createElement("i", null, part.text);
+    };
+    RenderPluginDoc.prototype.formatPartLink = function (part) {
+        return this.props.renderDocLink(part.text, part.url);
+    };
+    RenderPluginDoc.prototype.formatPartModule = function (part) {
+        return this.props.renderPluginLink(part.fqcn, 'module', undefined);
+    };
+    RenderPluginDoc.prototype.formatPartRstRef = function (part) {
+        return part.text;
+    };
+    RenderPluginDoc.prototype.formatPartURL = function (part) {
+        return (React.createElement("a", { href: part.url, target: '_blank', rel: 'noreferrer' }, part.url));
+    };
+    RenderPluginDoc.prototype.formatPartText = function (part) {
+        return part.text;
+    };
+    RenderPluginDoc.prototype.formatPartEnvVariable = function (part) {
+        return React.createElement("span", { className: 'inline-code' }, part.name);
+    };
+    RenderPluginDoc.prototype.formatPartOptionNameReturnValue = function (part) {
+        var content = part.value === undefined ? (React.createElement("span", { className: 'inline-code' },
+            React.createElement("b", null, part.name))) : (React.createElement("span", { className: 'inline-code' },
+            part.name,
+            "=",
+            part.value));
+        if (!part.plugin) {
+            return content;
         }
-        if (fragments.length === 0) {
-            return React.createElement("span", null, text);
+        return this.props.renderPluginLink(part.plugin.fqcn, part.plugin.type, content);
+    };
+    RenderPluginDoc.prototype.formatPartOptionValue = function (part) {
+        return React.createElement("span", { className: 'inline-code' }, part.value);
+    };
+    RenderPluginDoc.prototype.formatPartPlugin = function (part) {
+        return this.props.renderPluginLink(part.plugin.fqcn, part.plugin.type, undefined);
+    };
+    RenderPluginDoc.prototype.formatPart = function (part) {
+        switch (part.type) {
+            case dom.PartType.ERROR:
+                return this.formatPartError(part);
+            case dom.PartType.BOLD:
+                return this.formatPartBold(part);
+            case dom.PartType.CODE:
+                return this.formatPartCode(part);
+            case dom.PartType.HORIZONTAL_LINE:
+                return this.formatPartHorizontalLine(part);
+            case dom.PartType.ITALIC:
+                return this.formatPartItalic(part);
+            case dom.PartType.LINK:
+                return this.formatPartLink(part);
+            case dom.PartType.MODULE:
+                return this.formatPartModule(part);
+            case dom.PartType.RST_REF:
+                return this.formatPartRstRef(part);
+            case dom.PartType.URL:
+                return this.formatPartURL(part);
+            case dom.PartType.TEXT:
+                return this.formatPartText(part);
+            case dom.PartType.ENV_VARIABLE:
+                return this.formatPartEnvVariable(part);
+            case dom.PartType.OPTION_NAME:
+                return this.formatPartOptionNameReturnValue(part);
+            case dom.PartType.OPTION_VALUE:
+                return this.formatPartOptionValue(part);
+            case dom.PartType.PLUGIN:
+                return this.formatPartPlugin(part);
+            case dom.PartType.RETURN_VALUE:
+                return this.formatPartOptionNameReturnValue(part);
         }
-        // append any text after the last match
-        if (prevIndex != text.length - 1) {
-            fragments.push(text.substring(prevIndex));
-        }
-        return (React.createElement("span", null, fragments.map(function (x, i) { return (React.createElement(React.Fragment, { key: i }, x)); })));
     };
     RenderPluginDoc.prototype.applyDocFormatters = function (text) {
-        var _a = this.props, renderModuleLink = _a.renderModuleLink, renderDocLink = _a.renderDocLink;
-        var nstring = this.reactReplace(text, this.CUSTOM_FORMATTERS, function (match) {
-            var fullMatch = match[0];
-            var type = match[1];
-            var textMatch = match[2];
-            switch (type) {
-                case 'L': {
-                    var url = textMatch.split(',');
-                    return renderDocLink(url[0], url[1]);
-                }
-                case 'U':
-                    return (React.createElement("a", { href: textMatch, target: '_blank', rel: 'noreferrer' }, textMatch));
-                case 'I':
-                    return React.createElement("i", null, textMatch);
-                case 'C':
-                    return React.createElement("span", { className: 'inline-code' }, textMatch);
-                case 'M':
-                    return renderModuleLink(textMatch);
-                case 'B':
-                    return React.createElement("b", null, textMatch);
-                default:
-                    return fullMatch;
+        // TODO: pass current plugin's type and name, and (if role) the current entrypoint as well
+        var parsed = parse(text);
+        // Special case: result is a single paragraph consisting of a single text part
+        if (parsed.length === 1 &&
+            parsed[0].length === 1 &&
+            parsed[0][0].type === dom.PartType.TEXT) {
+            return React.createElement("span", null, parsed[0][0].text);
+        }
+        var fragments = [];
+        for (var _i = 0, parsed_1 = parsed; _i < parsed_1.length; _i++) {
+            var paragraph = parsed_1[_i];
+            for (var _a = 0, paragraph_1 = paragraph; _a < paragraph_1.length; _a++) {
+                var part = paragraph_1[_a];
+                fragments.push(this.formatPart(part));
             }
-        });
-        return nstring;
+        }
+        return (React.createElement("span", null, fragments.map(function (x, i) { return (React.createElement(React.Fragment, { key: i }, x)); })));
     };
     RenderPluginDoc.prototype.ensureListofStrings = function (v) {
         if (typeof v === 'string') {
@@ -256,8 +313,8 @@ var RenderPluginDoc = /** @class */ (function (_super) {
             return v;
         }
     };
-    RenderPluginDoc.prototype.renderDeprecated = function (doc, pluginName) {
-        var isDeprecated = doc.deprecated || pluginName.startsWith('_');
+    RenderPluginDoc.prototype.renderDeprecated = function (doc, _pluginName) {
+        var isDeprecated = doc.deprecated;
         if (!isDeprecated) {
             return null;
         }

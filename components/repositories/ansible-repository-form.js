@@ -147,10 +147,11 @@ export var AnsibleRepositoryForm = function (_a) {
             React.createElement(LazyDistributions, { emptyText: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["None"], ["None"]))), repositoryHref: repository.pulp_href, onLoad: onDistributionsLoad }),
             React.createElement("br", null),
             React.createElement(Checkbox, { isChecked: createDistribution, isDisabled: disabledDistribution, onChange: function (value) { return setCreateDistribution(value); }, label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Create a \"", "\" distribution"], ["Create a \"", "\" distribution"])), repository.name), id: 'create_distribution' }))),
-        formGroup('pipeline', t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Pipeline"], ["Pipeline"]))), pipelineHelp, React.createElement(Select, { variant: 'single', isOpen: selectOpen, onToggle: function () { return setSelectOpen(!selectOpen); }, onSelect: function (_e, value) { return selectPipeline(value.id); }, selections: selectOptions[selectedPipeline] }, Object.entries(selectOptions).map(function (_a) {
-            var k = _a[0], v = _a[1];
-            return (React.createElement(SelectOption, { key: k, value: v }));
-        }))),
+        formGroup('pipeline', t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Pipeline"], ["Pipeline"]))), pipelineHelp, React.createElement("div", { "data-cy": 'pipeline' },
+            React.createElement(Select, { variant: 'single', isOpen: selectOpen, onToggle: function () { return setSelectOpen(!selectOpen); }, onSelect: function (_e, value) { return selectPipeline(value.id); }, selections: selectOptions[selectedPipeline] }, Object.entries(selectOptions).map(function (_a) {
+                var k = _a[0], v = _a[1];
+                return (React.createElement(SelectOption, { key: k, value: v }));
+            })))),
         formGroup('labels', t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Labels"], ["Labels"]))), labelsHelp, React.createElement(React.Fragment, null,
             React.createElement("div", { 
                 // prevents "N more" clicks from submitting the form
@@ -165,24 +166,27 @@ export var AnsibleRepositoryForm = function (_a) {
                 return updateRepository(__assign(__assign({}, repository), { private: value }));
             } })),
         formGroup('remote', t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Remote"], ["Remote"]))), t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Setting a remote allows a repository to sync from elsewhere."], ["Setting a remote allows a repository to sync from elsewhere."]))), React.createElement(React.Fragment, null,
-            remotes ? (React.createElement(APISearchTypeAhead, { loadResults: loadRemotes, onClear: function () { return updateRepository(__assign(__assign({}, repository), { remote: null })); }, onSelect: function (_event, value) {
-                    var _a;
-                    return updateRepository(__assign(__assign({}, repository), { remote: (_a = remotes.find(function (_a) {
-                            var name = _a.name;
-                            return name === value;
-                        })) === null || _a === void 0 ? void 0 : _a.pulp_href }));
-                }, placeholderText: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Select a remote"], ["Select a remote"]))), results: remotes, selections: selectedRemote
-                    ? [
-                        {
-                            name: selectedRemote.name,
-                            id: selectedRemote.pulp_href,
-                        },
-                    ]
-                    : [] })) : null,
-            remotesError ? (React.createElement("span", { style: {
-                    color: 'var(--pf-global--danger-color--200)',
-                } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Failed to load remotes: ", ""], ["Failed to load remotes: ", ""])), remotesError))) : null,
-            !remotes && !remotesError ? React.createElement(Spinner, { size: 'sm' }) : null)),
+            React.createElement("div", { "data-cy": 'remote' },
+                remotes ? (React.createElement(APISearchTypeAhead, { loadResults: loadRemotes, onClear: function () {
+                        return updateRepository(__assign(__assign({}, repository), { remote: null }));
+                    }, onSelect: function (_event, value) {
+                        var _a;
+                        return updateRepository(__assign(__assign({}, repository), { remote: (_a = remotes.find(function (_a) {
+                                var name = _a.name;
+                                return name === value;
+                            })) === null || _a === void 0 ? void 0 : _a.pulp_href }));
+                    }, placeholderText: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Select a remote"], ["Select a remote"]))), results: remotes, selections: selectedRemote
+                        ? [
+                            {
+                                name: selectedRemote.name,
+                                id: selectedRemote.pulp_href,
+                            },
+                        ]
+                        : [] })) : null,
+                remotesError ? (React.createElement("span", { style: {
+                        color: 'var(--pf-global--danger-color--200)',
+                    } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Failed to load remotes: ", ""], ["Failed to load remotes: ", ""])), remotesError))) : null,
+                !remotes && !remotesError ? React.createElement(Spinner, { size: 'sm' }) : null))),
         errorMessages['__nofield'] ? (React.createElement("span", { style: {
                 color: 'var(--pf-global--danger-color--200)',
             } }, errorMessages['__nofield'])) : null,

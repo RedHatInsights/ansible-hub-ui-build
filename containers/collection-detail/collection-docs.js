@@ -133,8 +133,8 @@ var CollectionDocs = /** @class */ (function (_super) {
                             __html: displayHTML,
                         } })) : (
                     // if plugin data is set render it
-                    React.createElement(RenderPluginDoc, { plugin: pluginData, renderModuleLink: function (moduleName) {
-                            return _this.renderModuleLink(moduleName, collection, params, content.contents);
+                    React.createElement(RenderPluginDoc, { plugin: pluginData, renderPluginLink: function (pluginName, pluginType, text) {
+                            return _this.renderPluginLink(pluginName, pluginType, text !== null && text !== void 0 ? text : pluginName, collection, params, content.contents);
                         }, renderDocLink: function (name, href) {
                             return _this.renderDocLink(name, href, collection, params);
                         }, renderTableOfContentsLink: function (title, section) { return (React.createElement(HashLink, { to: '#' + section }, title)); }, renderWarning: function (text) { return (React.createElement(Alert, { isInline: true, variant: 'warning', title: text })); } }))) : collection.repository.name === 'community' &&
@@ -160,19 +160,19 @@ var CollectionDocs = /** @class */ (function (_super) {
             return null;
         }
     };
-    CollectionDocs.prototype.renderModuleLink = function (moduleName, collection, params, allContent) {
-        var module = allContent.find(function (x) { return x.content_type === 'module' && x.name === moduleName; });
+    CollectionDocs.prototype.renderPluginLink = function (pluginName, pluginType, text, collection, params, allContent) {
+        var module = allContent.find(function (x) { return x.content_type === pluginType && x.name === pluginName; });
         if (module) {
             return (React.createElement(Link, { to: formatPath(Paths.collectionContentDocsByRepo, {
                     namespace: collection.collection_version.namespace,
                     collection: collection.collection_version.name,
-                    type: 'module',
-                    name: moduleName,
+                    type: pluginType,
+                    name: pluginName,
                     repo: this.props.routeParams.repo,
-                }, params) }, moduleName));
+                }, params) }, text));
         }
         else {
-            return moduleName;
+            return text;
         }
     };
     CollectionDocs.prototype.renderNotFound = function (collectionName) {

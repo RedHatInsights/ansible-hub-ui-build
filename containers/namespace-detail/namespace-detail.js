@@ -233,7 +233,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), params.group) }
                 : null,
         ].filter(Boolean);
-        var repositoryUrl = getRepoUrl();
+        var repositoryUrl = getRepoUrl('published');
         var noData = itemCount === 0 &&
             !filterIsSet(params, [
                 'is_signed',
