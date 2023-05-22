@@ -129,6 +129,15 @@ export var ListPage = function (_a) {
                     var id = _a.id, title = _a.title;
                     return [id, title];
                 }));
+                var niceValues = {};
+                (filterConfig || [])
+                    .filter(function (filter) { return filter['options'] && filter['options'].length > 0; })
+                    .forEach(function (item) {
+                    var obj = (niceValues[item['id']] = {});
+                    item['options'].forEach(function (option) {
+                        obj[option.id] = option.title;
+                    });
+                });
                 var actionContext = {
                     addAlert: function (alert) { return _this.addAlert(alert); },
                     hasObjectPermission: function () { return false; },
@@ -160,7 +169,7 @@ export var ListPage = function (_a) {
                             React.createElement(AppliedFilters, { updateParams: function (p) {
                                     updateParams(p);
                                     _this.setState({ inputText: '' });
-                                }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: niceNames })),
+                                }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: niceNames, niceValues: niceValues })),
                         loading ? (React.createElement(LoadingPageSpinner, null)) : (this.renderTable(params, updateParams, actionContext)),
                         React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount })))))));
             };
