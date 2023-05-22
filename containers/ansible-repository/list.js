@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { ansibleRepositoryCopyAction, ansibleRepositoryCreateAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
 import { AnsibleRepositoryAPI } from 'src/api';
 import { DateComponent, ListItemActions, ListPage } from 'src/components';
+import { Constants } from 'src/constants';
 import { Paths, formatPath } from 'src/paths';
 import { canViewAnsibleRepositories } from 'src/permissions';
 import { lastSyncStatus, lastSynced, parsePulpIDFromURL } from 'src/utilities';
@@ -44,15 +45,40 @@ var AnsibleRepositoryList = ListPage({
             id: 'name__icontains',
             title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Repository name"], ["Repository name"]))),
         },
+        {
+            id: 'status',
+            title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Status"], ["Status"]))),
+            inputType: 'select',
+            options: [
+                {
+                    id: Constants.NOTCERTIFIED,
+                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                },
+                {
+                    id: Constants.NEEDSREVIEW,
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                },
+                {
+                    id: Constants.APPROVED,
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                },
+            ],
+        },
     ],
     headerActions: [ansibleRepositoryCreateAction],
     listItemActions: listItemActions,
     noDataButton: ansibleRepositoryCreateAction.button,
-    noDataDescription: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Repositories will appear once created."], ["Repositories will appear once created."]))),
-    noDataTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No repositories yet"], ["No repositories yet"]))),
+    noDataDescription: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Repositories will appear once created."], ["Repositories will appear once created."]))),
+    noDataTitle: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["No repositories yet"], ["No repositories yet"]))),
     query: function (_a) {
         var params = _a.params;
-        return AnsibleRepositoryAPI.list(params);
+        var queryParams = __assign({}, params);
+        if (queryParams['status']) {
+            var status_1 = queryParams['status'];
+            delete queryParams['status'];
+            queryParams['pulp_label_select'] = "pipeline=".concat(status_1);
+        }
+        return AnsibleRepositoryAPI.list(queryParams);
     },
     renderTableRow: function (item, index, actionContext) {
         var name = item.name, pulp_created = item.pulp_created, pulp_href = item.pulp_href;
@@ -71,28 +97,28 @@ var AnsibleRepositoryList = ListPage({
     },
     sortHeaders: [
         {
-            title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repository name"], ["Repository name"]))),
+            title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository name"], ["Repository name"]))),
             type: 'alpha',
             id: 'name',
         },
         {
-            title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync status"], ["Sync status"]))),
+            title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Sync status"], ["Sync status"]))),
             type: 'none',
             id: 'lastSyncStatus',
         },
         {
-            title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Last synced"], ["Last synced"]))),
+            title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Last synced"], ["Last synced"]))),
             type: 'none',
             id: 'lastSynced',
         },
         {
-            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Created date"], ["Created date"]))),
+            title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Created date"], ["Created date"]))),
             type: 'numeric',
             id: 'pulp_created',
         },
     ],
-    title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repositories"], ["Repositories"]))),
+    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Repositories"], ["Repositories"]))),
 });
 export default AnsibleRepositoryList;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13;
 //# sourceMappingURL=list.js.map

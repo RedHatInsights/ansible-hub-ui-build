@@ -74,6 +74,7 @@ var CompoundFilter = /** @class */ (function (_super) {
             }
             _this.submitMultiple(newParams);
         };
+        // this is called again in repositories selector, but not in approval page (the same filter is here)...
         _this.state = {
             selectedFilter: props.filterConfig[0],
             isExpanded: false,
