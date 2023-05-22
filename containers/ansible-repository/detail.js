@@ -16,7 +16,7 @@ var __assign = (this && this.__assign) || function () {
 import { Trans, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRepositoryCopyAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
-import { AnsibleRepositoryAPI } from 'src/api';
+import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
 import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { canViewAnsibleRepositories } from 'src/permissions';
@@ -79,16 +79,29 @@ var AnsibleRepositoryDetail = PageWithTabs({
             if (!repository) {
                 return Promise.reject({ response: { status: 404 } });
             }
-            return AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
-                .then(function (_a) {
-                var permissions = _a.data.permissions;
-                return permissions;
-            })
-                .catch(function (e) {
+            var err = function (e) {
                 console.error(e);
                 return [];
-            })
-                .then(function (my_permissions) { return (__assign(__assign({}, repository), { my_permissions: my_permissions })); });
+            };
+            return Promise.all([
+                AnsibleDistributionAPI.list({
+                    repository: repository.pulp_href,
+                })
+                    .then(function (_a) {
+                    var results = _a.data.results;
+                    return results;
+                })
+                    .catch(err),
+                AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
+                    .then(function (_a) {
+                    var permissions = _a.data.permissions;
+                    return permissions;
+                })
+                    .catch(err),
+            ]).then(function (_a) {
+                var distributions = _a[0], my_permissions = _a[1];
+                return (__assign(__assign({}, repository), { distributions: distributions, my_permissions: my_permissions }));
+            });
         });
     },
     renderTab: function (tab, item, actionContext) {

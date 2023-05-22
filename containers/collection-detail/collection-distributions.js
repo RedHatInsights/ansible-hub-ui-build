@@ -55,7 +55,7 @@ import React, { useEffect, useState } from 'react';
 import { AnsibleDistributionAPI } from 'src/api';
 import { AppliedFilters, ClipboardCopy, CollectionHeader, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, LoadingPageWithHeader, Main, Pagination, SortTable, } from 'src/components';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { ParamHelper, filterIsSet, getRepoUrl, withRouter, } from 'src/utilities';
+import { ParamHelper, filterIsSet, getRepoURL, withRouter, } from 'src/utilities';
 import { loadCollection } from './base';
 var CollectionDistributions = function (props) {
     var routeParams = ParamHelper.parseParamString(props.location.search);
@@ -137,7 +137,7 @@ var CollectionDistributions = function (props) {
             "server_list = ".concat(distribution.base_path),
             '',
             "[galaxy_server.".concat(distribution.base_path, "]"),
-            "url=".concat(getRepoUrl(distribution.base_path)),
+            "url=".concat(getRepoURL(distribution.base_path)),
             'token=<put your token here>',
         ].join('\n');
     };

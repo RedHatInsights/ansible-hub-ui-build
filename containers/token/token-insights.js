@@ -35,7 +35,7 @@ import { AlertList, BaseHeader, ClipboardCopy, Main, closeAlertMixin, } from 'sr
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
-import { errorMessage, getRepoUrl } from 'src/utilities';
+import { errorMessage, getRepoURL } from 'src/utilities';
 var TokenInsights = /** @class */ (function (_super) {
     __extends(TokenInsights, _super);
     function TokenInsights(props) {
@@ -138,7 +138,7 @@ var TokenInsights = /** @class */ (function (_super) {
                     React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
                     React.createElement("p", null,
                         React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download content from Automation Hub.")),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl('published'))),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoURL('published'))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
                     React.createElement("p", null,

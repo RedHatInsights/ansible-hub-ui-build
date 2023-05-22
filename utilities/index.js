@@ -4,7 +4,7 @@ export { downloadString } from './download-data';
 export { ParamHelper } from './param-helper';
 export { sanitizeDocsUrls } from './sanitize-docs-urls';
 export { ErrorMessagesType, alertErrorsWithoutFields, isFieldValid, isFormValid, mapErrorMessages, } from './map-error-messages';
-export { getContainersURL, getRepoUrl } from './get-repo-url';
+export { getContainersURL, getRepoURL } from './get-repo-url';
 export { clearSetFieldsFromRequest, isFieldSet, isWriteOnly, } from './write-only-fields';
 export { filterIsSet } from './filter-is-set';
 export { truncateSha } from './truncate_sha';

@@ -153,8 +153,15 @@ export var Page = function (_a) {
                 });
             };
             class_1.prototype.addAlert = function (alert) {
+                var alerts = this.state.alerts;
+                if (alert.id) {
+                    alerts = alerts.filter(function (_a) {
+                        var id = _a.id;
+                        return id !== alert.id;
+                    });
+                }
                 this.setState({
-                    alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [alert], false),
+                    alerts: __spreadArray(__spreadArray([], alerts, true), [alert], false),
                 });
             };
             Object.defineProperty(class_1.prototype, "closeAlert", {
