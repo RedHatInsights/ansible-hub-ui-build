@@ -48,7 +48,7 @@ import { AccessTab, AlertList, ClipboardCopy, CollectionFilter, CollectionList, 
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
 import { withRouter } from 'src/utilities';
-import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoUrl, waitForTask, } from 'src/utilities';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoURL, waitForTask, } from 'src/utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import './namespace-detail.scss';
 var NamespaceDetail = /** @class */ (function (_super) {
@@ -233,7 +233,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), params.group) }
                 : null,
         ].filter(Boolean);
-        var repositoryUrl = getRepoUrl('published');
+        var repositoryUrl = getRepoURL('published');
         var noData = itemCount === 0 &&
             !filterIsSet(params, [
                 'is_signed',

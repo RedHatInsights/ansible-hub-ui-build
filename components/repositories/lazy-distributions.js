@@ -8,12 +8,20 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import React, { useEffect, useState } from 'react';
 import { AnsibleDistributionAPI } from 'src/api';
 import { errorMessage } from 'src/utilities';
-export var LazyDistributions = function (_a) {
+export var NonLazyDistributions = function (_a) {
     var _b, _c, _d;
+    var distributions = _a.distributions, emptyText = _a.emptyText;
+    return (React.createElement(React.Fragment, null, ((_d = (_c = (_b = distributions === null || distributions === void 0 ? void 0 : distributions.map) === null || _b === void 0 ? void 0 : _b.call(distributions, function (_a) {
+        var name = _a.name;
+        return name;
+    })) === null || _c === void 0 ? void 0 : _c.join) === null || _d === void 0 ? void 0 : _d.call(_c, ', ')) ||
+        (emptyText !== null && emptyText !== void 0 ? emptyText : '---')));
+};
+export var LazyDistributions = function (_a) {
     var emptyText = _a.emptyText, onLoad = _a.onLoad, repositoryHref = _a.repositoryHref;
-    var _e = useState([]), distributions = _e[0], setDistributions = _e[1];
-    var _f = useState(null), error = _f[0], setError = _f[1];
-    var _g = useState(true), loading = _g[0], setLoading = _g[1];
+    var _b = useState([]), distributions = _b[0], setDistributions = _b[1];
+    var _c = useState(null), error = _c[0], setError = _c[1];
+    var _d = useState(true), loading = _d[0], setLoading = _d[1];
     useEffect(function () {
         if (!repositoryHref) {
             setDistributions([]);
@@ -44,11 +52,7 @@ export var LazyDistributions = function (_a) {
     var errorElement = error && (React.createElement(Tooltip, { content: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to load distributions: ", ""], ["Failed to load distributions: ", ""])), error), key: 'empty' },
         React.createElement(Button, { variant: 'plain' },
             React.createElement(ExclamationCircleIcon, null))));
-    return loading ? (React.createElement(Spinner, { size: 'sm' })) : error ? (errorElement) : (React.createElement(React.Fragment, null, ((_d = (_c = (_b = distributions === null || distributions === void 0 ? void 0 : distributions.map) === null || _b === void 0 ? void 0 : _b.call(distributions, function (_a) {
-        var name = _a.name;
-        return name;
-    })) === null || _c === void 0 ? void 0 : _c.join) === null || _d === void 0 ? void 0 : _d.call(_c, ', ')) ||
-        (emptyText !== null && emptyText !== void 0 ? emptyText : '---')));
+    return loading ? (React.createElement(Spinner, { size: 'sm' })) : error ? (errorElement) : (React.createElement(NonLazyDistributions, { distributions: distributions, emptyText: emptyText }));
 };
 var templateObject_1;
 //# sourceMappingURL=lazy-distributions.js.map
