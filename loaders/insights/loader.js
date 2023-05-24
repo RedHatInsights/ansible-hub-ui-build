@@ -1,7 +1,3 @@
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -12,8 +8,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import '../app.scss';
-import { t } from '@lingui/macro';
-import { Alert } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import React, { useEffect, useState } from 'react';
 import { UIVersion } from 'src/components';
@@ -60,10 +54,8 @@ var App = function (_props) {
                 }, name);
             },
         } },
-        React.createElement(Alert, { isInline: true, variant: 'info', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."], ["The Automation Hub sync toggle is now only supported in AAP 2.0. Previous versions of AAP will continue automatically syncing all collections."]))) }),
         React.createElement(InsightsRoutes, null),
         React.createElement(UIVersion, null)));
 };
 export default App;
-var templateObject_1;
 //# sourceMappingURL=loader.js.map
