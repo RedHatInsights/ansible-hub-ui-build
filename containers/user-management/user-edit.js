@@ -18,7 +18,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
 import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';

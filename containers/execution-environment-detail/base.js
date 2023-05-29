@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { AlertList, DeleteExecutionEnvironmentModal, ExecutionEnvironmentHeader, LoadingPageWithHeader, Main, PublishToControllerModal, RepositoryForm, StatefulDropdown, closeAlertMixin, } from 'src/components';

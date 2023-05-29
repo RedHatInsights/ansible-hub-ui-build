@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DateComponent, HelperText, StatusIndicator } from 'src/components';
 export function lastSynced(entity) {
     if (!entity.last_sync_task || !entity.last_sync_task.finished_at) {

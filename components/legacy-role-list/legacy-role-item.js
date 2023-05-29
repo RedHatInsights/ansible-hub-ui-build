@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { DateComponent, Logo, Tag } from 'src/components';
 import { Paths, formatPath } from 'src/paths';

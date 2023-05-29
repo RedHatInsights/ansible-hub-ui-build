@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Form, FormGroup, TextArea } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import './markdown-editor.scss';
 var MarkdownEditor = /** @class */ (function (_super) {

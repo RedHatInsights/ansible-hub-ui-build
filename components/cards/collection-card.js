@@ -5,7 +5,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { Trans, t } from '@lingui/macro';
 import { Badge, Card, CardBody, CardFooter, CardHeader, Text, TextContent, TextVariants, Tooltip, } from '@patternfly/react-core';
 import cx from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionNumericLabel, Logo, SignatureBadge } from 'src/components';
 import { Constants } from 'src/constants';

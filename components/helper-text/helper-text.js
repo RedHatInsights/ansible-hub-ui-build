@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import { Button, Popover, PopoverPosition } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import './helper-text.scss';
 var HelperText = /** @class */ (function (_super) {
     __extends(HelperText, _super);

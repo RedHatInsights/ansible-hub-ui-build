@@ -29,7 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { i18n } from '@lingui/core';
 import { Trans, t } from '@lingui/macro';
 import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { TaskManagementAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, ConfirmModal, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatusIndicator, Tooltip, closeAlertMixin, } from 'src/components';

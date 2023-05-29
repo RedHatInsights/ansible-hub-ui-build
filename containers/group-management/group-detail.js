@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { APISearchTypeAhead, AlertList, AppliedFilters, BaseHeader, Breadcrumbs, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, SortTable, Tabs, closeAlertMixin, } from 'src/components';

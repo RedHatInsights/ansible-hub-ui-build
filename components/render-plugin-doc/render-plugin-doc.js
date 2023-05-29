@@ -34,7 +34,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { dom, parse } from 'antsibull-docs';
-import * as React from 'react';
+import React from 'react';
 import './render-plugin-doc.scss';
 var RenderPluginDoc = /** @class */ (function (_super) {
     __extends(RenderPluginDoc, _super);

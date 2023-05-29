@@ -38,7 +38,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { AlertList, CollectionDependenciesList, CollectionHeader, CollectionUsedbyDependenciesList, EmptyStateNoData, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

@@ -31,7 +31,7 @@ import { Trans, t } from '@lingui/macro';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 import { capitalize } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
 import { AlertList, BaseHeader, Breadcrumbs, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, closeAlertMixin, } from 'src/components';

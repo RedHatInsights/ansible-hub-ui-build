@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, DropdownItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo, StatefulDropdown } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

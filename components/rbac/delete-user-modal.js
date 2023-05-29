@@ -54,7 +54,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { Trans, t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { UserAPI } from 'src/api';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 import { AppContext } from 'src/loaders/app-context';

@@ -76,7 +76,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { Trans, t } from '@lingui/macro';
 import { Alert, AlertActionLink, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextInput, } from '@patternfly/react-core';
 import { TagIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { ContainerTagAPI, ExecutionEnvironmentAPI, PulpStatus, TaskAPI, } from 'src/api';
 import { chipGroupProps, parsePulpIDFromURL } from 'src/utilities';
 var VALID_TAG_REGEX = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;

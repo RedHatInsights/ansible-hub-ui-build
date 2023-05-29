@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
+import React from 'react';
 import { BaseHeader, Breadcrumbs, Main, UserForm, } from 'src/components';
 var UserFormPage = /** @class */ (function (_super) {
     __extends(UserFormPage, _super);

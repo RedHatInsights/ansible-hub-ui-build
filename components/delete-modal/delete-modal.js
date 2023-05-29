@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 export var DeleteModal = function (_a) {
     var cancelAction = _a.cancelAction, children = _a.children, deleteAction = _a.deleteAction, isDisabled = _a.isDisabled, isRemove = _a.isRemove, title = _a.title, spinner = _a.spinner, _b = _a.variant, variant = _b === void 0 ? 'small' : _b;
     return (React.createElement(Modal, { actions: [

@@ -28,7 +28,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { GroupAPI, UserAPI, } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';

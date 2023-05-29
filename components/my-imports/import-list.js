@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import { Pagination, Toolbar } from '@patternfly/react-core';
 import cx from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { MyNamespaceAPI, PulpStatus, } from 'src/api';
 import { APISearchTypeAhead, AppliedFilters, CompoundFilter, LoadingPageSpinner, } from 'src/components';
 import { Constants } from 'src/constants';

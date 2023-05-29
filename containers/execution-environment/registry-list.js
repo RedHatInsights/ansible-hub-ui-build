@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { ExecutionEnvironmentRegistryAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, CopyURL, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, RemoteForm, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { Trans, t } from '@lingui/macro';
 import { Alert, AlertActionCloseButton, Button, Checkbox, DropdownItem, Text, Tooltip, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link, Navigate } from 'react-router-dom';
 import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';

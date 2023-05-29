@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { DataList } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { LegacyNamespaceAPI } from 'src/api/legacynamespace';
 import { AlertList, BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

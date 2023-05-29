@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, } from 'src/components';

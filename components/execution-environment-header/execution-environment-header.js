@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { Trans, t } from '@lingui/macro';
 import { Tooltip } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { BaseHeader, Breadcrumbs, SignatureBadge, Tabs } from 'src/components';
 import { Paths, formatEEPath, formatPath } from 'src/paths';
 import { lastSyncStatus, lastSynced } from 'src/utilities';

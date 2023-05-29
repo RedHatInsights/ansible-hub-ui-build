@@ -6,7 +6,7 @@ import { t } from '@lingui/macro';
 import { SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import cx from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyStateCustom } from 'src/components';
 import { Paths, formatPath } from 'src/paths';

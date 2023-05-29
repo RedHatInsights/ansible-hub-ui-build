@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { chipGroupProps } from 'src/utilities';
 var APISearchTypeAhead = /** @class */ (function (_super) {
     __extends(APISearchTypeAhead, _super);

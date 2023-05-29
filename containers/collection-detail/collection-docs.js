@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import { Alert } from '@patternfly/react-core';
 import { ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { CollectionHeader, EmptyStateCustom, LoadingPageWithHeader, Main, RenderPluginDoc, TableOfContents, } from 'src/components';
