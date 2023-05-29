@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/macro';
 import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { MyNamespaceAPI, NamespaceAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LinkTabs, LoadingPageSpinner, LoadingPageWithHeader, NamespaceCard, NamespaceModal, Pagination, Sort, closeAlertMixin, } from 'src/components';

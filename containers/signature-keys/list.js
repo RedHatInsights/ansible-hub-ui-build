@@ -28,7 +28,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { SigningServiceAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, ClipboardCopy, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

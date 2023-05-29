@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import { Spinner, Tooltip } from '@patternfly/react-core';
 import cx from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { PulpStatus, } from 'src/api';
 import { StatusIndicator } from 'src/components';

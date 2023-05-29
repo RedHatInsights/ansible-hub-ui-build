@@ -32,7 +32,7 @@ import { Trans, t } from '@lingui/macro';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { sum } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { AppliedFilters, ClipboardCopy, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, ListItemActions, LoadingPageSpinner, Pagination, PublishToControllerModal, ShaLabel, SortTable, TagLabel, TagManifestModal, } from 'src/components';

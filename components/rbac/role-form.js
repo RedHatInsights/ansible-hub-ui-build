@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { Trans, t } from '@lingui/macro';
 import { ActionGroup, Button, Divider, Form, FormGroup, InputGroup, Spinner, TextInput, Title, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { PermissionCategories } from 'src/components';
 var RoleForm = /** @class */ (function (_super) {
     __extends(RoleForm, _super);

@@ -34,7 +34,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { isEqual } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { AlertList, CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';

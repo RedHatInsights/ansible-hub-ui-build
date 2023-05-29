@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { ActionGroup, Alert, Button, FormGroup, Label, Switch, TextInput, TextInputTypes, Tooltip, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { GroupAPI } from 'src/api';
 import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';

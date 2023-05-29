@@ -27,7 +27,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { Trans, t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { AlertList, BaseHeader, LandingPageCard, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

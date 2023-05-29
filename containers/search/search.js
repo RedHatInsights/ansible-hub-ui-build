@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { Button, DataList, DropdownItem, Switch } from '@patternfly/react-core';
 import cx from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, MySyncListAPI, } from 'src/api';
 import { AlertList, BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, DeleteCollectionModal, EmptyStateFilter, EmptyStateNoData, ImportModal, LoadingPageSpinner, Pagination, StatefulDropdown, closeAlertMixin, } from 'src/components';

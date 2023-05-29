@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Button, Card, CardBody, Flex, FlexItem, Title, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { ExecutionEnvironmentAPI } from 'src/api';
 import { ClipboardCopy, EmptyStateNoData, MarkdownEditor, } from 'src/components';
 import { withRouter } from 'src/utilities';

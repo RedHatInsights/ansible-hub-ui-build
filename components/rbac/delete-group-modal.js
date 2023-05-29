@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, List, ListItem, Spinner } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 var DeleteGroupModal = /** @class */ (function (_super) {
     __extends(DeleteGroupModal, _super);

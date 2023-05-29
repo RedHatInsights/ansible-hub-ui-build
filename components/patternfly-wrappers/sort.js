@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { SortAlphaDownIcon, SortAlphaUpIcon, SortAmountDownIcon, SortAmountUpIcon, } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { ParamHelper } from 'src/utilities/param-helper';
 import './sort.scss';
 var SortFieldType = /** @class */ (function () {

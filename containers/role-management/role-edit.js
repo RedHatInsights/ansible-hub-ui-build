@@ -38,7 +38,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { RoleAPI } from 'src/api/role';
 import { AlertList, EmptyStateUnauthorized, LoadingPageWithHeader, Main, RoleForm, RoleHeader, closeAlertMixin, } from 'src/components';

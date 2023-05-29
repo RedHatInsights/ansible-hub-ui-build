@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
+import React from 'react';
 // had to declare *.svg in src/index.d.ts
 import DefaultLogo from 'src/../static/images/default-logo.svg';
 var Logo = /** @class */ (function (_super) {

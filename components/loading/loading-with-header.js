@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Skeleton, Title } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { LoadingPageSpinner, Main } from 'src/components';
 var LoadingPageWithHeader = /** @class */ (function (_super) {
     __extends(LoadingPageWithHeader, _super);

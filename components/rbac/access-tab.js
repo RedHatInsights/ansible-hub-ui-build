@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarItem, } from '@patternfly/react-core';
 import { sortBy } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { DeleteModal, EmptyStateNoData, ExpandableRow, GroupRolePermissions, ListItemActions, LoadingPageSpinner, PreviewRoles, RoleListTable, SelectGroup, SelectRoles, SortTable, WizardModal, } from 'src/components';
 import { ParamHelper } from 'src/utilities';

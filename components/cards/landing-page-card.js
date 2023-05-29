@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Title } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 export var LandingPageCard = function (_a) {
     var title = _a.title, body = _a.body;
     return (React.createElement(Card, { className: 'landing-page-card', style: {

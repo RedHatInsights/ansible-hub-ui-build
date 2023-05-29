@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { AppContext } from 'src/loaders/app-context';
 import { chipGroupProps } from 'src/utilities';
 var PermissionChipSelector = /** @class */ (function (_super) {

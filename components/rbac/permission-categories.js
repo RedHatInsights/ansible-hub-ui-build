@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Flex, FlexItem } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { PermissionChipSelector } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';

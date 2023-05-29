@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { SearchInput, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, Sort, } from 'src/components';
 import 'src/containers/collection-detail/collection-dependencies.scss';

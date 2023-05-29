@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Form, FormGroup, TextInput, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 var DataForm = /** @class */ (function (_super) {
     __extends(DataForm, _super);
     function DataForm() {

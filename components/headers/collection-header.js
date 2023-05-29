@@ -77,7 +77,7 @@ import { Trans, t } from '@lingui/macro';
 import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Spinner, Text, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import * as moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
 import { AlertList, BaseHeader, Breadcrumbs, DeleteCollectionModal, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';

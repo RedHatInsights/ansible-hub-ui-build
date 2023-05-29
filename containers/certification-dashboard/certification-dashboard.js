@@ -87,7 +87,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { Button, ButtonVariant, DropdownItem, Label, LabelGroup, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { AnsibleDistributionAPI, AnsibleRepositoryAPI, CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, Repositories, } from 'src/api';
 import { ApproveModal, BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';

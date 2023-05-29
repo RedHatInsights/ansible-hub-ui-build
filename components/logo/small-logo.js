@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
+import React from 'react';
 import SmallLogoImage from 'src/../static/images/logo_small.svg';
 var SmallLogo = /** @class */ (function (_super) {
     __extends(SmallLogo, _super);

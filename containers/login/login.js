@@ -20,7 +20,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 import { t } from '@lingui/macro';
 import { LoginForm, LoginPage as PFLoginPage } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Logo from 'src/../static/images/logo_large.svg';
 import { ActiveUserAPI } from 'src/api';

@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Card, CardBody, CardFooter, CardHeader, CardHeaderMain, CardTitle, Tooltip, } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from 'src/components';
 import './cards.scss';

@@ -28,7 +28,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, ClipboardCopyVariant } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { MyDistributionAPI } from 'src/api';
 import { AlertList, BaseHeader, ClipboardCopy, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

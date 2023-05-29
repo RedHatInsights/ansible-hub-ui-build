@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 var LoadingPageSpinner = /** @class */ (function (_super) {
     __extends(LoadingPageSpinner, _super);
     function LoadingPageSpinner() {

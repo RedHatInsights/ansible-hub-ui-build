@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { ActionGroup, Button, Form, Spinner } from '@patternfly/react-core';
-import * as React from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { MyNamespaceAPI } from 'src/api';
 import { AlertList, EmptyStateUnauthorized, LoadingPageSpinner, Main, NamespaceForm, PartnerHeader, ResourcesForm, closeAlertMixin, } from 'src/components';

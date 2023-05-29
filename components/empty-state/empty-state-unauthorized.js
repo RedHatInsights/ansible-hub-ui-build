@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { LockIcon } from '@patternfly/react-icons';
-import * as React from 'react';
+import React from 'react';
 import { LoginLink } from 'src/components';
 import { EmptyStateCustom } from './empty-state-custom';
 export var EmptyStateUnauthorized = function () {
