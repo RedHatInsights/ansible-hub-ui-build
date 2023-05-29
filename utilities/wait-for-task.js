@@ -18,8 +18,9 @@ import { TaskAPI } from 'src/api';
 import { parsePulpIDFromURL } from './parse-pulp-id';
 export function waitForTask(task, options) {
     if (options === void 0) { options = {}; }
-    // default to 5s wait with max 10 attempts
-    var _a = options.waitMs, waitMs = _a === void 0 ? 5000 : _a, _b = options.bailAfter, bailAfter = _b === void 0 ? 10 : _b;
+    // default to starting with a 2s wait, increasing the wait time 1.5x each time, with max 10 attempts
+    // 2000, 1.5, 10 = ~226s ; 500, 1.5, 10 = ~57s
+    var _a = options.waitMs, waitMs = _a === void 0 ? 2000 : _a, _b = options.multiplier, multiplier = _b === void 0 ? 1.5 : _b, _c = options.bailAfter, bailAfter = _c === void 0 ? 10 : _c;
     return TaskAPI.get(task).then(function (result) {
         var _a, _b;
         var failing = ['skipped', 'failed', 'canceled'];
@@ -31,7 +32,7 @@ export function waitForTask(task, options) {
                 return Promise.reject(new Error(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Giving up waiting for task after 10 attempts."], ["Giving up waiting for task after 10 attempts."])))));
             }
             return new Promise(function (r) { return setTimeout(r, waitMs); }).then(function () {
-                return waitForTask(task, __assign(__assign({}, options), { bailAfter: bailAfter - 1 }));
+                return waitForTask(task, __assign(__assign({}, options), { waitMs: Math.round(waitMs * multiplier), bailAfter: bailAfter - 1 }));
             });
         }
     });
