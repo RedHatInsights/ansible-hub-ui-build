@@ -48,9 +48,9 @@ export var CollectionFilter = function (props) {
         }
     }, [inputText]);
     var ignoredParams = props.ignoredParams, params = props.params, updateParams = props.updateParams;
-    var display_signatures = context.featureFlags.display_signatures;
+    var _d = context.featureFlags, display_signatures = _d.display_signatures, display_repositories = _d.display_repositories;
     var displayTags = ignoredParams.includes('tags') === false;
-    var displayRepos = ignoredParams.includes('repository_name') === false;
+    var displayRepos = ignoredParams.includes('repository_name') === false && display_repositories;
     var displayNamespaces = ignoredParams.includes('namespace') === false;
     var filterConfig = [
         {
