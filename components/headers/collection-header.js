@@ -90,19 +90,20 @@ import { ParamHelper } from 'src/utilities/param-helper';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
 import './header.scss';
-var CollectionHeader = /** @class */ (function (_super) {
+export var CollectionHeader = /** @class */ (function (_super) {
     __extends(CollectionHeader, _super);
     function CollectionHeader(props) {
         var _this = _super.call(this, props) || this;
         _this.ignoreParams = ['showing', 'keywords'];
         _this.updatePaginationParams = function (_a) {
+            var _b;
             var page = _a.page, page_size = _a.page_size;
             var modalPagination = {
                 page: page,
                 page_size: page_size,
             };
             _this.setState({ modalPagination: modalPagination, modalCollections: null });
-            var _b = _this.props.collection.collection_version, namespace = _b.namespace, name = _b.name;
+            var namespace = (_b = _this.props.collection.collection_version, _b.namespace), name = _b.name;
             var repository = _this.props.collection.repository;
             var requestParams = __assign(__assign({}, (repository ? { repository_name: repository.name } : {})), { namespace: namespace, name: name });
             // loadCollections provides initial data, pagination needs extra requests
@@ -118,7 +119,8 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.signCollection = function () {
-            var _a = _this.props.collection.collection_version, namespace = _a.namespace, name = _a.name;
+            var _a;
+            var namespace = (_a = _this.props.collection.collection_version, _a.namespace), name = _a.name;
             var errorAlert = function (status) {
                 if (status === void 0) { status = 500; }
                 return ({
@@ -167,7 +169,8 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.signVersion = function () {
-            var _a = _this.props.collection.collection_version, name = _a.name, version = _a.version, namespace = _a.namespace;
+            var _a;
+            var name = (_a = _this.props.collection.collection_version, _a.name), version = _a.version, namespace = _a.namespace;
             var errorAlert = function (status) {
                 if (status === void 0) { status = 500; }
                 return ({
@@ -267,7 +270,8 @@ var CollectionHeader = /** @class */ (function (_super) {
                 });
             })
                 .catch(function (err) {
-                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status, statusText = _a.statusText;
+                var _a, _b;
+                var detail = (_a = err.response, _b = _a.data, _b.detail), dependent_collection_versions = _b.dependent_collection_versions, status = _a.status, statusText = _a.statusText;
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
@@ -349,9 +353,10 @@ var CollectionHeader = /** @class */ (function (_super) {
         }
     };
     CollectionHeader.prototype.render = function () {
+        var _a, _b, _c;
         var _this = this;
-        var _a = this.props, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
-        var _b = this.state, modalCollections = _b.modalCollections, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
+        var collections = (_a = this.props, _a.collections), collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
+        var modalCollections = (_b = this.state, _b.modalCollections), modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection;
         var urlKeys = [
             { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
             { key: 'homepage', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Website"], ["Website"]))) },
@@ -359,7 +364,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             { key: 'origin_repository', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.collection_version.pulp_created;
-        var _c = this.context.featureFlags, display_signatures = _c.display_signatures, can_upload_signatures = _c.can_upload_signatures;
+        var display_signatures = (_c = this.context.featureFlags, _c.display_signatures), can_upload_signatures = _c.can_upload_signatures;
         var signedString = function () {
             if (!display_signatures) {
                 return '';
@@ -534,7 +539,8 @@ var CollectionHeader = /** @class */ (function (_super) {
         });
     };
     CollectionHeader.prototype.renderTabs = function (active) {
-        var _a = this.props, params = _a.params, collection = _a.collection;
+        var _a;
+        var params = (_a = this.props, _a.params), collection = _a.collection;
         var pathParams = {
             namespace: collection.collection_version.namespace,
             collection: collection.collection_version.name,
@@ -577,10 +583,11 @@ var CollectionHeader = /** @class */ (function (_super) {
     };
     CollectionHeader.prototype.submitCertificate = function (file) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, version, repository, signed_collection;
+            var version, repository, signed_collection;
+            var _a;
             var _this = this;
             return __generator(this, function (_b) {
-                _a = this.state.versionToUploadCertificate, version = _a.collection_version, repository = _a.repository;
+                version = (_a = this.state.versionToUploadCertificate, _a.collection_version), repository = _a.repository;
                 signed_collection = this.props.collection.collection_version.pulp_href;
                 this.setState({
                     alerts: this.state.alerts.concat({
@@ -659,7 +666,8 @@ var CollectionHeader = /** @class */ (function (_super) {
             });
         })
             .catch(function (err) {
-            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            var _a;
+            var status = (_a = err.response, _a.status), statusText = _a.statusText;
             _this.setState({
                 collectionVersion: null,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
@@ -704,6 +712,5 @@ var CollectionHeader = /** @class */ (function (_super) {
     CollectionHeader.contextType = AppContext;
     return CollectionHeader;
 }(React.Component));
-export { CollectionHeader };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43;
 //# sourceMappingURL=collection-header.js.map

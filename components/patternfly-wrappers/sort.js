@@ -39,7 +39,7 @@ var SortFieldType = /** @class */ (function () {
     }
     return SortFieldType;
 }());
-var Sort = /** @class */ (function (_super) {
+export var Sort = /** @class */ (function (_super) {
     __extends(Sort, _super);
     function Sort(props) {
         var _this = _super.call(this, props) || this;
@@ -94,8 +94,9 @@ var Sort = /** @class */ (function (_super) {
         return option ? option : def;
     };
     Sort.prototype.render = function () {
+        var _a;
         var _this = this;
-        var _a = this.props, options = _a.options, params = _a.params;
+        var options = (_a = this.props, _a.options), params = _a.params;
         var isExpanded = this.state.isExpanded;
         var selectedOption = this.getSelected(params);
         var IconDesc;
@@ -117,6 +118,5 @@ var Sort = /** @class */ (function (_super) {
     };
     return Sort;
 }(React.Component));
-export { Sort };
 var templateObject_1;
 //# sourceMappingURL=sort.js.map

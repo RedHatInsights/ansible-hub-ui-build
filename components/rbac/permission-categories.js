@@ -58,14 +58,15 @@ function knownPermissionsAndCategories(model_permissions, allPermissions) {
     });
     return Object.values(categories);
 }
-var PermissionCategories = /** @class */ (function (_super) {
+export var PermissionCategories = /** @class */ (function (_super) {
     __extends(PermissionCategories, _super);
     function PermissionCategories() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PermissionCategories.prototype.render = function () {
-        var _a = this.props, permissions = _a.permissions, setSelected = _a.setSelected, showCustom = _a.showCustom, showEmpty = _a.showEmpty;
-        var _b = this.context, featureFlags = _b.featureFlags, user = _b.user;
+        var _a, _b;
+        var permissions = (_a = this.props, _a.permissions), setSelected = _a.setSelected, showCustom = _a.showCustom, showEmpty = _a.showEmpty;
+        var featureFlags = (_b = this.context, _b.featureFlags), user = _b.user;
         var model_permissions = user.model_permissions;
         var showUserManagement = !featureFlags.external_authentication;
         // show user/group permissions by default
@@ -115,6 +116,5 @@ var PermissionCategories = /** @class */ (function (_super) {
     PermissionCategories.contextType = AppContext;
     return PermissionCategories;
 }(React.Component));
-export { PermissionCategories };
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=permission-categories.js.map

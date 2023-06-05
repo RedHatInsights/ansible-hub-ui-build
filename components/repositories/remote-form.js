@@ -36,11 +36,12 @@ import React from 'react';
 import { FileUpload, HelperText, WriteOnlyField } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { downloadString, isFieldSet, isWriteOnly, validateURLHelper, } from 'src/utilities';
-var RemoteForm = /** @class */ (function (_super) {
+export var RemoteForm = /** @class */ (function (_super) {
     __extends(RemoteForm, _super);
     function RemoteForm(props) {
+        var _a;
         var _this = _super.call(this, props) || this;
-        var _a = props.remote || {}, requirements_file = _a.requirements_file, client_key = _a.client_key, client_cert = _a.client_cert, ca_cert = _a.ca_cert;
+        var requirements_file = (_a = props.remote || {}, _a.requirements_file), client_key = _a.client_key, client_cert = _a.client_cert, ca_cert = _a.ca_cert;
         _this.state = {
             filenames: {
                 requirements_file: {
@@ -69,7 +70,8 @@ var RemoteForm = /** @class */ (function (_super) {
         return _this;
     }
     RemoteForm.prototype.render = function () {
-        var _a = this.props, allowEditName = _a.allowEditName, closeModal = _a.closeModal, remote = _a.remote, saveRemote = _a.saveRemote, showMain = _a.showMain, showModal = _a.showModal, remoteType = _a.remoteType, title = _a.title;
+        var _a;
+        var allowEditName = (_a = this.props, _a.allowEditName), closeModal = _a.closeModal, remote = _a.remote, saveRemote = _a.saveRemote, showMain = _a.showMain, showModal = _a.showModal, remoteType = _a.remoteType, title = _a.title;
         if (!remote) {
             return null;
         }
@@ -98,8 +100,9 @@ var RemoteForm = /** @class */ (function (_super) {
         return (React.createElement(Modal, { isOpen: showModal, title: title || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit remote"], ["Edit remote"]))), variant: 'small', onClose: function () { return closeModal(); }, actions: [save, cancel] }, this.renderForm(requiredFields, disabledFields)));
     };
     RemoteForm.prototype.renderForm = function (requiredFields, disabledFields, extra) {
+        var _a;
         var _this = this;
-        var _a = this.props, errorMessages = _a.errorMessages, remote = _a.remote, remoteType = _a.remoteType;
+        var errorMessages = (_a = this.props, _a.errorMessages), remote = _a.remote, remoteType = _a.remoteType;
         var filenames = this.state.filenames;
         var collection_signing = this.context.featureFlags.collection_signing;
         var writeOnlyFields = remote[remoteType === 'ansible-remote' ? 'hidden_fields' : 'write_only_fields'];
@@ -230,7 +233,8 @@ var RemoteForm = /** @class */ (function (_super) {
             extra));
     };
     RemoteForm.prototype.isValid = function (requiredFields) {
-        var _a = this.props, remote = _a.remote, remoteType = _a.remoteType;
+        var _a;
+        var remote = (_a = this.props, _a.remote), remoteType = _a.remoteType;
         for (var _i = 0, requiredFields_1 = requiredFields; _i < requiredFields_1.length; _i++) {
             var field = requiredFields_1[_i];
             if (!remote[field] || remote[field] === '') {
@@ -249,13 +253,13 @@ var RemoteForm = /** @class */ (function (_super) {
         return true;
     };
     RemoteForm.prototype.updateIsSet = function (fieldName, value) {
-        var _a;
-        var _b = this.props, remote = _b.remote, remoteType = _b.remoteType;
+        var _a, _b;
+        var remote = (_a = this.props, _a.remote), remoteType = _a.remoteType;
         var hiddenFieldsName = remoteType === 'ansible-remote' ? 'hidden_fields' : 'write_only_fields';
         var newFields = remote[hiddenFieldsName].map(function (field) {
             return field.name === fieldName ? __assign(__assign({}, field), { is_set: value }) : field;
         });
-        this.props.updateRemote(__assign(__assign({}, remote), (_a = {}, _a[fieldName] = null, _a[hiddenFieldsName] = newFields, _a)));
+        this.props.updateRemote(__assign(__assign({}, remote), (_b = {}, _b[fieldName] = null, _b[hiddenFieldsName] = newFields, _b)));
     };
     RemoteForm.prototype.updateRemote = function (value, field) {
         var _a;
@@ -284,6 +288,5 @@ var RemoteForm = /** @class */ (function (_super) {
     RemoteForm.contextType = AppContext;
     return RemoteForm;
 }(React.Component));
-export { RemoteForm };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47;
 //# sourceMappingURL=remote-form.js.map
