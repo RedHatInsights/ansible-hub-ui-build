@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRemoteDeleteAction, ansibleRemoteDownloadCAAction, ansibleRemoteDownloadClientAction, ansibleRemoteDownloadRequirementsAction, ansibleRemoteEditAction, } from 'src/actions';
 import { AnsibleRemoteAPI } from 'src/api';
@@ -24,8 +24,8 @@ import { parsePulpIDFromURL } from 'src/utilities';
 import { RemoteAccessTab } from './tab-access';
 import { DetailsTab } from './tab-details';
 var tabs = [
-    { id: 'details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
-    { id: 'access', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
+    { id: 'details', name: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
+    { id: 'access', name: msg(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
 ];
 var AnsibleRemoteDetail = PageWithTabs({
     breadcrumbs: function (_a) {
@@ -46,7 +46,7 @@ var AnsibleRemoteDetail = PageWithTabs({
     },
     condition: canViewAnsibleRemotes,
     displayName: 'AnsibleRemoteDetail',
-    errorTitle: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
+    errorTitle: msg(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
     headerActions: [
         ansibleRemoteEditAction,
         ansibleRemoteDownloadRequirementsAction,

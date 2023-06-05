@@ -24,6 +24,17 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -33,6 +44,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+import { i18n } from '@lingui/core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
 import { AlertList, BaseHeader, Breadcrumbs, EmptyStateUnauthorized, LoadingPageSpinner, Main, Tabs, closeAlertMixin, } from 'src/components';
@@ -121,7 +133,11 @@ export var PageWithTabs = function (_a) {
                     user: this.context.user,
                 };
                 var name = (item === null || item === void 0 ? void 0 : item.name) || routeParams.name;
-                var tab = tabs.find(function (t) { return t.id == params.tab; }) || tabs[0];
+                var localizedTabs = tabs.map(function (_a) {
+                    var name = _a.name, rest = __rest(_a, ["name"]);
+                    return (__assign(__assign({}, rest), { name: i18n._(name) }));
+                });
+                var tab = localizedTabs.find(function (t) { return t.id == params.tab; }) || tabs[0];
                 if (!loading && !unauthorised && !item) {
                     return (React.createElement(React.Fragment, null,
                         React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -143,7 +159,7 @@ export var PageWithTabs = function (_a) {
                         headerDetails(item),
                         React.createElement("div", { className: 'hub-tab-link-container' },
                             React.createElement("div", { className: 'tabs' },
-                                React.createElement(Tabs, { tabs: tabs, params: params, updateParams: function (p) {
+                                React.createElement(Tabs, { tabs: localizedTabs, params: params, updateParams: function (p) {
                                         return _this.updateParams(tabUpdateParams ? tabUpdateParams(p) : p);
                                     } })))), renderModals === null || renderModals === void 0 ? void 0 :
                     renderModals(actionContext),
@@ -174,7 +190,7 @@ export var PageWithTabs = function (_a) {
                             item: null,
                         });
                         _this.addAlert({
-                            title: errorTitle,
+                            title: i18n._(errorTitle),
                             variant: 'danger',
                             description: errorMessage(status, statusText),
                         });

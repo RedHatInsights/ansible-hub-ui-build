@@ -47,7 +47,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleDistributionAPI, AnsibleRepositoryAPI } from 'src/api';
 import { DeleteAnsibleRepositoryModal } from 'src/components';
@@ -57,7 +57,7 @@ import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositoryDeleteAction = Action({
     condition: canDeleteAnsibleRepository,
-    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
+    title: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, query = _a.query, setState = _a.setState, state = _a.state;
         return state.deleteModalOpen ? (React.createElement(DeleteAnsibleRepositoryModal, { closeAction: function () { return setState({ deleteModalOpen: null }); }, deleteAction: function () {

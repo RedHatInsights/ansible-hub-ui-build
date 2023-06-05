@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { msg } from '@lingui/macro';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ansibleRemoteCreateAction, ansibleRemoteDeleteAction, ansibleRemoteDownloadCAAction, ansibleRemoteDownloadClientAction, ansibleRemoteDownloadRequirementsAction, ansibleRemoteEditAction, } from 'src/actions';
@@ -39,19 +39,19 @@ var AnsibleRemoteList = ListPage({
     defaultPageSize: 10,
     defaultSort: '-pulp_created',
     displayName: 'AnsibleRemoteList',
-    errorTitle: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Remotes could not be displayed."], ["Remotes could not be displayed."]))),
+    errorTitle: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Remotes could not be displayed."], ["Remotes could not be displayed."]))),
     extraState: {},
     filterConfig: [
         {
             id: 'name__icontains',
-            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
+            title: msg(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
         },
     ],
     headerActions: [ansibleRemoteCreateAction],
     listItemActions: listItemActions,
     noDataButton: ansibleRemoteCreateAction.button,
-    noDataDescription: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Remotes will appear once created."], ["Remotes will appear once created."]))),
-    noDataTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No remotes yet"], ["No remotes yet"]))),
+    noDataDescription: msg(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Remotes will appear once created."], ["Remotes will appear once created."]))),
+    noDataTitle: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No remotes yet"], ["No remotes yet"]))),
     query: function (_a) {
         var params = _a.params;
         return AnsibleRemoteAPI.list(params);
@@ -71,17 +71,17 @@ var AnsibleRemoteList = ListPage({
     },
     sortHeaders: [
         {
-            title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
+            title: msg(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
             type: 'alpha',
             id: 'name',
         },
         {
-            title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["URL"], ["URL"]))),
+            title: msg(templateObject_6 || (templateObject_6 = __makeTemplateObject(["URL"], ["URL"]))),
             type: 'alpha',
             id: 'url',
         },
     ],
-    title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Remotes"], ["Remotes"]))),
+    title: msg(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Remotes"], ["Remotes"]))),
 });
 export default AnsibleRemoteList;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;

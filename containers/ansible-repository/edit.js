@@ -24,7 +24,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
 import { AnsibleRepositoryForm, Page } from 'src/components';
@@ -54,7 +54,7 @@ var AnsibleRepositoryEdit = Page({
         return canAddAnsibleRepository(context) || canEditAnsibleRepository(context, item);
     },
     displayName: 'AnsibleRepositoryEdit',
-    errorTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
+    errorTitle: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRepositoryAPI.list({ name: name })

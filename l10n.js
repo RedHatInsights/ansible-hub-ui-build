@@ -44,9 +44,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { i18n } from '@lingui/core';
-import * as plurals from 'make-plural/plurals';
 import * as moment from 'moment';
-// remember to update .linguirc as well
+// remember to update lingui.config.js as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
 // map missing moment locales (node_modules/moment/src/locale/<locale>.js must exist, except for english)
 var momentLocales = {
@@ -73,7 +72,6 @@ function activate(locale, pseudolocalization) {
                             }
                         });
                     }
-                    i18n.loadLocaleData(locale, { plurals: plurals[locale] });
                     i18n.load(locale, messages);
                     i18n.activate(locale);
                     moment.locale(momentLocales[locale] || locale);

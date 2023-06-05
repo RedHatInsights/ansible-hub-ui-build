@@ -33,6 +33,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+import { i18n } from '@lingui/core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
 import { LoadingPageSpinner } from 'src/components';
@@ -143,7 +144,7 @@ export var Page = function (_a) {
                                 item: null,
                             });
                             _this.addAlert({
-                                title: errorTitle,
+                                title: i18n._(errorTitle),
                                 variant: 'danger',
                                 description: errorMessage(status, statusText),
                             });

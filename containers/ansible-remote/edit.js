@@ -24,7 +24,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleRemoteAPI } from 'src/api';
 import { Page, RemoteForm } from 'src/components';
@@ -65,7 +65,7 @@ var AnsibleRemoteEdit = Page({
         return canAddAnsibleRemote(context) || canEditAnsibleRemote(context, item);
     },
     displayName: 'AnsibleRemoteEdit',
-    errorTitle: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
+    errorTitle: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRemoteAPI.list({ name: name })
