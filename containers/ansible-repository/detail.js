@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { Trans, t } from '@lingui/macro';
+import { Trans, msg, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRepositoryCopyAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
 import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
@@ -27,10 +27,10 @@ import { CollectionVersionsTab } from './tab-collection-versions';
 import { DetailsTab } from './tab-details';
 import { RepositoryVersionsTab } from './tab-repository-versions';
 var tabs = [
-    { id: 'details', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
-    { id: 'access', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
-    { id: 'collection-versions', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) },
-    { id: 'repository-versions', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Versions"], ["Versions"]))) },
+    { id: 'details', name: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Details"], ["Details"]))) },
+    { id: 'access', name: msg(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Access"], ["Access"]))) },
+    { id: 'collection-versions', name: msg(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))) },
+    { id: 'repository-versions', name: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Versions"], ["Versions"]))) },
 ];
 var AnsibleRepositoryDetail = PageWithTabs({
     breadcrumbs: function (_a) {
@@ -54,7 +54,7 @@ var AnsibleRepositoryDetail = PageWithTabs({
     },
     condition: canViewAnsibleRepositories,
     displayName: 'AnsibleRepositoryDetail',
-    errorTitle: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
+    errorTitle: msg(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     headerActions: [
         ansibleRepositoryEditAction,
         ansibleRepositorySyncAction,

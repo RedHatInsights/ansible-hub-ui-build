@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleRemoteAPI } from 'src/api';
 import { DeleteAnsibleRemoteModal } from 'src/components';
@@ -11,7 +11,7 @@ import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRemoteDeleteAction = Action({
     condition: canDeleteAnsibleRemote,
-    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
+    title: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, query = _a.query, setState = _a.setState, state = _a.state;
         return state.deleteModalOpen ? (React.createElement(DeleteAnsibleRemoteModal, { closeAction: function () { return setState({ deleteModalOpen: null }); }, deleteAction: function () {

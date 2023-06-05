@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { Trans, t } from '@lingui/macro';
+import { Trans, msg, t } from '@lingui/macro';
 import { Text } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
@@ -53,7 +53,7 @@ var RemoveCollectionVersionModal = function (_a) {
 };
 export var ansibleRepositoryCollectionVersionRemoveAction = Action({
     condition: canEditAnsibleRepository,
-    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remove"], ["Remove"]))),
+    title: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remove"], ["Remove"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, state = _a.state, setState = _a.setState, query = _a.query;
         return state.removeCollectionVersionModal ? (React.createElement(RemoveCollectionVersionModal, { closeAction: function () { return setState({ removeCollectionVersionModal: null }); }, deleteAction: function () {

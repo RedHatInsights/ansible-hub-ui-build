@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { Trans, t } from '@lingui/macro';
+import { Trans, msg, t } from '@lingui/macro';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
@@ -41,7 +41,7 @@ function revert(_a, _b) {
 }
 export var ansibleRepositoryVersionRevertAction = Action({
     condition: canRevertAnsibleRepositoryVersion,
-    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Revert to this version"], ["Revert to this version"]))),
+    title: msg(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Revert to this version"], ["Revert to this version"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, state = _a.state, setState = _a.setState, query = _a.query;
         return state.revertModal ? (React.createElement(RevertModal, { cancelAction: function () { return setState({ revertModal: null }); }, revertAction: function () {

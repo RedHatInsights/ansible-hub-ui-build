@@ -22,7 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { plural, t } from '@lingui/macro';
+import { msg, plural, t } from '@lingui/macro';
 import { Button, Checkbox, Modal } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { AnsibleRepositoryAPI, CollectionVersionAPI, } from 'src/api';
@@ -139,7 +139,7 @@ var AddCollectionVersionModal = function (_a) {
 };
 export var ansibleRepositoryCollectionVersionAddAction = Action({
     condition: canEditAnsibleRepository,
-    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Add collection"], ["Add collection"]))),
+    title: msg(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Add collection"], ["Add collection"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, state = _a.state, setState = _a.setState, query = _a.query;
         return state.addCollectionVersionModal ? (React.createElement(AddCollectionVersionModal, { addAction: function (collections) {

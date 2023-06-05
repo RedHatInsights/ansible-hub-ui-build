@@ -38,13 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { AnsibleDistributionAPI } from 'src/api';
 import { getRepoURL } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositoryCopyAction = Action({
-    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Copy CLI configuration"], ["Copy CLI configuration"]))),
+    title: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Copy CLI configuration"], ["Copy CLI configuration"]))),
     onClick: function (item, _a) {
         var addAlert = _a.addAlert;
         return __awaiter(void 0, void 0, void 0, function () {

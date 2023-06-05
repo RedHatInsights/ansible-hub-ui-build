@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { t } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import { Button, FormGroup, Modal, Spinner, Switch, } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { AnsibleRepositoryAPI } from 'src/api';
@@ -55,7 +55,7 @@ var SyncModal = function (_a) {
 };
 export var ansibleRepositorySyncAction = Action({
     condition: canSyncAnsibleRepository,
-    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync"], ["Sync"]))),
+    title: msg(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Sync"], ["Sync"]))),
     modal: function (_a) {
         var addAlert = _a.addAlert, query = _a.query, setState = _a.setState, state = _a.state;
         return state.syncModalOpen ? (React.createElement(SyncModal, { closeAction: function () { return setState({ syncModalOpen: null }); }, syncAction: function (syncParams) {

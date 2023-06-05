@@ -24,6 +24,17 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -33,6 +44,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+import { i18n } from '@lingui/core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
@@ -82,6 +94,11 @@ export var ListPage = function (_a) {
                 ? listItemActions.map(function (action) { var _a; return (_a = action === null || action === void 0 ? void 0 : action.modal) === null || _a === void 0 ? void 0 : _a.call(action, actionContext); })
                 : null));
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var translateTitle = function (_a) {
+        var title = _a.title, rest = __rest(_a, ["title"]);
+        return (__assign(__assign({}, rest), { title: i18n._(title) }));
+    };
     var klass = (_b = /** @class */ (function (_super) {
             __extends(class_1, _super);
             function class_1(props) {
@@ -119,18 +136,24 @@ export var ListPage = function (_a) {
             class_1.prototype.render = function () {
                 var _this = this;
                 var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, items = _a.items, loading = _a.loading, params = _a.params, unauthorised = _a.unauthorised;
-                var knownFilters = (filterConfig || []).map(function (_a) {
+                var localizedFilterConfig = (filterConfig || [])
+                    .map(translateTitle)
+                    .map(function (_a) {
+                    var options = _a.options, rest = __rest(_a, ["options"]);
+                    return (__assign(__assign({}, rest), { options: options === null || options === void 0 ? void 0 : options.map(translateTitle) }));
+                });
+                var knownFilters = localizedFilterConfig.map(function (_a) {
                     var id = _a.id;
                     return id;
                 });
                 var noData = items.length === 0 && !filterIsSet(params, knownFilters);
                 var updateParams = function (p) { return _this.updateParams(p, function () { return _this.query(); }); };
-                var niceNames = Object.fromEntries((filterConfig || []).map(function (_a) {
+                var niceNames = Object.fromEntries(localizedFilterConfig.map(function (_a) {
                     var id = _a.id, title = _a.title;
                     return [id, title];
                 }));
                 var niceValues = {};
-                (filterConfig || [])
+                localizedFilterConfig
                     .filter(function (filter) { return filter['options'] && filter['options'].length > 0; })
                     .forEach(function (item) {
                     var obj = (niceValues[item['id']] = {});
@@ -151,9 +174,9 @@ export var ListPage = function (_a) {
                 };
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-                    React.createElement(BaseHeader, { title: title }), renderModals === null || renderModals === void 0 ? void 0 :
+                    React.createElement(BaseHeader, { title: i18n._(title) }), renderModals === null || renderModals === void 0 ? void 0 :
                     renderModals(actionContext),
-                    unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { button: React.createElement(React.Fragment, null, noDataButton === null || noDataButton === void 0 ? void 0 : noDataButton(null, actionContext)), description: noDataDescription, title: noDataTitle })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body', "data-cy": "ListPage-".concat(displayName) },
+                    unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { button: React.createElement(React.Fragment, null, noDataButton === null || noDataButton === void 0 ? void 0 : noDataButton(null, actionContext)), description: i18n._(noDataDescription), title: i18n._(noDataTitle) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body', "data-cy": "ListPage-".concat(displayName) },
                         React.createElement("div", { className: 'hub-list-toolbar' },
                             React.createElement(Toolbar, null,
                                 React.createElement(ToolbarContent, null,
@@ -161,7 +184,7 @@ export var ListPage = function (_a) {
                                         React.createElement(ToolbarItem, null,
                                             React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (inputText) {
                                                     return _this.setState({ inputText: inputText });
-                                                }, updateParams: updateParams, params: params, filterConfig: filterConfig })),
+                                                }, updateParams: updateParams, params: params, filterConfig: localizedFilterConfig })),
                                         (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
                                             headerActions.map(function (action) { return (React.createElement(ToolbarItem, { key: action.title }, action.button(null, actionContext))); })))),
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true })),
@@ -178,8 +201,9 @@ export var ListPage = function (_a) {
                 if (!items.length) {
                     return React.createElement(EmptyStateFilter, null);
                 }
-                return (React.createElement("table", { "aria-label": title, className: 'hub-c-table-content pf-c-table' },
-                    React.createElement(SortTable, { options: { headers: sortHeaders }, params: params, updateParams: updateParams }),
+                var localizedSortHeaders = (sortHeaders || []).map(translateTitle);
+                return (React.createElement("table", { "aria-label": i18n._(title), className: 'hub-c-table-content pf-c-table' },
+                    React.createElement(SortTable, { options: { headers: localizedSortHeaders }, params: params, updateParams: updateParams }),
                     React.createElement("tbody", null, items.map(function (item, i) { return renderTableRow(item, i, actionContext); }))));
             };
             class_1.prototype.query = function () {
@@ -201,7 +225,7 @@ export var ListPage = function (_a) {
                             itemCount: 0,
                         });
                         _this.addAlert({
-                            title: errorTitle,
+                            title: i18n._(errorTitle),
                             variant: 'danger',
                             description: errorMessage(status, statusText),
                         });
