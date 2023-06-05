@@ -1,55 +1,11 @@
 {
-    "automationHub": {
-        "entry": [
-            "/apps/automation-hub/automationHub.321a2502051df1716dde.js"
-        ],
-        "modules": [
-            "/apps/automation-hub/js/3689.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/3689.14f79c57491988c4b17f.css",
-            "/apps/automation-hub/js/682.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/5541.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/1870.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/7853.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/2620.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/6379.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/415.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/3585.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/8007.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/6176.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/6401.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/7936.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/8118.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/7545.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/6289.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/5868.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/5868.0036ba0a8778273b42d6.css",
-            "/apps/automation-hub/js/5576.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/7910.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/5781.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/3987.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/3987.318cf71c3a602ef8acf9.css",
-            "/apps/automation-hub/js/2282.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/8490.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/5053.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/4813.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/4813.f6a9978c8c231e4b8ccd.css",
-            "/apps/automation-hub/js/2366.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/2366.4134e232a2162f0b6d48.css",
-            "/apps/automation-hub/js/7429.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/7429.8cf59f0bac56e77e0e3c.css",
-            "/apps/automation-hub/js/2613.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/2613.4134e232a2162f0b6d48.css",
-            "/apps/automation-hub/js/140.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/140.34cee023e54a1f24fcf8.css",
-            "/apps/automation-hub/js/8973.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/5153.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/5153.0df7b4eb67df332f68a8.css",
-            "/apps/automation-hub/js/28.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/28.0df7b4eb67df332f68a8.css",
-            "/apps/automation-hub/js/9784.321a2502051df1716dde.js",
-            "/apps/automation-hub/js/8515.321a2502051df1716dde.js",
-            "/apps/automation-hub/css/8515.a7c1d8e27177957a8c44.css",
-            "/apps/automation-hub/js/1811.321a2502051df1716dde.js"
-        ]
-    }
+  "name": "automationHub",
+  "version": "1.0.0",
+  "extensions": [],
+  "registrationMethod": "callback",
+  "baseURL": "/apps/automation-hub/",
+  "loadScripts": [
+    "automationHub.769baf268f87e0170271.js"
+  ],
+  "buildHash": "769baf268f87e01702711e8b23c5e447"
 }
