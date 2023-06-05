@@ -36,14 +36,15 @@ import { NamespaceCard } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { validateURLHelper } from 'src/utilities';
 import './namespace-form.scss';
-var NamespaceForm = /** @class */ (function (_super) {
+export var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NamespaceForm.prototype.render = function () {
+        var _a;
         var _this = this;
-        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages;
+        var namespace = (_a = this.props, _a.namespace), errorMessages = _a.errorMessages;
         if (!namespace) {
             return null;
         }
@@ -154,6 +155,5 @@ var NamespaceForm = /** @class */ (function (_super) {
     NamespaceForm.contextType = AppContext;
     return NamespaceForm;
 }(React.Component));
-export { NamespaceForm };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
 //# sourceMappingURL=namespace-form.js.map

@@ -45,7 +45,7 @@ import { APISearchTypeAhead, HelperText } from 'src/components';
 import { DataForm } from 'src/components/shared/data-form';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage } from 'src/utilities';
-var UserForm = /** @class */ (function (_super) {
+export var UserForm = /** @class */ (function (_super) {
     __extends(UserForm, _super);
     function UserForm(props) {
         var _this = _super.call(this, props) || this;
@@ -71,7 +71,8 @@ var UserForm = /** @class */ (function (_super) {
             GroupAPI.list({ name__contains: name, page_size: 5 })
                 .then(function (result) { return _this.setState({ searchGroups: result.data.data }); })
                 .catch(function (e) {
-                var _a = e.response, status = _a.status, statusText = _a.statusText;
+                var _a;
+                var status = (_a = e.response, _a.status), statusText = _a.statusText;
                 _this.setState({
                     formErrors: __assign(__assign({}, _this.state.formErrors), { groups: {
                             variant: 'danger',
@@ -97,9 +98,10 @@ var UserForm = /** @class */ (function (_super) {
         this.loadGroups('');
     };
     UserForm.prototype.render = function () {
+        var _a, _b;
         var _this = this;
-        var _a = this.props, user = _a.user, errorMessages = _a.errorMessages, isReadonly = _a.isReadonly, saveUser = _a.saveUser, onCancel = _a.onCancel, isNewUser = _a.isNewUser, isMe = _a.isMe;
-        var _b = this.state, passwordConfirm = _b.passwordConfirm, formErrors = _b.formErrors;
+        var user = (_a = this.props, _a.user), errorMessages = _a.errorMessages, isReadonly = _a.isReadonly, saveUser = _a.saveUser, onCancel = _a.onCancel, isNewUser = _a.isNewUser, isMe = _a.isMe;
+        var passwordConfirm = (_b = this.state, _b.passwordConfirm), formErrors = _b.formErrors;
         var minLength = this.context.settings.GALAXY_MINIMUM_PASSWORD_LENGTH || 9; // actually counts codepoints, close enough
         var formFields = [
             { id: 'username', title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Username"], ["Username"]))) },
@@ -190,6 +192,5 @@ var UserForm = /** @class */ (function (_super) {
     UserForm.contextType = AppContext;
     return UserForm;
 }(React.Component));
-export { UserForm };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
 //# sourceMappingURL=user-form.js.map

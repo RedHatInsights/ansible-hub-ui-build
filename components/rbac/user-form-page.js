@@ -15,13 +15,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React from 'react';
 import { BaseHeader, Breadcrumbs, Main, UserForm, } from 'src/components';
-var UserFormPage = /** @class */ (function (_super) {
+export var UserFormPage = /** @class */ (function (_super) {
     __extends(UserFormPage, _super);
     function UserFormPage() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     UserFormPage.prototype.render = function () {
-        var _a = this.props, user = _a.user, breadcrumbs = _a.breadcrumbs, title = _a.title, updateUser = _a.updateUser, errorMessages = _a.errorMessages, saveUser = _a.saveUser, isReadonly = _a.isReadonly, extraControls = _a.extraControls, onCancel = _a.onCancel, isNewUser = _a.isNewUser, isMe = _a.isMe;
+        var _a;
+        var user = (_a = this.props, _a.user), breadcrumbs = _a.breadcrumbs, title = _a.title, updateUser = _a.updateUser, errorMessages = _a.errorMessages, saveUser = _a.saveUser, isReadonly = _a.isReadonly, extraControls = _a.extraControls, onCancel = _a.onCancel, isNewUser = _a.isNewUser, isMe = _a.isMe;
         return (React.createElement(React.Fragment, null,
             React.createElement(BaseHeader, { breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: extraControls, title: title }),
             React.createElement(Main, null,
@@ -33,5 +34,4 @@ var UserFormPage = /** @class */ (function (_super) {
     };
     return UserFormPage;
 }(React.Component));
-export { UserFormPage };
 //# sourceMappingURL=user-form-page.js.map

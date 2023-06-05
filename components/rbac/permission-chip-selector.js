@@ -33,7 +33,7 @@ import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patter
 import React from 'react';
 import { AppContext } from 'src/loaders/app-context';
 import { chipGroupProps } from 'src/utilities';
-var PermissionChipSelector = /** @class */ (function (_super) {
+export var PermissionChipSelector = /** @class */ (function (_super) {
     __extends(PermissionChipSelector, _super);
     function PermissionChipSelector(props) {
         var _this = _super.call(this, props) || this;
@@ -41,9 +41,10 @@ var PermissionChipSelector = /** @class */ (function (_super) {
         return _this;
     }
     PermissionChipSelector.prototype.render = function () {
+        var _a;
         var _this = this;
         var model_permissions = this.context.user.model_permissions;
-        var _a = this.props, availablePermissions = _a.availablePermissions, isDisabled = _a.isDisabled, isViewOnly = _a.isViewOnly, onCategoryClear = _a.onCategoryClear, onPermissionToggle = _a.onPermissionToggle, selectedPermissions = _a.selectedPermissions;
+        var availablePermissions = (_a = this.props, _a.availablePermissions), isDisabled = _a.isDisabled, isViewOnly = _a.isViewOnly, onCategoryClear = _a.onCategoryClear, onPermissionToggle = _a.onPermissionToggle, selectedPermissions = _a.selectedPermissions;
         var isOpen = this.state.isOpen;
         if (isViewOnly) {
             var items = selectedPermissions.map(function (permission) {
@@ -78,6 +79,5 @@ var PermissionChipSelector = /** @class */ (function (_super) {
     PermissionChipSelector.contextType = AppContext;
     return PermissionChipSelector;
 }(React.Component));
-export { PermissionChipSelector };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=permission-chip-selector.js.map
