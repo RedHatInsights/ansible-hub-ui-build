@@ -89,7 +89,7 @@ import { Button, ButtonVariant, DropdownItem, Label, LabelGroup, Toolbar, Toolba
 import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AnsibleDistributionAPI, AnsibleRepositoryAPI, CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, Repositories, } from 'src/api';
+import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, Repositories, } from 'src/api';
 import { ApproveModal, BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
 import { AlertList, AppliedFilters, CompoundFilter, LoadingPageSpinner, LoadingPageWithHeader, Pagination, SortTable, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
@@ -143,8 +143,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
         else {
             this.setState({ loading: true });
             var promises = [];
-            promises.push(this.loadRepo('staging'));
-            promises.push(this.loadRepo('rejected'));
+            promises.push(this.loadRepos('staging'));
+            promises.push(this.loadRepos('rejected'));
             promises.push(RepositoriesUtils.listApproved()
                 .then(function (data) {
                 _this.setState({ approvedRepositoryList: data });
@@ -164,7 +164,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             });
         }
     };
-    CertificationDashboard.prototype.loadRepo = function (pipeline) {
+    CertificationDashboard.prototype.loadRepos = function (pipeline) {
         var _this = this;
         return Repositories.list({ pulp_label_select: "pipeline=".concat(pipeline) })
             .then(function (data) {
@@ -515,36 +515,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
             _this.addAlert(t(templateObject_43 || (templateObject_43 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
         });
     };
-    CertificationDashboard.prototype.distributionByRepoName = function (name) {
-        var _a, _b, _c, _d, _e, _f;
-        return __awaiter(this, void 0, void 0, function () {
-            var repository, distribution;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
-                    case 0: return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: name })];
-                    case 1:
-                        repository = (_c = (_b = (_a = (_g.sent())) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.results) === null || _c === void 0 ? void 0 : _c[0];
-                        if (!repository) {
-                            return [2 /*return*/, Promise.reject(t(templateObject_44 || (templateObject_44 = __makeTemplateObject(["Failed to find repository ", ""], ["Failed to find repository ", ""])), name))];
-                        }
-                        return [4 /*yield*/, AnsibleDistributionAPI.list({ repository: repository.pulp_href })];
-                    case 2:
-                        distribution = (_f = (_e = (_d = (_g.sent())) === null || _d === void 0 ? void 0 : _d.data) === null || _e === void 0 ? void 0 : _e.results) === null || _f === void 0 ? void 0 : _f[0];
-                        if (!distribution) {
-                            return [2 /*return*/, Promise.reject(t(templateObject_45 || (templateObject_45 = __makeTemplateObject(["Failed to find a distribution for repository ", ""], ["Failed to find a distribution for repository ", ""])), name))];
-                        }
-                        return [2 /*return*/, distribution];
-                }
-            });
-        });
-    };
     CertificationDashboard.prototype.updateCertification = function (version, originalRepo, destinationRepo) {
         var _this = this;
         // galaxy_ng CollectionRepositoryMixing.get_repos uses the distribution base path to look up repository pk
         // there ..may be room for simplification since we already know the repo; OTOH also compatibility concerns
         return Promise.all([
-            this.distributionByRepoName(originalRepo),
-            this.distributionByRepoName(destinationRepo),
+            RepositoriesUtils.distributionByRepoName(originalRepo),
+            RepositoriesUtils.distributionByRepoName(destinationRepo),
         ])
             .then(function (_a) {
             var source = _a[0], destination = _a[1];
@@ -554,14 +531,14 @@ var CertificationDashboard = /** @class */ (function (_super) {
             return waitForTask(result.data.remove_task_id, { waitMs: 500 });
         })
             .then(function () {
-            return _this.addAlert(t(templateObject_46 || (templateObject_46 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
+            return _this.addAlert(t(templateObject_44 || (templateObject_44 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
         })
             .then(function () { return _this.queryCollections(true); })
             .catch(function (error) {
             var description = !error.response
                 ? error
                 : errorMessage(error.response.status, error.response.statusText);
-            _this.addAlert(t(templateObject_47 || (templateObject_47 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
+            _this.addAlert(t(templateObject_45 || (templateObject_45 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
         });
     };
     CertificationDashboard.prototype.queryCollections = function (handleLoading) {
@@ -590,7 +567,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             }
         })
             .catch(function (error) {
-            _this.addAlert(t(templateObject_48 || (templateObject_48 = __makeTemplateObject(["Error loading collections."], ["Error loading collections."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
+            _this.addAlert(t(templateObject_46 || (templateObject_46 = __makeTemplateObject(["Error loading collections."], ["Error loading collections."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
             _this.setState({
                 loading: false,
                 updatingVersions: [],
@@ -682,5 +659,5 @@ var CertificationDashboard = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CertificationDashboard);
 CertificationDashboard.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46;
 //# sourceMappingURL=certification-dashboard.js.map

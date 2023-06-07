@@ -48,7 +48,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { Repositories } from 'src/api/repositories';
+import { AnsibleDistributionAPI, AnsibleRepositoryAPI, Repositories, } from 'src/api';
 import { waitForTaskUrl } from 'src/utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 var RepositoriesUtils = /** @class */ (function () {
@@ -151,8 +151,31 @@ var RepositoriesUtils = /** @class */ (function () {
                 repository.pulp_href !== selectedCollection.repository.pulp_href;
         });
     };
+    RepositoriesUtils.distributionByRepoName = function (name) {
+        var _a, _b, _c, _d, _e, _f;
+        return __awaiter(this, void 0, void 0, function () {
+            var repository, distribution;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
+                    case 0: return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: name })];
+                    case 1:
+                        repository = (_c = (_b = (_a = (_g.sent())) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.results) === null || _c === void 0 ? void 0 : _c[0];
+                        if (!repository) {
+                            return [2 /*return*/, Promise.reject(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to find repository ", ""], ["Failed to find repository ", ""])), name))];
+                        }
+                        return [4 /*yield*/, AnsibleDistributionAPI.list({ repository: repository.pulp_href })];
+                    case 2:
+                        distribution = (_f = (_e = (_d = (_g.sent())) === null || _d === void 0 ? void 0 : _d.data) === null || _e === void 0 ? void 0 : _e.results) === null || _f === void 0 ? void 0 : _f[0];
+                        if (!distribution) {
+                            return [2 /*return*/, Promise.reject(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Failed to find a distribution for repository ", ""], ["Failed to find a distribution for repository ", ""])), name))];
+                        }
+                        return [2 /*return*/, distribution];
+                }
+            });
+        });
+    };
     return RepositoriesUtils;
 }());
 export { RepositoriesUtils };
-var templateObject_1;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=repositories.js.map
