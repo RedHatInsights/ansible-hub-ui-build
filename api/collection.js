@@ -141,7 +141,12 @@ var API = /** @class */ (function (_super) {
         if (cancelToken) {
             config['cancelToken'] = cancelToken.token;
         }
-        return this.http.post('v3/artifacts/collections/', formData, config);
+        if (data.distro_base_path) {
+            return this.http.post("v3/plugin/ansible/content/".concat(data.distro_base_path, "/collections/artifacts/"), formData, config);
+        }
+        else {
+            return this.http.post('v3/artifacts/collections/', formData, config);
+        }
     };
     API.prototype.getCancelToken = function () {
         return axios.CancelToken.source();
