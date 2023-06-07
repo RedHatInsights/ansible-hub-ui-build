@@ -48,44 +48,51 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { AnsibleDistributionAPI, AnsibleRepositoryAPI, Repositories, } from 'src/api';
+import { AnsibleDistributionAPI, AnsibleRepositoryAPI, CollectionVersionAPI, Repositories, } from 'src/api';
 import { waitForTaskUrl } from 'src/utilities';
 import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 var RepositoriesUtils = /** @class */ (function () {
     function RepositoriesUtils() {
     }
-    RepositoriesUtils.listApproved = function () {
-        function getAll() {
-            return __awaiter(this, void 0, void 0, function () {
-                var list, page, pageSize, i, result;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            list = [];
-                            page = 0;
-                            pageSize = 100;
-                            i = 0;
-                            _a.label = 1;
-                        case 1:
-                            if (!(i < 10)) return [3 /*break*/, 4];
-                            return [4 /*yield*/, Repositories.http.get("".concat(Repositories.apiPath, "?offset=").concat(page, "&limit=").concat(pageSize, "&pulp_label_select=").concat(encodeURIComponent('pipeline=approved')))];
-                        case 2:
-                            result = _a.sent();
-                            list = list.concat(result.data.results);
-                            if (list.length >= result.data.count) {
-                                return [2 /*return*/, list];
-                            }
-                            page += pageSize;
-                            _a.label = 3;
-                        case 3:
-                            i++;
-                            return [3 /*break*/, 1];
-                        case 4: return [2 /*return*/];
-                    }
-                });
+    RepositoriesUtils.getAll = function (additionalParams) {
+        if (additionalParams === void 0) { additionalParams = {}; }
+        return __awaiter(this, void 0, void 0, function () {
+            var list, params, page, pageSize, i, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        list = [];
+                        params = Object.keys(additionalParams).reduce(function (acc, key) {
+                            return acc + "&".concat(key, "=").concat(encodeURIComponent(additionalParams[key]));
+                        }, '');
+                        page = 0;
+                        pageSize = 100;
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < 10)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, Repositories.http.get("".concat(Repositories.apiPath, "?offset=").concat(page, "&limit=").concat(pageSize).concat(params))];
+                    case 2:
+                        result = _a.sent();
+                        list = list.concat(result.data.results);
+                        if (list.length >= result.data.count) {
+                            return [2 /*return*/, list];
+                        }
+                        page += pageSize;
+                        _a.label = 3;
+                    case 3:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 4: return [2 /*return*/];
+                }
             });
-        }
-        return getAll();
+        });
+    };
+    RepositoriesUtils.listApproved = function () {
+        return this.getAll({ pulp_label_select: 'pipeline=approved' });
+    };
+    RepositoriesUtils.listAll = function () {
+        return this.getAll();
     };
     RepositoriesUtils.deleteOrAddCollection = function (repoName, collectionVersion_pulp_href, add) {
         return __awaiter(this, void 0, void 0, function () {
@@ -170,6 +177,31 @@ var RepositoriesUtils = /** @class */ (function () {
                             return [2 /*return*/, Promise.reject(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Failed to find a distribution for repository ", ""], ["Failed to find a distribution for repository ", ""])), name))];
                         }
                         return [2 /*return*/, distribution];
+                }
+            });
+        });
+    };
+    RepositoriesUtils.getCollectionRepoList = function (collection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, name, namespace, version, collectionInRepos, collectionRepos;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = collection.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version;
+                        return [4 /*yield*/, CollectionVersionAPI.list({
+                                namespace: namespace,
+                                name: name,
+                                version: version,
+                                page_size: 100000,
+                                offset: 0,
+                            })];
+                    case 1:
+                        collectionInRepos = _b.sent();
+                        collectionRepos = collectionInRepos.data.data.map(function (_a) {
+                            var repository = _a.repository;
+                            return repository.name;
+                        });
+                        return [2 /*return*/, collectionRepos];
                 }
             });
         });

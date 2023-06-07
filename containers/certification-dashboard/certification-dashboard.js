@@ -607,38 +607,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.addAlertObj = function (alert) {
         this.addAlert(alert.title, alert.variant, alert.description);
     };
-    CertificationDashboard.prototype.getCollectionRepoList = function (collection) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, name, namespace, version, collectionInRepos, collectionRepos;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = collection.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version;
-                        return [4 /*yield*/, CollectionVersionAPI.list({
-                                namespace: namespace,
-                                name: name,
-                                version: version,
-                                page_size: 100000,
-                                offset: 0,
-                            })];
-                    case 1:
-                        collectionInRepos = _b.sent();
-                        collectionRepos = collectionInRepos.data.data.map(function (_a) {
-                            var repository = _a.repository;
-                            return repository.name;
-                        });
-                        return [2 /*return*/, collectionRepos];
-                }
-            });
-        });
-    };
     // compose from collectionVersionSearch to CollectionVersion structure for approval modal
     CertificationDashboard.prototype.transformToCollectionVersion = function (collection) {
         return __awaiter(this, void 0, void 0, function () {
             var repoList, collection_version, id, collectionVersion;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getCollectionRepoList(collection)];
+                    case 0: return [4 /*yield*/, RepositoriesUtils.getCollectionRepoList(collection)];
                     case 1:
                         repoList = _a.sent();
                         collection_version = collection.collection_version;
