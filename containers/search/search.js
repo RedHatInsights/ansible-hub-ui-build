@@ -80,6 +80,7 @@ var Search = /** @class */ (function (_super) {
             deleteCollection: null,
             confirmDelete: false,
             isDeletionPending: false,
+            deleteAll: true,
         };
         return _this;
     }
@@ -106,10 +107,11 @@ var Search = /** @class */ (function (_super) {
     });
     Search.prototype.render = function () {
         var _this = this;
+        var _a;
         if (this.state.redirect) {
             return React.createElement(Navigate, { to: this.state.redirect });
         }
-        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection, deleteCollection = _a.deleteCollection, confirmDelete = _a.confirmDelete, isDeletionPending = _a.isDeletionPending;
+        var _b = this.state, loading = _b.loading, collections = _b.collections, params = _b.params, numberOfResults = _b.numberOfResults, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending;
         var noData = collections.length === 0 &&
             !filterIsSet(params, [
                 'keywords',
@@ -121,6 +123,9 @@ var Search = /** @class */ (function (_super) {
         var updateParams = function (p) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
+        var deleteFromRepo = this.state.deleteAll
+            ? null
+            : (_a = deleteCollection === null || deleteCollection === void 0 ? void 0 : deleteCollection.repository) === null || _a === void 0 ? void 0 : _a.name;
         return (React.createElement("div", { className: 'search-page' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, collections: collections, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
@@ -131,9 +136,10 @@ var Search = /** @class */ (function (_super) {
                             load: function () { return _this.load(); },
                             redirect: false,
                             addAlert: function (alert) { return _this.addAlert(alert); },
+                            deleteFromRepo: deleteFromRepo,
                         });
                     });
-                } }),
+                }, deleteFromRepo: deleteFromRepo }),
             showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
                     return _this.setState({
                         redirect: formatPath(Paths.myImports, {}, {
@@ -234,6 +240,7 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
+        var display_repositories = this.context.featureFlags.display_repositories;
         var menuItems = [
             DeleteCollectionUtils.deleteMenuOption({
                 canDeleteCollection: hasPermission('ansible.delete_collection'),
@@ -243,8 +250,25 @@ var Search = /** @class */ (function (_super) {
                         addAlert: function (alert) { return _this.addAlert(alert); },
                         setState: function (state) { return _this.setState(state); },
                         collection: collection,
+                        deleteAll: true,
                     });
                 },
+                deleteAll: true,
+                display_repositories: display_repositories,
+            }),
+            DeleteCollectionUtils.deleteMenuOption({
+                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                noDependencies: null,
+                onClick: function () {
+                    return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
+                        addAlert: function (alert) { return _this.addAlert(alert); },
+                        setState: function (state) { return _this.setState(state); },
+                        collection: collection,
+                        deleteAll: false,
+                    });
+                },
+                deleteAll: false,
+                display_repositories: display_repositories,
             }),
             hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"]))))),
             !list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
