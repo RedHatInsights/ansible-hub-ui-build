@@ -133,6 +133,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             showRoleRemoveModal: null,
             showRoleSelectWizard: null,
             group: null,
+            deleteAll: true,
         };
         return _this;
     }
@@ -194,8 +195,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
     };
     NamespaceDetail.prototype.render = function () {
         var _this = this;
-        var _a;
-        var _b = this.state, canSign = _b.canSign, collections = _b.collections, namespace = _b.namespace, params = _b.params, redirect = _b.redirect, itemCount = _b.itemCount, showControls = _b.showControls, showImportModal = _b.showImportModal, warning = _b.warning, updateCollection = _b.updateCollection, isOpenNamespaceModal = _b.isOpenNamespaceModal, isOpenWisdomModal = _b.isOpenWisdomModal, confirmDelete = _b.confirmDelete, isNamespacePending = _b.isNamespacePending, alerts = _b.alerts, deleteCollection = _b.deleteCollection, isDeletionPending = _b.isDeletionPending;
+        var _a, _b;
+        var _c = this.state, canSign = _c.canSign, collections = _c.collections, namespace = _c.namespace, params = _c.params, redirect = _c.redirect, itemCount = _c.itemCount, showControls = _c.showControls, showImportModal = _c.showImportModal, warning = _c.warning, updateCollection = _c.updateCollection, isOpenNamespaceModal = _c.isOpenNamespaceModal, isOpenWisdomModal = _c.isOpenWisdomModal, confirmDelete = _c.confirmDelete, isNamespacePending = _c.isNamespacePending, alerts = _c.alerts, deleteCollection = _c.deleteCollection, isDeletionPending = _c.isDeletionPending;
         if (redirect) {
             return React.createElement(Navigate, { to: redirect });
         }
@@ -259,6 +260,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var tabParams = __assign({}, params);
         delete tabParams.group;
         var repository = params['repository_name'] || null;
+        var deleteFromRepo = this.state.deleteAll
+            ? null
+            : (_b = deleteCollection === null || deleteCollection === void 0 ? void 0 : deleteCollection.repository) === null || _b === void 0 ? void 0 : _b.name;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
@@ -278,9 +282,10 @@ var NamespaceDetail = /** @class */ (function (_super) {
                             load: function () { return _this.load(); },
                             redirect: false,
                             addAlert: function (alert) { return _this.addAlert(alert); },
+                            deleteFromRepo: deleteFromRepo,
                         });
                     });
-                } }),
+                }, deleteFromRepo: deleteFromRepo }),
             isOpenNamespaceModal && (React.createElement(DeleteModal, { spinner: isNamespacePending, cancelAction: this.closeModal, deleteAction: this.deleteNamespace, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete namespace?"], ["Delete namespace?"]))), isDisabled: !confirmDelete || isNamespacePending },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { className: 'delete-namespace-modal-message' },
@@ -591,6 +596,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
         var showControls = this.state.showControls;
+        var display_repositories = this.context.featureFlags.display_repositories;
         if (!showControls) {
             return;
         }
@@ -607,8 +613,25 @@ var NamespaceDetail = /** @class */ (function (_super) {
                                 addAlert: function (alert) { return _this.addAlert(alert); },
                                 setState: function (state) { return _this.setState(state); },
                                 collection: collection,
+                                deleteAll: true,
                             });
                         },
+                        deleteAll: true,
+                        display_repositories: display_repositories,
+                    }),
+                    DeleteCollectionUtils.deleteMenuOption({
+                        canDeleteCollection: hasPermission('ansible.delete_collection'),
+                        noDependencies: null,
+                        onClick: function () {
+                            return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
+                                addAlert: function (alert) { return _this.addAlert(alert); },
+                                setState: function (state) { return _this.setState(state); },
+                                collection: collection,
+                                deleteAll: false,
+                            });
+                        },
+                        deleteAll: false,
+                        display_repositories: display_repositories,
                     }),
                     React.createElement(DropdownItem, { onClick: function () {
                             return _this.handleCollectionAction(collection.collection_version.pulp_href, 'deprecate');
