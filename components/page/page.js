@@ -51,14 +51,10 @@ export var Page = function (_a) {
     breadcrumbs = _a.breadcrumbs, 
     // { featureFlags, settings, user } => bool
     condition = _a.condition, 
-    // extra code to run on mount
-    didMount = _a.didMount, 
     // component name for debugging
     displayName = _a.displayName, 
     // alert on query failure
     errorTitle = _a.errorTitle, 
-    // extra initial state
-    extraState = _a.extraState, 
     // displayed after filters
     headerActions = _a.headerActions, 
     // () => Promise<T>
@@ -74,7 +70,12 @@ export var Page = function (_a) {
             __extends(class_1, _super);
             function class_1(props) {
                 var _this = _super.call(this, props) || this;
-                _this.state = __assign({ alerts: [], item: null, loading: true, unauthorised: false }, extraState);
+                _this.state = {
+                    alerts: [],
+                    item: null,
+                    loading: true,
+                    unauthorised: false,
+                };
                 return _this;
             }
             class_1.prototype.componentDidMount = function () {
@@ -87,12 +88,6 @@ export var Page = function (_a) {
                     }
                     _this.setState({ alerts: _this.context.alerts || [] });
                     _this.context.setAlerts([]);
-                    if (didMount) {
-                        didMount({
-                            context: _this.context,
-                            addAlert: function (alert) { return _this.addAlert(alert); },
-                        });
-                    }
                 });
             };
             class_1.prototype.render = function () {

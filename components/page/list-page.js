@@ -59,8 +59,6 @@ export var ListPage = function (_a) {
     var 
     // { featureFlags, settings, user } => bool
     condition = _a.condition, 
-    // extra code to run on mount
-    didMount = _a.didMount, 
     // component name for debugging
     displayName = _a.displayName, 
     // initial page size
@@ -69,8 +67,6 @@ export var ListPage = function (_a) {
     defaultSort = _a.defaultSort, 
     // alert on query failure
     errorTitle = _a.errorTitle, 
-    // extra initial state
-    extraState = _a.extraState, 
     // filters
     filterConfig = _a.filterConfig, 
     // displayed after filters
@@ -88,7 +84,9 @@ export var ListPage = function (_a) {
     // table headers
     sortHeaders = _a.sortHeaders, 
     // container title
-    title = _a.title;
+    title = _a.title, 
+    // for typeahed filters
+    typeaheadQuery = _a.typeaheadQuery;
     renderModals || (renderModals = function (actionContext) {
         return (React.createElement(React.Fragment, null,
             (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length)
@@ -117,11 +115,19 @@ export var ListPage = function (_a) {
                 if (!params['sort'] && defaultSort) {
                     params['sort'] = defaultSort;
                 }
-                _this.state = __assign({ alerts: [], inputText: '', itemCount: 0, items: [], loading: true, params: params, unauthorised: false }, extraState);
+                _this.state = {
+                    alerts: [],
+                    inputText: '',
+                    itemCount: 0,
+                    items: [],
+                    loading: true,
+                    params: params,
+                    selectedFilter: null,
+                    unauthorised: false,
+                };
                 return _this;
             }
             class_1.prototype.componentDidMount = function () {
-                var _this = this;
                 if (!condition(this.context)) {
                     this.setState({ loading: false, unauthorised: true });
                 }
@@ -130,22 +136,11 @@ export var ListPage = function (_a) {
                 }
                 this.setState({ alerts: this.context.alerts || [] });
                 this.context.setAlerts([]);
-                if (didMount) {
-                    didMount({
-                        context: this.context,
-                        addAlert: function (alert) { return _this.addAlert(alert); },
-                    });
-                }
             };
             class_1.prototype.render = function () {
                 var _this = this;
                 var _a = this.state, alerts = _a.alerts, itemCount = _a.itemCount, items = _a.items, loading = _a.loading, params = _a.params, unauthorised = _a.unauthorised;
-                var localizedFilterConfig = (filterConfig || [])
-                    .map(translateTitle)
-                    .map(function (_a) {
-                    var options = _a.options, rest = __rest(_a, ["options"]);
-                    return (__assign(__assign({}, rest), { options: options === null || options === void 0 ? void 0 : options.map(translateTitle) }));
-                });
+                var localizedFilterConfig = filterConfig({ state: this.state }) || [];
                 var knownFilters = localizedFilterConfig.map(function (_a) {
                     var id = _a.id;
                     return id;
@@ -158,11 +153,16 @@ export var ListPage = function (_a) {
                 }));
                 var niceValues = {};
                 localizedFilterConfig
-                    .filter(function (filter) { return filter['options'] && filter['options'].length > 0; })
-                    .forEach(function (item) {
-                    var obj = (niceValues[item['id']] = {});
-                    item['options'].forEach(function (option) {
-                        obj[option.id] = option.title;
+                    .filter(function (_a) {
+                    var options = _a.options;
+                    return options === null || options === void 0 ? void 0 : options.length;
+                })
+                    .forEach(function (_a) {
+                    var filterId = _a.id, options = _a.options;
+                    var obj = (niceValues[filterId] = {});
+                    options.forEach(function (_a) {
+                        var optionId = _a.id, title = _a.title;
+                        obj[optionId] = title;
                     });
                 });
                 var actionContext = {
@@ -176,6 +176,12 @@ export var ListPage = function (_a) {
                     state: this.state,
                     user: this.context.user,
                 };
+                var resetCompoundFilter = function () {
+                    return _this.setState({
+                        inputText: '',
+                        selectedFilter: localizedFilterConfig[0].id,
+                    });
+                };
                 return (React.createElement(React.Fragment, null,
                     React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                     React.createElement(BaseHeader, { title: i18n._(title) }), renderModals === null || renderModals === void 0 ? void 0 :
@@ -187,15 +193,34 @@ export var ListPage = function (_a) {
                                     React.createElement(ToolbarGroup, null,
                                         React.createElement(ToolbarItem, null,
                                             React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (inputText) {
-                                                    return _this.setState({ inputText: inputText });
-                                                }, updateParams: updateParams, params: params, filterConfig: localizedFilterConfig })),
+                                                    _this.setState({ inputText: inputText });
+                                                    if (typeaheadQuery) {
+                                                        typeaheadQuery({
+                                                            inputText: inputText,
+                                                            selectedFilter: _this.state.selectedFilter,
+                                                            setState: function (s) { return _this.setState(s); },
+                                                        });
+                                                    }
+                                                }, updateParams: function (p) {
+                                                    resetCompoundFilter();
+                                                    updateParams(p);
+                                                }, params: params, filterConfig: localizedFilterConfig, selectFilter: function (selectedFilter) {
+                                                    _this.setState({ selectedFilter: selectedFilter });
+                                                    if (typeaheadQuery) {
+                                                        typeaheadQuery({
+                                                            inputText: '',
+                                                            selectedFilter: selectedFilter,
+                                                            setState: function (s) { return _this.setState(s); },
+                                                        });
+                                                    }
+                                                } })),
                                         (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
                                             headerActions.map(function (action) { return (React.createElement(ToolbarItem, { key: action.title }, action.button(null, actionContext))); })))),
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true })),
                         React.createElement("div", null,
                             React.createElement(AppliedFilters, { updateParams: function (p) {
+                                    resetCompoundFilter();
                                     updateParams(p);
-                                    _this.setState({ inputText: '' });
                                 }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: niceNames, niceValues: niceValues })),
                         loading ? (React.createElement(LoadingPageSpinner, null)) : (this.renderTable(params, updateParams, actionContext)),
                         React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount })))))));

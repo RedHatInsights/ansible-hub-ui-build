@@ -62,14 +62,10 @@ export var PageWithTabs = function (_a) {
     breadcrumbs = _a.breadcrumbs, 
     // { featureFlags, settings, user } => bool
     condition = _a.condition, 
-    // extra code to run on mount
-    didMount = _a.didMount, 
     // component name for debugging
     displayName = _a.displayName, 
     // alert on query failure
     errorTitle = _a.errorTitle, 
-    // extra initial state
-    extraState = _a.extraState, 
     // displayed after filters
     headerActions = _a.headerActions, 
     // under title
@@ -95,11 +91,16 @@ export var PageWithTabs = function (_a) {
                 if (!params['tab']) {
                     params['tab'] = tabs[0].id;
                 }
-                _this.state = __assign({ alerts: [], item: null, loading: true, unauthorised: false, params: params }, extraState);
+                _this.state = {
+                    alerts: [],
+                    item: null,
+                    loading: true,
+                    unauthorised: false,
+                    params: params,
+                };
                 return _this;
             }
             class_1.prototype.componentDidMount = function () {
-                var _this = this;
                 if (!condition(this.context)) {
                     this.setState({ loading: false, unauthorised: true });
                 }
@@ -108,12 +109,6 @@ export var PageWithTabs = function (_a) {
                 }
                 this.setState({ alerts: this.context.alerts || [] });
                 this.context.setAlerts([]);
-                if (didMount) {
-                    didMount({
-                        context: this.context,
-                        addAlert: function (alert) { return _this.addAlert(alert); },
-                    });
-                }
             };
             class_1.prototype.componentDidUpdate = function (prevProps) {
                 if (prevProps.location !== this.props.location) {
