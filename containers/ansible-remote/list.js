@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { msg } from '@lingui/macro';
+import { msg, t } from '@lingui/macro';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ansibleRemoteCreateAction, ansibleRemoteDeleteAction, ansibleRemoteDownloadCAAction, ansibleRemoteDownloadClientAction, ansibleRemoteDownloadRequirementsAction, ansibleRemoteEditAction, } from 'src/actions';
@@ -40,13 +40,12 @@ var AnsibleRemoteList = ListPage({
     defaultSort: '-pulp_created',
     displayName: 'AnsibleRemoteList',
     errorTitle: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Remotes could not be displayed."], ["Remotes could not be displayed."]))),
-    extraState: {},
-    filterConfig: [
+    filterConfig: function () { return [
         {
             id: 'name__icontains',
-            title: msg(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
+            title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Remote name"], ["Remote name"]))),
         },
-    ],
+    ]; },
     headerActions: [ansibleRemoteCreateAction],
     listItemActions: listItemActions,
     noDataButton: ansibleRemoteCreateAction.button,

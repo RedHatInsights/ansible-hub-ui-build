@@ -111,8 +111,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
         if (!params['sort']) {
             params['sort'] = '-pulp_created';
         }
-        if (!params['status']) {
-            params['status'] = Constants.NEEDSREVIEW;
+        if (!params['repository_label']) {
+            params['repository_label'] = "pipeline=".concat(Constants.NEEDSREVIEW);
         }
         _this.state = {
             versions: undefined,
@@ -143,8 +143,15 @@ var CertificationDashboard = /** @class */ (function (_super) {
         else {
             this.setState({ loading: true });
             var promises = [];
-            promises.push(this.loadRepos('staging'));
-            promises.push(this.loadRepos('rejected'));
+            promises.push(this.loadRepos('staging').then(function (stagingRepoNames) {
+                return _this.setState({
+                    stagingRepoNames: stagingRepoNames,
+                });
+            }));
+            promises.push(this.loadRepos('rejected').then(function (_a) {
+                var rejectedRepoName = _a[0];
+                return _this.setState({ rejectedRepoName: rejectedRepoName });
+            }));
             promises.push(RepositoriesUtils.listApproved()
                 .then(function (data) {
                 _this.setState({ approvedRepositoryList: data });
@@ -167,17 +174,12 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.loadRepos = function (pipeline) {
         var _this = this;
         return Repositories.list({ pulp_label_select: "pipeline=".concat(pipeline) })
-            .then(function (data) {
-            if (data.data.results.length > 0) {
-                if (pipeline == 'staging') {
-                    _this.setState({
-                        stagingRepoNames: data.data.results.map(function (res) { return res.name; }),
-                    });
-                }
-                if (pipeline == 'rejected') {
-                    _this.setState({ rejectedRepoName: data.data.results[0].name });
-                }
-            }
+            .then(function (_a) {
+            var results = _a.data.results;
+            return (results || []).map(function (_a) {
+                var name = _a.name;
+                return name;
+            });
         })
             .catch(function (error) {
             _this.addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading repository with label ", "."], ["Error loading repository with label ", "."])), pipeline), 'danger', error === null || error === void 0 ? void 0 : error.message);
@@ -215,20 +217,20 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                                 title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collection Name"], ["Collection Name"]))),
                                             },
                                             {
-                                                id: 'status',
+                                                id: 'repository_label',
                                                 title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status"], ["Status"]))),
                                                 inputType: 'select',
                                                 options: [
                                                     {
-                                                        id: Constants.NOTCERTIFIED,
+                                                        id: "pipeline=".concat(Constants.NOTCERTIFIED),
                                                         title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
                                                     },
                                                     {
-                                                        id: Constants.NEEDSREVIEW,
+                                                        id: "pipeline=".concat(Constants.NEEDSREVIEW),
                                                         title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
                                                     },
                                                     {
-                                                        id: Constants.APPROVED,
+                                                        id: "pipeline=".concat(Constants.APPROVED),
                                                         title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Approved"], ["Approved"]))),
                                                     },
                                                 ],
@@ -242,13 +244,13 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 _this.updateParams(p, function () { return _this.queryCollections(true); });
                                 _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceValues: {
-                                status: (_a = {},
-                                    _a[Constants.APPROVED] = t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approved"], ["Approved"]))),
-                                    _a[Constants.NEEDSREVIEW] = t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
-                                    _a[Constants.NOTCERTIFIED] = t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                                repository_label: (_a = {},
+                                    _a["pipeline=".concat(Constants.APPROVED)] = t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                                    _a["pipeline=".concat(Constants.NEEDSREVIEW)] = t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                                    _a["pipeline=".concat(Constants.NOTCERTIFIED)] = t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
                                     _a),
                             }, niceNames: {
-                                status: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Status"], ["Status"]))),
+                                repository_label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Status"], ["Status"]))),
                             } })),
                     loading ? (React.createElement(LoadingPageSpinner, null)) : (this.renderTable(versions, params)),
                     React.createElement("div", { className: 'footer' },
@@ -266,7 +268,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.renderTable = function (versions, params) {
         var _this = this;
         if (versions.length === 0) {
-            return filterIsSet(params, ['namespace', 'name', 'status']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
+            return filterIsSet(params, ['namespace', 'name', 'repository_label']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
         }
         var sortTableOptions = {
             headers: [
@@ -298,7 +300,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 {
                     title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Status"], ["Status"]))),
                     type: 'none',
-                    id: 'status',
+                    id: 'repository_label',
                 },
                 {
                     title: '',
@@ -548,11 +550,8 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 loading: true,
             });
         }
-        var _a = this.state.params, status = _a.status, sort = _a.sort, params = __rest(_a, ["status", "sort"]);
+        var _a = this.state.params, sort = _a.sort, params = __rest(_a, ["sort"]);
         var updatedParams = __assign({ order_by: sort }, params);
-        if (status) {
-            updatedParams['repository_label'] = "pipeline=".concat(status);
-        }
         return CollectionVersionAPI.list(updatedParams)
             .then(function (result) {
             _this.setState({

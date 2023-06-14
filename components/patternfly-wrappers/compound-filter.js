@@ -74,7 +74,6 @@ var CompoundFilter = /** @class */ (function (_super) {
             }
             _this.submitMultiple(newParams);
         };
-        // this is called again in repositories selector, but not in approval page (the same filter is here)...
         _this.state = {
             selectedFilter: props.filterConfig[0],
             isExpanded: false,
@@ -124,7 +123,7 @@ var CompoundFilter = /** @class */ (function (_super) {
                             _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));
             case 'typeahead': {
-                var typeAheadResults = this.props.filterConfig
+                var typeaheadResults_1 = this.props.filterConfig
                     .find(function (_a) {
                     var id = _a.id;
                     return id === selectedFilter.id;
@@ -138,8 +137,12 @@ var CompoundFilter = /** @class */ (function (_super) {
                     }, onClear: function () {
                         _this.props.onChange('');
                     }, onSelect: function (event, value) {
-                        _this.submitFilter(value);
-                    }, placeholderText: (selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.placeholder) || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), results: typeAheadResults }));
+                        var item = typeaheadResults_1.find(function (_a) {
+                            var name = _a.name;
+                            return name === value;
+                        });
+                        _this.submitFilter((item === null || item === void 0 ? void 0 : item.id) || value);
+                    }, placeholderText: (selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.placeholder) || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), results: typeaheadResults_1 }));
             }
             default:
                 return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
