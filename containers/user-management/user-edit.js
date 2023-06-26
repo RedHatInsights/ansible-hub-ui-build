@@ -18,13 +18,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';
-import { mapErrorMessages } from 'src/utilities';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
+import { BaseHeader, EmptyStateUnauthorized, LoadingPageWithHeader, UserFormPage, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { mapErrorMessages } from 'src/utilities';
 var UserEdit = /** @class */ (function (_super) {
     __extends(UserEdit, _super);
     function UserEdit(props) {
@@ -33,13 +34,13 @@ var UserEdit = /** @class */ (function (_super) {
             var user = _this.state.user;
             UserAPI.update(user.id.toString(), user)
                 .then(function () {
-                // Redirect to login page when password of logged user is changed
+                // redirect to login page when password of logged user is changed
                 // SSO not relevant, user-edit disabled
                 if (_this.context.user.id === user.id && user.password) {
-                    _this.setState({ redirect: Paths.login });
+                    _this.setState({ redirect: formatPath(Paths.login) });
                 }
                 else {
-                    _this.setState({ redirect: Paths.userList });
+                    _this.setState({ redirect: formatPath(Paths.userList) });
                 }
             })
                 .catch(function (err) {
@@ -51,7 +52,7 @@ var UserEdit = /** @class */ (function (_super) {
     }
     UserEdit.prototype.componentDidMount = function () {
         var _this = this;
-        var id = this.props.match.params['userID'];
+        var id = this.props.routeParams.userID;
         UserAPI.get(id)
             .then(function (result) {
             return _this.setState({ user: result.data, unauthorized: false });
@@ -61,7 +62,7 @@ var UserEdit = /** @class */ (function (_super) {
     UserEdit.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, user = _a.user, errorMessages = _a.errorMessages, unauthorized = _a.unauthorized;
         var title = t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Edit user"], ["Edit user"])));
@@ -74,7 +75,7 @@ var UserEdit = /** @class */ (function (_super) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var breadcrumbs = [
-            { url: Paths.userList, name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Users"], ["Users"]))) },
+            { url: formatPath(Paths.userList), name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Users"], ["Users"]))) },
             {
                 url: formatPath(Paths.userDetail, { userID: user.id }),
                 name: user.username,
@@ -83,7 +84,7 @@ var UserEdit = /** @class */ (function (_super) {
         ];
         return (React.createElement(UserFormPage, { user: user, breadcrumbs: breadcrumbs, title: title, errorMessages: errorMessages, updateUser: function (user, errorMessages) {
                 return _this.setState({ user: user, errorMessages: errorMessages });
-            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: Paths.userList }); } }));
+            }, saveUser: this.saveUser, onCancel: function () { return _this.setState({ redirect: formatPath(Paths.userList) }); } }));
     };
     return UserEdit;
 }(React.Component));

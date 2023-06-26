@@ -18,19 +18,19 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './header.scss';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { BaseHeader, Logo, Tabs, Breadcrumbs, } from 'src/components';
+import React from 'react';
+import { BaseHeader, Breadcrumbs, Logo, Tabs, } from 'src/components';
+import './header.scss';
 var PartnerHeader = /** @class */ (function (_super) {
     __extends(PartnerHeader, _super);
     function PartnerHeader() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PartnerHeader.prototype.render = function () {
-        var _a = this.props, breadcrumbs = _a.breadcrumbs, contextSelector = _a.contextSelector, filters = _a.filters, namespace = _a.namespace, pageControls = _a.pageControls, params = _a.params, tabs = _a.tabs, updateParams = _a.updateParams;
+        var _a = this.props, breadcrumbs = _a.breadcrumbs, filters = _a.filters, namespace = _a.namespace, pageControls = _a.pageControls, params = _a.params, tabs = _a.tabs, updateParams = _a.updateParams;
         var company = namespace.company || namespace.name;
-        return (React.createElement(BaseHeader, { title: company, logo: namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: pageControls, contextSelector: contextSelector, className: 'header' },
+        return (React.createElement(BaseHeader, { title: company, logo: namespace.avatar_url && (React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), pageControls: pageControls, className: 'header' },
             namespace.description ? React.createElement("div", null, namespace.description) : null,
             React.createElement("div", { className: 'hub-tab-link-container' },
                 React.createElement("div", { className: 'tabs' },

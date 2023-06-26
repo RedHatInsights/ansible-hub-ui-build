@@ -29,16 +29,17 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { TextInput, InputGroup, Button, ButtonVariant, DropdownItem, Select, SelectGroup, SelectOption, SelectVariant, } from '@patternfly/react-core';
+import { Button, ButtonVariant, DropdownItem, InputGroup, Select, SelectGroup, SelectOption, SelectVariant, TextInput, } from '@patternfly/react-core';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
-import { StatefulDropdown } from 'src/components';
+import React from 'react';
+import { APISearchTypeAhead, StatefulDropdown } from 'src/components';
 import { ParamHelper } from 'src/utilities';
 var FilterOption = /** @class */ (function () {
     function FilterOption() {
     }
     return FilterOption;
 }());
+export { FilterOption };
 var CompoundFilter = /** @class */ (function (_super) {
     __extends(CompoundFilter, _super);
     function CompoundFilter(props) {
@@ -50,8 +51,15 @@ var CompoundFilter = /** @class */ (function (_super) {
         };
         _this.onSelectMultiple = function (event) {
             var newParams = _this.props.params[_this.state.selectedFilter.id];
+            // no tags => falsy
+            // 1 tag => "foo"
+            // 2+ tags => ["foo", "bar"]
+            // convert all to an array
             if (!newParams) {
                 newParams = [];
+            }
+            if (!Array.isArray(newParams)) {
+                newParams = [newParams];
             }
             // TODO: Remove this replace after patternfly fixes the pf-random-id issue
             var selectedID = event.currentTarget.id.replace(/pf-random-id-\d+-/, '');
@@ -77,14 +85,18 @@ var CompoundFilter = /** @class */ (function (_super) {
     }
     CompoundFilter.prototype.render = function () {
         var _this = this;
-        var filterConfig = this.props.filterConfig;
+        var _a = this.props, filterConfig = _a.filterConfig, selectFilter = _a.selectFilter;
         var selectedFilter = this.state.selectedFilter;
+        if (filterConfig.length === 0) {
+            return null;
+        }
         var filterOptions = filterConfig.map(function (v) { return (React.createElement(DropdownItem, { onClick: function () {
                 _this.props.onChange('');
                 _this.setState({ selectedFilter: v });
+                selectFilter && selectFilter(v.id);
             }, key: v.id }, v.title)); });
         return (React.createElement(InputGroup, { "data-cy": 'compound_filter' },
-            filterConfig.length != 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
+            filterConfig.length !== 1 && (React.createElement(StatefulDropdown, { toggleType: 'dropdown', defaultText: React.createElement("span", null,
                     React.createElement(FilterIcon, null),
                     '   ',
                     selectedFilter.title), position: 'left', isPlain: false, items: filterOptions })),
@@ -110,8 +122,30 @@ var CompoundFilter = /** @class */ (function (_super) {
                             _this.props.onChange(v.id);
                             _this.submitFilter(v.id);
                         }, key: v.id }, v.title)); }) }));
+            case 'typeahead': {
+                var typeaheadResults_1 = this.props.filterConfig
+                    .find(function (_a) {
+                    var id = _a.id;
+                    return id === selectedFilter.id;
+                })
+                    .options.map(function (_a) {
+                    var id = _a.id, title = _a.title;
+                    return ({ id: id, name: title });
+                });
+                return (React.createElement(APISearchTypeAhead, { multiple: false, loadResults: function (name) {
+                        _this.props.onChange(name);
+                    }, onClear: function () {
+                        _this.props.onChange('');
+                    }, onSelect: function (event, value) {
+                        var item = typeaheadResults_1.find(function (_a) {
+                            var name = _a.name;
+                            return name === value;
+                        });
+                        _this.submitFilter((item === null || item === void 0 ? void 0 : item.id) || value);
+                    }, placeholderText: (selectedFilter === null || selectedFilter === void 0 ? void 0 : selectedFilter.placeholder) || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), results: typeaheadResults_1 }));
+            }
             default:
-                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
+                return (React.createElement(TextInput, { "aria-label": selectedFilter.id, placeholder: selectedFilter.placeholder || t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Filter by ", ""], ["Filter by ", ""])), selectedFilter.title.toLowerCase()), value: this.props.inputText, onChange: function (k) { return _this.props.onChange(k); }, onKeyPress: function (e) { return _this.handleEnter(e); } }));
         }
     };
     CompoundFilter.prototype.handleEnter = function (e) {
@@ -136,5 +170,5 @@ var CompoundFilter = /** @class */ (function (_super) {
     return CompoundFilter;
 }(React.Component));
 export { CompoundFilter };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 //# sourceMappingURL=compound-filter.js.map

@@ -26,18 +26,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { ClipboardCopyVariant, Button } from '@patternfly/react-core';
-import { Paths } from 'src/paths';
-import { BaseHeader, Main, ClipboardCopy, AlertList, closeAlertMixin, } from 'src/components';
-import { errorMessage, getRepoUrl } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
+import { Trans, t } from '@lingui/macro';
+import { Button, ClipboardCopyVariant } from '@patternfly/react-core';
+import React from 'react';
 import { MyDistributionAPI } from 'src/api';
-var TokenPage = /** @class */ (function (_super) {
-    __extends(TokenPage, _super);
-    function TokenPage(props) {
+import { AlertList, BaseHeader, ClipboardCopy, Main, closeAlertMixin, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { withRouter } from 'src/utilities';
+import { errorMessage, getRepoURL } from 'src/utilities';
+var TokenInsights = /** @class */ (function (_super) {
+    __extends(TokenInsights, _super);
+    function TokenInsights(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             tokenData: undefined,
@@ -46,7 +45,7 @@ var TokenPage = /** @class */ (function (_super) {
         };
         return _this;
     }
-    TokenPage.prototype.getMyDistributionPath = function () {
+    TokenInsights.prototype.getMyDistributionPath = function () {
         var _this = this;
         MyDistributionAPI.list()
             .then(function (_a) {
@@ -74,7 +73,7 @@ var TokenPage = /** @class */ (function (_super) {
             });
         });
     };
-    TokenPage.prototype.componentDidMount = function () {
+    TokenInsights.prototype.componentDidMount = function () {
         var _this = this;
         // this function will fail if chrome.auth.doOffline() hasn't been called
         // so it never works the first time .. loadToken() causes a reload and then it works => no error handling
@@ -83,7 +82,7 @@ var TokenPage = /** @class */ (function (_super) {
         });
         this.getMyDistributionPath();
     };
-    TokenPage.prototype.render = function () {
+    TokenInsights.prototype.render = function () {
         var _this = this;
         var _a;
         var _b = this.state, tokenData = _b.tokenData, alerts = _b.alerts;
@@ -95,14 +94,7 @@ var TokenPage = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Connect Private Automation Hub"], ["Connect Private Automation Hub"])))),
                     React.createElement("p", null,
-                        React.createElement(Trans, null,
-                            "Use the",
-                            ' ',
-                            React.createElement(Link, { to: Paths.repositories }, "Repository Management"),
-                            " page to sync collections curated by your organization to the Red Hat Certified repository in your private Automation Hub. Users with the correct permissions can use the sync toggles on the",
-                            ' ',
-                            React.createElement(Link, { to: Paths.search }, "Collections"),
-                            " page to control which collections are added to their organization's sync repository."))),
+                        React.createElement(Trans, null, "Use the Server URL below to sync certified collections to the Red Hat Certified repository in your private Automation Hub. If you wish to sync validated content, you can add a remote with a server url pointed to the validated repo."))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Connect the ansible-galaxy client"], ["Connect the ansible-galaxy client"])))),
                     React.createElement("p", null,
@@ -135,8 +127,8 @@ var TokenPage = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Server URL"], ["Server URL"])))),
                     React.createElement("p", null,
-                        React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download content from Automation Hub.")),
-                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoUrl(this.state.repoUrl))),
+                        React.createElement(Trans, null, "Use this URL to configure the API endpoints that clients need to download certified content from Automation Hub. Synclists are deprecated in AAP 2.4 and will be removed in a future release, instead use client-side requirements.yml, see AAP 2.4 documentation.")),
+                    React.createElement(ClipboardCopy, { isReadOnly: true }, getRepoURL('published', true))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["SSO URL"], ["SSO URL"])))),
                     React.createElement("p", null,
@@ -150,22 +142,22 @@ var TokenPage = /** @class */ (function (_super) {
                             ' ',
                             React.createElement("a", { href: 'https://access.redhat.com/security/team/key', target: '_blank', rel: 'noreferrer' }, "here.")))))));
     };
-    TokenPage.prototype.loadToken = function () {
+    TokenInsights.prototype.loadToken = function () {
         // doOffline causes the page to refresh and will make the data
         // available to getOfflineToken() when the component mounts after
         // the reload
         window.insights.chrome.auth.doOffline();
     };
-    Object.defineProperty(TokenPage.prototype, "closeAlert", {
+    Object.defineProperty(TokenInsights.prototype, "closeAlert", {
         get: function () {
             return closeAlertMixin('alerts');
         },
         enumerable: false,
         configurable: true
     });
-    return TokenPage;
+    return TokenInsights;
 }(React.Component));
-export default withRouter(TokenPage);
-TokenPage.contextType = AppContext;
+export default withRouter(TokenInsights);
+TokenInsights.contextType = AppContext;
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
 //# sourceMappingURL=token-insights.js.map

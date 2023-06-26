@@ -2,7 +2,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
+import { Trans, t } from '@lingui/macro';
 import { Button, ButtonVariant, Form, FormGroup, FormSelect, FormSelectOption, Grid, GridItem, Modal, ModalVariant, Split, SplitItem, } from '@patternfly/react-core';
 import React from 'react';
 export var SignAllCertificatesModal = function (_a) {

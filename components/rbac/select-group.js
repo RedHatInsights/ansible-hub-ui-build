@@ -2,11 +2,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import { Trans, t } from '@lingui/macro';
 import { Flex, FlexItem, Label } from '@patternfly/react-core';
+import React, { useEffect, useState } from 'react';
 import { GroupAPI } from 'src/api';
-import { CompoundFilter, RoleListTable, Pagination, AppliedFilters, LoadingPageSpinner, RadioRow, EmptyStateFilter, EmptyStateNoData, } from 'src/components';
+import { AppliedFilters, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RadioRow, RoleListTable, } from 'src/components';
 import { filterIsSet } from 'src/utilities';
 export var SelectGroup = function (_a) {
     var assignedGroups = _a.assignedGroups, selectedGroup = _a.selectedGroup, updateGroup = _a.updateGroup;

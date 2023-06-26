@@ -28,24 +28,16 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { Form, ActionGroup, Button, Spinner } from '@patternfly/react-core';
+import { Trans, t } from '@lingui/macro';
+import { ActionGroup, Button, Form, Spinner } from '@patternfly/react-core';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { MyNamespaceAPI } from 'src/api';
-import { PartnerHeader, NamespaceForm, ResourcesForm, AlertList, closeAlertMixin, Main, EmptyStateUnauthorized, LoadingPageSpinner, } from 'src/components';
+import { AlertList, EmptyStateUnauthorized, LoadingPageSpinner, Main, NamespaceForm, PartnerHeader, ResourcesForm, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
-import { ParamHelper, mapErrorMessages, errorMessage, } from 'src/utilities';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, mapErrorMessages, } from 'src/utilities';
 var EditNamespace = /** @class */ (function (_super) {
     __extends(EditNamespace, _super);
     function EditNamespace(props) {
@@ -81,7 +73,7 @@ var EditNamespace = /** @class */ (function (_super) {
             { id: 'edit-resources', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Edit resources"], ["Edit resources"]))) },
         ];
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         if (loading) {
             return React.createElement(LoadingPageSpinner, null);
@@ -100,8 +92,7 @@ var EditNamespace = /** @class */ (function (_super) {
                     namespaceBreadcrumb,
                     {
                         name: namespace.name,
-                        url: formatPath(Paths.namespaceByRepo, {
-                            repo: this.context.selectedRepo,
+                        url: formatPath(Paths.namespaceDetail, {
                             namespace: namespace.name,
                         }),
                     },
@@ -135,7 +126,7 @@ var EditNamespace = /** @class */ (function (_super) {
     });
     EditNamespace.prototype.loadNamespace = function () {
         var _this = this;
-        MyNamespaceAPI.get(this.props.match.params['namespace'])
+        MyNamespaceAPI.get(this.props.routeParams.namespace)
             .then(function (response) {
             // Add an empty link to the end of the links array to create an empty field
             // on the link edit form for adding new links
@@ -167,20 +158,17 @@ var EditNamespace = /** @class */ (function (_super) {
                     errorMessages: {},
                     saving: false,
                     unsavedData: false,
-                    redirect: formatPath(Paths.namespaceByRepo, {
-                        repo: _this.context.selectedRepo,
+                    redirect: formatPath(Paths.namespaceDetail, {
                         namespace: _this.state.namespace.name,
                     }),
                 }, function () {
-                    return _this.context.setAlerts(__spreadArray(__spreadArray([], _this.context.alerts, true), [
-                        {
-                            variant: 'success',
-                            title: (React.createElement(Trans, null,
-                                "Saved changes to namespace \"",
-                                _this.state.namespace.name,
-                                "\".")),
-                        },
-                    ], false));
+                    return _this.context.queueAlert({
+                        variant: 'success',
+                        title: (React.createElement(Trans, null,
+                            "Saved changes to namespace \"",
+                            _this.state.namespace.name,
+                            "\".")),
+                    });
                 });
             })
                 .catch(function (error) {
@@ -213,8 +201,7 @@ var EditNamespace = /** @class */ (function (_super) {
     });
     EditNamespace.prototype.cancel = function () {
         this.setState({
-            redirect: formatPath(Paths.namespaceByRepo, {
-                repo: this.context.selectedRepo,
+            redirect: formatPath(Paths.namespaceDetail, {
                 namespace: this.state.namespace.name,
             }),
         });

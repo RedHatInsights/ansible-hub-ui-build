@@ -19,7 +19,7 @@ export function isFieldSet(name, writeOnlyFields) {
         return field.is_set;
     }
     else {
-        throw 'Field ${name} is not in writeOnlyFields';
+        throw "Field ".concat(name, " is not in writeOnlyFields");
     }
 }
 // Deletes any write only fields from the object so that they don't

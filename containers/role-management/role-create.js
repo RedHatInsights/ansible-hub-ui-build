@@ -18,14 +18,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { errorMessage } from 'src/utilities';
-import { mapNetworkErrors, validateInput, } from 'src/containers/role-management/map-role-errors';
-import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { RoleForm, RoleHeader, EmptyStateUnauthorized, Main, } from 'src/components';
-import { Paths } from 'src/paths';
-import { AppContext } from 'src/loaders/app-context';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { RoleAPI } from 'src/api/role';
+import { EmptyStateUnauthorized, Main, RoleForm, RoleHeader, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage, mapNetworkErrors, validateInput, withRouter, } from 'src/utilities';
 var RoleCreate = /** @class */ (function (_super) {
     __extends(RoleCreate, _super);
     function RoleCreate(props) {
@@ -33,7 +32,7 @@ var RoleCreate = /** @class */ (function (_super) {
         _this.cancelRole = function () {
             _this.setState({
                 errorMessages: {},
-                redirect: Paths.roleList,
+                redirect: formatPath(Paths.roleList),
             });
         };
         _this.createRole = function (permissions) {
@@ -41,7 +40,10 @@ var RoleCreate = /** @class */ (function (_super) {
                 var _a = _this.state, name = _a.name, description = _a.description;
                 RoleAPI.create({ name: name, description: description, permissions: permissions })
                     .then(function () {
-                    return _this.setState({ redirect: Paths.roleList, errorMessages: null });
+                    return _this.setState({
+                        redirect: formatPath(Paths.roleList),
+                        errorMessages: null,
+                    });
                 })
                     .catch(function (err) {
                     var _a = err.response, status = _a.status, statusText = _a.statusText;
@@ -81,12 +83,12 @@ var RoleCreate = /** @class */ (function (_super) {
     RoleCreate.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, errorMessages = _a.errorMessages, description = _a.description, name = _a.name, saving = _a.saving;
         var notAuthorised = !this.context.user || this.context.user.is_anonymous;
         var breadcrumbs = [
-            { url: Paths.roleList, name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Roles"], ["Roles"]))) },
+            { url: formatPath(Paths.roleList), name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Roles"], ["Roles"]))) },
             { name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Create new role"], ["Create new role"]))) },
         ];
         return (React.createElement(React.Fragment, null,

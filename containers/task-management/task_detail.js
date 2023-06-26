@@ -26,20 +26,23 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
-import './task.scss';
 import { i18n } from '@lingui/core';
-import { t, Trans } from '@lingui/macro';
-import { Link, withRouter, Redirect, } from 'react-router-dom';
-import { AlertList, BaseHeader, Breadcrumbs, closeAlertMixin, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
-import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
-import { Paths, formatPath } from 'src/paths';
-import { Constants } from 'src/constants';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
 import { capitalize } from 'lodash';
-import { errorMessage } from 'src/utilities';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
+import { AlertList, BaseHeader, Breadcrumbs, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, closeAlertMixin, } from 'src/components';
+import { Constants } from 'src/constants';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage, withRouter } from 'src/utilities';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import './task.scss';
+var maybeTranslate = function (name) {
+    return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;
+};
 var TaskDetail = /** @class */ (function (_super) {
     __extends(TaskDetail, _super);
     function TaskDetail(props) {
@@ -67,7 +70,7 @@ var TaskDetail = /** @class */ (function (_super) {
         }
     };
     TaskDetail.prototype.componentDidUpdate = function (prevProps) {
-        if (prevProps.match.params['task'] !== this.props.match.params['task']) {
+        if (prevProps.routeParams.task !== this.props.routeParams.task) {
             this.setState({ loading: true });
             this.loadContent();
         }
@@ -76,7 +79,7 @@ var TaskDetail = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.state, loading = _a.loading, task = _a.task, parentTask = _a.parentTask, childTasks = _a.childTasks, cancelModalVisible = _a.cancelModalVisible, alerts = _a.alerts, taskName = _a.taskName, resources = _a.resources, redirect = _a.redirect;
         var breadcrumbs = [
-            { url: Paths.taskList, name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
+            { url: formatPath(Paths.taskList), name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task management"], ["Task management"]))) },
             { name: task ? taskName : '' },
         ];
         var parentTaskId = null;
@@ -84,7 +87,7 @@ var TaskDetail = /** @class */ (function (_super) {
             parentTaskId = parsePulpIDFromURL(parentTask.pulp_href);
         }
         if (redirect) {
-            return React.createElement(Redirect, { to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -124,9 +127,7 @@ var TaskDetail = /** @class */ (function (_super) {
                                         React.createElement(DescriptionListTerm, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Parent task"], ["Parent task"])))),
                                         React.createElement(DescriptionListDescription, null, parentTask ? (React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                 task: parentTaskId,
-                                            }) }, (Constants.TASK_NAMES[parentTask.name] &&
-                                            i18n._(Constants.TASK_NAMES[parentTask.name])) ||
-                                            parentTask.name)) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
+                                            }) }, maybeTranslate(parentTask.name))) : (t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No parent task"], ["No parent task"])))))),
                                     React.createElement(DescriptionListGroup, null,
                                         React.createElement(DescriptionListTerm, null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Child tasks"], ["Child tasks"])))),
                                         React.createElement(DescriptionListDescription, null, childTasks.length
@@ -135,9 +136,7 @@ var TaskDetail = /** @class */ (function (_super) {
                                                 return (React.createElement(React.Fragment, { key: childTaskId },
                                                     React.createElement(Link, { to: formatPath(Paths.taskDetail, {
                                                             task: childTaskId,
-                                                        }) }, (Constants.TASK_NAMES[childTask.name] &&
-                                                        i18n._(Constants.TASK_NAMES[childTask.name])) ||
-                                                        childTask.name),
+                                                        }) }, maybeTranslate(childTask.name)),
                                                     React.createElement("br", null)));
                                             })
                                             : t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No child task"], ["No child task"])))))))),
@@ -238,7 +237,7 @@ var TaskDetail = /** @class */ (function (_super) {
         if (!this.state.polling && !this.state.task) {
             this.setState({ polling: setInterval(function () { return _this.loadContent(); }, 10000) });
         }
-        var taskId = this.props.match.params['task'];
+        var taskId = this.props.routeParams.task;
         return TaskManagementAPI.get(taskId)
             .then(function (result) {
             var allRelatedTasks = [];
@@ -315,15 +314,13 @@ var TaskDetail = /** @class */ (function (_super) {
                     childTasks: childTasks,
                     parentTask: parentTask,
                     loading: false,
-                    taskName: (Constants.TASK_NAMES[result.data.name] &&
-                        i18n._(Constants.TASK_NAMES[result.data.name])) ||
-                        result.data.name,
+                    taskName: maybeTranslate(result.data.name),
                     resources: resources,
                 });
             });
         })
             .catch(function () {
-            _this.setState({ redirect: Paths.notFound });
+            _this.setState({ redirect: formatPath(Paths.notFound) });
         });
     };
     Object.defineProperty(TaskDetail.prototype, "closeAlert", {

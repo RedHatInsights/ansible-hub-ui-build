@@ -26,16 +26,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { errorMessage } from 'src/utilities';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { GroupAPI, UserAPI, } from 'src/api';
-import { filterIsSet, mapErrorMessages, ParamHelper, } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { formatPath, Paths } from 'src/paths';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { GroupAPI, UserAPI, } from 'src/api';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DeleteGroupModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, GroupModal, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage } from 'src/utilities';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, filterIsSet, mapErrorMessages, } from 'src/utilities';
 var GroupList = /** @class */ (function (_super) {
     __extends(GroupList, _super);
     function GroupList(props) {
@@ -81,7 +82,7 @@ var GroupList = /** @class */ (function (_super) {
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         var noData = groups.length === 0 && !filterIsSet(params, ['name__icontains']);
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -142,7 +143,7 @@ var GroupList = /** @class */ (function (_super) {
         var name = this.state.selectedGroup && this.state.selectedGroup.name;
         var _a = this.state, users = _a.deleteModalUsers, count = _a.deleteModalCount;
         var hasPermission = this.context.hasPermission;
-        var view_user = hasPermission('galaxy.view_user').view_user;
+        var view_user = hasPermission('galaxy.view_user');
         if (!users && view_user) {
             this.queryUsers();
         }

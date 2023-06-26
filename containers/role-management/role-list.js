@@ -26,15 +26,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import React from 'react';
-import { t, Trans } from '@lingui/macro';
-import { AppContext } from 'src/loaders/app-context';
-import { Link, withRouter, Redirect, } from 'react-router-dom';
-import { Pagination, BaseHeader, closeAlertMixin, CompoundFilter, EmptyStateFilter, LoadingPageSpinner, Main, AlertList, EmptyStateUnauthorized, EmptyStateNoData, AppliedFilters, DeleteModal, RoleListTable, ExpandableRow, ListItemActions, DateComponent, PermissionCategories, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
-import { errorMessage, filterIsSet, ParamHelper, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { RoleAPI } from 'src/api/role';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ExpandableRow, ListItemActions, LoadingPageSpinner, Main, Pagination, PermissionCategories, RoleListTable, closeAlertMixin, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, translateLockedRolesDescription, } from 'src/utilities';
 var RoleList = /** @class */ (function (_super) {
     __extends(RoleList, _super);
     function RoleList(props) {
@@ -128,10 +129,10 @@ var RoleList = /** @class */ (function (_super) {
         var _a = this.state, redirect = _a.redirect, params = _a.params, loading = _a.loading, roleCount = _a.roleCount, alerts = _a.alerts, unauthorized = _a.unauthorized, showDeleteModal = _a.showDeleteModal, roleToEdit = _a.roleToEdit, roles = _a.roles;
         var noData = roleCount === 0 && !filterIsSet(params, ['name__icontains', 'locked']);
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         var isSuperuser = this.context.user.is_superuser;
-        var addRoles = isSuperuser && (React.createElement(Link, { to: Paths.createRole },
+        var addRoles = isSuperuser && (React.createElement(Link, { to: formatPath(Paths.createRole) },
             React.createElement(Button, { variant: 'primary' }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Add roles"], ["Add roles"]))))));
         var tableHeader = [
             {

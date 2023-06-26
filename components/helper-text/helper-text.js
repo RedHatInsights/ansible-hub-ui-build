@@ -17,10 +17,10 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import * as React from 'react';
 import { t } from '@lingui/macro';
-import { Popover, PopoverPosition, Button } from '@patternfly/react-core';
+import { Button, Popover, PopoverPosition } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import React from 'react';
 import './helper-text.scss';
 var HelperText = /** @class */ (function (_super) {
     __extends(HelperText, _super);

@@ -38,13 +38,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
-import { CollectionHeader, LoadingPageWithHeader, Main, CollectionDependenciesList, CollectionUsedbyDependenciesList, EmptyStateNoData, AlertList, closeAlertMixin, } from 'src/components';
-import { errorMessage, filterIsSet, ParamHelper } from 'src/utilities';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
+import { AlertList, CollectionDependenciesList, CollectionHeader, CollectionUsedbyDependenciesList, EmptyStateNoData, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
+import { loadCollection } from './base';
 import './collection-dependencies.scss';
 var CollectionDependencies = /** @class */ (function (_super) {
     __extends(CollectionDependencies, _super);
@@ -57,7 +58,10 @@ var CollectionDependencies = /** @class */ (function (_super) {
         ]);
         params['sort'] = !params['sort'] ? '-collection' : 'collection';
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collectionsCount: 0,
+            collection: null,
+            content: null,
             dependencies_repos: [],
             params: params,
             usedByDependencies: [],
@@ -72,39 +76,39 @@ var CollectionDependencies = /** @class */ (function (_super) {
     };
     CollectionDependencies.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params, usedByDependencies = _a.usedByDependencies, usedByDependenciesCount = _a.usedByDependenciesCount, usedByDependenciesLoading = _a.usedByDependenciesLoading, alerts = _a.alerts;
-        if (!collection) {
+        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, usedByDependencies = _a.usedByDependencies, usedByDependenciesCount = _a.usedByDependenciesCount, usedByDependenciesLoading = _a.usedByDependenciesLoading, alerts = _a.alerts;
+        if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: version.namespace,
             },
             {
                 url: formatPath(Paths.collectionByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    repo: this.context.selectedRepo,
+                    namespace: version.namespace,
+                    collection: version.name,
+                    repo: repository.name,
                 }),
-                name: collection.name,
+                name: version.name,
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Dependencies"], ["Dependencies"]))) },
         ];
         var headerParams = ParamHelper.getReduced(params, this.ignoredParams);
         var dependenciesParams = ParamHelper.getReduced(params, ['version']);
-        var noDependencies = !Object.keys(collection.latest_version.metadata.dependencies).length;
+        var noDependencies = !Object.keys(version.dependencies).length;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collection: collection, params: headerParams, updateParams: function (p) {
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: headerParams, updateParams: function (p) {
                     _this.updateParams(_this.combineParams(_this.state.params, p), function () {
                         return _this.loadData(true);
                     });
-                }, breadcrumbs: breadcrumbs, activeTab: 'dependencies', repo: this.context.selectedRepo }),
+                }, breadcrumbs: breadcrumbs, activeTab: 'dependencies', repo: repository.name }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'pf-c-content collection-dependencies' },
@@ -115,7 +119,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
                             React.createElement("p", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["This collections requires the following collections for use"], ["This collections requires the following collections for use"])))),
                             noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, dependencies_repos: this.state.dependencies_repos })),
                             React.createElement("p", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["This collection is being used by"], ["This collection is being used by"])))),
-                            React.createElement(CollectionUsedbyDependenciesList, { repo: this.context.selectedRepo, usedByDependencies: usedByDependencies, itemCount: usedByDependenciesCount, params: dependenciesParams, usedByDependenciesLoading: usedByDependenciesLoading, updateParams: function (p) {
+                            React.createElement(CollectionUsedbyDependenciesList, { usedByDependencies: usedByDependencies, itemCount: usedByDependenciesCount, params: dependenciesParams, usedByDependenciesLoading: usedByDependenciesLoading, updateParams: function (p) {
                                     return _this.updateParams(_this.combineParams(_this.state.params, p), function () { return _this.loadUsedByDependencies(); });
                                 } }))))))));
     };
@@ -130,7 +134,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
     };
     CollectionDependencies.prototype.loadCollectionsDependenciesRepos = function (callback) {
         var _this = this;
-        var dependencies = this.state.collection.latest_version.metadata.dependencies;
+        var dependencies = this.state.collection.collection_version.dependencies;
         var dependencies_repos = [];
         var promises = [];
         Object.keys(dependencies).forEach(function (dependency) {
@@ -159,7 +163,8 @@ var CollectionDependencies = /** @class */ (function (_super) {
             page_size: 1,
         })
             .then(function (result) {
-            dependency_repo.repo = result.data.data[0].repository_list[0];
+            var collection = result.data.data[0];
+            dependency_repo.repo = collection.repository.name;
             dependency_repo.path = formatPath(Paths.collectionByRepo, {
                 collection: dependency_repo.name,
                 namespace: dependency_repo.namespace,
@@ -179,7 +184,10 @@ var CollectionDependencies = /** @class */ (function (_super) {
                 _this.cancelToken.cancel('request-canceled');
             }
             _this.cancelToken = CollectionAPI.getCancelToken();
-            CollectionAPI.getUsedDependenciesByCollection(_this.state.collection.namespace.name, _this.state.collection.name, ParamHelper.getReduced(_this.state.params, ['version']), _this.cancelToken)
+            var _a = _this.state.collection.collection_version, name = _a.name, namespace = _a.namespace;
+            // We have to use CollectionAPI here for used by dependencies
+            // because cross repo collection search doesn't allow `name__icontains` filter
+            CollectionAPI.getUsedDependenciesByCollection(namespace, name, ParamHelper.getReduced(_this.state.params, ['version']), _this.cancelToken)
                 .then(function (_a) {
                 var data = _a.data;
                 _this.setState({
@@ -188,16 +196,18 @@ var CollectionDependencies = /** @class */ (function (_super) {
                     usedByDependenciesLoading: false,
                 });
             })
-                .catch(function (err) {
-                var _a = err.response, status = _a.status, statusText = _a.statusText;
-                if ((err === null || err === void 0 ? void 0 : err.message) !== 'request-canceled') {
+                .catch(function (_a) {
+                var response = _a.response, message = _a.message;
+                // console.log(response, message);
+                if (message !== 'request-canceled') {
+                    var status_1 = response.status, statusText = response.statusText;
                     _this.setState({
                         usedByDependenciesLoading: false,
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
                                 title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Dependent collections could not be displayed."], ["Dependent collections could not be displayed."]))),
-                                description: errorMessage(status, statusText),
+                                description: errorMessage(status_1, statusText),
                             },
                         ], false),
                     });
@@ -210,12 +220,16 @@ var CollectionDependencies = /** @class */ (function (_super) {
     };
     CollectionDependencies.prototype.loadCollection = function (forceReload, callback) {
         var _this = this;
-        CollectionAPI.getCached(this.props.match.params['namespace'], this.props.match.params['collection'], this.context.selectedRepo, this.state.params.version ? { version: this.state.params.version } : {}, forceReload)
-            .then(function (result) {
-            _this.setState({ collection: result }, callback);
-        })
-            .catch(function () {
-            _this.props.history.push(Paths.notFound);
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount }, callback);
+            },
+            stateParams: this.state.params.version
+                ? { version: this.state.params.version }
+                : {},
         });
     };
     Object.defineProperty(CollectionDependencies.prototype, "updateParams", {

@@ -25,16 +25,18 @@ var ListItemActions = /** @class */ (function (_super) {
         var _a, _b;
         var buttons = (_a = this.props.buttons) === null || _a === void 0 ? void 0 : _a.filter(Boolean);
         var kebabItems = (_b = this.props.kebabItems) === null || _b === void 0 ? void 0 : _b.filter(Boolean);
+        var anyButtons = buttons === null || buttons === void 0 ? void 0 : buttons.length;
+        var anyKebab = kebabItems === null || kebabItems === void 0 ? void 0 : kebabItems.length;
         return (React.createElement("td", { style: {
-                paddingRight: '0px',
+                paddingRight: anyKebab ? '0px' : '16px',
                 textAlign: 'right',
                 display: 'flex',
                 justifyContent: 'flex-end',
             } },
-            (buttons === null || buttons === void 0 ? void 0 : buttons.length) ? (React.createElement(React.Fragment, null,
+            anyButtons ? (React.createElement(React.Fragment, null,
                 React.createElement(List, null, buttons),
                 ' ')) : null,
-            (kebabItems === null || kebabItems === void 0 ? void 0 : kebabItems.length) ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
+            anyKebab ? (React.createElement("div", { "data-cy": 'kebab-toggle' },
                 React.createElement(StatefulDropdown, { items: kebabItems }),
                 ' ')) : null));
     };

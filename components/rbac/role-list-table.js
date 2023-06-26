@@ -14,9 +14,9 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import { t } from '@lingui/macro';
+import { ExpandableRowContent, TableComposable, Tbody, Td, Tr, } from '@patternfly/react-table';
 import React, { useState } from 'react';
 import { SortTable } from 'src/components';
-import { TableComposable, Tr, Tbody, Td, ExpandableRowContent, } from '@patternfly/react-table';
 export var RoleListTable = function (_a) {
     var children = _a.children, params = _a.params, updateParams = _a.updateParams, isCompact = _a.isCompact, tableHeader = _a.tableHeader, _b = _a.isStickyHeader, isStickyHeader = _b === void 0 ? false : _b;
     var defaultTableHeader = {

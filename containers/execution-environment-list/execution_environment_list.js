@@ -37,17 +37,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './execution-environment.scss';
-import { withRouter, Link } from 'react-router-dom';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
-import { filterIsSet, parsePulpIDFromURL, ParamHelper } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, EmptyStateUnauthorized, ListItemActions, } from 'src/components';
-import { formatPath, Paths } from '../../paths';
-import { AppContext } from 'src/loaders/app-context';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteExecutionEnvironmentModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, PublishToControllerModal, RepositoryForm, SortTable, Tooltip, closeAlertMixin, } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatEEPath } from 'src/paths';
+import { ParamHelper, filterIsSet, taskAlert, withRouter, } from 'src/utilities';
+import './execution-environment.scss';
 var ExecutionEnvironmentList = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentList, _super);
     function ExecutionEnvironmentList(props) {
@@ -96,7 +96,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var hasPermission = this.context.hasPermission;
         var noData = items.length === 0 && !filterIsSet(params, ['name__icontains']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
-                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.1/html-single/managing_containers_in_private_automation_hub/index', '_blank');
+                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.3/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
@@ -235,7 +235,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         ].filter(function (truthy) { return truthy; });
         return (React.createElement("tr", { "data-cy": "ExecutionEnvironmentList-row-".concat(item.name), key: index },
             React.createElement("td", null,
-                React.createElement(Link, { to: formatPath(Paths.executionEnvironmentDetail, {
+                React.createElement(Link, { to: formatEEPath(Paths.executionEnvironmentDetail, {
                         container: item.pulp.distribution.base_path,
                     }) }, item.name)),
             description ? (React.createElement("td", { className: 'pf-m-truncate' },
@@ -326,25 +326,15 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
     ExecutionEnvironmentList.prototype.sync = function (name) {
         var _this = this;
         ExecutionEnvironmentRemoteAPI.sync(name)
-            .then(function (result) {
-            var task_id = parsePulpIDFromURL(result.data.task);
-            _this.addAlert(React.createElement(Trans, null,
-                "Sync started for execution environment \"",
-                name,
-                "\"."), 'info', React.createElement("span", null,
-                React.createElement(Trans, null,
-                    "See the task management",
-                    ' ',
-                    React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: task_id }) },
-                        "detail page",
-                        ' '),
-                    "for the status of this task.")));
+            .then(function (_a) {
+            var data = _a.data;
+            _this.addAlertObj(taskAlert(data.task, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync started for execution environment \"", "\"."], ["Sync started for execution environment \"", "\"."])), name)));
         })
-            .catch(function () { return _this.addAlert(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
+            .catch(function () { return _this.addAlert(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Sync failed for ", ""], ["Sync failed for ", ""])), name), 'danger'); });
     };
     return ExecutionEnvironmentList;
 }(React.Component));
 export default withRouter(ExecutionEnvironmentList);
 ExecutionEnvironmentList.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=execution_environment_list.js.map

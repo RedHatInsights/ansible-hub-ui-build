@@ -37,16 +37,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { errorMessage } from 'src/utilities';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { AlertList, APISearchTypeAhead, AppliedFilters, BaseHeader, Breadcrumbs, closeAlertMixin, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, SortTable, Tabs, } from 'src/components';
-import { GroupAPI, UserAPI, } from 'src/api';
-import { filterIsSet, ParamHelper } from 'src/utilities';
-import { formatPath, Paths } from 'src/paths';
+import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Modal, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { GroupAPI, UserAPI, } from 'src/api';
+import { APISearchTypeAhead, AlertList, AppliedFilters, BaseHeader, Breadcrumbs, CompoundFilter, DateComponent, DeleteGroupModal, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageWithHeader, Main, Pagination, SortTable, Tabs, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { errorMessage } from 'src/utilities';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, filterIsSet } from 'src/utilities';
 import GroupDetailRoleManagement from './group-detail-role-management/group-detail-role-management';
 var GroupDetail = /** @class */ (function (_super) {
     __extends(GroupDetail, _super);
@@ -55,7 +56,7 @@ var GroupDetail = /** @class */ (function (_super) {
         _this.nonQueryStringParams = ['group'];
         _this.userQueryStringParams = ['username', 'first_name', 'last_name', 'email'];
         _this.roleQueryStringParams = ['role__icontains'];
-        var id = _this.props.match.params['group'];
+        var id = _this.props.routeParams.group;
         var params = ParamHelper.parseParamString(props.location.search, [
             'page',
             'page_size',
@@ -97,7 +98,7 @@ var GroupDetail = /** @class */ (function (_super) {
     GroupDetail.prototype.render = function () {
         var _this = this;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var _a = this.state, addModalVisible = _a.addModalVisible, alerts = _a.alerts, group = _a.group, params = _a.params, showDeleteModal = _a.showDeleteModal, showUserRemoveModal = _a.showUserRemoveModal, users = _a.users, unauthorised = _a.unauthorised;
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
@@ -124,7 +125,7 @@ var GroupDetail = /** @class */ (function (_super) {
             showDeleteModal ? this.renderGroupDeleteModal() : null,
             showUserRemoveModal ? this.renderUserRemoveModal() : null,
             React.createElement(BaseHeader, { title: group.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
-                        { url: Paths.groupList, name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups"], ["Groups"]))) },
+                        { url: formatPath(Paths.groupList), name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Groups"], ["Groups"]))) },
                         { name: group.name },
                     ] }), pageControls: this.renderControls() },
                 React.createElement("div", { className: 'hub-tab-link-container' },
@@ -221,7 +222,7 @@ var GroupDetail = /** @class */ (function (_super) {
                     showDeleteModal: false,
                 });
                 _this.addAlert(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Group \"", "\" has been successfully deleted."], ["Group \"", "\" has been successfully deleted."])), group), 'success');
-                _this.setState({ redirect: Paths.groupList });
+                _this.setState({ redirect: formatPath(Paths.groupList) });
             })
                 .catch(function (e) {
                 var _a = e.response, status = _a.status, statusText = _a.statusText;
@@ -229,7 +230,7 @@ var GroupDetail = /** @class */ (function (_super) {
             });
         };
         var hasPermission = this.context.hasPermission;
-        var view_user = hasPermission('galaxy.view_user').view_user;
+        var view_user = hasPermission('galaxy.view_user');
         if (!users && view_user) {
             this.queryUsers();
         }
@@ -302,10 +303,7 @@ var GroupDetail = /** @class */ (function (_super) {
                 'email',
                 'role__icontains',
             ]);
-        var isUserMgmtDisabled = false;
-        if (featureFlags) {
-            isUserMgmtDisabled = featureFlags.external_authentication;
-        }
+        var isUserMgmtDisabled = featureFlags.external_authentication;
         if (noData) {
             return (React.createElement(EmptyStateNoData, { title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Users will appear once added to this group"], ["Users will appear once added to this group"]))), button: !!user &&
                     hasPermission('galaxy.change_group') &&
@@ -408,7 +406,7 @@ var GroupDetail = /** @class */ (function (_super) {
         var _this = this;
         var currentUser = this.context.user;
         var _a = this.context, featureFlags = _a.featureFlags, hasPermission = _a.hasPermission;
-        var isUserMgmtDisabled = featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.external_authentication;
+        var isUserMgmtDisabled = featureFlags.external_authentication;
         var dropdownItems = [
             !!currentUser &&
                 hasPermission('galaxy.change_group') &&
@@ -447,7 +445,7 @@ var GroupDetail = /** @class */ (function (_super) {
         })
             .catch(function (e) {
             if (e.response.status === 404) {
-                _this.setState({ redirect: Paths.notFound });
+                _this.setState({ redirect: formatPath(Paths.notFound) });
             }
             else {
                 var _a = e.response, status_1 = _a.status, statusText = _a.statusText;

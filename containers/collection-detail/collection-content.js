@@ -18,13 +18,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { CollectionHeader, CollectionContentList, LoadingPageWithHeader, Main, } from 'src/components';
-import { loadCollection } from './base';
-import { ParamHelper } from 'src/utilities/param-helper';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
+import React from 'react';
+import { CollectionContentList, CollectionHeader, LoadingPageWithHeader, Main, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/param-helper';
+import { loadCollection } from './base';
 // renders list of contents in a collection
 var CollectionContent = /** @class */ (function (_super) {
     __extends(CollectionContent, _super);
@@ -32,59 +32,62 @@ var CollectionContent = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collectionsCount: 0,
+            collection: null,
+            content: null,
             params: params,
         };
         return _this;
     }
     CollectionContent.prototype.componentDidMount = function () {
-        this.load(false);
-    };
-    CollectionContent.prototype.load = function (forceReload) {
-        this.loadCollection(this.context.selectedRepo, forceReload);
+        this.loadCollections(false);
     };
     CollectionContent.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params;
-        if (!collection) {
+        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, params = _a.params, content = _a.content;
+        if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: collection_version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: collection_version.namespace,
             },
             {
                 url: formatPath(Paths.collectionByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    repo: this.context.selectedRepo,
+                    namespace: collection_version.namespace,
+                    collection: collection_version.name,
+                    repo: repository.name,
                 }),
-                name: collection.name,
+                name: collection_version.name,
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (params) {
-                    return _this.updateParams(params, function () {
-                        return _this.loadCollection(_this.context.selectedRepo, true);
-                    });
-                }, breadcrumbs: breadcrumbs, activeTab: 'contents', repo: this.context.selectedRepo }),
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
+                    return _this.updateParams(params, function () { return _this.loadCollections(true); });
+                }, breadcrumbs: breadcrumbs, activeTab: 'contents' }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionContentList, { contents: collection.latest_version.metadata.contents, collection: collection.name, namespace: collection.namespace.name, params: params, updateParams: function (p) { return _this.updateParams(p); } })))));
+                    React.createElement(CollectionContentList, { contents: content.contents, collection: collection, params: params, updateParams: function (p) { return _this.updateParams(p); } })))));
     };
-    Object.defineProperty(CollectionContent.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionContent.prototype.loadCollections = function (forceReload) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount });
+            },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionContent.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();
