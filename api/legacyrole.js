@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { LegacyAPI } from './legacy';
 import axios from 'axios';
+import { LegacyAPI } from './legacy';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
     function API() {

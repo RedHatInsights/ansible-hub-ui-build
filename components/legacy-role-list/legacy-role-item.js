@@ -17,13 +17,25 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import * as React from 'react';
-import { t, Trans } from '@lingui/macro';
-import './legacy-role-item.scss';
-import { DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, TextContent, Text, TextVariants, } from '@patternfly/react-core';
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import { Trans, t } from '@lingui/macro';
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { DateComponent, Logo, Tag } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { Tag, Logo, DateComponent } from 'src/components';
+import { chipGroupProps } from 'src/utilities';
+import './legacy-role-item.scss';
 var LegacyRoleListItem = /** @class */ (function (_super) {
     __extends(LegacyRoleListItem, _super);
     function LegacyRoleListItem() {
@@ -59,7 +71,7 @@ var LegacyRoleListItem = /** @class */ (function (_super) {
         var cells = [];
         if (show_thumbnail !== false) {
             cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
+                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
         }
         cells.push(React.createElement(DataListCell, { key: 'content' },
             React.createElement("div", null,
@@ -74,7 +86,7 @@ var LegacyRoleListItem = /** @class */ (function (_super) {
                             React.createElement(Link, { to: namespace_url }, namespace.name))))),
             React.createElement("div", { className: 'hub-entry' }, role.description),
             React.createElement("div", { className: 'hub-entry' },
-                React.createElement(LabelGroup, null, role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+                React.createElement(LabelGroup, __assign({}, chipGroupProps()), role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
             React.createElement("div", { className: 'hub-right-col hub-entry' },
                 React.createElement(Trans, null,

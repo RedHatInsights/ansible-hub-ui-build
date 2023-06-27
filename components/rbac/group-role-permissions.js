@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RoleAPI } from 'src/api';
-import { PermissionCategories, LoadingPageSpinner } from 'src/components';
+import { LoadingPageSpinner, PermissionCategories } from 'src/components';
 import { translateLockedRolesDescription } from 'src/utilities';
 export var GroupRolePermissions = function (_a) {
     var name = _a.name;

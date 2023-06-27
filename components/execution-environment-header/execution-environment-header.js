@@ -17,11 +17,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
 import { Tooltip } from '@patternfly/react-core';
-import { Paths, formatPath } from 'src/paths';
-import { BaseHeader, Breadcrumbs, Tabs, SignatureBadge } from 'src/components';
+import React from 'react';
+import { BaseHeader, Breadcrumbs, SignatureBadge, Tabs } from 'src/components';
+import { Paths, formatEEPath, formatPath } from 'src/paths';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentHeader, _super);
@@ -36,33 +36,33 @@ var ExecutionEnvironmentHeader = /** @class */ (function (_super) {
             { id: 'detail', name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Detail"], ["Detail"]))) },
             { id: 'activity', name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Activity"], ["Activity"]))) },
             { id: 'images', name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Images"], ["Images"]))) },
-            { id: 'owners', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Owners"], ["Owners"]))) },
+            { id: 'access', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Access"], ["Access"]))) },
         ];
         var last_sync_task = (_a = container.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task;
         return (React.createElement(BaseHeader, { title: container.name, breadcrumbs: React.createElement(Breadcrumbs, { links: [
                     {
-                        url: Paths.executionEnvironments,
+                        url: formatPath(Paths.executionEnvironments),
                         name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))),
                     },
                     {
                         name: container.name,
-                        url: tab === 'owners'
-                            ? formatPath(Paths.executionEnvironmentDetail, {
+                        url: tab === 'access'
+                            ? formatEEPath(Paths.executionEnvironmentDetail, {
                                 container: container.name,
                             })
                             : null,
                     },
-                    tab === 'owners'
+                    tab === 'access'
                         ? {
-                            name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Owners"], ["Owners"]))),
+                            name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Access"], ["Access"]))),
                             url: groupId
-                                ? formatPath(Paths.executionEnvironmentDetailOwners, {
+                                ? formatEEPath(Paths.executionEnvironmentDetailAccess, {
                                     container: container.name,
                                 })
                                 : null,
                         }
                         : null,
-                    tab === 'owners' && groupId
+                    tab === 'access' && groupId
                         ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), groupId) }
                         : null,
                 ].filter(Boolean) }), pageControls: this.props.pageControls },

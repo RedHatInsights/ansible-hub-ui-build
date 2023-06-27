@@ -24,17 +24,17 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { NamespaceList } from './namespace-list';
+import React from 'react';
 import { Paths } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { NamespaceList } from './namespace-list';
 var Partners = /** @class */ (function (_super) {
     __extends(Partners, _super);
     function Partners() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Partners.prototype.render = function () {
-        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceByRepo, filterOwner: false })));
+        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceDetail, filterOwner: false })));
     };
     return Partners;
 }(React.Component));

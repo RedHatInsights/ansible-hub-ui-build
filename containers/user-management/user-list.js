@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -27,15 +38,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Link, Redirect, } from 'react-router-dom';
-import { Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, Button, DropdownItem, Label, Tooltip, LabelGroup, } from '@patternfly/react-core';
+import { Button, DropdownItem, Label, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import { UserPlusIcon } from '@patternfly/react-icons';
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
-import { ParamHelper, filterIsSet, errorMessage } from 'src/utilities';
-import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, ListItemActions, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteUserModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, LoadingPageSpinner, Main, Pagination, SortTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { ParamHelper, chipGroupProps, errorMessage, filterIsSet, withRouter, } from 'src/utilities';
 var UserList = /** @class */ (function (_super) {
     __extends(UserList, _super);
     function UserList(props) {
@@ -90,7 +101,7 @@ var UserList = /** @class */ (function (_super) {
         var _a = this.state, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, redirect = _a.redirect, showDeleteModal = _a.showDeleteModal, deleteUser = _a.deleteUser, alerts = _a.alerts, unauthorized = _a.unauthorized;
         var _b = this.context, user = _b.user, hasPermission = _b.hasPermission;
         if (redirect) {
-            return React.createElement(Redirect, { push: true, to: redirect });
+            return React.createElement(Navigate, { to: redirect });
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -134,7 +145,7 @@ var UserList = /** @class */ (function (_super) {
                                             ] }))),
                                 !!user && hasPermission('galaxy.add_user') ? (React.createElement(ToolbarGroup, null,
                                     React.createElement(ToolbarItem, null,
-                                        React.createElement(Link, { to: Paths.createUser },
+                                        React.createElement(Link, { to: formatPath(Paths.createUser) },
                                             React.createElement(Button, null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Create"], ["Create"])))))))) : null)),
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.queryUsers(); });
@@ -163,7 +174,7 @@ var UserList = /** @class */ (function (_super) {
                 'first_name__contains',
                 'last_name__contains',
                 'email__contains',
-            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: Paths.createUser },
+            ]) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["No users yet"], ["No users yet"]))), description: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Users will appear once created"], ["Users will appear once created"]))), button: React.createElement(Link, { to: formatPath(Paths.createUser) },
                     React.createElement(Button, { variant: 'primary' }, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Create"], ["Create"]))))) }));
         }
         var sortTableOptions = {
@@ -234,7 +245,7 @@ var UserList = /** @class */ (function (_super) {
             React.createElement("td", null, user.last_name),
             React.createElement("td", null, user.email),
             React.createElement("td", null,
-                React.createElement(LabelGroup, null, user.groups.map(function (g) { return (React.createElement(Label, { key: g.id }, g.name)); }))),
+                React.createElement(LabelGroup, __assign({}, chipGroupProps()), user.groups.map(function (g) { return (React.createElement(Label, { key: g.id }, g.name)); }))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: user.date_joined })),
             React.createElement(ListItemActions, { kebabItems: dropdownItems })));

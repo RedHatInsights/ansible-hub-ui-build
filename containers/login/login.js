@@ -18,15 +18,16 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
 import { LoginForm, LoginPage as PFLoginPage } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Logo from 'src/../static/images/logo_large.svg';
-import { ParamHelper } from 'src/utilities/';
-import { Paths } from 'src/paths';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/';
 var LoginPage = /** @class */ (function (_super) {
     __extends(LoginPage, _super);
     function LoginPage(props) {
@@ -74,12 +75,12 @@ var LoginPage = /** @class */ (function (_super) {
             passwordValue: '',
         };
         var params = ParamHelper.parseParamString(_this.props.location.search);
-        _this.redirectPage = params['next'] || Paths.search;
+        _this.redirectPage = params['next'] || formatPath(Paths.landingPage);
         return _this;
     }
     LoginPage.prototype.render = function () {
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
         var helperText = (React.createElement("span", { style: { color: 'var(--pf-global--danger-color--100)' } },
             React.createElement(ExclamationCircleIcon, null),

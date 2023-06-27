@@ -17,11 +17,23 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Label, LabelGroup, Select, SelectOption, SelectVariant, } from '@patternfly/react-core';
+import React from 'react';
 import { AppContext } from 'src/loaders/app-context';
-var PermissionChipSelector = /** @class */ (function (_super) {
+import { chipGroupProps } from 'src/utilities';
+export var PermissionChipSelector = /** @class */ (function (_super) {
     __extends(PermissionChipSelector, _super);
     function PermissionChipSelector(props) {
         var _this = _super.call(this, props) || this;
@@ -29,9 +41,10 @@ var PermissionChipSelector = /** @class */ (function (_super) {
         return _this;
     }
     PermissionChipSelector.prototype.render = function () {
+        var _a;
         var _this = this;
         var model_permissions = this.context.user.model_permissions;
-        var _a = this.props, availablePermissions = _a.availablePermissions, isDisabled = _a.isDisabled, isViewOnly = _a.isViewOnly, onCategoryClear = _a.onCategoryClear, onPermissionToggle = _a.onPermissionToggle, selectedPermissions = _a.selectedPermissions;
+        var availablePermissions = (_a = this.props, _a.availablePermissions), isDisabled = _a.isDisabled, isViewOnly = _a.isViewOnly, onCategoryClear = _a.onCategoryClear, onPermissionToggle = _a.onPermissionToggle, selectedPermissions = _a.selectedPermissions;
         var isOpen = this.state.isOpen;
         if (isViewOnly) {
             var items = selectedPermissions.map(function (permission) {
@@ -41,7 +54,7 @@ var PermissionChipSelector = /** @class */ (function (_super) {
                     value: permission,
                 });
             });
-            return (React.createElement(LabelGroup, null,
+            return (React.createElement(LabelGroup, __assign({}, chipGroupProps()),
                 items.length ? null : (React.createElement(Label, { key: 'placeholder' }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No permission"], ["No permission"]))))),
                 items.map(function (text) { return (React.createElement(Label, { key: text.value, title: text.value }, text.label)); })));
         }
@@ -50,7 +63,7 @@ var PermissionChipSelector = /** @class */ (function (_super) {
             value: permission,
             toString: function () { var _a; return ((_a = model_permissions[permission]) === null || _a === void 0 ? void 0 : _a.name) || permission; },
         }); });
-        return (React.createElement(Select, { menuAppendTo: 'inline', variant: SelectVariant.typeaheadMulti, typeAheadAriaLabel: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: function (isOpen) { return _this.setState({ isOpen: isOpen }); }, onSelect: function (event, permission) {
+        return (React.createElement(Select, { menuAppendTo: 'inline', variant: SelectVariant.typeaheadMulti, chipGroupProps: chipGroupProps(), typeAheadAriaLabel: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))), onToggle: function (isOpen) { return _this.setState({ isOpen: isOpen }); }, onSelect: function (event, permission) {
                 return onPermissionToggle(permission['value'] || permission);
             }, onClear: function () { return onCategoryClear(); }, selections: selections, isOpen: isOpen, placeholderText: !isDisabled && !isViewOnly
                 ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select permissions"], ["Select permissions"]))) : selectedPermissions.length === 0
@@ -66,6 +79,5 @@ var PermissionChipSelector = /** @class */ (function (_super) {
     PermissionChipSelector.contextType = AppContext;
     return PermissionChipSelector;
 }(React.Component));
-export { PermissionChipSelector };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=permission-chip-selector.js.map

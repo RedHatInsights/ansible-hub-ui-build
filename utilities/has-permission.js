@@ -4,6 +4,10 @@ export function hasPermission(_a, name) {
     if (!(user === null || user === void 0 ? void 0 : user.model_permissions)) {
         return false;
     }
+    if (!user.model_permissions[name]) {
+        console.error("Unknown permission ".concat(name));
+        return !!user.is_superadmin;
+    }
     return !!user.model_permissions[name].has_model_permission;
 }
 //# sourceMappingURL=has-permission.js.map

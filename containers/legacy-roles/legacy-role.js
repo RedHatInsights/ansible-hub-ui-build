@@ -17,17 +17,29 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import './legacy-roles.scss';
-import { EmptyStateNoData } from 'src/components';
-import { Link, withRouter } from 'react-router-dom';
-import { DataList, DataListItem, DataListItemRow, DataListItemCells, DataListCell, LabelGroup, Nav, NavItem, NavList, Panel, TextContent, Text, TextVariants, } from '@patternfly/react-core';
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import { Trans, t } from '@lingui/macro';
+import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Nav, NavItem, NavList, Panel, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
-import { Paths, formatPath } from 'src/paths';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { EmptyStateNoData } from 'src/components';
+import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { chipGroupProps, withRouter } from 'src/utilities';
+import './legacy-roles.scss';
 var LegacyRoleInstall = /** @class */ (function (_super) {
     __extends(LegacyRoleInstall, _super);
     function LegacyRoleInstall() {
@@ -36,7 +48,8 @@ var LegacyRoleInstall = /** @class */ (function (_super) {
     LegacyRoleInstall.prototype.render = function () {
         var installCMD = "ansible-galaxy role install ".concat(this.props.github_user, ".").concat(this.props.name);
         return (React.createElement(React.Fragment, null,
-            React.createElement("h1", null, "Installation:"),
+            React.createElement("h1", null,
+                React.createElement(Trans, null, "Installation:")),
             React.createElement(ClipboardCopy, { isCode: true, isReadOnly: true, variant: 'expansion' }, installCMD)));
     };
     return LegacyRoleInstall;
@@ -116,8 +129,8 @@ var LegacyRole = /** @class */ (function (_super) {
     __extends(LegacyRole, _super);
     function LegacyRole(props) {
         var _this = _super.call(this, props) || this;
-        var roleUser = props.match.params.username;
-        var roleName = props.match.params.name;
+        var roleUser = props.routeParams.username;
+        var roleName = props.routeParams.name;
         _this.state = {
             id: null,
             role: null,
@@ -189,7 +202,7 @@ var LegacyRole = /** @class */ (function (_super) {
         var header_cells = [];
         if (this.state.role !== undefined && this.state.role !== null) {
             header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["role.github_user logo"], ["role.github_user logo"]))), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
+                React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
                 React.createElement(Link, { to: namespace_url }, namespace.name)));
             header_cells.push(React.createElement(DataListCell, { key: 'content' },
                 React.createElement("div", null,
@@ -200,7 +213,7 @@ var LegacyRole = /** @class */ (function (_super) {
                             this.state.role.name))),
                 React.createElement("div", { className: 'hub-entry' }, this.state.role.description),
                 React.createElement("div", { className: 'hub-entry' },
-                    React.createElement(LabelGroup, null, this.state.role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+                    React.createElement(LabelGroup, __assign({}, chipGroupProps()), this.state.role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
             header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'version' },
                 React.createElement("div", { className: 'hub-right-col hub-entry' },
                     React.createElement(Trans, null,

@@ -26,16 +26,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import { t } from '@lingui/macro';
 import { Label } from '@patternfly/react-core';
-import React from 'react';
 import { CheckCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
-import { useContext } from 'src/loaders/app-context';
+import React from 'react';
 export var SignatureBadge = function (_a) {
-    var _b;
-    var _c = _a.signState, signState = _c === void 0 ? 'unsigned' : _c, _d = _a.isCompact, isCompact = _d === void 0 ? false : _d, props = __rest(_a, ["signState", "isCompact"]);
-    var display_signatures = (((_b = useContext()) === null || _b === void 0 ? void 0 : _b.featureFlags) || {}).display_signatures;
-    if (!display_signatures) {
-        return null;
-    }
+    var _b = _a.signState, signState = _b === void 0 ? 'unsigned' : _b, _c = _a.isCompact, isCompact = _c === void 0 ? false : _c, props = __rest(_a, ["signState", "isCompact"]);
     var text = function () {
         switch (signState) {
             case 'signed':

@@ -38,17 +38,18 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './search.scss';
-import { errorMessage, DeleteCollectionUtils, filterIsSet, waitForTask, parsePulpIDFromURL, } from 'src/utilities';
-import { withRouter, Redirect } from 'react-router-dom';
-import { DataList, Switch, DropdownItem, Button } from '@patternfly/react-core';
-import { BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, RepoSelector, StatefulDropdown, AlertList, closeAlertMixin, ImportModal, DeleteCollectionModal, } from 'src/components';
-import { CollectionAPI, MySyncListAPI, MyNamespaceAPI, } from 'src/api';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { Button, DataList, DropdownItem, Switch } from '@patternfly/react-core';
+import cx from 'classnames';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, MySyncListAPI, } from 'src/api';
+import { AlertList, BaseHeader, CardListSwitcher, CollectionCard, CollectionFilter, CollectionListItem, DeleteCollectionModal, EmptyStateFilter, EmptyStateNoData, ImportModal, LoadingPageSpinner, Pagination, StatefulDropdown, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
+import { DeleteCollectionUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/param-helper';
+import './search.scss';
 var Search = /** @class */ (function (_super) {
     __extends(Search, _super);
     function Search(props) {
@@ -79,6 +80,7 @@ var Search = /** @class */ (function (_super) {
             deleteCollection: null,
             confirmDelete: false,
             isDeletionPending: false,
+            deleteAll: true,
         };
         return _this;
     }
@@ -105,39 +107,49 @@ var Search = /** @class */ (function (_super) {
     });
     Search.prototype.render = function () {
         var _this = this;
+        var _a;
         if (this.state.redirect) {
-            return React.createElement(Redirect, { push: true, to: this.state.redirect });
+            return React.createElement(Navigate, { to: this.state.redirect });
         }
-        var _a = this.state, loading = _a.loading, collections = _a.collections, params = _a.params, numberOfResults = _a.numberOfResults, showImportModal = _a.showImportModal, updateCollection = _a.updateCollection, deleteCollection = _a.deleteCollection, confirmDelete = _a.confirmDelete, isDeletionPending = _a.isDeletionPending;
+        var _b = this.state, loading = _b.loading, collections = _b.collections, params = _b.params, numberOfResults = _b.numberOfResults, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending;
         var noData = collections.length === 0 &&
-            !filterIsSet(params, ['keywords', 'tags', 'sign_state']);
+            !filterIsSet(params, [
+                'keywords',
+                'tags',
+                'is_signed',
+                'repository_name',
+                'namespace',
+            ]);
         var updateParams = function (p) {
             return _this.updateParams(p, function () { return _this.queryCollections(); });
         };
+        var deleteFromRepo = this.state.deleteAll
+            ? null
+            : (_a = deleteCollection === null || deleteCollection === void 0 ? void 0 : deleteCollection.repository) === null || _a === void 0 ? void 0 : _a.name;
         return (React.createElement("div", { className: 'search-page' },
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
+            React.createElement(DeleteCollectionModal, { deleteCollection: deleteCollection, collections: collections, isDeletionPending: isDeletionPending, confirmDelete: confirmDelete, setConfirmDelete: function (confirmDelete) { return _this.setState({ confirmDelete: confirmDelete }); }, cancelAction: function () { return _this.setState({ deleteCollection: null }); }, deleteAction: function () {
                     return _this.setState({ isDeletionPending: true }, function () {
                         return DeleteCollectionUtils.deleteCollection({
                             collection: deleteCollection,
                             setState: function (state) { return _this.setState(state); },
                             load: function () { return _this.load(); },
                             redirect: false,
-                            selectedRepo: _this.context.selectedRepo,
                             addAlert: function (alert) { return _this.addAlert(alert); },
+                            deleteFromRepo: deleteFromRepo,
                         });
                     });
-                } }),
+                }, deleteFromRepo: deleteFromRepo }),
             showImportModal && (React.createElement(ImportModal, { isOpen: showImportModal, onUploadSuccess: function () {
                     return _this.setState({
                         redirect: formatPath(Paths.myImports, {}, {
-                            namespace: updateCollection.namespace.name,
+                            namespace: updateCollection.collection_version.namespace,
                         }),
                     });
                 }, 
                 // onCancel
-                setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection, namespace: updateCollection.namespace.name })),
-            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), contextSelector: React.createElement(RepoSelector, { selectedRepo: this.context.selectedRepo, path: Paths.searchByRepo }) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
+                setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection.collection_version, namespace: updateCollection.collection_version.namespace })),
+            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
                 React.createElement("div", { className: 'toolbar' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
                     React.createElement("div", { className: 'hub-pagination-container' },
@@ -187,18 +199,19 @@ var Search = /** @class */ (function (_super) {
     };
     Search.prototype.renderCards = function (collections) {
         var _this = this;
-        return (React.createElement("div", { className: 'hub-cards' }, collections.map(function (c) {
-            return (React.createElement(CollectionCard, __assign({ className: 'card', key: c.id }, c, { footer: _this.renderSyncToogle(c.name, c.namespace.name), repo: _this.context.selectedRepo, menu: _this.renderMenu(false, c) })));
+        return (React.createElement("div", { className: 'hub-cards' }, collections.map(function (c, i) {
+            return (React.createElement(CollectionCard, __assign({ className: 'card', key: i }, c, { footer: _this.renderSyncToogle(c.collection_version.name, c.collection_version.namespace), menu: _this.renderMenu(false, c), displaySignatures: _this.context.featureFlags.display_signatures })));
         })));
     };
     Search.prototype.handleControlClick = function (collection) {
         var _this = this;
-        CollectionAPI.setDeprecation(collection, !collection.deprecated, this.context.selectedRepo)
+        var name = collection.collection_version.name;
+        CollectionAPI.setDeprecation(collection)
             .then(function (res) {
             var taskId = parsePulpIDFromURL(res.data.task);
             return waitForTask(taskId).then(function () {
                 var title = !collection.deprecated
-                    ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), collection.name) : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), collection.name);
+                    ? t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["The collection \"", "\" has been successfully deprecated."], ["The collection \"", "\" has been successfully deprecated."])), name) : t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["The collection \"", "\" has been successfully undeprecated."], ["The collection \"", "\" has been successfully undeprecated."])), name);
                 _this.setState({
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
@@ -217,7 +230,7 @@ var Search = /** @class */ (function (_super) {
                     {
                         variant: 'danger',
                         title: !collection.deprecated
-                            ? t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), collection.name) : t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), collection.name),
+                            ? t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Collection \"", "\" could not be deprecated."], ["Collection \"", "\" could not be deprecated."])), name) : t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection \"", "\" could not be undeprecated."], ["Collection \"", "\" could not be undeprecated."])), name),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -227,6 +240,7 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
+        var display_repositories = this.context.featureFlags.display_repositories;
         var menuItems = [
             DeleteCollectionUtils.deleteMenuOption({
                 canDeleteCollection: hasPermission('ansible.delete_collection'),
@@ -236,17 +250,37 @@ var Search = /** @class */ (function (_super) {
                         addAlert: function (alert) { return _this.addAlert(alert); },
                         setState: function (state) { return _this.setState(state); },
                         collection: collection,
+                        deleteAll: true,
                     });
                 },
+                deleteAll: true,
+                display_repositories: display_repositories,
             }),
-            React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
-        ];
-        if (!list) {
-            menuItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"])))));
+            DeleteCollectionUtils.deleteMenuOption({
+                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                noDependencies: null,
+                onClick: function () {
+                    return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
+                        addAlert: function (alert) { return _this.addAlert(alert); },
+                        setState: function (state) { return _this.setState(state); },
+                        collection: collection,
+                        deleteAll: false,
+                    });
+                },
+                deleteAll: false,
+                display_repositories: display_repositories,
+            }),
+            hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.handleControlClick(collection); }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Deprecate"], ["Deprecate"]))))),
+            !list && hasPermission('galaxy.upload_to_namespace') && (React.createElement(DropdownItem, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, key: 'upload new version' }, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+        ].filter(Boolean);
+        var displayMenu = menuItems.length > 0;
+        if (list) {
+            return {
+                uploadButton: hasPermission('galaxy.upload_to_namespace') ? (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))) : null,
+                dropdownMenu: displayMenu ? (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' })) : null,
+            };
         }
-        return (React.createElement(React.Fragment, null,
-            list && (React.createElement(Button, { onClick: function () { return _this.checkUploadPrivilleges(collection); }, variant: 'secondary' }, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
-            React.createElement(StatefulDropdown, { items: menuItems.filter(Boolean), ariaLabel: 'collection-kebab' })));
+        return (React.createElement("span", { className: cx(!displayMenu && 'hidden-menu-space') }, displayMenu && (React.createElement(StatefulDropdown, { items: menuItems, ariaLabel: 'collection-kebab' }))));
     };
     Search.prototype.renderSyncToogle = function (name, namespace) {
         var _this = this;
@@ -268,7 +302,7 @@ var Search = /** @class */ (function (_super) {
                 ], false),
             });
         };
-        MyNamespaceAPI.get(collection.namespace.name, {
+        MyNamespaceAPI.get(collection.collection_version.namespace, {
             include_related: 'my_permissions',
         })
             .then(function (value) {
@@ -304,20 +338,13 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.isCollectionSynced = function (name, namespace) {
         var synclist = this.state.synclist;
         var found = synclist.collections.find(function (el) { return el.name === name && el.namespace === namespace; });
-        if (synclist.policy === 'include') {
-            return !(found === undefined);
-        }
-        else {
-            return found === undefined;
-        }
+        return synclist.policy === 'include' ? !!found : !found;
     };
     Search.prototype.renderList = function (collections) {
         var _this = this;
         return (React.createElement("div", { className: 'list-container' },
             React.createElement("div", { className: 'hub-list' },
-                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c) { return (React.createElement(CollectionListItem, __assign({ showNamespace: true, key: c.id }, c, { controls: React.createElement(React.Fragment, null,
-                        _this.renderSyncToogle(c.name, c.namespace.name),
-                        _this.renderMenu(true, c)), repo: _this.context.selectedRepo }))); })))));
+                React.createElement(DataList, { className: 'data-list', "aria-label": t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["List of Collections"], ["List of Collections"]))) }, collections.map(function (c, i) { return (React.createElement(CollectionListItem, __assign({ key: i, collection: c, displaySignatures: _this.context.featureFlags.display_signatures, showNamespace: true, synclistSwitch: _this.renderSyncToogle(c.collection_version.name, c.collection_version.namespace) }, _this.renderMenu(true, c)))); })))));
     };
     Search.prototype.getSynclist = function () {
         var _this = this;
@@ -335,7 +362,7 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.queryCollections = function () {
         var _this = this;
         this.setState({ loading: true }, function () {
-            CollectionAPI.list(__assign(__assign({}, ParamHelper.getReduced(_this.state.params, ['view_type'])), { deprecated: false }), _this.context.selectedRepo).then(function (result) {
+            CollectionVersionAPI.list(__assign(__assign({}, ParamHelper.getReduced(_this.state.params, ['view_type'])), { is_deprecated: false, repository_label: '!hide_from_search', is_highest: true })).then(function (result) {
                 _this.setState({
                     collections: result.data.data,
                     numberOfResults: result.data.meta.count,

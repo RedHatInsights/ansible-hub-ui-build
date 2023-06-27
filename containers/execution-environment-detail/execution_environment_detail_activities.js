@@ -17,15 +17,16 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { SortTable, EmptyStateNoData, ShaLabel, TagLabel, DateComponent, } from '../../components';
-import { FlexItem, Flex, Button } from '@patternfly/react-core';
-import { formatPath, Paths } from '../../paths';
-import { ActivitiesAPI } from '../../api';
+import { Trans, t } from '@lingui/macro';
+import { Button, Flex, FlexItem } from '@patternfly/react-core';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ActivitiesAPI } from 'src/api';
+import { DateComponent, EmptyStateNoData, ShaLabel, SortTable, TagLabel, } from 'src/components';
+import { Paths, formatEEPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { withContainerParamFix, withContainerRepo, } from './base';
 import './execution-environment-detail.scss';
-import { withContainerRepo } from './base';
 var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetailActivities, _super);
     function ExecutionEnvironmentDetailActivities(props) {
@@ -70,7 +71,7 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     ExecutionEnvironmentDetailActivities.prototype.queryActivities = function (name) {
         var _this = this;
         var manifestLink = function (digestOrTag) {
-            return formatPath(Paths.executionEnvironmentManifest, {
+            return formatEEPath(Paths.executionEnvironmentManifest, {
                 container: name,
                 digest: digestOrTag,
             });
@@ -189,6 +190,6 @@ var ExecutionEnvironmentDetailActivities = /** @class */ (function (_super) {
     };
     return ExecutionEnvironmentDetailActivities;
 }(React.Component));
-export default withRouter(withContainerRepo(ExecutionEnvironmentDetailActivities));
+export default withRouter(withContainerParamFix(withContainerRepo(ExecutionEnvironmentDetailActivities)));
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=execution_environment_detail_activities.js.map

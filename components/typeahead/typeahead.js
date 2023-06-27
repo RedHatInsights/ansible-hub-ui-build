@@ -18,8 +18,9 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import React from 'react';
+import { chipGroupProps } from 'src/utilities';
 var APISearchTypeAhead = /** @class */ (function (_super) {
     __extends(APISearchTypeAhead, _super);
     function APISearchTypeAhead(props) {
@@ -64,7 +65,7 @@ var APISearchTypeAhead = /** @class */ (function (_super) {
         var variant = this.props.multiple
             ? SelectVariant.typeaheadMulti
             : SelectVariant.typeahead;
-        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, onClear: this.onClear, onSelect: this.onSelect, onToggle: this.onToggle, variant: variant, selections: selected, isOpen: isOpen, hasInlineFilter: true, onFilter: this.onFilter, placeholderText: this.props.placeholderText, isDisabled: this.props.isDisabled, toggleIcon: this.props.toggleIcon, style: this.props.style }, this.getOptions()));
+        return (React.createElement(Select, { menuAppendTo: this.props.menuAppendTo, onClear: this.onClear, onSelect: this.onSelect, onToggle: this.onToggle, variant: variant, selections: selected, isOpen: isOpen, hasInlineFilter: true, onFilter: this.onFilter, placeholderText: this.props.placeholderText, isDisabled: this.props.isDisabled, toggleIcon: this.props.toggleIcon, style: this.props.style, chipGroupProps: chipGroupProps() }, this.getOptions()));
     };
     APISearchTypeAhead.prototype.getOptions = function () {
         var options = [];

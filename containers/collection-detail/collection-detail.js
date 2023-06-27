@@ -33,14 +33,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
 import { isEqual } from 'lodash';
-import { CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, AlertList, closeAlertMixin, } from 'src/components';
-import { loadCollection } from './base';
-import { ParamHelper } from 'src/utilities/param-helper';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
+import React from 'react';
+import { AlertList, CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper } from 'src/utilities/param-helper';
+import { loadCollection } from './base';
 // renders collection level information
 var CollectionDetail = /** @class */ (function (_super) {
     __extends(CollectionDetail, _super);
@@ -48,52 +48,51 @@ var CollectionDetail = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collectionsCount: 0,
+            collection: null,
+            content: null,
+            distroBasePath: null,
             params: params,
             alerts: [],
         };
         return _this;
     }
     CollectionDetail.prototype.componentDidMount = function () {
-        this.load(true);
-    };
-    CollectionDetail.prototype.load = function (forceReload) {
-        this.loadCollection(this.context.selectedRepo, forceReload);
+        this.loadCollections(true);
     };
     CollectionDetail.prototype.componentDidUpdate = function (prevProps) {
         if (!isEqual(prevProps.location, this.props.location)) {
-            this.loadCollection(this.context.selectedRepo);
+            this.loadCollections(false);
         }
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, params = _a.params, alerts = _a.alerts;
-        if (!collection) {
+        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, alerts = _a.alerts;
+        if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
+        var version = collection.collection_version;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: version.namespace,
             },
             {
-                name: collection.name,
+                name: version.name,
             },
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
-                    return _this.updateParams(p, function () {
-                        return _this.loadCollection(_this.context.selectedRepo, true);
-                    });
-                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.context.selectedRepo }),
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () { return _this.loadCollections(true); });
+                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.repo }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionInfo, __assign({}, collection, { updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
+                    React.createElement(CollectionInfo, __assign({}, collection, { content: content, updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
                             return _this.setState({
                                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                     {
@@ -105,13 +104,23 @@ var CollectionDetail = /** @class */ (function (_super) {
                             });
                         } }))))));
     };
-    Object.defineProperty(CollectionDetail.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionDetail.prototype.loadCollections = function (forceReload) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                    collectionsCount: collectionsCount,
+                });
+            },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionDetail.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();

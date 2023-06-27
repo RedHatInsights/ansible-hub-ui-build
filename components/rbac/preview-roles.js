@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
+import { Divider, Flex, FlexItem, Label } from '@patternfly/react-core';
 import React from 'react';
-import { Flex, FlexItem, Label, Divider } from '@patternfly/react-core';
 import { Tooltip } from 'src/components';
 import { useContext } from 'src/loaders/app-context';
 import { translateLockedRolesDescription } from 'src/utilities';

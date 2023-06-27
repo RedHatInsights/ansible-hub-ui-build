@@ -18,13 +18,13 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { EmptyStateNoData, MarkdownEditor, ClipboardCopy, } from 'src/components';
-import { FlexItem, Flex, Title, Button, Card, CardBody, } from '@patternfly/react-core';
-import { withContainerRepo } from './base';
+import { Button, Card, CardBody, Flex, FlexItem, Title, } from '@patternfly/react-core';
+import React from 'react';
 import { ExecutionEnvironmentAPI } from 'src/api';
+import { ClipboardCopy, EmptyStateNoData, MarkdownEditor, } from 'src/components';
+import { withRouter } from 'src/utilities';
 import { getContainersURL } from 'src/utilities';
+import { withContainerParamFix, withContainerRepo, } from './base';
 import './execution-environment-detail.scss';
 var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     __extends(ExecutionEnvironmentDetail, _super);
@@ -66,7 +66,9 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement(Card, null,
                         React.createElement(CardBody, null,
-                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, !this.state.markdownEditing && this.state.readme && canEdit && (React.createElement(Button, { className: 'hub-c-button-edit', variant: 'primary', onClick: function () {
+                            React.createElement(Title, { headingLevel: 'h2', size: 'lg' }, !this.state.markdownEditing &&
+                                this.state.readme &&
+                                canEdit && (React.createElement(Button, { className: 'hub-c-button-edit', variant: 'primary', onClick: function () {
                                     _this.setState({ markdownEditing: true });
                                 } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Edit"], ["Edit"])))))),
                             !this.state.markdownEditing && !this.state.readme ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No README"], ["No README"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Add a README with instructions for using this container."], ["Add a README with instructions for using this container."]))), button: canEdit ? (React.createElement("div", { "data-cy": 'add-readme' },
@@ -115,6 +117,6 @@ var ExecutionEnvironmentDetail = /** @class */ (function (_super) {
     };
     return ExecutionEnvironmentDetail;
 }(React.Component));
-export default withRouter(withContainerRepo(ExecutionEnvironmentDetail));
+export default withRouter(withContainerParamFix(withContainerRepo(ExecutionEnvironmentDetail)));
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 //# sourceMappingURL=execution_environment_detail.js.map

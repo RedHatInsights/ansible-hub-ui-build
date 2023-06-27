@@ -24,12 +24,12 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { NamespaceList } from './namespace-list';
-import { Paths } from 'src/paths';
-import { AppContext } from 'src/loaders/app-context';
+import React from 'react';
 import { EmptyStateUnauthorized } from 'src/components';
+import { AppContext } from 'src/loaders/app-context';
+import { Paths } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { NamespaceList } from './namespace-list';
 var MyNamespaces = /** @class */ (function (_super) {
     __extends(MyNamespaces, _super);
     function MyNamespaces() {
@@ -39,7 +39,7 @@ var MyNamespaces = /** @class */ (function (_super) {
         if (!this.context.user || this.context.user.is_anonymous) {
             return React.createElement(EmptyStateUnauthorized, null);
         }
-        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.myCollectionsByRepo, filterOwner: true })));
+        return (React.createElement(NamespaceList, __assign({}, this.props, { namespacePath: Paths.namespaceDetail, filterOwner: true })));
     };
     return MyNamespaces;
 }(React.Component));

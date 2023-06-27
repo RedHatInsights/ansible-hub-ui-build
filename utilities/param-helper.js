@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { cloneDeep } from 'lodash';
-var ParamHelper = /** @class */ (function () {
+export var ParamHelper = /** @class */ (function () {
     function ParamHelper() {
     }
     // Helper class for managing param object.
@@ -133,8 +133,7 @@ var ParamHelper = /** @class */ (function () {
             // the component re-runs render() and the callback typically gets
             // executed before that happens
             this.setState({ params: params }, callback);
-            this.props.history.push({
-                pathname: this.props.location.pathname,
+            this.props.navigate({
                 search: '?' + ParamHelper.getQueryString(params, ignoreParams || []),
             });
         };
@@ -160,5 +159,4 @@ var ParamHelper = /** @class */ (function () {
     };
     return ParamHelper;
 }());
-export { ParamHelper };
 //# sourceMappingURL=param-helper.js.map

@@ -44,15 +44,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { i18n } from '@lingui/core';
-import * as plurals from 'make-plural/plurals';
 import * as moment from 'moment';
-// remember to update .linguirc as well
+// remember to update lingui.config.js as well
 var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
-// Accept-Language
-export var userLanguage = navigator.languages
-    .map(function (lang) { return lang.replace(/[-_].*/, ''); })
-    .filter(function (lang) { return availableLanguages.includes(lang); })[0] || 'en';
-function activate(locale) {
+// map missing moment locales (node_modules/moment/src/locale/<locale>.js must exist, except for english)
+var momentLocales = {
+    zh: 'zh-cn',
+};
+function activate(locale, pseudolocalization) {
+    if (pseudolocalization === void 0) { pseudolocalization = false; }
     return __awaiter(this, void 0, void 0, function () {
         var messages;
         return __generator(this, function (_a) {
@@ -60,7 +60,7 @@ function activate(locale) {
                 case 0: return [4 /*yield*/, import("src/../locale/".concat(locale, ".js"))];
                 case 1:
                     messages = (_a.sent()).messages;
-                    if (window.localStorage.test_l10n === 'true') {
+                    if (pseudolocalization) {
                         Object.keys(messages).forEach(function (key) {
                             if (Array.isArray(messages[key])) {
                                 // t`Foo ${param}` -> ["Foo ", ['param']] => [">>", "Foo ", ['param'], "<<"]
@@ -72,14 +72,43 @@ function activate(locale) {
                             }
                         });
                     }
-                    i18n.loadLocaleData(locale, { plurals: plurals[locale] });
                     i18n.load(locale, messages);
                     i18n.activate(locale);
-                    moment.locale(locale);
+                    moment.locale(momentLocales[locale] || locale);
                     return [2 /*return*/];
             }
         });
     });
 }
-activate(userLanguage);
+// Accept-Language
+var userLanguage = navigator.languages
+    .map(function (lang) { return lang.replace(/[-_].*/, ''); })
+    .filter(function (lang) { return availableLanguages.includes(lang); })[0];
+var searchParams = Object.fromEntries(new URLSearchParams(window.location.search));
+if (searchParams.pseudolocalization === 'true') {
+    window.localStorage.test_l10n = 'true';
+}
+if (searchParams.pseudolocalization === 'false') {
+    delete window.localStorage.test_l10n;
+}
+if (searchParams.lang) {
+    window.localStorage.override_l10n = searchParams.lang;
+}
+if (searchParams.lang === '') {
+    delete window.localStorage.override_l10n;
+}
+var overrideLanguage = window.localStorage.override_l10n &&
+    availableLanguages.includes(window.localStorage.override_l10n) &&
+    window.localStorage.override_l10n;
+var language = overrideLanguage || userLanguage || 'en';
+var pseudolocalization = window.localStorage.test_l10n === 'true';
+if (overrideLanguage) {
+    console.debug("language autodetection overriden to: ".concat(overrideLanguage, ", unset by visiting ").concat(window.location.origin + window.location.pathname + '?lang='));
+}
+if (pseudolocalization) {
+    console.debug("pseudolocalization enabled, unset by visiting ".concat(window.location.origin +
+        window.location.pathname +
+        '?pseudolocalization=false'));
+}
+activate(language, pseudolocalization);
 //# sourceMappingURL=l10n.js.map

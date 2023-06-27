@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -24,32 +9,27 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { LongArrowAltUpIcon, LongArrowAltDownIcon, ArrowsAltVIcon, } from '@patternfly/react-icons';
+import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon, } from '@patternfly/react-icons';
+import React from 'react';
 import { ParamHelper } from 'src/utilities';
 import './sort-table.scss';
-var SortTable = /** @class */ (function (_super) {
-    __extends(SortTable, _super);
-    function SortTable() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    SortTable.prototype.sort = function (id, isMinus) {
+export var SortTable = function (_a) {
+    var options = _a.options, params = _a.params, updateParams = _a.updateParams;
+    function sort(id, isMinus) {
         // Alphabetical sorting is inverted in Django, so flip it here to make
         // things match up with the UI.
         isMinus = !isMinus;
-        this.props.updateParams(__assign(__assign({}, ParamHelper.setParam(this.props.params, 'sort', (isMinus ? '-' : '') + id)), { page: 1 }));
-    };
-    SortTable.prototype.getIcon = function (type, id) {
-        var _this = this;
+        updateParams(__assign(__assign({}, ParamHelper.setParam(params, 'sort', (isMinus ? '-' : '') + id)), { page: 1 }));
+    }
+    function getIcon(type, id) {
         if (type == 'none') {
             return;
         }
         var Icon;
-        var activeIcon = !!this.props.params['sort'] &&
-            id == this.props.params['sort'].replace('-', '');
         var isMinus = false;
+        var activeIcon = !!params.sort && id == params.sort.replace('-', '');
         if (activeIcon) {
-            isMinus = this.props.params['sort'].includes('-');
+            isMinus = params.sort.includes('-');
             var up = isMinus;
             if (type == 'alpha') {
                 up = !up;
@@ -59,22 +39,13 @@ var SortTable = /** @class */ (function (_super) {
         else {
             Icon = ArrowsAltVIcon;
         }
-        return (React.createElement(Icon, { "data-cy": 'sort_' + id, size: 'sm', onClick: function () { return _this.sort(id, isMinus); }, className: 'clickable ' + (activeIcon ? 'active' : 'inactive') }));
-    };
-    SortTable.prototype.getHeaderItem = function (item) {
-        return (React.createElement("th", { key: item.id, className: item === null || item === void 0 ? void 0 : item.className },
-            item.title,
-            " ",
-            this.getIcon(item.type, item.id)));
-    };
-    SortTable.prototype.render = function () {
-        var _this = this;
-        return (React.createElement("thead", null,
-            React.createElement("tr", { className: 'hub-SortTable-headers', "data-cy": 'SortTable-headers' }, this.props.options['headers'].map(function (element) {
-                return _this.getHeaderItem(element);
-            }))));
-    };
-    return SortTable;
-}(React.Component));
-export { SortTable };
+        return (React.createElement(Icon, { "data-cy": 'sort_' + id, size: 'sm', onClick: function () { return sort(id, isMinus); }, className: 'clickable ' + (activeIcon ? 'active' : 'inactive') }));
+    }
+    var getHeaderItem = function (item) { return (React.createElement("th", { key: item.id, className: item === null || item === void 0 ? void 0 : item.className },
+        item.title,
+        " ",
+        getIcon(item.type, item.id))); };
+    return (React.createElement("thead", null,
+        React.createElement("tr", { className: 'hub-SortTable-headers', "data-cy": 'SortTable-headers' }, options.headers.map(function (element) { return getHeaderItem(element); }))));
+};
 //# sourceMappingURL=sort-table.js.map

@@ -38,6 +38,18 @@ var CollectionVersionDetail = /** @class */ (function (_super) {
     return CollectionVersionDetail;
 }(CollectionVersion));
 export { CollectionVersionDetail };
+var CollectionVersionSearch = /** @class */ (function () {
+    function CollectionVersionSearch() {
+    }
+    return CollectionVersionSearch;
+}());
+export { CollectionVersionSearch };
+var CollectionVersionContentType = /** @class */ (function () {
+    function CollectionVersionContentType() {
+    }
+    return CollectionVersionContentType;
+}());
+export { CollectionVersionContentType };
 var CollectionListType = /** @class */ (function () {
     function CollectionListType() {
     }
@@ -90,12 +102,6 @@ var ContentSummaryType = /** @class */ (function () {
     return ContentSummaryType;
 }());
 export { ContentSummaryType };
-var CollectionExcludesType = /** @class */ (function () {
-    function CollectionExcludesType() {
-    }
-    return CollectionExcludesType;
-}());
-export { CollectionExcludesType };
 var CollectionDetailType = /** @class */ (function () {
     function CollectionDetailType() {
     }

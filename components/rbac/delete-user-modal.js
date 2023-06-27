@@ -53,14 +53,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { t, Trans } from '@lingui/macro';
-import * as React from 'react';
+import { Trans, t } from '@lingui/macro';
+import React from 'react';
 import { UserAPI } from 'src/api';
-import { mapErrorMessages } from 'src/utilities';
-import { AppContext } from 'src/loaders/app-context';
 import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { AppContext } from 'src/loaders/app-context';
+import { mapErrorMessages } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
-var DeleteUserModal = /** @class */ (function (_super) {
+export var DeleteUserModal = /** @class */ (function (_super) {
     __extends(DeleteUserModal, _super);
     function DeleteUserModal(props) {
         var _this = _super.call(this, props) || this;
@@ -82,8 +82,9 @@ var DeleteUserModal = /** @class */ (function (_super) {
         return _this;
     }
     DeleteUserModal.prototype.render = function () {
+        var _a;
         var _this = this;
-        var _a = this.props, isOpen = _a.isOpen, user = _a.user, closeModal = _a.closeModal;
+        var isOpen = (_a = this.props, _a.isOpen), user = _a.user, closeModal = _a.closeModal;
         var isWaitingForResponse = this.state.isWaitingForResponse;
         if (!user || !isOpen) {
             return null;
@@ -121,7 +122,8 @@ var DeleteUserModal = /** @class */ (function (_super) {
             });
         }); })
             .catch(function (err) {
-            var _a = err.response, status = _a.status, statusText = _a.statusText;
+            var _a;
+            var status = (_a = err.response, _a.status), statusText = _a.statusText;
             if (err.response.status === 404) {
                 _this.props.addAlert(React.createElement(Trans, null,
                     "User \"",
@@ -138,6 +140,5 @@ var DeleteUserModal = /** @class */ (function (_super) {
     DeleteUserModal.contextType = AppContext;
     return DeleteUserModal;
 }(React.Component));
-export { DeleteUserModal };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=delete-user-modal.js.map

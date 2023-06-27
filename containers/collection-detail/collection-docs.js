@@ -18,17 +18,18 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './collection-detail.scss';
-import { withRouter, Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
 import { Alert } from '@patternfly/react-core';
+import { ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import { CollectionHeader, EmptyStateCustom, LoadingPageWithHeader, Main, RenderPluginDoc, TableOfContents, } from 'src/components';
-import { loadCollection } from './base';
-import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
-import { formatPath, namespaceBreadcrumb, Paths } from 'src/paths';
 import { AppContext } from 'src/loaders/app-context';
-import { ExclamationTriangleIcon, ExclamationCircleIcon, } from '@patternfly/react-icons';
+import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, sanitizeDocsUrls } from 'src/utilities';
+import { loadCollection } from './base';
+import './collection-detail.scss';
 // renders markdown files in collection docs/ directory
 var CollectionDocs = /** @class */ (function (_super) {
     __extends(CollectionDocs, _super);
@@ -36,7 +37,10 @@ var CollectionDocs = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
-            collection: undefined,
+            collections: [],
+            collectionsCount: 0,
+            collection: null,
+            content: null,
             params: params,
         };
         _this.docsRef = React.createRef();
@@ -44,16 +48,13 @@ var CollectionDocs = /** @class */ (function (_super) {
         return _this;
     }
     CollectionDocs.prototype.componentDidMount = function () {
-        this.load(false);
-    };
-    CollectionDocs.prototype.load = function (forceUpdate) {
-        this.loadCollection(this.context.selectedRepo, forceUpdate);
+        this.loadCollection(false);
     };
     CollectionDocs.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, collection = _a.collection;
-        var urlFields = this.props.match.params;
-        if (!collection) {
+        var _a = this.state, params = _a.params, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content;
+        var urlFields = this.props.routeParams;
+        if (!collection || !content) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         // If the parser can't find anything that matches the URL, neither of
@@ -63,8 +64,8 @@ var CollectionDocs = /** @class */ (function (_super) {
         var contentType = urlFields['type'] || 'docs';
         var contentName = urlFields['name'] || urlFields['page'] || null;
         if (contentType === 'docs' && contentName) {
-            if (collection.latest_version.docs_blob.documentation_files) {
-                var file = collection.latest_version.docs_blob.documentation_files.find(function (x) { return sanitizeDocsUrls(x.name) === urlFields['page']; });
+            if (content.docs_blob.documentation_files) {
+                var file = content.docs_blob.documentation_files.find(function (x) { return sanitizeDocsUrls(x.name) === urlFields['page']; });
                 if (file) {
                     displayHTML = file.html;
                 }
@@ -72,42 +73,41 @@ var CollectionDocs = /** @class */ (function (_super) {
         }
         else if (contentName) {
             // check if contents exists
-            if (collection.latest_version.docs_blob.contents) {
-                var content = collection.latest_version.docs_blob.contents.find(function (x) {
+            if (content.docs_blob.contents) {
+                var selectedContent = content.docs_blob.contents.find(function (x) {
                     return x.content_type === contentType && x.content_name === contentName;
                 });
-                if (content) {
+                if (selectedContent) {
                     if (contentType === 'role') {
-                        displayHTML = content['readme_html'];
+                        displayHTML = selectedContent['readme_html'];
                     }
                     else {
-                        pluginData = content;
+                        pluginData = selectedContent;
                     }
                 }
             }
         }
         else {
-            if (collection.latest_version.docs_blob.collection_readme) {
-                displayHTML =
-                    collection.latest_version.docs_blob.collection_readme.html;
+            if (content.docs_blob.collection_readme) {
+                displayHTML = content.docs_blob.collection_readme.html;
             }
         }
+        var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
             namespaceBreadcrumb,
             {
-                url: formatPath(Paths.namespaceByRepo, {
-                    namespace: collection.namespace.name,
-                    repo: this.context.selectedRepo,
+                url: formatPath(Paths.namespaceDetail, {
+                    namespace: collection_version.namespace,
                 }),
-                name: collection.namespace.name,
+                name: collection_version.namespace,
             },
             {
                 url: formatPath(Paths.collectionByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    repo: this.context.selectedRepo,
+                    namespace: collection_version.namespace,
+                    collection: collection_version.name,
+                    repo: repository.name,
                 }),
-                name: collection.name,
+                name: collection_version.name,
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
         ];
@@ -119,14 +119,12 @@ var CollectionDocs = /** @class */ (function (_super) {
         //   this.docsRef.current.scrollIntoView();
         // }
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.load(true); }, collection: collection, params: params, updateParams: function (p) {
-                    return _this.updateParams(p, function () {
-                        return _this.loadCollection(_this.context.selectedRepo, true);
-                    });
-                }, breadcrumbs: breadcrumbs, activeTab: 'documentation', className: 'header', repo: this.context.selectedRepo }),
+            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (p) {
+                    return _this.updateParams(p, function () { return _this.loadCollection(true); });
+                }, breadcrumbs: breadcrumbs, activeTab: 'documentation', className: 'header' }),
             React.createElement(Main, { className: 'main' },
                 React.createElement("section", { className: 'docs-container' },
-                    React.createElement(TableOfContents, { className: 'sidebar', namespace: collection.namespace.name, collection: collection.name, docs_blob: collection.latest_version.docs_blob, selectedName: contentName, selectedType: contentType, params: params, updateParams: function (p) { return _this.updateParams(p); }, searchBarRef: this.searchBarRef }),
+                    React.createElement(TableOfContents, { className: 'sidebar', namespace: collection.collection_version.namespace, collection: collection.collection_version.name, repository: collection.repository.name, docs_blob: content.docs_blob, selectedName: contentName, selectedType: contentType, params: params, updateParams: function (p) { return _this.updateParams(p); }, searchBarRef: this.searchBarRef }),
                     React.createElement("div", { className: 'body docs pf-c-content', ref: this.docsRef }, displayHTML || pluginData ? (
                     // if neither variable is set, render not found
                     displayHTML ? (
@@ -135,12 +133,12 @@ var CollectionDocs = /** @class */ (function (_super) {
                             __html: displayHTML,
                         } })) : (
                     // if plugin data is set render it
-                    React.createElement(RenderPluginDoc, { plugin: pluginData, renderModuleLink: function (moduleName) {
-                            return _this.renderModuleLink(moduleName, collection, params, collection.latest_version.metadata.contents);
+                    React.createElement(RenderPluginDoc, { plugin: pluginData, renderPluginLink: function (pluginName, pluginType, text) {
+                            return _this.renderPluginLink(pluginName, pluginType, text !== null && text !== void 0 ? text : pluginName, collection, params, content.contents);
                         }, renderDocLink: function (name, href) {
                             return _this.renderDocLink(name, href, collection, params);
-                        }, renderTableOfContentsLink: function (title, section) { return (React.createElement(HashLink, { to: '#' + section }, title)); }, renderWarning: function (text) { return (React.createElement(Alert, { isInline: true, variant: 'warning', title: text })); } }))) : this.context.selectedRepo === 'community' &&
-                        !collection.latest_version.docs_blob.contents ? (this.renderCommunityWarningMessage()) : (this.renderNotFound(collection.name)))))));
+                        }, renderTableOfContentsLink: function (title, section) { return (React.createElement(HashLink, { to: '#' + section }, title)); }, renderWarning: function (text) { return (React.createElement(Alert, { isInline: true, variant: 'warning', title: text })); } }))) : collection.repository.name === 'community' &&
+                        !content.docs_blob.contents ? (this.renderCommunityWarningMessage()) : (this.renderNotFound(collection.collection_version.name)))))));
     };
     CollectionDocs.prototype.renderDocLink = function (name, href, collection, params) {
         if (!!href && href.startsWith('http')) {
@@ -150,30 +148,31 @@ var CollectionDocs = /** @class */ (function (_super) {
             // TODO: right now this will break if people put
             // ../ at the front of their urls. Need to find a
             // way to document this
+            var collection_version = collection.collection_version, repository = collection.repository;
             return (React.createElement(Link, { to: formatPath(Paths.collectionDocsPageByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
+                    namespace: collection_version.namespace,
+                    collection: collection_version.name,
                     page: sanitizeDocsUrls(href),
-                    repo: this.context.selectedRepo,
+                    repo: repository.name,
                 }, params) }, name));
         }
         else {
             return null;
         }
     };
-    CollectionDocs.prototype.renderModuleLink = function (moduleName, collection, params, allContent) {
-        var module = allContent.find(function (x) { return x.content_type === 'module' && x.name === moduleName; });
+    CollectionDocs.prototype.renderPluginLink = function (pluginName, pluginType, text, collection, params, allContent) {
+        var module = allContent.find(function (x) { return x.content_type === pluginType && x.name === pluginName; });
         if (module) {
             return (React.createElement(Link, { to: formatPath(Paths.collectionContentDocsByRepo, {
-                    namespace: collection.namespace.name,
-                    collection: collection.name,
-                    type: 'module',
-                    name: moduleName,
-                    repo: this.context.selectedRepo,
-                }, params) }, moduleName));
+                    namespace: collection.collection_version.namespace,
+                    collection: collection.collection_version.name,
+                    type: pluginType,
+                    name: pluginName,
+                    repo: this.props.routeParams.repo,
+                }, params) }, text));
         }
         else {
-            return moduleName;
+            return text;
         }
     };
     CollectionDocs.prototype.renderNotFound = function (collectionName) {
@@ -182,13 +181,18 @@ var CollectionDocs = /** @class */ (function (_super) {
     CollectionDocs.prototype.renderCommunityWarningMessage = function () {
         return (React.createElement(EmptyStateCustom, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Warning"], ["Warning"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Community collections do not have docs nor content counts, but all content gets synchronized"], ["Community collections do not have docs nor content counts, but all content gets synchronized"]))), icon: ExclamationTriangleIcon }));
     };
-    Object.defineProperty(CollectionDocs.prototype, "loadCollection", {
-        get: function () {
-            return loadCollection;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    CollectionDocs.prototype.loadCollection = function (forceReload) {
+        var _this = this;
+        loadCollection({
+            forceReload: forceReload,
+            matchParams: this.props.routeParams,
+            navigate: this.props.navigate,
+            setCollection: function (collections, collection, content, collectionsCount) {
+                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount });
+            },
+            stateParams: this.state.params,
+        });
+    };
     Object.defineProperty(CollectionDocs.prototype, "updateParams", {
         get: function () {
             return ParamHelper.updateParamsMixin();

@@ -3,8 +3,8 @@ var Summary = /** @class */ (function () {
     }
     return Summary;
 }());
-export function convertContentSummaryCounts(metadata) {
-    var content = metadata.contents, dependencies = metadata.dependencies;
+export function convertContentSummaryCounts(_a) {
+    var content = _a.contents, dependencies = _a.dependencies;
     var summary = {
         total_count: content.length,
         contents: {

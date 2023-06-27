@@ -26,19 +26,23 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { t, Trans } from '@lingui/macro';
 import { i18n } from '@lingui/core';
-import * as React from 'react';
-import './task.scss';
-import { Constants } from 'src/constants';
-import { withRouter, Link } from 'react-router-dom';
-import { Button, Toolbar, ToolbarGroup, ToolbarItem, ToolbarContent, } from '@patternfly/react-core';
-import { ParamHelper, filterIsSet, errorMessage } from '../../utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
-import { AlertList, AppliedFilters, BaseHeader, closeAlertMixin, ConfirmModal, CompoundFilter, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, Tooltip, StatusIndicator, } from 'src/components';
+import { Trans, t } from '@lingui/macro';
+import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { TaskManagementAPI } from 'src/api';
-import { formatPath, Paths } from 'src/paths';
+import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, ConfirmModal, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, LoadingPageSpinner, Main, Pagination, SortTable, StatusIndicator, Tooltip, closeAlertMixin, } from 'src/components';
+import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
+import { Paths, formatPath } from 'src/paths';
+import { withRouter } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
+import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import './task.scss';
+var maybeTranslate = function (name) {
+    return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;
+};
 var TaskListView = /** @class */ (function (_super) {
     __extends(TaskListView, _super);
     function TaskListView(props) {
@@ -186,9 +190,7 @@ var TaskListView = /** @class */ (function (_super) {
         return (React.createElement("tr", { key: index },
             React.createElement("td", null,
                 React.createElement(Link, { to: formatPath(Paths.taskDetail, { task: taskId }) },
-                    React.createElement(Tooltip, { content: (Constants.TASK_NAMES[name] &&
-                            i18n._(Constants.TASK_NAMES[name])) ||
-                            name }, name))),
+                    React.createElement(Tooltip, { content: maybeTranslate(name) }, name))),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
@@ -220,8 +222,8 @@ var TaskListView = /** @class */ (function (_super) {
     };
     TaskListView.prototype.renderCancelModal = function () {
         var _this = this;
-        var name = Constants.TASK_NAMES[this.state.selectedTask.name] ||
-            this.state.selectedTask.name;
+        var selectedTask = this.state.selectedTask;
+        var name = maybeTranslate(selectedTask.name);
         return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name)));
     };
     TaskListView.prototype.selectedTask = function (task, name) {

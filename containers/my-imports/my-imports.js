@@ -38,13 +38,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import * as React from 'react';
-import './my-imports.scss';
-import { withRouter } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
-import { BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, AlertList, } from 'src/components';
-import { ImportAPI, PulpStatus, CollectionVersionAPI, } from 'src/api';
+import React from 'react';
+import { CollectionVersionAPI, ImportAPI, PulpStatus, } from 'src/api';
+import { AlertList, BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, } from 'src/components';
+import { withRouter } from 'src/utilities';
 import { ParamHelper } from 'src/utilities/param-helper';
+import './my-imports.scss';
 var MyImports = /** @class */ (function (_super) {
     __extends(MyImports, _super);
     function MyImports(props) {
@@ -64,7 +64,7 @@ var MyImports = /** @class */ (function (_super) {
             followLogs: false,
             loadingImports: true,
             loadingImportDetails: true,
-            selectedCollectionVersion: undefined,
+            collection: null,
             alerts: [],
         };
         return _this;
@@ -104,7 +104,7 @@ var MyImports = /** @class */ (function (_super) {
     };
     MyImports.prototype.render = function () {
         var _this = this;
-        var _a = this.state, selectedImport = _a.selectedImport, importList = _a.importList, params = _a.params, selectedImportDetails = _a.selectedImportDetails, resultsCount = _a.resultsCount, loadingImports = _a.loadingImports, loadingImportDetails = _a.loadingImportDetails, importDetailError = _a.importDetailError, followLogs = _a.followLogs, selectedCollectionVersion = _a.selectedCollectionVersion;
+        var _a = this.state, selectedImport = _a.selectedImport, importList = _a.importList, params = _a.params, selectedImportDetails = _a.selectedImportDetails, resultsCount = _a.resultsCount, loadingImports = _a.loadingImports, loadingImportDetails = _a.loadingImportDetails, importDetailError = _a.importDetailError, followLogs = _a.followLogs, collection = _a.collection;
         if (!importList) {
             return null;
         }
@@ -139,7 +139,7 @@ var MyImports = /** @class */ (function (_super) {
                                     _this.setState({
                                         followLogs: isFollowing,
                                     });
-                                }, selectedImport: selectedImport, apiError: importDetailError, collectionVersion: selectedCollectionVersion })))))));
+                                }, selectedImport: selectedImport, apiError: importDetailError, collection: collection })))))));
     };
     Object.defineProperty(MyImports.prototype, "updateParams", {
         get: function () {
@@ -215,7 +215,7 @@ var MyImports = /** @class */ (function (_super) {
                     importDetailError: '',
                     loadingImportDetails: false,
                     selectedImportDetails: result.data,
-                    selectedCollectionVersion: undefined,
+                    collection: null,
                 }, function () {
                     var importDeets = _this.state.selectedImportDetails;
                     // have to use list instead of get because repository_list isn't
@@ -228,7 +228,7 @@ var MyImports = /** @class */ (function (_super) {
                         .then(function (result) {
                         if (result.data.meta.count === 1) {
                             _this.setState({
-                                selectedCollectionVersion: result.data.data[0],
+                                collection: result.data.data[0],
                             });
                         }
                     })

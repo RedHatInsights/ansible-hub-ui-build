@@ -13,11 +13,10 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as React from 'react';
-import cx from 'classnames';
-import './header.scss';
 import { Title } from '@patternfly/react-core';
-import { Constants } from 'src/constants';
+import cx from 'classnames';
+import React from 'react';
+import './header.scss';
 var BaseHeader = /** @class */ (function (_super) {
     __extends(BaseHeader, _super);
     function BaseHeader() {
@@ -25,11 +24,10 @@ var BaseHeader = /** @class */ (function (_super) {
     }
     BaseHeader.prototype.render = function () {
         var _a = this.props, title = _a.title, logo = _a.logo, pageControls = _a.pageControls, children = _a.children, breadcrumbs = _a.breadcrumbs, className = _a.className, contextSelector = _a.contextSelector, versionControl = _a.versionControl, status = _a.status;
-        var showRepoSelector = contextSelector && DEPLOYMENT_MODE !== Constants.INSIGHTS_DEPLOYMENT_MODE;
         return (React.createElement("div", { className: cx('background', className) },
-            showRepoSelector && (React.createElement("div", { className: 'breadcrumb-container' }, contextSelector)),
+            contextSelector || null,
             breadcrumbs && (React.createElement("div", { className: 'breadcrumb-container' }, breadcrumbs)),
-            !breadcrumbs && !showRepoSelector && React.createElement("div", { className: 'placeholder' }),
+            !breadcrumbs && !contextSelector && React.createElement("div", { className: 'placeholder' }),
             React.createElement("div", { className: 'column-section' },
                 React.createElement("div", { className: 'title-box' },
                     logo,
