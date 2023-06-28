@@ -65,7 +65,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 return NamespaceAPI.delete(name)
                     .then(function () {
                     _this.setState({
-                        redirect: namespaceBreadcrumb.url,
+                        redirect: namespaceBreadcrumb().url,
                         confirmDelete: false,
                         isNamespacePending: false,
                     });
@@ -211,7 +211,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ].filter(Boolean);
         var tab = params['tab'] || 'collections';
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 name: namespace.name,
                 url: tab === 'access'

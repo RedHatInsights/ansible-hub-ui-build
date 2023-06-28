@@ -128,12 +128,11 @@ export var Paths;
     Paths["signatureKeys"] = "/signature-keys";
     Paths["collections"] = "/collections";
 })(Paths || (Paths = {}));
-export var namespaceBreadcrumb = {
-    name: {
-        namespaces: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))),
-        partners: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))),
-    }[NAMESPACE_TERM],
-    url: formatPath(Paths[NAMESPACE_TERM]),
+export var namespaceBreadcrumb = function () {
+    return ({
+        namespaces: { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), url: formatPath(Paths.namespaces) },
+        partners: { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))), url: formatPath(Paths.partners) },
+    }[NAMESPACE_TERM]);
 };
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=paths.js.map

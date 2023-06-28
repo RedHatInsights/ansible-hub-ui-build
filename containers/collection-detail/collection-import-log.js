@@ -55,7 +55,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
         }
         var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: collection_version.namespace,

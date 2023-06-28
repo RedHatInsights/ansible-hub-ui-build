@@ -74,7 +74,7 @@ var CollectionDetail = /** @class */ (function (_super) {
         }
         var version = collection.collection_version;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: version.namespace,
