@@ -82,7 +82,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
         }
         var version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: version.namespace,
