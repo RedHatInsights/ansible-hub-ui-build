@@ -54,6 +54,7 @@ var AnsibleRemoteDetail = PageWithTabs({
         ansibleRemoteDownloadCAAction,
         ansibleRemoteDeleteAction,
     ],
+    listUrl: formatPath(Paths.ansibleRemotes),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRemoteAPI.list({ name: name })

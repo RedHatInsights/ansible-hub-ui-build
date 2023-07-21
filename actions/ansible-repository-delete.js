@@ -53,15 +53,19 @@ import { AnsibleDistributionAPI, AnsibleRepositoryAPI } from 'src/api';
 import { DeleteAnsibleRepositoryModal } from 'src/components';
 import { Constants } from 'src/constants';
 import { canDeleteAnsibleRepository } from 'src/permissions';
-import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
+import { handleHttpError, parsePulpIDFromURL, taskAlert, waitForTaskUrl, } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositoryDeleteAction = Action({
     condition: canDeleteAnsibleRepository,
     title: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Delete"], ["Delete"]))),
     modal: function (_a) {
-        var addAlert = _a.addAlert, query = _a.query, setState = _a.setState, state = _a.state;
+        var addAlert = _a.addAlert, listQuery = _a.listQuery, setState = _a.setState, state = _a.state;
         return state.deleteModalOpen ? (React.createElement(DeleteAnsibleRepositoryModal, { closeAction: function () { return setState({ deleteModalOpen: null }); }, deleteAction: function () {
-                return deleteRepository(state.deleteModalOpen, { addAlert: addAlert, setState: setState, query: query });
+                return deleteRepository(state.deleteModalOpen, {
+                    addAlert: addAlert,
+                    listQuery: listQuery,
+                    setState: setState,
+                });
             }, name: state.deleteModalOpen.name })) : null;
     },
     onClick: function (_a, _b) {
@@ -85,7 +89,7 @@ export var ansibleRepositoryDeleteAction = Action({
 });
 function deleteRepository(_a, _b) {
     var name = _a.name, pulp_href = _a.pulp_href, pulpId = _a.pulpId;
-    var addAlert = _b.addAlert, setState = _b.setState, query = _b.query;
+    var addAlert = _b.addAlert, setState = _b.setState, listQuery = _b.listQuery;
     return __awaiter(this, void 0, void 0, function () {
         var distributionsToDelete, deleteRepo, deleteDistribution;
         return __generator(this, function (_c) {
@@ -107,6 +111,7 @@ function deleteRepository(_a, _b) {
                         .then(function (_a) {
                         var data = _a.data;
                         addAlert(taskAlert(data.task, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Removal started for repository ", ""], ["Removal started for repository ", ""])), name)));
+                        return waitForTaskUrl(data.task);
                     })
                         .catch(handleHttpError(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Failed to remove repository ", ""], ["Failed to remove repository ", ""])), name), function () { return setState({ deleteModalOpen: null }); }, addAlert));
                     deleteDistribution = function (_a) {
@@ -115,7 +120,8 @@ function deleteRepository(_a, _b) {
                         return AnsibleDistributionAPI.delete(distribution_id)
                             .then(function (_a) {
                             var data = _a.data;
-                            return addAlert(taskAlert(data.task, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Removal started for distribution ", ""], ["Removal started for distribution ", ""])), name)));
+                            addAlert(taskAlert(data.task, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Removal started for distribution ", ""], ["Removal started for distribution ", ""])), name)));
+                            return waitForTaskUrl(data.task);
                         })
                             .catch(handleHttpError(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Failed to remove distribution ", ""], ["Failed to remove distribution ", ""])), name), function () { return null; }, addAlert));
                     };
@@ -123,7 +129,7 @@ function deleteRepository(_a, _b) {
                             deleteRepo
                         ], distributionsToDelete.map(deleteDistribution), true)).then(function () {
                             setState({ deleteModalOpen: null });
-                            query();
+                            listQuery();
                         })];
             }
         });
