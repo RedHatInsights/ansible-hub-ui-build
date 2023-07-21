@@ -67,6 +67,7 @@ var AnsibleRepositoryDetail = PageWithTabs({
             lastSynced(item)),
         ' ',
         lastSyncStatus(item))))); },
+    listUrl: formatPath(Paths.ansibleRepositories),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRepositoryAPI.list({ name: name })

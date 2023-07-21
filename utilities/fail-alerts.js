@@ -20,19 +20,15 @@ export function errorMessage(statusCode, statusText, customMessage) {
     return messages[statusCode] || messages.default;
 }
 export var handleHttpError = function (title, callback, addAlert) { return function (e) {
-    var _a = e.response, status = _a.status, statusText = _a.statusText;
-    console.log(typeof e.response.data);
-    var message = '';
-    var err_detail = mapErrorMessages(e);
-    for (var msg in err_detail) {
-        message = message + err_detail[msg] + ' ';
-    }
-    var description;
-    if (message !== '') {
-        description = errorMessage(status, statusText, message);
-    }
-    else {
-        description = errorMessage(status, statusText);
+    var description = e.toString();
+    if (e.response) {
+        // HTTP error
+        var _a = e.response, status_1 = _a.status, statusText = _a.statusText;
+        var err = mapErrorMessages(e);
+        var message = Object.values(err).join(' ');
+        description = message
+            ? errorMessage(status_1, statusText, message)
+            : errorMessage(status_1, statusText);
     }
     addAlert({
         title: title,
