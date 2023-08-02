@@ -80,8 +80,8 @@ var LegacyRoleDocs = /** @class */ (function (_super) {
 }(React.Component));
 var LegacyRoleVersion = /** @class */ (function (_super) {
     __extends(LegacyRoleVersion, _super);
-    function LegacyRoleVersion(props) {
-        return _super.call(this, props) || this;
+    function LegacyRoleVersion() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LegacyRoleVersion.prototype.render = function () {
         return (React.createElement(DataListItemRow, null,
