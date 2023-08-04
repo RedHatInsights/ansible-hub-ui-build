@@ -33,7 +33,7 @@ import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRo
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { LegacyRoleAPI, } from 'src/api';
 import { EmptyStateNoData } from 'src/components';
 import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

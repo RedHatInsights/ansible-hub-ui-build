@@ -1,7 +1,7 @@
 import { ListIcon, ThLargeIcon } from '@patternfly/react-icons';
 import cx from 'classnames';
 import React from 'react';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper } from 'src/utilities';
 import './switcher.scss';
 export var CardListSwitcher = function (_a) {
     var params = _a.params, updateParams = _a.updateParams, _b = _a.size, size = _b === void 0 ? 'sm' : _b, className = _a.className;

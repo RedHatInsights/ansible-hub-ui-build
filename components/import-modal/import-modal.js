@@ -78,9 +78,9 @@ import { Button, Modal, Radio } from '@patternfly/react-core';
 import { FolderOpenIcon, SpinnerIcon } from '@patternfly/react-icons';
 import axios from 'axios';
 import React from 'react';
-import { CollectionAPI, Repositories, } from 'src/api';
+import { AnsibleRepositoryAPI, CollectionAPI, } from 'src/api';
 import { AlertList, MultipleRepoSelector, closeAlertMixin, } from 'src/components';
-import { RepositoriesUtils, errorMessage } from 'src/utilities';
+import { errorMessage, repositoryBasePath } from 'src/utilities';
 import './import-modal.scss';
 var Status;
 (function (Status) {
@@ -116,7 +116,7 @@ var ImportModal = /** @class */ (function (_super) {
         if (this.state.onlyStaging) {
             filter = { pulp_label_select: "pipeline=".concat(pipeline) };
         }
-        return Repositories.list(filter)
+        return AnsibleRepositoryAPI.list(filter)
             .then(function (data) {
             _this.setState({
                 allRepos: data.data.results,
@@ -161,10 +161,8 @@ var ImportModal = /** @class */ (function (_super) {
         if (this.state.onlyStaging) {
             par['pulp_label_select'] = 'pipeline=staging';
         }
-        par['ordering'] = par['sort'];
-        delete par['sort'];
         setLoading(true);
-        Repositories.list(par)
+        AnsibleRepositoryAPI.list(par)
             .then(function (data) {
             setLoading(false);
             setRepositoryList(data.data.results);
@@ -302,27 +300,26 @@ var ImportModal = /** @class */ (function (_super) {
     };
     ImportModal.prototype.saveFile = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var selectedRepos, distro, artifact;
+            var selectedRepos, distro_base_path, artifact;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         selectedRepos = this.state.selectedRepos;
                         this.setState({ uploadStatus: Status.uploading });
-                        distro = null;
-                        return [4 /*yield*/, RepositoriesUtils.distributionByRepoName(selectedRepos[0]).catch(function (error) {
+                        return [4 /*yield*/, repositoryBasePath(selectedRepos[0]).catch(function (error) {
                                 _this.addAlert(error, 'danger');
                             })];
                     case 1:
-                        distro = _a.sent();
-                        if (!distro) {
+                        distro_base_path = _a.sent();
+                        if (!distro_base_path) {
                             this.setState({ uploadStatus: Status.waiting });
                             return [2 /*return*/];
                         }
                         artifact = {
                             file: this.state.file,
                             sha256: '',
-                            distro_base_path: distro.base_path,
+                            distro_base_path: distro_base_path,
                         };
                         this.cancelToken = CollectionAPI.getCancelToken();
                         CollectionAPI.upload(artifact, function (e) {

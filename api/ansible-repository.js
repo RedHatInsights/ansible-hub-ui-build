@@ -23,40 +23,46 @@ var API = /** @class */ (function (_super) {
         return _this;
     }
     // list(params?)
-    API.prototype.listVersions = function (uuid, params) {
-        return this.list(params, this.getPath(null) + uuid + '/versions/');
+    API.prototype.listVersions = function (pulp_id, params) {
+        return this.list(params, this.apiPath + pulp_id + '/versions/');
     };
-    // delete(uuid)
-    API.prototype.sync = function (id, body) {
+    // delete(pulp_id: string)
+    API.prototype.sync = function (pulp_id, body) {
         if (body === void 0) { body = {}; }
-        return this.http.post(this.apiPath + id + '/sync/', body);
+        return this.http.post(this.apiPath + pulp_id + '/sync/', body);
     };
-    API.prototype.revert = function (id, version_href) {
-        return this.http.post(this.apiPath + id + '/modify/', {
+    API.prototype.revert = function (pulp_id, version_href) {
+        return this.http.post(this.apiPath + pulp_id + '/modify/', {
             base_version: version_href,
         });
     };
-    API.prototype.addContent = function (id, collection_version_hrefs) {
-        return this.http.post(this.apiPath + id + '/modify/', {
+    API.prototype.addContent = function (pulp_id, collection_version_hrefs) {
+        return this.http.post(this.apiPath + pulp_id + '/modify/', {
             add_content_units: collection_version_hrefs,
         });
     };
-    API.prototype.removeContent = function (id, collection_version_href) {
-        return this.http.post(this.apiPath + id + '/modify/', {
+    API.prototype.removeContent = function (pulp_id, collection_version_href) {
+        return this.http.post(this.apiPath + pulp_id + '/modify/', {
             remove_content_units: [collection_version_href],
         });
     };
-    API.prototype.listRoles = function (id, params) {
-        return _super.prototype.list.call(this, params, this.apiPath + id + '/list_roles/');
+    API.prototype.listRoles = function (pulp_id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + pulp_id + '/list_roles/');
     };
-    API.prototype.addRole = function (id, role) {
-        return _super.prototype.create.call(this, role, this.apiPath + id + '/add_role/');
+    API.prototype.addRole = function (pulp_id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + pulp_id + '/add_role/');
     };
-    API.prototype.myPermissions = function (id, params) {
-        return _super.prototype.list.call(this, params, this.apiPath + id + '/my_permissions/');
+    API.prototype.myPermissions = function (pulp_id, params) {
+        return _super.prototype.list.call(this, params, this.apiPath + pulp_id + '/my_permissions/');
     };
-    API.prototype.removeRole = function (id, role) {
-        return _super.prototype.create.call(this, role, this.apiPath + id + '/remove_role/');
+    API.prototype.removeRole = function (pulp_id, role) {
+        return _super.prototype.create.call(this, role, this.apiPath + pulp_id + '/remove_role/');
+    };
+    API.prototype.copyCollectionVersion = function (pulp_id, body) {
+        return this.http.post(this.apiPath + pulp_id + '/copy_collection_version/', body);
+    };
+    API.prototype.moveCollectionVersion = function (pulp_id, body) {
+        return this.http.post(this.apiPath + pulp_id + '/move_collection_version/', body);
     };
     return API;
 }(PulpAPI));

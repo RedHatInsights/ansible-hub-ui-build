@@ -42,8 +42,7 @@ import { cloneDeep } from 'lodash';
 import React from 'react';
 import { CollectionVersionAPI, ImportAPI, PulpStatus, } from 'src/api';
 import { AlertList, BaseHeader, ImportConsole, ImportList, Main, closeAlertMixin, } from 'src/components';
-import { withRouter } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, withRouter } from 'src/utilities';
 import './my-imports.scss';
 var MyImports = /** @class */ (function (_super) {
     __extends(MyImports, _super);

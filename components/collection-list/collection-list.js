@@ -17,7 +17,7 @@ import { t } from '@lingui/macro';
 import { DataList } from '@patternfly/react-core';
 import React from 'react';
 import { CollectionListItem, EmptyStateFilter, Pagination, } from 'src/components';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper } from 'src/utilities';
 import './list.scss';
 // only used in namespace detail, collections uses individual items
 export var CollectionList = function (props) {

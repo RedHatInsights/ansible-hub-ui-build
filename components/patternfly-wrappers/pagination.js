@@ -17,7 +17,7 @@ import { Trans, t } from '@lingui/macro';
 import { Pagination as PaginationPF, PaginationVariant, } from '@patternfly/react-core';
 import React from 'react';
 import { Constants } from 'src/constants';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper } from 'src/utilities';
 // AAP-3737 - support both "1 - 2 of 3" and "3 的 1 - 2"
 var ToggleTemplate = function (_a) {
     var _b = _a.firstIndex, firstIndex = _b === void 0 ? 0 : _b, _c = _a.lastIndex, lastIndex = _c === void 0 ? 0 : _c, _d = _a.itemCount, itemCount = _d === void 0 ? 0 : _d;

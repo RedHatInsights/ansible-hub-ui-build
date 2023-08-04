@@ -38,8 +38,7 @@ import React from 'react';
 import { AlertList, CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, withRouter } from 'src/utilities';
 import { loadCollection } from './base';
 // renders collection level information
 var CollectionDetail = /** @class */ (function (_super) {

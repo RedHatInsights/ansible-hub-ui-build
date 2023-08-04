@@ -23,8 +23,7 @@ import { ImportAPI } from 'src/api';
 import { CollectionHeader, ImportConsole, LoadingPageWithHeader, Main, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, withRouter } from 'src/utilities';
 import { loadCollection } from './base';
 var CollectionImportLog = /** @class */ (function (_super) {
     __extends(CollectionImportLog, _super);

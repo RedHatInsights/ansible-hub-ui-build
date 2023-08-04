@@ -84,8 +84,7 @@ import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, De
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { DeleteCollectionUtils, ParamHelper, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
 import './header.scss';

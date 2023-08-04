@@ -6,9 +6,9 @@ import { Trans, t } from '@lingui/macro';
 import { Checkbox, Text } from '@patternfly/react-core';
 import React, { useState } from 'react';
 import { ExecutionEnvironmentAPI } from 'src/api';
-import { DeleteModal } from 'src/components/delete-modal/delete-modal';
 import { waitForTask } from 'src/utilities';
 import { errorMessage } from 'src/utilities';
+import { DeleteModal } from './delete-modal';
 export var DeleteExecutionEnvironmentModal = function (props) {
     var _a = useState(false), confirmDelete = _a[0], setConfirmDelete = _a[1];
     var _b = useState(false), isDeletionPending = _b[0], setIsDeletionPending = _b[1];

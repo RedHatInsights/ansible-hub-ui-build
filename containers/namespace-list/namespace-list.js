@@ -46,8 +46,7 @@ import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { errorMessage, filterIsSet } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, errorMessage, filterIsSet, } from 'src/utilities';
 import './namespace-list.scss';
 var NamespaceList = /** @class */ (function (_super) {
     __extends(NamespaceList, _super);

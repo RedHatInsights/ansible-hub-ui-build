@@ -10,7 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyStateCustom } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper } from 'src/utilities';
 import './collection-content-list.scss';
 export var CollectionContentList = function (_a) {
     var _b;

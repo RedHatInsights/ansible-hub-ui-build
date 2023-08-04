@@ -6,7 +6,10 @@ import { Trans, t } from '@lingui/macro';
 import { DropdownItem, Tooltip } from '@patternfly/react-core';
 import React from 'react';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
-import { RepositoriesUtils, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import { errorMessage } from './fail-alerts';
+import { parsePulpIDFromURL } from './parse-pulp-id';
+import { RepositoriesUtils } from './repositories';
+import { waitForTask } from './wait-for-task';
 var DeleteCollectionUtils = /** @class */ (function () {
     function DeleteCollectionUtils() {
     }

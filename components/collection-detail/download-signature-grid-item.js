@@ -6,10 +6,9 @@ import { t } from '@lingui/macro';
 import { Button, ButtonVariant, CodeBlock, CodeBlockCode, GridItem, Split, SplitItem, } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
 import React, { useState } from 'react';
-import { AnsibleDistributionAPI, CollectionAPI, findDistroBasePathByRepo, } from 'src/api';
-import 'src/api/response-types/collection';
+import { CollectionAPI } from 'src/api';
+import { LoadingPageSpinner } from 'src/components';
 import { useContext } from 'src/loaders/app-context';
-import { LoadingPageSpinner } from '../loading/loading-page-spinner';
 export var DownloadSignatureGridItem = function (_a) {
     var collectionVersion = _a.collectionVersion, repository = _a.repository, addAlert = _a.addAlert;
     var display_signatures = useContext().featureFlags.display_signatures;
@@ -22,22 +21,17 @@ export var DownloadSignatureGridItem = function (_a) {
     }
     React.useEffect(function () {
         if (show && isLoading) {
-            AnsibleDistributionAPI.list({
-                repository: repository.pulp_href,
-            }).then(function (result) {
-                var distroBasePath = findDistroBasePathByRepo(result.data.results, repository);
-                var namespace = collectionVersion.namespace, name = collectionVersion.name, version = collectionVersion.version;
-                CollectionAPI.getSignatures(distroBasePath, namespace, name, version)
-                    .then(function (res) {
-                    setSignatures(res.data.signatures);
-                    setIsLoading(false);
-                })
-                    .catch(function (_a) {
-                    var code = _a.code, message = _a.message;
-                    addAlert(code, message);
-                    setIsLoading(false);
-                    setShow(false);
-                });
+            var namespace = collectionVersion.namespace, name_1 = collectionVersion.name, version = collectionVersion.version;
+            CollectionAPI.getSignatures(repository, namespace, name_1, version)
+                .then(function (res) {
+                setSignatures(res.data.signatures);
+                setIsLoading(false);
+            })
+                .catch(function (_a) {
+                var code = _a.code, message = _a.message;
+                addAlert(code, message);
+                setIsLoading(false);
+                setShow(false);
             });
         }
     }, [show]);

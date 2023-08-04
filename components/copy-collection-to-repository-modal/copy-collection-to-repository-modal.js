@@ -61,7 +61,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { Button, Dropdown, DropdownItem, DropdownSeparator, DropdownToggle, DropdownToggleCheckbox, Flex, FlexItem, Label, LabelGroup, Modal, Spinner, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import { Repositories, SigningServiceAPI, } from 'src/api';
+import { AnsibleRepositoryAPI, SigningServiceAPI, } from 'src/api';
 import { AppliedFilters, CheckboxRow, CompoundFilter, Pagination, SortTable, } from 'src/components';
 import { useContext } from 'src/loaders/app-context';
 import { RepositoriesUtils, errorMessage, parsePulpIDFromURL, taskAlert, } from 'src/utilities';
@@ -94,11 +94,9 @@ export var CopyCollectionToRepositoryModal = function (props) {
             switch (_a.label) {
                 case 0:
                     par = __assign({}, params);
-                    par['ordering'] = par['sort'];
                     par['name__contains'] = inputText;
-                    delete par['sort'];
                     setLoading(true);
-                    return [4 /*yield*/, Repositories.list(par)];
+                    return [4 /*yield*/, AnsibleRepositoryAPI.list(par)];
                 case 1:
                     repos = _a.sent();
                     setItemsCount(repos.data.count);
@@ -110,6 +108,7 @@ export var CopyCollectionToRepositoryModal = function (props) {
     }); };
     var loadAllRepos = function () {
         setLoading(true);
+        // TODO: replace getAll pagination
         RepositoriesUtils.listAll().then(function (repos) {
             setSelectedRepos(repos.map(function (repo) { return repo.name; }));
             setRepositoryList(repos);
@@ -140,7 +139,7 @@ export var CopyCollectionToRepositoryModal = function (props) {
         }
     };
     var copyToRepositories = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, collection_version, repository, pulpId, signingServiceName, signingService, signingList, _b, repoHrefs;
+        var _a, collection_version, repository, pulpId, signingServiceName, signingService, signingList, _b, repoHrefs, copyParams;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -172,7 +171,14 @@ export var CopyCollectionToRepositoryModal = function (props) {
                     repoHrefs = repositoryList
                         .filter(function (repo) { return selectedRepos.includes(repo.name); })
                         .map(function (repo) { return repo.pulp_href; });
-                    Repositories.copyCollectionVersion(pulpId, [collection_version.pulp_href], repoHrefs, signingService)
+                    copyParams = {
+                        collection_versions: [collection_version.pulp_href],
+                        destination_repositories: repoHrefs,
+                    };
+                    if (signingService) {
+                        copyParams['signing_service'] = signingService;
+                    }
+                    AnsibleRepositoryAPI.copyCollectionVersion(pulpId, copyParams)
                         .then(function (_a) {
                         var data = _a.data;
                         selectedRepos.map(function (repo) {
