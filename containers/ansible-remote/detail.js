@@ -83,7 +83,7 @@ var AnsibleRemoteDetail = PageWithTabs({
         return ({
             details: React.createElement(DetailsTab, { item: item, actionContext: actionContext }),
             access: React.createElement(RemoteAccessTab, { item: item, actionContext: actionContext }),
-        }[tab]);
+        })[tab];
     },
     tabs: tabs,
     tabUpdateParams: function (p) {

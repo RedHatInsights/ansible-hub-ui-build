@@ -104,7 +104,7 @@ var AnsibleRepositoryDetail = PageWithTabs({
             access: React.createElement(RepositoryAccessTab, { item: item, actionContext: actionContext }),
             'collection-versions': (React.createElement(CollectionVersionsTab, { item: item, actionContext: actionContext })),
             'repository-versions': (React.createElement(RepositoryVersionsTab, { item: item, actionContext: actionContext })),
-        }[tab]);
+        })[tab];
     },
     tabs: tabs,
     tabUpdateParams: function (p) {
