@@ -89,13 +89,13 @@ import { Button, ButtonVariant, DropdownItem, Label, LabelGroup, Toolbar, Toolba
 import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, Repositories, } from 'src/api';
+import { AnsibleRepositoryAPI, CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { ApproveModal, BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
 import { AlertList, AppliedFilters, CompoundFilter, LoadingPageSpinner, LoadingPageWithHeader, Pagination, SortTable, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { ParamHelper, RepositoriesUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
+import { ParamHelper, RepositoriesUtils, errorMessage, filterIsSet, parsePulpIDFromURL, repositoryBasePath, waitForTask, withRouter, } from 'src/utilities';
 import './certification-dashboard.scss';
 var CertificationDashboard = /** @class */ (function (_super) {
     __extends(CertificationDashboard, _super);
@@ -152,7 +152,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 var rejectedRepoName = _a[0];
                 return _this.setState({ rejectedRepoName: rejectedRepoName });
             }));
-            promises.push(RepositoriesUtils.listApproved()
+            promises.push(
+            // TODO: replace getAll pagination
+            RepositoriesUtils.listApproved()
                 .then(function (data) {
                 _this.setState({ approvedRepositoryList: data });
             })
@@ -173,7 +175,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
     };
     CertificationDashboard.prototype.loadRepos = function (pipeline) {
         var _this = this;
-        return Repositories.list({ pulp_label_select: "pipeline=".concat(pipeline) })
+        return AnsibleRepositoryAPI.list({
+            pulp_label_select: "pipeline=".concat(pipeline),
+        })
             .then(function (_a) {
             var results = _a.data.results;
             return (results || []).map(function (_a) {
@@ -522,12 +526,12 @@ var CertificationDashboard = /** @class */ (function (_super) {
         // galaxy_ng CollectionRepositoryMixing.get_repos uses the distribution base path to look up repository pk
         // there ..may be room for simplification since we already know the repo; OTOH also compatibility concerns
         return Promise.all([
-            RepositoriesUtils.distributionByRepoName(originalRepo),
-            RepositoriesUtils.distributionByRepoName(destinationRepo),
+            repositoryBasePath(originalRepo),
+            repositoryBasePath(destinationRepo),
         ])
             .then(function (_a) {
             var source = _a[0], destination = _a[1];
-            return CollectionVersionAPI.move(version.namespace, version.name, version.version, source.base_path, destination.base_path);
+            return CollectionVersionAPI.move(version.namespace, version.name, version.version, source, destination);
         })
             .then(function (result) {
             return waitForTask(result.data.remove_task_id, { waitMs: 500 });

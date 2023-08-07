@@ -41,8 +41,7 @@ import { t } from '@lingui/macro';
 import { ActionGroup, Alert, Button, FormGroup, Label, Switch, TextInput, TextInputTypes, Tooltip, } from '@patternfly/react-core';
 import React from 'react';
 import { GroupAPI } from 'src/api';
-import { APISearchTypeAhead, HelperText } from 'src/components';
-import { DataForm } from 'src/components/shared/data-form';
+import { APISearchTypeAhead, DataForm, HelperText, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage } from 'src/utilities';
 export var UserForm = /** @class */ (function (_super) {

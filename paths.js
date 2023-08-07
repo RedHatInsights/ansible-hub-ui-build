@@ -132,7 +132,7 @@ export var namespaceBreadcrumb = function () {
     return ({
         namespaces: { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), url: formatPath(Paths.namespaces) },
         partners: { name: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Partners"], ["Partners"]))), url: formatPath(Paths.partners) },
-    }[NAMESPACE_TERM]);
+    })[NAMESPACE_TERM];
 };
 var templateObject_1, templateObject_2;
 //# sourceMappingURL=paths.js.map

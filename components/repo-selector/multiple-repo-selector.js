@@ -14,7 +14,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { Dropdown, DropdownItem, DropdownSeparator, DropdownToggle, DropdownToggleCheckbox, Flex, FlexItem, Label, LabelGroup, Spinner, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import 'src/api';
 import { AppliedFilters, CheckboxRow, CompoundFilter, Pagination, RadioRow, SortTable, } from 'src/components';
 export var MultipleRepoSelector = function (props) {
     var _a = useState(false), isSelectorChecked = _a[0], setIsSelectorChecked = _a[1];

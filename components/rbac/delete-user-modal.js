@@ -56,10 +56,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { Trans, t } from '@lingui/macro';
 import React from 'react';
 import { UserAPI } from 'src/api';
-import { DeleteModal } from 'src/components/delete-modal/delete-modal';
+import { DeleteModal } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
-import { mapErrorMessages } from 'src/utilities';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, mapErrorMessages } from 'src/utilities';
 export var DeleteUserModal = /** @class */ (function (_super) {
     __extends(DeleteUserModal, _super);
     function DeleteUserModal(props) {

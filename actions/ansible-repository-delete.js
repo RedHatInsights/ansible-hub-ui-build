@@ -96,6 +96,8 @@ function deleteRepository(_a, _b) {
             switch (_c.label) {
                 case 0: return [4 /*yield*/, AnsibleDistributionAPI.list({
                         repository: pulp_href,
+                        page: 1,
+                        page_size: 100,
                     })
                         .then(function (_a) {
                         var results = _a.data.results;

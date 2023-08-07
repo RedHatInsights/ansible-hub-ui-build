@@ -36,9 +36,7 @@ import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, ConfirmModal, Da
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, withRouter, } from 'src/utilities';
 import './task.scss';
 var maybeTranslate = function (name) {
     return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;

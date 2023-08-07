@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { mapErrorMessages } from 'src/utilities';
+import { mapErrorMessages } from './map-error-messages';
 export function errorMessage(statusCode, statusText, customMessage) {
     var messages = {
         500: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error ", " - ", ": The server encountered an error and was unable to complete your request."], ["Error ", " - ", ": The server encountered an error and was unable to complete your request."])), statusCode, statusText),

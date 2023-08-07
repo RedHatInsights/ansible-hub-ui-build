@@ -47,9 +47,7 @@ import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, Sign
 import { AccessTab, AlertList, ClipboardCopy, CollectionFilter, CollectionList, DeleteCollectionModal, DeleteModal, EmptyStateNoData, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, SignAllCertificatesModal, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoURL, waitForTask, } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoURL, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
 import './namespace-detail.scss';
 var NamespaceDetail = /** @class */ (function (_super) {
     __extends(NamespaceDetail, _super);
@@ -499,7 +497,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             MyNamespaceAPI.get(this.props.routeParams.namespace, {
                 include_related: 'my_permissions',
             }).catch(function (e) {
-                // TODO this needs fixing on backend to return nothing in these cases with 200 status
+                // this needs fixing on backend to return nothing in these cases with 200 status
                 // if view only mode is enabled disregard errors and hope
                 if (_this.context.user.is_anonymous &&
                     _this.context.settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS) {

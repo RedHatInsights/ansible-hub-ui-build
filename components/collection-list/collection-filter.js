@@ -6,7 +6,7 @@ import { t } from '@lingui/macro';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Repositories } from 'src/api';
+import { AnsibleRepositoryAPI } from 'src/api';
 import { AppliedFilters, CompoundFilter } from 'src/components';
 import { Constants } from 'src/constants';
 import { useContext } from 'src/loaders/app-context';
@@ -17,7 +17,7 @@ export var CollectionFilter = function (props) {
     var _b = useState(''), inputText = _b[0], setInputText = _b[1];
     var _c = useState(null), selectedFilter = _c[0], setSelectedFilter = _c[1];
     var loadRepos = function () {
-        Repositories.list({
+        AnsibleRepositoryAPI.list({
             name__icontains: inputText,
             pulp_label_select: '!hide_from_search',
         }).then(function (res) {

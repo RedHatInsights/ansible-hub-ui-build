@@ -26,8 +26,7 @@ import Logo from 'src/../static/images/logo_large.svg';
 import { ActiveUserAPI } from 'src/api';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/';
+import { ParamHelper, withRouter } from 'src/utilities';
 var LoginPage = /** @class */ (function (_super) {
     __extends(LoginPage, _super);
     function LoginPage(props) {

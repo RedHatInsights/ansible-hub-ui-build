@@ -31,7 +31,7 @@ var __assign = (this && this.__assign) || function () {
 import { t } from '@lingui/macro';
 import { DataList } from '@patternfly/react-core';
 import React from 'react';
-import { LegacyRoleAPI } from 'src/api/legacyrole';
+import { LegacyRoleAPI } from 'src/api';
 import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Pagination, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { withRouter } from 'src/utilities';
