@@ -195,6 +195,9 @@ var API = /** @class */ (function (_super) {
             version: version,
         }, "pulp/api/v3/content/ansible/collection_versions/");
     };
+    API.prototype.getDetail = function (distroBasePath, namespace, name) {
+        return this.http.get("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/"));
+    };
     return API;
 }(HubAPI));
 export { API };
