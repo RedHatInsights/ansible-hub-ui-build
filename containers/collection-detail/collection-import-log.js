@@ -31,15 +31,16 @@ var CollectionImportLog = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
+            actuallyCollection: null,
+            apiError: undefined,
             collection: null,
             collections: [],
             collectionsCount: 0,
             content: null,
-            params: params,
             loadingImports: true,
-            selectedImportDetail: undefined,
+            params: params,
             selectedImport: undefined,
-            apiError: undefined,
+            selectedImportDetail: undefined,
         };
         return _this;
     }
@@ -48,7 +49,7 @@ var CollectionImportLog = /** @class */ (function (_super) {
     };
     CollectionImportLog.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, params = _a.params, loadingImports = _a.loadingImports, selectedImportDetail = _a.selectedImportDetail, selectedImport = _a.selectedImport, apiError = _a.apiError, content = _a.content;
+        var _a = this.state, actuallyCollection = _a.actuallyCollection, apiError = _a.apiError, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, loadingImports = _a.loadingImports, params = _a.params, selectedImport = _a.selectedImport, selectedImportDetail = _a.selectedImportDetail;
         if (!collection) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -72,9 +73,9 @@ var CollectionImportLog = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Import log"], ["Import log"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { activeTab: 'import-log', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadData(true); }, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadData(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'import-log' }),
+                } }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(ImportConsole, { empty: false, loading: loadingImports, task: selectedImportDetail, followMessages: false, setFollowMessages: function () { return null; }, selectedImport: selectedImport, apiError: apiError, hideCollectionName: true })))));
@@ -124,8 +125,14 @@ var CollectionImportLog = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content, collectionsCount) {
-                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount }, callback);
+            setCollection: function (collections, collection, content, collectionsCount, actuallyCollection) {
+                return _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                    collectionsCount: collectionsCount,
+                    actuallyCollection: actuallyCollection,
+                }, callback);
             },
             stateParams: this.state.params,
         });

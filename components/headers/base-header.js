@@ -35,8 +35,8 @@ var BaseHeader = /** @class */ (function (_super) {
                         React.createElement(Title, { headingLevel: 'h1', size: '2xl' },
                             title,
                             status))),
-                pageControls ? (React.createElement("div", { className: 'header-right' }, pageControls)) : null),
-            versionControl ? React.createElement(React.Fragment, null, versionControl) : null,
+                pageControls || null),
+            versionControl || null,
             children ? (React.createElement("div", { className: 'header-bottom' }, children)) : (React.createElement("div", { className: 'placeholder' }))));
     };
     return BaseHeader;

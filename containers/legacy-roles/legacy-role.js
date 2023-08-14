@@ -35,7 +35,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyRoleAPI, } from 'src/api';
 import { EmptyStateNoData } from 'src/components';
-import { Breadcrumbs, ClipboardCopy, DateComponent, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
+import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, withRouter } from 'src/utilities';
@@ -223,7 +223,9 @@ var LegacyRole = /** @class */ (function (_super) {
                 React.createElement("div", { className: 'hub-entry' },
                     React.createElement("a", { href: repository },
                         "Github Repository ",
-                        React.createElement(ExternalLinkAltIcon, null)))));
+                        React.createElement(ExternalLinkAltIcon, null))),
+                React.createElement("div", { className: 'hub-entry' },
+                    React.createElement(DownloadCount, { item: role }))));
         }
         var table = {
             install: { title: 'Install' },
@@ -247,7 +249,7 @@ var LegacyRole = /** @class */ (function (_super) {
         var breadcrumbs = [
             {
                 name: 'Legacy Roles',
-                url: formatPath(Paths.legacyRoles, {}),
+                url: formatPath(Paths.legacyRoles),
             },
             {
                 name: this.state.github_user,

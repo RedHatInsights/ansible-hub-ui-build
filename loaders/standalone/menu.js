@@ -196,7 +196,7 @@ function MenuSection(_a) {
 }
 function Menu(_a) {
     var items = _a.items, context = _a.context, expandedSections = _a.expandedSections;
-    return (React.createElement(React.Fragment, null, items.map(function (item) { return (React.createElement(ItemOrSection, { key: item.name, item: item, context: context, expandedSections: expandedSections })); })));
+    return (React.createElement(React.Fragment, null, items.map(function (item) { return (React.createElement(ItemOrSection, { key: item.url || item.name, item: item, context: context, expandedSections: expandedSections })); })));
 }
 export var StandaloneMenu = function (_a) {
     var context = _a.context;

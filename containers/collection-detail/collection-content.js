@@ -31,9 +31,10 @@ var CollectionContent = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
+            actuallyCollection: null,
+            collection: null,
             collections: [],
             collectionsCount: 0,
-            collection: null,
             content: null,
             params: params,
         };
@@ -44,7 +45,7 @@ var CollectionContent = /** @class */ (function (_super) {
     };
     CollectionContent.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, params = _a.params, content = _a.content;
+        var _a = this.state, actuallyCollection = _a.actuallyCollection, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params;
         if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
@@ -68,9 +69,9 @@ var CollectionContent = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Content"], ["Content"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (params) {
+            React.createElement(CollectionHeader, { activeTab: 'contents', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadCollections(true); }, updateParams: function (params) {
                     return _this.updateParams(params, function () { return _this.loadCollections(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'contents' }),
+                } }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(CollectionContentList, { contents: content.contents, collection: collection, params: params, updateParams: function (p) { return _this.updateParams(p); } })))));
@@ -81,8 +82,14 @@ var CollectionContent = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content, collectionsCount) {
-                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount });
+            setCollection: function (collections, collection, content, collectionsCount, actuallyCollection) {
+                return _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                    collectionsCount: collectionsCount,
+                    actuallyCollection: actuallyCollection,
+                });
             },
             stateParams: this.state.params,
         });

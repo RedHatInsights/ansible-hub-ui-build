@@ -32,7 +32,7 @@ import { Trans, t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DateComponent, Logo, Tag } from 'src/components';
+import { DateComponent, DownloadCount, Logo, Tag } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps } from 'src/utilities';
 import './legacy-role-item.scss';
@@ -92,7 +92,9 @@ var LegacyRoleListItem = /** @class */ (function (_super) {
                 React.createElement(Trans, null,
                     "Updated ",
                     React.createElement(DateComponent, { date: release_date }))),
-            React.createElement("div", { className: 'hub-entry' }, release_name)));
+            React.createElement("div", { className: 'hub-entry' }, release_name),
+            React.createElement("div", { className: 'hub-entry' },
+                React.createElement(DownloadCount, { item: role }))));
         return (React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
             React.createElement(DataListItemRow, null,
                 React.createElement(DataListItemCells, { dataListCells: cells }))));
