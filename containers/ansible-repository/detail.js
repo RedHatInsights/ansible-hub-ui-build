@@ -16,11 +16,11 @@ var __assign = (this && this.__assign) || function () {
 import { Trans, msg, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRepositoryCopyAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
-import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
+import { AnsibleRepositoryAPI } from 'src/api';
 import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { canViewAnsibleRepositories } from 'src/permissions';
-import { parsePulpIDFromURL } from 'src/utilities';
+import { parsePulpIDFromURL, repositoryBasePath } from 'src/utilities';
 import { lastSyncStatus, lastSynced } from 'src/utilities';
 import { RepositoryAccessTab } from './tab-access';
 import { CollectionVersionsTab } from './tab-collection-versions';
@@ -67,9 +67,10 @@ var AnsibleRepositoryDetail = PageWithTabs({
             lastSynced(item)),
         ' ',
         lastSyncStatus(item))))); },
+    listUrl: formatPath(Paths.ansibleRepositories),
     query: function (_a) {
         var name = _a.name;
-        return AnsibleRepositoryAPI.list({ name: name })
+        return AnsibleRepositoryAPI.list({ name: name, page_size: 1 })
             .then(function (_a) {
             var results = _a.data.results;
             return results[0];
@@ -79,28 +80,21 @@ var AnsibleRepositoryDetail = PageWithTabs({
             if (!repository) {
                 return Promise.reject({ response: { status: 404 } });
             }
-            var err = function (e) {
+            var err = function (val) { return function (e) {
                 console.error(e);
-                return [];
-            };
+                return val;
+            }; };
             return Promise.all([
-                AnsibleDistributionAPI.list({
-                    repository: repository.pulp_href,
-                })
-                    .then(function (_a) {
-                    var results = _a.data.results;
-                    return results;
-                })
-                    .catch(err),
+                repositoryBasePath(repository.name, repository.pulp_href).catch(err(null)),
                 AnsibleRepositoryAPI.myPermissions(parsePulpIDFromURL(repository.pulp_href))
                     .then(function (_a) {
                     var permissions = _a.data.permissions;
                     return permissions;
                 })
-                    .catch(err),
+                    .catch(err([])),
             ]).then(function (_a) {
-                var distributions = _a[0], my_permissions = _a[1];
-                return (__assign(__assign({}, repository), { distributions: distributions, my_permissions: my_permissions }));
+                var distroBasePath = _a[0], my_permissions = _a[1];
+                return (__assign(__assign({}, repository), { distroBasePath: distroBasePath, my_permissions: my_permissions }));
             });
         });
     },
@@ -110,7 +104,7 @@ var AnsibleRepositoryDetail = PageWithTabs({
             access: React.createElement(RepositoryAccessTab, { item: item, actionContext: actionContext }),
             'collection-versions': (React.createElement(CollectionVersionsTab, { item: item, actionContext: actionContext })),
             'repository-versions': (React.createElement(RepositoryVersionsTab, { item: item, actionContext: actionContext })),
-        }[tab]);
+        })[tab];
     },
     tabs: tabs,
     tabUpdateParams: function (p) {

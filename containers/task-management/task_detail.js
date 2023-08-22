@@ -37,8 +37,7 @@ import { GenericPulpAPI, TaskManagementAPI } from 'src/api';
 import { AlertList, BaseHeader, Breadcrumbs, ConfirmModal, DateComponent, EmptyStateCustom, LoadingPageSpinner, Main, StatusIndicator, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { Paths, formatPath } from 'src/paths';
-import { errorMessage, withRouter } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { errorMessage, parsePulpIDFromURL, withRouter, } from 'src/utilities';
 import './task.scss';
 var maybeTranslate = function (name) {
     return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;

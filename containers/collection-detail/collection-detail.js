@@ -38,8 +38,7 @@ import React from 'react';
 import { AlertList, CollectionHeader, CollectionInfo, LoadingPageWithHeader, Main, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, withRouter } from 'src/utilities';
 import { loadCollection } from './base';
 // renders collection level information
 var CollectionDetail = /** @class */ (function (_super) {
@@ -48,13 +47,14 @@ var CollectionDetail = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
+            actuallyCollection: null,
+            alerts: [],
+            collection: null,
             collections: [],
             collectionsCount: 0,
-            collection: null,
             content: null,
             distroBasePath: null,
             params: params,
-            alerts: [],
         };
         return _this;
     }
@@ -68,13 +68,13 @@ var CollectionDetail = /** @class */ (function (_super) {
     };
     CollectionDetail.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, alerts = _a.alerts;
+        var _a = this.state, actuallyCollection = _a.actuallyCollection, alerts = _a.alerts, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params;
         if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var version = collection.collection_version;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: version.namespace,
@@ -87,9 +87,9 @@ var CollectionDetail = /** @class */ (function (_super) {
         ];
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollections(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (p) {
+            React.createElement(CollectionHeader, { activeTab: 'install', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadCollections(true); }, repo: this.props.routeParams.repo, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.loadCollections(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'install', repo: this.props.routeParams.repo }),
+                } }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement(CollectionInfo, __assign({}, collection, { content: content, updateParams: function (p) { return _this.updateParams(p); }, params: this.state.params, addAlert: function (variant, title, description) {
@@ -110,12 +110,13 @@ var CollectionDetail = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content, collectionsCount) {
+            setCollection: function (collections, collection, content, collectionsCount, actuallyCollection) {
                 return _this.setState({
                     collections: collections,
                     collection: collection,
                     content: content,
                     collectionsCount: collectionsCount,
+                    actuallyCollection: actuallyCollection,
                 });
             },
             stateParams: this.state.params,

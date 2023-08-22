@@ -38,11 +38,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { ActionGroup, Alert, Button, FormGroup, Label, Switch, TextInput, TextInputTypes, Tooltip, } from '@patternfly/react-core';
+import { ActionGroup, Alert, Button, FormGroup, Label, Switch, TextInput, Tooltip, } from '@patternfly/react-core';
 import React from 'react';
 import { GroupAPI } from 'src/api';
-import { APISearchTypeAhead, HelperText } from 'src/components';
-import { DataForm } from 'src/components/shared/data-form';
+import { APISearchTypeAhead, DataForm, HelperText, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage } from 'src/utilities';
 export var UserForm = /** @class */ (function (_super) {
@@ -111,7 +110,7 @@ export var UserForm = /** @class */ (function (_super) {
             !isReadonly && {
                 id: 'password',
                 title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Password"], ["Password"]))),
-                type: TextInputTypes.password,
+                type: 'password',
                 placeholder: isNewUser ? '' : '••••••••••••••••••••••',
                 formGroupLabelIcon: (React.createElement(HelperText, { content: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Create a password using at least ", " characters, including special characters , ex <!@$%>. Avoid using common names or expressions."], ["Create a password using at least ", " characters, including special characters , ex <!@$%>. Avoid using common names or expressions."])), minLength) })),
             },
@@ -120,7 +119,7 @@ export var UserForm = /** @class */ (function (_super) {
         var passwordConfirmGroup = function () { return (React.createElement(FormGroup, { fieldId: 'password-confirm', helperTextInvalid: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Passwords do not match"], ["Passwords do not match"]))), isRequired: isNewUser || !!user.password, key: 'confirm-group', label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Password confirmation"], ["Password confirmation"]))), validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)) },
             React.createElement(TextInput, { placeholder: isNewUser ? '' : '••••••••••••••••••••••', validated: _this.toError(_this.isPassSame(user.password, passwordConfirm)), isDisabled: isReadonly, id: 'password-confirm', value: passwordConfirm, onChange: function (value) {
                     _this.setState({ passwordConfirm: value });
-                }, type: 'password' }))); };
+                }, type: 'password', autoComplete: 'off' }))); };
         var readonlyAuth = function () { return (React.createElement(FormGroup, { fieldId: 'auth_provider', key: 'readonlyAuth', label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Authentication provider"], ["Authentication provider"]))) }, user.auth_provider.map(function (provider) { return (React.createElement(Label, { key: provider }, provider)); }))); };
         var readonlyGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', key: 'readonlyGroups', label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Groups"], ["Groups"]))), "data-cy": 'UserForm-readonly-groups' }, user.groups.map(function (group) { return (React.createElement(Label, { key: group.name }, group.name)); }))); };
         var editGroups = function () { return (React.createElement(FormGroup, { fieldId: 'groups', helperTextInvalid: errorMessages['groups'], key: 'editGroups', label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Groups"], ["Groups"]))), validated: _this.toError(!('groups' in errorMessages)) }, formErrors.groups ? (React.createElement(Alert, { title: formErrors.groups.title, variant: 'danger', isInline: true }, formErrors.groups.description)) : (React.createElement(APISearchTypeAhead, { results: _this.state.searchGroups, loadResults: _this.loadGroups, onSelect: _this.onSelectGroup, placeholderText: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Select groups"], ["Select groups"]))), selections: user.groups, multiple: true, onClear: _this.clearGroups, isDisabled: isReadonly })))); };

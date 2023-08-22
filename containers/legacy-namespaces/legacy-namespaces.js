@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { DataList } from '@patternfly/react-core';
 import React from 'react';
-import { LegacyNamespaceAPI } from 'src/api/legacynamespace';
+import { LegacyNamespaceAPI } from 'src/api';
 import { AlertList, BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { withRouter } from 'src/utilities';

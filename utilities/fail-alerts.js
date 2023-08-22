@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { mapErrorMessages } from 'src/utilities';
+import { mapErrorMessages } from './map-error-messages';
 export function errorMessage(statusCode, statusText, customMessage) {
     var messages = {
         500: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error ", " - ", ": The server encountered an error and was unable to complete your request."], ["Error ", " - ", ": The server encountered an error and was unable to complete your request."])), statusCode, statusText),
@@ -20,19 +20,15 @@ export function errorMessage(statusCode, statusText, customMessage) {
     return messages[statusCode] || messages.default;
 }
 export var handleHttpError = function (title, callback, addAlert) { return function (e) {
-    var _a = e.response, status = _a.status, statusText = _a.statusText;
-    console.log(typeof e.response.data);
-    var message = '';
-    var err_detail = mapErrorMessages(e);
-    for (var msg in err_detail) {
-        message = message + err_detail[msg] + ' ';
-    }
-    var description;
-    if (message !== '') {
-        description = errorMessage(status, statusText, message);
-    }
-    else {
-        description = errorMessage(status, statusText);
+    var description = e.toString();
+    if (e.response) {
+        // HTTP error
+        var _a = e.response, status_1 = _a.status, statusText = _a.statusText;
+        var err = mapErrorMessages(e);
+        var message = Object.values(err).join(' ');
+        description = message
+            ? errorMessage(status_1, statusText, message)
+            : errorMessage(status_1, statusText);
     }
     addAlert({
         title: title,

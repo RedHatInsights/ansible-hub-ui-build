@@ -40,37 +40,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { msg, t } from '@lingui/macro';
 import React from 'react';
-import { AnsibleDistributionAPI } from 'src/api';
-import { getRepoURL } from 'src/utilities';
+import { getRepoURL, repositoryBasePath } from 'src/utilities';
 import { Action } from './action';
 export var ansibleRepositoryCopyAction = Action({
     title: msg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Copy CLI configuration"], ["Copy CLI configuration"]))),
     onClick: function (item, _a) {
         var addAlert = _a.addAlert;
         return __awaiter(void 0, void 0, void 0, function () {
-            var distribution, cliConfig;
-            var _b, _c, _d, _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var distroBasePath, cliConfig;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        distribution = null;
-                        if (!!item.distributions) return [3 /*break*/, 2];
+                        distroBasePath = null;
+                        if (!!item.distroBasePath) return [3 /*break*/, 2];
                         addAlert({
                             id: 'copy-cli-config',
                             title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Loading distribution..."], ["Loading distribution..."]))),
                             variant: 'info',
                         });
-                        return [4 /*yield*/, AnsibleDistributionAPI.list({
-                                repository: item.pulp_href,
-                            })];
+                        return [4 /*yield*/, repositoryBasePath(item.name, item.pulp_href).catch(function () { return null; })];
                     case 1:
-                        distribution = (_d = (_c = (_b = (_f.sent())) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.results) === null || _d === void 0 ? void 0 : _d[0];
+                        distroBasePath = _b.sent();
                         return [3 /*break*/, 3];
                     case 2:
-                        distribution = (_e = item.distributions) === null || _e === void 0 ? void 0 : _e[0];
-                        _f.label = 3;
+                        distroBasePath = item.distroBasePath;
+                        _b.label = 3;
                     case 3:
-                        if (!distribution) {
+                        if (!distroBasePath) {
                             addAlert({
                                 id: 'copy-cli-config',
                                 title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["There are no distributions associated with this repository."], ["There are no distributions associated with this repository."]))),
@@ -80,10 +76,10 @@ export var ansibleRepositoryCopyAction = Action({
                         }
                         cliConfig = [
                             '[galaxy]',
-                            "server_list = ".concat(distribution.base_path),
+                            "server_list = ".concat(distroBasePath),
                             '',
-                            "[galaxy_server.".concat(distribution.base_path, "]"),
-                            "url=".concat(getRepoURL(distribution.base_path)),
+                            "[galaxy_server.".concat(distroBasePath, "]"),
+                            "url=".concat(getRepoURL(distroBasePath)),
                             'token=<put your token here>',
                         ].join('\n');
                         navigator.clipboard.writeText(cliConfig);
@@ -98,9 +94,9 @@ export var ansibleRepositoryCopyAction = Action({
             });
         });
     },
-    disabled: function (_a) {
-        var distributions = _a.distributions;
-        if (distributions && !distributions.length) {
+    disabled: function (item) {
+        // disabled check only available on detail screen
+        if ('distroBasePath' in item && !item.distroBasePath) {
             return t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["There are no distributions associated with this repository."], ["There are no distributions associated with this repository."])));
         }
         return null;

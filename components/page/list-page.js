@@ -169,6 +169,7 @@ export var ListPage = function (_a) {
                     addAlert: function (alert) { return _this.addAlert(alert); },
                     hasObjectPermission: function () { return false; },
                     hasPermission: this.context.hasPermission,
+                    listQuery: function () { return _this.query(); },
                     navigate: this.props.navigate,
                     query: function () { return _this.query(); },
                     queueAlert: this.context.queueAlert,

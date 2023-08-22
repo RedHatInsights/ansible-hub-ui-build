@@ -37,9 +37,10 @@ var CollectionDocs = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         var params = ParamHelper.parseParamString(props.location.search);
         _this.state = {
+            actuallyCollection: null,
+            collection: null,
             collections: [],
             collectionsCount: 0,
-            collection: null,
             content: null,
             params: params,
         };
@@ -52,7 +53,7 @@ var CollectionDocs = /** @class */ (function (_super) {
     };
     CollectionDocs.prototype.render = function () {
         var _this = this;
-        var _a = this.state, params = _a.params, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content;
+        var _a = this.state, actuallyCollection = _a.actuallyCollection, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params;
         var urlFields = this.props.routeParams;
         if (!collection || !content) {
             return React.createElement(LoadingPageWithHeader, null);
@@ -94,7 +95,7 @@ var CollectionDocs = /** @class */ (function (_super) {
         }
         var collection_version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: collection_version.namespace,
@@ -111,17 +112,10 @@ var CollectionDocs = /** @class */ (function (_super) {
             },
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
         ];
-        // scroll to top of page
-        // if (
-        //   this.docsRef.current &&
-        //   this.searchBarRef.current !== window.document.activeElement
-        // ) {
-        //   this.docsRef.current.scrollIntoView();
-        // }
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadCollection(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: params, updateParams: function (p) {
+            React.createElement(CollectionHeader, { activeTab: 'documentation', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, className: 'header', collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadCollection(true); }, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.loadCollection(true); });
-                }, breadcrumbs: breadcrumbs, activeTab: 'documentation', className: 'header' }),
+                } }),
             React.createElement(Main, { className: 'main' },
                 React.createElement("section", { className: 'docs-container' },
                     React.createElement(TableOfContents, { className: 'sidebar', namespace: collection.collection_version.namespace, collection: collection.collection_version.name, repository: collection.repository.name, docs_blob: content.docs_blob, selectedName: contentName, selectedType: contentType, params: params, updateParams: function (p) { return _this.updateParams(p); }, searchBarRef: this.searchBarRef }),
@@ -187,8 +181,14 @@ var CollectionDocs = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content, collectionsCount) {
-                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount });
+            setCollection: function (collections, collection, content, collectionsCount, actuallyCollection) {
+                return _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                    collectionsCount: collectionsCount,
+                    actuallyCollection: actuallyCollection,
+                });
             },
             stateParams: this.state.params,
         });

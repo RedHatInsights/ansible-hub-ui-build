@@ -47,8 +47,7 @@ import { AlertList, BaseHeader, CardListSwitcher, CollectionCard, CollectionFilt
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { DeleteCollectionUtils, ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
 import './search.scss';
 var Search = /** @class */ (function (_super) {
     __extends(Search, _super);

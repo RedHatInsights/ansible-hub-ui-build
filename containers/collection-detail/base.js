@@ -11,15 +11,17 @@ var __assign = (this && this.__assign) || function () {
 };
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { Paths, formatPath } from 'src/paths';
+import { repositoryBasePath } from 'src/utilities';
 // Caches the collection data when matching, prevents redundant fetches between collection detail tabs
 var cache = {
     repository: null,
     namespace: null,
     name: null,
     version: null,
+    actuallyCollection: null,
+    collection: null,
     collections: [],
     collectionsCount: 0,
-    collection: null,
     content: null,
 };
 export function loadCollection(_a) {
@@ -32,7 +34,7 @@ export function loadCollection(_a) {
         cache.namespace === namespace &&
         cache.name === name &&
         cache.version === version) {
-        setCollection(cache.collections, cache.collection, cache.content, cache.collectionsCount);
+        setCollection(cache.collections, cache.collection, cache.content, cache.collectionsCount, cache.actuallyCollection);
         return;
     }
     var requestParams = __assign(__assign({}, (repo ? { repository_name: repo } : {})), { namespace: namespace, name: name });
@@ -59,16 +61,28 @@ export function loadCollection(_a) {
         return data;
     })
         .catch(function () { return ({ data: [], meta: { count: 0 } }); });
-    return Promise.all([versions, currentVersion, content]).then(function (_a) {
-        var _b = _a[0], collections = _b.data, collectionsCount = _b.meta.count, collection = _a[1], content = _a[2];
-        setCollection(collections, collection, content, collectionsCount);
+    var actuallyCollection = repositoryBasePath(repo)
+        .then(function (basePath) { return CollectionAPI.getDetail(basePath, namespace, name); })
+        .then(function (_a) {
+        var data = _a.data;
+        return data;
+    });
+    return Promise.all([
+        versions,
+        currentVersion,
+        content,
+        actuallyCollection,
+    ]).then(function (_a) {
+        var _b = _a[0], collections = _b.data, collectionsCount = _b.meta.count, collection = _a[1], content = _a[2], actuallyCollection = _a[3];
+        setCollection(collections, collection, content, collectionsCount, actuallyCollection);
         cache.repository = repo;
         cache.namespace = namespace;
         cache.name = name;
         cache.version = version;
+        cache.actuallyCollection = actuallyCollection;
+        cache.collection = collection;
         cache.collections = collections;
         cache.collectionsCount = collectionsCount;
-        cache.collection = collection;
         cache.content = content;
     });
 }

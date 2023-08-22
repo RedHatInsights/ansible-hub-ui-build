@@ -38,6 +38,7 @@ export var Constants = /** @class */ (function () {
         'application',
         'cloud',
         'database',
+        'eda',
         'infrastructure',
         'linux',
         'monitoring',

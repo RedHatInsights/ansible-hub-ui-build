@@ -61,18 +61,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import axios from 'axios';
-import { AnsibleDistributionAPI, } from 'src/api';
+import { repositoryBasePath } from 'src/utilities';
 import { HubAPI } from './hub';
-// return correct distro
-export function findDistroBasePathByRepo(distributions, repository) {
-    if (distributions.length === 0) {
-        // if distribution doesn't exist, use repository name
-        return repository.name;
-    }
-    // try to look for match by name, if not, just use the first distro
-    var distro = distributions.find(function (distro) { return distro.name === repository.name; });
-    return distro ? distro.base_path : distributions[0].base_path;
-}
 function filterContents(contents) {
     if (contents) {
         return contents.filter(function (item) { return !['doc_fragments', 'module_utils'].includes(item.content_type); });
@@ -95,37 +85,20 @@ var API = /** @class */ (function (_super) {
                 // remove module_utils, doc_fragments from each item
                 data: response.data.data.map(filterListItem) }) })); });
     };
-    API.prototype.getPublishedCount = function (distributionPath) {
-        return this.http
-            .get("v3/plugin/ansible/content/".concat(distributionPath, "/collections/index/"))
-            .then(function (result) {
-            return result.data.meta.count;
-        });
-    };
-    API.prototype.getExcludesCount = function (distributionPath) {
-        return this.http
-            .get("content/".concat(distributionPath, "/v3/excludes/"))
-            .then(function (result) {
-            return result.data;
-        });
-    };
-    API.prototype.setDeprecation = function (collection) {
-        var _this = this;
-        var _a = collection.collection_version, namespace = _a.namespace, name = _a.name, repository = collection.repository, is_deprecated = collection.is_deprecated;
-        return new Promise(function (resolve, reject) {
-            AnsibleDistributionAPI.list({
-                repository: repository.pulp_href,
-            })
-                .then(function (result) {
-                var basePath = findDistroBasePathByRepo(result.data.results, repository);
-                var path = "v3/plugin/ansible/content/".concat(basePath, "/collections/index/");
-                _this.patch("".concat(namespace, "/").concat(name), {
-                    deprecated: !is_deprecated,
-                }, path)
-                    .then(function (res) { return resolve(res); })
-                    .catch(function (err) { return reject(err); });
-            })
-                .catch(function (err) { return reject(err); });
+    API.prototype.setDeprecation = function (_a) {
+        var _b = _a.collection_version, namespace = _b.namespace, name = _b.name, repository = _a.repository, is_deprecated = _a.is_deprecated;
+        return __awaiter(this, void 0, void 0, function () {
+            var distroBasePath;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, repositoryBasePath(repository.name, repository.pulp_href)];
+                    case 1:
+                        distroBasePath = _c.sent();
+                        return [2 /*return*/, this.patch("".concat(namespace, "/").concat(name), {
+                                deprecated: !is_deprecated,
+                            }, "v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/"))];
+                }
+            });
         });
     };
     API.prototype.upload = function (data, progressCallback, cancelToken) {
@@ -152,52 +125,47 @@ var API = /** @class */ (function (_super) {
         return axios.CancelToken.source();
     };
     API.prototype.getDownloadURL = function (repository, namespace, name, version) {
-        var _this = this;
-        // UI API doesn't have tarball download link, so query it separately here
-        return new Promise(function (resolve, reject) {
-            AnsibleDistributionAPI.list({
-                repository: repository.pulp_href,
-            })
-                .then(function (result) {
-                var basePath = findDistroBasePathByRepo(result.data.results, repository);
-                _this.http
-                    .get("v3/plugin/ansible/content/".concat(basePath, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))
-                    .then(function (result) {
-                    resolve(result.data['download_url']);
-                })
-                    .catch(function (err) { return reject(err); });
-            })
-                .catch(function (err) { return reject(err); });
-        });
-    };
-    API.prototype.deleteCollectionVersion = function (collection) {
         return __awaiter(this, void 0, void 0, function () {
-            var distros, distroBasePath;
+            var distroBasePath;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, AnsibleDistributionAPI.list({
-                            repository: collection.repository.pulp_href,
-                        })];
+                    case 0: return [4 /*yield*/, repositoryBasePath(repository.name, repository.pulp_href)];
                     case 1:
-                        distros = _a.sent();
-                        distroBasePath = findDistroBasePathByRepo(distros.data.results, collection.repository);
-                        return [2 /*return*/, this.http.delete("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(collection.collection_version.namespace, "/").concat(collection.collection_version.name, "/versions/").concat(collection.collection_version.version, "/"))];
+                        distroBasePath = _a.sent();
+                        return [2 /*return*/, this.http
+                                .get("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))
+                                .then(function (_a) {
+                                var download_url = _a.data.download_url;
+                                return download_url;
+                            })];
                 }
             });
         });
     };
-    API.prototype.deleteCollection = function (collection) {
+    API.prototype.deleteCollectionVersion = function (_a) {
+        var _b = _a.collection_version, namespace = _b.namespace, name = _b.name, version = _b.version, repository = _a.repository;
         return __awaiter(this, void 0, void 0, function () {
-            var distros, distroBasePath;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, AnsibleDistributionAPI.list({
-                            repository: collection.repository.pulp_href,
-                        })];
+            var distroBasePath;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, repositoryBasePath(repository.name, repository.pulp_href)];
                     case 1:
-                        distros = _a.sent();
-                        distroBasePath = findDistroBasePathByRepo(distros.data.results, collection.repository);
-                        return [2 /*return*/, this.http.delete("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(collection.collection_version.namespace, "/").concat(collection.collection_version.name, "/"))];
+                        distroBasePath = _c.sent();
+                        return [2 /*return*/, this.http.delete("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))];
+                }
+            });
+        });
+    };
+    API.prototype.deleteCollection = function (_a) {
+        var _b = _a.collection_version, namespace = _b.namespace, name = _b.name, repository = _a.repository;
+        return __awaiter(this, void 0, void 0, function () {
+            var distroBasePath;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, repositoryBasePath(repository.name, repository.pulp_href)];
+                    case 1:
+                        distroBasePath = _c.sent();
+                        return [2 /*return*/, this.http.delete("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/"))];
                 }
             });
         });
@@ -207,8 +175,18 @@ var API = /** @class */ (function (_super) {
         if (cancelToken === void 0) { cancelToken = undefined; }
         return this.http.get(this.getUIPath("collection-versions/?dependency=".concat(namespace, ".").concat(collection)), { params: this.mapPageToOffset(params), cancelToken: cancelToken === null || cancelToken === void 0 ? void 0 : cancelToken.token });
     };
-    API.prototype.getSignatures = function (distroBasePath, namespace, name, version) {
-        return this.http.get("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"));
+    API.prototype.getSignatures = function (repository, namespace, name, version) {
+        return __awaiter(this, void 0, void 0, function () {
+            var distroBasePath;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, repositoryBasePath(repository.name, repository.pulp_href)];
+                    case 1:
+                        distroBasePath = _a.sent();
+                        return [2 /*return*/, this.http.get("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/versions/").concat(version, "/"))];
+                }
+            });
+        });
     };
     API.prototype.getContent = function (namespace, name, version) {
         return _super.prototype.list.call(this, {
@@ -216,6 +194,9 @@ var API = /** @class */ (function (_super) {
             name: name,
             version: version,
         }, "pulp/api/v3/content/ansible/collection_versions/");
+    };
+    API.prototype.getDetail = function (distroBasePath, namespace, name) {
+        return this.http.get("v3/plugin/ansible/content/".concat(distroBasePath, "/collections/index/").concat(namespace, "/").concat(name, "/"));
     };
     return API;
 }(HubAPI));

@@ -55,7 +55,7 @@ var label = function (count, type) {
             one: 'Dependency',
             other: 'Dependencies',
         }),
-    }[type] || type);
+    })[type] || type;
 };
 export var CollectionNumericLabel = function (_a) {
     var count = _a.count, newline = _a.newline, type = _a.type;
