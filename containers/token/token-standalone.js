@@ -51,7 +51,11 @@ var TokenStandalone = /** @class */ (function (_super) {
         var _a = this.state, token = _a.token, alerts = _a.alerts, loadingToken = _a.loadingToken;
         var unauthorised = !this.context.user || this.context.user.is_anonymous;
         var expiration = this.context.settings.GALAXY_TOKEN_EXPIRATION;
-        var expirationDate = new Date(Date.now() + 1000 * 60 * expiration);
+        var expirationDate = expiration
+            ? new Date(Date.now() + 1000 * 60 * expiration)
+            : null;
+        var isSSO = !this.context.user.auth_provider.includes('django') &&
+            !this.context.user.auth_provider.includes('github');
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["API token"], ["API token"]))) }),
@@ -66,14 +70,16 @@ var TokenStandalone = /** @class */ (function (_super) {
                                 ' ',
                                 React.createElement("code", null, "ansible-galaxy"),
                                 " client.")),
-                        !this.context.user.auth_provider.includes('django') && (React.createElement("div", null,
+                        isSSO && (React.createElement("div", null,
                             React.createElement("h2", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Expiration"], ["Expiration"])))),
                             React.createElement("p", null,
-                                React.createElement(Trans, null,
-                                    "You are an SSO user. Your token will expire",
+                                React.createElement(Trans, null, "You are an SSO user."),
+                                ' ',
+                                expirationDate ? (React.createElement(Trans, null,
+                                    "Your token will expire",
                                     ' ',
                                     React.createElement(DateComponent, { date: expirationDate.toISOString() }),
-                                    ".")))),
+                                    ".")) : (React.createElement(Trans, null, "Your token will not expire."))))),
                         React.createElement("div", { className: 'pf-c-content' },
                             React.createElement(Trans, null,
                                 React.createElement("b", null, "WARNING"),

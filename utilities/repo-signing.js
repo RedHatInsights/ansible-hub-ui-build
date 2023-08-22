@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { SignContainersAPI } from 'src/api';
-import { waitForTaskUrl } from 'src/utilities';
+import { waitForTaskUrl } from './wait-for-task';
 var RepoSigningUtils = /** @class */ (function () {
     function RepoSigningUtils() {
     }

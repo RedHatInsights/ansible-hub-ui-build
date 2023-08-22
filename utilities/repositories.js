@@ -2,6 +2,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,95 +59,66 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { AnsibleDistributionAPI, AnsibleRepositoryAPI, CollectionVersionAPI, Repositories, } from 'src/api';
-import { waitForTaskUrl } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { AnsibleRepositoryAPI, CollectionVersionAPI, } from 'src/api';
+import { parsePulpIDFromURL } from './parse-pulp-id';
+import { waitForTaskUrl } from './wait-for-task';
+function getAll(additionalParams) {
+    if (additionalParams === void 0) { additionalParams = {}; }
+    return __awaiter(this, void 0, void 0, function () {
+        var list, page, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    list = [];
+                    page = 1;
+                    _a.label = 1;
+                case 1:
+                    if (!(page <= 10)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, AnsibleRepositoryAPI.list(__assign(__assign({}, additionalParams), { page: page, page_size: 100 }))];
+                case 2:
+                    result = _a.sent();
+                    list = list.concat(result.data.results);
+                    if (list.length >= result.data.count) {
+                        return [2 /*return*/, list];
+                    }
+                    _a.label = 3;
+                case 3:
+                    page++;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 var RepositoriesUtils = /** @class */ (function () {
     function RepositoriesUtils() {
     }
-    RepositoriesUtils.getAll = function (additionalParams) {
-        if (additionalParams === void 0) { additionalParams = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var list, params, page, pageSize, i, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        list = [];
-                        params = Object.keys(additionalParams).reduce(function (acc, key) {
-                            return acc + "&".concat(key, "=").concat(encodeURIComponent(additionalParams[key]));
-                        }, '');
-                        page = 0;
-                        pageSize = 100;
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < 10)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, Repositories.http.get("".concat(Repositories.apiPath, "?offset=").concat(page, "&limit=").concat(pageSize).concat(params))];
-                    case 2:
-                        result = _a.sent();
-                        list = list.concat(result.data.results);
-                        if (list.length >= result.data.count) {
-                            return [2 /*return*/, list];
-                        }
-                        page += pageSize;
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
     RepositoriesUtils.listApproved = function () {
-        return this.getAll({ pulp_label_select: 'pipeline=approved' });
+        return getAll({ pulp_label_select: 'pipeline=approved' });
     };
     RepositoriesUtils.listAll = function () {
-        return this.getAll();
-    };
-    RepositoriesUtils.deleteOrAddCollection = function (repoName, collectionVersion_pulp_href, add) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data, repo, pulp_id, addList, removeList;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Repositories.getRepository({ name: repoName })];
-                    case 1:
-                        data = _a.sent();
-                        if (data.data.results.length == 0) {
-                            return [2 /*return*/, Promise.reject({ error: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Repository ", " not found."], ["Repository ", " not found."])), repoName) })];
-                        }
-                        repo = data.data.results[0];
-                        pulp_id = parsePulpIDFromURL(repo.pulp_href);
-                        addList = [];
-                        removeList = [];
-                        if (add) {
-                            addList.push(collectionVersion_pulp_href);
-                        }
-                        else {
-                            removeList.push(collectionVersion_pulp_href);
-                        }
-                        return [4 /*yield*/, Repositories.modify(pulp_id, addList, removeList, repo.latest_version_href)];
-                    case 2:
-                        data = _a.sent();
-                        return [4 /*yield*/, waitForTaskUrl(data.data['task'])];
-                    case 3:
-                        data = _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+        return getAll();
     };
     RepositoriesUtils.deleteCollection = function (repoName, collectionVersion_pulp_href) {
+        var _a, _b, _c, _d, _e;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, RepositoriesUtils.deleteOrAddCollection(repoName, collectionVersion_pulp_href, false)];
-            });
-        });
-    };
-    RepositoriesUtils.addCollection = function (repoName, collectionVersion_pulp_href) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, RepositoriesUtils.deleteOrAddCollection(repoName, collectionVersion_pulp_href, true)];
+            var repo, task;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0: return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: repoName, page_size: 1 })];
+                    case 1:
+                        repo = (_c = (_b = (_a = (_f.sent())) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.results) === null || _c === void 0 ? void 0 : _c[0];
+                        if (!repo) {
+                            return [2 /*return*/, Promise.reject({ error: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Repository ", " not found."], ["Repository ", " not found."])), repoName) })];
+                        }
+                        return [4 /*yield*/, AnsibleRepositoryAPI.removeContent(parsePulpIDFromURL(repo.pulp_href), collectionVersion_pulp_href)];
+                    case 2:
+                        task = (_e = (_d = (_f.sent())) === null || _d === void 0 ? void 0 : _d.data) === null || _e === void 0 ? void 0 : _e.task;
+                        return [4 /*yield*/, waitForTaskUrl(task)];
+                    case 3:
+                        _f.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -158,29 +140,6 @@ var RepositoriesUtils = /** @class */ (function () {
                 repository.pulp_href !== selectedCollection.repository.pulp_href;
         });
     };
-    RepositoriesUtils.distributionByRepoName = function (name) {
-        var _a, _b, _c, _d, _e, _f;
-        return __awaiter(this, void 0, void 0, function () {
-            var repository, distribution;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
-                    case 0: return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: name })];
-                    case 1:
-                        repository = (_c = (_b = (_a = (_g.sent())) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.results) === null || _c === void 0 ? void 0 : _c[0];
-                        if (!repository) {
-                            return [2 /*return*/, Promise.reject(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to find repository ", ""], ["Failed to find repository ", ""])), name))];
-                        }
-                        return [4 /*yield*/, AnsibleDistributionAPI.list({ repository: repository.pulp_href })];
-                    case 2:
-                        distribution = (_f = (_e = (_d = (_g.sent())) === null || _d === void 0 ? void 0 : _d.data) === null || _e === void 0 ? void 0 : _e.results) === null || _f === void 0 ? void 0 : _f[0];
-                        if (!distribution) {
-                            return [2 /*return*/, Promise.reject(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Failed to find a distribution for repository ", ""], ["Failed to find a distribution for repository ", ""])), name))];
-                        }
-                        return [2 /*return*/, distribution];
-                }
-            });
-        });
-    };
     RepositoriesUtils.getCollectionRepoList = function (collection) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, name, namespace, version, collectionInRepos, collectionRepos;
@@ -192,7 +151,7 @@ var RepositoriesUtils = /** @class */ (function () {
                                 namespace: namespace,
                                 name: name,
                                 version: version,
-                                page_size: 100000,
+                                page_size: 100,
                                 offset: 0,
                             })];
                     case 1:
@@ -209,5 +168,5 @@ var RepositoriesUtils = /** @class */ (function () {
     return RepositoriesUtils;
 }());
 export { RepositoriesUtils };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1;
 //# sourceMappingURL=repositories.js.map

@@ -40,7 +40,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { RoleAPI } from 'src/api/role';
+import { RoleAPI } from 'src/api';
 import { AlertList, EmptyStateUnauthorized, LoadingPageWithHeader, Main, RoleForm, RoleHeader, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';

@@ -70,6 +70,8 @@ export var PageWithTabs = function (_a) {
     headerActions = _a.headerActions, 
     // under title
     headerDetails = _a.headerDetails, 
+    // formatPath result to navigate to - to get to the list screen
+    listUrl = _a.listUrl, 
     // () => Promise<T>
     query = _a.query, 
     // ({ addAlert, state, setState, query }) => <ConfirmationModal... />
@@ -124,6 +126,7 @@ export var PageWithTabs = function (_a) {
                     addAlert: function (alert) { return _this.addAlert(alert); },
                     hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); },
                     hasPermission: this.context.hasPermission,
+                    listQuery: function () { return _this.props.navigate(listUrl); },
                     navigate: this.props.navigate,
                     query: function () { return _this.query(); },
                     queueAlert: this.context.queueAlert,

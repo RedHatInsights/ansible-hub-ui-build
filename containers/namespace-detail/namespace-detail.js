@@ -47,9 +47,7 @@ import { CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, Sign
 import { AccessTab, AlertList, ClipboardCopy, CollectionFilter, CollectionList, DeleteCollectionModal, DeleteModal, EmptyStateNoData, ImportModal, LoadingPageWithHeader, Main, Pagination, PartnerHeader, SignAllCertificatesModal, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoURL, waitForTask, } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, filterIsSet, getRepoURL, parsePulpIDFromURL, waitForTask, withRouter, } from 'src/utilities';
 import './namespace-detail.scss';
 var NamespaceDetail = /** @class */ (function (_super) {
     __extends(NamespaceDetail, _super);
@@ -65,7 +63,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 return NamespaceAPI.delete(name)
                     .then(function () {
                     _this.setState({
-                        redirect: namespaceBreadcrumb.url,
+                        redirect: namespaceBreadcrumb().url,
                         confirmDelete: false,
                         isNamespacePending: false,
                     });
@@ -109,37 +107,36 @@ var NamespaceDetail = /** @class */ (function (_super) {
             params['repository_name'] = props.routeParams.repo;
         }
         _this.state = {
+            alerts: [],
             canSign: false,
             collections: [],
-            allCollections: [],
-            namespace: null,
-            params: params,
-            redirect: null,
-            itemCount: 0,
-            showImportModal: false,
-            warning: '',
-            updateCollection: null,
-            showControls: false,
+            confirmDelete: false,
+            deleteAll: true,
+            deleteCollection: null,
+            filteredCount: 0,
+            group: null,
+            isDeletionPending: false,
+            isNamespacePending: false,
             isOpenNamespaceModal: false,
             isOpenSignModal: false,
             isOpenWisdomModal: false,
-            confirmDelete: false,
-            isNamespacePending: false,
-            alerts: [],
-            deleteCollection: null,
-            isDeletionPending: false,
+            namespace: null,
+            params: params,
+            redirect: null,
+            showControls: false,
             showGroupRemoveModal: null,
             showGroupSelectWizard: null,
+            showImportModal: false,
             showRoleRemoveModal: null,
             showRoleSelectWizard: null,
-            group: null,
-            deleteAll: true,
+            unfilteredCount: 0,
+            updateCollection: null,
+            warning: '',
         };
         return _this;
     }
     NamespaceDetail.prototype.componentDidMount = function () {
         this.load();
-        this.loadAllCollections();
         this.setState({ alerts: this.context.alerts || [] });
         this.context.setAlerts([]);
     };
@@ -196,7 +193,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.render = function () {
         var _this = this;
         var _a, _b;
-        var _c = this.state, canSign = _c.canSign, collections = _c.collections, namespace = _c.namespace, params = _c.params, redirect = _c.redirect, itemCount = _c.itemCount, showControls = _c.showControls, showImportModal = _c.showImportModal, warning = _c.warning, updateCollection = _c.updateCollection, isOpenNamespaceModal = _c.isOpenNamespaceModal, isOpenWisdomModal = _c.isOpenWisdomModal, confirmDelete = _c.confirmDelete, isNamespacePending = _c.isNamespacePending, alerts = _c.alerts, deleteCollection = _c.deleteCollection, isDeletionPending = _c.isDeletionPending;
+        var _c = this.state, alerts = _c.alerts, canSign = _c.canSign, collections = _c.collections, confirmDelete = _c.confirmDelete, deleteCollection = _c.deleteCollection, filteredCount = _c.filteredCount, isDeletionPending = _c.isDeletionPending, isNamespacePending = _c.isNamespacePending, isOpenNamespaceModal = _c.isOpenNamespaceModal, isOpenWisdomModal = _c.isOpenWisdomModal, namespace = _c.namespace, params = _c.params, redirect = _c.redirect, showControls = _c.showControls, showImportModal = _c.showImportModal, updateCollection = _c.updateCollection, warning = _c.warning;
         if (redirect) {
             return React.createElement(Navigate, { to: redirect });
         }
@@ -211,7 +208,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         ].filter(Boolean);
         var tab = params['tab'] || 'collections';
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 name: namespace.name,
                 url: tab === 'access'
@@ -235,7 +232,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 : null,
         ].filter(Boolean);
         var repositoryUrl = getRepoURL('published');
-        var noData = itemCount === 0 &&
+        var noData = filteredCount === 0 &&
             !filterIsSet(params, [
                 'is_signed',
                 'keywords',
@@ -300,10 +297,10 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     React.createElement("div", { className: 'toolbar' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
                         React.createElement("div", { className: 'hub-pagination-container' },
-                            React.createElement(Pagination, { params: params, updateParams: updateParams, count: itemCount, isTop: true }))))) : null }),
+                            React.createElement(Pagination, { params: params, updateParams: updateParams, count: filteredCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
                 tab === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
-                    React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: itemCount, displaySignatures: this.context.featureFlags.display_signatures, collectionControls: function (collection) {
+                    React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: filteredCount, displaySignatures: this.context.featureFlags.display_signatures, collectionControls: function (collection) {
                             return _this.renderCollectionControls(collection);
                         } })))) : null,
                 tab === 'cli-configuration' ? (React.createElement("section", { className: 'body' },
@@ -453,7 +450,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             });
             waitForTask(result.data.task_id)
                 .then(function () {
-                _this.load();
+                _this.loadCollections();
             })
                 .catch(function (error) {
                 _this.setState({
@@ -474,26 +471,33 @@ var NamespaceDetail = /** @class */ (function (_super) {
             });
         });
     };
+    NamespaceDetail.prototype.loadAllCollections = function (params) {
+        return CollectionVersionAPI.list(__assign(__assign({}, params), { is_highest: true, namespace: this.props.routeParams.namespace, repository_label: '!hide_from_search' }));
+    };
     NamespaceDetail.prototype.loadCollections = function () {
         var _this = this;
-        CollectionVersionAPI.list(__assign(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), { repository_label: '!hide_from_search', namespace: this.props.routeParams.namespace })).then(function (result) {
+        return this.loadAllCollections(ParamHelper.getReduced(this.state.params, this.nonAPIParams)).then(function (result) {
             _this.setState({
                 collections: result.data.data,
-                itemCount: result.data.meta.count,
+                filteredCount: result.data.meta.count,
             });
         });
     };
     NamespaceDetail.prototype.load = function () {
         var _this = this;
         Promise.all([
-            CollectionVersionAPI.list(__assign(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), { repository_label: '!hide_from_search', namespace: this.props.routeParams.namespace, is_highest: true })),
+            this.loadCollections(),
+            this.loadAllCollections({
+                page: 1,
+                page_size: 1,
+            }),
             NamespaceAPI.get(this.props.routeParams.namespace, {
                 include_related: 'my_permissions',
             }),
             MyNamespaceAPI.get(this.props.routeParams.namespace, {
                 include_related: 'my_permissions',
             }).catch(function (e) {
-                // TODO this needs fixing on backend to return nothing in these cases with 200 status
+                // this needs fixing on backend to return nothing in these cases with 200 status
                 // if view only mode is enabled disregard errors and hope
                 if (_this.context.user.is_anonymous &&
                     _this.context.settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS) {
@@ -505,27 +509,18 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     : Promise.reject(e);
             }),
         ])
-            .then(function (val) {
-            var _a;
+            .then(function (_a) {
+            var _collections = _a[0], unfilteredCount = _a[1].data.meta.count, namespace = _a[2].data, myNamespace = _a[3];
             _this.setState({
-                collections: val[0].data.data,
-                itemCount: val[0].data.meta.count,
-                namespace: val[1].data,
-                showControls: !!val[2],
-                canSign: canSignNamespace(_this.context, (_a = val[2]) === null || _a === void 0 ? void 0 : _a.data),
-                group: _this.filterGroup(_this.state.params['group'], val[1].data['groups']),
+                canSign: canSignNamespace(_this.context, myNamespace === null || myNamespace === void 0 ? void 0 : myNamespace.data),
+                group: _this.filterGroup(_this.state.params['group'], namespace['groups']),
+                namespace: namespace,
+                showControls: !!myNamespace,
+                unfilteredCount: unfilteredCount,
             });
         })
             .catch(function () {
             _this.setState({ redirect: formatPath(Paths.notFound) });
-        });
-    };
-    NamespaceDetail.prototype.loadAllCollections = function () {
-        var _this = this;
-        CollectionVersionAPI.list(__assign(__assign({}, ParamHelper.getReduced(this.state.params, this.nonAPIParams)), { namespace: this.props.routeParams.namespace })).then(function (result) {
-            _this.setState({
-                allCollections: result.data.data,
-            });
         });
     };
     Object.defineProperty(NamespaceDetail.prototype, "updateParams", {
@@ -537,7 +532,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     });
     NamespaceDetail.prototype.renderPageControls = function () {
         var _this = this;
-        var _a = this.state, canSign = _a.canSign, collections = _a.collections;
+        var _a = this.state, canSign = _a.canSign, collections = _a.collections, unfilteredCount = _a.unfilteredCount;
         var can_upload_signatures = this.context.featureFlags.can_upload_signatures;
         var ai_deny_index = this.context.featureFlags.ai_deny_index;
         var hasPermission = this.context.hasPermission;
@@ -546,7 +541,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
                     }) }, t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            hasPermission('galaxy.delete_namespace') && (React.createElement(React.Fragment, { key: '2' }, this.state.allCollections.length === 0 ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
+            hasPermission('galaxy.delete_namespace') && (React.createElement(React.Fragment, { key: '2' }, unfilteredCount === 0 ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
                     "Cannot delete namespace until ",
                     React.createElement("br", null),
                     "collections' dependencies have ",

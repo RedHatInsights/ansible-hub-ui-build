@@ -89,7 +89,7 @@ var EditNamespace = /** @class */ (function (_super) {
         };
         return (React.createElement(React.Fragment, null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: [
-                    namespaceBreadcrumb,
+                    namespaceBreadcrumb(),
                     {
                         name: namespace.name,
                         url: formatPath(Paths.namespaceDetail, {

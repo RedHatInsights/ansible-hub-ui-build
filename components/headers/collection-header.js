@@ -80,12 +80,11 @@ import * as moment from 'moment';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
-import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, DeleteCollectionModal, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, DeleteCollectionModal, DownloadCount, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { DeleteCollectionUtils, ParamHelper, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
 import './header.scss';
@@ -368,7 +367,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
     CollectionHeader.prototype.render = function () {
         var _a, _b, _c;
         var _this = this;
-        var collections = (_a = this.props, _a.collections), collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, updateParams = _a.updateParams, breadcrumbs = _a.breadcrumbs, activeTab = _a.activeTab, className = _a.className;
+        var activeTab = (_a = this.props, _a.activeTab), actuallyCollection = _a.actuallyCollection, breadcrumbs = _a.breadcrumbs, className = _a.className, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params, updateParams = _a.updateParams;
         var modalCollections = (_b = this.state, _b.modalCollections), modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection, copyCollectionToRepositoryModal = _b.copyCollectionToRepositoryModal;
         var urlKeys = [
             { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
@@ -411,8 +410,8 @@ export var CollectionHeader = /** @class */ (function (_super) {
                 deleteAll: false,
                 display_repositories: display_repositories,
             }),
-            hasPermission('ansible.delete_collection') && (React.createElement(DropdownItem, { "data-cy": 'delete-version-dropdown', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
-            hasPermission('ansible.delete_collection') && display_repositories && (React.createElement(DropdownItem, { "data-cy": 'delete-version-from-repo-dropdown', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
+            hasPermission('ansible.delete_collection') && (React.createElement(DropdownItem, { "data-cy": 'delete-collection-version', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
+            hasPermission('ansible.delete_collection') && display_repositories && (React.createElement(DropdownItem, { "data-cy": 'remove-collection-version', key: 'remove-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
             canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
             canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () {
                     if (can_upload_signatures) {
@@ -489,37 +488,40 @@ export var CollectionHeader = /** @class */ (function (_super) {
                     _this.addAlert(alert);
                     _this.setState({ copyCollectionToRepositoryModal: null });
                 } })),
-            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'install-version-column' },
-                    React.createElement("span", null, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Version"], ["Version"])))),
-                    React.createElement("div", { className: 'install-version-dropdown' },
-                        React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
-                                return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
-                            }, variant: SelectVariant.single, onSelect: function () {
-                                return _this.setState({ isOpenVersionsSelect: false });
-                            }, selections: "v".concat(version), "aria-label": t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: collections.length < collectionsCount
-                                ? {
-                                    text: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["View more"], ["View more"]))),
-                                    onClick: function () {
-                                        return _this.setState({
-                                            isOpenVersionsModal: true,
-                                            isOpenVersionsSelect: false,
-                                        });
-                                    },
-                                }
-                                : null }, collections
-                            .map(function (c) { return c.collection_version; })
-                            .map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v".concat(v.version), onClick: function () {
-                                return updateParams(ParamHelper.setParam(params, 'version', v.version.toString()));
-                            } },
+            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
+                    React.createElement("div", { className: 'install-version-column' },
+                        React.createElement("span", null, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Version"], ["Version"])))),
+                        React.createElement("div", { className: 'install-version-dropdown' },
+                            React.createElement(Select, { isOpen: isOpenVersionsSelect, onToggle: function (isOpenVersionsSelect) {
+                                    return _this.setState({ isOpenVersionsSelect: isOpenVersionsSelect });
+                                }, variant: SelectVariant.single, onSelect: function () {
+                                    return _this.setState({ isOpenVersionsSelect: false });
+                                }, selections: "v".concat(version), "aria-label": t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Select collection version"], ["Select collection version"]))), loadingVariant: collections.length < collectionsCount
+                                    ? {
+                                        text: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["View more"], ["View more"]))),
+                                        onClick: function () {
+                                            return _this.setState({
+                                                isOpenVersionsModal: true,
+                                                isOpenVersionsSelect: false,
+                                            });
+                                        },
+                                    }
+                                    : null }, collections
+                                .map(function (c) { return c.collection_version; })
+                                .map(function (v) { return (React.createElement(SelectOption, { key: v.version, value: "v".concat(v.version), onClick: function () {
+                                    return updateParams(ParamHelper.setParam(params, 'version', v.version.toString()));
+                                } },
+                                React.createElement(Trans, null,
+                                    v.version,
+                                    " updated ",
+                                    isLatestVersion(v)))); }))),
+                        latestVersion ? (React.createElement("span", { className: 'last-updated' },
                             React.createElement(Trans, null,
-                                v.version,
-                                " updated ",
-                                isLatestVersion(v)))); }))),
-                    latestVersion ? (React.createElement("span", { className: 'last-updated' },
-                        React.createElement(Trans, null,
-                            "Last updated ",
-                            React.createElement(DateComponent, { date: latestVersion })))) : null,
-                    display_signatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: collection.is_signed ? 'signed' : 'unsigned' })) : null), pageControls: React.createElement(Flex, null,
+                                "Last updated ",
+                                React.createElement(DateComponent, { date: latestVersion })))) : null,
+                        display_signatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: collection.is_signed ? 'signed' : 'unsigned' })) : null),
+                    React.createElement("div", { style: { alignSelf: 'center' } },
+                        React.createElement(DownloadCount, { item: actuallyCollection }))), pageControls: React.createElement(Flex, null,
                     DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? (React.createElement(FlexItem, null,
                         React.createElement("a", { href: issueUrl, target: '_blank', rel: 'noreferrer' }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Create issue"], ["Create issue"])))),
                         ' ',

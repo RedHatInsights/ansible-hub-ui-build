@@ -100,7 +100,7 @@ if (searchParams.lang === '') {
 var overrideLanguage = window.localStorage.override_l10n &&
     availableLanguages.includes(window.localStorage.override_l10n) &&
     window.localStorage.override_l10n;
-var language = overrideLanguage || userLanguage || 'en';
+export var language = overrideLanguage || userLanguage || 'en';
 var pseudolocalization = window.localStorage.test_l10n === 'true';
 if (overrideLanguage) {
     console.debug("language autodetection overriden to: ".concat(overrideLanguage, ", unset by visiting ").concat(window.location.origin + window.location.pathname + '?lang='));

@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Paths, formatPath } from 'src/paths';
-import { parsePulpIDFromURL } from 'src/utilities';
+import { parsePulpIDFromURL } from './parse-pulp-id';
 // task can be { task: (pulp_href) } or "(pulp_href)" or "(uuid)"
 export var taskAlert = function (task, title, variant) {
     if (variant === void 0) { variant = 'info'; }

@@ -6,13 +6,13 @@ import { t } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnsibleRemoteAPI, } from 'src/api';
-import { CopyURL, Details, NonLazyDistributions, PulpLabels, } from 'src/components';
+import { CopyURL, Details, LazyDistributions, PulpLabels, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { getRepoURL, parsePulpIDFromURL } from 'src/utilities';
 export var DetailsTab = function (_a) {
-    var _b, _c;
+    var _b;
     var item = _a.item;
-    var _d = useState(null), remote = _d[0], setRemote = _d[1];
+    var _c = useState(null), remote = _c[0], setRemote = _c[1];
     useEffect(function () {
         var pk = item.remote && parsePulpIDFromURL(item.remote);
         if (pk) {
@@ -34,11 +34,11 @@ export var DetailsTab = function (_a) {
             },
             {
                 label: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Distribution"], ["Distribution"]))),
-                value: React.createElement(NonLazyDistributions, { distributions: item.distributions }),
+                value: React.createElement(LazyDistributions, { repositoryHref: item === null || item === void 0 ? void 0 : item.pulp_href }),
             },
             {
                 label: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Repository URL"], ["Repository URL"]))),
-                value: ((_c = item.distributions) === null || _c === void 0 ? void 0 : _c.length) ? (React.createElement(CopyURL, { url: getRepoURL(item.distributions[0].base_path) })) : ('---'),
+                value: (item === null || item === void 0 ? void 0 : item.distroBasePath) ? (React.createElement(CopyURL, { url: getRepoURL(item.distroBasePath) })) : ('---'),
             },
             {
                 label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Labels"], ["Labels"]))),

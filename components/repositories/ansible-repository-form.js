@@ -18,7 +18,7 @@ import { ActionGroup, Button, Checkbox, Form, FormGroup, Select, SelectOption, S
 import React, { useEffect, useState } from 'react';
 import { AnsibleRemoteAPI } from 'src/api';
 import { APISearchTypeAhead, HelperText, LazyDistributions, PulpLabels, } from 'src/components';
-import { errorMessage } from 'src/utilities';
+import { errorMessage, repositoryBasePath, } from 'src/utilities';
 export var AnsibleRepositoryForm = function (_a) {
     var _b, _c, _d;
     var allowEditName = _a.allowEditName, errorMessages = _a.errorMessages, onCancel = _a.onCancel, onSave = _a.onSave, repository = _a.repository, updateRepository = _a.updateRepository;
@@ -44,12 +44,8 @@ export var AnsibleRepositoryForm = function (_a) {
     var isValid = !requiredFields.find(function (field) { return !repository[field]; });
     var _f = useState(true), createDistribution = _f[0], setCreateDistribution = _f[1];
     var _g = useState(false), disabledDistribution = _g[0], setDisabledDistribution = _g[1];
-    var onDistributionsLoad = function (distributions) {
-        var _a;
-        if ((_a = distributions === null || distributions === void 0 ? void 0 : distributions.find) === null || _a === void 0 ? void 0 : _a.call(distributions, function (_a) {
-            var name = _a.name;
-            return name === repository.name;
-        })) {
+    var onDistributionsLoad = function (distroBasePath) {
+        if (distroBasePath) {
             setCreateDistribution(false);
             setDisabledDistribution(true);
         }
@@ -77,6 +73,15 @@ export var AnsibleRepositoryForm = function (_a) {
         });
     };
     useEffect(function () { return loadRemotes(); }, []);
+    useEffect(function () {
+        if (!repository) {
+            onDistributionsLoad(null);
+            return;
+        }
+        repositoryBasePath(repository.name, repository.pulp_href)
+            .catch(function () { return null; })
+            .then(onDistributionsLoad);
+    }, [repository === null || repository === void 0 ? void 0 : repository.pulp_href]);
     var selectedRemote = (_d = remotes === null || remotes === void 0 ? void 0 : remotes.find) === null || _d === void 0 ? void 0 : _d.call(remotes, function (_a) {
         var pulp_href = _a.pulp_href;
         return pulp_href === (repository === null || repository === void 0 ? void 0 : repository.remote);
@@ -144,7 +149,7 @@ export var AnsibleRepositoryForm = function (_a) {
         stringField('description', t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Description"], ["Description"])))),
         numericField('retain_repo_versions', t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Retained number of versions"], ["Retained number of versions"]))), t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["In order to retain all versions, leave this field blank."], ["In order to retain all versions, leave this field blank."])))),
         formGroup('distributions', t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Distributions"], ["Distributions"]))), t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Content in repositories without a distribution will not be visible to clients for sync, download or search."], ["Content in repositories without a distribution will not be visible to clients for sync, download or search."]))), React.createElement(React.Fragment, null,
-            React.createElement(LazyDistributions, { emptyText: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["None"], ["None"]))), repositoryHref: repository.pulp_href, onLoad: onDistributionsLoad }),
+            React.createElement(LazyDistributions, { emptyText: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["None"], ["None"]))), repositoryHref: repository.pulp_href }),
             React.createElement("br", null),
             React.createElement(Checkbox, { isChecked: createDistribution, isDisabled: disabledDistribution, onChange: function (value) { return setCreateDistribution(value); }, label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Create a \"", "\" distribution"], ["Create a \"", "\" distribution"])), repository.name), id: 'create_distribution' }))),
         formGroup('pipeline', t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Pipeline"], ["Pipeline"]))), pipelineHelp, React.createElement("div", { "data-cy": 'pipeline' },

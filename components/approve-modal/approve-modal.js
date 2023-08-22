@@ -61,7 +61,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { t } from '@lingui/macro';
 import { Button, Modal, Spinner } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
-import { CollectionVersionAPI, Repositories, SigningServiceAPI, } from 'src/api';
+import { AnsibleRepositoryAPI, CollectionVersionAPI, SigningServiceAPI, } from 'src/api';
 import { AlertList, MultipleRepoSelector, closeAlert, } from 'src/components';
 import { useContext } from 'src/loaders/app-context';
 import { errorMessage, parsePulpIDFromURL, waitForTaskUrl, } from 'src/utilities';
@@ -74,10 +74,11 @@ export var ApproveModal = function (props) {
     function approve() {
         var error = '';
         function approveAsync() {
+            var _a, _b, _c, _d, _e;
             return __awaiter(this, void 0, void 0, function () {
-                var reapprove, originRepoName, reposToApprove, repositoriesRef, repoData, pulp_id, collectionData, autosign, signingService_href, signingServiceName, signingList, promiseCopyOrMove, task;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var reapprove, originRepoName, reposToApprove, repositoriesRef, repo, pulp_id, collectionData, autosign, signingService_href, signingServiceName, signingList, params, task;
+                return __generator(this, function (_f) {
+                    switch (_f.label) {
                         case 0:
                             setLoading(true);
                             reapprove = false;
@@ -102,20 +103,18 @@ export var ApproveModal = function (props) {
                                 .filter(function (repo) { return reposToApprove.includes(repo.name); })
                                 .map(function (repo) { return repo.pulp_href; });
                             error = t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Repository name ", " not found."], ["Repository name ", " not found."])), originRepoName);
-                            return [4 /*yield*/, Repositories.getRepository({
-                                    name: originRepoName,
-                                })];
+                            return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: originRepoName, page_size: 1 })];
                         case 1:
-                            repoData = _a.sent();
-                            if (repoData.data.results.length == 0) {
+                            repo = (_c = (_b = (_a = (_f.sent())) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.results) === null || _c === void 0 ? void 0 : _c[0];
+                            if (!repo) {
                                 throw new Error();
                             }
                             error = '';
-                            pulp_id = parsePulpIDFromURL(repoData.data.results[0].pulp_href);
+                            pulp_id = parsePulpIDFromURL(repo.pulp_href);
                             error = t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection with id ", " not found."], ["Collection with id ", " not found."])), props.collectionVersion.id);
                             return [4 /*yield*/, CollectionVersionAPI.get(props.collectionVersion.id)];
                         case 2:
-                            collectionData = _a.sent();
+                            collectionData = _f.sent();
                             error = '';
                             autosign = context.settings.GALAXY_AUTO_SIGN_COLLECTIONS;
                             signingService_href = null;
@@ -126,7 +125,7 @@ export var ApproveModal = function (props) {
                                     name: signingServiceName,
                                 })];
                         case 3:
-                            signingList = _a.sent();
+                            signingList = _f.sent();
                             if (signingList.data.results.length > 0) {
                                 signingService_href = signingList.data.results[0].pulp_href;
                             }
@@ -134,22 +133,23 @@ export var ApproveModal = function (props) {
                                 throw new Error();
                             }
                             error = '';
-                            _a.label = 4;
+                            _f.label = 4;
                         case 4:
-                            promiseCopyOrMove = null;
-                            if (reapprove) {
-                                // reapprove takes first
-                                promiseCopyOrMove = Repositories.copyCollectionVersion(pulp_id, [collectionData.data.pulp_href], repositoriesRef, signingService_href);
+                            params = {
+                                collection_versions: [collectionData.data.pulp_href],
+                                destination_repositories: repositoriesRef,
+                            };
+                            if (signingService_href) {
+                                params['signing_service'] = signingService_href;
                             }
-                            else {
-                                promiseCopyOrMove = Repositories.moveCollectionVersion(pulp_id, [collectionData.data.pulp_href], repositoriesRef, signingService_href);
-                            }
-                            return [4 /*yield*/, promiseCopyOrMove];
+                            return [4 /*yield*/, (reapprove
+                                    ? AnsibleRepositoryAPI.copyCollectionVersion(pulp_id, params)
+                                    : AnsibleRepositoryAPI.moveCollectionVersion(pulp_id, params))];
                         case 5:
-                            task = _a.sent();
-                            return [4 /*yield*/, waitForTaskUrl(task['data'].task)];
+                            task = (_e = (_d = (_f.sent())) === null || _d === void 0 ? void 0 : _d.data) === null || _e === void 0 ? void 0 : _e.task;
+                            return [4 /*yield*/, waitForTaskUrl(task)];
                         case 6:
-                            _a.sent();
+                            _f.sent();
                             setLoading(false);
                             props.finishAction();
                             props.addAlert({
@@ -178,10 +178,8 @@ export var ApproveModal = function (props) {
         // modify params
         var par = __assign({}, params);
         par['pulp_label_select'] = 'pipeline=approved';
-        par['ordering'] = par['sort'];
-        delete par['sort'];
         setLoading(true);
-        Repositories.list(par)
+        AnsibleRepositoryAPI.list(par)
             .then(function (data) {
             setLoading(false);
             setRepositoryList(data.data.results);

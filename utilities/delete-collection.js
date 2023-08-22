@@ -6,7 +6,10 @@ import { Trans, t } from '@lingui/macro';
 import { DropdownItem, Tooltip } from '@patternfly/react-core';
 import React from 'react';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
-import { RepositoriesUtils, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import { errorMessage } from './fail-alerts';
+import { parsePulpIDFromURL } from './parse-pulp-id';
+import { RepositoriesUtils } from './repositories';
+import { waitForTask } from './wait-for-task';
 var DeleteCollectionUtils = /** @class */ (function () {
     function DeleteCollectionUtils() {
     }
@@ -37,8 +40,9 @@ var DeleteCollectionUtils = /** @class */ (function () {
         }
         var caption = deleteAll
             ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Delete entire collection from system"], ["Delete entire collection from system"]))) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Delete collection from repository"], ["Delete collection from repository"])));
+        var key = deleteAll ? 'delete-collection' : 'remove-collection';
         if (noDependencies === false) {
-            return (React.createElement(Tooltip, { key: 'delete-collection-disabled', position: 'left', content: React.createElement(Trans, null,
+            return (React.createElement(Tooltip, { key: key, position: 'left', content: React.createElement(Trans, null,
                     "Cannot delete until collections ",
                     React.createElement("br", null),
                     "that depend on this collection ",
@@ -46,9 +50,7 @@ var DeleteCollectionUtils = /** @class */ (function () {
                     "have been deleted.") },
                 React.createElement(DropdownItem, { isDisabled: true }, caption)));
         }
-        return (React.createElement(DropdownItem, { key: 'delete-collection-enabled', onClick: onClick, "data-cy": deleteAll
-                ? 'delete-collection-dropdown'
-                : 'delete-collection-from-repo-dropdown' }, caption));
+        return (React.createElement(DropdownItem, { "data-cy": key, key: key, onClick: onClick }, caption));
     };
     DeleteCollectionUtils.tryOpenDeleteModalWithConfirm = function (_a) {
         var addAlert = _a.addAlert, setState = _a.setState, collection = _a.collection, deleteAll = _a.deleteAll;

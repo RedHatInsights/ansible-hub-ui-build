@@ -58,16 +58,17 @@ var CollectionDependencies = /** @class */ (function (_super) {
         ]);
         params['sort'] = !params['sort'] ? '-collection' : 'collection';
         _this.state = {
+            actuallyCollection: null,
+            alerts: [],
+            collection: null,
             collections: [],
             collectionsCount: 0,
-            collection: null,
             content: null,
             dependencies_repos: [],
             params: params,
             usedByDependencies: [],
             usedByDependenciesCount: 0,
             usedByDependenciesLoading: true,
-            alerts: [],
         };
         return _this;
     }
@@ -76,13 +77,13 @@ var CollectionDependencies = /** @class */ (function (_super) {
     };
     CollectionDependencies.prototype.render = function () {
         var _this = this;
-        var _a = this.state, collections = _a.collections, collectionsCount = _a.collectionsCount, collection = _a.collection, content = _a.content, params = _a.params, usedByDependencies = _a.usedByDependencies, usedByDependenciesCount = _a.usedByDependenciesCount, usedByDependenciesLoading = _a.usedByDependenciesLoading, alerts = _a.alerts;
+        var _a = this.state, actuallyCollection = _a.actuallyCollection, alerts = _a.alerts, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params, usedByDependencies = _a.usedByDependencies, usedByDependenciesCount = _a.usedByDependenciesCount, usedByDependenciesLoading = _a.usedByDependenciesLoading;
         if (collections.length <= 0) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         var version = collection.collection_version, repository = collection.repository;
         var breadcrumbs = [
-            namespaceBreadcrumb,
+            namespaceBreadcrumb(),
             {
                 url: formatPath(Paths.namespaceDetail, {
                     namespace: version.namespace,
@@ -104,11 +105,11 @@ var CollectionDependencies = /** @class */ (function (_super) {
         var noDependencies = !Object.keys(version.dependencies).length;
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(CollectionHeader, { reload: function () { return _this.loadData(true); }, collections: collections, collectionsCount: collectionsCount, collection: collection, content: content, params: headerParams, updateParams: function (p) {
+            React.createElement(CollectionHeader, { activeTab: 'dependencies', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: headerParams, reload: function () { return _this.loadData(true); }, repo: repository.name, updateParams: function (p) {
                     _this.updateParams(_this.combineParams(_this.state.params, p), function () {
                         return _this.loadData(true);
                     });
-                }, breadcrumbs: breadcrumbs, activeTab: 'dependencies', repo: repository.name }),
+                } }),
             React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'pf-c-content collection-dependencies' },
@@ -224,8 +225,14 @@ var CollectionDependencies = /** @class */ (function (_super) {
             forceReload: forceReload,
             matchParams: this.props.routeParams,
             navigate: this.props.navigate,
-            setCollection: function (collections, collection, content, collectionsCount) {
-                return _this.setState({ collections: collections, collection: collection, content: content, collectionsCount: collectionsCount }, callback);
+            setCollection: function (collections, collection, content, collectionsCount, actuallyCollection) {
+                return _this.setState({
+                    collections: collections,
+                    collection: collection,
+                    content: content,
+                    collectionsCount: collectionsCount,
+                    actuallyCollection: actuallyCollection,
+                }, callback);
             },
             stateParams: this.state.params.version
                 ? { version: this.state.params.version }

@@ -127,12 +127,23 @@ function standaloneMenu() {
             url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
             external: true,
             condition: function (_a) {
-                var settings = _a.settings, user = _a.user;
-                return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
-                    !user.is_anonymous;
+                var featureFlags = _a.featureFlags, settings = _a.settings, user = _a.user;
+                return !featureFlags.ai_deny_index &&
+                    (settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                        !user.is_anonymous);
             },
         }),
-        menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
+        menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+            url: 'https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide/',
+            external: true,
+            condition: function (_a) {
+                var featureFlags = _a.featureFlags, settings = _a.settings, user = _a.user;
+                return featureFlags.ai_deny_index &&
+                    (settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                        !user.is_anonymous);
+            },
+        }),
+        menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
             url: 'https://www.redhat.com/en/about/terms-use',
             external: true,
             condition: function (_a) {
@@ -140,16 +151,16 @@ function standaloneMenu() {
                 return featureFlags.legacy_roles;
             },
         }),
-        menuSection(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-            menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Users"], ["Users"]))), {
+        menuSection(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Users"], ["Users"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_user'); },
                 url: formatPath(Paths.userList),
             }),
-            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+            menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.groupList),
             }),
-            menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+            menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.roleList),
             }),
@@ -185,7 +196,7 @@ function MenuSection(_a) {
 }
 function Menu(_a) {
     var items = _a.items, context = _a.context, expandedSections = _a.expandedSections;
-    return (React.createElement(React.Fragment, null, items.map(function (item) { return (React.createElement(ItemOrSection, { key: item.name, item: item, context: context, expandedSections: expandedSections })); })));
+    return (React.createElement(React.Fragment, null, items.map(function (item) { return (React.createElement(ItemOrSection, { key: item.url || item.name, item: item, context: context, expandedSections: expandedSections })); })));
 }
 export var StandaloneMenu = function (_a) {
     var context = _a.context;
@@ -217,5 +228,5 @@ export var StandaloneMenu = function (_a) {
     return (React.createElement(StandaloneNav, null,
         React.createElement(Menu, { items: menu, context: context, expandedSections: expandedSections })));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
 //# sourceMappingURL=menu.js.map

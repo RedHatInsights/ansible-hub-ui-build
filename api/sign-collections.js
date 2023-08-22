@@ -13,10 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -75,8 +71,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import { t } from '@lingui/macro';
-import { AnsibleDistributionAPI, AnsibleRepositoryAPI, } from 'src/api';
+import { repositoryBasePath } from 'src/utilities';
 import { HubAPI } from './hub';
 var API = /** @class */ (function (_super) {
     __extends(API, _super);
@@ -86,37 +81,19 @@ var API = /** @class */ (function (_super) {
         return _this;
     }
     API.prototype.sign = function (_a) {
-        var _b, _c, _d, _e, _f, _g;
         var repository = _a.repository, name = _a.repository_name, args = __rest(_a, ["repository", "repository_name"]);
         return __awaiter(this, void 0, void 0, function () {
-            var distribution, name_1, updatedData;
-            return __generator(this, function (_h) {
-                switch (_h.label) {
-                    case 0:
-                        if (!(!repository && name)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, AnsibleRepositoryAPI.list({ name: name })];
-                    case 1:
-                        repository = (_d = (_c = (_b = (_h.sent())) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.results) === null || _d === void 0 ? void 0 : _d[0];
-                        if (!repository) {
-                            return [2 /*return*/, Promise.reject({
-                                    response: { status: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to find repository ", ""], ["Failed to find repository ", ""])), name) },
-                                })];
-                        }
-                        _h.label = 2;
-                    case 2: return [4 /*yield*/, AnsibleDistributionAPI.list({
-                            repository: repository === null || repository === void 0 ? void 0 : repository.pulp_href,
+            var distroBasePath, updatedData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, repositoryBasePath(name, repository === null || repository === void 0 ? void 0 : repository.pulp_href).catch(function (status) {
+                            return Promise.reject({
+                                response: { status: status },
+                            });
                         })];
-                    case 3:
-                        distribution = (_g = (_f = (_e = (_h.sent())) === null || _e === void 0 ? void 0 : _e.data) === null || _f === void 0 ? void 0 : _f.results) === null || _g === void 0 ? void 0 : _g[0];
-                        if (!distribution) {
-                            name_1 = repository.name;
-                            return [2 /*return*/, Promise.reject({
-                                    response: {
-                                        status: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to find a distribution for repository ", ""], ["Failed to find a distribution for repository ", ""])), name_1),
-                                    },
-                                })];
-                        }
-                        updatedData = __assign({ distro_base_path: distribution.base_path }, args);
+                    case 1:
+                        distroBasePath = _b.sent();
+                        updatedData = __assign({ distro_base_path: distroBasePath }, args);
                         return [2 /*return*/, this.http.post(this.apiPath, updatedData)];
                 }
             });
@@ -125,5 +102,4 @@ var API = /** @class */ (function (_super) {
     return API;
 }(HubAPI));
 export var SignCollectionAPI = new API();
-var templateObject_1, templateObject_2;
 //# sourceMappingURL=sign-collections.js.map

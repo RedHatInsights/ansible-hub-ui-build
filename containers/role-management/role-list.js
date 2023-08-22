@@ -30,7 +30,7 @@ import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { RoleAPI } from 'src/api/role';
+import { RoleAPI } from 'src/api';
 import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, DateComponent, DeleteModal, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ExpandableRow, ListItemActions, LoadingPageSpinner, Main, Pagination, PermissionCategories, RoleListTable, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';

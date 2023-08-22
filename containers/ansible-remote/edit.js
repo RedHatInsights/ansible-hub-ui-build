@@ -66,6 +66,7 @@ var AnsibleRemoteEdit = Page({
     },
     displayName: 'AnsibleRemoteEdit',
     errorTitle: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
+    listUrl: formatPath(Paths.ansibleRemotes),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRemoteAPI.list({ name: name })

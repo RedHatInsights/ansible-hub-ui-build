@@ -55,6 +55,7 @@ var AnsibleRepositoryEdit = Page({
     },
     displayName: 'AnsibleRepositoryEdit',
     errorTitle: msg(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
+    listUrl: formatPath(Paths.ansibleRepositories),
     query: function (_a) {
         var name = _a.name;
         return AnsibleRepositoryAPI.list({ name: name })

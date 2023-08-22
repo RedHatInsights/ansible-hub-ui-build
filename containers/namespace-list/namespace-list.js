@@ -37,7 +37,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { i18n } from '@lingui/core';
 import { t } from '@lingui/macro';
 import { Button, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
@@ -47,8 +46,7 @@ import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, EmptyStateFilter
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
-import { errorMessage, filterIsSet } from 'src/utilities';
-import { ParamHelper } from 'src/utilities/param-helper';
+import { ParamHelper, errorMessage, filterIsSet, } from 'src/utilities';
 import './namespace-list.scss';
 var NamespaceList = /** @class */ (function (_super) {
     __extends(NamespaceList, _super);
@@ -139,7 +137,7 @@ var NamespaceList = /** @class */ (function (_super) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         // Namespaces or Partners
-        var title = i18n._(namespaceBreadcrumb.name);
+        var title = namespaceBreadcrumb().name;
         return (React.createElement("div", { className: 'hub-namespace-page' },
             React.createElement(NamespaceModal, { isOpen: this.state.isModalOpen, toggleModal: this.handleModalToggle, onCreateSuccess: function (result) {
                     return _this.setState({

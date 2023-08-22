@@ -9,6 +9,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Alert, AlertActionCloseButton, } from '@patternfly/react-core';
 import React from 'react';
+import { Constants } from 'src/constants';
 var AlertType = /** @class */ (function () {
     function AlertType() {
     }
@@ -20,7 +21,9 @@ export var AlertList = function (_a) {
     return (React.createElement("div", { style: {
             position: 'fixed',
             right: '5px',
-            top: '80px',
+            top: DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
+                ? '124px' // 70 + 50 + 4
+                : '80px',
             zIndex: 300,
             display: 'flex',
             flexDirection: 'column',

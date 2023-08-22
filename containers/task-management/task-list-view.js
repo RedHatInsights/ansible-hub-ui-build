@@ -36,9 +36,7 @@ import { AlertList, AppliedFilters, BaseHeader, CompoundFilter, ConfirmModal, Da
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
-import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
-import { parsePulpIDFromURL } from 'src/utilities/parse-pulp-id';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, withRouter, } from 'src/utilities';
 import './task.scss';
 var maybeTranslate = function (name) {
     return (Constants.TASK_NAMES[name] && i18n._(Constants.TASK_NAMES[name])) || name;
@@ -71,15 +69,12 @@ var TaskListView = /** @class */ (function (_super) {
         return _this;
     }
     TaskListView.prototype.componentDidMount = function () {
-        var _a = this.context, user = _a.user, hasPermission = _a.hasPermission;
+        var user = this.context.user;
         if (!user || user.is_anonymous) {
             this.setState({ loading: false, unauthorised: true });
         }
         else {
             this.queryTasks();
-        }
-        if (!hasPermission('core.view_task')) {
-            this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["You do not have permission to view all tasks. Only tasks created by you are visible."], ["You do not have permission to view all tasks. Only tasks created by you are visible."]))), 'info');
         }
     };
     TaskListView.prototype.render = function () {
@@ -89,8 +84,8 @@ var TaskListView = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             cancelModalVisible ? this.renderCancelModal() : null,
-            React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
-            unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Task Management"], ["Task Management"]))) }),
+            unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No tasks yet"], ["No tasks yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Tasks will appear once created."], ["Tasks will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
                 React.createElement("div", { className: 'hub-list-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
@@ -103,28 +98,28 @@ var TaskListView = /** @class */ (function (_super) {
                                         }, params: params, filterConfig: [
                                             {
                                                 id: 'name__contains',
-                                                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Task name"], ["Task name"]))),
                                             },
                                             {
                                                 id: 'state',
-                                                title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status"], ["Status"]))),
+                                                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Status"], ["Status"]))),
                                                 inputType: 'select',
                                                 options: [
                                                     {
                                                         id: 'completed',
-                                                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Completed"], ["Completed"]))),
+                                                        title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Completed"], ["Completed"]))),
                                                     },
                                                     {
                                                         id: 'failed',
-                                                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Failed"], ["Failed"]))),
+                                                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Failed"], ["Failed"]))),
                                                     },
                                                     {
                                                         id: 'running',
-                                                        title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Running"], ["Running"]))),
+                                                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Running"], ["Running"]))),
                                                     },
                                                     {
                                                         id: 'waiting',
-                                                        title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
+                                                        title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Waiting"], ["Waiting"]))),
                                                     },
                                                 ],
                                             },
@@ -137,8 +132,8 @@ var TaskListView = /** @class */ (function (_super) {
                             _this.updateParams(p, function () { return _this.queryTasks(); });
                             _this.setState({ inputText: '' });
                         }, params: params, ignoredParams: ['page_size', 'page', 'sort', 'ordering'], niceNames: {
-                            name__contains: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Task name"], ["Task name"]))),
-                            state: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Status"], ["Status"]))),
+                            name__contains: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                            state: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Status"], ["Status"]))),
                         } })),
                 loading ? React.createElement(LoadingPageSpinner, null) : this.renderTable(params),
                 React.createElement(Pagination, { params: params, updateParams: function (p) {
@@ -154,33 +149,33 @@ var TaskListView = /** @class */ (function (_super) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Task name"], ["Task name"]))),
+                    title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Task name"], ["Task name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Created on"], ["Created on"]))),
+                    title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Created on"], ["Created on"]))),
                     type: 'numeric',
                     id: 'pulp_created',
                 },
                 {
-                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Started at"], ["Started at"]))),
+                    title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Started at"], ["Started at"]))),
                     type: 'numeric',
                     id: 'started_at',
                 },
                 {
-                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Finished at"], ["Finished at"]))),
+                    title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Finished at"], ["Finished at"]))),
                     type: 'numeric',
                     id: 'finished_at',
                 },
                 {
-                    title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Status"], ["Status"]))),
+                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Status"], ["Status"]))),
                     type: 'alpha',
                     id: 'state',
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'hub-c-table-content pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Task list"], ["Task list"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return _this.updateParams(p, function () { return _this.queryTasks(); }); } }),
             React.createElement("tbody", null, items.map(function (item, i) { return _this.renderTableRow(item, i); }))));
     };
@@ -205,26 +200,26 @@ var TaskListView = /** @class */ (function (_super) {
         var _this = this;
         switch (state) {
             case 'running':
-                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
+                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
                         return _this.setState({
                             cancelModalVisible: true,
                             selectedTask: selectedTask,
                         });
-                    } }, t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
+                    } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
             case 'waiting':
-                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
+                return (React.createElement(Button, { variant: 'secondary', "aria-label": t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Delete"], ["Delete"]))), key: 'delete', onClick: function () {
                         return _this.setState({
                             cancelModalVisible: true,
                             selectedTask: selectedTask,
                         });
-                    } }, t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
+                    } }, t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Stop task"], ["Stop task"])))));
         }
     };
     TaskListView.prototype.renderCancelModal = function () {
         var _this = this;
         var selectedTask = this.state.selectedTask;
         var name = maybeTranslate(selectedTask.name);
-        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name)));
+        return (React.createElement(ConfirmModal, { cancelAction: function () { return _this.setState({ cancelModalVisible: false }); }, title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Stop task?"], ["Stop task?"]))), confirmAction: function () { return _this.selectedTask(_this.state.selectedTask, name); }, confirmButtonTitle: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Yes, stop"], ["Yes, stop"]))) }, t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["", " will be cancelled."], ["", " will be cancelled."])), name)));
     };
     TaskListView.prototype.selectedTask = function (task, name) {
         var _this = this;
@@ -257,7 +252,7 @@ var TaskListView = /** @class */ (function (_super) {
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                     {
                         variant: 'danger',
-                        title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Task \"", "\" could not be stopped."], ["Task \"", "\" could not be stopped."])), name),
+                        title: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Task \"", "\" could not be stopped."], ["Task \"", "\" could not be stopped."])), name),
                         description: errorMessage(status, statusText),
                     },
                 ], false),
@@ -291,7 +286,7 @@ var TaskListView = /** @class */ (function (_super) {
                     alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                         {
                             variant: 'danger',
-                            title: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Tasks list could not be displayed."], ["Tasks list could not be displayed."]))),
+                            title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Tasks list could not be displayed."], ["Tasks list could not be displayed."]))),
                             description: errorMessage(status, statusText),
                         },
                     ], false),
@@ -322,5 +317,5 @@ var TaskListView = /** @class */ (function (_super) {
 export { TaskListView };
 export default withRouter(TaskListView);
 TaskListView.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26;
 //# sourceMappingURL=task-list-view.js.map
