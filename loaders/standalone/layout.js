@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { Trans, t } from '@lingui/macro';
-import { DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
+import { Banner, DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, QuestionCircleIcon, } from '@patternfly/react-icons';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -57,6 +57,12 @@ export var StandaloneLayout = function (_a) {
             React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
     var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(StandaloneMenu, { context: { user: user, settings: settings, featureFlags: featureFlags, hasPermission: hasPermission } }) }));
     return (React.createElement(Page, { isManagedSidebar: true, header: Header, sidebar: Sidebar },
+        (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.ai_deny_index) ? (React.createElement(Banner, null,
+            React.createElement(Trans, null,
+                "Thanks for trying out the new and improved Beta Galaxy, please share your feedback on",
+                ' ',
+                React.createElement("a", { href: 'https://github.com/ansible/galaxy_ng/discussions', target: '_blank', rel: 'noreferrer' }, "github.com/ansible/galaxy_ng/discussions"),
+                "."))) : null,
         children,
         aboutModalVisible && aboutModal));
 };
