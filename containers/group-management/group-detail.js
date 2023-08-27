@@ -310,7 +310,7 @@ var GroupDetail = /** @class */ (function (_super) {
                     !isUserMgmtDisabled && (React.createElement(Button, { variant: 'primary', onClick: function () { return _this.setState({ addModalVisible: true }); } }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Add"], ["Add"]))))) }));
         }
         return (React.createElement("section", { className: 'body' },
-            React.createElement("div", { className: 'toolbar' },
+            React.createElement("div", { className: 'hub-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,

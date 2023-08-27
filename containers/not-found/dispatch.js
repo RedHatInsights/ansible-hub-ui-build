@@ -57,7 +57,7 @@ export var Dispatch = function (props) {
         })
             .catch(function () { return setCollections([]); });
         if (featureFlags.legacy_roles) {
-            LegacyRoleAPI.list({ username: namespace, name: name })
+            LegacyRoleAPI.list({ github_user: namespace, name: name })
                 .then(function (_a) {
                 var results = _a.data.results;
                 return setRoles(results || []);

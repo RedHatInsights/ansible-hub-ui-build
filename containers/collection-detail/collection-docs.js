@@ -113,13 +113,13 @@ var CollectionDocs = /** @class */ (function (_super) {
             { name: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(CollectionHeader, { activeTab: 'documentation', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, className: 'header', collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadCollection(true); }, updateParams: function (p) {
+            React.createElement(CollectionHeader, { activeTab: 'documentation', actuallyCollection: actuallyCollection, breadcrumbs: breadcrumbs, className: 'hub-header-bordered', collection: collection, collections: collections, collectionsCount: collectionsCount, content: content, params: params, reload: function () { return _this.loadCollection(true); }, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.loadCollection(true); });
                 } }),
-            React.createElement(Main, { className: 'main' },
-                React.createElement("section", { className: 'docs-container' },
-                    React.createElement(TableOfContents, { className: 'sidebar', namespace: collection.collection_version.namespace, collection: collection.collection_version.name, repository: collection.repository.name, docs_blob: content.docs_blob, selectedName: contentName, selectedType: contentType, params: params, updateParams: function (p) { return _this.updateParams(p); }, searchBarRef: this.searchBarRef }),
-                    React.createElement("div", { className: 'body docs pf-c-content', ref: this.docsRef }, displayHTML || pluginData ? (
+            React.createElement(Main, { className: 'hub-docs-main' },
+                React.createElement("section", { className: 'hub-docs-container' },
+                    React.createElement(TableOfContents, { className: 'hub-docs-sidebar', namespace: collection.collection_version.namespace, collection: collection.collection_version.name, repository: collection.repository.name, docs_blob: content.docs_blob, selectedName: contentName, selectedType: contentType, params: params, updateParams: function (p) { return _this.updateParams(p); }, searchBarRef: this.searchBarRef }),
+                    React.createElement("div", { className: 'body hub-docs-content pf-c-content', ref: this.docsRef }, displayHTML || pluginData ? (
                     // if neither variable is set, render not found
                     displayHTML ? (
                     // if displayHTML is set, render it

@@ -72,7 +72,7 @@ var SignatureKeysList = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))) }),
             unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No signature keys yet"], ["No signature keys yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Signature keys will appear once created."], ["Signature keys will appear once created."]))) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-list-toolbar' },
+                React.createElement("div", { className: 'hub-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,

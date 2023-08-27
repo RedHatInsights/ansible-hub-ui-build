@@ -154,7 +154,7 @@ export var MultipleRepoSelector = function (props) {
     }
     return (React.createElement(React.Fragment, null,
         renderLabels(),
-        React.createElement("div", { className: 'toolbar hub-toolbar' },
+        React.createElement("div", { className: 'hub-toolbar' },
             React.createElement(Toolbar, null,
                 React.createElement(ToolbarGroup, null,
                     !props.singleSelectionOnly && (React.createElement(ToolbarItem, null, renderMultipleSelector())),

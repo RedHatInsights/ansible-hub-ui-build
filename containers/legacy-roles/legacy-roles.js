@@ -35,7 +35,6 @@ import { LegacyRoleAPI } from 'src/api';
 import { BaseHeader, CollectionFilter, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Pagination, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { withRouter } from 'src/utilities';
-import './legacy-roles.scss';
 var LegacyRoles = /** @class */ (function (_super) {
     __extends(LegacyRoles, _super);
     // This is the main roles page

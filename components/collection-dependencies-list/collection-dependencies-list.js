@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { List, ListItem, ListVariant } from '@patternfly/react-core';
+import { List, ListItem } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyStateNoData, HelperText } from 'src/components';
@@ -14,7 +14,7 @@ export var CollectionDependenciesList = function (_a) {
     if (!Object.keys(dependencies).length) {
         return (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collection does not have dependencies."], ["Collection does not have dependencies."]))) }));
     }
-    return (React.createElement(List, { variant: ListVariant.inline, className: 'hub-c-list-dependencies' }, dependencies_repos.map(function (dependency, i) {
+    return (React.createElement(List, { className: 'hub-c-list-dependencies' }, dependencies_repos.map(function (dependency, i) {
         return listDep(dependency, i, dependencies);
     })));
 };
@@ -32,6 +32,7 @@ var listDep = function (dependency, i, dependencies) {
             fqn,
             ": ",
             version_range,
+            ' ',
             React.createElement(HelperText, { content: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No version of ", " exists that matches ", "."], ["No version of ", " exists that matches ", "."])), fqn, version_range) })));
     }
 };
