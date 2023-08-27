@@ -156,7 +156,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     return _this.queryImages(_this.props.containerRepository.name);
                 }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) { return _this.props.addAlert(alert); }, containerRepository: this.props.containerRepository }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-            React.createElement("div", { className: 'hub-toolbar toolbar' },
+            React.createElement("div", { className: 'hub-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,

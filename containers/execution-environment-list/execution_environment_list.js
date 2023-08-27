@@ -127,7 +127,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     addRemoteButton,
                     addRemoteButton && pushImagesButton ? React.createElement("div", null, "\u00A0") : null,
                     pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-list-toolbar' },
+                React.createElement("div", { className: 'hub-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,

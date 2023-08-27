@@ -162,7 +162,7 @@ var NamespaceList = /** @class */ (function (_super) {
                                     active: filterOwner,
                                 },
                             ] })))),
-                noData ? null : (React.createElement("div", { className: 'toolbar' },
+                noData ? null : (React.createElement("div", { className: 'hub-toolbar hub-toolbar-left' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, { style: { marginLeft: 0 } },

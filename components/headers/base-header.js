@@ -37,7 +37,7 @@ var BaseHeader = /** @class */ (function (_super) {
                             status))),
                 pageControls || null),
             versionControl || null,
-            children ? (React.createElement("div", { className: 'header-bottom' }, children)) : (React.createElement("div", { className: 'placeholder' }))));
+            children ? (React.createElement("div", { className: 'hub-header-bottom' }, children)) : (React.createElement("div", { className: 'placeholder' }))));
     };
     return BaseHeader;
 }(React.Component));

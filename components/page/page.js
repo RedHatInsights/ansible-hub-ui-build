@@ -114,7 +114,7 @@ export var Page = function (_a) {
                     React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
                     React.createElement(BaseHeader, { title: title({ name: name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs({
                                 name: name,
-                            }) }), pageControls: React.createElement("div", { className: 'hub-list-toolbar' },
+                            }) }), pageControls: React.createElement("div", { className: 'hub-toolbar' },
                             React.createElement(Toolbar, null,
                                 React.createElement(ToolbarContent, null,
                                     React.createElement(ToolbarGroup, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&

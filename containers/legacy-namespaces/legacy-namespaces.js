@@ -44,7 +44,6 @@ import { LegacyNamespaceAPI } from 'src/api';
 import { AlertList, BaseHeader, CollectionFilter, EmptyStateNoData, LegacyNamespaceListItem, LoadingPageSpinner, Pagination, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { withRouter } from 'src/utilities';
-import './legacy-namespaces.scss';
 var LegacyNamespaces = /** @class */ (function (_super) {
     __extends(LegacyNamespaces, _super);
     function LegacyNamespaces(props) {

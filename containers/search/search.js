@@ -148,8 +148,8 @@ var Search = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection.collection_version, namespace: updateCollection.collection_version.namespace })),
-            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
-                React.createElement("div", { className: 'toolbar' },
+            React.createElement(BaseHeader, { className: 'hub-header-bordered', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }, !noData && (React.createElement("div", null,
+                React.createElement("div", { className: 'hub-toolbar hub-toolbar-left' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
                     React.createElement("div", { className: 'hub-pagination-container' },
                         React.createElement("div", { className: 'card-list-switcher' },

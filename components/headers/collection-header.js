@@ -87,7 +87,6 @@ import { Paths, formatPath } from 'src/paths';
 import { DeleteCollectionUtils, ParamHelper, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
-import './header.scss';
 export var CollectionHeader = /** @class */ (function (_super) {
     __extends(CollectionHeader, _super);
     function CollectionHeader(props) {
@@ -226,7 +225,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
                 promise = CollectionAPI.deleteCollectionVersion(deleteCollection);
             }
             else {
-                promise = promise = RepositoriesUtils.deleteCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
+                promise = RepositoriesUtils.deleteCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
             }
             var name = deleteCollection.collection_version.name;
             promise

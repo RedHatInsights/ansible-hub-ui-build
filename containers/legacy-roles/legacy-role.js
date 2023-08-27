@@ -39,7 +39,6 @@ import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWi
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, withRouter } from 'src/utilities';
-import './legacy-roles.scss';
 var LegacyRoleInstall = /** @class */ (function (_super) {
     __extends(LegacyRoleInstall, _super);
     function LegacyRoleInstall() {

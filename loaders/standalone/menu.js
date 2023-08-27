@@ -219,7 +219,7 @@ export var StandaloneMenu = function (_a) {
         var _b = _a.children, children = _b === void 0 ? null : _b;
         return (React.createElement(Nav, { theme: 'dark', onToggle: onToggle },
             React.createElement(NavList, null,
-                React.createElement(NavGroup, { className: 'nav-title', title: APPLICATION_NAME }),
+                React.createElement(NavGroup, { className: 'hub-nav-title', title: APPLICATION_NAME }),
                 children)));
     };
     if (!context.user || !context.settings || !context.featureFlags) {

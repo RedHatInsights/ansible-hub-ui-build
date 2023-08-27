@@ -198,7 +198,7 @@ var CollectionDistributions = function (props) {
             } }),
         React.createElement(Main, null,
             React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'toolbar hub-toolbar' },
+                React.createElement("div", { className: 'hub-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarGroup, null,
                             React.createElement(ToolbarItem, null,

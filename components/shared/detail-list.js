@@ -43,7 +43,7 @@ export function DetailList(_a) {
     return (React.createElement(React.Fragment, null, renderModals === null || renderModals === void 0 ? void 0 :
         renderModals(actionContext),
         noData && !loading ? (React.createElement(EmptyStateNoData, { button: React.createElement(React.Fragment, null, noDataButton === null || noDataButton === void 0 ? void 0 : noDataButton(null, actionContext)), description: noDataDescription, title: noDataTitle })) : loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement(React.Fragment, null,
-            React.createElement("div", { className: 'hub-list-toolbar', "data-cy": "DetailList" },
+            React.createElement("div", { className: 'hub-toolbar', "data-cy": "DetailList" },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,

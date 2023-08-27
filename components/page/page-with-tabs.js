@@ -151,7 +151,7 @@ export var PageWithTabs = function (_a) {
                                 name: name,
                                 tab: tab,
                                 params: params,
-                            }) }), pageControls: loading ? null : (React.createElement("div", { className: 'hub-list-toolbar' },
+                            }) }), pageControls: loading ? null : (React.createElement("div", { className: 'hub-toolbar' },
                             React.createElement(Toolbar, null,
                                 React.createElement(ToolbarContent, null,
                                     React.createElement(ToolbarGroup, null, (headerActions === null || headerActions === void 0 ? void 0 : headerActions.length) &&
