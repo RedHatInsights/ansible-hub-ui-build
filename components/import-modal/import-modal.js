@@ -77,6 +77,7 @@ import { t } from '@lingui/macro';
 import { Button, Modal, Radio } from '@patternfly/react-core';
 import { FolderOpenIcon, SpinnerIcon } from '@patternfly/react-icons';
 import axios from 'axios';
+import cx from 'classnames';
 import React from 'react';
 import { AnsibleRepositoryAPI, CollectionAPI, } from 'src/api';
 import { AlertList, MultipleRepoSelector, closeAlertMixin, } from 'src/components';
@@ -96,6 +97,7 @@ var ImportModal = /** @class */ (function (_super) {
         _this.state = {
             file: undefined,
             errors: '',
+            errorVariant: 'default',
             uploadProgress: 0,
             uploadStatus: Status.waiting,
             allRepos: [],
@@ -191,7 +193,12 @@ var ImportModal = /** @class */ (function (_super) {
     ImportModal.prototype.render = function () {
         var _this = this;
         var _a = this.props, isOpen = _a.isOpen, collection = _a.collection;
-        var _b = this.state, file = _b.file, errors = _b.errors, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
+        var _b = this.state, file = _b.file, errors = _b.errors, errorVariant = _b.errorVariant, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
+        var skipError = function () {
+            if (errorVariant === 'skippable') {
+                _this.setState({ errorVariant: 'skipped' });
+            }
+        };
         return (React.createElement(Modal, { variant: 'large', title: collection ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["New version of ", ""], ["New version of ", ""])), collection.name) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
                 React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() || this.state.selectedRepos.length == 0, "data-cy": 'confirm-upload' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Upload"], ["Upload"])))),
                 React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
@@ -208,31 +215,36 @@ var ImportModal = /** @class */ (function (_super) {
                                 React.createElement("div", { className: 'loading-bar', style: {
                                         width: uploadProgress * 100 + '%',
                                     } }))))),
-                errors ? (React.createElement("span", { className: 'file-error-messages' },
-                    React.createElement("i", { className: 'pficon-error-circle-o' }),
-                    " ",
-                    errors)) : null),
+                errors ? (React.createElement("span", { className: cx('file-error-messages', errorVariant) },
+                    errors,
+                    errorVariant === 'skippable' && (React.createElement(React.Fragment, null,
+                        ' ',
+                        React.createElement("a", { onClick: skipError }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upload anyway?"], ["Upload anyway?"])))))))) : null),
             React.createElement(React.Fragment, null,
                 React.createElement("br", null),
                 React.createElement(Radio, { isChecked: this.state.onlyStaging, name: 'radio-1', onChange: function (val) {
                         _this.setState({ onlyStaging: val }, function () {
                             return _this.loadAllRepos('staging');
                         });
-                    }, label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Staging Repos"], ["Staging Repos"]))), id: 'radio-staging' }),
+                    }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Staging Repos"], ["Staging Repos"]))), id: 'radio-staging' }),
                 React.createElement(Radio, { isChecked: !this.state.onlyStaging, name: 'radio-2', onChange: function (val) {
                         _this.setState({ onlyStaging: !val }, function () {
                             return _this.loadAllRepos('staging');
                         });
-                    }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["All Repos"], ["All Repos"]))), id: 'radio-all' }),
-                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."], ["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."]))))),
+                    }, label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["All Repos"], ["All Repos"]))), id: 'radio-all' }),
+                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."], ["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."]))))),
                 React.createElement(MultipleRepoSelector, { singleSelectionOnly: true, allRepositories: this.state.allRepos, fixedRepos: this.state.fixedRepos, selectedRepos: this.state.selectedRepos, setSelectedRepos: function (repos) {
-                        return _this.setState({ selectedRepos: repos, errors: '' });
+                        return _this.setState({
+                            selectedRepos: repos,
+                            errors: '',
+                            errorVariant: 'default',
+                        });
                     }, hideFixedRepos: true, loadRepos: function (params, setRepositoryList, setLoading, setItemsCount) {
                         return _this.loadRepos(params, setRepositoryList, setLoading, setItemsCount);
                     } }))));
     };
     ImportModal.prototype.canUpload = function () {
-        if (this.state.errors) {
+        if (this.state.errors && this.state.errorVariant !== 'skipped') {
             return false;
         }
         if (this.state.uploadStatus !== Status.waiting) {
@@ -258,19 +270,24 @@ var ImportModal = /** @class */ (function (_super) {
         var collection = this.props.collection;
         if (files.length > 1) {
             this.setState({
-                errors: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
+                errors: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
+                errorVariant: 'default',
             });
         }
         else if (!this.acceptedFileTypes.includes(newCollection.type)) {
+            var detectedType = newCollection.type || t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["unknown"], ["unknown"])));
+            var acceptedTypes = this.acceptedFileTypes.join(', ');
             this.setState({
-                errors: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Invalid file format."], ["Invalid file format."]))),
+                errors: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Invalid file format: ", " (expected: ", ")."], ["Invalid file format: ", " (expected: ", ")."])), detectedType, acceptedTypes),
+                errorVariant: 'skippable',
                 file: newCollection,
                 uploadProgress: 0,
             });
         }
         else if (!this.COLLECTION_NAME_REGEX.test(newCollection.name)) {
             this.setState({
-                errors: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
+                errors: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
+                errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
             });
@@ -278,14 +295,16 @@ var ImportModal = /** @class */ (function (_super) {
         else if (collection &&
             collection.name !== newCollection.name.split('-')[1]) {
             this.setState({
-                errors: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
+                errors: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
+                errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
             });
         }
         else if (this.props.namespace != newCollection.name.split('-')[0]) {
             this.setState({
-                errors: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
+                errors: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
+                errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
             });
@@ -293,6 +312,7 @@ var ImportModal = /** @class */ (function (_super) {
         else {
             this.setState({
                 errors: '',
+                errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
             });
@@ -341,17 +361,18 @@ var ImportModal = /** @class */ (function (_super) {
                                         var err = _a[_i];
                                         messages.push(err.detail ||
                                             err.title ||
-                                            err.code || t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), err.status));
+                                            err.code || t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), err.status));
                                     }
                                     errorMessage = messages.join(', ');
                                 }
                                 else {
-                                    errorMessage = t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), errors.response.status);
+                                    errorMessage = t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), errors.response.status);
                                 }
                             }
                             _this.setState({
                                 uploadStatus: Status.waiting,
                                 errors: errorMessage,
+                                errorVariant: 'default',
                             });
                         })
                             .finally(function () {
@@ -366,12 +387,13 @@ var ImportModal = /** @class */ (function (_super) {
         var _this = this;
         var msg = null;
         if (this.cancelToken && this.state.uploadStatus === Status.uploading) {
-            msg = t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
+            msg = t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
             this.cancelToken.cancel(msg);
         }
         this.setState({
             file: undefined,
             errors: '',
+            errorVariant: 'default',
             uploadProgress: 0,
             uploadStatus: Status.waiting,
         }, function () { return _this.props.setOpen(false, msg); });
@@ -379,5 +401,5 @@ var ImportModal = /** @class */ (function (_super) {
     return ImportModal;
 }(React.Component));
 export { ImportModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
 //# sourceMappingURL=import-modal.js.map
