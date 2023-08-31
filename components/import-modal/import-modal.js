@@ -105,43 +105,34 @@ var ImportModal = /** @class */ (function (_super) {
             alerts: [],
             selectedRepos: [],
             onlyStaging: true,
-            fixedRepos: [],
         };
         return _this;
     }
     ImportModal.prototype.componentDidMount = function () {
-        this.loadAllRepos('staging');
+        this.loadAllRepos();
     };
-    ImportModal.prototype.loadAllRepos = function (pipeline) {
+    ImportModal.prototype.loadAllRepos = function () {
         var _this = this;
-        var filter = {};
-        if (this.state.onlyStaging) {
-            filter = { pulp_label_select: "pipeline=".concat(pipeline) };
-        }
-        return AnsibleRepositoryAPI.list(filter)
-            .then(function (data) {
+        var onlyStaging = this.state.onlyStaging;
+        return AnsibleRepositoryAPI.list({
+            pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline',
+            page_size: 1,
+        })
+            .then(function (_a) {
+            var _b = _a.data, count = _b.count, results = _b.results;
             _this.setState({
-                allRepos: data.data.results,
+                selectedRepos: onlyStaging
+                    ? ['staging']
+                    : count === 1
+                        ? [results[0].name]
+                        : [],
+                loading: false,
+                // new value triggers MultipleRepoSelector reload (loadRepos)
+                allRepos: [],
             });
-            _this.setState({ loading: false });
-            if (data.data.results.length == 1) {
-                _this.setState({ selectedRepos: [data.data.results[0].name] });
-            }
-            // fill repos that user cant select
-            var res = [];
-            if (!_this.state.onlyStaging) {
-                res = data.data.results
-                    .filter(function (repo) {
-                    var _a, _b;
-                    return ((_a = repo.pulp_labels) === null || _a === void 0 ? void 0 : _a.pipeline) &&
-                        ((_b = repo.pulp_labels) === null || _b === void 0 ? void 0 : _b.pipeline) != 'staging';
-                })
-                    .map(function (repo) { return repo.name; });
-            }
-            _this.setState({ fixedRepos: res });
         })
             .catch(function (error) {
-            _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading repositories with label ", "."], ["Error loading repositories with label ", "."])), pipeline), 'danger', error === null || error === void 0 ? void 0 : error.message);
+            _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading repositories."], ["Error loading repositories."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
             _this.setState({ loading: false });
         });
     };
@@ -158,13 +149,9 @@ var ImportModal = /** @class */ (function (_super) {
     };
     ImportModal.prototype.loadRepos = function (params, setRepositoryList, setLoading, setItemsCount) {
         var _this = this;
-        // modify params
-        var par = __assign({}, params);
-        if (this.state.onlyStaging) {
-            par['pulp_label_select'] = 'pipeline=staging';
-        }
+        var onlyStaging = this.state.onlyStaging;
         setLoading(true);
-        AnsibleRepositoryAPI.list(par)
+        AnsibleRepositoryAPI.list(__assign(__assign({}, params), { pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline' }))
             .then(function (data) {
             setLoading(false);
             setRepositoryList(data.data.results);
@@ -223,17 +210,13 @@ var ImportModal = /** @class */ (function (_super) {
             React.createElement(React.Fragment, null,
                 React.createElement("br", null),
                 React.createElement(Radio, { isChecked: this.state.onlyStaging, name: 'radio-1', onChange: function (val) {
-                        _this.setState({ onlyStaging: val }, function () {
-                            return _this.loadAllRepos('staging');
-                        });
+                        _this.setState({ onlyStaging: val }, function () { return _this.loadAllRepos(); });
                     }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Staging Repos"], ["Staging Repos"]))), id: 'radio-staging' }),
                 React.createElement(Radio, { isChecked: !this.state.onlyStaging, name: 'radio-2', onChange: function (val) {
-                        _this.setState({ onlyStaging: !val }, function () {
-                            return _this.loadAllRepos('staging');
-                        });
+                        _this.setState({ onlyStaging: !val }, function () { return _this.loadAllRepos(); });
                     }, label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["All Repos"], ["All Repos"]))), id: 'radio-all' }),
-                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."], ["Please note that those repositories are not filtered by permission, if operation fail, you don't have it."]))))),
-                React.createElement(MultipleRepoSelector, { singleSelectionOnly: true, allRepositories: this.state.allRepos, fixedRepos: this.state.fixedRepos, selectedRepos: this.state.selectedRepos, setSelectedRepos: function (repos) {
+                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."], ["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."]))))),
+                React.createElement(MultipleRepoSelector, { singleSelectionOnly: true, allRepositories: this.state.allRepos, fixedRepos: [], selectedRepos: this.state.selectedRepos, setSelectedRepos: function (repos) {
                         return _this.setState({
                             selectedRepos: repos,
                             errors: '',

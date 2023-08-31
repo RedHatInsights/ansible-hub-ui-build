@@ -12,7 +12,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { Dropdown, DropdownItem, DropdownSeparator, DropdownToggle, DropdownToggleCheckbox, Flex, FlexItem, Label, LabelGroup, Spinner, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle, DropdownToggleCheckbox, Flex, FlexItem, Label, LabelGroup, Spinner, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
 import { AppliedFilters, CheckboxRow, CompoundFilter, Pagination, RadioRow, SortTable, } from 'src/components';
 export var MultipleRepoSelector = function (props) {
@@ -78,10 +78,6 @@ export var MultipleRepoSelector = function (props) {
             setIsSelectorOpen(false);
             onFocus();
         }
-        function selectAll() {
-            props.setSelectedRepos(props.allRepositories.map(function (a) { return a.name; }));
-            setIsSelectorChecked(true);
-        }
         function selectPage() {
             var newRepos = __spreadArray([], props.selectedRepos, true);
             repositoryList.forEach(function (repo) {
@@ -115,10 +111,8 @@ export var MultipleRepoSelector = function (props) {
         }
         var dropdownItems = [
             React.createElement(DropdownItem, { onClick: selectPage, key: 'select-page' }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select page (", " items)"], ["Select page (", " items)"])), repositoryList.length)),
-            React.createElement(DropdownItem, { onClick: selectAll, key: 'select-all' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Select all (", " items)"], ["Select all (", " items)"])), props.allRepositories.length)),
-            React.createElement(DropdownSeparator, { key: 'separator' }),
-            React.createElement(DropdownItem, { onClick: deselectPage, key: 'deselect-page' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deselect page (", " items)"], ["Deselect page (", " items)"])), repositoryList.length)),
-            React.createElement(DropdownItem, { onClick: deselectAll, key: 'deselect-all' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Deselect all (", " items)"], ["Deselect all (", " items)"])), props.allRepositories.length)),
+            React.createElement(DropdownItem, { onClick: deselectPage, key: 'deselect-page' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Deselect page (", " items)"], ["Deselect page (", " items)"])), repositoryList.length)),
+            React.createElement(DropdownItem, { onClick: deselectAll, key: 'deselect-all' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Deselect all (", " items)"], ["Deselect all (", " items)"])), props.selectedRepos.length)),
         ];
         return (React.createElement(Dropdown, { onSelect: onSelect, toggle: React.createElement(DropdownToggle, { splitButtonItems: [
                     React.createElement(DropdownToggleCheckbox, { id: 'split-button-toggle-checkbox', key: 'split-checkbox', "aria-label": 'Select all', checked: isSelectorChecked, onChange: onToggleCheckbox }),
@@ -128,29 +122,35 @@ export var MultipleRepoSelector = function (props) {
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Name"], ["Name"]))),
+                    title: '',
+                    type: 'none',
+                    id: 'expander',
+                },
+                {
+                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Name"], ["Name"]))),
                     type: 'alpha',
                     id: 'name',
                 },
+                {
+                    title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Description"], ["Description"]))),
+                    type: 'none',
+                    id: 'description',
+                },
             ],
         };
-        return (React.createElement(React.Fragment, null,
-            React.createElement("table", { "aria-label": t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
-                React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return setParams(p); } }),
-                React.createElement("tbody", null, repositoryList.map(function (repo, i) { return (React.createElement(React.Fragment, null,
-                    !props.singleSelectionOnly && (React.createElement(CheckboxRow, { rowIndex: i, key: repo.name, isSelected: props.selectedRepos.includes(repo.name), onSelect: function () {
-                            changeSelection(repo.name);
-                        }, isDisabled: props.fixedRepos.includes(repo.name), "data-cy": "ApproveModal-CheckboxRow-row-".concat(repo.name) },
-                        React.createElement("td", null,
-                            React.createElement("div", null, repo.name),
-                            React.createElement("div", null, repo.description)))),
-                    props.singleSelectionOnly && (React.createElement(React.Fragment, null,
-                        React.createElement(RadioRow, { rowIndex: i, key: repo.name, isSelected: props.selectedRepos.includes(repo.name), onSelect: function () {
-                                props.setSelectedRepos([repo.name]);
-                            }, isDisabled: props.fixedRepos.includes(repo.name), "data-cy": "ApproveModal-RadioRow-row-".concat(repo.name) },
-                            React.createElement("td", null,
-                                React.createElement("div", null, repo.name),
-                                React.createElement("div", null, repo.description))))))); })))));
+        return (React.createElement("table", { "aria-label": t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Repositories"], ["Repositories"]))), className: 'hub-c-table-content pf-c-table' },
+            React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) { return setParams(p); } }),
+            repositoryList.map(function (repo, i) {
+                return props.singleSelectionOnly ? (React.createElement(RadioRow, { rowIndex: i, key: repo.name, isSelected: props.selectedRepos.includes(repo.name), onSelect: function () {
+                        props.setSelectedRepos([repo.name]);
+                    }, isDisabled: props.fixedRepos.includes(repo.name), "data-cy": "ApproveModal-RadioRow-row-".concat(repo.name) },
+                    React.createElement("td", null, repo.name),
+                    React.createElement("td", null, repo.description))) : (React.createElement(CheckboxRow, { rowIndex: i, key: repo.name, isSelected: props.selectedRepos.includes(repo.name), onSelect: function () {
+                        changeSelection(repo.name);
+                    }, isDisabled: props.fixedRepos.includes(repo.name), "data-cy": "ApproveModal-CheckboxRow-row-".concat(repo.name) },
+                    React.createElement("td", null, repo.name),
+                    React.createElement("td", null, repo.description)));
+            })));
     }
     return (React.createElement(React.Fragment, null,
         renderLabels(),
