@@ -143,7 +143,7 @@ export function withContainerRepo(WrappedComponent) {
                             if (description === void 0) { description = undefined; }
                             return _this.addAlert(text, variant, description);
                         } })),
-                    React.createElement(ExecutionEnvironmentHeader, { id: this.props.routeParams.container, updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), groupId: groupId, container: this.state.repo, displaySignatures: this.context.featureFlags.container_signing, pageControls: React.createElement(React.Fragment, null,
+                    React.createElement(ExecutionEnvironmentHeader, { id: this.props.routeParams.container, updateState: function (change) { return _this.setState(change); }, tab: this.getTab(), groupId: groupId, container: this.state.repo, displaySignatures: this.context.featureFlags.container_signing, pageControls: React.createElement("div", { style: { display: 'flex' } },
                             showEdit ? (React.createElement(Button, { onClick: function () { return _this.setState({ editing: true }); }, variant: 'secondary', "data-cy": 'edit-container' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Edit"], ["Edit"]))))) : null,
                             React.createElement(StatefulDropdown, { items: dropdownItems })) }),
                     React.createElement(Main, null,
