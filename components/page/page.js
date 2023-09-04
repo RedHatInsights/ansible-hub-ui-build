@@ -84,7 +84,7 @@ export var Page = function (_a) {
                 var _this = this;
                 // condition check after query, for object permissions
                 this.query().then(function (item) {
-                    var actionContext = __assign(__assign({}, _this.context), { hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); } });
+                    var actionContext = __assign(__assign({}, _this.context), { hasObjectPermission: function (permission) { var _a, _c; return (_c = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _c === void 0 ? void 0 : _c.call(_a, permission); } });
                     if (!condition(actionContext)) {
                         _this.setState({ loading: false, unauthorised: true });
                     }
@@ -96,10 +96,10 @@ export var Page = function (_a) {
                 var _this = this;
                 var _a;
                 var routeParams = this.props.routeParams;
-                var _b = this.state, alerts = _b.alerts, item = _b.item, loading = _b.loading, unauthorised = _b.unauthorised;
+                var _c = this.state, alerts = _c.alerts, item = _c.item, loading = _c.loading, unauthorised = _c.unauthorised;
                 var actionContext = {
                     addAlert: function (alert) { return _this.addAlert(alert); },
-                    hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); },
+                    hasObjectPermission: function (permission) { var _a, _c; return (_c = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _c === void 0 ? void 0 : _c.call(_a, permission); },
                     hasPermission: this.context.hasPermission,
                     listQuery: function () { return _this.props.navigate(listUrl); },
                     navigate: this.props.navigate,

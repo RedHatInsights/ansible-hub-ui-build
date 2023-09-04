@@ -53,15 +53,14 @@ var AuthHandler = function (_a) {
     }
     return React.createElement(Component, { path: path });
 };
-export var StandaloneRoutes = /** @class */ (function (_super) {
+var StandaloneRoutes = /** @class */ (function (_super) {
     __extends(StandaloneRoutes, _super);
     function StandaloneRoutes() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     // Note: must be ordered from most specific to least specific
     StandaloneRoutes.prototype.getRoutes = function () {
-        var _a;
-        var featureFlags = (_a = this.context, _a.featureFlags), user = _a.user;
+        var _a = this.context, featureFlags = _a.featureFlags, user = _a.user;
         var isContainerDisabled = true;
         var isUserMgmtDisabled = false;
         if (featureFlags) {
@@ -223,4 +222,5 @@ export var StandaloneRoutes = /** @class */ (function (_super) {
     StandaloneRoutes.contextType = AppContext;
     return StandaloneRoutes;
 }(React.Component));
+export { StandaloneRoutes };
 //# sourceMappingURL=routes.js.map

@@ -124,7 +124,7 @@ export var PageWithTabs = function (_a) {
                 var _a = this.state, alerts = _a.alerts, item = _a.item, loading = _a.loading, params = _a.params, unauthorised = _a.unauthorised;
                 var actionContext = {
                     addAlert: function (alert) { return _this.addAlert(alert); },
-                    hasObjectPermission: function (permission) { var _a, _b; return (_b = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _b === void 0 ? void 0 : _b.call(_a, permission); },
+                    hasObjectPermission: function (permission) { var _a, _c; return (_c = (_a = item === null || item === void 0 ? void 0 : item.my_permissions) === null || _a === void 0 ? void 0 : _a.includes) === null || _c === void 0 ? void 0 : _c.call(_a, permission); },
                     hasPermission: this.context.hasPermission,
                     listQuery: function () { return _this.props.navigate(listUrl); },
                     navigate: this.props.navigate,

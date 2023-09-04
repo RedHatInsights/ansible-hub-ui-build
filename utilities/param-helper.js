@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { cloneDeep } from 'lodash';
-export var ParamHelper = /** @class */ (function () {
+var ParamHelper = /** @class */ (function () {
     function ParamHelper() {
     }
     // Helper class for managing param object.
@@ -159,4 +159,5 @@ export var ParamHelper = /** @class */ (function () {
     };
     return ParamHelper;
 }());
+export { ParamHelper };
 //# sourceMappingURL=param-helper.js.map

@@ -86,7 +86,7 @@ export function withContainerRepo(WrappedComponent) {
             };
             class_1.prototype.render = function () {
                 var _this = this;
-                var _a, _b, _c, _d, _e, _f, _g;
+                var _b, _c, _d, _e, _f, _g, _h;
                 var container = this.props.routeParams.container;
                 var redirect = {
                     list: formatEEPath(Paths.executionEnvironments, {}),
@@ -115,7 +115,7 @@ export function withContainerRepo(WrappedComponent) {
                 var canSync = permissions.includes('container.change_containernamespace');
                 var hasPermission = this.context.hasPermission;
                 var dropdownItems = [
-                    this.state.repo.pulp.repository.remote && canSync && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); }, isDisabled: ['running', 'waiting'].includes((_b = (_a = this.state.repo.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) === null || _b === void 0 ? void 0 : _b.state) }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
+                    this.state.repo.pulp.repository.remote && canSync && (React.createElement(DropdownItem, { key: 'sync', onClick: function () { return _this.sync(_this.state.repo.name); }, isDisabled: ['running', 'waiting'].includes((_c = (_b = this.state.repo.pulp.repository.remote) === null || _b === void 0 ? void 0 : _b.last_sync_task) === null || _c === void 0 ? void 0 : _c.state) }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Sync from registry"], ["Sync from registry"]))))),
                     React.createElement(DropdownItem, { key: 'publish-to-controller', onClick: function () {
                             _this.setState({
                                 publishToController: {
@@ -130,7 +130,7 @@ export function withContainerRepo(WrappedComponent) {
                             _this.sign();
                         } }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Sign"], ["Sign"]))))),
                 ].filter(function (truthy) { return truthy; });
-                var _h = this.state, alerts = _h.alerts, repo = _h.repo, publishToController = _h.publishToController, showDeleteModal = _h.showDeleteModal;
+                var _j = this.state, alerts = _j.alerts, repo = _j.repo, publishToController = _j.publishToController, showDeleteModal = _j.showDeleteModal;
                 // move to Owner tab when it can have its own breadcrumbs
                 var groupId = ParamHelper.parseParamString(this.props.location.search).group;
                 return (React.createElement(React.Fragment, null,
@@ -170,9 +170,9 @@ export function withContainerRepo(WrappedComponent) {
                                         _this.loadRepo();
                                     }
                                 });
-                            }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_c = this.state.repo.pulp.repository.remote) === null || _c === void 0 ? void 0 : _c.upstream_name, registry: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.registry, excludeTags: ((_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.exclude_tags) || [], includeTags: ((_f = this.state.repo.pulp.repository.remote) === null || _f === void 0 ? void 0 : _f.include_tags) || [], remoteId: (_g = this.state.repo.pulp.repository.remote) === null || _g === void 0 ? void 0 : _g.id })),
-                        React.createElement(WrappedComponent, __assign({ containerRepository: this.state.repo, editing: this.state.editing, addAlert: function (_a) {
-                                var title = _a.title, variant = _a.variant, _b = _a.description, description = _b === void 0 ? null : _b;
+                            }, onCancel: function () { return _this.setState({ editing: false }); }, distributionPulpId: this.state.repo.pulp.distribution.id, isRemote: !!this.state.repo.pulp.repository.remote, isNew: false, upstreamName: (_d = this.state.repo.pulp.repository.remote) === null || _d === void 0 ? void 0 : _d.upstream_name, registry: (_e = this.state.repo.pulp.repository.remote) === null || _e === void 0 ? void 0 : _e.registry, excludeTags: ((_f = this.state.repo.pulp.repository.remote) === null || _f === void 0 ? void 0 : _f.exclude_tags) || [], includeTags: ((_g = this.state.repo.pulp.repository.remote) === null || _g === void 0 ? void 0 : _g.include_tags) || [], remoteId: (_h = this.state.repo.pulp.repository.remote) === null || _h === void 0 ? void 0 : _h.id })),
+                        React.createElement(WrappedComponent, __assign({ containerRepository: this.state.repo, editing: this.state.editing, addAlert: function (_b) {
+                                var title = _b.title, variant = _b.variant, _c = _b.description, description = _c === void 0 ? null : _c;
                                 return _this.addAlert(title, variant, description);
                             } }, this.props)))));
             };
@@ -180,12 +180,12 @@ export function withContainerRepo(WrappedComponent) {
                 var _this = this;
                 ExecutionEnvironmentAPI.get(this.props.routeParams.container)
                     .then(function (result) {
-                    var _a;
+                    var _b;
                     _this.setState({
                         repo: result.data,
                         loading: false,
                     });
-                    var last_sync_task = ((_a = result.data.pulp.repository.remote) === null || _a === void 0 ? void 0 : _a.last_sync_task) || {};
+                    var last_sync_task = ((_b = result.data.pulp.repository.remote) === null || _b === void 0 ? void 0 : _b.last_sync_task) || {};
                     if (last_sync_task.state &&
                         ['running', 'waiting'].includes(last_sync_task.state)) {
                         // keep refreshing while a remove repo is being synced
@@ -233,8 +233,8 @@ export function withContainerRepo(WrappedComponent) {
             class_1.prototype.sync = function (name) {
                 var _this = this;
                 ExecutionEnvironmentRemoteAPI.sync(name)
-                    .then(function (_a) {
-                    var data = _a.data;
+                    .then(function (_b) {
+                    var data = _b.data;
                     _this.addAlertObj(taskAlert(data.task, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Sync started for remote registry \"", "\"."], ["Sync started for remote registry \"", "\"."])), name)));
                     _this.loadRepo();
                 })
