@@ -59,7 +59,7 @@ import { UserAPI } from 'src/api';
 import { DeleteModal } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { errorMessage, mapErrorMessages } from 'src/utilities';
-export var DeleteUserModal = /** @class */ (function (_super) {
+var DeleteUserModal = /** @class */ (function (_super) {
     __extends(DeleteUserModal, _super);
     function DeleteUserModal(props) {
         var _this = _super.call(this, props) || this;
@@ -81,9 +81,8 @@ export var DeleteUserModal = /** @class */ (function (_super) {
         return _this;
     }
     DeleteUserModal.prototype.render = function () {
-        var _a;
         var _this = this;
-        var isOpen = (_a = this.props, _a.isOpen), user = _a.user, closeModal = _a.closeModal;
+        var _a = this.props, isOpen = _a.isOpen, user = _a.user, closeModal = _a.closeModal;
         var isWaitingForResponse = this.state.isWaitingForResponse;
         if (!user || !isOpen) {
             return null;
@@ -121,8 +120,7 @@ export var DeleteUserModal = /** @class */ (function (_super) {
             });
         }); })
             .catch(function (err) {
-            var _a;
-            var status = (_a = err.response, _a.status), statusText = _a.statusText;
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
             if (err.response.status === 404) {
                 _this.props.addAlert(React.createElement(Trans, null,
                     "User \"",
@@ -139,5 +137,6 @@ export var DeleteUserModal = /** @class */ (function (_super) {
     DeleteUserModal.contextType = AppContext;
     return DeleteUserModal;
 }(React.Component));
+export { DeleteUserModal };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=delete-user-modal.js.map
