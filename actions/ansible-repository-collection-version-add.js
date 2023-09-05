@@ -88,7 +88,7 @@ var AddCollectionVersionModal = function (_a) {
             React.createElement("td", null, repository.name)));
     };
     return (React.createElement(Modal, { actions: [
-            React.createElement(Button, { key: 'confirm', onClick: function () { return addAction(selected); }, variant: 'primary', isDisabled: !selected }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select"], ["Select"])))),
+            React.createElement(Button, { key: 'confirm', onClick: function () { return addAction(selected); }, variant: 'primary', isDisabled: !selected.length }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Select"], ["Select"])))),
             React.createElement(Button, { key: 'cancel', onClick: closeAction, variant: 'link' }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
         ], isOpen: true, onClose: closeAction, title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Select a collection"], ["Select a collection"]))), variant: 'large' },
         React.createElement("section", { className: 'modal-body', "data-cy": 'modal-body' },
