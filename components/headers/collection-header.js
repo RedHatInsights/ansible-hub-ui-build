@@ -75,7 +75,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Spinner, Text, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import * as moment from 'moment';
 import React from 'react';
 import { Navigate } from 'react-router-dom';

@@ -4,7 +4,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, Button, Grid, GridItem, Split, SplitItem, } from '@patternfly/react-core';
-import { DownloadIcon } from '@patternfly/react-icons';
+import DownloadIcon from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CollectionAPI, } from 'src/api';

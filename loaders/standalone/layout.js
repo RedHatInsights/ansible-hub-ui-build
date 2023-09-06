@@ -4,7 +4,8 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { Trans, t } from '@lingui/macro';
 import { Banner, DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, QuestionCircleIcon, } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
+import QuestionCircleIcon from '@patternfly/react-icons/dist/esm/icons/question-circle-icon';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from 'src/../static/images/logo_large.svg';

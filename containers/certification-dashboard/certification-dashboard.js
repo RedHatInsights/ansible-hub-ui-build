@@ -86,7 +86,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, ButtonVariant, DropdownItem, Label, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
+import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
+import DownloadIcon from '@patternfly/react-icons/dist/esm/icons/download-icon';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AnsibleRepositoryAPI, CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, } from 'src/api';

@@ -18,7 +18,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React from 'react';
 import { BaseHeader, Breadcrumbs, Logo, Tabs, } from 'src/components';
 var PartnerHeader = /** @class */ (function (_super) {

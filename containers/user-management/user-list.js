@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, DropdownItem, Label, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
-import { UserPlusIcon } from '@patternfly/react-icons';
+import UserPlusIcon from '@patternfly/react-icons/dist/esm/icons/user-plus-icon';
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
