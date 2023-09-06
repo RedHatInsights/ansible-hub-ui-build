@@ -31,7 +31,9 @@ var __assign = (this && this.__assign) || function () {
 import { Trans, t } from '@lingui/macro';
 import { CodeEditor, Language } from '@patternfly/react-code-editor';
 import { ActionGroup, Button, Checkbox, ExpandableSection, Flex, FlexItem, Form, FormGroup, Modal, Switch, TextInput, } from '@patternfly/react-core';
-import { DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
+import DownloadIcon from '@patternfly/react-icons/dist/esm/icons/download-icon';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import React from 'react';
 import { FileUpload, HelperText, WriteOnlyField } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';

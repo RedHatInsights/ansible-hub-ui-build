@@ -30,7 +30,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Nav, NavItem, NavList, Panel, Text, TextContent, TextVariants, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyRoleAPI, } from 'src/api';

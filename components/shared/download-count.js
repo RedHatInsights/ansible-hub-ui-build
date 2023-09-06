@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { Trans, t } from '@lingui/macro';
-import { DownloadIcon } from '@patternfly/react-icons';
+import DownloadIcon from '@patternfly/react-icons/dist/esm/icons/download-icon';
 import React from 'react';
 import { Tooltip } from 'src/components';
 import { Constants } from 'src/constants';

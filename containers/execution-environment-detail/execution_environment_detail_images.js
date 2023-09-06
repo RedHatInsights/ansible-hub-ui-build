@@ -30,7 +30,8 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
+import AngleDownIcon from '@patternfly/react-icons/dist/esm/icons/angle-down-icon';
+import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 import { sum } from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';

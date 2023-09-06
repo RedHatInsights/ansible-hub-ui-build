@@ -75,7 +75,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, Modal, Radio } from '@patternfly/react-core';
-import { FolderOpenIcon, SpinnerIcon } from '@patternfly/react-icons';
+import FolderOpenIcon from '@patternfly/react-icons/dist/esm/icons/folder-open-icon';
+import SpinnerIcon from '@patternfly/react-icons/dist/esm/icons/spinner-icon';
 import axios from 'axios';
 import cx from 'classnames';
 import React from 'react';

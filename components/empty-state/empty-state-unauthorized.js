@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import { LockIcon } from '@patternfly/react-icons';
+import LockIcon from '@patternfly/react-icons/dist/esm/icons/lock-icon';
 import React from 'react';
 import { LoginLink } from 'src/components';
 import { EmptyStateCustom } from './empty-state-custom';
