@@ -17,6 +17,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -153,7 +164,7 @@ var SignatureKeysList = /** @class */ (function (_super) {
         ];
         return (React.createElement("tr", { key: index },
             React.createElement("td", null, name),
-            React.createElement("td", null, pubkey_fingerprint),
+            React.createElement("td", { "data-cy": 'hub-signature-list-fingerprint' }, pubkey_fingerprint),
             React.createElement("td", null,
                 React.createElement(DateComponent, { date: pulp_created })),
             React.createElement("td", null,
@@ -170,7 +181,7 @@ var SignatureKeysList = /** @class */ (function (_super) {
     SignatureKeysList.prototype.query = function () {
         var _this = this;
         this.setState({ loading: true }, function () {
-            SigningServiceAPI.list(_this.state.params)
+            SigningServiceAPI.list(__assign({ sort: 'name' }, _this.state.params))
                 .then(function (result) {
                 _this.setState({
                     items: result.data.results,
