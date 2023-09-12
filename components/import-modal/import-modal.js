@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -82,7 +71,7 @@ import cx from 'classnames';
 import React from 'react';
 import { AnsibleRepositoryAPI, CollectionAPI, } from 'src/api';
 import { AlertList, MultipleRepoSelector, closeAlertMixin, } from 'src/components';
-import { errorMessage, repositoryBasePath } from 'src/utilities';
+import { repositoryBasePath } from 'src/utilities';
 import './import-modal.scss';
 var Status;
 (function (Status) {
@@ -101,7 +90,6 @@ var ImportModal = /** @class */ (function (_super) {
             errorVariant: 'default',
             uploadProgress: 0,
             uploadStatus: Status.waiting,
-            allRepos: [],
             loading: true,
             alerts: [],
             selectedRepos: [],
@@ -113,28 +101,52 @@ var ImportModal = /** @class */ (function (_super) {
         this.loadAllRepos();
     };
     ImportModal.prototype.loadAllRepos = function () {
-        var _this = this;
-        var onlyStaging = this.state.onlyStaging;
-        return AnsibleRepositoryAPI.list({
-            pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline',
-            page_size: 1,
-        })
-            .then(function (_a) {
-            var _b = _a.data, count = _b.count, results = _b.results;
-            _this.setState({
-                selectedRepos: onlyStaging
-                    ? ['staging']
-                    : count === 1
-                        ? [results[0].name]
-                        : [],
-                loading: false,
-                // new value triggers MultipleRepoSelector reload (loadRepos)
-                allRepos: [],
+        return __awaiter(this, void 0, void 0, function () {
+            var onlyStaging, staging, _a;
+            var _this = this;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        onlyStaging = this.state.onlyStaging;
+                        if (!onlyStaging) return [3 /*break*/, 2];
+                        return [4 /*yield*/, AnsibleRepositoryAPI.list({
+                                name: 'staging',
+                                page_size: 1,
+                                pulp_label_select: 'pipeline=staging',
+                            })
+                                .then(function (_a) {
+                                var results = _a.data.results;
+                                return results[0];
+                            })
+                                .catch(function () { return null; })];
+                    case 1:
+                        _a = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        _a = null;
+                        _b.label = 3;
+                    case 3:
+                        staging = _a;
+                        return [2 /*return*/, AnsibleRepositoryAPI.list({
+                                pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline',
+                                page_size: 1,
+                            })
+                                .then(function (_a) {
+                                var _b = _a.data, count = _b.count, results = _b.results;
+                                return _this.setState({
+                                    selectedRepos: onlyStaging
+                                        ? [staging || results[0]].filter(Boolean)
+                                        : count === 1
+                                            ? [results[0]]
+                                            : [],
+                                });
+                            })
+                                .catch(function (error) {
+                                return _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading repositories."], ["Error loading repositories."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
+                            })
+                                .finally(function () { return _this.setState({ loading: false }); })];
+                }
             });
-        })
-            .catch(function (error) {
-            _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading repositories."], ["Error loading repositories."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
-            _this.setState({ loading: false });
         });
     };
     ImportModal.prototype.addAlert = function (title, variant, description) {
@@ -146,26 +158,6 @@ var ImportModal = /** @class */ (function (_super) {
                     variant: variant,
                 },
             ], false),
-        });
-    };
-    ImportModal.prototype.loadRepos = function (params, setRepositoryList, setLoading, setItemsCount) {
-        var _this = this;
-        var onlyStaging = this.state.onlyStaging;
-        setLoading(true);
-        AnsibleRepositoryAPI.list(__assign(__assign({}, params), { pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline' }))
-            .then(function (data) {
-            setLoading(false);
-            setRepositoryList(data.data.results);
-            setItemsCount(data.data.count);
-        })
-            .catch(function (_a) {
-            var _b = _a.response, status = _b.status, statusText = _b.statusText;
-            setLoading(false);
-            _this.addAlertObj({
-                title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Failed to load repositories."], ["Failed to load repositories."]))),
-                variant: 'danger',
-                description: errorMessage(status, statusText),
-            });
         });
     };
     ImportModal.prototype.addAlertObj = function (alert) {
@@ -181,15 +173,15 @@ var ImportModal = /** @class */ (function (_super) {
     ImportModal.prototype.render = function () {
         var _this = this;
         var _a = this.props, isOpen = _a.isOpen, collection = _a.collection;
-        var _b = this.state, file = _b.file, errors = _b.errors, errorVariant = _b.errorVariant, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
+        var _b = this.state, errors = _b.errors, errorVariant = _b.errorVariant, file = _b.file, onlyStaging = _b.onlyStaging, uploadProgress = _b.uploadProgress, uploadStatus = _b.uploadStatus;
         var skipError = function () {
             if (errorVariant === 'skippable') {
                 _this.setState({ errorVariant: 'skipped' });
             }
         };
-        return (React.createElement(Modal, { variant: 'large', title: collection ? t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["New version of ", ""], ["New version of ", ""])), collection.name) : t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
-                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() || this.state.selectedRepos.length == 0, "data-cy": 'confirm-upload' }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Upload"], ["Upload"])))),
-                React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
+        return (React.createElement(Modal, { variant: 'large', title: collection ? t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["New version of ", ""], ["New version of ", ""])), collection.name) : t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["New collection"], ["New collection"]))), isOpen: isOpen, onClose: function () { return _this.handleClose(); }, actions: [
+                React.createElement(Button, { key: 'confirm', variant: 'primary', onClick: function () { return _this.saveFile(); }, isDisabled: !this.canUpload() || !this.state.selectedRepos.length, "data-cy": 'confirm-upload' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Upload"], ["Upload"])))),
+                React.createElement(Button, { key: 'cancel', variant: 'secondary', onClick: function () { return _this.handleClose(); } }, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Cancel"], ["Cancel"])))),
             ] },
             React.createElement("div", { className: 'upload-collection' },
                 React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
@@ -199,7 +191,7 @@ var ImportModal = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'upload-box' },
                             React.createElement("div", { className: 'upload-button' }, this.renderFileIcon()),
                             React.createElement("div", { className: 'upload-text' },
-                                file != null ? file.name : t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Select file"], ["Select file"]))),
+                                file != null ? file.name : t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Select file"], ["Select file"]))),
                                 React.createElement("div", { className: 'loading-bar', style: {
                                         width: uploadProgress * 100 + '%',
                                     } }))))),
@@ -207,24 +199,24 @@ var ImportModal = /** @class */ (function (_super) {
                     errors,
                     errorVariant === 'skippable' && (React.createElement(React.Fragment, null,
                         ' ',
-                        React.createElement("a", { onClick: skipError }, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Upload anyway?"], ["Upload anyway?"])))))))) : null),
+                        React.createElement("a", { onClick: skipError }, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Upload anyway?"], ["Upload anyway?"])))))))) : null),
             React.createElement(React.Fragment, null,
                 React.createElement("br", null),
                 React.createElement(Radio, { isChecked: this.state.onlyStaging, name: 'radio-1', onChange: function (val) {
                         _this.setState({ onlyStaging: val }, function () { return _this.loadAllRepos(); });
-                    }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Staging Repos"], ["Staging Repos"]))), id: 'radio-staging' }),
+                    }, label: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Staging Repos"], ["Staging Repos"]))), id: 'radio-staging' }),
                 React.createElement(Radio, { isChecked: !this.state.onlyStaging, name: 'radio-2', onChange: function (val) {
                         _this.setState({ onlyStaging: !val }, function () { return _this.loadAllRepos(); });
-                    }, label: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["All Repos"], ["All Repos"]))), id: 'radio-all' }),
-                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."], ["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."]))))),
-                React.createElement(MultipleRepoSelector, { singleSelectionOnly: true, allRepositories: this.state.allRepos, fixedRepos: [], selectedRepos: this.state.selectedRepos, setSelectedRepos: function (repos) {
+                    }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["All Repos"], ["All Repos"]))), id: 'radio-all' }),
+                !this.state.onlyStaging && (React.createElement(React.Fragment, null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."], ["Please note that these repositories are not filtered by permissions. Upload may fail without the right permissions."]))))),
+                React.createElement(MultipleRepoSelector, { addAlert: function (a) { return _this.addAlertObj(a); }, params: {
+                        pulp_label_select: onlyStaging ? 'pipeline=staging' : '!pipeline',
+                    }, singleSelectionOnly: true, selectedRepos: this.state.selectedRepos, setSelectedRepos: function (selectedRepos) {
                         return _this.setState({
-                            selectedRepos: repos,
+                            selectedRepos: selectedRepos,
                             errors: '',
                             errorVariant: 'default',
                         });
-                    }, hideFixedRepos: true, loadRepos: function (params, setRepositoryList, setLoading, setItemsCount) {
-                        return _this.loadRepos(params, setRepositoryList, setLoading, setItemsCount);
                     } }))));
     };
     ImportModal.prototype.canUpload = function () {
@@ -254,15 +246,15 @@ var ImportModal = /** @class */ (function (_super) {
         var collection = this.props.collection;
         if (files.length > 1) {
             this.setState({
-                errors: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
+                errors: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Please select no more than one file."], ["Please select no more than one file."]))),
                 errorVariant: 'default',
             });
         }
         else if (!this.acceptedFileTypes.includes(newCollection.type)) {
-            var detectedType = newCollection.type || t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["unknown"], ["unknown"])));
+            var detectedType = newCollection.type || t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["unknown"], ["unknown"])));
             var acceptedTypes = this.acceptedFileTypes.join(', ');
             this.setState({
-                errors: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Invalid file format: ", " (expected: ", ")."], ["Invalid file format: ", " (expected: ", ")."])), detectedType, acceptedTypes),
+                errors: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Invalid file format: ", " (expected: ", ")."], ["Invalid file format: ", " (expected: ", ")."])), detectedType, acceptedTypes),
                 errorVariant: 'skippable',
                 file: newCollection,
                 uploadProgress: 0,
@@ -270,7 +262,7 @@ var ImportModal = /** @class */ (function (_super) {
         }
         else if (!this.COLLECTION_NAME_REGEX.test(newCollection.name)) {
             this.setState({
-                errors: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
+                errors: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"], ["Invalid file name. Collections must be formatted as 'namespace-collection_name-1.0.0'"]))),
                 errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
@@ -279,7 +271,7 @@ var ImportModal = /** @class */ (function (_super) {
         else if (collection &&
             collection.name !== newCollection.name.split('-')[1]) {
             this.setState({
-                errors: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
+                errors: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["The collection you have selected doesn't appear to match ", ""], ["The collection you have selected doesn't appear to match ", ""])), collection.name),
                 errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
@@ -287,7 +279,7 @@ var ImportModal = /** @class */ (function (_super) {
         }
         else if (this.props.namespace != newCollection.name.split('-')[0]) {
             this.setState({
-                errors: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
+                errors: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["The collection you have selected does not match this namespace."], ["The collection you have selected does not match this namespace."]))),
                 errorVariant: 'default',
                 file: newCollection,
                 uploadProgress: 0,
@@ -304,14 +296,14 @@ var ImportModal = /** @class */ (function (_super) {
     };
     ImportModal.prototype.saveFile = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var selectedRepos, distro_base_path, artifact;
+            var repo, distro_base_path, artifact;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        selectedRepos = this.state.selectedRepos;
+                        repo = this.state.selectedRepos[0];
                         this.setState({ uploadStatus: Status.uploading });
-                        return [4 /*yield*/, repositoryBasePath(selectedRepos[0]).catch(function (error) {
+                        return [4 /*yield*/, repositoryBasePath(repo.name, repo.pulp_href).catch(function (error) {
                                 _this.addAlert(error, 'danger');
                             })];
                     case 1:
@@ -345,12 +337,12 @@ var ImportModal = /** @class */ (function (_super) {
                                         var err = _a[_i];
                                         messages.push(err.detail ||
                                             err.title ||
-                                            err.code || t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), err.status));
+                                            err.code || t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), err.status));
                                     }
                                     errorMessage = messages.join(', ');
                                 }
                                 else {
-                                    errorMessage = t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), errors.response.status);
+                                    errorMessage = t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["API error. Status code: ", ""], ["API error. Status code: ", ""])), errors.response.status);
                                 }
                             }
                             _this.setState({
@@ -371,7 +363,7 @@ var ImportModal = /** @class */ (function (_super) {
         var _this = this;
         var msg = null;
         if (this.cancelToken && this.state.uploadStatus === Status.uploading) {
-            msg = t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
+            msg = t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Collection upload canceled"], ["Collection upload canceled"])));
             this.cancelToken.cancel(msg);
         }
         this.setState({
@@ -385,5 +377,5 @@ var ImportModal = /** @class */ (function (_super) {
     return ImportModal;
 }(React.Component));
 export { ImportModal };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=import-modal.js.map

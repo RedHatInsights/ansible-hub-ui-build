@@ -28,7 +28,7 @@ import React, { useState } from 'react';
 import { AnsibleRepositoryAPI, CollectionVersionAPI, } from 'src/api';
 import { AlertList, DetailList, closeAlert } from 'src/components';
 import { canEditAnsibleRepository } from 'src/permissions';
-import { RepositoriesUtils, handleHttpError, parsePulpIDFromURL, taskAlert, } from 'src/utilities';
+import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
 var add = function (_a, collections, _b) {
     var repositoryHref = _a.repositoryHref, repositoryName = _a.repositoryName;
@@ -50,6 +50,24 @@ var add = function (_a, collections, _b) {
         other: "Failed to add collections to repository \"".concat(repositoryName, "\"."),
     }), function () { return setState(function (ms) { return (__assign(__assign({}, ms), { addCollectionVersionModal: null })); }); }, addAlert));
 };
+function pushToOrFilterOutCollections(selectedCollection, collections) {
+    // check if collection is already selected
+    var selectedItem = collections.find(function (_a) {
+        var cv = _a.collection_version, repository = _a.repository;
+        return cv.pulp_href === selectedCollection.collection_version.pulp_href &&
+            repository.pulp_href === selectedCollection.repository.pulp_href;
+    });
+    // if collection is not selected, add it to selected items
+    if (!selectedItem) {
+        return __spreadArray(__spreadArray([], collections, true), [selectedCollection], false);
+    }
+    // unselect collection
+    return collections.filter(function (_a) {
+        var cv = _a.collection_version, repository = _a.repository;
+        return cv.pulp_href !== selectedCollection.collection_version.pulp_href ||
+            repository.pulp_href !== selectedCollection.repository.pulp_href;
+    });
+}
 var AddCollectionVersionModal = function (_a) {
     var addAction = _a.addAction, closeAction = _a.closeAction, sourceRepository = _a.sourceRepository;
     var _b = useState([]), alerts = _b[0], setAlerts = _b[1];
@@ -74,7 +92,7 @@ var AddCollectionVersionModal = function (_a) {
         var _a = item.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version, description = _a.description, repository = item.repository;
         var isCollectionInRepo = sourceRepository.pulp_href === repository.pulp_href;
         return (React.createElement("tr", { onClick: function () {
-                return setSelected(RepositoriesUtils.pushToOrFilterOutCollections(item, selected));
+                return setSelected(pushToOrFilterOutCollections(item, selected));
             }, key: index },
             React.createElement("td", null,
                 React.createElement(Checkbox, { "aria-label": "".concat(namespace, ".").concat(name, " v").concat(version), id: "collection-".concat(index), isChecked: isCollectionInRepo || selected.includes(item), name: "collection-".concat(index), isDisabled: isCollectionInRepo })),

@@ -84,7 +84,7 @@ import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, De
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, ParamHelper, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, parsePulpIDFromURL, repositoryRemoveCollection, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
 var CollectionHeader = /** @class */ (function (_super) {
@@ -222,7 +222,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                 promise = CollectionAPI.deleteCollectionVersion(deleteCollection);
             }
             else {
-                promise = RepositoriesUtils.deleteCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
+                promise = repositoryRemoveCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
             }
             var name = deleteCollection.collection_version.name;
             promise
@@ -476,12 +476,9 @@ var CollectionHeader = /** @class */ (function (_super) {
                             });
                     });
                 }, deleteFromRepo: deleteFromRepo }),
-            copyCollectionToRepositoryModal && (React.createElement(CopyCollectionToRepositoryModal, { collection: collection, closeAction: function () {
-                    _this.setState({ copyCollectionToRepositoryModal: null });
-                }, addAlert: function (alert) {
-                    _this.addAlert(alert);
-                    _this.setState({ copyCollectionToRepositoryModal: null });
-                } })),
+            copyCollectionToRepositoryModal && (React.createElement(CopyCollectionToRepositoryModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () {
+                    return _this.setState({ copyCollectionToRepositoryModal: null });
+                }, collectionVersion: collection })),
             React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
                     React.createElement("div", { className: 'install-version-column' },
                         React.createElement("span", null, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Version"], ["Version"])))),
