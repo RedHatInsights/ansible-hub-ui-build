@@ -114,13 +114,13 @@ var LegacyRoles = /** @class */ (function (_super) {
             cleanParams['tag'] == undefined &&
             legacyroles.length == 0;
         return (React.createElement("div", null,
-            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Roles"], ["Roles"]))) }),
             React.createElement(React.Fragment, null, loading ? (React.createElement(LoadingPageSpinner, null)) : noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["No roles yet"], ["No roles yet"]))), description: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Roles will appear once imported"], ["Roles will appear once imported"]))) })) : (React.createElement("div", null,
                 React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: cleanParams, updateParams: this.updateParams }),
                 React.createElement(Pagination, { params: this.state.params, 
                     //updateParams={(p) => this.updateParams(p)}
                     updateParams: this.updateParams, count: this.state.count }),
-                React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["List of Legacy Roles"], ["List of Legacy Roles"]))) }, this.state.legacyroles &&
+                React.createElement(DataList, { "aria-label": t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["List of roles"], ["List of roles"]))) }, this.state.legacyroles &&
                     this.state.legacyroles.map(function (lrole) { return (React.createElement(LegacyRoleListItem, { key: lrole.github_user + lrole.name + lrole.id, role: lrole, show_thumbnail: true })); })),
                 React.createElement(Pagination, { params: this.state.params, 
                     //updateParams={(p) => this.updateParams(p)}

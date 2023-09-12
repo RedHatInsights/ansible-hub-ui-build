@@ -192,7 +192,7 @@ var LegacyNamespace = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             this.state.isOpenWisdomModal && (React.createElement(WisdomModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () { return _this.setState({ isOpenWisdomModal: false }); }, scope: 'legacy_namespace', reference: this.state.namespace.name })),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Namespace Header"], ["Namespace Header"]))), className: 'hub-legacy-namespace-page' },
+            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Role namespace header"], ["Role namespace header"]))), className: 'hub-legacy-namespace-page' },
                 React.createElement(DataListItem, { "data-cy": 'LegacyNamespace' },
                     React.createElement(DataListItemRow, null,
                         React.createElement(DataListItemCells, { dataListCells: infocells })))),

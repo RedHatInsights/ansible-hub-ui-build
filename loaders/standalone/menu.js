@@ -100,17 +100,17 @@ function standaloneMenu() {
                 url: formatPath(Paths.executionEnvironmentsRegistries),
             }),
         ]),
-        menuSection(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Legacy"], ["Legacy"]))), {
+        menuSection(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Roles"], ["Roles"]))), {
             condition: function (_a) {
                 var featureFlags = _a.featureFlags;
                 return featureFlags.legacy_roles;
             },
         }, [
-            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))), {
+            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 url: formatPath(Paths.legacyRoles),
                 // alternativeUrls: [formatPath(Paths.compatLegacyRoles)],
             }),
-            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Legacy Namespaces"], ["Legacy Namespaces"]))), {
+            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Role Namespaces"], ["Role Namespaces"]))), {
                 url: formatPath(Paths.legacyNamespaces),
                 // alternativeUrls: [formatPath(Paths.compatLegacyNamespaces)],
             }),
@@ -199,13 +199,13 @@ function MenuItem(_a) {
     return item.condition(context) ? (React.createElement(NavItem, { isActive: item.active, onClick: function (e) {
             item.onclick && item.onclick();
             e.stopPropagation();
-        } }, item.url && item.external ? (React.createElement("a", { href: item.url, "data-cy": item['data-cy'], target: '_blank', rel: 'noreferrer' },
+        } }, item.url && item.external ? (React.createElement("a", { href: item.url, target: '_blank', rel: 'noreferrer', "data-cy": "hub-menu-item-".concat(item.name) },
         item.name,
-        React.createElement(ExternalLinkAltIcon, { style: { position: 'absolute', right: '32px' } }))) : item.url ? (React.createElement(Link, { to: item.url }, item.name)) : (item.name))) : null;
+        React.createElement(ExternalLinkAltIcon, { style: { position: 'absolute', right: '32px' } }))) : item.url ? (React.createElement(Link, { to: item.url, "data-cy": "hub-menu-item-".concat(item.name) }, item.name)) : (item.name))) : null;
 }
 function MenuSection(_a) {
     var section = _a.section, context = _a.context, expandedSections = _a.expandedSections;
-    return section.condition(context) ? (React.createElement(NavExpandable, { title: section.name, groupId: section.name, isActive: section.active, isExpanded: expandedSections.includes(section.name) },
+    return section.condition(context) ? (React.createElement(NavExpandable, { title: section.name, groupId: section.name, isActive: section.active, isExpanded: expandedSections.includes(section.name), "data-cy": "hub-menu-section-".concat(section.name) },
         React.createElement(Menu, { items: section.items, context: context, expandedSections: expandedSections }))) : null;
 }
 function Menu(_a) {
