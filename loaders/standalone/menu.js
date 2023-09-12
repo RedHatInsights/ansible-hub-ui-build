@@ -57,6 +57,7 @@ function standaloneMenu() {
                     return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
                         !user.is_anonymous;
                 },
+                alternativeUrls: [formatPath(Paths.searchByRepo)],
             }),
             menuItem(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
                 url: formatPath(Paths[NAMESPACE_TERM]),
@@ -65,6 +66,7 @@ function standaloneMenu() {
                     return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
                         !user.is_anonymous;
                 },
+                alternativeUrls: [formatPath(Paths.myNamespaces)],
             }),
             menuItem(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repositories"], ["Repositories"]))), {
                 condition: canViewAnsibleRepositories,
@@ -106,14 +108,17 @@ function standaloneMenu() {
         }, [
             menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Legacy Roles"], ["Legacy Roles"]))), {
                 url: formatPath(Paths.legacyRoles),
+                // alternativeUrls: [formatPath(Paths.compatLegacyRoles)],
             }),
             menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Legacy Namespaces"], ["Legacy Namespaces"]))), {
                 url: formatPath(Paths.legacyNamespaces),
+                // alternativeUrls: [formatPath(Paths.compatLegacyNamespaces)],
             }),
         ]),
         menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
             url: formatPath(Paths.taskList),
             condition: isLoggedIn,
+            alternativeUrls: [formatPath(Paths.taskDetail)],
         }),
         menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
             url: formatPath(Paths.signatureKeys),
@@ -159,20 +164,29 @@ function standaloneMenu() {
             menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.groupList),
+                alternativeUrls: [formatPath(Paths.groupDetail)],
             }),
             menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.roleList),
+                alternativeUrls: [formatPath(Paths.roleEdit)],
             }),
         ]),
     ];
 }
 function activateMenu(items, pathname) {
+    var normalize = function (s) { return s.replace(/\/$/, '').replace(/\/:[^/:]+$/, ''); };
+    var normalizedPathname = normalize(pathname).replace(/\/repo\/[^/]+\//, '/repo/:repo/');
     items.forEach(function (item) {
+        var _a;
         item.active =
             item.type === 'section'
                 ? activateMenu(item.items, pathname)
-                : pathname.replace(/\/$/, '').startsWith(item.url.replace(/\/$/, ''));
+                : normalizedPathname.startsWith(normalize(item.url)) ||
+                    (((_a = item.alternativeUrls) === null || _a === void 0 ? void 0 : _a.length) &&
+                        item.alternativeUrls.some(function (url) {
+                            return normalizedPathname.startsWith(normalize(url));
+                        }));
     });
     return some(items, 'active');
 }
