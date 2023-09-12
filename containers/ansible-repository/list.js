@@ -28,7 +28,6 @@ import { Link } from 'react-router-dom';
 import { ansibleRepositoryCopyAction, ansibleRepositoryCreateAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
 import { AnsibleRemoteAPI, AnsibleRepositoryAPI, } from 'src/api';
 import { DateComponent, ListItemActions, ListPage, PulpLabels, } from 'src/components';
-import { Constants } from 'src/constants';
 import { Paths, formatPath } from 'src/paths';
 import { canViewAnsibleRepositories } from 'src/permissions';
 import { lastSyncStatus, lastSynced, parsePulpIDFromURL } from 'src/utilities';
@@ -76,15 +75,15 @@ var AnsibleRepositoryList = ListPage({
                 inputType: 'select',
                 options: [
                     {
-                        id: "pipeline=".concat(Constants.NOTCERTIFIED),
+                        id: 'pipeline=rejected',
                         title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
                     },
                     {
-                        id: "pipeline=".concat(Constants.NEEDSREVIEW),
+                        id: 'pipeline=staging',
                         title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
                     },
                     {
-                        id: "pipeline=".concat(Constants.APPROVED),
+                        id: 'pipeline=approved',
                         title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Approved"], ["Approved"]))),
                     },
                 ],

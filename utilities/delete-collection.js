@@ -8,7 +8,7 @@ import React from 'react';
 import { CollectionAPI, CollectionVersionAPI, } from 'src/api';
 import { errorMessage } from './fail-alerts';
 import { parsePulpIDFromURL } from './parse-pulp-id';
-import { RepositoriesUtils } from './repositories';
+import { repositoryRemoveCollection } from './repository-remove-collection';
 import { waitForTask } from './wait-for-task';
 var DeleteCollectionUtils = /** @class */ (function () {
     function DeleteCollectionUtils() {
@@ -91,7 +91,7 @@ var DeleteCollectionUtils = /** @class */ (function () {
         var collection = _a.collection, setState = _a.setState, load = _a.load, redirect = _a.redirect, addAlert = _a.addAlert, deleteFromRepo = _a.deleteFromRepo;
         var promise = null;
         if (deleteFromRepo) {
-            promise = RepositoriesUtils.deleteCollection(deleteFromRepo, collection.collection_version.pulp_href);
+            promise = repositoryRemoveCollection(deleteFromRepo, collection.collection_version.pulp_href);
         }
         else {
             promise = CollectionAPI.deleteCollection(collection);

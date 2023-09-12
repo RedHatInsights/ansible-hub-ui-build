@@ -16,9 +16,6 @@ var Constants = /** @class */ (function () {
     Constants.CERTIFIED_REPO = DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
         ? 'published'
         : 'rh-certified';
-    Constants.NOTCERTIFIED = 'rejected';
-    Constants.NEEDSREVIEW = 'staging';
-    Constants.APPROVED = 'approved';
     Constants.USER_GROUP_MGMT_PERMISSIONS = [
         'galaxy.delete_user',
         'galaxy.add_user',
