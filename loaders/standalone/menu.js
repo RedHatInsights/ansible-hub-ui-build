@@ -108,11 +108,11 @@ function standaloneMenu() {
         }, [
             menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 url: formatPath(Paths.legacyRoles),
-                // alternativeUrls: [formatPath(Paths.compatLegacyRoles)],
+                alternativeUrls: [formatPath(Paths.compatLegacyRoles)],
             }),
             menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Role Namespaces"], ["Role Namespaces"]))), {
                 url: formatPath(Paths.legacyNamespaces),
-                // alternativeUrls: [formatPath(Paths.compatLegacyNamespaces)],
+                alternativeUrls: [formatPath(Paths.compatLegacyNamespaces)],
             }),
         ]),
         menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {

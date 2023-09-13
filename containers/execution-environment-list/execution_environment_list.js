@@ -96,7 +96,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var hasPermission = this.context.hasPermission;
         var noData = items.length === 0 && !filterIsSet(params, ['name__icontains']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
-                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.3/html-single/managing_containers_in_private_automation_hub/index', '_blank');
+                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.4/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
