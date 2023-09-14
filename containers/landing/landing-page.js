@@ -104,7 +104,7 @@ var LandingPage = /** @class */ (function (_super) {
                             React.createElement("br", null),
                             React.createElement("p", null,
                                 React.createElement("a", { href: 'https://redhat.com/ansible-lightspeed', target: '_blank', rel: 'noreferrer' },
-                                    React.createElement("img", { width: '50%', alt: 'Generative Ai, The Ansible way. Try Ansible Lightspeed with IBM watsonx Code Assistant', src: '/static/images/LightspeedGalaxyAd1.png' }))),
+                                    React.createElement("img", { width: '100%', alt: 'Generative Ai, The Ansible way. Try Ansible Lightspeed with IBM watsonx Code Assistant', src: '/static/images/LightspeedGalaxyAd1.png' }))),
                             React.createElement("hr", { style: {
                                     boxSizing: 'content-box',
                                     height: 0,
