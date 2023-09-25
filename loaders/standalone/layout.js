@@ -60,9 +60,9 @@ export var StandaloneLayout = function (_a) {
     return (React.createElement(Page, { isManagedSidebar: true, header: Header, sidebar: Sidebar },
         (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.ai_deny_index) ? (React.createElement(Banner, null,
             React.createElement(Trans, null,
-                "Thanks for trying out the new and improved Beta Galaxy, please share your feedback on",
+                "Thanks for trying out the new and improved Galaxy, please share your feedback on",
                 ' ',
-                React.createElement("a", { href: 'https://github.com/ansible/galaxy_ng/discussions', target: '_blank', rel: 'noreferrer' }, "github.com/ansible/galaxy_ng/discussions"),
+                React.createElement("a", { href: 'https://forum.ansible.com/', target: '_blank', rel: 'noreferrer' }, "forum.ansible.com"),
                 "."))) : null,
         children,
         aboutModalVisible && aboutModal));
