@@ -59,7 +59,7 @@ var LandingPage = /** @class */ (function (_super) {
         }
         return (React.createElement(React.Fragment, null,
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Welcome to Beta Galaxy"], ["Welcome to Beta Galaxy"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Welcome to Galaxy"], ["Welcome to Galaxy"]))) }),
             React.createElement(Main, null,
                 React.createElement("div", { style: {
                         display: 'flex',
