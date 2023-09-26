@@ -24,4 +24,5 @@ export { validateURLHelper } from './validateURLHelper';
 export { waitForTask, waitForTaskUrl } from './wait-for-task';
 export { RouteProps, withRouter } from './with-router';
 export { clearSetFieldsFromRequest, isFieldSet, isWriteOnly, } from './write-only-fields';
+export { getProviderInfo } from './legacy-namespace';
 //# sourceMappingURL=index.js.map
