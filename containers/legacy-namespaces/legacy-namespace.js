@@ -43,9 +43,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyNamespaceAPI, LegacyRoleAPI, } from 'src/api';
 import { AlertList, BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
+import { ProviderLink } from 'src/components/legacy-namespace-list/legacy-namespace-provider';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
+import { getProviderInfo } from 'src/utilities/legacy-namespace';
 import './legacy-namespace.scss';
 var LegacyNamespaceRoles = /** @class */ (function (_super) {
     __extends(LegacyNamespaceRoles, _super);
@@ -170,10 +172,12 @@ var LegacyNamespace = /** @class */ (function (_super) {
         var namespace_url = formatPath(Paths.legacyNamespace, {
             namespaceid: this.state.namespace.id,
         });
+        var provider = getProviderInfo(this.state.namespace);
         if (this.state.namespace !== undefined) {
             infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns-logo' },
                 React.createElement(Logo, { alt: 'avatar url', fallbackToDefault: true, image: this.state.namespace.avatar_url, size: '90px', unlockWidth: true, width: '90px' }),
-                React.createElement(Link, { to: namespace_url }, this.state.namespace.name)));
+                React.createElement(Link, { to: namespace_url }, this.state.namespace.name),
+                React.createElement(ProviderLink, { id: provider.id, name: provider.name, url: provider.url }, provider.name)));
             infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns-name' },
                 React.createElement(BaseHeader, { title: this.state.namespace.name })));
             var summary_fields = this.state.namespace.summary_fields;
