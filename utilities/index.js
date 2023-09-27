@@ -11,6 +11,7 @@ export { hasPermission } from './has-permission';
 export { lastSyncStatus, lastSynced } from './last-sync-task';
 export { ErrorMessagesType, alertErrorsWithoutFields, isFieldValid, isFormValid, mapErrorMessages, } from './map-error-messages';
 export { mapNetworkErrors, validateInput } from './map-role-errors';
+export { namespaceTitle } from './namespace-title';
 export { ParamHelper } from './param-helper';
 export { parsePulpIDFromURL } from './parse-pulp-id';
 export { RepoSigningUtils } from './repo-signing';

@@ -17,17 +17,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -211,9 +200,9 @@ var NamespaceList = /** @class */ (function (_super) {
             return (React.createElement("section", null, filterIsSet(this.state.params, ['keywords']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: noDataTitle, description: noDataDescription, button: noDataButton }))));
         }
         return (React.createElement("section", { className: 'card-layout' }, namespaces.map(function (ns, i) { return (React.createElement("div", { key: i, className: 'card-wrapper' },
-            React.createElement(NamespaceCard, __assign({ namespaceURL: formatPath(namespacePath, {
+            React.createElement(NamespaceCard, { namespaceURL: formatPath(namespacePath, {
                     namespace: ns.name,
-                }), key: i }, ns)))); })));
+                }), key: i, namespace: ns }))); })));
     };
     NamespaceList.prototype.loadNamespaces = function () {
         var _this = this;

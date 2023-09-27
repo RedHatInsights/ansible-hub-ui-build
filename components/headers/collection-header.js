@@ -80,11 +80,11 @@ import * as moment from 'moment';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
-import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, DeleteCollectionModal, DownloadCount, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, Breadcrumbs, CollectionRatings, CopyCollectionToRepositoryModal, DeleteCollectionModal, DownloadCount, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, parsePulpIDFromURL, repositoryRemoveCollection, waitForTask, } from 'src/utilities';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, namespaceTitle, parsePulpIDFromURL, repositoryRemoveCollection, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
 var CollectionHeader = /** @class */ (function (_super) {
@@ -383,7 +383,7 @@ var CollectionHeader = /** @class */ (function (_super) {
         };
         var collection_version = collection.collection_version, namespace = collection.namespace_metadata;
         var collectionName = collection_version.name, version = collection_version.version;
-        var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
+        var nsTitle = namespaceTitle(namespace || { name: collection_version.namespace });
         if (redirect) {
             return React.createElement(Navigate, { to: redirect });
         }
@@ -479,7 +479,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             copyCollectionToRepositoryModal && (React.createElement(CopyCollectionToRepositoryModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () {
                     return _this.setState({ copyCollectionToRepositoryModal: null });
                 }, collectionVersion: collection })),
-            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
+            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), nsTitle), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
                     React.createElement("div", { className: 'install-version-column' },
                         React.createElement("span", null, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Version"], ["Version"])))),
                         React.createElement("div", { className: 'install-version-dropdown' },
@@ -512,6 +512,7 @@ var CollectionHeader = /** @class */ (function (_super) {
                                 React.createElement(DateComponent, { date: latestVersion })))) : null,
                         display_signatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: collection.is_signed ? 'signed' : 'unsigned' })) : null),
                     React.createElement("div", { style: { alignSelf: 'center' } },
+                        React.createElement(CollectionRatings, { namespace: collection_version.namespace, name: collection_version.name }),
                         React.createElement(DownloadCount, { item: actuallyCollection }))), pageControls: React.createElement(Flex, null,
                     DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? (React.createElement(FlexItem, null,
                         React.createElement("a", { href: issueUrl, target: '_blank', rel: 'noreferrer' }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Create issue"], ["Create issue"])))),

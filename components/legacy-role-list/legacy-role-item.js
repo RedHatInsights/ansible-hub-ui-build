@@ -17,7 +17,7 @@ import { Trans, t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DateComponent, DownloadCount, Logo, ProviderLink, Tag, } from 'src/components';
+import { DateComponent, DownloadCount, Logo, ProviderLink, RoleRatings, Tag, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, getProviderInfo } from 'src/utilities';
 import './legacy-role-item.scss';
@@ -54,6 +54,7 @@ export function LegacyRoleListItem(_a) {
                 React.createElement(DateComponent, { date: release_date }))),
         React.createElement("div", { className: 'hub-entry' }, release_name),
         React.createElement("div", { className: 'hub-entry' },
+            React.createElement(RoleRatings, { namespace: namespace.name, name: name }),
             React.createElement(DownloadCount, { item: role }))));
     return (React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
         React.createElement(DataListItemRow, null,
