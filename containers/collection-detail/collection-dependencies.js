@@ -196,7 +196,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
             })
                 .catch(function (_a) {
                 var response = _a.response, message = _a.message;
-                // console.log(response, message);
                 if (message !== 'request-canceled') {
                     var status_1 = response.status, statusText = response.statusText;
                     _this.setState({
