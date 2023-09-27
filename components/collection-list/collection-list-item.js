@@ -17,20 +17,20 @@ import { Trans, t } from '@lingui/macro';
 import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Flex, FlexItem, Label, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CollectionNumericLabel, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
+import { CollectionNumericLabel, CollectionRatings, DateComponent, DeprecatedTag, Logo, Tag, } from 'src/components';
 import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { chipGroupProps, convertContentSummaryCounts } from 'src/utilities';
+import { chipGroupProps, convertContentSummaryCounts, namespaceTitle, } from 'src/utilities';
 import { SignatureBadge } from '../signing';
 import './list-item.scss';
 export var CollectionListItem = function (_a) {
     var _b = _a.collection, collection_version = _b.collection_version, namespace = _b.namespace_metadata, repository = _b.repository, is_signed = _b.is_signed, is_deprecated = _b.is_deprecated, displaySignatures = _a.displaySignatures, dropdownMenu = _a.dropdownMenu, showNamespace = _a.showNamespace, synclistSwitch = _a.synclistSwitch, uploadButton = _a.uploadButton;
     var featureFlags = useContext().featureFlags;
     var cells = [];
-    var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
+    var nsTitle = namespaceTitle(namespace || { name: collection_version.namespace });
     if (showNamespace) {
         cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '130px', unlockWidth: true, width: '97px' })));
+            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), nsTitle), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '130px', unlockWidth: true, width: '97px' })));
     }
     var contentSummary = convertContentSummaryCounts(collection_version);
     cells.push(React.createElement(DataListCell, { key: 'content' },
@@ -47,7 +47,7 @@ export var CollectionListItem = function (_a) {
                         "Provided by\u00A0",
                         React.createElement(Link, { to: formatPath(Paths.namespaceDetail, {
                                 namespace: collection_version.namespace,
-                            }) }, company))))) : null),
+                            }) }, nsTitle))))) : null),
         React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' }, Object.keys(contentSummary.contents).map(function (type) { return (React.createElement("div", { key: type },
             React.createElement(CollectionNumericLabel, { count: contentSummary.contents[type], type: type }))); })),
         React.createElement("div", { className: 'hub-entry pf-l-flex pf-m-wrap' },
@@ -66,7 +66,8 @@ export var CollectionListItem = function (_a) {
                             React.createElement(DateComponent, { date: collection_version.pulp_created }))),
                     React.createElement("div", null,
                         "v",
-                        collection_version.version))),
+                        collection_version.version),
+                    React.createElement(CollectionRatings, { isList: true, namespace: collection_version.namespace, name: collection_version.name }))),
             React.createElement(Flex, { direction: { default: 'row' }, alignSelf: { default: 'alignSelfFlexStart' } },
                 featureFlags.display_repositories ? (React.createElement(FlexItem, null,
                     React.createElement(Label, { variant: 'outline' },

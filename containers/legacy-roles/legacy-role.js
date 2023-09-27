@@ -35,7 +35,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyRoleAPI, } from 'src/api';
 import { EmptyStateNoData } from 'src/components';
-import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
+import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWithHeader, Logo, Main, RoleRatings, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, withRouter } from 'src/utilities';
@@ -223,6 +223,7 @@ var LegacyRole = /** @class */ (function (_super) {
                         "Github Repository ",
                         React.createElement(ExternalLinkAltIcon, null))),
                 React.createElement("div", { className: 'hub-entry' },
+                    React.createElement(RoleRatings, { namespace: namespace.name, name: role.name }),
                     React.createElement(DownloadCount, { item: role }))),
         ];
         var table = {
