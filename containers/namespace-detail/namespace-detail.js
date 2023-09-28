@@ -590,8 +590,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.renderCollectionControls = function (collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
+        var hasObjectPermission = function (permission, namespace) { var _a, _b, _c; return (_c = (_b = (_a = namespace === null || namespace === void 0 ? void 0 : namespace.related_fields) === null || _a === void 0 ? void 0 : _a.my_permissions) === null || _b === void 0 ? void 0 : _b.includes) === null || _c === void 0 ? void 0 : _c.call(_b, permission); };
         var showControls = this.state.showControls;
-        var display_repositories = this.context.featureFlags.display_repositories;
+        var _a = this.context.featureFlags, display_repositories = _a.display_repositories, ai_deny_index = _a.ai_deny_index;
+        var canDeleteCommunityCollection = ai_deny_index &&
+            hasObjectPermission('galaxy.change_namespace', this.state.namespace);
         if (!showControls) {
             return;
         }
@@ -601,7 +604,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 }, variant: 'secondary' }, t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
             dropdownMenu: (React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: hasPermission('ansible.delete_collection'),
+                        canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                            canDeleteCommunityCollection,
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
@@ -615,7 +619,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         display_repositories: display_repositories,
                     }),
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: hasPermission('ansible.delete_collection'),
+                        canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                            canDeleteCommunityCollection,
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
