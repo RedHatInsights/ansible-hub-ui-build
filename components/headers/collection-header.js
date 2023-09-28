@@ -370,7 +370,7 @@ var CollectionHeader = /** @class */ (function (_super) {
             { key: 'origin_repository', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.collection_version.pulp_created;
-        var _c = this.context.featureFlags, display_signatures = _c.display_signatures, can_upload_signatures = _c.can_upload_signatures, display_repositories = _c.display_repositories;
+        var _c = this.context.featureFlags, display_signatures = _c.display_signatures, can_upload_signatures = _c.can_upload_signatures, display_repositories = _c.display_repositories, ai_deny_index = _c.ai_deny_index;
         var signedString = function () {
             if (!display_signatures) {
                 return '';
@@ -389,23 +389,31 @@ var CollectionHeader = /** @class */ (function (_super) {
         }
         var canSign = canSignNamespace(this.context, this.state.namespace);
         var hasPermission = this.context.hasPermission;
+        var hasObjectPermission = function (permission, namespace) { var _a, _b, _c; return (_c = (_b = (_a = namespace === null || namespace === void 0 ? void 0 : namespace.related_fields) === null || _a === void 0 ? void 0 : _a.my_permissions) === null || _b === void 0 ? void 0 : _b.includes) === null || _c === void 0 ? void 0 : _c.call(_b, permission); };
+        var canDeleteCommunityCollection = ai_deny_index &&
+            hasObjectPermission('galaxy.change_namespace', this.state.namespace);
         var dropdownItems = [
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: noDependencies,
                 onClick: function () { return _this.openDeleteModalWithConfirm(null, true); },
                 deleteAll: true,
                 display_repositories: display_repositories,
             }),
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: noDependencies,
                 onClick: function () { return _this.openDeleteModalWithConfirm(null, false); },
                 deleteAll: false,
                 display_repositories: display_repositories,
             }),
-            hasPermission('ansible.delete_collection') && (React.createElement(DropdownItem, { "data-cy": 'delete-collection-version', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
-            hasPermission('ansible.delete_collection') && display_repositories && (React.createElement(DropdownItem, { "data-cy": 'remove-collection-version', key: 'remove-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
+            (hasPermission('ansible.delete_collection') ||
+                canDeleteCommunityCollection) && (React.createElement(DropdownItem, { "data-cy": 'delete-collection-version', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
+            (hasPermission('ansible.delete_collection') ||
+                canDeleteCommunityCollection) &&
+                display_repositories && (React.createElement(DropdownItem, { "data-cy": 'remove-collection-version', key: 'remove-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
             canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
             canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () {
                     if (can_upload_signatures) {
