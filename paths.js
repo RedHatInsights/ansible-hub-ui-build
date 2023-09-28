@@ -68,6 +68,7 @@ export var Paths;
     Paths["ansibleRepositoryDetail"] = "/ansible/repositories/:name";
     Paths["ansibleRepositoryEdit"] = "/ansible/repositories/:name/edit";
     Paths["dispatch"] = "/dispatch";
+    Paths["search"] = "/search";
     Paths["executionEnvironmentDetail"] = "/containers/:container";
     Paths["executionEnvironmentDetailWithNamespace"] = "/containers/:namespace/:container";
     Paths["executionEnvironmentDetailActivities"] = "/containers/:container/_content/activity";

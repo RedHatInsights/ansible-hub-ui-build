@@ -27,7 +27,7 @@ export function LegacyNamespaceListItem(_a) {
     var showWisdom = ai_deny_index && (is_superuser || userOwnsLegacyNamespace);
     var dropdownItems = [];
     dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return openModal(namespace); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"])))));
-    if (showWisdom) {
+    if (showWisdom && openModal) {
         cells.push(React.createElement(DataListCell, { key: 'menu', alignRight: true },
             React.createElement("div", { style: { float: 'right' } },
                 React.createElement(StatefulDropdown, { items: dropdownItems }))));

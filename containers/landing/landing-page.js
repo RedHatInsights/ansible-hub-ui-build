@@ -29,7 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { Trans, t } from '@lingui/macro';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AlertList, BaseHeader, LandingPageCard, Main, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, LandingPageCard, Main, MultiSearchSearch, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { withRouter } from 'src/utilities';
@@ -61,6 +61,10 @@ var LandingPage = /** @class */ (function (_super) {
             React.createElement(AlertList, { alerts: alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Welcome to Galaxy"], ["Welcome to Galaxy"]))) }),
             React.createElement(Main, null,
+                React.createElement(MultiSearchSearch, { updateParams: function (_a) {
+                        var keywords = _a.keywords;
+                        return _this.props.navigate(formatPath(Paths.search, {}, { keywords: keywords }));
+                    }, style: { marginBottom: '16px' } }),
                 React.createElement("div", { style: {
                         display: 'flex',
                         flexWrap: 'wrap',
