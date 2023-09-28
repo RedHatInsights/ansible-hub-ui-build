@@ -12,7 +12,7 @@ import { namespaceTitle } from 'src/utilities';
 export function NamespaceListItem(_a) {
     var namespace = _a.namespace;
     var avatar_url = namespace.avatar_url, name = namespace.name;
-    var namespace_url = formatPath(Paths.namespaces, {
+    var namespace_url = formatPath(Paths.namespaceDetail, {
         namespace: name,
     });
     var title = namespaceTitle(namespace);
