@@ -49,8 +49,16 @@ var menuSection = function (name, options, items) {
 };
 function standaloneMenu() {
     return [
-        menuSection(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
-            menuItem(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collections"], ["Collections"]))), {
+        menuItem(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Search"], ["Search"]))), {
+            url: formatPath(Paths.search),
+            condition: function (_a) {
+                var settings = _a.settings, user = _a.user;
+                return settings.GALAXY_ENABLE_UNAUTHENTICATED_COLLECTION_ACCESS ||
+                    !user.is_anonymous;
+            },
+        }),
+        menuSection(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Collections"], ["Collections"]))), {}, [
+            menuItem(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Collections"], ["Collections"]))), {
                 url: formatPath(Paths.collections),
                 condition: function (_a) {
                     var settings = _a.settings, user = _a.user;
@@ -59,7 +67,7 @@ function standaloneMenu() {
                 },
                 alternativeUrls: [formatPath(Paths.searchByRepo)],
             }),
-            menuItem(t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
+            menuItem(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Namespaces"], ["Namespaces"]))), {
                 url: formatPath(Paths[NAMESPACE_TERM]),
                 condition: function (_a) {
                     var settings = _a.settings, user = _a.user;
@@ -68,59 +76,59 @@ function standaloneMenu() {
                 },
                 alternativeUrls: [formatPath(Paths.myNamespaces)],
             }),
-            menuItem(t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Repositories"], ["Repositories"]))), {
+            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repositories"], ["Repositories"]))), {
                 condition: canViewAnsibleRepositories,
                 url: formatPath(Paths.ansibleRepositories),
             }),
-            menuItem(t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remotes"], ["Remotes"]))), {
+            menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remotes"], ["Remotes"]))), {
                 condition: canViewAnsibleRemotes,
                 url: formatPath(Paths.ansibleRemotes),
             }),
-            menuItem(t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["API token"], ["API token"]))), {
+            menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["API token"], ["API token"]))), {
                 url: formatPath(Paths.token),
                 condition: isLoggedIn,
             }),
-            menuItem(t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Approval"], ["Approval"]))), {
+            menuItem(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approval"], ["Approval"]))), {
                 condition: function (context) {
                     return hasPermission(context, 'ansible.modify_ansible_repo_content');
                 },
                 url: formatPath(Paths.approvalDashboard),
             }),
         ]),
-        menuSection(t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+        menuSection(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, user = _a.user;
                 return featureFlags.execution_environments && !user.is_anonymous;
             },
         }, [
-            menuItem(t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
+            menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Execution Environments"], ["Execution Environments"]))), {
                 url: formatPath(Paths.executionEnvironments),
             }),
-            menuItem(t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
+            menuItem(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Remote Registries"], ["Remote Registries"]))), {
                 url: formatPath(Paths.executionEnvironmentsRegistries),
             }),
         ]),
-        menuSection(t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+        menuSection(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))), {
             condition: function (_a) {
                 var featureFlags = _a.featureFlags;
                 return featureFlags.legacy_roles;
             },
         }, [
-            menuItem(t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 url: formatPath(Paths.legacyRoles),
                 alternativeUrls: [formatPath(Paths.compatLegacyRoles)],
             }),
-            menuItem(t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Role Namespaces"], ["Role Namespaces"]))), {
+            menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Role Namespaces"], ["Role Namespaces"]))), {
                 url: formatPath(Paths.legacyNamespaces),
                 alternativeUrls: [formatPath(Paths.compatLegacyNamespaces)],
             }),
         ]),
-        menuItem(t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
+        menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Task Management"], ["Task Management"]))), {
             url: formatPath(Paths.taskList),
             condition: isLoggedIn,
             alternativeUrls: [formatPath(Paths.taskDetail)],
         }),
-        menuItem(t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
+        menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Signature Keys"], ["Signature Keys"]))), {
             url: formatPath(Paths.signatureKeys),
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, user = _a.user;
@@ -128,7 +136,7 @@ function standaloneMenu() {
                     !user.is_anonymous;
             },
         }),
-        menuItem(t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+        menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
             url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
             external: true,
             condition: function (_a) {
@@ -138,7 +146,7 @@ function standaloneMenu() {
                         !user.is_anonymous);
             },
         }),
-        menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
+        menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
             url: 'https://ansible.readthedocs.io/projects/galaxy-ng/en/latest/community/userguide/',
             external: true,
             condition: function (_a) {
@@ -148,7 +156,7 @@ function standaloneMenu() {
                         !user.is_anonymous);
             },
         }),
-        menuItem(t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
+        menuItem(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), {
             url: 'https://www.redhat.com/en/about/terms-use',
             external: true,
             condition: function (_a) {
@@ -156,17 +164,17 @@ function standaloneMenu() {
                 return featureFlags.legacy_roles;
             },
         }),
-        menuSection(t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
-            menuItem(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Users"], ["Users"]))), {
+        menuSection(t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["User Access"], ["User Access"]))), {}, [
+            menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Users"], ["Users"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_user'); },
                 url: formatPath(Paths.userList),
             }),
-            menuItem(t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Groups"], ["Groups"]))), {
+            menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Groups"], ["Groups"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.groupList),
                 alternativeUrls: [formatPath(Paths.groupDetail)],
             }),
-            menuItem(t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Roles"], ["Roles"]))), {
+            menuItem(t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Roles"], ["Roles"]))), {
                 condition: function (context) { return hasPermission(context, 'galaxy.view_group'); },
                 url: formatPath(Paths.roleList),
                 alternativeUrls: [formatPath(Paths.roleEdit)],
@@ -242,5 +250,5 @@ export var StandaloneMenu = function (_a) {
     return (React.createElement(StandaloneNav, null,
         React.createElement(Menu, { items: menu, context: context, expandedSections: expandedSections })));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23;
 //# sourceMappingURL=menu.js.map
