@@ -27,6 +27,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { Trans, t } from '@lingui/macro';
+import { Alert } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AlertList, BaseHeader, LandingPageCard, Main, MultiSearchSearch, closeAlertMixin, } from 'src/components';
@@ -72,9 +73,13 @@ var LandingPage = /** @class */ (function (_super) {
                         marginLeft: '-24px',
                     } },
                     React.createElement(LandingPageCard, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Download"], ["Download"]))), body: React.createElement(React.Fragment, null,
-                            React.createElement("p", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Jump-start your automation project with great content from the Ansible community. Galaxy provides pre-packaged units of work known to Ansible as roles and collections."], ["Jump-start your automation project with great content from the Ansible community. Galaxy provides pre-packaged units of work known to Ansible as roles and collections."])))),
+                            React.createElement(Alert, { isInline: true, variant: 'warning', title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["To be able to download content from galaxy it is required to have ansible-core>=2.13.9"], ["To be able to download content from galaxy it is required to have ansible-core>=2.13.9"]))) }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Please, check it running the command:"], ["Please, check it running the command:"]))),
+                                ' ',
+                                React.createElement("code", null, "ansible --version")),
                             React.createElement("br", null),
-                            React.createElement("p", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Content from roles and collections can be referenced in Ansible PlayBooks and immediately put to work. You'll find content for provisioning infrastructure, deploying applications, and all of the tasks you do everyday."], ["Content from roles and collections can be referenced in Ansible PlayBooks and immediately put to work. You'll find content for provisioning infrastructure, deploying applications, and all of the tasks you do everyday."]))),
+                            React.createElement("p", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Jump-start your automation project with great content from the Ansible community. Galaxy provides pre-packaged units of work known to Ansible as roles and collections."], ["Jump-start your automation project with great content from the Ansible community. Galaxy provides pre-packaged units of work known to Ansible as roles and collections."])))),
+                            React.createElement("br", null),
+                            React.createElement("p", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Content from roles and collections can be referenced in Ansible PlayBooks and immediately put to work. You'll find content for provisioning infrastructure, deploying applications, and all of the tasks you do everyday."], ["Content from roles and collections can be referenced in Ansible PlayBooks and immediately put to work. You'll find content for provisioning infrastructure, deploying applications, and all of the tasks you do everyday."]))),
                                 ' '),
                             React.createElement("br", null),
                             React.createElement("p", null,
@@ -88,10 +93,10 @@ var LandingPage = /** @class */ (function (_super) {
                                     ' ',
                                     React.createElement("a", { href: 'https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html#the-command-line-tool', target: '_blank', rel: 'noreferrer' }, "ansible-galaxy"),
                                     ", the command line tool that comes bundled with Ansible."))) }),
-                    React.createElement(LandingPageCard, { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Share"], ["Share"]))), body: React.createElement(React.Fragment, null,
-                            React.createElement("p", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Help other Ansible users by sharing the awesome roles and collections you create."], ["Help other Ansible users by sharing the awesome roles and collections you create."])))),
+                    React.createElement(LandingPageCard, { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Share"], ["Share"]))), body: React.createElement(React.Fragment, null,
+                            React.createElement("p", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Help other Ansible users by sharing the awesome roles and collections you create."], ["Help other Ansible users by sharing the awesome roles and collections you create."])))),
                             React.createElement("br", null),
-                            React.createElement("p", null, t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Maybe you have automation for installing and configuring a popular software package, or for deploying software built by your company. Whatever it is, use Galaxy to share it with the community."], ["Maybe you have automation for installing and configuring a popular software package, or for deploying software built by your company. Whatever it is, use Galaxy to share it with the community."])))),
+                            React.createElement("p", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Maybe you have automation for installing and configuring a popular software package, or for deploying software built by your company. Whatever it is, use Galaxy to share it with the community."], ["Maybe you have automation for installing and configuring a popular software package, or for deploying software built by your company. Whatever it is, use Galaxy to share it with the community."])))),
                             React.createElement("br", null),
                             React.createElement("p", null,
                                 React.createElement(Trans, null,
@@ -102,9 +107,9 @@ var LandingPage = /** @class */ (function (_super) {
                                     "to help other automators build Ansible content. Your roles and collections may be used as training data for a machine learning model that provides Ansible automation content recommendations. If you have concerns, please contact the Ansible team at",
                                     ' ',
                                     React.createElement("a", { href: 'mailto:ansible-content-ai@redhat.com' }, "ansible-content-ai@redhat.com")))) }),
-                    React.createElement(LandingPageCard, { title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Featured"], ["Featured"]))), body: React.createElement(React.Fragment, null,
+                    React.createElement(LandingPageCard, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Featured"], ["Featured"]))), body: React.createElement(React.Fragment, null,
                             React.createElement("b", null,
-                                React.createElement("p", null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Ansible Lightspeed"], ["Ansible Lightspeed"]))))),
+                                React.createElement("p", null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Ansible Lightspeed"], ["Ansible Lightspeed"]))))),
                             React.createElement("br", null),
                             React.createElement("p", null,
                                 React.createElement("a", { href: 'https://redhat.com/ansible-lightspeed', target: '_blank', rel: 'noreferrer' },
@@ -118,23 +123,23 @@ var LandingPage = /** @class */ (function (_super) {
                                     borderTop: '1px solid #f1f1f1',
                                 } }),
                             React.createElement("p", null,
-                                React.createElement("b", null, t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Extend the power of Ansible to your entire team."], ["Extend the power of Ansible to your entire team."]))),
+                                React.createElement("b", null, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Extend the power of Ansible to your entire team."], ["Extend the power of Ansible to your entire team."]))),
                                     ' ')),
                             React.createElement("br", null),
-                            React.createElement("p", null, t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Try Red Hat Ansible Automation Platform"], ["Try Red Hat Ansible Automation Platform"])))),
+                            React.createElement("p", null, t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Try Red Hat Ansible Automation Platform"], ["Try Red Hat Ansible Automation Platform"])))),
                             React.createElement("br", null),
                             React.createElement("p", null,
-                                React.createElement("a", { href: 'https://www.redhat.com/en/technologies/management/ansible/try-it?sc_cid=7013a0000030vCCAAY', target: '_blank', rel: 'noreferrer' }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Get the trial"], ["Get the trial"])))))) }),
-                    React.createElement(LandingPageCard, { title: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), body: React.createElement(React.Fragment, null,
+                                React.createElement("a", { href: 'https://www.redhat.com/en/technologies/management/ansible/try-it?sc_cid=7013a0000030vCCAAY', target: '_blank', rel: 'noreferrer' }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Get the trial"], ["Get the trial"])))))) }),
+                    React.createElement(LandingPageCard, { title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Terms of Use"], ["Terms of Use"]))), body: React.createElement(React.Fragment, null,
                             React.createElement("div", { className: 'footer-parent-links' },
                                 React.createElement("span", null,
-                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/privacy-policy', target: '_blank', rel: 'noreferrer' }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Privacy statement"], ["Privacy statement"]))))),
+                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/privacy-policy', target: '_blank', rel: 'noreferrer' }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Privacy statement"], ["Privacy statement"]))))),
                                 React.createElement("span", null,
-                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/terms-use', target: '_blank', rel: 'noreferrer' }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Terms of use"], ["Terms of use"]))))),
+                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/terms-use', target: '_blank', rel: 'noreferrer' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Terms of use"], ["Terms of use"]))))),
                                 React.createElement("span", null,
-                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/all-policies-guidelines', target: '_blank', rel: 'noreferrer' }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["All policies and guidelines"], ["All policies and guidelines"]))))),
+                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/all-policies-guidelines', target: '_blank', rel: 'noreferrer' }, t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["All policies and guidelines"], ["All policies and guidelines"]))))),
                                 React.createElement("span", null,
-                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/digital-accessibility', target: '_blank', rel: 'noreferrer' }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Digital accessibility"], ["Digital accessibility"]))))))) })))));
+                                    React.createElement("a", { className: 'footer-link', href: 'https://www.redhat.com/en/about/digital-accessibility', target: '_blank', rel: 'noreferrer' }, t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Digital accessibility"], ["Digital accessibility"]))))))) })))));
     };
     Object.defineProperty(LandingPage.prototype, "closeAlert", {
         get: function () {
@@ -153,5 +158,5 @@ var LandingPage = /** @class */ (function (_super) {
 export { LandingPage };
 export default withRouter(LandingPage);
 LandingPage.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19;
 //# sourceMappingURL=landing-page.js.map

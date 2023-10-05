@@ -43,7 +43,7 @@ export var CollectionInfo = function (_a) {
                         React.createElement("div", null,
                             React.createElement(Trans, null,
                                 React.createElement("b", null, "Note:"),
-                                " Installing collections with ansible-galaxy is only supported in ansible 2.9+"))))),
+                                " Installing collections with ansible-galaxy is only supported in ansible-core>=2.13.9"))))),
             React.createElement(GridItem, null,
                 React.createElement(Split, { hasGutter: true },
                     React.createElement(SplitItem, { className: 'install-title' }, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Download"], ["Download"])))),
