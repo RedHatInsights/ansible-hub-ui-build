@@ -220,7 +220,7 @@ var LegacyRole = /** @class */ (function (_super) {
                 release_name && React.createElement("div", { className: 'hub-entry' }, release_name),
                 React.createElement("div", { className: 'hub-entry' },
                     React.createElement("a", { href: repository },
-                        "Github Repository ",
+                        "GitHub Repository ",
                         React.createElement(ExternalLinkAltIcon, null))),
                 React.createElement("div", { className: 'hub-entry' },
                     React.createElement(RoleRatings, { namespace: namespace.name, name: role.name }),
