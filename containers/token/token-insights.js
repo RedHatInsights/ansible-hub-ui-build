@@ -81,7 +81,7 @@ var TokenInsights = /** @class */ (function (_super) {
                     React.createElement(Trans, null,
                         "To revoke a token or see all of your tokens, visit the",
                         ' ',
-                        React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account', target: '_blank', rel: 'noreferrer' }, "offline API token management"),
+                        React.createElement("a", { href: 'https://sso.redhat.com/auth/realms/redhat-external/account/#/applications', target: '_blank', rel: 'noreferrer' }, "offline API token management"),
                         ' ',
                         "page.")),
                 React.createElement("section", { className: 'body pf-c-content' },

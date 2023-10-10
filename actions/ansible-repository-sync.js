@@ -13,11 +13,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { msg, t } from '@lingui/macro';
+import { Trans, msg, t } from '@lingui/macro';
 import { Button, FormGroup, Modal, Spinner, Switch, } from '@patternfly/react-core';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnsibleRepositoryAPI } from 'src/api';
 import { HelperText } from 'src/components';
+import { Paths, formatPath } from 'src/paths';
 import { canSyncAnsibleRepository } from 'src/permissions';
 import { handleHttpError, parsePulpIDFromURL, taskAlert } from 'src/utilities';
 import { Action } from './action';
@@ -81,6 +83,21 @@ export var ansibleRepositorySyncAction = Action({
         if (last_sync_task &&
             ['running', 'waiting'].includes(last_sync_task.state)) {
             return t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Sync task is already queued."], ["Sync task is already queued."])));
+        }
+        // only available on detail screen; list will have remote: string, so no .url
+        if (remote &&
+            remote.url === 'https://galaxy.ansible.com/api/' &&
+            !remote.requirements_file) {
+            var name_1 = remote.name;
+            var url = formatPath(Paths.ansibleRemoteEdit, { name: name_1 });
+            return (React.createElement(Trans, null,
+                "YAML requirements are required to sync from Galaxy - you can",
+                ' ',
+                React.createElement(Link, { to: url },
+                    "edit the ",
+                    name_1,
+                    " remote"),
+                " to add requirements."));
         }
         return null;
     },
