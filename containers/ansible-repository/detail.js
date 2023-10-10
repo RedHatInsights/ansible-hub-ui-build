@@ -16,7 +16,7 @@ var __assign = (this && this.__assign) || function () {
 import { Trans, msg, t } from '@lingui/macro';
 import React from 'react';
 import { ansibleRepositoryCopyAction, ansibleRepositoryDeleteAction, ansibleRepositoryEditAction, ansibleRepositorySyncAction, } from 'src/actions';
-import { AnsibleRepositoryAPI } from 'src/api';
+import { AnsibleRemoteAPI, AnsibleRepositoryAPI, } from 'src/api';
 import { PageWithTabs } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { canViewAnsibleRepositories } from 'src/permissions';
@@ -92,9 +92,17 @@ var AnsibleRepositoryDetail = PageWithTabs({
                     return permissions;
                 })
                     .catch(err([])),
+                repository.remote
+                    ? AnsibleRemoteAPI.get(parsePulpIDFromURL(repository.remote))
+                        .then(function (_a) {
+                        var data = _a.data;
+                        return data;
+                    })
+                        .catch(function () { return null; })
+                    : null,
             ]).then(function (_a) {
-                var distroBasePath = _a[0], my_permissions = _a[1];
-                return (__assign(__assign({}, repository), { distroBasePath: distroBasePath, my_permissions: my_permissions }));
+                var distroBasePath = _a[0], my_permissions = _a[1], remote = _a[2];
+                return (__assign(__assign({}, repository), { distroBasePath: distroBasePath, my_permissions: my_permissions, remote: remote }));
             });
         });
     },
