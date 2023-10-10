@@ -9,7 +9,7 @@ import QuestionCircleIcon from '@patternfly/react-icons/dist/esm/icons/question-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ActiveUserAPI, } from 'src/api';
-import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
+import { AboutModalWindow, LanguageSwitcher, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
 import { StandaloneMenu } from './menu';
 export var StandaloneLayout = function (_a) {
@@ -53,9 +53,10 @@ export var StandaloneLayout = function (_a) {
     var Header = (React.createElement(PageHeader, { logo: React.createElement(SmallLogo, { alt: APPLICATION_NAME }), logoComponent: function (_a) {
             var children = _a.children;
             return (React.createElement(Link, { to: formatPath(Paths.landingPage) }, children));
-        }, headerTools: React.createElement(PageHeaderTools, null, !user || user.is_anonymous ? (React.createElement(LoginLink, { next: location.pathname })) : (React.createElement("div", null,
-            React.createElement(StatefulDropdown, { ariaLabel: 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' }),
-            React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
+        }, headerTools: React.createElement(PageHeaderTools, null,
+            React.createElement(LanguageSwitcher, null),
+            user ? (React.createElement(StatefulDropdown, { ariaLabel: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Docs dropdown"], ["Docs dropdown"]))), "data-cy": 'docs-dropdown', defaultText: React.createElement(QuestionCircleIcon, null), items: docsDropdownItems, toggleType: 'icon' })) : null,
+            !user || user.is_anonymous ? (React.createElement(LoginLink, { next: location.pathname })) : (React.createElement(StatefulDropdown, { ariaLabel: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["User dropdown"], ["User dropdown"]))), "data-cy": 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' }))), showNavToggle: true }));
     var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(StandaloneMenu, { context: { user: user, settings: settings, featureFlags: featureFlags, hasPermission: hasPermission } }) }));
     return (React.createElement(Page, { isManagedSidebar: true, header: Header, sidebar: Sidebar },
         (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.ai_deny_index) ? (React.createElement(Banner, null,
@@ -67,5 +68,5 @@ export var StandaloneLayout = function (_a) {
         children,
         aboutModalVisible && aboutModal));
 };
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 //# sourceMappingURL=layout.js.map

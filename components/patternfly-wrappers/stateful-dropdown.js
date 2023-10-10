@@ -6,13 +6,13 @@ import { t } from '@lingui/macro';
 import { Dropdown, DropdownPosition, DropdownToggle, KebabToggle, } from '@patternfly/react-core';
 import React, { useState } from 'react';
 export var StatefulDropdown = function (_a) {
-    var items = _a.items, onSelectProp = _a.onSelect, _b = _a.toggleType, toggleType = _b === void 0 ? 'kebab' : _b, position = _a.position, defaultText = _a.defaultText, _c = _a.isPlain, isPlain = _c === void 0 ? true : _c, ariaLabel = _a.ariaLabel;
+    var items = _a.items, onSelectProp = _a.onSelect, _b = _a.toggleType, toggleType = _b === void 0 ? 'kebab' : _b, position = _a.position, defaultText = _a.defaultText, _c = _a.isPlain, isPlain = _c === void 0 ? true : _c, ariaLabel = _a.ariaLabel, dataCy = _a["data-cy"];
     var _d = useState(false), isOpen = _d[0], setOpen = _d[1];
     var _e = useState(undefined), selected = _e[0], setSelected = _e[1];
     var onToggle = function (open) { return setOpen(open); };
     return (React.createElement(Dropdown, { onSelect: function (e) {
             return onSelect(e, { isOpen: isOpen, onSelectProp: onSelectProp, setOpen: setOpen, setSelected: setSelected });
-        }, toggle: renderToggle({ toggleType: toggleType, defaultText: defaultText, onToggle: onToggle, selected: selected }), isOpen: isOpen, isPlain: isPlain, dropdownItems: items, position: position || DropdownPosition.right, autoFocus: false, "aria-label": ariaLabel }));
+        }, toggle: renderToggle({ toggleType: toggleType, defaultText: defaultText, onToggle: onToggle, selected: selected }), isOpen: isOpen, isPlain: isPlain, dropdownItems: items, position: position || DropdownPosition.right, autoFocus: false, "aria-label": ariaLabel, "data-cy": dataCy }));
 };
 function renderToggle(_a) {
     var toggleType = _a.toggleType, defaultText = _a.defaultText, onToggle = _a.onToggle, selected = _a.selected;

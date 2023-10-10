@@ -46,7 +46,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { i18n } from '@lingui/core';
 import * as moment from 'moment';
 // remember to update lingui.config.js as well
-var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
+export var availableLanguages = ['en', 'es', 'fr', 'ko', 'nl', 'ja', 'zh'];
+export var languageNames = {
+    en: 'English',
+    es: 'Español',
+    fr: 'Français',
+    ko: '한국어',
+    nl: 'Nederlands',
+    ja: '日本語',
+    zh: '中文',
+};
 // map missing moment locales (node_modules/moment/src/locale/<locale>.js must exist, except for english)
 var momentLocales = {
     zh: 'zh-cn',
@@ -97,6 +106,9 @@ if (searchParams.lang) {
 if (searchParams.lang === '') {
     delete window.localStorage.override_l10n;
 }
+// ?lang and ?pseudolocalization get removed in entry-standalone
+// (removed to prevent the param getting passed to api calls)
+// (in entry-standalone to prevent interaction with pushState)
 var overrideLanguage = window.localStorage.override_l10n &&
     availableLanguages.includes(window.localStorage.override_l10n) &&
     window.localStorage.override_l10n;
