@@ -68,7 +68,7 @@ export var AboutModalWindow = function (_a) {
                     React.createElement(Value, null, aap_version))),
                 React.createElement(Label, null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["UI Version"], ["UI Version"])))),
                 React.createElement(Value, null,
-                    React.createElement(ExternalLink, { href: "https://github.com/ansible/ansible-hub/ui/commit/".concat(ui_sha), title: ui_sha })),
+                    React.createElement(ExternalLink, { href: "https://github.com/ansible/ansible-hub-ui/commit/".concat(ui_sha), title: ui_sha })),
                 React.createElement(Label, null, t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Username"], ["Username"])))),
                 React.createElement(Value, null,
                     React.createElement(Link, { to: formatPath(Paths.userDetail, { userID: user.id }), title: user.username }, userName)),
