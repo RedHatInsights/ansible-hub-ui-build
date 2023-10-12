@@ -34,27 +34,31 @@ var tabs = [
 ];
 var AnsibleRepositoryDetail = PageWithTabs({
     breadcrumbs: function (_a) {
-        var name = _a.name, tab = _a.tab, _b = _a.params, repositoryVersion = _b.repositoryVersion, group = _b.group;
+        var name = _a.name, tab = _a.tab, _b = _a.params, repositoryVersion = _b.repositoryVersion, user = _b.user, group = _b.group;
         return [
             { url: formatPath(Paths.ansibleRepositories), name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Repositories"], ["Repositories"]))) },
             { url: formatPath(Paths.ansibleRepositoryDetail, { name: name }), name: name },
-            (tab.id === 'repository-versions' && repositoryVersion) ||
-                (tab.id === 'access' && group)
+            (tab.id === 'access' && (group || user)) ||
+                (tab.id === 'repository-versions' && repositoryVersion)
                 ? {
                     url: formatPath(Paths.ansibleRepositoryDetail, { name: name }, { tab: tab.id }),
                     name: tab.name,
                 }
                 : null,
+            tab.id === 'access' && group ? { name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) } : null,
+            tab.id === 'access' && user ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["User ", ""], ["User ", ""])), user) } : null,
             tab.id === 'repository-versions' && repositoryVersion
-                ? { name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Version ", ""], ["Version ", ""])), repositoryVersion) }
-                : tab.id === 'access' && group
-                    ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) }
-                    : { name: tab.name },
+                ? { name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Version ", ""], ["Version ", ""])), repositoryVersion) }
+                : null,
+            (tab.id === 'access' && !user && !group) ||
+                (tab.id === 'repository-versions' && !repositoryVersion)
+                ? { name: tab.name }
+                : null,
         ].filter(Boolean);
     },
     condition: canViewAnsibleRepositories,
     displayName: 'AnsibleRepositoryDetail',
-    errorTitle: msg(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
+    errorTitle: msg(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Repository could not be displayed."], ["Repository could not be displayed."]))),
     headerActions: [
         ansibleRepositoryEditAction,
         ansibleRepositorySyncAction,
@@ -118,9 +122,10 @@ var AnsibleRepositoryDetail = PageWithTabs({
     tabUpdateParams: function (p) {
         delete p.repositoryVersion;
         delete p.group;
+        delete p.user;
         return p;
     },
 });
 export default AnsibleRepositoryDetail;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
 //# sourceMappingURL=detail.js.map

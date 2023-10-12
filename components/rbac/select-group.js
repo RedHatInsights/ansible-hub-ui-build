@@ -41,7 +41,7 @@ export var SelectGroup = function (_a) {
     var noData = groups.length === 0;
     if (noData && !filterIsSet(localParams, ['name__icontains'])) {
         return (React.createElement("div", { className: 'hub-custom-wizard-layout hub-no-data' },
-            React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No assignable groups."], ["No assignable groups."]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["There are currently no groups that can be assigned to this namespace."], ["There are currently no groups that can be assigned to this namespace."]))) })));
+            React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No assignable groups."], ["No assignable groups."]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["There are currently no groups that can be assigned ownership."], ["There are currently no groups that can be assigned ownership."]))) })));
     }
     var isAssigned = function (_a) {
         var name = _a.name;

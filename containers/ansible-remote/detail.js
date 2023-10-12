@@ -29,24 +29,24 @@ var tabs = [
 ];
 var AnsibleRemoteDetail = PageWithTabs({
     breadcrumbs: function (_a) {
-        var name = _a.name, tab = _a.tab, group = _a.params.group;
+        var name = _a.name, tab = _a.tab, _b = _a.params, user = _b.user, group = _b.group;
         return [
             { url: formatPath(Paths.ansibleRemotes), name: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Remotes"], ["Remotes"]))) },
             { url: formatPath(Paths.ansibleRemoteDetail, { name: name }), name: name },
-            tab.id === 'access' && group
+            tab.id === 'access' && (group || user)
                 ? {
                     url: formatPath(Paths.ansibleRepositoryDetail, { name: name }, { tab: tab.id }),
                     name: tab.name,
                 }
                 : null,
-            tab.id === 'access' && group
-                ? { name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) }
-                : { name: tab.name },
+            tab.id === 'access' && group ? { name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) } : null,
+            tab.id === 'access' && user ? { name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["User ", ""], ["User ", ""])), user) } : null,
+            tab.id === 'access' && !user && !group ? { name: tab.name } : null,
         ].filter(Boolean);
     },
     condition: canViewAnsibleRemotes,
     displayName: 'AnsibleRemoteDetail',
-    errorTitle: msg(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
+    errorTitle: msg(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Remote could not be displayed."], ["Remote could not be displayed."]))),
     headerActions: [
         ansibleRemoteEditAction,
         ansibleRemoteDownloadRequirementsAction,
@@ -88,9 +88,10 @@ var AnsibleRemoteDetail = PageWithTabs({
     tabs: tabs,
     tabUpdateParams: function (p) {
         delete p.group;
+        delete p.user;
         return p;
     },
 });
 export default AnsibleRemoteDetail;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 //# sourceMappingURL=detail.js.map

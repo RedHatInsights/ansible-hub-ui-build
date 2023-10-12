@@ -15,19 +15,23 @@ var splitByDot = function (perm) {
         permission));
 };
 export var PreviewRoles = function (_a) {
-    var group = _a.group, selectedRoles = _a.selectedRoles;
+    var user = _a.user, group = _a.group, selectedRoles = _a.selectedRoles;
     var model_permissions = useContext().user.model_permissions;
     return (React.createElement("div", { className: 'hub-custom-wizard-layout' },
         React.createElement("p", null,
-            React.createElement(Trans, null,
+            user ? (React.createElement(Trans, null,
+                "The following roles will be applied to user:",
+                ' ',
+                React.createElement("strong", null, user.username))) : null,
+            group ? (React.createElement(Trans, null,
                 "The following roles will be applied to group:",
                 ' ',
-                React.createElement("strong", null, group.name))),
+                React.createElement("strong", null, group.name))) : null),
         React.createElement(Flex, { direction: { default: 'column' }, className: 'hub-preview-roles' }, selectedRoles.map(function (role) { return (React.createElement(React.Fragment, { key: role.name },
             React.createElement(FlexItem, null,
                 React.createElement("strong", null, role.name),
                 ' ',
-                (role === null || role === void 0 ? void 0 : role.description) &&
+                role.description &&
                     "- ".concat(translateLockedRolesDescription(role.name, role.description)),
                 React.createElement(Flex, { className: 'hub-permissions' }, role.permissions.map(function (permission) {
                     var _a;

@@ -53,7 +53,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
     __extends(NamespaceDetail, _super);
     function NamespaceDetail(props) {
         var _this = _super.call(this, props) || this;
-        _this.nonAPIParams = ['tab', 'group'];
+        _this.nonAPIParams = ['tab', 'group', 'user'];
         // namespace is a positional url argument, so don't include it in the
         // query params
         _this.nonQueryStringParams = ['namespace'];
@@ -102,9 +102,9 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'page',
             'page_size',
         ]);
-        params['namespace'] = props.routeParams.namespace;
-        if (props.routeParams.repo && !params['repository_name']) {
-            params['repository_name'] = props.routeParams.repo;
+        params.namespace = props.routeParams.namespace;
+        if (props.routeParams.repo && !params.repository_name) {
+            params.repository_name = props.routeParams.repo;
         }
         _this.state = {
             alerts: [],
@@ -115,6 +115,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
             deleteCollection: null,
             filteredCount: 0,
             group: null,
+            user: null,
             isDeletionPending: false,
             isNamespacePending: false,
             isOpenNamespaceModal: false,
@@ -146,37 +147,40 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'page_size',
         ]);
         if (prevProps.location.search !== this.props.location.search) {
-            params['namespace'] = this.props.routeParams.namespace;
+            params.namespace = this.props.routeParams.namespace;
             this.setState({
                 params: params,
-                group: this.filterGroup(params['group'], this.state.namespace.groups),
+                group: this.filterGroup(params.group, this.state.namespace.groups),
+                user: this.filterUser(params.user, this.state.namespace.users),
             });
         }
         if (prevProps.routeParams.repo !== this.props.routeParams.repo &&
             this.props.routeParams.repo &&
-            (!params['repository_name'] ||
-                params['repository_name'] === prevProps.routeParams.repo)) {
-            params['repository_name'] = this.props.routeParams.repo;
+            (!params.repository_name ||
+                params.repository_name === prevProps.routeParams.repo)) {
+            params.repository_name = this.props.routeParams.repo;
             this.setState({ params: params });
         }
     };
-    NamespaceDetail.prototype.filterGroup = function (groupId, groups) {
-        return groupId ? groups.find(function (_a) {
-            var id = _a.id;
-            return Number(groupId) === id;
-        }) : null;
+    NamespaceDetail.prototype.filterUser = function (username, users) {
+        return username
+            ? users.find(function (u) { return u.name === username || u.username === username; })
+            : null;
     };
-    NamespaceDetail.prototype.updateGroups = function (_a) {
+    NamespaceDetail.prototype.filterGroup = function (name, groups) {
+        return name ? groups.find(function (g) { return g.name === name; }) : null;
+    };
+    NamespaceDetail.prototype.updateRoles = function (_a) {
         var _this = this;
-        var groups = _a.groups, alertSuccess = _a.alertSuccess, alertFailure = _a.alertFailure, stateUpdate = _a.stateUpdate;
+        var _b = _a.users, users = _b === void 0 ? null : _b, _c = _a.groups, groups = _c === void 0 ? null : _c, alertSuccess = _a.alertSuccess, alertFailure = _a.alertFailure, stateUpdate = _a.stateUpdate;
         var name = this.state.namespace.name;
-        MyNamespaceAPI.update(name, __assign(__assign({}, this.state.namespace), { groups: groups }))
+        MyNamespaceAPI.update(name, __assign(__assign({}, this.state.namespace), { users: users || this.state.namespace.users, groups: groups || this.state.namespace.groups }))
             .then(function () {
             _this.addAlert({
                 title: alertSuccess,
                 variant: 'success',
             });
-            _this.load(); // ensure reload() sets groups: null to trigger loading spinner
+            _this.load(); // ensure reload() sets users/groups: null to trigger loading spinner
         })
             .catch(function (_a) {
             var _b = _a.response, status = _b.status, statusText = _b.statusText;
@@ -206,7 +210,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             namespace.resources && { id: 'resources', name: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Resources"], ["Resources"]))) },
             { id: 'access', name: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Access"], ["Access"]))) },
         ].filter(Boolean);
-        var tab = params['tab'] || 'collections';
+        var tab = params.tab || 'collections';
+        var user = params.user, group = params.group;
         var breadcrumbs = [
             namespaceBreadcrumb(),
             {
@@ -217,19 +222,15 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     })
                     : null,
             },
-            tab === 'access'
+            tab === 'access' && (group || user)
                 ? {
+                    url: formatPath(Paths.namespaceDetail, { namespace: namespace.name }, { tab: tab }),
                     name: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Access"], ["Access"]))),
-                    url: params.group
-                        ? formatPath(Paths.namespaceDetail, {
-                            namespace: namespace.name,
-                        }, { tab: 'access' })
-                        : null,
                 }
                 : null,
-            tab === 'access' && params.group
-                ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), params.group) }
-                : null,
+            tab === 'access' && group ? { name: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Group ", ""], ["Group ", ""])), group) } : null,
+            tab === 'access' && user ? { name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["User ", ""], ["User ", ""])), user) } : null,
+            tab === 'access' && !user && !group ? { name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Access"], ["Access"]))) } : null,
         ].filter(Boolean);
         var repositoryUrl = getRepoURL('published');
         var noData = filteredCount === 0 &&
@@ -249,14 +250,16 @@ var NamespaceDetail = /** @class */ (function (_super) {
             'sort',
             'tab',
             'group',
+            'user',
             'view_type',
         ];
         var hasPermission = this.context.hasPermission;
         var canEditOwners = ((_a = this.state.namespace.related_fields.my_permissions) === null || _a === void 0 ? void 0 : _a.includes('galaxy.change_namespace')) || hasPermission('galaxy.change_namespace');
-        // remove ?group (access tab) when switching tabs
+        // remove ?user/group (access tab) when switching tabs
         var tabParams = __assign({}, params);
         delete tabParams.group;
-        var repository = params['repository_name'] || null;
+        delete tabParams.user;
+        var repository = params.repository_name || null;
         var deleteFromRepo = this.state.deleteAll
             ? null
             : (_b = deleteCollection === null || deleteCollection === void 0 ? void 0 : deleteCollection.repository) === null || _b === void 0 ? void 0 : _b.name;
@@ -283,14 +286,14 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         });
                     });
                 }, deleteFromRepo: deleteFromRepo }),
-            isOpenNamespaceModal && (React.createElement(DeleteModal, { spinner: isNamespacePending, cancelAction: this.closeModal, deleteAction: this.deleteNamespace, title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Delete namespace?"], ["Delete namespace?"]))), isDisabled: !confirmDelete || isNamespacePending },
+            isOpenNamespaceModal && (React.createElement(DeleteModal, { spinner: isNamespacePending, cancelAction: this.closeModal, deleteAction: this.deleteNamespace, title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Delete namespace?"], ["Delete namespace?"]))), isDisabled: !confirmDelete || isNamespacePending },
                 React.createElement(React.Fragment, null,
                     React.createElement(Text, { className: 'delete-namespace-modal-message' },
                         React.createElement(Trans, null,
                             "Deleting ",
                             React.createElement("b", null, namespace.name),
                             " and its data will be lost.")),
-                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
+                    React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             isOpenWisdomModal && (React.createElement(WisdomModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () { return _this.setState({ isOpenWisdomModal: false }); }, scope: 'namespace', reference: this.state.namespace.name })),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
             React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), filters: tab === 'collections' ? (React.createElement("div", null,
@@ -299,7 +302,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         React.createElement("div", { className: 'hub-pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: filteredCount, isTop: true }))))) : null }),
             React.createElement(Main, null,
-                tab === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
+                tab === 'collections' ? (noData ? (React.createElement(EmptyStateNoData, { title: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["No collections yet"], ["No collections yet"]))), description: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))), button: this.state.showControls && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))) })) : (React.createElement("section", { className: 'body' },
                     React.createElement(CollectionList, { updateParams: updateParams, params: params, ignoredParams: ignoredParams, collections: collections, itemCount: filteredCount, displaySignatures: this.context.featureFlags.display_signatures, collectionControls: function (collection) {
                             return _this.renderCollectionControls(collection);
                         } })))) : null,
@@ -316,60 +319,106 @@ var NamespaceDetail = /** @class */ (function (_super) {
                                 ".")),
                         React.createElement(ClipboardCopy, { isReadOnly: true }, repositoryUrl)))) : null,
                 tab === 'resources' ? this.renderResources(namespace) : null,
-                tab === 'access' ? (React.createElement(AccessTab, { showGroupRemoveModal: this.state.showGroupRemoveModal, showGroupSelectWizard: this.state.showGroupSelectWizard, showRoleRemoveModal: this.state.showRoleRemoveModal, showRoleSelectWizard: this.state.showRoleSelectWizard, canEditOwners: canEditOwners, group: this.state.group, groups: namespace.groups, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', selectRolesMessage: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateProps: function (prop) {
-                        _this.setState(prop);
-                    }, addGroup: function (group, roles) {
-                        var groups = namespace.groups, name = namespace.name;
-                        var newGroup = __assign(__assign({}, group), { object_roles: roles.map(function (_a) {
-                                var name = _a.name;
-                                return name;
-                            }) });
-                        var newGroups = __spreadArray(__spreadArray([], groups, true), [newGroup], false);
-                        _this.updateGroups({
-                            groups: newGroups,
-                            alertSuccess: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Group \"", "\" has been successfully added to \"", "\"."], ["Group \"", "\" has been successfully added to \"", "\"."])), group.name, name),
-                            alertFailure: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Group \"", "\" could not be added to \"", "\"."], ["Group \"", "\" could not be added to \"", "\"."])), group.name, name),
-                            stateUpdate: { showGroupSelectWizard: null },
-                        });
-                    }, removeGroup: function (group) {
-                        var name = namespace.name, groups = namespace.groups;
-                        var newGroups = groups.filter(function (g) { return g !== group; });
-                        _this.updateGroups({
-                            groups: newGroups,
-                            alertSuccess: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Group \"", "\" has been successfully removed from \"", "\"."], ["Group \"", "\" has been successfully removed from \"", "\"."])), group.name, name),
-                            alertFailure: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Group \"", "\" could not be removed from \"", "\"."], ["Group \"", "\" could not be removed from \"", "\"."])), group.name, name),
-                            stateUpdate: { showGroupRemoveModal: null },
-                        });
-                    }, addRole: function (group, roles) {
-                        var name = namespace.name, groups = namespace.groups;
-                        var newGroup = __assign(__assign({}, group), { object_roles: __spreadArray(__spreadArray([], group.object_roles, true), roles.map(function (_a) {
-                                var name = _a.name;
-                                return name;
-                            }), true) });
-                        var newGroups = groups.map(function (g) {
-                            return g === group ? newGroup : g;
-                        });
-                        _this.updateGroups({
-                            groups: newGroups,
-                            alertSuccess: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Group \"", "\" roles successfully updated in \"", "\"."], ["Group \"", "\" roles successfully updated in \"", "\"."])), group.name, name),
-                            alertFailure: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Group \"", "\" roles could not be update in \"", "\"."], ["Group \"", "\" roles could not be update in \"", "\"."])), group.name, name),
-                            stateUpdate: { showRoleSelectWizard: null },
-                        });
-                    }, removeRole: function (role, group) {
-                        var name = namespace.name, groups = namespace.groups;
-                        var newGroup = __assign(__assign({}, group), { object_roles: group.object_roles.filter(function (name) { return name !== role; }) });
-                        var newGroups = groups.map(function (g) {
-                            return g === group ? newGroup : g;
-                        });
-                        _this.updateGroups({
-                            groups: newGroups,
-                            alertSuccess: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Group \"", "\" roles successfully updated in \"", "\"."], ["Group \"", "\" roles successfully updated in \"", "\"."])), group.name, name),
-                            alertFailure: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Group \"", "\" roles could not be update in \"", "\"."], ["Group \"", "\" roles could not be update in \"", "\"."])), group.name, name),
-                            stateUpdate: { showRoleRemoveModal: null },
-                        });
-                    }, urlPrefix: formatPath(Paths.namespaceDetail, {
-                        namespace: namespace.name,
-                    }) })) : null),
+                tab === 'access' ? (React.createElement("section", { className: 'body' },
+                    React.createElement(AccessTab, { showUserRemoveModal: this.state.showUserRemoveModal, showUserSelectWizard: this.state.showUserSelectWizard, showGroupRemoveModal: this.state.showGroupRemoveModal, showGroupSelectWizard: this.state.showGroupSelectWizard, showRoleRemoveModal: this.state.showRoleRemoveModal, showRoleSelectWizard: this.state.showRoleSelectWizard, canEditOwners: canEditOwners, group: this.state.group, groups: namespace.groups, user: this.state.user, users: namespace.users, name: namespace.name, pulpObjectType: 'pulp_ansible/namespaces', selectRolesMessage: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["The selected roles will be added to this specific namespace."], ["The selected roles will be added to this specific namespace."]))), updateProps: function (prop) {
+                            _this.setState(prop);
+                        }, addUser: function (user, roles) {
+                            var users = namespace.users, name = namespace.name;
+                            var newUser = __assign(__assign({}, user), { object_roles: roles.map(function (_a) {
+                                    var name = _a.name;
+                                    return name;
+                                }) });
+                            var newUsers = __spreadArray(__spreadArray([], users, true), [newUser], false);
+                            _this.updateRoles({
+                                users: newUsers,
+                                alertSuccess: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["User \"", "\" has been successfully added to \"", "\"."], ["User \"", "\" has been successfully added to \"", "\"."])), user.username, name),
+                                alertFailure: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["User \"", "\" could not be added to \"", "\"."], ["User \"", "\" could not be added to \"", "\"."])), user.username, name),
+                                stateUpdate: { showUserSelectWizard: null },
+                            });
+                        }, removeUser: function (user) {
+                            var name = namespace.name, users = namespace.users;
+                            var newUsers = users.filter(function (u) { return u !== user; });
+                            _this.updateRoles({
+                                users: newUsers,
+                                alertSuccess: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["User \"", "\" has been successfully removed from \"", "\"."], ["User \"", "\" has been successfully removed from \"", "\"."])), user.username, name),
+                                alertFailure: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["User \"", "\" could not be removed from \"", "\"."], ["User \"", "\" could not be removed from \"", "\"."])), user.username, name),
+                                stateUpdate: { showUserRemoveModal: null },
+                            });
+                        }, addGroup: function (group, roles) {
+                            var groups = namespace.groups, name = namespace.name;
+                            var newGroup = __assign(__assign({}, group), { object_roles: roles.map(function (_a) {
+                                    var name = _a.name;
+                                    return name;
+                                }) });
+                            var newGroups = __spreadArray(__spreadArray([], groups, true), [newGroup], false);
+                            _this.updateRoles({
+                                groups: newGroups,
+                                alertSuccess: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Group \"", "\" has been successfully added to \"", "\"."], ["Group \"", "\" has been successfully added to \"", "\"."])), group.name, name),
+                                alertFailure: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Group \"", "\" could not be added to \"", "\"."], ["Group \"", "\" could not be added to \"", "\"."])), group.name, name),
+                                stateUpdate: { showGroupSelectWizard: null },
+                            });
+                        }, removeGroup: function (group) {
+                            var name = namespace.name, groups = namespace.groups;
+                            var newGroups = groups.filter(function (g) { return g !== group; });
+                            _this.updateRoles({
+                                groups: newGroups,
+                                alertSuccess: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Group \"", "\" has been successfully removed from \"", "\"."], ["Group \"", "\" has been successfully removed from \"", "\"."])), group.name, name),
+                                alertFailure: t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Group \"", "\" could not be removed from \"", "\"."], ["Group \"", "\" could not be removed from \"", "\"."])), group.name, name),
+                                stateUpdate: { showGroupRemoveModal: null },
+                            });
+                        }, addUserRole: function (user, roles) {
+                            var name = namespace.name, users = namespace.users;
+                            var newUser = __assign(__assign({}, user), { object_roles: __spreadArray(__spreadArray([], user.object_roles, true), roles.map(function (_a) {
+                                    var name = _a.name;
+                                    return name;
+                                }), true) });
+                            var newUsers = users.map(function (u) { return (u === user ? newUser : u); });
+                            _this.updateRoles({
+                                users: newUsers,
+                                alertSuccess: t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["User \"", "\" roles successfully updated in \"", "\"."], ["User \"", "\" roles successfully updated in \"", "\"."])), user.username, name),
+                                alertFailure: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["User \"", "\" roles could not be update in \"", "\"."], ["User \"", "\" roles could not be update in \"", "\"."])), user.username, name),
+                                stateUpdate: { showRoleSelectWizard: null },
+                            });
+                        }, removeUserRole: function (role, user) {
+                            var name = namespace.name, users = namespace.users;
+                            var newUser = __assign(__assign({}, user), { object_roles: user.object_roles.filter(function (name) { return name !== role; }) });
+                            var newUsers = users.map(function (u) { return (u === user ? newUser : u); });
+                            _this.updateRoles({
+                                users: newUsers,
+                                alertSuccess: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["User \"", "\" roles successfully updated in \"", "\"."], ["User \"", "\" roles successfully updated in \"", "\"."])), user.username, name),
+                                alertFailure: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["User \"", "\" roles could not be update in \"", "\"."], ["User \"", "\" roles could not be update in \"", "\"."])), user.username, name),
+                                stateUpdate: { showRoleRemoveModal: null },
+                            });
+                        }, addRole: function (group, roles) {
+                            var name = namespace.name, groups = namespace.groups;
+                            var newGroup = __assign(__assign({}, group), { object_roles: __spreadArray(__spreadArray([], group.object_roles, true), roles.map(function (_a) {
+                                    var name = _a.name;
+                                    return name;
+                                }), true) });
+                            var newGroups = groups.map(function (g) {
+                                return g === group ? newGroup : g;
+                            });
+                            _this.updateRoles({
+                                groups: newGroups,
+                                alertSuccess: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Group \"", "\" roles successfully updated in \"", "\"."], ["Group \"", "\" roles successfully updated in \"", "\"."])), group.name, name),
+                                alertFailure: t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Group \"", "\" roles could not be update in \"", "\"."], ["Group \"", "\" roles could not be update in \"", "\"."])), group.name, name),
+                                stateUpdate: { showRoleSelectWizard: null },
+                            });
+                        }, removeRole: function (role, group) {
+                            var name = namespace.name, groups = namespace.groups;
+                            var newGroup = __assign(__assign({}, group), { object_roles: group.object_roles.filter(function (name) { return name !== role; }) });
+                            var newGroups = groups.map(function (g) {
+                                return g === group ? newGroup : g;
+                            });
+                            _this.updateRoles({
+                                groups: newGroups,
+                                alertSuccess: t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Group \"", "\" roles successfully updated in \"", "\"."], ["Group \"", "\" roles successfully updated in \"", "\"."])), group.name, name),
+                                alertFailure: t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Group \"", "\" roles could not be update in \"", "\"."], ["Group \"", "\" roles could not be update in \"", "\"."])), group.name, name),
+                                stateUpdate: { showRoleRemoveModal: null },
+                            });
+                        }, urlPrefix: formatPath(Paths.namespaceDetail, {
+                            namespace: namespace.name,
+                        }) }))) : null),
             canSign && (React.createElement(SignAllCertificatesModal, { name: this.state.namespace.name, isOpen: this.state.isOpenSignModal, onSubmit: function () { return _this.signAllCertificates(namespace, repository); }, onCancel: function () { return _this.setState({ isOpenSignModal: false }); } }))));
     };
     NamespaceDetail.prototype.handleCollectionAction = function (pulp_href, action) {
@@ -388,7 +437,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     alerts: __spreadArray(__spreadArray([], this.state.alerts, true), [
                         {
                             variant: 'info',
-                            title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Deprecation status update starting for collection \"", "\"."], ["Deprecation status update starting for collection \"", "\"."])), name),
+                            title: t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Deprecation status update starting for collection \"", "\"."], ["Deprecation status update starting for collection \"", "\"."])), name),
                         },
                     ], false),
                 });
@@ -397,7 +446,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     var taskId = parsePulpIDFromURL(result.data.task);
                     return waitForTask(taskId).then(function () {
                         var title = collection.is_deprecated
-                            ? t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Collection \"", "\" has been successfully undeprecated."], ["Collection \"", "\" has been successfully undeprecated."])), name) : t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Collection \"", "\" has been successfully deprecated."], ["Collection \"", "\" has been successfully deprecated."])), name);
+                            ? t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Collection \"", "\" has been successfully undeprecated."], ["Collection \"", "\" has been successfully undeprecated."])), name) : t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Collection \"", "\" has been successfully deprecated."], ["Collection \"", "\" has been successfully deprecated."])), name);
                         _this.setState({
                             alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                                 {
@@ -411,7 +460,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 })
                     .catch(function () {
                     _this.setState({
-                        warning: t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
+                        warning: t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["API Error: Failed to set deprecation."], ["API Error: Failed to set deprecation."]))),
                     });
                 });
                 break;
@@ -427,8 +476,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
             if (status === void 0) { status = 500; }
             return ({
                 variant: 'danger',
-                title: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
-                description: t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
+                title: t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Failed to sign all collections."], ["Failed to sign all collections."]))),
+                description: t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["API Error: ", ""], ["API Error: ", ""])), status),
             });
         };
         SignCollectionAPI.sign({
@@ -443,7 +492,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     {
                         id: 'loading-signing',
                         variant: 'success',
-                        title: t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
+                        title: t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Signing started for all collections in namespace \"", "\"."], ["Signing started for all collections in namespace \"", "\"."])), namespace.name),
                     },
                 ], false),
                 isOpenSignModal: false,
@@ -513,8 +562,19 @@ var NamespaceDetail = /** @class */ (function (_super) {
             var _collections = _a[0], unfilteredCount = _a[1].data.meta.count, namespace = _a[2].data, myNamespace = _a[3];
             _this.setState({
                 canSign: canSignNamespace(_this.context, myNamespace === null || myNamespace === void 0 ? void 0 : myNamespace.data),
-                group: _this.filterGroup(_this.state.params['group'], namespace['groups']),
-                namespace: namespace,
+                group: _this.filterGroup(_this.state.params.group, namespace.groups),
+                user: _this.filterUser(_this.state.params.user, namespace.users),
+                namespace: __assign(__assign({}, namespace), { 
+                    // transform to use username, don't break when missing
+                    users: namespace.users
+                        ? namespace.users.map(function (_a) {
+                            var name = _a.name, object_roles = _a.object_roles;
+                            return ({
+                                username: name,
+                                object_roles: object_roles,
+                            });
+                        })
+                        : [] }),
                 showControls: !!myNamespace,
                 unfilteredCount: unfilteredCount,
             });
@@ -536,32 +596,33 @@ var NamespaceDetail = /** @class */ (function (_super) {
         var can_upload_signatures = this.context.featureFlags.can_upload_signatures;
         var ai_deny_index = this.context.featureFlags.ai_deny_index;
         var hasPermission = this.context.hasPermission;
-        var repository = this.state.params['repository_name'] || null;
+        var repository = this.state.params.repository_name || null;
         var dropdownItems = [
-            React.createElement(DropdownItem, { key: '1', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
+            React.createElement(DropdownItem, { key: 'edit', component: React.createElement(Link, { to: formatPath(Paths.editNamespace, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
-            hasPermission('galaxy.delete_namespace') && (React.createElement(React.Fragment, { key: '2' }, unfilteredCount === 0 ? (React.createElement(DropdownItem, { onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { isVisible: false, content: React.createElement(Trans, null,
-                    "Cannot delete namespace until ",
-                    React.createElement("br", null),
-                    "collections' dependencies have ",
-                    React.createElement("br", null),
-                    "been deleted"), position: 'left' },
-                React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"])))))))),
-            React.createElement(DropdownItem, { key: '3', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
+                    }) }, t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Edit namespace"], ["Edit namespace"])))) }),
+            hasPermission('galaxy.delete_namespace') &&
+                (unfilteredCount === 0 ? (React.createElement(DropdownItem, { key: 'delete', onClick: function () { return _this.setState({ isOpenNamespaceModal: true }); } }, t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))) : (React.createElement(Tooltip, { key: 'delete', isVisible: false, content: React.createElement(Trans, null,
+                        "Cannot delete namespace until ",
+                        React.createElement("br", null),
+                        "collections' dependencies have ",
+                        React.createElement("br", null),
+                        "been deleted"), position: 'left' },
+                    React.createElement(DropdownItem, { isDisabled: true }, t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Delete namespace"], ["Delete namespace"]))))))),
+            React.createElement(DropdownItem, { key: 'imports', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
                         namespace: this.state.namespace.name,
-                    }) }, t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
+                    }) }, t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["Imports"], ["Imports"])))) }),
             canSign &&
                 !can_upload_signatures &&
-                (repository ? (React.createElement(DropdownItem, { key: 'sign-collections', "data-cy": 'sign-all-collections-button', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Sign all collections in ", ""], ["Sign all collections in ", ""])), repository))) : (React.createElement(DropdownItem, { key: 'sign-collections', isDisabled: true, description: t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Please select a repository filter"], ["Please select a repository filter"]))) }, t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"])))))),
-            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"]))))),
+                (repository ? (React.createElement(DropdownItem, { key: 'sign-collections', "data-cy": 'sign-all-collections-button', onClick: function () { return _this.setState({ isOpenSignModal: true }); } }, t(templateObject_43 || (templateObject_43 = __makeTemplateObject(["Sign all collections in ", ""], ["Sign all collections in ", ""])), repository))) : (React.createElement(DropdownItem, { key: 'sign-collections', isDisabled: true, description: t(templateObject_44 || (templateObject_44 = __makeTemplateObject(["Please select a repository filter"], ["Please select a repository filter"]))) }, t(templateObject_45 || (templateObject_45 = __makeTemplateObject(["Sign all collections"], ["Sign all collections"])))))),
+            ai_deny_index && (React.createElement(DropdownItem, { key: 'wisdom-settings', onClick: function () { return _this.setState({ isOpenWisdomModal: true }); } }, t(templateObject_46 || (templateObject_46 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"]))))),
         ].filter(Boolean);
         if (!this.state.showControls) {
             return React.createElement("div", { className: 'hub-namespace-page-controls' });
         }
         return (React.createElement("div", { className: 'hub-namespace-page-controls', "data-cy": 'kebab-toggle' },
             ' ',
-            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
+            collections.length !== 0 && (React.createElement(Button, { onClick: function () { return _this.setState({ showImportModal: true }); } }, t(templateObject_47 || (templateObject_47 = __makeTemplateObject(["Upload collection"], ["Upload collection"]))))),
             dropdownItems.length > 0 && (React.createElement("div", { "data-cy": 'ns-kebab-toggle' },
                 React.createElement(StatefulDropdown, { items: dropdownItems })))));
     };
@@ -601,7 +662,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
         return {
             uploadButton: (React.createElement(Button, { onClick: function () {
                     return _this.handleCollectionAction(collection.collection_version.pulp_href, 'upload');
-                }, variant: 'secondary' }, t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
+                }, variant: 'secondary' }, t(templateObject_48 || (templateObject_48 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
             dropdownMenu: (React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
                         canDeleteCollection: hasPermission('ansible.delete_collection') ||
@@ -635,7 +696,7 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     }),
                     React.createElement(DropdownItem, { onClick: function () {
                             return _this.handleCollectionAction(collection.collection_version.pulp_href, 'deprecate');
-                        }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
+                        }, key: 'deprecate' }, collection.is_deprecated ? t(templateObject_49 || (templateObject_49 = __makeTemplateObject(["Undeprecate"], ["Undeprecate"]))) : t(templateObject_50 || (templateObject_50 = __makeTemplateObject(["Deprecate"], ["Deprecate"])))),
                 ].filter(Boolean), ariaLabel: 'collection-kebab' })),
         };
     };
@@ -644,5 +705,5 @@ var NamespaceDetail = /** @class */ (function (_super) {
 export { NamespaceDetail };
 NamespaceDetail.contextType = AppContext;
 export default withRouter(NamespaceDetail);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50;
 //# sourceMappingURL=namespace-detail.js.map
