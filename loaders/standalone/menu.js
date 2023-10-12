@@ -137,7 +137,7 @@ function standaloneMenu() {
             },
         }),
         menuItem(t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Documentation"], ["Documentation"]))), {
-            url: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/',
+            url: UI_DOCS_URL,
             external: true,
             condition: function (_a) {
                 var featureFlags = _a.featureFlags, settings = _a.settings, user = _a.user;

@@ -64,7 +64,7 @@ var TokenInsights = /** @class */ (function (_super) {
                             React.createElement("code", null, "ansible-galaxy"),
                             " client can be found",
                             ' ',
-                            React.createElement("a", { href: 'https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/', target: '_blank', rel: 'noreferrer' }, "here"),
+                            React.createElement("a", { href: UI_DOCS_URL, target: '_blank', rel: 'noreferrer' }, "here"),
                             ". Use the following parameters to configure the client."))),
                 React.createElement("section", { className: 'body pf-c-content' },
                     React.createElement("h2", null, t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Offline token"], ["Offline token"])))),
