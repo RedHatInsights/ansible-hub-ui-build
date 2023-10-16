@@ -84,20 +84,30 @@ export var ansibleRepositorySyncAction = Action({
             ['running', 'waiting'].includes(last_sync_task.state)) {
             return t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Sync task is already queued."], ["Sync task is already queued."])));
         }
-        // only available on detail screen; list will have remote: string, so no .url
-        if (remote &&
-            remote.url === 'https://galaxy.ansible.com/api/' &&
-            !remote.requirements_file) {
+        // Remote checks only available on detail screen; list will have remote: string, so no .url
+        if (remote && remote.url === 'https://galaxy.ansible.com/api/') {
             var name_1 = remote.name;
             var url = formatPath(Paths.ansibleRemoteEdit, { name: name_1 });
-            return (React.createElement(Trans, null,
-                "YAML requirements are required to sync from Galaxy - you can",
-                ' ',
-                React.createElement(Link, { to: url },
-                    "edit the ",
-                    name_1,
-                    " remote"),
-                " to add requirements."));
+            if (!remote.requirements_file) {
+                return (React.createElement(Trans, null,
+                    "YAML requirements are required to sync from Galaxy. You can",
+                    ' ',
+                    React.createElement(Link, { to: url },
+                        "edit the ",
+                        name_1,
+                        " remote"),
+                    " to add requirements."));
+            }
+            if (remote.signed_only) {
+                return (React.createElement(Trans, null,
+                    "Community content will never be synced if the remote is set to only sync signed content. You can",
+                    ' ',
+                    React.createElement(Link, { to: url },
+                        "edit the ",
+                        name_1,
+                        " remote"),
+                    " to change it."));
+            }
         }
         return null;
     },
