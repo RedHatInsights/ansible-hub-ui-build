@@ -85,17 +85,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { t } from '@lingui/macro';
-import { Button, ButtonVariant, DropdownItem, Label, LabelGroup, Toolbar, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { CheckCircleIcon, DownloadIcon, ExclamationCircleIcon, ExclamationTriangleIcon, } from '@patternfly/react-icons';
+import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { AnsibleRepositoryAPI, CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, } from 'src/api';
-import { ApproveModal, BaseHeader, DateComponent, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, ListItemActions, Main, } from 'src/components';
+import { AnsibleRepositoryAPI, CertificateUploadAPI, CollectionVersionAPI, } from 'src/api';
+import { ApprovalRow, ApproveModal, BaseHeader, EmptyStateFilter, EmptyStateNoData, EmptyStateUnauthorized, Main, } from 'src/components';
 import { AlertList, AppliedFilters, CompoundFilter, LoadingPageSpinner, LoadingPageWithHeader, Pagination, SortTable, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
-import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
-import { Paths, formatPath } from 'src/paths';
-import { ParamHelper, RepositoriesUtils, errorMessage, filterIsSet, parsePulpIDFromURL, repositoryBasePath, waitForTask, withRouter, } from 'src/utilities';
+import { ParamHelper, errorMessage, filterIsSet, parsePulpIDFromURL, repositoryBasePath, waitForTask, waitForTaskUrl, withRouter, } from 'src/utilities';
 import './certification-dashboard.scss';
 var CertificationDashboard = /** @class */ (function (_super) {
     __extends(CertificationDashboard, _super);
@@ -112,7 +108,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             params['sort'] = '-pulp_created';
         }
         if (!params['repository_label']) {
-            params['repository_label'] = "pipeline=".concat(Constants.NEEDSREVIEW);
+            params['repository_label'] = 'pipeline=staging';
         }
         _this.state = {
             versions: undefined,
@@ -126,9 +122,7 @@ var CertificationDashboard = /** @class */ (function (_super) {
             uploadCertificateModalOpen: false,
             versionToUploadCertificate: null,
             approveModalInfo: null,
-            approvedRepositoryList: [],
-            rejectedRepoName: null,
-            stagingRepoNames: [],
+            repositories: { approved: null, rejected: null },
         };
         return _this;
     }
@@ -142,104 +136,90 @@ var CertificationDashboard = /** @class */ (function (_super) {
         }
         else {
             this.setState({ loading: true });
-            var promises = [];
-            promises.push(this.loadRepos('staging').then(function (stagingRepoNames) {
-                return _this.setState({
-                    stagingRepoNames: stagingRepoNames,
-                });
-            }));
-            promises.push(this.loadRepos('rejected').then(function (_a) {
-                var rejectedRepoName = _a[0];
-                return _this.setState({ rejectedRepoName: rejectedRepoName });
-            }));
-            promises.push(
-            // TODO: replace getAll pagination
-            RepositoriesUtils.listApproved()
-                .then(function (data) {
-                _this.setState({ approvedRepositoryList: data });
-            })
-                .catch(function (_a) {
-                var _b = _a.response, status = _b.status, statusText = _b.statusText;
-                _this.addAlertObj({
-                    title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Failed to load repositories."], ["Failed to load repositories."]))),
-                    variant: 'danger',
-                    description: errorMessage(status, statusText),
-                });
-            }));
-            promises.push(this.queryCollections(false));
-            Promise.all(promises).then(function () {
+            Promise.all([
+                this.queryCollections(false),
+                this.queryRepositories(),
+            ]).then(function () {
                 _this.setState({ loading: false });
                 _this.setState({ updatingVersions: [] });
             });
         }
     };
-    CertificationDashboard.prototype.loadRepos = function (pipeline) {
+    CertificationDashboard.prototype.queryRepositories = function () {
         var _this = this;
-        return AnsibleRepositoryAPI.list({
-            pulp_label_select: "pipeline=".concat(pipeline),
-        })
-            .then(function (_a) {
-            var results = _a.data.results;
-            return (results || []).map(function (_a) {
-                var name = _a.name;
-                return name;
+        var repoOrNull = function (pipeline) {
+            return AnsibleRepositoryAPI.list({
+                page: 1,
+                page_size: 1,
+                pulp_label_select: "pipeline=".concat(pipeline),
+            })
+                .then(function (_a) {
+                var _b = _a.data, count = _b.count, results = _b.results;
+                return count === 1 ? results[0] : null;
+            })
+                .catch(function (error) {
+                _this.addAlert(t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Error loading repository with label ", "."], ["Error loading repository with label ", "."])), pipeline), 'danger', error === null || error === void 0 ? void 0 : error.message);
+                return null;
             });
-        })
-            .catch(function (error) {
-            _this.addAlert(t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Error loading repository with label ", "."], ["Error loading repository with label ", "."])), pipeline), 'danger', error === null || error === void 0 ? void 0 : error.message);
+        };
+        return Promise.all([repoOrNull('approved'), repoOrNull('rejected')]).then(function (_a) {
+            var approved = _a[0], rejected = _a[1];
+            return _this.setState({
+                repositories: { approved: approved, rejected: rejected },
+            });
         });
     };
     CertificationDashboard.prototype.render = function () {
-        var _a;
         var _this = this;
-        var _b = this.state, versions = _b.versions, params = _b.params, itemCount = _b.itemCount, loading = _b.loading, unauthorized = _b.unauthorized;
+        var _a = this.state, versions = _a.versions, params = _a.params, itemCount = _a.itemCount, loading = _a.loading, unauthorized = _a.unauthorized;
         if (!versions && !unauthorized) {
             return React.createElement(LoadingPageWithHeader, null);
         }
         return (React.createElement(React.Fragment, null,
-            React.createElement(BaseHeader, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
+            React.createElement(BaseHeader, { title: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Approval dashboard"], ["Approval dashboard"]))) }),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, { className: 'hub-certification-dashboard' },
                 React.createElement("section", { className: 'body', "data-cy": 'body' },
-                    React.createElement("div", { className: 'toolbar hub-toolbar' },
+                    React.createElement("div", { className: 'hub-toolbar' },
                         React.createElement(Toolbar, null,
-                            React.createElement(ToolbarGroup, null,
-                                React.createElement(ToolbarItem, null,
-                                    React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
-                                            _this.setState({ inputText: text });
-                                        }, updateParams: function (p) {
-                                            return _this.updateParams(p, function () {
-                                                return _this.queryCollections(true);
-                                            });
-                                        }, params: params, filterConfig: [
-                                            {
-                                                id: 'namespace',
-                                                title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
-                                            },
-                                            {
-                                                id: 'name',
-                                                title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collection Name"], ["Collection Name"]))),
-                                            },
-                                            {
-                                                id: 'repository_label',
-                                                title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Status"], ["Status"]))),
-                                                inputType: 'select',
-                                                options: [
-                                                    {
-                                                        id: "pipeline=".concat(Constants.NOTCERTIFIED),
-                                                        title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
-                                                    },
-                                                    {
-                                                        id: "pipeline=".concat(Constants.NEEDSREVIEW),
-                                                        title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
-                                                    },
-                                                    {
-                                                        id: "pipeline=".concat(Constants.APPROVED),
-                                                        title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Approved"], ["Approved"]))),
-                                                    },
-                                                ],
-                                            },
-                                        ] })))),
+                            React.createElement(ToolbarContent, null,
+                                React.createElement(ToolbarGroup, null,
+                                    React.createElement(ToolbarItem, null,
+                                        React.createElement(CompoundFilter, { inputText: this.state.inputText, onChange: function (text) {
+                                                _this.setState({ inputText: text });
+                                            }, updateParams: function (p) {
+                                                return _this.updateParams(p, function () {
+                                                    return _this.queryCollections(true);
+                                                });
+                                            }, params: params, filterConfig: [
+                                                {
+                                                    id: 'namespace',
+                                                    title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+                                                },
+                                                {
+                                                    id: 'name',
+                                                    title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection name"], ["Collection name"]))),
+                                                },
+                                                {
+                                                    id: 'repository_label',
+                                                    title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Status"], ["Status"]))),
+                                                    inputType: 'select',
+                                                    options: [
+                                                        {
+                                                            id: 'pipeline=rejected',
+                                                            title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                                                        },
+                                                        {
+                                                            id: 'pipeline=staging',
+                                                            title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                                                        },
+                                                        {
+                                                            id: 'pipeline=approved',
+                                                            title: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                                                        },
+                                                    ],
+                                                },
+                                            ] }))))),
                         React.createElement(Pagination, { params: params, updateParams: function (p) {
                                 return _this.updateParams(p, function () { return _this.queryCollections(true); });
                             }, count: itemCount, isTop: true })),
@@ -248,13 +228,15 @@ var CertificationDashboard = /** @class */ (function (_super) {
                                 _this.updateParams(p, function () { return _this.queryCollections(true); });
                                 _this.setState({ inputText: '' });
                             }, params: params, ignoredParams: ['page_size', 'page', 'sort'], niceValues: {
-                                repository_label: (_a = {},
-                                    _a["pipeline=".concat(Constants.APPROVED)] = t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Approved"], ["Approved"]))),
-                                    _a["pipeline=".concat(Constants.NEEDSREVIEW)] = t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
-                                    _a["pipeline=".concat(Constants.NOTCERTIFIED)] = t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
-                                    _a),
+                                repository_label: {
+                                    'pipeline=approved': t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Approved"], ["Approved"]))),
+                                    'pipeline=rejected': t(templateObject_10 || (templateObject_10 = __makeTemplateObject(["Rejected"], ["Rejected"]))),
+                                    'pipeline=staging': t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Needs Review"], ["Needs Review"]))),
+                                },
                             }, niceNames: {
-                                repository_label: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Status"], ["Status"]))),
+                                name: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Collection name"], ["Collection name"]))),
+                                namespace: t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+                                repository_label: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["Status"], ["Status"]))),
                             } })),
                     loading ? (React.createElement(LoadingPageSpinner, null)) : (this.renderTable(versions, params)),
                     React.createElement("div", { className: 'footer' },
@@ -267,42 +249,42 @@ var CertificationDashboard = /** @class */ (function (_super) {
                     }, finishAction: function () {
                         _this.setState({ approveModalInfo: null });
                         _this.queryCollections(true);
-                    }, collectionVersion: this.state.approveModalInfo.collectionVersion, addAlert: function (alert) { return _this.addAlertObj(alert); }, allRepositories: this.state.approvedRepositoryList, stagingRepoNames: this.state.stagingRepoNames, rejectedRepoName: this.state.rejectedRepoName }))))));
+                    }, collectionVersion: this.state.approveModalInfo, addAlert: function (alert) { return _this.addAlertObj(alert); } }))))));
     };
     CertificationDashboard.prototype.renderTable = function (versions, params) {
         var _this = this;
         if (versions.length === 0) {
-            return filterIsSet(params, ['namespace', 'name', 'repository_label']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_14 || (templateObject_14 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
+            return filterIsSet(params, ['namespace', 'name', 'repository_label']) ? (React.createElement(EmptyStateFilter, null)) : (React.createElement(EmptyStateNoData, { title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["No managed collections yet"], ["No managed collections yet"]))), description: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Collections will appear once uploaded"], ["Collections will appear once uploaded"]))) }));
         }
         var sortTableOptions = {
             headers: [
                 {
-                    title: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
+                    title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Namespace"], ["Namespace"]))),
                     type: 'alpha',
                     id: 'namespace',
                 },
                 {
-                    title: t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Collection"], ["Collection"]))),
+                    title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Collection"], ["Collection"]))),
                     type: 'alpha',
                     id: 'name',
                 },
                 {
-                    title: t(templateObject_18 || (templateObject_18 = __makeTemplateObject(["Version"], ["Version"]))),
+                    title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Version"], ["Version"]))),
                     type: 'number',
                     id: 'version',
                 },
                 {
-                    title: t(templateObject_19 || (templateObject_19 = __makeTemplateObject(["Date created"], ["Date created"]))),
+                    title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Date created"], ["Date created"]))),
                     type: 'number',
                     id: 'pulp_created',
                 },
                 {
-                    title: t(templateObject_20 || (templateObject_20 = __makeTemplateObject(["Repository"], ["Repository"]))),
+                    title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Repository"], ["Repository"]))),
                     type: 'none',
                     id: '',
                 },
                 {
-                    title: t(templateObject_21 || (templateObject_21 = __makeTemplateObject(["Status"], ["Status"]))),
+                    title: t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Status"], ["Status"]))),
                     type: 'none',
                     id: 'repository_label',
                 },
@@ -313,115 +295,18 @@ var CertificationDashboard = /** @class */ (function (_super) {
                 },
             ],
         };
-        return (React.createElement("table", { "aria-label": t(templateObject_22 || (templateObject_22 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
+        return (React.createElement("table", { "aria-label": t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Collection versions"], ["Collection versions"]))), className: 'hub-c-table-content pf-c-table' },
             React.createElement(SortTable, { options: sortTableOptions, params: params, updateParams: function (p) {
                     return _this.updateParams(p, function () { return _this.queryCollections(true); });
                 } }),
-            React.createElement("tbody", null, versions.map(function (version, i) { return _this.renderRow(version, i); }))));
+            React.createElement("tbody", null, versions.map(function (version, i) { return (React.createElement(ApprovalRow, { approve: function (v) { return _this.approve(v); }, collectionVersion: version, context: _this.context, isVersionUpdating: function (v) { return _this.isVersionUpdating(v); }, key: i, openUploadCertificateModal: function (v) {
+                    return _this.openUploadCertificateModal(v);
+                }, reject: function (v) { return _this.reject(v); } })); }))));
     };
     CertificationDashboard.prototype.isVersionUpdating = function (collection) {
-        return this.state.updatingVersions.find(function (v) {
+        return !!this.state.updatingVersions.find(function (v) {
             return v == collection;
         });
-    };
-    CertificationDashboard.prototype.renderStatus = function (collectionData) {
-        var _a;
-        var repository = collectionData.repository;
-        var repoStatus = (_a = repository.pulp_labels) === null || _a === void 0 ? void 0 : _a.pipeline;
-        if (this.isVersionUpdating(collectionData)) {
-            return React.createElement("span", { className: 'fa fa-lg fa-spin fa-spinner' });
-        }
-        if (this.isApproved(collectionData)) {
-            var display_signatures = this.context.featureFlags.display_signatures;
-            return (React.createElement(Label, { variant: 'outline', color: 'green', icon: React.createElement(CheckCircleIcon, null) }, display_signatures && collectionData.is_signed
-                ? t(templateObject_23 || (templateObject_23 = __makeTemplateObject(["Signed and approved"], ["Signed and approved"]))) : t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Approved"], ["Approved"])))));
-        }
-        if (repoStatus === Constants.NOTCERTIFIED) {
-            return (React.createElement(Label, { variant: 'outline', color: 'red', icon: React.createElement(ExclamationCircleIcon, null) }, t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["Rejected"], ["Rejected"])))));
-        }
-        if (repoStatus === Constants.NEEDSREVIEW) {
-            var _b = this.context.featureFlags, can_upload_signatures = _b.can_upload_signatures, require_upload_signatures = _b.require_upload_signatures;
-            return (React.createElement(Label, { variant: 'outline', color: 'orange', icon: React.createElement(ExclamationTriangleIcon, null) }, !collectionData.is_signed &&
-                can_upload_signatures &&
-                require_upload_signatures
-                ? t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Needs signature and review"], ["Needs signature and review"]))) : t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Needs review"], ["Needs review"])))));
-        }
-    };
-    CertificationDashboard.prototype.renderRow = function (collectionData, index) {
-        var _this = this;
-        var version = collectionData.collection_version, repository = collectionData.repository;
-        var data_cy = "CertificationDashboard-row-".concat(collectionData.repository.name, "-").concat(collectionData.collection_version.namespace, "-").concat(collectionData.collection_version.name);
-        return (React.createElement("tr", { key: index, "data-cy": data_cy },
-            React.createElement("td", null, version.namespace),
-            React.createElement("td", null, version.name),
-            React.createElement("td", null,
-                React.createElement(Link, { to: formatPath(Paths.collectionByRepo, {
-                        namespace: version.namespace,
-                        collection: version.name,
-                        repo: repository.name,
-                    }, {
-                        version: version.version,
-                    }) }, version.version),
-                React.createElement(Button, { variant: ButtonVariant.link, onClick: function () {
-                        _this.download(repository, version.namespace, version.name, version.version);
-                    } },
-                    React.createElement(DownloadIcon, null))),
-            React.createElement("td", null,
-                React.createElement(DateComponent, { date: version.pulp_created })),
-            React.createElement("td", null,
-                React.createElement(LabelGroup, null, repository.name)),
-            React.createElement("td", null, this.renderStatus(collectionData)),
-            this.renderButtons(collectionData)));
-    };
-    CertificationDashboard.prototype.renderButtons = function (collectionData) {
-        var _this = this;
-        var _a;
-        // not checking namespace permissions here, auto_sign happens API side, so is the permission check
-        var version = collectionData.collection_version, repository = collectionData.repository;
-        var _b = this.context.featureFlags, can_upload_signatures = _b.can_upload_signatures, collection_auto_sign = _b.collection_auto_sign, require_upload_signatures = _b.require_upload_signatures;
-        if (this.isVersionUpdating(collectionData)) {
-            return React.createElement(ListItemActions, null); // empty td;
-        }
-        var canUploadSignature = can_upload_signatures && !collectionData.is_signed;
-        var mustUploadSignature = canUploadSignature && require_upload_signatures;
-        var autoSign = collection_auto_sign && !require_upload_signatures;
-        var approveButton = [
-            canUploadSignature && (React.createElement(React.Fragment, { key: 'upload' },
-                React.createElement(Button, { onClick: function () { return _this.openUploadCertificateModal(collectionData); } }, t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Upload signature"], ["Upload signature"])))),
-                ' ')),
-            React.createElement(Button, { key: 'approve', isDisabled: mustUploadSignature, "data-cy": 'approve-button', onClick: function () {
-                    _this.approve(collectionData);
-                } }, autoSign ? t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Approve"], ["Approve"])))),
-        ].filter(Boolean);
-        var importsLink = (React.createElement(DropdownItem, { key: 'imports', component: React.createElement(Link, { to: formatPath(Paths.myImports, {}, {
-                    namespace: version.namespace,
-                    name: version.name,
-                    version: version.version,
-                }) }, t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["View Import Logs"], ["View Import Logs"])))) }));
-        var certifyDropDown = function (isDisabled) { return (React.createElement(DropdownItem, { onClick: function () { return _this.approve(collectionData); }, isDisabled: isDisabled, key: 'certify' }, autoSign ? t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Sign and approve"], ["Sign and approve"]))) : t(templateObject_33 || (templateObject_33 = __makeTemplateObject(["Approve"], ["Approve"]))))); };
-        var rejectDropDown = function (isDisabled) { return (React.createElement(DropdownItem, { onClick: function () {
-                _this.reject(collectionData);
-            }, isDisabled: isDisabled, className: 'rejected-icon', key: 'reject' }, t(templateObject_34 || (templateObject_34 = __makeTemplateObject(["Reject"], ["Reject"]))))); };
-        var repoStatus = (_a = repository.pulp_labels) === null || _a === void 0 ? void 0 : _a.pipeline;
-        if (this.isApproved(collectionData)) {
-            return (React.createElement(ListItemActions, { kebabItems: [
-                    certifyDropDown(true),
-                    rejectDropDown(false),
-                    importsLink,
-                ] }));
-        }
-        if (repoStatus === Constants.NOTCERTIFIED) {
-            // render reject button if version is in multiple repositories including rejected state - handles inconsistency
-            // and allows user to reject it again to move it all to rejected state
-            return (React.createElement(ListItemActions, { kebabItems: [
-                    certifyDropDown(false),
-                    rejectDropDown(true),
-                    importsLink,
-                ] }));
-        }
-        if (repoStatus === Constants.NEEDSREVIEW) {
-            return (React.createElement(ListItemActions, { kebabItems: [rejectDropDown(false), importsLink], buttons: approveButton }));
-        }
     };
     CertificationDashboard.prototype.openUploadCertificateModal = function (version) {
         this.setState({
@@ -445,89 +330,83 @@ var CertificationDashboard = /** @class */ (function (_super) {
             repository: repository.pulp_href,
             signed_collection: signed_collection,
         })
-            .then(function (result) { return waitForTask(parsePulpIDFromURL(result.data.task)); })
+            .then(function (_a) {
+            var task = _a.data.task;
+            return waitForTask(task);
+        })
             .then(function () {
-            return _this.addAlert(t(templateObject_35 || (templateObject_35 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), namespace, name, version), 'success');
+            return _this.addAlert(t(templateObject_24 || (templateObject_24 = __makeTemplateObject(["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."], ["Certificate for collection \"", " ", " v", "\" has been successfully uploaded."])), namespace, name, version), 'success');
         })
             .then(function () { return _this.queryCollections(true); })
             .catch(function (error) {
             var description = !error.response
                 ? error
                 : errorMessage(error.response.status, error.response.statusText);
-            _this.addAlert(t(templateObject_36 || (templateObject_36 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), namespace, name, version), 'danger', description);
+            _this.addAlert(t(templateObject_25 || (templateObject_25 = __makeTemplateObject(["The certificate for \"", " ", " v", "\" could not be saved."], ["The certificate for \"", " ", " v", "\" could not be saved."])), namespace, name, version), 'danger', description);
         })
             .finally(function () { return _this.closeUploadCertificateModal(); });
     };
-    CertificationDashboard.prototype.isApproved = function (collection) {
-        if (!collection) {
-            return false;
-        }
-        return this.state.approvedRepositoryList.find(function (r) { return r.name == collection.repository.name; });
-    };
-    CertificationDashboard.prototype.approve = function (collection) {
-        var _this = this;
-        if (!collection) {
-            // I hope that this may not occure ever, but to be sure...
-            this.addAlert(t(templateObject_37 || (templateObject_37 = __makeTemplateObject(["Approval failed."], ["Approval failed."]))), 'danger', t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Collection not found in any repository."], ["Collection not found in any repository."]))));
-            return;
-        }
-        var approvedRepositoryList = this.state.approvedRepositoryList;
-        if (approvedRepositoryList.length == 1) {
-            if (collection.repository) {
-                this.updateCertification(collection.collection_version, collection.repository.name, this.state.approvedRepositoryList[0].name);
-            }
-            else {
-                // I hope that this may not occure ever, but to be sure...
-                this.addAlert(t(templateObject_39 || (templateObject_39 = __makeTemplateObject(["Approval failed."], ["Approval failed."]))), 'danger', t(templateObject_40 || (templateObject_40 = __makeTemplateObject(["Collection has to be in rejected or staging repository."], ["Collection has to be in rejected or staging repository."]))));
-            }
-        }
-        else {
-            this.transformToCollectionVersion(collection).then(function (collectionVersion) {
-                _this.setState({ approveModalInfo: { collectionVersion: collectionVersion } });
-            });
-        }
-    };
-    CertificationDashboard.prototype.reject = function (collection) {
-        var _this = this;
-        var originalRepo = collection.repository.name;
-        var version = collection.collection_version;
-        this.transformToCollectionVersion(collection)
-            .then(function (versionWithRepos) {
-            _this.setState({ updatingVersions: [collection] });
-            if (versionWithRepos.repository_list.includes(_this.state.rejectedRepoName)) {
-                // collection already in rejected repository, so remove it from aproved repo
-                RepositoriesUtils.deleteCollection(originalRepo, version.pulp_href)
-                    .then(function () {
-                    _this.addAlert(t(templateObject_41 || (templateObject_41 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
-                    _this.queryCollections(true);
-                })
-                    .catch(function (error) {
-                    _this.setState({ updatingVersions: [] });
-                    var description = !error.response
-                        ? error
-                        : errorMessage(error.response.status, error.response.statusText);
-                    _this.addAlert(t(templateObject_42 || (templateObject_42 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
-                });
-            }
-            else {
-                // collection is not in rejected state, move it there
-                _this.updateCertification(version, originalRepo, _this.state.rejectedRepoName);
-            }
-        })
-            .catch(function (error) {
-            var description = !error.response
-                ? error
-                : errorMessage(error.response.status, error.response.statusText);
-            _this.addAlert(t(templateObject_43 || (templateObject_43 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
+    CertificationDashboard.prototype.setUpdatingVersion = function (collectionVersion) {
+        var updatingVersions = this.state.updatingVersions;
+        this.setState({
+            updatingVersions: __spreadArray(__spreadArray([], updatingVersions, true), [collectionVersion], false),
         });
     };
-    CertificationDashboard.prototype.updateCertification = function (version, originalRepo, destinationRepo) {
+    CertificationDashboard.prototype.unsetUpdatingVersion = function (collectionVersion) {
+        var updatingVersions = this.state.updatingVersions;
+        this.setState({
+            updatingVersions: updatingVersions.filter(function (v) { return v !== collectionVersion; }),
+        });
+    };
+    CertificationDashboard.prototype.approve = function (collection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var repositories;
+            return __generator(this, function (_a) {
+                repositories = this.state.repositories;
+                if (repositories.approved) {
+                    this.move(collection, repositories.approved);
+                }
+                else {
+                    this.setState({ approveModalInfo: collection });
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    CertificationDashboard.prototype.reject = function (collection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var repositories, version;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        repositories = this.state.repositories;
+                        if (!repositories.rejected) {
+                            version = collection.collection_version;
+                            this.addAlert(t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["There must be only one repository with pipeline=rejected."], ["There must be only one repository with pipeline=rejected."]))));
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, this.isRejected(collection)];
+                    case 1:
+                        if (_a.sent()) {
+                            // collection already in rejected repository, so remove it from aproved repo
+                            this.remove(collection);
+                        }
+                        else {
+                            // collection is not in rejected state, move it there
+                            this.move(collection, repositories.rejected);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    CertificationDashboard.prototype.move = function (collection, destinationRepo) {
         var _this = this;
-        // galaxy_ng CollectionRepositoryMixing.get_repos uses the distribution base path to look up repository pk
-        // there ..may be room for simplification since we already know the repo; OTOH also compatibility concerns
+        var version = collection.collection_version, originalRepo = collection.repository;
+        this.setUpdatingVersion(collection);
         return Promise.all([
-            repositoryBasePath(originalRepo),
-            repositoryBasePath(destinationRepo),
+            repositoryBasePath(originalRepo.name, originalRepo.pulp_href),
+            repositoryBasePath(destinationRepo.name, destinationRepo.pulp_href),
         ])
             .then(function (_a) {
             var source = _a[0], destination = _a[1];
@@ -537,14 +416,57 @@ var CertificationDashboard = /** @class */ (function (_super) {
             return waitForTask(result.data.remove_task_id, { waitMs: 500 });
         })
             .then(function () {
-            return _this.addAlert(t(templateObject_44 || (templateObject_44 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
+            return _this.addAlert(t(templateObject_28 || (templateObject_28 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
         })
             .then(function () { return _this.queryCollections(true); })
             .catch(function (error) {
             var description = !error.response
                 ? error
                 : errorMessage(error.response.status, error.response.statusText);
-            _this.addAlert(t(templateObject_45 || (templateObject_45 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
+            _this.addAlert(t(templateObject_29 || (templateObject_29 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
+        })
+            .finally(function () { return _this.unsetUpdatingVersion(collection); });
+    };
+    CertificationDashboard.prototype.remove = function (collection) {
+        var _this = this;
+        var version = collection.collection_version, repository = collection.repository;
+        this.setUpdatingVersion(collection);
+        return AnsibleRepositoryAPI.removeContent(parsePulpIDFromURL(repository.pulp_href), version.pulp_href)
+            .then(function (_a) {
+            var task = _a.data.task;
+            return waitForTaskUrl(task);
+        })
+            .then(function () {
+            return _this.addAlert(t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Certification status for collection \"", " ", " v", "\" has been successfully updated."], ["Certification status for collection \"", " ", " v", "\" has been successfully updated."])), version.namespace, version.name, version.version), 'success');
+        })
+            .then(function () { return _this.queryCollections(true); })
+            .catch(function (error) {
+            var description = !error.response
+                ? error
+                : errorMessage(error.response.status, error.response.statusText);
+            _this.addAlert(t(templateObject_31 || (templateObject_31 = __makeTemplateObject(["Changes to certification status for collection \"", " ", " v", "\" could not be saved."], ["Changes to certification status for collection \"", " ", " v", "\" could not be saved."])), version.namespace, version.name, version.version), 'danger', description);
+        })
+            .finally(function () { return _this.unsetUpdatingVersion(collection); });
+    };
+    // is collection *also* in the rejected repo (regardless of collection.repository)
+    // really a "wouldRejectionFail"
+    CertificationDashboard.prototype.isRejected = function (collection) {
+        return __awaiter(this, void 0, void 0, function () {
+            var repositories, _a, name, namespace, version;
+            return __generator(this, function (_b) {
+                repositories = this.state.repositories;
+                _a = collection.collection_version, name = _a.name, namespace = _a.namespace, version = _a.version;
+                return [2 /*return*/, CollectionVersionAPI.list({
+                        name: name,
+                        namespace: namespace,
+                        page: 1,
+                        page_size: 1,
+                        repository: parsePulpIDFromURL(repositories.rejected.pulp_href),
+                        version: version,
+                    })
+                        .then(function (result) { return !!result.data.meta.count; })
+                        .catch(function () { return false; })];
+            });
         });
     };
     CertificationDashboard.prototype.queryCollections = function (handleLoading) {
@@ -570,16 +492,11 @@ var CertificationDashboard = /** @class */ (function (_super) {
             }
         })
             .catch(function (error) {
-            _this.addAlert(t(templateObject_46 || (templateObject_46 = __makeTemplateObject(["Error loading collections."], ["Error loading collections."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
+            _this.addAlert(t(templateObject_32 || (templateObject_32 = __makeTemplateObject(["Error loading collections."], ["Error loading collections."]))), 'danger', error === null || error === void 0 ? void 0 : error.message);
             _this.setState({
                 loading: false,
                 updatingVersions: [],
             });
-        });
-    };
-    CertificationDashboard.prototype.download = function (repository, namespace, name, version) {
-        CollectionAPI.getDownloadURL(repository, namespace, name, version).then(function (downloadURL) {
-            window.location.assign(downloadURL);
         });
     };
     Object.defineProperty(CertificationDashboard.prototype, "updateParams", {
@@ -610,32 +527,9 @@ var CertificationDashboard = /** @class */ (function (_super) {
     CertificationDashboard.prototype.addAlertObj = function (alert) {
         this.addAlert(alert.title, alert.variant, alert.description);
     };
-    // compose from collectionVersionSearch to CollectionVersion structure for approval modal
-    CertificationDashboard.prototype.transformToCollectionVersion = function (collection) {
-        return __awaiter(this, void 0, void 0, function () {
-            var repoList, collection_version, id, collectionVersion;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, RepositoriesUtils.getCollectionRepoList(collection)];
-                    case 1:
-                        repoList = _a.sent();
-                        collection_version = collection.collection_version;
-                        id = parsePulpIDFromURL(collection_version.pulp_href);
-                        collectionVersion = {
-                            id: id,
-                            version: collection_version.version,
-                            namespace: collection_version.namespace,
-                            name: collection_version.name,
-                            repository_list: repoList,
-                        };
-                        return [2 /*return*/, collectionVersion];
-                }
-            });
-        });
-    };
     return CertificationDashboard;
 }(React.Component));
 export default withRouter(CertificationDashboard);
 CertificationDashboard.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32;
 //# sourceMappingURL=certification-dashboard.js.map

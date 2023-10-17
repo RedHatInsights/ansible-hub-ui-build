@@ -3,28 +3,14 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { t } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { AnsibleRemoteAPI, } from 'src/api';
 import { CopyURL, Details, LazyDistributions, PulpLabels, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { getRepoURL, parsePulpIDFromURL } from 'src/utilities';
+import { getRepoURL } from 'src/utilities';
 export var DetailsTab = function (_a) {
     var _b;
     var item = _a.item;
-    var _c = useState(null), remote = _c[0], setRemote = _c[1];
-    useEffect(function () {
-        var pk = item.remote && parsePulpIDFromURL(item.remote);
-        if (pk) {
-            AnsibleRemoteAPI.get(pk).then(function (_a) {
-                var data = _a.data;
-                return setRemote(data);
-            });
-        }
-        else {
-            setRemote(null);
-        }
-    }, [item.remote]);
     return (React.createElement(Details, { fields: [
             { label: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Repository name"], ["Repository name"]))), value: item === null || item === void 0 ? void 0 : item.name },
             { label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Description"], ["Description"]))), value: (item === null || item === void 0 ? void 0 : item.description) || t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["None"], ["None"]))) },
@@ -50,7 +36,9 @@ export var DetailsTab = function (_a) {
             },
             {
                 label: t(templateObject_12 || (templateObject_12 = __makeTemplateObject(["Remote"], ["Remote"]))),
-                value: remote ? (React.createElement(Link, { to: formatPath(Paths.ansibleRemoteDetail, { name: remote.name }) }, remote.name)) : (t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["None"], ["None"])))),
+                value: (item === null || item === void 0 ? void 0 : item.remote) ? (React.createElement(Link, { to: formatPath(Paths.ansibleRemoteDetail, {
+                        name: item === null || item === void 0 ? void 0 : item.remote.name,
+                    }) }, item === null || item === void 0 ? void 0 : item.remote.name)) : (t(templateObject_13 || (templateObject_13 = __makeTemplateObject(["None"], ["None"])))),
             },
         ] }));
 };

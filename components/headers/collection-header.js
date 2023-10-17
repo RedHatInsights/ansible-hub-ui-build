@@ -75,33 +75,31 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, Button, DropdownItem, Flex, FlexItem, List, ListItem, Modal, Select, SelectOption, SelectVariant, Spinner, Text, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import * as moment from 'moment';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CertificateUploadAPI, CollectionAPI, CollectionVersionAPI, MyNamespaceAPI, NamespaceAPI, SignCollectionAPI, } from 'src/api';
-import { AlertList, BaseHeader, Breadcrumbs, CopyCollectionToRepositoryModal, DeleteCollectionModal, DownloadCount, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, Breadcrumbs, CollectionRatings, CopyCollectionToRepositoryModal, DeleteCollectionModal, DownloadCount, ImportModal, LinkTabs, Logo, Pagination, RepoSelector, SignAllCertificatesModal, SignSingleCertificateModal, StatefulDropdown, UploadSingCertificateModal, closeAlertMixin, } from 'src/components';
 import { Constants } from 'src/constants';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { DeleteCollectionUtils, ParamHelper, RepositoriesUtils, canSignNamespace, errorMessage, parsePulpIDFromURL, waitForTask, } from 'src/utilities';
+import { DeleteCollectionUtils, ParamHelper, canSignNamespace, errorMessage, namespaceTitle, parsePulpIDFromURL, repositoryRemoveCollection, waitForTask, } from 'src/utilities';
 import { DateComponent } from '../date-component/date-component';
 import { SignatureBadge } from '../signing';
-import './header.scss';
-export var CollectionHeader = /** @class */ (function (_super) {
+var CollectionHeader = /** @class */ (function (_super) {
     __extends(CollectionHeader, _super);
     function CollectionHeader(props) {
         var _this = _super.call(this, props) || this;
         _this.ignoreParams = ['showing', 'keywords'];
         _this.updatePaginationParams = function (_a) {
-            var _b;
             var page = _a.page, page_size = _a.page_size;
             var modalPagination = {
                 page: page,
                 page_size: page_size,
             };
             _this.setState({ modalPagination: modalPagination, modalCollections: null });
-            var namespace = (_b = _this.props.collection.collection_version, _b.namespace), name = _b.name;
+            var _b = _this.props.collection.collection_version, namespace = _b.namespace, name = _b.name;
             var repository = _this.props.collection.repository;
             var requestParams = __assign(__assign({}, (repository ? { repository_name: repository.name } : {})), { namespace: namespace, name: name });
             // loadCollections provides initial data, pagination needs extra requests
@@ -117,8 +115,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.signCollection = function () {
-            var _a;
-            var namespace = (_a = _this.props.collection.collection_version, _a.namespace), name = _a.name;
+            var _a = _this.props.collection.collection_version, namespace = _a.namespace, name = _a.name;
             var errorAlert = function (status) {
                 if (status === void 0) { status = 500; }
                 return ({
@@ -167,8 +164,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
             });
         };
         _this.signVersion = function () {
-            var _a;
-            var name = (_a = _this.props.collection.collection_version, _a.name), version = _a.version, namespace = _a.namespace;
+            var _a = _this.props.collection.collection_version, name = _a.name, version = _a.version, namespace = _a.namespace;
             var errorAlert = function (status) {
                 if (status === void 0) { status = 500; }
                 return ({
@@ -226,7 +222,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
                 promise = CollectionAPI.deleteCollectionVersion(deleteCollection);
             }
             else {
-                promise = promise = RepositoriesUtils.deleteCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
+                promise = repositoryRemoveCollection(deleteCollection.repository.name, deleteCollection.collection_version.pulp_href);
             }
             var name = deleteCollection.collection_version.name;
             promise
@@ -280,8 +276,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
                 }
             })
                 .catch(function (err) {
-                var _a, _b;
-                var detail = (_a = err.response, _b = _a.data, _b.detail), dependent_collection_versions = _b.dependent_collection_versions, status = _a.status, statusText = _a.statusText;
+                var _a = err.response, _b = _a.data, detail = _b.detail, dependent_collection_versions = _b.dependent_collection_versions, status = _a.status, statusText = _a.statusText;
                 if (status === 400) {
                     var dependencies = (React.createElement(React.Fragment, null,
                         React.createElement(Trans, null, "Dependent collections"),
@@ -365,10 +360,9 @@ export var CollectionHeader = /** @class */ (function (_super) {
         }
     };
     CollectionHeader.prototype.render = function () {
-        var _a, _b, _c;
         var _this = this;
-        var activeTab = (_a = this.props, _a.activeTab), actuallyCollection = _a.actuallyCollection, breadcrumbs = _a.breadcrumbs, className = _a.className, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params, updateParams = _a.updateParams;
-        var modalCollections = (_b = this.state, _b.modalCollections), modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection, copyCollectionToRepositoryModal = _b.copyCollectionToRepositoryModal;
+        var _a = this.props, activeTab = _a.activeTab, actuallyCollection = _a.actuallyCollection, breadcrumbs = _a.breadcrumbs, className = _a.className, collection = _a.collection, collections = _a.collections, collectionsCount = _a.collectionsCount, content = _a.content, params = _a.params, updateParams = _a.updateParams;
+        var _b = this.state, modalCollections = _b.modalCollections, modalPagination = _b.modalPagination, isOpenVersionsModal = _b.isOpenVersionsModal, isOpenVersionsSelect = _b.isOpenVersionsSelect, redirect = _b.redirect, noDependencies = _b.noDependencies, collectionVersion = _b.collectionVersion, deleteCollection = _b.deleteCollection, confirmDelete = _b.confirmDelete, isDeletionPending = _b.isDeletionPending, showImportModal = _b.showImportModal, updateCollection = _b.updateCollection, copyCollectionToRepositoryModal = _b.copyCollectionToRepositoryModal;
         var urlKeys = [
             { key: 'documentation', name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Docs site"], ["Docs site"]))) },
             { key: 'homepage', name: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Website"], ["Website"]))) },
@@ -376,7 +370,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
             { key: 'origin_repository', name: t(templateObject_11 || (templateObject_11 = __makeTemplateObject(["Repo"], ["Repo"]))) },
         ];
         var latestVersion = collection.collection_version.pulp_created;
-        var display_signatures = (_c = this.context.featureFlags, _c.display_signatures), can_upload_signatures = _c.can_upload_signatures, display_repositories = _c.display_repositories;
+        var _c = this.context.featureFlags, display_signatures = _c.display_signatures, can_upload_signatures = _c.can_upload_signatures, display_repositories = _c.display_repositories, ai_deny_index = _c.ai_deny_index;
         var signedString = function () {
             if (!display_signatures) {
                 return '';
@@ -389,29 +383,37 @@ export var CollectionHeader = /** @class */ (function (_super) {
         };
         var collection_version = collection.collection_version, namespace = collection.namespace_metadata;
         var collectionName = collection_version.name, version = collection_version.version;
-        var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
+        var nsTitle = namespaceTitle(namespace || { name: collection_version.namespace });
         if (redirect) {
             return React.createElement(Navigate, { to: redirect });
         }
         var canSign = canSignNamespace(this.context, this.state.namespace);
         var hasPermission = this.context.hasPermission;
+        var hasObjectPermission = function (permission, namespace) { var _a, _b, _c; return (_c = (_b = (_a = namespace === null || namespace === void 0 ? void 0 : namespace.related_fields) === null || _a === void 0 ? void 0 : _a.my_permissions) === null || _b === void 0 ? void 0 : _b.includes) === null || _c === void 0 ? void 0 : _c.call(_b, permission); };
+        var canDeleteCommunityCollection = ai_deny_index &&
+            hasObjectPermission('galaxy.change_namespace', this.state.namespace);
         var dropdownItems = [
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: noDependencies,
                 onClick: function () { return _this.openDeleteModalWithConfirm(null, true); },
                 deleteAll: true,
                 display_repositories: display_repositories,
             }),
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: noDependencies,
                 onClick: function () { return _this.openDeleteModalWithConfirm(null, false); },
                 deleteAll: false,
                 display_repositories: display_repositories,
             }),
-            hasPermission('ansible.delete_collection') && (React.createElement(DropdownItem, { "data-cy": 'delete-collection-version', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
-            hasPermission('ansible.delete_collection') && display_repositories && (React.createElement(DropdownItem, { "data-cy": 'remove-collection-version', key: 'remove-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
+            (hasPermission('ansible.delete_collection') ||
+                canDeleteCommunityCollection) && (React.createElement(DropdownItem, { "data-cy": 'delete-collection-version', key: 'delete-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, true); } }, t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["Delete version ", " from system"], ["Delete version ", " from system"])), version))),
+            (hasPermission('ansible.delete_collection') ||
+                canDeleteCommunityCollection) &&
+                display_repositories && (React.createElement(DropdownItem, { "data-cy": 'remove-collection-version', key: 'remove-collection-version', onClick: function () { return _this.openDeleteModalWithConfirm(version, false); } }, t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Delete version ", " from repository"], ["Delete version ", " from repository"])), version))),
             canSign && !can_upload_signatures && (React.createElement(DropdownItem, { key: 'sign-all', "data-cy": 'sign-collection-button', onClick: function () { return _this.setState({ isOpenSignAllModal: true }); } }, t(templateObject_17 || (templateObject_17 = __makeTemplateObject(["Sign entire collection"], ["Sign entire collection"]))))),
             canSign && (React.createElement(DropdownItem, { key: 'sign-version', onClick: function () {
                     if (can_upload_signatures) {
@@ -482,13 +484,10 @@ export var CollectionHeader = /** @class */ (function (_super) {
                             });
                     });
                 }, deleteFromRepo: deleteFromRepo }),
-            copyCollectionToRepositoryModal && (React.createElement(CopyCollectionToRepositoryModal, { collection: collection, closeAction: function () {
-                    _this.setState({ copyCollectionToRepositoryModal: null });
-                }, addAlert: function (alert) {
-                    _this.addAlert(alert);
-                    _this.setState({ copyCollectionToRepositoryModal: null });
-                } })),
-            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
+            copyCollectionToRepositoryModal && (React.createElement(CopyCollectionToRepositoryModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () {
+                    return _this.setState({ copyCollectionToRepositoryModal: null });
+                }, collectionVersion: collection })),
+            React.createElement(BaseHeader, { className: className, title: collection_version.name, logo: (namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url) && (React.createElement(Logo, { alt: t(templateObject_26 || (templateObject_26 = __makeTemplateObject(["", " logo"], ["", " logo"])), nsTitle), className: 'image', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true })), contextSelector: React.createElement(RepoSelector, { selectedRepo: collection.repository.name }), breadcrumbs: React.createElement(Breadcrumbs, { links: breadcrumbs }), versionControl: React.createElement("div", { className: 'column-section' },
                     React.createElement("div", { className: 'install-version-column' },
                         React.createElement("span", null, t(templateObject_27 || (templateObject_27 = __makeTemplateObject(["Version"], ["Version"])))),
                         React.createElement("div", { className: 'install-version-dropdown' },
@@ -521,6 +520,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
                                 React.createElement(DateComponent, { date: latestVersion })))) : null,
                         display_signatures ? (React.createElement(SignatureBadge, { isCompact: true, signState: collection.is_signed ? 'signed' : 'unsigned' })) : null),
                     React.createElement("div", { style: { alignSelf: 'center' } },
+                        React.createElement(CollectionRatings, { namespace: collection_version.namespace, name: collection_version.name }),
                         React.createElement(DownloadCount, { item: actuallyCollection }))), pageControls: React.createElement(Flex, null,
                     DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE ? (React.createElement(FlexItem, null,
                         React.createElement("a", { href: issueUrl, target: '_blank', rel: 'noreferrer' }, t(templateObject_30 || (templateObject_30 = __makeTemplateObject(["Create issue"], ["Create issue"])))),
@@ -575,8 +575,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
         });
     };
     CollectionHeader.prototype.renderTabs = function (active) {
-        var _a;
-        var params = (_a = this.props, _a.params), collection = _a.collection;
+        var _a = this.props, params = _a.params, collection = _a.collection;
         var pathParams = {
             namespace: collection.collection_version.namespace,
             collection: collection.collection_version.name,
@@ -619,11 +618,10 @@ export var CollectionHeader = /** @class */ (function (_super) {
     };
     CollectionHeader.prototype.submitCertificate = function (file) {
         return __awaiter(this, void 0, void 0, function () {
-            var version, repository, signed_collection;
-            var _a;
+            var _a, version, repository, signed_collection;
             var _this = this;
             return __generator(this, function (_b) {
-                version = (_a = this.state.versionToUploadCertificate, _a.collection_version), repository = _a.repository;
+                _a = this.state.versionToUploadCertificate, version = _a.collection_version, repository = _a.repository;
                 signed_collection = this.props.collection.collection_version.pulp_href;
                 this.setState({
                     alerts: this.state.alerts.concat({
@@ -702,8 +700,7 @@ export var CollectionHeader = /** @class */ (function (_super) {
             });
         })
             .catch(function (err) {
-            var _a;
-            var status = (_a = err.response, _a.status), statusText = _a.statusText;
+            var _a = err.response, status = _a.status, statusText = _a.statusText;
             _this.setState({
                 collectionVersion: null,
                 alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
@@ -753,5 +750,6 @@ export var CollectionHeader = /** @class */ (function (_super) {
     CollectionHeader.contextType = AppContext;
     return CollectionHeader;
 }(React.Component));
+export { CollectionHeader };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45;
 //# sourceMappingURL=collection-header.js.map

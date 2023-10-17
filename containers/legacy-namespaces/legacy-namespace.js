@@ -42,10 +42,10 @@ import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRo
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyNamespaceAPI, LegacyRoleAPI, } from 'src/api';
-import { AlertList, BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
+import { AlertList, BaseHeader, EmptyStateNoData, LegacyRoleListItem, LoadingPageSpinner, Logo, Pagination, ProviderLink, StatefulDropdown, WisdomModal, closeAlertMixin, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { withRouter } from 'src/utilities';
+import { getProviderInfo, withRouter } from 'src/utilities';
 import './legacy-namespace.scss';
 var LegacyNamespaceRoles = /** @class */ (function (_super) {
     __extends(LegacyNamespaceRoles, _super);
@@ -170,10 +170,12 @@ var LegacyNamespace = /** @class */ (function (_super) {
         var namespace_url = formatPath(Paths.legacyNamespace, {
             namespaceid: this.state.namespace.id,
         });
+        var provider = getProviderInfo(this.state.namespace);
         if (this.state.namespace !== undefined) {
             infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns-logo' },
                 React.createElement(Logo, { alt: 'avatar url', fallbackToDefault: true, image: this.state.namespace.avatar_url, size: '90px', unlockWidth: true, width: '90px' }),
-                React.createElement(Link, { to: namespace_url }, this.state.namespace.name)));
+                React.createElement(Link, { to: namespace_url }, this.state.namespace.name),
+                React.createElement(ProviderLink, __assign({}, provider))));
             infocells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns-name' },
                 React.createElement(BaseHeader, { title: this.state.namespace.name })));
             var summary_fields = this.state.namespace.summary_fields;
@@ -192,7 +194,7 @@ var LegacyNamespace = /** @class */ (function (_super) {
         return (React.createElement(React.Fragment, null,
             this.state.isOpenWisdomModal && (React.createElement(WisdomModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () { return _this.setState({ isOpenWisdomModal: false }); }, scope: 'legacy_namespace', reference: this.state.namespace.name })),
             React.createElement(AlertList, { alerts: this.state.alerts, closeAlert: function (i) { return _this.closeAlert(i); } }),
-            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Namespace Header"], ["Namespace Header"]))), className: 'hub-legacy-namespace-page' },
+            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Role namespace header"], ["Role namespace header"]))), className: 'hub-legacy-namespace-page' },
                 React.createElement(DataListItem, { "data-cy": 'LegacyNamespace' },
                     React.createElement(DataListItemRow, null,
                         React.createElement(DataListItemCells, { dataListCells: infocells })))),

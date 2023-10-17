@@ -30,7 +30,10 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import { SortAlphaDownIcon, SortAlphaUpIcon, SortAmountDownIcon, SortAmountUpIcon, } from '@patternfly/react-icons';
+import SortAlphaDownIcon from '@patternfly/react-icons/dist/esm/icons/sort-alpha-down-icon';
+import SortAlphaUpIcon from '@patternfly/react-icons/dist/esm/icons/sort-alpha-up-icon';
+import SortAmountDownIcon from '@patternfly/react-icons/dist/esm/icons/sort-amount-down-icon';
+import SortAmountUpIcon from '@patternfly/react-icons/dist/esm/icons/sort-amount-up-icon';
 import React from 'react';
 import { ParamHelper } from 'src/utilities';
 import './sort.scss';
@@ -39,7 +42,7 @@ var SortFieldType = /** @class */ (function () {
     }
     return SortFieldType;
 }());
-export var Sort = /** @class */ (function (_super) {
+var Sort = /** @class */ (function (_super) {
     __extends(Sort, _super);
     function Sort(props) {
         var _this = _super.call(this, props) || this;
@@ -94,9 +97,8 @@ export var Sort = /** @class */ (function (_super) {
         return option ? option : def;
     };
     Sort.prototype.render = function () {
-        var _a;
         var _this = this;
-        var options = (_a = this.props, _a.options), params = _a.params;
+        var _a = this.props, options = _a.options, params = _a.params;
         var isExpanded = this.state.isExpanded;
         var selectedOption = this.getSelected(params);
         var IconDesc;
@@ -118,5 +120,6 @@ export var Sort = /** @class */ (function (_super) {
     };
     return Sort;
 }(React.Component));
+export { Sort };
 var templateObject_1;
 //# sourceMappingURL=sort.js.map

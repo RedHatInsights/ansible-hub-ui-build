@@ -13,7 +13,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, ButtonVariant, ExpandableSection, Modal, Spinner, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React, { useEffect, useState } from 'react';
 import { WisdomDenyIndexAPI } from 'src/api';
 import { AlertList, closeAlert } from 'src/components';

@@ -24,7 +24,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, ClipboardCopyButton, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, List, ListItem, Modal, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, TagIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
+import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import React, { useEffect, useState } from 'react';
 import { ControllerAPI, ExecutionEnvironmentAPI } from 'src/api';
 import { APISearchTypeAhead, AlertList, AppliedFilters, CompoundFilter, EmptyStateFilter, EmptyStateNoData, LoadingPageSpinner, Pagination, ShaLabel, closeAlert, } from 'src/components';

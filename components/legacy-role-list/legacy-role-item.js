@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -29,78 +14,51 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { Trans, t } from '@lingui/macro';
-import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Text, TextContent, TextVariants, } from '@patternfly/react-core';
+import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, } from '@patternfly/react-core';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DateComponent, DownloadCount, Logo, Tag } from 'src/components';
+import { DateComponent, DownloadCount, Logo, ProviderLink, RoleRatings, Tag, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
-import { chipGroupProps } from 'src/utilities';
+import { chipGroupProps, getProviderInfo } from 'src/utilities';
 import './legacy-role-item.scss';
-var LegacyRoleListItem = /** @class */ (function (_super) {
-    __extends(LegacyRoleListItem, _super);
-    function LegacyRoleListItem() {
-        return _super !== null && _super.apply(this, arguments) || this;
+export function LegacyRoleListItem(_a) {
+    var role = _a.role, show_thumbnail = _a.show_thumbnail;
+    var description = role.description, github_user = role.github_user, modified = role.modified, name = role.name, _b = role.summary_fields, namespace = _b.namespace, versions = _b.versions, tags = _b.tags;
+    var latest = versions[0];
+    var role_url = formatPath(Paths.legacyRole, {
+        username: github_user,
+        name: name,
+    });
+    var release_date = (latest === null || latest === void 0 ? void 0 : latest.release_date) || modified;
+    var release_name = (latest === null || latest === void 0 ? void 0 : latest.name) || '';
+    var provider = getProviderInfo(role);
+    var cells = [];
+    if (show_thumbnail !== false) {
+        cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
+            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), github_user), image: namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
     }
-    LegacyRoleListItem.prototype.render = function () {
-        var _a = this.props, role = _a.role, show_thumbnail = _a.show_thumbnail;
-        var namespace = role.summary_fields.namespace;
-        var role_url = formatPath(Paths.legacyRole, {
-            username: role.github_user,
-            name: role.name,
-        });
-        var namespace_url = formatPath(Paths.legacyNamespace, {
-            namespaceid: namespace.id,
-        });
-        var release_date = null;
-        var release_name = null;
-        var lv = role.summary_fields.versions[0];
-        if (lv !== undefined && lv !== null) {
-            release_date = lv.release_date;
-            release_name = lv.name;
-        }
-        if (release_date === undefined ||
-            release_date === null ||
-            release_date === '') {
-            release_date = role.modified;
-        }
-        if (release_name === undefined ||
-            release_name === null ||
-            release_name === '') {
-            release_name = '';
-        }
-        var cells = [];
-        if (show_thumbnail !== false) {
-            cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-                React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' })));
-        }
-        cells.push(React.createElement(DataListCell, { key: 'content' },
-            React.createElement("div", null,
-                React.createElement(Link, { to: role_url },
-                    namespace.name,
-                    ".",
-                    role.name),
-                React.createElement(TextContent, null,
-                    React.createElement(Text, { component: TextVariants.small },
-                        React.createElement(Trans, null,
-                            "Provided by ",
-                            React.createElement(Link, { to: namespace_url }, namespace.name))))),
-            React.createElement("div", { className: 'hub-entry' }, role.description),
-            React.createElement("div", { className: 'hub-entry' },
-                React.createElement(LabelGroup, __assign({}, chipGroupProps()), role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
-        cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
-            React.createElement("div", { className: 'hub-right-col hub-entry' },
-                React.createElement(Trans, null,
-                    "Updated ",
-                    React.createElement(DateComponent, { date: release_date }))),
-            React.createElement("div", { className: 'hub-entry' }, release_name),
-            React.createElement("div", { className: 'hub-entry' },
-                React.createElement(DownloadCount, { item: role }))));
-        return (React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
-            React.createElement(DataListItemRow, null,
-                React.createElement(DataListItemCells, { dataListCells: cells }))));
-    };
-    return LegacyRoleListItem;
-}(React.Component));
-export { LegacyRoleListItem };
+    cells.push(React.createElement(DataListCell, { key: 'content' },
+        React.createElement("div", null,
+            React.createElement(Link, { to: role_url },
+                namespace.name,
+                ".",
+                name),
+            React.createElement(ProviderLink, __assign({}, provider))),
+        React.createElement("div", { className: 'hub-entry' }, description),
+        React.createElement("div", { className: 'hub-entry' },
+            React.createElement(LabelGroup, __assign({}, chipGroupProps()), tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
+    cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'stats' },
+        React.createElement("div", { className: 'hub-right-col hub-entry' },
+            React.createElement(Trans, null,
+                "Updated ",
+                React.createElement(DateComponent, { date: release_date }))),
+        React.createElement("div", { className: 'hub-entry' }, release_name),
+        React.createElement("div", { className: 'hub-entry' },
+            React.createElement(RoleRatings, { namespace: namespace.name, name: name }),
+            React.createElement(DownloadCount, { item: role }))));
+    return (React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
+        React.createElement(DataListItemRow, null,
+            React.createElement(DataListItemCells, { dataListCells: cells }))));
+}
 var templateObject_1;
 //# sourceMappingURL=legacy-role-item.js.map

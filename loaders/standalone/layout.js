@@ -3,11 +3,11 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { Trans, t } from '@lingui/macro';
-import { DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, QuestionCircleIcon, } from '@patternfly/react-icons';
+import { Banner, DropdownItem, DropdownSeparator, Page, PageHeader, PageHeaderTools, PageSidebar, } from '@patternfly/react-core';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
+import QuestionCircleIcon from '@patternfly/react-icons/dist/esm/icons/question-circle-icon';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from 'src/../static/images/logo_large.svg';
 import { ActiveUserAPI, } from 'src/api';
 import { AboutModalWindow, LoginLink, SmallLogo, StatefulDropdown, } from 'src/components';
 import { Paths, formatPath } from 'src/paths';
@@ -21,12 +21,9 @@ export var StandaloneLayout = function (_a) {
     var userDropdownItems = [];
     var userName;
     if (user) {
-        if (user.first_name || user.last_name) {
-            userName = user.first_name + ' ' + user.last_name;
-        }
-        else {
-            userName = user.username;
-        }
+        userName =
+            [user.first_name, user.last_name].filter(Boolean).join(' ') ||
+                user.username;
         userDropdownItems = [
             React.createElement(DropdownItem, { isDisabled: true, key: 'username' },
                 React.createElement(Trans, null,
@@ -34,7 +31,11 @@ export var StandaloneLayout = function (_a) {
                     user.username)),
             React.createElement(DropdownSeparator, { key: 'separator' }),
             React.createElement(DropdownItem, { key: 'profile', component: React.createElement(Link, { to: formatPath(Paths.userProfileSettings) }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["My profile"], ["My profile"])))) }),
-            React.createElement(DropdownItem, { key: 'logout', "aria-label": 'logout', onClick: function () { return ActiveUserAPI.logout().then(function () { return setUser(null); }); } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Logout"], ["Logout"])))),
+            React.createElement(DropdownItem, { key: 'logout', "aria-label": 'logout', onClick: function () {
+                    return ActiveUserAPI.logout()
+                        .then(function () { return ActiveUserAPI.getUser().catch(function () { return null; }); })
+                        .then(function (user) { return setUser(user); });
+                } }, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Logout"], ["Logout"])))),
         ];
         docsDropdownItems = [
             React.createElement(DropdownItem, { key: 'customer_support', href: 'https://access.redhat.com/support', target: '_blank' },
@@ -47,7 +48,7 @@ export var StandaloneLayout = function (_a) {
                     React.createElement(ExternalLinkAltIcon, null))),
             React.createElement(DropdownItem, { key: 'about', onClick: function () { return setAboutModalVisible(true); } }, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["About"], ["About"])))),
         ];
-        aboutModal = (React.createElement(AboutModalWindow, { isOpen: aboutModalVisible, trademark: '', brandImageSrc: Logo, onClose: function () { return setAboutModalVisible(false); }, brandImageAlt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Galaxy Logo"], ["Galaxy Logo"]))), productName: APPLICATION_NAME, user: user, userName: userName }));
+        aboutModal = (React.createElement(AboutModalWindow, { isOpen: aboutModalVisible, onClose: function () { return setAboutModalVisible(false); }, user: user, userName: userName }));
     }
     var Header = (React.createElement(PageHeader, { logo: React.createElement(SmallLogo, { alt: APPLICATION_NAME }), logoComponent: function (_a) {
             var children = _a.children;
@@ -57,8 +58,14 @@ export var StandaloneLayout = function (_a) {
             React.createElement(StatefulDropdown, { ariaLabel: 'user-dropdown', defaultText: userName, items: userDropdownItems, toggleType: 'dropdown' })))), showNavToggle: true }));
     var Sidebar = (React.createElement(PageSidebar, { theme: 'dark', nav: React.createElement(StandaloneMenu, { context: { user: user, settings: settings, featureFlags: featureFlags, hasPermission: hasPermission } }) }));
     return (React.createElement(Page, { isManagedSidebar: true, header: Header, sidebar: Sidebar },
+        (featureFlags === null || featureFlags === void 0 ? void 0 : featureFlags.ai_deny_index) ? (React.createElement(Banner, null,
+            React.createElement(Trans, null,
+                "Thanks for trying out the new and improved Galaxy, please share your feedback on",
+                ' ',
+                React.createElement("a", { href: 'https://forum.ansible.com/', target: '_blank', rel: 'noreferrer' }, "forum.ansible.com"),
+                "."))) : null,
         children,
         aboutModalVisible && aboutModal));
 };
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3;
 //# sourceMappingURL=layout.js.map

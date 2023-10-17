@@ -148,8 +148,8 @@ var Search = /** @class */ (function (_super) {
                 }, 
                 // onCancel
                 setOpen: function (isOpen, warn) { return _this.toggleImportModal(isOpen, warn); }, collection: updateCollection.collection_version, namespace: updateCollection.collection_version.namespace })),
-            React.createElement(BaseHeader, { className: 'header', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }, !noData && (React.createElement("div", { className: 'hub-toolbar-wrapper' },
-                React.createElement("div", { className: 'toolbar' },
+            React.createElement(BaseHeader, { className: 'hub-header-bordered', title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Collections"], ["Collections"]))) }, !noData && (React.createElement("div", null,
+                React.createElement("div", { className: 'hub-toolbar hub-toolbar-left' },
                     React.createElement(CollectionFilter, { ignoredParams: ['page', 'page_size', 'sort', 'view_type'], params: params, updateParams: updateParams }),
                     React.createElement("div", { className: 'hub-pagination-container' },
                         React.createElement("div", { className: 'card-list-switcher' },
@@ -239,10 +239,14 @@ var Search = /** @class */ (function (_super) {
     Search.prototype.renderMenu = function (list, collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
-        var display_repositories = this.context.featureFlags.display_repositories;
+        var hasObjectPermission = function (permission, namespace) { var _a, _b, _c; return (_c = (_b = (_a = namespace === null || namespace === void 0 ? void 0 : namespace.related_fields) === null || _a === void 0 ? void 0 : _a.my_permissions) === null || _b === void 0 ? void 0 : _b.includes) === null || _c === void 0 ? void 0 : _c.call(_b, permission); };
+        var _a = this.context.featureFlags, display_repositories = _a.display_repositories, ai_deny_index = _a.ai_deny_index;
+        var canDeleteCommunityCollection = ai_deny_index &&
+            hasObjectPermission('galaxy.change_namespace', collection.collection_version.namespace);
         var menuItems = [
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: null,
                 onClick: function () {
                     return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
@@ -256,7 +260,8 @@ var Search = /** @class */ (function (_super) {
                 display_repositories: display_repositories,
             }),
             DeleteCollectionUtils.deleteMenuOption({
-                canDeleteCollection: hasPermission('ansible.delete_collection'),
+                canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                    canDeleteCommunityCollection,
                 noDependencies: null,
                 onClick: function () {
                     return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({

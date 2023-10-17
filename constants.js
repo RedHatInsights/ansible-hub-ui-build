@@ -3,7 +3,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import { msg } from '@lingui/macro';
-export var Constants = /** @class */ (function () {
+var Constants = /** @class */ (function () {
     function Constants() {
     }
     Constants.SEARCH_VIEW_TYPE_LOCAL_KEY = 'search_view_type';
@@ -16,9 +16,6 @@ export var Constants = /** @class */ (function () {
     Constants.CERTIFIED_REPO = DEPLOYMENT_MODE === Constants.INSIGHTS_DEPLOYMENT_MODE
         ? 'published'
         : 'rh-certified';
-    Constants.NOTCERTIFIED = 'rejected';
-    Constants.NEEDSREVIEW = 'staging';
-    Constants.APPROVED = 'approved';
     Constants.USER_GROUP_MGMT_PERMISSIONS = [
         'galaxy.delete_user',
         'galaxy.add_user',
@@ -106,5 +103,6 @@ export var Constants = /** @class */ (function () {
     };
     return Constants;
 }());
+export { Constants };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17, templateObject_18, templateObject_19, templateObject_20, templateObject_21, templateObject_22, templateObject_23, templateObject_24, templateObject_25, templateObject_26, templateObject_27, templateObject_28, templateObject_29, templateObject_30, templateObject_31, templateObject_32, templateObject_33, templateObject_34, templateObject_35, templateObject_36, templateObject_37, templateObject_38, templateObject_39, templateObject_40, templateObject_41, templateObject_42, templateObject_43, templateObject_44, templateObject_45, templateObject_46, templateObject_47, templateObject_48, templateObject_49, templateObject_50;
 //# sourceMappingURL=constants.js.map

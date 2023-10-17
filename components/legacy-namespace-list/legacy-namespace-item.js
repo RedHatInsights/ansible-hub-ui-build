@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -22,46 +7,34 @@ import { DataListCell, DataListItem, DataListItemCells, DataListItemRow, Dropdow
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo, StatefulDropdown } from 'src/components';
-import { AppContext } from 'src/loaders/app-context';
+import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import './legacy-namespace-item.scss';
-var LegacyNamespaceListItem = /** @class */ (function (_super) {
-    __extends(LegacyNamespaceListItem, _super);
-    function LegacyNamespaceListItem() {
-        return _super !== null && _super.apply(this, arguments) || this;
+export function LegacyNamespaceListItem(_a) {
+    var namespace = _a.namespace, openModal = _a.openModal;
+    var _b = useContext(), ai_deny_index = _b.featureFlags.ai_deny_index, _c = _b.user, username = _c.username, is_superuser = _c.is_superuser;
+    var id = namespace.id, avatar_url = namespace.avatar_url, name = namespace.name, summary_fields = namespace.summary_fields;
+    var namespace_url = formatPath(Paths.legacyNamespace, {
+        namespaceid: id,
+    });
+    var cells = [];
+    cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
+        React.createElement(Logo, { alt: 'logo', fallbackToDefault: true, image: avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
+    cells.push(React.createElement(DataListCell, { key: 'content', size: 10 },
+        React.createElement("div", null,
+            React.createElement(Link, { to: namespace_url }, name))));
+    var userOwnsLegacyNamespace = !!summary_fields.owners.find(function (n) { return n.username == username; });
+    var showWisdom = ai_deny_index && (is_superuser || userOwnsLegacyNamespace);
+    var dropdownItems = [];
+    dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return openModal(namespace); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"])))));
+    if (showWisdom && openModal) {
+        cells.push(React.createElement(DataListCell, { key: 'menu', alignRight: true },
+            React.createElement("div", { style: { float: 'right' } },
+                React.createElement(StatefulDropdown, { items: dropdownItems }))));
     }
-    LegacyNamespaceListItem.prototype.render = function () {
-        var _this = this;
-        var _a;
-        var namespace = this.props.namespace;
-        var namespace_url = formatPath(Paths.legacyNamespace, {
-            namespaceid: namespace.id,
-        });
-        var cells = [];
-        cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
-            React.createElement(Logo, { alt: 'logo', fallbackToDefault: true, image: namespace.avatar_url, size: '40px', unlockWidth: true, width: '97px' })));
-        cells.push(React.createElement(DataListCell, { key: 'content', size: 10 },
-            React.createElement("div", null,
-                React.createElement(Link, { to: namespace_url }, namespace.name))));
-        var ai_deny_index = this.context.featureFlags.ai_deny_index;
-        var summary_fields = namespace.summary_fields;
-        var userOwnsLegacyNamespace = (_a = summary_fields === null || summary_fields === void 0 ? void 0 : summary_fields.owners) === null || _a === void 0 ? void 0 : _a.filter(function (n) { return n.username == _this.context.user.username; }).length;
-        var showWisdom = ai_deny_index &&
-            (this.context.user.is_superuser || userOwnsLegacyNamespace);
-        var dropdownItems = [];
-        dropdownItems.push(React.createElement(DropdownItem, { onClick: function () { return _this.props.openModal(namespace); } }, t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Ansible Lightspeed settings"], ["Ansible Lightspeed settings"])))));
-        if (showWisdom) {
-            cells.push(React.createElement(DataListCell, { key: 'menu', alignRight: true },
-                React.createElement("div", { style: { float: 'right' } },
-                    React.createElement(StatefulDropdown, { items: dropdownItems }))));
-        }
-        return (React.createElement(DataListItem, { "data-cy": 'LegacyNamespaceListItem' },
-            React.createElement(DataListItemRow, null,
-                React.createElement(DataListItemCells, { dataListCells: cells }))));
-    };
-    return LegacyNamespaceListItem;
-}(React.Component));
-export { LegacyNamespaceListItem };
-LegacyNamespaceListItem.contextType = AppContext;
+    return (React.createElement(DataListItem, { "data-cy": 'LegacyNamespaceListItem' },
+        React.createElement(DataListItemRow, null,
+            React.createElement(DataListItemCells, { dataListCells: cells }))));
+}
 var templateObject_1;
 //# sourceMappingURL=legacy-namespace-item.js.map

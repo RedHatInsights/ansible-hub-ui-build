@@ -188,7 +188,7 @@ export var ListPage = function (_a) {
                     React.createElement(BaseHeader, { title: i18n._(title) }), renderModals === null || renderModals === void 0 ? void 0 :
                     renderModals(actionContext),
                     unauthorised ? (React.createElement(EmptyStateUnauthorized, null)) : noData && !loading ? (React.createElement(EmptyStateNoData, { button: React.createElement(React.Fragment, null, noDataButton === null || noDataButton === void 0 ? void 0 : noDataButton(null, actionContext)), description: i18n._(noDataDescription), title: i18n._(noDataTitle) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body', "data-cy": "ListPage-".concat(displayName) },
-                        React.createElement("div", { className: 'hub-list-toolbar' },
+                        React.createElement("div", { className: 'hub-toolbar' },
                             React.createElement(Toolbar, null,
                                 React.createElement(ToolbarContent, null,
                                     React.createElement(ToolbarGroup, null,

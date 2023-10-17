@@ -30,21 +30,21 @@ var __assign = (this && this.__assign) || function () {
 };
 import { t } from '@lingui/macro';
 import { Form, FormGroup, TextArea, TextInput } from '@patternfly/react-core';
-import { PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
+import PlusCircleIcon from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
+import TrashIcon from '@patternfly/react-icons/dist/esm/icons/trash-icon';
 import React from 'react';
 import { NamespaceCard } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { validateURLHelper } from 'src/utilities';
 import './namespace-form.scss';
-export var NamespaceForm = /** @class */ (function (_super) {
+var NamespaceForm = /** @class */ (function (_super) {
     __extends(NamespaceForm, _super);
     function NamespaceForm() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NamespaceForm.prototype.render = function () {
-        var _a;
         var _this = this;
-        var namespace = (_a = this.props, _a.namespace), errorMessages = _a.errorMessages;
+        var _a = this.props, namespace = _a.namespace, errorMessages = _a.errorMessages;
         if (!namespace) {
             return null;
         }
@@ -57,7 +57,7 @@ export var NamespaceForm = /** @class */ (function (_super) {
                     React.createElement(FormGroup, { fieldId: 'company', label: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Company name"], ["Company name"]))), helperTextInvalid: errorMessages['company'], validated: this.toError(!('company' in errorMessages)) },
                         React.createElement(TextInput, { validated: this.toError(!('company' in errorMessages)), id: 'company', type: 'text', value: namespace.company, onChange: function (value, event) { return _this.updateField(value, event); } }))),
                 React.createElement("div", { className: 'card' },
-                    React.createElement(NamespaceCard, __assign({}, namespace)))),
+                    React.createElement(NamespaceCard, { namespace: namespace }))),
             React.createElement(FormGroup, { fieldId: 'avatar_url', label: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["Logo URL"], ["Logo URL"]))), helperTextInvalid: errorMessages['avatar_url'], validated: this.toError(!('avatar_url' in errorMessages)) },
                 React.createElement(TextInput, { validated: this.toError(!('avatar_url' in errorMessages)), id: 'avatar_url', type: 'text', value: namespace.avatar_url, onChange: function (value, event) { return _this.updateField(value, event); } })),
             React.createElement(FormGroup, { fieldId: 'description', label: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Description"], ["Description"]))), helperTextInvalid: errorMessages['description'], validated: this.toError(!('description' in errorMessages)) },
@@ -155,5 +155,6 @@ export var NamespaceForm = /** @class */ (function (_super) {
     NamespaceForm.contextType = AppContext;
     return NamespaceForm;
 }(React.Component));
+export { NamespaceForm };
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11;
 //# sourceMappingURL=namespace-form.js.map

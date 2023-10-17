@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, DropdownItem, Label, LabelGroup, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, Tooltip, } from '@patternfly/react-core';
-import { UserPlusIcon } from '@patternfly/react-icons';
+import UserPlusIcon from '@patternfly/react-icons/dist/esm/icons/user-plus-icon';
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { UserAPI } from 'src/api';
@@ -116,7 +116,7 @@ var UserList = /** @class */ (function (_super) {
             React.createElement(BaseHeader, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["Users"], ["Users"]))) }),
             unauthorized ? (React.createElement(EmptyStateUnauthorized, null)) : (React.createElement(Main, null,
                 React.createElement("section", { className: 'body' },
-                    React.createElement("div", { className: 'hub-list-toolbar' },
+                    React.createElement("div", { className: 'hub-toolbar' },
                         React.createElement(Toolbar, null,
                             React.createElement(ToolbarContent, null,
                                 React.createElement(ToolbarGroup, null,

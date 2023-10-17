@@ -30,16 +30,15 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow, LabelGroup, Nav, NavItem, NavList, Panel, Text, TextContent, TextVariants, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LegacyRoleAPI, } from 'src/api';
 import { EmptyStateNoData } from 'src/components';
-import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWithHeader, Logo, Main, Tag, } from 'src/components';
+import { Breadcrumbs, ClipboardCopy, DateComponent, DownloadCount, LoadingPageWithHeader, Logo, Main, RoleRatings, Tag, } from 'src/components';
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
 import { chipGroupProps, withRouter } from 'src/utilities';
-import './legacy-roles.scss';
 var LegacyRoleInstall = /** @class */ (function (_super) {
     __extends(LegacyRoleInstall, _super);
     function LegacyRoleInstall() {
@@ -120,7 +119,7 @@ var LegacyRoleVersions = /** @class */ (function (_super) {
             !this.state.loading &&
                 this.state.role_versions &&
                 this.state.role_versions.length == 0 ? (React.createElement(EmptyStateNoData, { title: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["No versions"], ["No versions"]))), description: t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["The role is versionless and will always install from the head/main/master branch."], ["The role is versionless and will always install from the head/main/master branch."]))) })) : (''),
-            React.createElement(DataList, { "aria-label": t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["List of versions"], ["List of versions"]))) }, this.state.role_versions.reverse().map(function (rversion) { return (React.createElement(DataListItem, { key: rversion.name, "aria-labelledby": 'compact-item2' },
+            React.createElement(DataList, { "aria-label": t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["List of versions"], ["List of versions"]))) }, this.state.role_versions.reverse().map(function (rversion) { return (React.createElement(DataListItem, { key: rversion.name },
                 React.createElement(LegacyRoleVersion, { role_version: rversion }))); }))));
     };
     return LegacyRoleVersions;
@@ -199,22 +198,21 @@ var LegacyRole = /** @class */ (function (_super) {
             release_name === '') {
             release_name = '';
         }
-        var header_cells = [];
-        if (this.state.role !== undefined && this.state.role !== null) {
-            header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
+        var header_cells = [
+            React.createElement(DataListCell, { isFilled: false, alignRight: false, key: 'ns' },
                 React.createElement(Logo, { alt: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["", " logo"], ["", " logo"])), role.github_user), fallbackToDefault: true, image: role.summary_fields.namespace.avatar_url, size: '70px', unlockWidth: true, width: '97px' }),
-                React.createElement(Link, { to: namespace_url }, namespace.name)));
-            header_cells.push(React.createElement(DataListCell, { key: 'content' },
+                React.createElement(Link, { to: namespace_url }, namespace.name)),
+            React.createElement(DataListCell, { key: 'content' },
                 React.createElement("div", null,
                     React.createElement(TextContent, null,
                         React.createElement(Text, { component: TextVariants.h1 },
                             namespace.name,
                             ".",
-                            this.state.role.name))),
-                React.createElement("div", { className: 'hub-entry' }, this.state.role.description),
+                            role.name))),
+                React.createElement("div", { className: 'hub-entry' }, role.description),
                 React.createElement("div", { className: 'hub-entry' },
-                    React.createElement(LabelGroup, __assign({}, chipGroupProps()), this.state.role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))));
-            header_cells.push(React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'version' },
+                    React.createElement(LabelGroup, __assign({}, chipGroupProps()), role.summary_fields.tags.map(function (tag, index) { return (React.createElement(Tag, { key: index }, tag)); })))),
+            React.createElement(DataListCell, { isFilled: false, alignRight: true, key: 'version' },
                 React.createElement("div", { className: 'hub-right-col hub-entry' },
                     React.createElement(Trans, null,
                         "Updated ",
@@ -222,25 +220,26 @@ var LegacyRole = /** @class */ (function (_super) {
                 release_name && React.createElement("div", { className: 'hub-entry' }, release_name),
                 React.createElement("div", { className: 'hub-entry' },
                     React.createElement("a", { href: repository },
-                        "Github Repository ",
+                        "GitHub Repository ",
                         React.createElement(ExternalLinkAltIcon, null))),
                 React.createElement("div", { className: 'hub-entry' },
-                    React.createElement(DownloadCount, { item: role }))));
-        }
+                    React.createElement(RoleRatings, { namespace: namespace.name, name: role.name }),
+                    React.createElement(DownloadCount, { item: role }))),
+        ];
         var table = {
-            install: { title: 'Install' },
-            documentation: { title: 'Documentation' },
-            versions: { title: 'Versions' },
+            install: { title: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Install"], ["Install"]))) },
+            documentation: { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["Documentation"], ["Documentation"]))) },
+            versions: { title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Versions"], ["Versions"]))) },
         };
         var renderContent = function () {
             if (_this.state.activeItem == 'install') {
-                return (React.createElement(LegacyRoleInstall, { role: _this.state.role, github_user: _this.state.github_user, name: _this.state.name, id: _this.state.role.id }));
+                return (React.createElement(LegacyRoleInstall, { role: role, github_user: _this.state.github_user, name: _this.state.name, id: role.id }));
             }
             else if (_this.state.activeItem === 'documentation') {
-                return (React.createElement(LegacyRoleDocs, { role: _this.state.role, github_user: _this.state.github_user, name: _this.state.name, id: _this.state.role.id }));
+                return (React.createElement(LegacyRoleDocs, { role: role, github_user: _this.state.github_user, name: _this.state.name, id: role.id }));
             }
             else if (_this.state.activeItem === 'versions') {
-                return (React.createElement(LegacyRoleVersions, { role: _this.state.role, github_user: _this.state.github_user, name: _this.state.name, id: _this.state.role.id }));
+                return (React.createElement(LegacyRoleVersions, { role: role, github_user: _this.state.github_user, name: _this.state.name, id: role.id }));
             }
             else {
                 return React.createElement("div", null);
@@ -248,7 +247,7 @@ var LegacyRole = /** @class */ (function (_super) {
         };
         var breadcrumbs = [
             {
-                name: 'Legacy Roles',
+                name: t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["Roles"], ["Roles"]))),
                 url: formatPath(Paths.legacyRoles),
             },
             {
@@ -264,7 +263,7 @@ var LegacyRole = /** @class */ (function (_super) {
             },
         ];
         return (React.createElement(React.Fragment, null,
-            React.createElement(DataList, { "aria-label": t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Role Header"], ["Role Header"]))) },
+            React.createElement(DataList, { "aria-label": t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Role Header"], ["Role Header"]))) },
                 React.createElement(DataListItem, { "data-cy": 'LegacyRoleListItem' },
                     React.createElement(DataListItemRow, null,
                         React.createElement(Breadcrumbs, { links: breadcrumbs })),
@@ -282,5 +281,5 @@ var LegacyRole = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(LegacyRole);
 LegacyRole.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
 //# sourceMappingURL=legacy-role.js.map
