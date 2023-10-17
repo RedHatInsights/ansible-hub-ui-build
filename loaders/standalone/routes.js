@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, Dispatch, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LandingPage, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
+import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, Dispatch, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LandingPage, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MultiSearch, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
 import { AppContext, useContext } from 'src/loaders/app-context';
 import { loadContext } from 'src/loaders/load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -53,15 +53,14 @@ var AuthHandler = function (_a) {
     }
     return React.createElement(Component, { path: path });
 };
-export var StandaloneRoutes = /** @class */ (function (_super) {
+var StandaloneRoutes = /** @class */ (function (_super) {
     __extends(StandaloneRoutes, _super);
     function StandaloneRoutes() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     // Note: must be ordered from most specific to least specific
     StandaloneRoutes.prototype.getRoutes = function () {
-        var _a;
-        var featureFlags = (_a = this.context, _a.featureFlags), user = _a.user;
+        var _a = this.context, featureFlags = _a.featureFlags, user = _a.user;
         var isContainerDisabled = true;
         var isUserMgmtDisabled = false;
         if (featureFlags) {
@@ -129,11 +128,16 @@ export var StandaloneRoutes = /** @class */ (function (_super) {
                 path: Paths.executionEnvironmentsRegistries,
                 isDisabled: isContainerDisabled,
             },
-            // LEGACY ...
+            // roles ...
             { component: LegacyNamespace, path: Paths.legacyNamespace },
             { component: LegacyNamespaces, path: Paths.legacyNamespaces },
             { component: LegacyRole, path: Paths.legacyRole },
             { component: LegacyRoles, path: Paths.legacyRoles },
+            // ... but still support legacy urls
+            { component: LegacyNamespace, path: Paths.compatLegacyNamespace },
+            { component: LegacyNamespaces, path: Paths.compatLegacyNamespaces },
+            { component: LegacyRole, path: Paths.compatLegacyRole },
+            { component: LegacyRoles, path: Paths.compatLegacyRoles },
             {
                 component: TaskListView,
                 path: Paths.taskList,
@@ -209,6 +213,7 @@ export var StandaloneRoutes = /** @class */ (function (_super) {
             { component: Search, path: Paths.collections },
             { component: LandingPage, path: Paths.landingPage },
             { component: Dispatch, path: Paths.dispatch },
+            { component: MultiSearch, path: Paths.search },
         ];
     };
     StandaloneRoutes.prototype.render = function () {
@@ -223,4 +228,5 @@ export var StandaloneRoutes = /** @class */ (function (_super) {
     StandaloneRoutes.contextType = AppContext;
     return StandaloneRoutes;
 }(React.Component));
+export { StandaloneRoutes };
 //# sourceMappingURL=routes.js.map

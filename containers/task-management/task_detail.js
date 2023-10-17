@@ -29,7 +29,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { i18n } from '@lingui/core';
 import { Trans, t } from '@lingui/macro';
 import { Button, CodeBlock, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, Flex, FlexItem, Title, } from '@patternfly/react-core';
-import { CubesIcon } from '@patternfly/react-icons';
+import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import { capitalize } from 'lodash';
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';

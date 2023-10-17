@@ -24,7 +24,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PulpStatus, } from 'src/api';
 import { StatusIndicator } from 'src/components';
-import { Constants } from 'src/constants';
 import { Paths, formatPath } from 'src/paths';
 import './my-imports.scss';
 var ImportConsole = /** @class */ (function (_super) {
@@ -81,8 +80,8 @@ var ImportConsole = /** @class */ (function (_super) {
                 "\u00A0")));
     };
     ImportConsole.prototype.renderTitle = function (selectedImport) {
-        var _a;
-        var _b = this.props, task = _b.task, hideCollectionName = _b.hideCollectionName, collection = _b.collection, empty = _b.empty;
+        var _a, _b;
+        var _c = this.props, task = _c.task, hideCollectionName = _c.hideCollectionName, collection = _c.collection, empty = _c.empty;
         if (empty) {
             return;
         }
@@ -92,14 +91,14 @@ var ImportConsole = /** @class */ (function (_super) {
             selectedImport.name));
         var approvalStatus = t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["waiting for import to finish"], ["waiting for import to finish"])));
         if (collection) {
-            var repoStatus = (_a = collection.repository.pulp_labels) === null || _a === void 0 ? void 0 : _a.pipeline;
-            if (repoStatus === Constants.NOTCERTIFIED) {
+            var pipeline = (_b = (_a = collection.repository) === null || _a === void 0 ? void 0 : _a.pulp_labels) === null || _b === void 0 ? void 0 : _b.pipeline;
+            if (pipeline === 'rejected') {
                 approvalStatus = t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["rejected"], ["rejected"])));
             }
-            else if (repoStatus === Constants.NEEDSREVIEW) {
+            else if (pipeline === 'staging') {
                 approvalStatus = t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["waiting for approval"], ["waiting for approval"])));
             }
-            else if (repoStatus === Constants.APPROVED) {
+            else if (pipeline === 'approved') {
                 approvalStatus = t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["approved"], ["approved"])));
             }
             else {

@@ -44,7 +44,7 @@ import { AlertList, CollectionDependenciesList, CollectionHeader, CollectionUsed
 import { AppContext } from 'src/loaders/app-context';
 import { Paths, formatPath, namespaceBreadcrumb } from 'src/paths';
 import { withRouter } from 'src/utilities';
-import { ParamHelper, errorMessage, filterIsSet } from 'src/utilities';
+import { ParamHelper, errorMessage } from 'src/utilities';
 import { loadCollection } from './base';
 import './collection-dependencies.scss';
 var CollectionDependencies = /** @class */ (function (_super) {
@@ -114,15 +114,12 @@ var CollectionDependencies = /** @class */ (function (_super) {
                 React.createElement("section", { className: 'body' },
                     React.createElement("div", { className: 'pf-c-content collection-dependencies' },
                         React.createElement("h1", null, t(templateObject_2 || (templateObject_2 = __makeTemplateObject(["Dependencies"], ["Dependencies"])))),
-                        noDependencies &&
-                            !usedByDependenciesCount &&
-                            !filterIsSet(params, ['name__icontains']) ? (React.createElement(EmptyStateNoData, { title: t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(React.Fragment, null,
-                            React.createElement("p", null, t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["This collections requires the following collections for use"], ["This collections requires the following collections for use"])))),
-                            noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, dependencies_repos: this.state.dependencies_repos })),
-                            React.createElement("p", null, t(templateObject_8 || (templateObject_8 = __makeTemplateObject(["This collection is being used by"], ["This collection is being used by"])))),
-                            React.createElement(CollectionUsedbyDependenciesList, { usedByDependencies: usedByDependencies, itemCount: usedByDependenciesCount, params: dependenciesParams, usedByDependenciesLoading: usedByDependenciesLoading, updateParams: function (p) {
-                                    return _this.updateParams(_this.combineParams(_this.state.params, p), function () { return _this.loadUsedByDependencies(); });
-                                } }))))))));
+                        React.createElement("p", null, t(templateObject_3 || (templateObject_3 = __makeTemplateObject(["This collections requires the following collections for use"], ["This collections requires the following collections for use"])))),
+                        noDependencies ? (React.createElement(EmptyStateNoData, { title: t(templateObject_4 || (templateObject_4 = __makeTemplateObject(["No dependencies"], ["No dependencies"]))), description: t(templateObject_5 || (templateObject_5 = __makeTemplateObject(["Collection does not have any dependencies."], ["Collection does not have any dependencies."]))) })) : (React.createElement(CollectionDependenciesList, { collection: this.state.collection, dependencies_repos: this.state.dependencies_repos })),
+                        React.createElement("p", null, t(templateObject_6 || (templateObject_6 = __makeTemplateObject(["This collection is being used by"], ["This collection is being used by"]))))),
+                    React.createElement(CollectionUsedbyDependenciesList, { usedByDependencies: usedByDependencies, itemCount: usedByDependenciesCount, params: dependenciesParams, usedByDependenciesLoading: usedByDependenciesLoading, updateParams: function (p) {
+                            return _this.updateParams(_this.combineParams(_this.state.params, p), function () { return _this.loadUsedByDependencies(); });
+                        } })))));
     };
     CollectionDependencies.prototype.loadData = function (forceReload) {
         var _this = this;
@@ -199,7 +196,6 @@ var CollectionDependencies = /** @class */ (function (_super) {
             })
                 .catch(function (_a) {
                 var response = _a.response, message = _a.message;
-                // console.log(response, message);
                 if (message !== 'request-canceled') {
                     var status_1 = response.status, statusText = response.statusText;
                     _this.setState({
@@ -207,7 +203,7 @@ var CollectionDependencies = /** @class */ (function (_super) {
                         alerts: __spreadArray(__spreadArray([], _this.state.alerts, true), [
                             {
                                 variant: 'danger',
-                                title: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["Dependent collections could not be displayed."], ["Dependent collections could not be displayed."]))),
+                                title: t(templateObject_7 || (templateObject_7 = __makeTemplateObject(["Dependent collections could not be displayed."], ["Dependent collections could not be displayed."]))),
                                 description: errorMessage(status_1, statusText),
                             },
                         ], false),
@@ -268,5 +264,5 @@ var CollectionDependencies = /** @class */ (function (_super) {
 }(React.Component));
 export default withRouter(CollectionDependencies);
 CollectionDependencies.contextType = AppContext;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 //# sourceMappingURL=collection-dependencies.js.map

@@ -30,7 +30,8 @@ var __assign = (this && this.__assign) || function () {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, Checkbox, DropdownItem, LabelGroup, Text, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { AngleDownIcon, AngleRightIcon } from '@patternfly/react-icons';
+import AngleDownIcon from '@patternfly/react-icons/dist/esm/icons/angle-down-icon';
+import AngleRightIcon from '@patternfly/react-icons/dist/esm/icons/angle-right-icon';
 import { sum } from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -156,7 +157,7 @@ var ExecutionEnvironmentDetailImages = /** @class */ (function (_super) {
                     return _this.queryImages(_this.props.containerRepository.name);
                 }, repositoryName: this.props.containerRepository.name, onAlert: function (alert) { return _this.props.addAlert(alert); }, containerRepository: this.props.containerRepository }),
             React.createElement(PublishToControllerModal, { digest: publishToController === null || publishToController === void 0 ? void 0 : publishToController.digest, image: publishToController === null || publishToController === void 0 ? void 0 : publishToController.image, isOpen: !!publishToController, onClose: function () { return _this.setState({ publishToController: null }); }, tag: publishToController === null || publishToController === void 0 ? void 0 : publishToController.tag }),
-            React.createElement("div", { className: 'hub-toolbar toolbar' },
+            React.createElement("div", { className: 'hub-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,

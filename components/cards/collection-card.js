@@ -11,16 +11,16 @@ import { CollectionNumericLabel, Logo, SignatureBadge } from 'src/components';
 import { Constants } from 'src/constants';
 import { useContext } from 'src/loaders/app-context';
 import { Paths, formatPath } from 'src/paths';
-import { convertContentSummaryCounts } from 'src/utilities';
+import { convertContentSummaryCounts, namespaceTitle } from 'src/utilities';
 export var CollectionCard = function (_a) {
     var collection_version = _a.collection_version, namespace = _a.namespace_metadata, repository = _a.repository, is_signed = _a.is_signed, className = _a.className, displaySignatures = _a.displaySignatures, menu = _a.menu, footer = _a.footer;
     var featureFlags = useContext().featureFlags;
     var MAX_DESCRIPTION_LENGTH = 60;
-    var company = (namespace === null || namespace === void 0 ? void 0 : namespace.company) || collection_version.namespace;
+    var nsTitle = namespaceTitle(namespace || { name: collection_version.namespace });
     var contentSummary = convertContentSummaryCounts(collection_version);
     return (React.createElement(Card, { className: cx('hub-c-card-collection-container ', className) },
         React.createElement(CardHeader, { className: 'logo-row' },
-            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), company), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '40px', unlockWidth: true, flexGrow: true }),
+            React.createElement(Logo, { alt: t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["", " logo"], ["", " logo"])), nsTitle), fallbackToDefault: true, image: namespace === null || namespace === void 0 ? void 0 : namespace.avatar_url, size: '40px', unlockWidth: true, flexGrow: true }),
             React.createElement("div", { className: 'card-badge-area' },
                 featureFlags.display_repositories ? (React.createElement(TextContent, null,
                     React.createElement(Text, { component: TextVariants.small },
@@ -45,7 +45,7 @@ export var CollectionCard = function (_a) {
                             "Provided by\u00A0",
                             React.createElement(Link, { to: formatPath(Paths.namespaceDetail, {
                                     namespace: collection_version.namespace,
-                                }) }, company)))))),
+                                }) }, nsTitle)))))),
         React.createElement(CardBody, null,
             React.createElement(Tooltip, { content: React.createElement("div", null, collection_version.description) },
                 React.createElement("div", { className: 'description' }, getDescription(collection_version.description, MAX_DESCRIPTION_LENGTH)))),

@@ -25,6 +25,7 @@ var API = /** @class */ (function (_super) {
     function API() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.apiPath = 'signing-services/';
+        _this.useOrdering = true;
         return _this;
         // list(params?)
     }

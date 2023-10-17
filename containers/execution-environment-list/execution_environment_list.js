@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Button, DropdownItem, Label, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExecutionEnvironmentAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
@@ -96,7 +96,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
         var hasPermission = this.context.hasPermission;
         var noData = items.length === 0 && !filterIsSet(params, ['name__icontains']);
         var pushImagesButton = (React.createElement(Button, { variant: 'link', onClick: function () {
-                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.3/html-single/managing_containers_in_private_automation_hub/index', '_blank');
+                return window.open('https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.4/html-single/managing_containers_in_private_automation_hub/index', '_blank');
             }, "data-cy": 'push-images-button' },
             React.createElement(Trans, null, "Push container images"),
             " ",
@@ -127,7 +127,7 @@ var ExecutionEnvironmentList = /** @class */ (function (_super) {
                     addRemoteButton,
                     addRemoteButton && pushImagesButton ? React.createElement("div", null, "\u00A0") : null,
                     pushImagesButton) })) : (React.createElement(Main, null, loading ? (React.createElement(LoadingPageSpinner, null)) : (React.createElement("section", { className: 'body' },
-                React.createElement("div", { className: 'hub-list-toolbar' },
+                React.createElement("div", { className: 'hub-toolbar' },
                     React.createElement(Toolbar, null,
                         React.createElement(ToolbarContent, null,
                             React.createElement(ToolbarGroup, null,

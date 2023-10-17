@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { t } from '@lingui/macro';
 import { Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextArea, TextInput, } from '@patternfly/react-core';
-import { TagIcon } from '@patternfly/react-icons';
+import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import React from 'react';
 import { ContainerDistributionAPI, ExecutionEnvironmentRegistryAPI, ExecutionEnvironmentRemoteAPI, } from 'src/api';
 import { APISearchTypeAhead, AlertList, HelperText, closeAlertMixin, } from 'src/components';

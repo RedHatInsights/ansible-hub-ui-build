@@ -9,7 +9,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon, } from '@patternfly/react-icons';
+import ArrowsAltVIcon from '@patternfly/react-icons/dist/esm/icons/arrows-alt-v-icon';
+import LongArrowAltDownIcon from '@patternfly/react-icons/dist/esm/icons/long-arrow-alt-down-icon';
+import LongArrowAltUpIcon from '@patternfly/react-icons/dist/esm/icons/long-arrow-alt-up-icon';
 import React from 'react';
 import { ParamHelper } from 'src/utilities';
 import './sort-table.scss';

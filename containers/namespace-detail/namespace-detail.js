@@ -39,7 +39,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, AlertActionCloseButton, Button, Checkbox, DropdownItem, Text, Tooltip, } from '@patternfly/react-core';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link, Navigate } from 'react-router-dom';
@@ -293,8 +293,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                     React.createElement(Checkbox, { isChecked: confirmDelete, onChange: function (val) { return _this.setState({ confirmDelete: val }); }, label: t(templateObject_9 || (templateObject_9 = __makeTemplateObject(["I understand that this action cannot be undone."], ["I understand that this action cannot be undone."]))), id: 'delete_confirm' })))),
             isOpenWisdomModal && (React.createElement(WisdomModal, { addAlert: function (alert) { return _this.addAlert(alert); }, closeAction: function () { return _this.setState({ isOpenWisdomModal: false }); }, scope: 'namespace', reference: this.state.namespace.name })),
             warning ? (React.createElement(Alert, { className: 'hub-c-alert-namespace', variant: 'warning', title: warning, actionClose: React.createElement(AlertActionCloseButton, { onClose: function () { return _this.setState({ warning: '' }); } }) })) : null,
-            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), filters: tab === 'collections' ? (React.createElement("div", { className: 'hub-toolbar-wrapper namespace-detail' },
-                    React.createElement("div", { className: 'toolbar' },
+            React.createElement(PartnerHeader, { namespace: namespace, breadcrumbs: breadcrumbs, tabs: tabs, params: tabParams, updateParams: function (p) { return _this.updateParams(p); }, pageControls: this.renderPageControls(), filters: tab === 'collections' ? (React.createElement("div", null,
+                    React.createElement("div", { className: 'hub-toolbar hub-toolbar-left' },
                         React.createElement(CollectionFilter, { ignoredParams: ignoredParams, params: params, updateParams: updateParams }),
                         React.createElement("div", { className: 'hub-pagination-container' },
                             React.createElement(Pagination, { params: params, updateParams: updateParams, count: filteredCount, isTop: true }))))) : null }),
@@ -590,8 +590,11 @@ var NamespaceDetail = /** @class */ (function (_super) {
     NamespaceDetail.prototype.renderCollectionControls = function (collection) {
         var _this = this;
         var hasPermission = this.context.hasPermission;
+        var hasObjectPermission = function (permission, namespace) { var _a, _b, _c; return (_c = (_b = (_a = namespace === null || namespace === void 0 ? void 0 : namespace.related_fields) === null || _a === void 0 ? void 0 : _a.my_permissions) === null || _b === void 0 ? void 0 : _b.includes) === null || _c === void 0 ? void 0 : _c.call(_b, permission); };
         var showControls = this.state.showControls;
-        var display_repositories = this.context.featureFlags.display_repositories;
+        var _a = this.context.featureFlags, display_repositories = _a.display_repositories, ai_deny_index = _a.ai_deny_index;
+        var canDeleteCommunityCollection = ai_deny_index &&
+            hasObjectPermission('galaxy.change_namespace', this.state.namespace);
         if (!showControls) {
             return;
         }
@@ -601,7 +604,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                 }, variant: 'secondary' }, t(templateObject_38 || (templateObject_38 = __makeTemplateObject(["Upload new version"], ["Upload new version"]))))),
             dropdownMenu: (React.createElement(StatefulDropdown, { items: [
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: hasPermission('ansible.delete_collection'),
+                        canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                            canDeleteCommunityCollection,
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({
@@ -615,7 +619,8 @@ var NamespaceDetail = /** @class */ (function (_super) {
                         display_repositories: display_repositories,
                     }),
                     DeleteCollectionUtils.deleteMenuOption({
-                        canDeleteCollection: hasPermission('ansible.delete_collection'),
+                        canDeleteCollection: hasPermission('ansible.delete_collection') ||
+                            canDeleteCommunityCollection,
                         noDependencies: null,
                         onClick: function () {
                             return DeleteCollectionUtils.tryOpenDeleteModalWithConfirm({

@@ -68,6 +68,7 @@ export var Paths;
     Paths["ansibleRepositoryDetail"] = "/ansible/repositories/:name";
     Paths["ansibleRepositoryEdit"] = "/ansible/repositories/:name/edit";
     Paths["dispatch"] = "/dispatch";
+    Paths["search"] = "/search";
     Paths["executionEnvironmentDetail"] = "/containers/:container";
     Paths["executionEnvironmentDetailWithNamespace"] = "/containers/:namespace/:container";
     Paths["executionEnvironmentDetailActivities"] = "/containers/:container/_content/activity";
@@ -93,10 +94,10 @@ export var Paths;
     Paths["login"] = "/login";
     Paths["logout"] = "/logout";
     Paths["landingPage"] = "/";
-    Paths["legacyRole"] = "/legacy/roles/:username/:name";
-    Paths["legacyRoles"] = "/legacy/roles/";
-    Paths["legacyNamespace"] = "/legacy/namespaces/:namespaceid";
-    Paths["legacyNamespaces"] = "/legacy/namespaces/";
+    Paths["legacyRole"] = "/standalone/roles/:username/:name";
+    Paths["legacyRoles"] = "/standalone/roles/";
+    Paths["legacyNamespace"] = "/standalone/namespaces/:namespaceid";
+    Paths["legacyNamespaces"] = "/standalone/namespaces/";
     Paths["searchByRepo"] = "/repo/:repo";
     Paths["myCollectionsByRepo"] = "/repo/:repo/my-namespaces/:namespace";
     Paths["collectionByRepo"] = "/repo/:repo/:namespace/:collection";
@@ -128,6 +129,11 @@ export var Paths;
     Paths["taskList"] = "/tasks";
     Paths["signatureKeys"] = "/signature-keys";
     Paths["collections"] = "/collections";
+    // for compatibility with old beta routes, remove later
+    Paths["compatLegacyRole"] = "/legacy/roles/:username/:name";
+    Paths["compatLegacyRoles"] = "/legacy/roles/";
+    Paths["compatLegacyNamespace"] = "/legacy/namespaces/:namespaceid";
+    Paths["compatLegacyNamespaces"] = "/legacy/namespaces/";
 })(Paths || (Paths = {}));
 export var namespaceBreadcrumb = function () {
     return ({

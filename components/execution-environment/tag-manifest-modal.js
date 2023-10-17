@@ -75,7 +75,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { Trans, t } from '@lingui/macro';
 import { Alert, AlertActionLink, Button, Form, FormGroup, InputGroup, Label, LabelGroup, Modal, Spinner, TextInput, } from '@patternfly/react-core';
-import { TagIcon } from '@patternfly/react-icons';
+import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import React from 'react';
 import { ContainerTagAPI, ExecutionEnvironmentAPI, PulpStatus, TaskAPI, } from 'src/api';
 import { chipGroupProps, parsePulpIDFromURL } from 'src/utilities';

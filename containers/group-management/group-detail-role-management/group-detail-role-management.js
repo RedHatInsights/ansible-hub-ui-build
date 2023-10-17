@@ -169,7 +169,7 @@ var GroupDetailRoleManagement = function (_a) {
             } })),
         noData ? (React.createElement("section", { className: 'body hub-empty-state-box' },
             React.createElement(EmptyStateNoData, { title: t(templateObject_15 || (templateObject_15 = __makeTemplateObject(["There are currently no roles assigned to this group."], ["There are currently no roles assigned to this group."]))), description: t(templateObject_16 || (templateObject_16 = __makeTemplateObject(["Please add a role by using the button below."], ["Please add a role by using the button below."]))), button: addRoles }))) : (React.createElement("section", { className: 'body' },
-            React.createElement("div", { className: 'hub-list-toolbar' },
+            React.createElement("div", { className: 'hub-toolbar' },
                 React.createElement(Toolbar, null,
                     React.createElement(ToolbarContent, null,
                         React.createElement(ToolbarGroup, null,

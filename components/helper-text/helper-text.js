@@ -19,7 +19,7 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
 };
 import { t } from '@lingui/macro';
 import { Button, Popover, PopoverPosition } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import OutlinedQuestionCircleIcon from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import React from 'react';
 import './helper-text.scss';
 var HelperText = /** @class */ (function (_super) {
@@ -28,7 +28,7 @@ var HelperText = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     HelperText.prototype.render = function () {
-        return (React.createElement(Popover, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["popover example"], ["popover example"]))), position: PopoverPosition.top, bodyContent: this.props.content, headerContent: this.props.header },
+        return (React.createElement(Popover, { "aria-label": t(templateObject_1 || (templateObject_1 = __makeTemplateObject(["popover example"], ["popover example"]))), position: PopoverPosition.top, bodyContent: this.props.content, headerContent: this.props.header, hasAutoWidth: this.props.hasAutoWidth },
             React.createElement(Button, { iconPosition: 'left', variant: 'plain', className: 'helper' },
                 React.createElement(OutlinedQuestionCircleIcon, null))));
     };
