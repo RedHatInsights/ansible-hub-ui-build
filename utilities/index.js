@@ -10,6 +10,7 @@ export { getContainersURL, getRepoURL } from './get-repo-url';
 export { getHumanSize } from './get_human_size';
 export { hasPermission } from './has-permission';
 export { lastSyncStatus, lastSynced } from './last-sync-task';
+export { getProviderInfo } from './legacy-namespace';
 export { ErrorMessagesType, alertErrorsWithoutFields, isFieldValid, isFormValid, mapErrorMessages, } from './map-error-messages';
 export { mapNetworkErrors, validateInput } from './map-role-errors';
 export { namespaceTitle } from './namespace-title';
@@ -26,5 +27,4 @@ export { validateURLHelper } from './validateURLHelper';
 export { waitForTask, waitForTaskUrl } from './wait-for-task';
 export { RouteProps, withRouter } from './with-router';
 export { clearSetFieldsFromRequest, isFieldSet, isWriteOnly, } from './write-only-fields';
-export { getProviderInfo } from './legacy-namespace';
 //# sourceMappingURL=index.js.map

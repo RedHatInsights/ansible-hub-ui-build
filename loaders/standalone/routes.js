@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, Dispatch, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LandingPage, LegacyNamespace, LegacyNamespaces, LegacyRole, LegacyRoles, LoginPage, MultiSearch, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
+import { AnsibleRemoteDetail, AnsibleRemoteEdit, AnsibleRemoteList, AnsibleRepositoryDetail, AnsibleRepositoryEdit, AnsibleRepositoryList, AnsibleRoleDetail, AnsibleRoleList, AnsibleRoleNamespaceDetail, AnsibleRoleNamespaceList, CertificationDashboard, CollectionContent, CollectionDependencies, CollectionDetail, CollectionDistributions, CollectionDocs, CollectionImportLog, Dispatch, EditNamespace, EditRole, EditUser, ExecutionEnvironmentDetail, ExecutionEnvironmentDetailAccess, ExecutionEnvironmentDetailActivities, ExecutionEnvironmentDetailImages, ExecutionEnvironmentList, ExecutionEnvironmentManifest, ExecutionEnvironmentRegistryList, GroupDetail, GroupList, LandingPage, LoginPage, MultiSearch, MyImports, MyNamespaces, NamespaceDetail, NotFound, Partners, RoleCreate, RoleList, Search, SignatureKeysList, TaskDetail, TaskListView, TokenStandalone, UserCreate, UserDetail, UserList, UserProfile, } from 'src/containers';
 import { AppContext, useContext } from 'src/loaders/app-context';
 import { loadContext } from 'src/loaders/load-context';
 import { Paths, formatPath } from 'src/paths';
@@ -129,15 +129,21 @@ var StandaloneRoutes = /** @class */ (function (_super) {
                 isDisabled: isContainerDisabled,
             },
             // roles ...
-            { component: LegacyNamespace, path: Paths.legacyNamespace },
-            { component: LegacyNamespaces, path: Paths.legacyNamespaces },
-            { component: LegacyRole, path: Paths.legacyRole },
-            { component: LegacyRoles, path: Paths.legacyRoles },
+            { component: AnsibleRoleNamespaceDetail, path: Paths.legacyNamespace },
+            { component: AnsibleRoleNamespaceList, path: Paths.legacyNamespaces },
+            { component: AnsibleRoleDetail, path: Paths.legacyRole },
+            { component: AnsibleRoleList, path: Paths.legacyRoles },
             // ... but still support legacy urls
-            { component: LegacyNamespace, path: Paths.compatLegacyNamespace },
-            { component: LegacyNamespaces, path: Paths.compatLegacyNamespaces },
-            { component: LegacyRole, path: Paths.compatLegacyRole },
-            { component: LegacyRoles, path: Paths.compatLegacyRoles },
+            {
+                component: AnsibleRoleNamespaceDetail,
+                path: Paths.compatLegacyNamespace,
+            },
+            {
+                component: AnsibleRoleNamespaceList,
+                path: Paths.compatLegacyNamespaces,
+            },
+            { component: AnsibleRoleDetail, path: Paths.compatLegacyRole },
+            { component: AnsibleRoleList, path: Paths.compatLegacyRoles },
             {
                 component: TaskListView,
                 path: Paths.taskList,
