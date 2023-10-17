@@ -75,8 +75,9 @@ var AddCollectionVersionModal = function (_a) {
     var addAlert = function (alert) {
         setAlerts(__spreadArray(__spreadArray([], alerts, true), [alert], false));
     };
+    // @ts-expect-error: TS2525: Initializer provides no value for this binding element and the binding element has no default value.
     var query = function (_a) {
-        var params = _a.params;
+        var _b = _a === void 0 ? {} : _a, params = _b.params;
         var newParams = __assign({}, params);
         newParams.ordering = newParams.sort;
         delete newParams.sort;

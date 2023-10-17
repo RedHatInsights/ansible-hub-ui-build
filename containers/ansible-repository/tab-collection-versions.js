@@ -23,8 +23,9 @@ import { Paths, formatPath } from 'src/paths';
 import { parsePulpIDFromURL } from 'src/utilities';
 export var CollectionVersionsTab = function (_a) {
     var item = _a.item, _b = _a.actionContext, addAlert = _b.addAlert, hasPermission = _b.hasPermission;
+    // @ts-expect-error: TS2525: Initializer provides no value for this binding element and the binding element has no default value.
     var query = function (_a) {
-        var params = _a.params;
+        var _b = _a === void 0 ? {} : _a, params = _b.params;
         var newParams = __assign({}, params);
         newParams.ordering = newParams.sort;
         delete newParams.sort;

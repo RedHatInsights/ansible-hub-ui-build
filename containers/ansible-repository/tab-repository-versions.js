@@ -56,8 +56,9 @@ var VersionContent = function (_a) {
         return null;
     }
     var API = AnyAPI(href);
+    // @ts-expect-error: TS2525: Initializer provides no value for this binding element and the binding element has no default value.
     var query = function (_a) {
-        var params = _a.params;
+        var _b = _a === void 0 ? {} : _a, params = _b.params;
         return API.list(params);
     };
     var renderTableRow = function (_a) {
