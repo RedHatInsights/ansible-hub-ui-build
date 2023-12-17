@@ -5,7 +5,7 @@
   "registrationMethod": "callback",
   "baseURL": "/beta/apps/automation-hub/",
   "loadScripts": [
-    "automationHub.19d2534b26026e6b171b.js"
+    "automationHub.29c2bff0e8e0f8b60823.js"
   ],
-  "buildHash": "19d2534b26026e6b171bb8ef6b9c5682"
+  "buildHash": "29c2bff0e8e0f8b6082374a360fc0809"
 }
