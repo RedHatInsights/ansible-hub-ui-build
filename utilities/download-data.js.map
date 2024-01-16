@@ -1,1 +1,0 @@
-{"version":3,"file":"download-data.js","sourceRoot":"","sources":["../../src/utilities/download-data.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,YAAY,CAAC;AAEpC,MAAM,CAAC,IAAM,cAAc,GAAG,UAAC,IAAI,EAAE,QAAQ;IAC3C,OAAA,MAAM,CACJ,IAAI,IAAI,CAAC,CAAC,IAAI,CAAC,EAAE;QACf,IAAI,EAAE,0BAA0B;KACjC,CAAC,EACF,QAAQ,CACT;AALD,CAKC,CAAC"}
