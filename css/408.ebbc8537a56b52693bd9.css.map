@@ -1,0 +1,1 @@
+{"version":3,"file":"css/408.ebbc8537a56b52693bd9.css","mappings":"AAAA,mBACE,iBAGF,gBACE,qB","sources":["webpack://automationHub/./src/containers/task-management/task.scss"],"sourcesContent":[".hub-c-task-status {\n  margin-left: 10px;\n}\n\n.hub-code-block {\n  white-space: pre-wrap;\n}\n"],"names":[],"sourceRoot":""}
