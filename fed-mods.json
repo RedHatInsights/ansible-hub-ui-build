@@ -1,11 +1,1 @@
-{
-  "name": "automationHub",
-  "version": "1.0.0",
-  "extensions": [],
-  "registrationMethod": "callback",
-  "baseURL": "/beta/apps/automation-hub/",
-  "loadScripts": [
-    "automationHub.9a2df006c0602340a629.js"
-  ],
-  "buildHash": "9a2df006c0602340a629a0ea295a1c10"
-}
+{"name":"automationHub","version":"1.0.0","extensions":[],"registrationMethod":"callback","baseURL":"/beta/apps/automation-hub/","loadScripts":["automationHub.e7fdcb5b8eecc0a49c45.js"],"buildHash":"be52095813877f7cdc5ab084f64dd269"}
